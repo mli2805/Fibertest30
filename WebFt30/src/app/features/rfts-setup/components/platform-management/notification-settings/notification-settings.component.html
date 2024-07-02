@@ -1,0 +1,37 @@
+<rtu-single-error-popup [errorMessageId$]="errorMessageId$"></rtu-single-error-popup>
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
+
+<div *ngIf="ntfState$ | async as set">
+  <div class="flex flex-col">
+    <div class="m-2 mb-4">
+      {{ 'i18n.notification-settings.notification-configuration' | translate }}
+    </div>
+    <fieldset [disabled]="(hasChangeNotificationSettingsPermission$ | async) === false">
+      <div style="height: 700px" class="flex flex-col flex-wrap gap-2">
+        <rtu-email-notification-settings
+          [emailServer]="set.emailServer"
+          [hasPermission]="(hasChangeNotificationSettingsPermission$ | async)!"
+        ></rtu-email-notification-settings>
+        <rtu-relay-notification-settings
+          *ngIf="false"
+          [relaySettings]="set.relay"
+          [hasPermission]="(hasChangeNotificationSettingsPermission$ | async)!"
+        ></rtu-relay-notification-settings>
+        <rtu-snmp-notification-settings
+          [trapReceiver]="set.trapReceiver"
+          [hasPermission]="(hasChangeNotificationSettingsPermission$ | async)!"
+        ></rtu-snmp-notification-settings>
+        <rtu-syslog-notification-settings
+          *ngIf="false"
+          [syslogSettings]="set.syslog"
+          [hasPermission]="(hasChangeNotificationSettingsPermission$ | async)!"
+        ></rtu-syslog-notification-settings>
+        <rtu-push-notification-settings
+          *ngIf="false"
+          [pushSettings]="set.push"
+          [hasPermission]="(hasChangeNotificationSettingsPermission$ | async)!"
+        ></rtu-push-notification-settings>
+      </div>
+    </fieldset>
+  </div>
+</div>

@@ -1,0 +1,57 @@
+<div class="dialog">
+  <div class="mb-8 text-base">
+    <span *ngIf="isAddNew">{{ 'i18n.common.add' | translate }}</span>
+    <span *ngIf="!isAddNew">{{ 'i18n.common.change' | translate }}</span>
+    {{ 'i18n.alarm-profiles.alarm-profile' | translate }}
+  </div>
+  <div [formGroup]="form">
+    <div class="mb-8 flex items-center">
+      <label> {{ 'i18n.common.name' | translate }}</label>
+      <div *ngIf="profile.id !== 1">
+        <input
+          formControlName="name"
+          type="text"
+          class="input-simple peer ml-2 w-72"
+          [ngClass]="{ 'invalid-border': !isNameValid() }"
+        />
+        <rtu-validation-error
+          class="ml-2 hidden peer-focus:block"
+          [errors]="form.controls['name'].errors"
+        />
+      </div>
+      <div *ngIf="profile.id === 1" class="text-data-highlight ml-2 w-72">
+        {{ profile.name }}
+      </div>
+    </div>
+
+    <div class="grid w-[50rem] grid-cols-2 gap-x-12 gap-y-8">
+      <div *ngFor="let childForm of childForms; index as i">
+        <rtu-threshold-edit
+          [form]="childForm"
+          [parameter]="childParameters[i]"
+        ></rtu-threshold-edit>
+      </div>
+    </div>
+  </div>
+
+  <!-- buttons -->
+  <div class="flex flex-row justify-between">
+    <div *ngIf="!canRemove"></div>
+    <button *ngIf="canRemove" class="button-delete mt-8 min-w-36" (click)="OnRemoveClicked()">
+      {{ 'i18n.common.remove' | translate }}
+    </button>
+
+    <div class="mt-8 flex justify-end">
+      <button class="button-cancel min-w-36" (click)="onDiscardClicked()">
+        {{ 'i18n.common.discard' | translate }}
+      </button>
+      <button
+        class="button-ok ml-2 min-w-36"
+        (click)="onApplyClicked()"
+        [disabled]="isApplyDisabled()"
+      >
+        {{ 'i18n.common.apply' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

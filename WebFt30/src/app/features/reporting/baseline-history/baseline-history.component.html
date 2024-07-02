@@ -1,0 +1,74 @@
+<rtu-single-error-popup
+  [errorMessageId$]="errorMessageId$"
+  [resetErrorAction]="baselineHistoryActions.resetError()"
+></rtu-single-error-popup>
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
+
+<div class="h-full w-full p-5">
+  <rtu-monitoring-history-filter
+    (filterChanged)="onFilterChanged($event)"
+  ></rtu-monitoring-history-filter>
+  <div class="relative">
+    <rtu-relative-time-refresh
+      [loadedTime]="loadedTime$ | async"
+      (refresh)="reload()"
+    ></rtu-relative-time-refresh>
+    <table class="min-w-full text-sm">
+      <thead class="text-center text-gray-600 dark:text-zinc-400">
+        <tr>
+          <th class="pb-3 font-thin">{{ 'i18n.common.at' | translate }}</th>
+          <th class="pb-3 font-thin">{{ 'i18n.common.port' | translate }}</th>
+          <th class="pb-3 font-thin">{{ 'i18n.common.user' | translate }}</th>
+          <th class="whitespace-nowrap"></th>
+        </tr>
+      </thead>
+      <tbody
+        *ngIf="baselines$ | async as baselines"
+        class="text-center text-gray-700 dark:text-zinc-300"
+      >
+        <tr
+          [id]="baseline.id"
+          *ngFor="let baseline of baselines"
+          class="rounded-sm odd:bg-rtu-second-bg dark:odd:bg-rtu-dark-second-bg"
+          [ngClass]="{
+            'animate-bounce-higlight': backToBaselineId === baseline.id
+          }"
+        >
+          <td class="w-0 whitespace-nowrap py-3 pl-5 pr-5">
+            {{ baseline.createdAt | rtuDateTime : 'medium' }}
+          </td>
+          <td
+            class="w-0 cursor-pointer whitespace-nowrap py-3 pl-5 pr-5"
+            (click)="toPortDashboard(baseline)"
+          >
+            <div
+              *ngIf="getOtauPortPathByMonitoringPortId(baseline.monitoringPortId) as otauPortPath"
+            >
+              <rtu-otau-port-path-title [otauPortPath]="otauPortPath"></rtu-otau-port-path-title>
+            </div>
+          </td>
+          <td class="w-0 whitespace-nowrap py-3 pl-5 pr-5">
+            <div *ngIf="getUserById(baseline.createdByUserId) as user">
+              {{ user.name }}
+            </div>
+          </td>
+          <td></td>
+          <td class="w-0 pb-1 pr-4">
+            <rtu-save-button class="h-5 w-5 text-blue-500" (click)="saveBase(baseline.id)" />
+          </td>
+          <td class="w-0 py-3 pr-5">
+            <rtu-navigate-button class="ml-2 h-6 w-6" [routerLink]="['./', baseline.id]" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="baselines$ | async as baselines">
+    <div *ngIf="baselines.length === 250" class="my-2 flex place-content-center text-sm">
+      {{
+        'i18n.monitoring-history.only-first-n-rows-are-displayed'
+          | translate : { '0': baselines.length }
+      }}
+    </div>
+  </div>
+</div>

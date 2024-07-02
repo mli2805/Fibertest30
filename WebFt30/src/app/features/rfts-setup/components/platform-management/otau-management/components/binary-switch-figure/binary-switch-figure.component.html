@@ -1,0 +1,25 @@
+<div class="flex flex-col items-center">
+  <div class="flex bg-red-400 p-2">
+    <div class="mr-2 font-bold">
+      <div class="text-right text-white">&darr;</div>
+      <div class="text-white">ON</div>
+    </div>
+
+    <div class="grid grid-cols-8 gap-x-3">
+      <div *ngFor="let dip of dips">
+        <div class="flex flex-col overflow-x-clip">
+          <div class="flex flex-col">
+            <div [ngClass]="{ 'order-2': dip.isOn }" class="h-3 w-3 bg-white"></div>
+            <div [ngClass]="{ 'order-1': dip.isOn }" class="flex w-full justify-center">
+              <div
+                [ngClass]="{ 'bg-slate-300': !dip.isOn, 'bg-gray-500': dip.isOn }"
+                class="h-3.5 w-2"
+              ></div>
+            </div>
+          </div>
+          <div class="text-center text-white">{{ dip.position }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

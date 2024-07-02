@@ -1,0 +1,58 @@
+<div class="ml-2 flex w-full flex-row gap-2" *ngIf="allOnlineOnPorts$ | async as allOnlineOnPorts">
+  <ng-container *ngIf="allOnlineOnPorts.length > 0">
+    <div class="flex items-center gap-2">
+      <span class="text-sm">{{ 'i18n.quick-analysis.time-range' | translate }}</span>
+      <rtu-select
+        [items]="timeRanges"
+        [selectedItem]="timeRange"
+        (selectedItemChange)="setTimeRange($event)"
+      >
+        <ng-template rtuSelectLabel let-selectedItem>
+          {{ selectedItem }}
+        </ng-template>
+        <ng-template rtuSelectItem let-item>
+          {{ item }}
+        </ng-template>
+      </rtu-select>
+    </div>
+    <div class="flex items-center gap-2" *ngIf="presetMonitoringPortId === undefined">
+      <span class="text-sm">{{ 'i18n.quick-analysis.test-port' | translate }}</span>
+      <rtu-select
+        [items]="allOnlineOnPorts"
+        [selectedItem]="otauPortPath$ | async"
+        (selectedItemChange)="setTestPort($event)"
+      >
+        <ng-template rtuSelectLabel let-selectedItem>
+          <div class="pl-1">
+            <rtu-otau-port-path-title [otauPortPath]="selectedItem" />
+          </div>
+        </ng-template>
+        <ng-template rtuSelectItem let-item>
+          <rtu-otau-port-path-title [otauPortPath]="item" />
+        </ng-template>
+      </rtu-select>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-sm">{{ 'i18n.quick-analysis.analysis-scope' | translate }}</span>
+      <rtu-select
+        [items]="analysisScopes"
+        [selectedItem]="analysisScope"
+        (selectedItemChange)="setAnalysisScope($event)"
+      >
+        <ng-template rtuSelectLabel let-selectedItem>
+          {{ selectedItem }}
+        </ng-template>
+        <ng-template rtuSelectItem let-item>
+          {{ item }}
+        </ng-template>
+      </rtu-select>
+    </div>
+  
+    <div class="justify-self-end m-4" *ngIf="useCache">
+      <rtu-relative-time-refresh
+        [loadedTime]="cacheTime"
+        (refresh)="refresh()"
+      ></rtu-relative-time-refresh>
+    </div>
+  </ng-container>
+</div>

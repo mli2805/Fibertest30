@@ -1,0 +1,51 @@
+<button
+  [ngClass]="{ 'border-none': minimalistic, 'pr-4': !minimalistic }"
+  [ngStyle]="{ background: minimalistic ? 'none' : '', padding: minimalistic ? '0' : '' }"
+  class="combobox flex w-full items-center whitespace-nowrap border focus:ring-0 focus-visible:border-black focus-visible:dark:border-white"
+  (click)="toogleOpen()"
+  cdkOverlayOrigin
+  #selectButton="cdkOverlayOrigin"
+  type="button"
+  [disabled]="disabled"
+>
+  <div class="flex w-full items-center overflow-hidden">
+    <ng-container
+      *ngTemplateOutlet="labelTemplate.templateRef; context: { $implicit: selectedItem }"
+    ></ng-container>
+  </div>
+
+  <span class="ml-auto w-2" *ngIf="!minimalistic">
+    <!-- prettier-ignore -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-5">
+    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+  </svg>
+  </span>
+</button>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="selectButton"
+  [cdkConnectedOverlayOpen]="open"
+>
+  <ul
+    #overlayList
+    [ngClass]="{
+    'grid-cols-1': cols === 1,
+    'grid-cols-2': cols === 2,
+    'grid-cols-3': cols === 3,
+  }"
+    [style.width.px]="selectButtonWidth"
+    class="background-base z-10 mt-0.5 grid max-h-[40vh] min-w-max overflow-x-auto overflow-y-auto rounded-sm bg-white p-1 text-sm shadow-md"
+  >
+    <li
+      *ngFor="let item of items"
+      [ngClass]="{ 'selected-item bg-zinc-200 dark:bg-zinc-500': item === selectedItem }"
+      class="m-[1px] flex cursor-pointer items-center gap-x-1 rounded-sm p-2 hover:bg-blue-500 focus:bg-blue-500 focus:outline-none"
+      (click)="setItem(item)"
+    >
+      <ng-container
+        *ngTemplateOutlet="itemTemplate.templateRef; context: { $implicit: item }"
+      ></ng-container>
+    </li>
+  </ul>
+</ng-template>

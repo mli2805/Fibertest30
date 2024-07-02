@@ -1,0 +1,14 @@
+
+
+
+@{{ if Port.CascadeOtauPortIndex != null  }}
+<div>
+    <span class="font-bold text-blue-600">@{{ Port.OcmOtauPortIndex }}</span>
+    <span >/</span>
+    <span>@{{ Port.CascadeOtauPortIndex }}</span>
+</div>
+@{{ else }}
+<div>
+    <span class="font-bold text-blue-600">@{{ Port.OcmOtauPortIndex }}</span>
+</div>
+@{{ end }}

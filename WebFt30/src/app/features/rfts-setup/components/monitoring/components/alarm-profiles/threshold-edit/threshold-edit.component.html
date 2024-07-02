@@ -1,0 +1,90 @@
+<div *ngIf="form" class="flex items-end" [formGroup]="form">
+  <label class="mb-1.5 mr-2 flex w-36 min-w-[80px] flex-col"
+    ><span>
+      {{ parameter | thresholdName | translate }}
+    </span>
+    <span> [{{ parameter | thresholdUnit | translate }}] </span></label
+  >
+  <div>
+    <div class="flex items-center">
+      <!-- minor -->
+      <div class="mr-2 flex flex-col items-center">
+        <div class="flex items-center">
+          <label [ngClass]="isMinorOff() ? 'disabled-label' : 'alarm-minor'" class="mr-2">{{
+            'i18n.common.minor' | translate
+          }}</label>
+          <label class="toggle my-2 flex w-max justify-start">
+            <input type="checkbox" formControlName="isMinorOn" (change)="onIsMinorOnChanged()" />
+            <div class="slider"></div>
+          </label>
+        </div>
+        <fieldset [disabled]="isMinorOff()">
+          <input
+            type="text"
+            formControlName="minorValue"
+            class="input-simple peer w-20"
+            [ngClass]="{ 'invalid-border': !isMinorValid() }"
+          />
+          <rtu-validation-error
+            class="hidden peer-focus:block"
+            [errors]="getValidationErrorsFor('minorValue')"
+          ></rtu-validation-error>
+        </fieldset>
+      </div>
+
+      <!-- major -->
+      <div class="mr-2 flex flex-col items-center">
+        <div class="flex items-center">
+          <label [ngClass]="isMajorOff() ? 'disabled-label' : 'alarm-major'" class="mr-2">{{
+            'i18n.common.major' | translate
+          }}</label>
+          <label class="toggle my-2 flex w-max justify-start">
+            <input type="checkbox" formControlName="isMajorOn" (change)="onIsMajorOnChanged()" />
+            <div class="slider"></div>
+          </label>
+        </div>
+        <fieldset [disabled]="isMajorOff()">
+          <input
+            formControlName="majorValue"
+            type="text"
+            class="input-simple peer w-20"
+            [ngClass]="{ 'invalid-border': !isMajorValid() }"
+          />
+          <rtu-validation-error
+            class="hidden peer-focus:block"
+            [errors]="getValidationErrorsFor('majorValue')"
+          ></rtu-validation-error>
+        </fieldset>
+      </div>
+
+      <!-- critical -->
+      <div class="flex flex-col items-center">
+        <div class="flex items-center">
+          <label [ngClass]="isCriticalOff() ? 'disabled-label' : 'alarm-critical'" class="mr-2">{{
+            'i18n.common.critical' | translate
+          }}</label>
+          <label class="toggle my-2 flex w-max justify-start">
+            <input
+              type="checkbox"
+              formControlName="isCriticalOn"
+              (change)="onIsCriticalOnChanged()"
+            />
+            <div class="slider"></div>
+          </label>
+        </div>
+        <fieldset [disabled]="isCriticalOff()">
+          <input
+            formControlName="criticalValue"
+            type="text"
+            class="input-simple peer w-20"
+            [ngClass]="{ 'invalid-border': !isCriticalValid() }"
+          />
+          <rtu-validation-error
+            class="hidden peer-focus:block"
+            [errors]="getValidationErrorsFor('criticalValue')"
+          ></rtu-validation-error>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</div>

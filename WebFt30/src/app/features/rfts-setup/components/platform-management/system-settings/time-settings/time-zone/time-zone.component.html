@@ -1,0 +1,17 @@
+<div [formGroup]="form">
+  <rtu-select formControlName="timeZone" [items]="timeZones" [selectedItem]="selectedTimeZone">
+    <ng-template rtuSelectLabel let-selectedItem>
+      <div class="flex flex-col">
+        <rtu-description-label
+          [description]="'i18n.time-settings.device-time-zone' | translate"
+        ></rtu-description-label>
+        <div *ngIf="selectedItem">
+          {{ selectedItem.displayBaseUtcOffset + ' ' + selectedItem.displayName }}
+        </div>
+      </div>
+    </ng-template>
+    <ng-template rtuSelectItem let-item>
+      {{ item.displayBaseUtcOffset + ' ' + item.displayName }}
+    </ng-template>
+  </rtu-select>
+</div>

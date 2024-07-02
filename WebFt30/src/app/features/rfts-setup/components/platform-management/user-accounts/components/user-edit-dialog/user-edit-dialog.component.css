@@ -1,0 +1,26 @@
+.grid-container {
+  display: grid;
+
+  grid-template-columns: auto_minmax(0, 1fr);
+
+  grid-template-areas:
+    'userNameLabel userNameValue'
+    'firstNameLabel firstNameValue'
+    'lastNameLabel lastNameValue'
+    'userGroupLabel userGroupValue'
+    'jobTitleLabel jobTitleValue'
+    'emailLabel emailValue'
+    'phoneLabel phoneValue'
+    'passwordLabel passwordValue'
+    'repeatPasswordLabel repeatPasswordValue';
+}
+
+.unite {
+  grid-column: span 2;
+}
+
+.grid-schedule {
+  display: grid;
+  column-gap: 0.5rem;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}

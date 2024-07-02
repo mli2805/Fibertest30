@@ -1,0 +1,74 @@
+<ng-container
+  *ngIf="
+    change.distanceMeters &&
+    (change.baselineLeft?.distanceMeters !== null || change.baselineRight?.distanceMeters !== null)
+  "
+>
+  <div
+    class="grid min-w-[20ch] max-w-[60ch] grid-cols-[1fr,auto,1fr] grid-rows-[auto,auto,auto] items-center text-xs"
+  >
+    <div>
+      <div class="ml-[20%]" *ngIf="change.baselineLeft as left">
+        <div class="flex w-full flex-col text-gray-600 dark:text-gray-400">
+          <div class="">
+            {{ convertUtils.toKmOrM(change.distanceMeters! - left.distanceMeters!) }}
+          </div>
+          <!-- prettier-ignore -->
+          <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" class="w-full h-[10px]" fill="none" viewBox="0 0 800 50" stroke-width="3" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M750 0 800 25 750 50 M0 25 800 25" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div></div>
+
+    <div>
+      <div class="mr-[20%]" *ngIf="change.baselineRight as right">
+        <div class="flex w-full flex-col text-gray-600 dark:text-gray-400">
+          <div class="">
+            {{ convertUtils.toKmOrM(right.distanceMeters - change.distanceMeters) }}
+          </div>
+          <!-- prettier-ignore -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" preserveAspectRatio="none" class="w-full h-[10px]" viewBox="0 0 800 50" stroke-width="3" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M50 0 0 25 50 50 M0 25 800 25" />
+              </svg>
+        </div>
+      </div>
+    </div>
+    <div class="relative h-1 bg-green-500 dark:bg-green-400">
+      <div
+        *ngIf="change.baselineLeft"
+        class="absolute bottom-0 left-[20%] h-5 w-[1px] bg-gray-600 dark:bg-gray-400"
+      ></div>
+    </div>
+    <div class="text-red-400">
+      <!-- prettier-ignore -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" >
+        <path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
+      </svg>
+    </div>
+    <div class="relative h-1 bg-blue-500 dark:bg-blue-500">
+      <div
+        *ngIf="change.baselineRight"
+        class="absolute bottom-0 right-[20%] h-5 w-[1px] bg-gray-600 dark:bg-gray-400"
+      ></div>
+    </div>
+
+    <div class="col-span-3">
+      <div class="grid grid-cols-[1fr,auto,1fr]">
+        <div class="overflow-hidden text-ellipsis whitespace-nowrap text-left">
+          <ng-container *ngIf="change.baselineLeft as left"> {{ left.comment }} </ng-container>
+        </div>
+        <div class="mx-2 text-center text-gray-600 dark:text-gray-400">
+          {{ convertUtils.toKmOrM(change.distanceMeters) }}
+        </div>
+        <div class="overflow-hidden text-ellipsis whitespace-nowrap text-right">
+          <ng-container *ngIf="change.baselineRight as right">
+            {{ right.comment }}
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

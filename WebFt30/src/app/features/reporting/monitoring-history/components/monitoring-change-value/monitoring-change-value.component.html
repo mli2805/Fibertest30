@@ -1,0 +1,22 @@
+<ng-container *ngIf="simpleValue || qualifiedValue">
+  <ng-container *ngIf="simpleValue">
+    {{
+      showSing ? (simpleValue | number : '1.0-3' | signedNumber) : (simpleValue | number : '1.0-3')
+    }}
+  </ng-container>
+
+  <ng-container *ngIf="qualifiedValue">
+    <div class="flex flex-col">
+      <span class="whitespace-nowrap text-xs lowercase">{{
+        converterUtils.exactnessToString(qualifiedValue.exactness)! | translate
+      }}</span>
+      <span class="text-xs">
+        {{
+          showSing
+            ? (qualifiedValue.value | number : '1.0-3' | signedNumber)
+            : (qualifiedValue.value | number : '1.0-3')
+        }}</span
+      >
+    </div>
+  </ng-container>
+</ng-container>

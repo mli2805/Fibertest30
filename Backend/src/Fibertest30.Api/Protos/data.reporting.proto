@@ -1,0 +1,20 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+
+option csharp_namespace = "Fibertest30.Api";
+package fibertest30.data.reporting;
+
+message DateTimeRange {
+  google.protobuf.Timestamp start = 1;
+  google.protobuf.Timestamp end = 2;
+}
+
+message DateTimeFilter {
+  DateTimeRange searchWindow = 1;
+  google.protobuf.Duration relativeFromNow = 2;
+  google.protobuf.Timestamp loadSince = 3;
+  bool orderDescending = 4;
+}
+
+

@@ -1,0 +1,75 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "Fibertest30.Api";
+package fibertest30.data.monitoring;
+
+// The rfts400.data.monitoring was created to avoid enum conflicts
+// if there were no conflicts, everything will be in the rfts400.data.core package
+// Fell free to move more monitoring stuff to this package
+
+enum MonitoringAlarmType {
+  EventLoss = 0;
+  TotalLoss = 1;
+  EventReflectance = 2;
+  SectionAttenuation = 3;
+  SectionLoss = 4;
+  SectionLengthChange = 5;
+  PortHealth = 6;
+  FiberBreak = 7;
+  NewEvent = 8;
+  NewEventAfterEof = 9;
+}
+
+enum MonitoringAlarmLevel
+{
+    Minor = 0;
+    Major = 1;
+    Critical = 2;
+}
+
+enum MonitoringAlarmStatus {
+  Active = 0;
+  Resolved = 1;
+}
+
+message MonitoringAlarmStatusWrapper {
+  MonitoringAlarmStatus value = 1;
+}
+
+message MonitoringAlarmLevelWrapper {
+  MonitoringAlarmLevel value = 1;
+}
+
+message MonitoringAlarmEvent {
+  int32 id = 1;
+  int32 monitoringPortId = 2;
+  int32 monitoringAlarmId = 3;
+  int32 monitoringResultId = 4;
+  MonitoringAlarmType type = 5;
+  google.protobuf.DoubleValue distanceMeters = 6;
+  google.protobuf.Timestamp at = 7;
+  MonitoringAlarmLevelWrapper oldLevel = 8;
+  MonitoringAlarmLevel level = 9;
+  MonitoringAlarmStatusWrapper oldStatus = 10;
+  MonitoringAlarmStatus status = 11;
+  string jsonChange = 12;
+  int32 monitoringAlarmGroupId = 13;
+}
+
+
+message MonitoringAlarm {
+  int32 id = 1;
+  int32 monitoringPortId = 2;
+  int32 monitoringResultId = 3;
+  google.protobuf.Timestamp lastChangedAt = 4;
+  google.protobuf.Timestamp activeAt = 5;
+  google.protobuf.Timestamp resolvedAt = 6;
+  MonitoringAlarmType type = 7;
+  MonitoringAlarmLevel level = 8;
+  MonitoringAlarmStatus status = 9;
+  google.protobuf.DoubleValue distanceMeters = 10;
+  repeated MonitoringAlarmEvent events = 11;
+  int32 alarmGroupId = 12;
+}

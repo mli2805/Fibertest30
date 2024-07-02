@@ -1,0 +1,56 @@
+<div
+  class="background-base flex max-w-md flex-wrap items-center gap-2 rounded-t-sm border border-gray-300 p-2 dark:border-[#575859]"
+  (click)="triggerClicked($event)"
+  #trigger="cdkOverlayOrigin"
+  cdkOverlayOrigin
+>
+  <div *ngFor="let port of selectedPorts">
+    <div
+      class="flex h-7 items-center justify-between rounded-sm bg-zinc-200 py-1 pl-2 pr-0.5 hover:scale-110 dark:bg-zinc-500"
+    >
+      <rtu-otau-port-path-title
+        class="mr-1 text-sm"
+        [otauPortPath]="port"
+      ></rtu-otau-port-path-title>
+      <span
+        (click)="removeTag($event, port)"
+        class="mx-1 h-4 w-4 cursor-pointer text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-600"
+      >
+        <!-- prettier-ignore -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </span>
+    </div>
+  </div>
+  <input
+    class="background-base border-visible-base h-7 w-20 border-0 p-0"
+    id="textbox"
+    type="text"
+    autocomplete="off"
+    placeholder="{{ 'i18n.common.enter-port' | translate }}"
+  />
+</div>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="open"
+>
+  <div
+    class="grid-container background-base max-w- mb-2 grid max-h-[60vh] gap-1 overflow-x-auto overflow-y-auto p-1 text-sm shadow-md"
+    [style.width.px]="triggerWidth"
+  >
+    <div
+      *ngFor="let item of overlayItems"
+      [ngClass]="{ 'selected-item bg-zinc-200 dark:bg-zinc-500': item === selectedItem }"
+      class="m-[1px] flex cursor-pointer items-center gap-x-1 rounded-sm p-2 hover:bg-blue-500"
+      (click)="onMenuClicked($event, item)"
+    >
+      <rtu-otau-port-path-title
+        class="mr-1 text-sm"
+        [otauPortPath]="item"
+      ></rtu-otau-port-path-title>
+    </div>
+  </div>
+</ng-template>

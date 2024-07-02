@@ -1,0 +1,75 @@
+<rtu-on-demand-notification></rtu-on-demand-notification>
+
+<div *ngIf="(systemNotificationTotalCount$ | async)! > 0" class="flex justify-end gap-2 text-xs">
+  <div class="text-gray-600 dark:text-zinc-400">{{ 'i18n.common.dismiss' | translate }}:</div>
+  <div [rtuColorizeBySystemEventLevelWithHover]="levels.Info" class="cursor-pointer">
+    <div (click)="dismissByLevel(levels.Info)">{{ levels[levels.Info] }}</div>
+    <!-- Level not currently translated -->
+  </div>
+  <div [rtuColorizeBySystemEventLevelWithHover]="levels.Major" class="cursor-pointer">
+    <div (click)="dismissByLevel(levels.Major)">{{ levels[levels.Major] }}</div>
+    <!-- Level not currently translated -->
+  </div>
+  <div [rtuColorizeBySystemEventLevelWithHover]="levels.Critical" class="cursor-pointer">
+    <div (click)="dismissByLevel(levels.Critical)">{{ levels[levels.Critical] }}</div>
+    <!-- Level not currently translated -->
+  </div>
+  <div>|</div>
+  <div
+    (click)="dismissAll()"
+    class="cursor-pointer text-blue-600 hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-600"
+  >
+    {{ 'i18n.common.all' | translate }}
+  </div>
+</div>
+
+<ng-container *ngIf="systemNotifications$ | async as systemNotifications">
+  <table *ngIf="systemNotifications && systemNotifications.length !== 0" class="min-w-full text-sm">
+    <thead class="text-center text-gray-600 dark:text-zinc-400">
+      <tr>
+        <th class="py-3 font-thin">{{ 'i18n.common.time' | translate }}</th>
+        <th class="py-3 font-thin">{{ 'i18n.common.date' | translate }}</th>
+        <th class="py-3 font-thin">{{ 'i18n.common.level' | translate }}</th>
+        <th class="py-3 pl-3 text-left font-thin">{{ 'i18n.common.source' | translate }}</th>
+        <th class="py-3 pl-3 text-left font-thin">{{ 'i18n.common.event' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody class="text-center text-gray-700 dark:text-zinc-300">
+      <tr
+        *ngFor="let systemNotification of systemNotifications"
+        (animationend)="onAnimationDone(systemNotification)"
+        [class.animate-fade-in]="systemNotification.isNew"
+        class="rounded-sm odd:bg-rtu-primary-bg dark:odd:bg-rtu-dark-primary-bg"
+      >
+        <td class="w-0 whitespace-nowrap px-3 py-3">
+          {{ systemNotification.systemEvent.at | rtuDateTime : 'medium' : 'time' }}
+        </td>
+        <td class="w-0 whitespace-nowrap px-3 py-3">
+          {{ systemNotification.systemEvent.at | rtuDateTime : 'short' : 'date' }}
+        </td>
+        <td class="w-0 whitespace-nowrap px-3 py-3">
+          <div [rtuColorizeBySystemEventLevel]="systemNotification.systemEvent.level">
+            {{ levels[systemNotification.systemEvent.level] }}
+          </div>
+        </td>
+        <td class="w-0 whitespace-nowrap px-3 py-3 text-left">
+          {{ getSource(systemNotification.systemEvent.source) }}
+        </td>
+        <td class="overflow-x-clip px-3 py-3 text-left">
+          <rtu-system-event-viewer
+            [systemEvent]="systemNotification.systemEvent"
+            (navigatedToEvent)="onNavigatedToEvent(systemNotification)"
+          ></rtu-system-event-viewer>
+        </td>
+        <td class="w-0 py-3 pr-1">
+          <div class="flex items-center">
+            <rtu-close-button (click)="dismissNotification(systemNotification)" class="h-4 w-4" />
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="systemNotifications.length === 0">
+        <td colspan="100" class="py-5 text-left"></td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>

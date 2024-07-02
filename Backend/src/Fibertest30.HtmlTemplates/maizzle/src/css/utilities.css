@@ -1,0 +1,33 @@
+/*
+ * Here is where you can define your custom utility classes.
+ *
+ * We wrap them in the `utilities` @layer directive, so
+ * that Tailwind moves them to the correct location.
+ *
+ * More info:
+ * https://tailwindcss.com/docs/functions-and-directives#layer
+*/
+
+@layer utilities {
+  .table-style {
+    @apply border-solid border border-table-border table-fixed
+  }
+
+  .td-style {
+    @apply p-2 border-solid border border-table-border
+  }
+
+  .th-style {
+    @apply p-2 text-left
+  }
+
+  .table-header {
+    @apply text-text-color bg-table-header-bg text-table-header-text 
+  }
+
+  .alarm- {
+    /* applied where there is no alarm level */
+  }
+
+
+}

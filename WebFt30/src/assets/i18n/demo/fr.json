@@ -1,0 +1,20 @@
+{
+  "i18n.demo-components.button": "Bouton",
+  "i18n.demo-components.cancel-discard": "Annuler, Supprimer",
+  "i18n.demo-components.combobox": "Boîte combinée",
+  "i18n.demo-components.enter-valid-ipv6-address": "Entrez une adresse DNS IPv6 valide",
+  "i18n.demo-components.extra": "Supplémentaire",
+  "i18n.demo-components.font": "Police",
+  "i18n.demo-components.icon": "Icône",
+  "i18n.demo-components.icon-right": "Icône droite",
+  "i18n.demo-components.input": "Entrée",
+  "i18n.demo-components.left-text": "Texte de gauche",
+  "i18n.demo-components.ok-yes": "OK, oui",
+  "i18n.demo-components.placeholder": "Espace réservé",
+  "i18n.demo-components.right-text": "Texte de droite",
+  "i18n.demo-components.simple-name": "Nom simple",
+  "i18n.demo-components.toggle": "Basculer",
+  "i18n.demo.components": "Composants",
+  "i18n.demo.greeter": "Accueil",
+  "i18n.demo.sor-viewer": "Visionneuse SOR"
+}

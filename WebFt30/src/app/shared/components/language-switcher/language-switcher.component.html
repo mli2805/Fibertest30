@@ -1,0 +1,19 @@
+<ng-container *ngIf="languages$ | async as languages">
+  <div class="relative w-full min-w-max" *ngIf="selectedLanguage$ | async as selectedLanguage">
+    <rtu-select
+      [cols]="2"
+      [items]="languages"
+      [selectedItem]="selectedLanguage"
+      (selectedItemChange)="setLanguage($event)"
+    >
+      <ng-template rtuSelectLabel let-selectedItem>
+        <img class="h-4 w-4 text-orange-500 shadow-inner" [src]="getFlagIcon(selectedItem)" />
+        <div class="pl-1">{{ getLanguageName(selectedItem) }}</div>
+      </ng-template>
+      <ng-template rtuSelectItem let-item>
+        <img class="h-4 w-4 shadow-inner" [src]="getFlagIcon(item)" />
+        <div>{{ getLanguageName(item) }}</div>
+      </ng-template>
+    </rtu-select>
+  </div>
+</ng-container>

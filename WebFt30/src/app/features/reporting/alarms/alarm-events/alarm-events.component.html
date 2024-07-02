@@ -1,0 +1,90 @@
+<rtu-single-error-popup
+  [errorMessageId$]="errorMessageId$"
+  [resetErrorAction]="alarmEventsActions.resetError()"
+></rtu-single-error-popup>
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
+
+<div class="h-full w-full p-5">
+  <rtu-monitoring-history-filter
+    (filterChanged)="onFilterChanged($event)"
+  ></rtu-monitoring-history-filter>
+  <div class="relative">
+    <rtu-relative-time-refresh
+      [loadedTime]="loadedTime$ | async"
+      (refresh)="refresh()"
+    ></rtu-relative-time-refresh>
+
+    <table class="min-w-full text-sm">
+      <thead class="text-center text-gray-600 dark:text-zinc-400">
+        <tr>
+          <th class="whitespace-pre pb-3 font-thin">{{ 'i18n.common.alarm-id' | translate }}</th>
+          <th class="whitespace-nowrap pb-3 font-thin">
+            {{ 'i18n.common.date-time' | translate }}
+          </th>
+          <th class="pb-3 font-thin">{{ 'i18n.common.port' | translate }}</th>
+          <th class="pb-3 pl-5 pr-5 text-left font-thin">{{ 'i18n.common.level' | translate }}</th>
+          <th class="pb-3 pl-5 pr-5 text-left font-thin">{{ 'i18n.common.type' | translate }}</th>
+          <th class="pb-3 pl-5 pr-5 text-left font-thin">
+            {{ 'i18n.common.distance' | translate }}
+          </th>
+          <th class="pb-3 pl-5 pr-5 text-left font-thin">{{ 'i18n.common.status' | translate }}</th>
+          <th class="whitespace-nowrap"></th>
+        </tr>
+      </thead>
+      <tbody
+        *ngIf="alarmEvents$ | async as alarmEvents"
+        class="text-center text-gray-700 dark:text-zinc-300"
+      >
+        <tr
+          [id]="alarmEvent.id"
+          *ngFor="let alarmEvent of alarmEvents"
+          [ngClass]="{
+            'animate-bounce-higlight': backToAlarmEventId === alarmEvent.id
+          }"
+          class="rounded-sm odd:bg-rtu-second-bg dark:odd:bg-rtu-dark-second-bg"
+        >
+          <td class="w-0 whitespace-nowrap py-3 pl-5 pr-5">
+            {{ alarmEvent.monitoringAlarmGroupId }}
+          </td>
+          <td class="w-0 whitespace-nowrap py-3 pl-5 pr-5">
+            {{ alarmEvent.at | rtuDateTime : 'medium' }}
+          </td>
+          <td class="w-0 whitespace-nowrap py-3 pl-5 pr-5">
+            <div
+              *ngIf="getOtauPortPathByMonitoringPortId(alarmEvent.monitoringPortId) as otauPortPath"
+            >
+              <rtu-otau-port-path-title [otauPortPath]="otauPortPath"></rtu-otau-port-path-title>
+            </div>
+          </td>
+          <td class="w-0 whitespace-nowrap py-3 pl-5 pr-5">
+            <div [rtuColorizeByAlarmLevel]="alarmEvent.level">
+              {{ levels[alarmEvent.level] }}
+            </div>
+          </td>
+          <td class="w-0 whitespace-nowrap py-3 pl-5 pr-5 text-left">
+            {{ convertUtils.monitoringAlarmTypeToString(alarmEvent.type) | translate }}
+          </td>
+          <td class="w-0 whitespace-nowrap py-3 pl-5 pr-5">
+            {{ convertUtils.toKmOrM(alarmEvent.distanceMeters) }}
+          </td>
+          <td class="w-0 whitespace-nowrap py-3 pl-5 pr-5 text-left">
+            <rtu-alarm-event-viewer [alarmEvent]="alarmEvent"></rtu-alarm-event-viewer>
+          </td>
+          <td></td>
+          <td class="w-0 pb-1 pr-4">
+            <rtu-save-button
+              class="h-5 w-5 text-blue-500"
+              (click)="saveTraceAndBaseForAlarmEvent(alarmEvent)"
+            />
+          </td>
+          <td class="w-0 py-3 pr-5">
+            <rtu-navigate-button class="ml-2 h-6 w-6" (click)="navigateToAlarm(alarmEvent.id)" />
+          </td>
+        </tr>
+        <tr *ngIf="alarmEvents.length === 0">
+          <td colspan="100" class="py-5 text-left">{{ 'i18n.common.no-data' | translate }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

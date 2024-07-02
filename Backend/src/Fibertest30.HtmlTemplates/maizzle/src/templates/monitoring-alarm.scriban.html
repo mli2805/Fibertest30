@@ -1,0 +1,144 @@
+---
+title: "RFTS Alarm"
+---
+
+<x-main>
+    <table class="w-full ">
+        <th>
+            <td class="p-6 sm:px-3 text-base rounded">
+                <h1 class="m-0 mb-2 text-center text-2xl sm:leading-8  font-semibold">
+                    <div>RFTS Alarm</div>
+                </h1>
+
+                <div class="text-xl font-semibold mt-6 mb-4">
+                    Alarm Overview
+                </div>
+
+                <table class="mt-1 w-full table-style ">
+                    <thead>
+                        <tr class="table-header">
+                          <th></th>
+                          <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-table-odd-row ">
+                            <td class="td-style">
+                                Alarm ID
+                            </td>
+                            <td class="td-style">
+                                @{{ Alarm.GroupId }}
+                            </td>
+                        </tr>
+                        <tr class="bg-table-even-row ">
+                            <td class="td-style">
+                                Port
+                            </td>
+                            <td class="td-style">
+                                <x-otau-port></x-otau-port>
+                            </td>
+                        </tr>
+                        <tr class="bg-table-odd-row">
+                            <td class="td-style">
+                                Alarm level
+                            </td>
+                            <td class="td-style alarm-@{{ Alarm.LevelColor }}">
+                                @{{ Alarm.Level }}
+                            </td>
+                        </tr>
+                        <tr class="bg-table-even-row">
+                            <td class="td-style">
+                                Alarm type
+                            </td>
+                            <td class="td-style">
+                                @{{ Alarm.Type }}
+                            </td>
+                        </tr>
+                        <tr class="bg-table-odd-row">
+                            <td class="td-style">
+                                Optical distance
+                            </td>
+                            <td class="td-style">
+                                @{{ Alarm.Distance }}
+                            </td>
+                        </tr>
+                        <tr class="bg-table-even-row">
+                            <td class="td-style">
+                               Alarm status
+                            </td>
+
+                             <td class="td-style alarm-@{{ Alarm.StatusColor }}">
+                                @{{ Alarm.Status }}
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                @{{ if Alarm.Change.ShowDistances  }}
+                <div class="m-4 min-w-[200px] ">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td width="25%">&nbsp;</td> 
+                          <td style="text-align: left;" > @{{ Alarm.Change.BaselineLeftDeltaDistance }}</td>
+                          <td style="text-align: right;">@{{ Alarm.Change.BaselineRightDeltaDistance }}</td>
+                          <td width="25%">&nbsp;</td> 
+                        </tr>
+                      </table>
+
+                    <img src="https://download.veexinc.com/SecuredDownload/rfts400-alarm-distance-998-64.png" style="height: 32px; width: 100%;" alt="Description">
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td width="45%" style="text-align: left;">@{{ Alarm.Change.BaselineLeftComment }}</td>
+                          <td width="10%" style="text-align: center;"> @{{ Alarm.Distance }}</td>
+                          <td width="45%" style="text-align: right;">@{{ Alarm.Change.BaselineRightComment }}</td>
+                        </tr>
+                      </table>
+                </div>
+                @{{ end }}
+
+                
+
+                <div class="text-xl font-semibold mt-6 mb-4">
+                    Alarm History
+                </div>
+
+                <table class="mt-1 w-full table-style">
+                    <thead>
+                        <tr class="table-header">
+                          <td class="th-style">Datetime</td>
+                          <td class="th-style">Status</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{{ for Event in Alarm.Events }}
+                        <tr class="bg-table-@{{ Event.EvenOrOdd }}-row">
+                            <td class="td-style">
+                                @{{ Event.At }}
+                            </td>
+                            <td class="td-style">
+                                @{{ if Event.OldLevelValue == null || Event.OldStatusValue != null }}
+                                        <div class="alarm-@{{ Event.StatusColor }}">
+                                            @{{ Event.Status }}
+                                        </div>
+                                @{{ end }}
+
+                                @{{ if Event.OldLevelValue != null && Event.OldStatusValue == null  }}
+
+                                <div>
+                                    <span>@{{ Event.OldLevel }}</span>
+                                    <span>&rarr;</span>
+                                    <span class="alarm-@{{ Event.StatusColor }}">@{{ Event.Level }}</span>
+                                </div>
+                                 @{{ end }}
+                                  
+                            </td>
+                        </tr>
+                        @{{ end }}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+</x-main>

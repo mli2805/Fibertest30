@@ -1,0 +1,259 @@
+<div class="grouped-border min-w-144">
+  <div class="flex flex-col">
+    <div [formGroup]="form">
+      <div class="grid-head mx-2 mb-4 gap-x-6 gap-y-2">
+        <label style="grid-area: enabledLabel" class="my-auto text-base">{{
+          'i18n.notification-settings.snmp-notifications' | translate
+        }}</label>
+
+        <div style="grid-area: enabledValue" class="flex items-center justify-end">
+          <div class="action-non-active hover-link cursor-pointer" (click)="saveMib()">
+            <div class="mr-10 mt-1 flex">
+              <rtu-save-button class="h-5 w-5" />
+              <div class="my-auto ml-2 text-center text-xs">
+                {{ 'i18n.notification-settings.save-mib' | translate }}
+              </div>
+            </div>
+          </div>
+
+          <label
+            class="toggle my-2 place-self-end"
+            [ngClass]="{ 'inaccessible-slider': isSlidersDisabled() }"
+          >
+            <input formControlName="enabled" type="checkbox" />
+            <div class="slider"></div>
+          </label>
+        </div>
+      </div>
+
+      <fieldset [disabled]="isSettingsOff()">
+        <div class="grid-container mx-2 mb-4 gap-x-6 gap-y-2 text-sm">
+          <label
+            style="grid-area: versionLabel"
+            class="my-auto"
+            [ngClass]="{ 'disabled-label': isSettingsOff() }"
+            >{{ 'i18n.notification-settings.snmp-version' | translate }}</label
+          >
+          <rtu-select
+            style="grid-area: versionValue"
+            formControlName="snmpVersion"
+            [items]="snmpVersions"
+            (selectedItemChange)="onVersionChanged($event)"
+          >
+            <ng-template rtuSelectLabel let-selectedItem>
+              <div class="pl-1">{{ selectedItem }}</div>
+            </ng-template>
+            <ng-template rtuSelectItem let-item>
+              {{ item }}
+            </ng-template>
+          </rtu-select>
+
+          <label
+            style="grid-area: useVeexOidLabel"
+            class="my-auto"
+            [ngClass]="{ 'disabled-label': isSettingsOff() }"
+            >{{ 'i18n.notification-settings.use-veex-oid' | translate }}</label
+          >
+          <label style="grid-area: useVeexOidValue" class="toggle my-2 flex w-max justify-start">
+            <input type="checkbox" formControlName="useVeexOid" (change)="onUseVeexOidChanged()" />
+            <div class="slider"></div>
+          </label>
+
+          <label
+            style="grid-area: customOidLabel"
+            class="my-auto"
+            [ngClass]="{ 'disabled-label': isSettingsOff() }"
+            >{{ 'i18n.notification-settings.custom-oid' | translate }}</label
+          >
+          <div style="grid-area: customOidValue">
+            <ng-container *ngIf="customOidInputEnabled">
+              <input
+                formControlName="customOid"
+                [ngClass]="{ 'invalid-border': !isCustomOidValid() }"
+                type="text"
+                class="input-simple w-full"
+              />
+            </ng-container>
+
+            <ng-container *ngIf="!customOidInputEnabled">
+              <input type="text" class="input-simple w-full" disabled />
+            </ng-container>
+          </div>
+
+          <!-- elements for SNMP v1 & v2c -->
+          <ng-container *ngIf="isVersion1">
+            <label
+              style="grid-area: communityLabel"
+              class="my-auto"
+              [ngClass]="{ 'disabled-label': isSettingsOff() }"
+              >{{ 'i18n.notification-settings.snmp-community' | translate }}</label
+            >
+            <div style="grid-area: communityValue">
+              <input
+                formControlName="community"
+                [ngClass]="{ 'invalid-border': !isCommunityValid() }"
+                type="text"
+                class="input-simple w-full"
+              />
+            </div>
+          </ng-container>
+          <!-- elements for SNMP v3 -->
+          <ng-container *ngIf="!isVersion1">
+            <label
+              style="grid-area: authoritativeEngineIdLabel"
+              class="my-auto"
+              [ngClass]="{ 'disabled-label': isSettingsOff() }"
+              >{{ 'i18n.notification-settings.authoritative-engine-id' | translate }}</label
+            >
+            <div style="grid-area: authoritativeEngineIdValue">
+              <input
+                formControlName="authoritativeEngineId"
+                type="text"
+                [ngClass]="{ 'invalid-border': !isAuthoritativeEngineIdValid() }"
+                class="input-simple w-full"
+              />
+            </div>
+
+            <label
+              style="grid-area: usernameLabel"
+              class="my-auto"
+              [ngClass]="{ 'disabled-label': isSettingsOff() }"
+              >{{ 'i18n.common.username' | translate }}</label
+            >
+            <div style="grid-area: usernameValue">
+              <input formControlName="userName" type="text" class="input-simple w-full" />
+            </div>
+
+            <label
+              style="grid-area: authenticationPasswordLabel"
+              class="my-auto"
+              [ngClass]="{ 'disabled-label': isSettingsOff() }"
+              >{{ 'i18n.notification-settings.authentication-password' | translate }}</label
+            >
+            <div style="grid-area: authenticationPasswordValue">
+              <rtu-input-password-with-eye
+                #pswAuthentication
+                [showPlaceholder]="trapReceiver.isAuthPswSet"
+                [placeholder]="passwordPlaceholder"
+                (changedValueEvent)="onAuthenticationPasswordChanged($event)"
+              ></rtu-input-password-with-eye>
+            </div>
+
+            <label
+              style="grid-area: authenticationProtocolLabel"
+              class="my-auto"
+              [ngClass]="{ 'disabled-label': isSettingsOff() }"
+              >{{ 'i18n.notification-settings.authentication-protocol' | translate }}</label
+            >
+            <rtu-select
+              style="grid-area: authenticationProtocolValue"
+              formControlName="authenticationProtocol"
+              [items]="authenticationProtocols"
+            >
+              <ng-template rtuSelectLabel let-selectedItem>
+                <div class="pl-1">{{ selectedItem }}</div>
+              </ng-template>
+              <ng-template rtuSelectItem let-item>
+                {{ item }}
+              </ng-template>
+            </rtu-select>
+
+            <label
+              style="grid-area: privacyPasswordLabel"
+              class="my-auto"
+              [ngClass]="{ 'disabled-label': isSettingsOff() }"
+              >{{ 'i18n.notification-settings.privacy-password' | translate }}</label
+            >
+            <div style="grid-area: privacyPasswordValue">
+              <rtu-input-password-with-eye
+                #pswPrivacy
+                [showPlaceholder]="trapReceiver.isPrivPswSet"
+                [placeholder]="passwordPlaceholder"
+                (changedValueEvent)="onPrivacyPasswordChanged($event)"
+              ></rtu-input-password-with-eye>
+            </div>
+
+            <label
+              style="grid-area: privacyProtocolLabel"
+              class="my-auto"
+              [ngClass]="{ 'disabled-label': isSettingsOff() }"
+              >{{ 'i18n.notification-settings.privacy-protocol' | translate }}</label
+            >
+            <rtu-select
+              style="grid-area: privacyProtocolValue"
+              formControlName="privacyProtocol"
+              [items]="privacyProtocols"
+            >
+              <ng-template rtuSelectLabel let-selectedItem>
+                <div class="pl-1">{{ selectedItem }}</div>
+              </ng-template>
+              <ng-template rtuSelectItem let-item>
+                {{ item }}
+              </ng-template>
+            </rtu-select>
+          </ng-container>
+
+          <label
+            style="grid-area: snmpTrapReceiverAddressLabel"
+            class="my-auto"
+            [ngClass]="{ 'disabled-label': isSettingsOff() }"
+            >{{ 'i18n.notification-settings.snmp-trap-receiver-address' | translate }}</label
+          >
+          <div style="grid-area: snmpTrapReceiverAddressValue">
+            <input
+              formControlName="trapReceiverAddress"
+              type="text"
+              class="input-simple w-full"
+              [ngClass]="{ 'invalid-border': !isTrapReceiverAddressValid() }"
+            />
+          </div>
+
+          <label
+            style="grid-area: snmpTrapReceiverPortLabel"
+            class="my-auto"
+            [ngClass]="{ 'disabled-label': isSettingsOff() }"
+            >{{ 'i18n.notification-settings.snmp-trap-receiver-port' | translate }}</label
+          >
+          <div style="grid-area: snmpTrapReceiverPortValue">
+            <input
+              formControlName="trapReceiverPort"
+              type="text"
+              class="input-simple w-full"
+              [ngClass]="{ 'invalid-border': !isTrapReceiverPortValid() }"
+            />
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="flex flex-col pt-2">
+        <div *ngIf="testingTrapReceiver$ | async" class="flex items-center">
+          <rtu-loading-spinner class="ml-2 h-4 w-4"></rtu-loading-spinner>
+          <span class="text-data-highlight ml-3">{{ 'i18n.common.sending' | translate }}</span>
+        </div>
+        <div *ngIf="testSuccess$ | async" class="ml-3 text-green-600">
+          {{ 'i18n.notification-settings.snmp-test-trap-sent-successfully' | translate }}
+        </div>
+        <div *ngIf="testFailureId$ | async as message" class="ml-3 text-red-600">
+          {{ message | translate }}
+        </div>
+
+        <div class="flex">
+          <button
+            class="button-ok mx-1 mt-4 w-full"
+            (click)="onTestSnmpClicked()"
+            [disabled]="!isTestEnabled()"
+          >
+            {{ 'i18n.notification-settings.test-snmp-configuration' | translate }}
+          </button>
+          <button
+            class="button-ok mx-1 mt-4 w-full"
+            (click)="onApplyClicked()"
+            [disabled]="!isApplyEnabled()"
+          >
+            {{ 'i18n.common.apply' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

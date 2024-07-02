@@ -1,0 +1,22 @@
+<!-- 
+  Here are the two parts:
+
+  The first part shows the spinner right at the center of the browser screen(!),
+  no matter what component uses it.
+
+  Showing right at the center helps spinner not to jump around when components are loaded.
+  For example, when component spinner are used right after global spinner.
+
+  The second part is a full screen overlay, which is used to prevent user from clicking
+  only the component area.
+  
+  For example, global app spinner will prevent any click on the app.
+  The user-accounts spinner only prevents click on the user-accounts component area.
+
+ -->
+
+<div class="pointer-events-none fixed inset-0 z-40 flex items-center justify-center">
+  <rtu-loading-spinner class="h-24 w-24"></rtu-loading-spinner>
+</div>
+
+<div class="fixed z-50 h-full w-full"></div>

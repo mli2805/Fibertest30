@@ -1,0 +1,28 @@
+<div class="relative">
+  <div class="absolute h-1 w-full rounded-sm bg-rtu-second-bg dark:bg-rtu-dark-second-bg"></div>
+  <div
+    class="absolute h-1 w-full rounded-sm bg-[#6079f9]"
+    [style.left.%]="distanceStartPercent"
+    [style.width.%]="distancePercent"
+  ></div>
+
+  <input
+    class="pointer-events-none absolute h-1 w-full appearance-none bg-transparent"
+    type="range"
+    [min]="min"
+    [max]="max"
+    [step]="step"
+    [value]="minValue"
+    (input)="onMinChange($event)"
+  />
+
+  <input
+    class="pointer-events-none absolute h-1 w-full appearance-none bg-transparent"
+    type="range"
+    [min]="min"
+    [max]="max"
+    [step]="step"
+    [value]="maxValue"
+    (input)="onMaxChange($event)"
+  />
+</div>

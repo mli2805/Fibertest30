@@ -1,0 +1,68 @@
+<ng-container *ngIf="showStart$ | async">
+  <button
+    (click)="start()"
+    class="available-action action-non-active"
+    [ngClass]="{
+      'pointer-events-none': !canStart || (starting$ | async)
+    }"
+  >
+    <rtu-loading-spinner
+      *ngIf="starting$ | async"
+      [ngClass]="size === 'small' ? 'h-6 w-6' : 'h-8 w-8'"
+    ></rtu-loading-spinner>
+
+    <div
+      *ngIf="(starting$ | async) === false"
+      [ngClass]="{
+        'text-green-600 hover:text-green-700 dark:text-green-500 dark:hover:text-green-600':
+          canStart,
+        'h-6 w-6': size === 'small',
+        'h-8 w-8': size === 'normal'
+      }"
+    >
+      <!-- prettier-ignore -->
+      <svg *ngIf="startButtonImage === 'no-circle'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
+      </svg>
+      <!-- prettier-ignore -->
+      <svg *ngIf="startButtonImage === 'normal'" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+        <path fill="currentColor" d="M20,2c9.926,0,18,8.075,18,18c0,9.926-8.074,18-18,18S2,29.926,2,20C2,10.075,10.075,2,20,2 M20,0
+              C8.955,0,0,8.955,0,20c0,11.047,8.954,20,20,20c11.045,0,20-8.953,20-20C40,8.955,31.045,0,20,0L20,0z"/>
+        <path fill="currentColor" d="M14,11.221c0-1.609,1.088-2.196,2.416-1.303l12.588,8.459c1.328,0.893,1.328,2.354,0,3.247l-12.588,8.459
+              C15.088,30.975,14,30.389,14,28.78V11.221z"/>
+      </svg>
+    </div>
+
+    <div
+      [ngClass]="startButtonMessageNoWrap ? 'whitespace-nowrap' : ''"
+      class="my-auto text-center text-xs"
+    >
+      {{ startButtonMessageId | translate }}
+    </div>
+  </button>
+</ng-container>
+
+<div
+  class="available-action action-non-active"
+  [ngClass]="{ 'pointer-events-none': cancelling$ | async }"
+  *ngIf="(started$ | async) || (cancelling$ | async)"
+  (click)="stop()"
+>
+  <rtu-loading-spinner
+    *ngIf="cancelling$ | async"
+    [ngClass]="size === 'small' ? 'h-6 w-6' : 'h-8 w-8'"
+  ></rtu-loading-spinner>
+  <!-- prettier-ignore -->
+  <svg 
+  [ngClass]="size === 'small' ? 'h-6 w-6' : 'h-8 w-8'"
+  class=" text-red-400 hover:text-red-500 dark:text-red-400 dark:hover:text-red-500" 
+*ngIf="(cancelling$ | async) === false"
+version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+  <path fill="currentColor" d="M20,2c9.926,0,18,8.075,18,18c0,9.926-8.074,18-18,18S2,29.926,2,20C2,10.075,10.075,2,20,2 M20,0
+        C8.955,0,0,8.955,0,20c0,11.047,8.954,20,20,20c11.045,0,20-8.953,20-20C40,8.955,31.045,0,20,0L20,0z"/>
+  <path fill="currentColor" d="M28,26c0,1.105-0.896,2-2,2H14c-1.104,0-2-0.895-2-2V14c0-1.104,0.896-2,2-2h12c1.104,0,2,0.896,2,2V26z"/>
+</svg>
+  <div class="my-auto whitespace-nowrap text-center text-xs">
+    {{ stopButtonMessageId | translate }}
+  </div>
+</div>

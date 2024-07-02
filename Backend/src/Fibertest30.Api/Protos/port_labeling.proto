@@ -1,0 +1,133 @@
+syntax = "proto3";
+
+option csharp_namespace = "Fibertest30.Api";
+package fibertest30.port_labeling;
+
+/* 
+   Service to handle port labeling operations.
+   
+   Port labeling allows users to assign labels to monitoring ports for better visualization and filtering capabilities.
+   
+   The port label name max length is 50 characters.
+   The port label hex color must be in the hex format, e.g. "#000000".
+   
+   Note: The port labels are loaded to the client during startup via Core.GetDeviceInfo, 
+   so client almost never needs to call GetPortLabels.
+   
+   Command responses are empty as the server sends the state change events to all connected clients using server streaming.
+*/
+service PortLabeling {
+  
+  // Returns all port labels.
+  rpc GetPortLabels(GetPortLabelsRequest) returns (GetPortLabelsResponse);
+  
+  // Adds a new port label and attaches it to a specified monitoring port.
+  rpc AddAndAttachPortLabel (AddAndAttachPortLabelRequest) returns (AddAndAttachPortLabelResponse);
+
+  // Updates the details of an existing port label.
+  rpc UpdatePortLabel (UpdatePortLabelRequest) returns (UpdatePortLabelResponse);
+
+  // Attaches an existing port label to a monitoring port.
+  rpc AttachPortLabel (AttachPortLabelRequest) returns (AttachPortLabelResponse);
+
+  // Detaches a port label from a monitoring port and removes the label if it's the last attachment.
+  rpc DetachPortLabelAndRemoveIfLast (DetachPortLabelAndRemoveIfLastRequest) returns (DetachPortLabelAndRemoveIfLastResponse);
+}
+
+// Defines a port label with its associated details and linked monitoring ports.
+message PortLabel {
+  int32 id = 1;                         // ID of the port label.
+  string name = 2;                      // Name of the port label.
+  string hexColor = 3;                  // Hex color for the port label.
+  repeated int32 monitoringPortIds = 4; // List of monitoring port IDs to which this label is attached.
+}
+
+
+message GetPortLabelsRequest {
+}
+
+message GetPortLabelsResponse {
+  repeated PortLabel portLabels = 1; // List of port labels.
+}
+
+message AddAndAttachPortLabelRequest {
+  string name = 1;             // Name of the port label. 
+  string hexColor = 2;         // Hex color for the port label.
+  int32 monitoringPortId = 3;  // Monitoring port ID to attach the new port label to.
+}
+
+message AddAndAttachPortLabelResponse {
+  /*
+      Server sends SystemEventType.PortLabelAttached event with PortLabelAttachedData via server streaming.
+     "PortLabelAttachedData": {
+        "PortLabel": {
+          "Id": "int",
+          "Name": "string",
+          "HexColor": "string"
+        },
+        "MonitoringPortId": "int"
+    }
+   */
+}
+
+message UpdatePortLabelRequest {
+  int32 portLabelId = 1;       // ID of the port label to update.
+  string name = 2;             // New name for the port label.
+  string hexColor = 3;         // New hex color for the port label. 
+}
+
+message UpdatePortLabelResponse {
+  /* 
+    Server sends SystemEventType.PortLabelUpdated event with PortLabelUpdatedData via server streaming.
+    "PortLabelUpdatedData": {
+        "OldPortLabel": {
+          "Id": "int",
+          "Name": "string",
+          "HexColor": "string"
+        },
+        "NewPortLabel": {
+          "Id": "int",
+          "Name": "string",
+          "HexColor": "string"
+        }         
+    }
+ */
+}
+
+message AttachPortLabelRequest {
+  int32 portLabelId = 1;       // ID of the port label to attach.
+  int32 monitoringPortId = 2;  // Monitoring port ID where the port label should be attached.
+}
+
+message AttachPortLabelResponse {
+  /* 
+  Server sends SystemEventType.PortLabelAttached event with PortLabelAttachedData via server streaming.
+    "PortLabelAttachedData": {
+        "PortLabel": {
+          "Id": "int",
+          "Name": "string",
+          "HexColor": "string"
+        },
+        "MonitoringPortId": "int"
+    }
+ */
+}
+
+message DetachPortLabelAndRemoveIfLastRequest {
+  int32 portLabelId = 1;       // ID of the port label to detach.
+  int32 monitoringPortId = 2;  // Monitoring port ID from which to detach the port label.
+}
+
+message DetachPortLabelAndRemoveIfLastResponse {
+  /* 
+  Server sends SystemEventType.PortLabelDetached event with PortLabelDetachedData via server streaming.
+    "PortLabelDetachedData": {
+        "PortLabel": {
+          "Id": "int",
+          "Name": "string",
+          "HexColor": "string"
+        },
+        "MonitoringPortId": "int"
+    }
+ */
+}

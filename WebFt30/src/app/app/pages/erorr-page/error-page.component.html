@@ -1,0 +1,5 @@
+<div class="flex h-full flex-col items-center justify-center gap-3">
+  <div class="text-2xl">{{ 'i18n.error-page.oops-something-went-wrong' | translate }} 🥺</div>
+  <div class="dark:text-red-400 text-red-500">{{ error$ | async }}</div>
+  <button class="button-ok" (click)="navigateToRootAndReload()">{{ 'i18n.common.refresh' | translate }}</button>
+</div>

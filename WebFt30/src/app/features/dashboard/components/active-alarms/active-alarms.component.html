@@ -1,0 +1,18 @@
+<!-- <rtu-single-error-popup [errorMessageId$]="errorMessageId$"></rtu-single-error-popup> -->
+
+<ng-container *ngIf="activeAlarms$ | async as alarms">
+  <rtu-alarms-with-events-table mode="active" [alarms]="alarms" *ngIf="alarms.length > 0">
+  </rtu-alarms-with-events-table>
+
+  <div
+    *ngIf="alarms.length === 0 && (loading$ | async) === false"
+    class="flex h-full items-center justify-start"
+  >
+    <div class="ml-5 text-left text-sm text-green-600 dark:text-green-500">
+      {{ 'i18n.alarms.no-active-alarms' | translate }}!
+    </div>
+  </div>
+</ng-container>
+
+<!-- rtu-loading-centered-big-spinner must be the last element in a component -->
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>

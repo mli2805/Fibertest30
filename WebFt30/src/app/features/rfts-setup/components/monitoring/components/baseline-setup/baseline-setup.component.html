@@ -1,0 +1,239 @@
+<rtu-single-error-popup [errorMessageId$]="errorMessageId$"></rtu-single-error-popup>
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
+
+<rtu-baseline-status
+  *ngIf="monitoringPort"
+  class="fixed right-4 top-28 z-10 bg-rtu-primary-bg dark:bg-rtu-dark-primary-bg"
+  [monitoringPortId]="monitoringPort.id"
+></rtu-baseline-status>
+
+<div class="flex h-full w-full flex-col">
+  <div class="mx-2 flex justify-between">
+    <div class="flex">
+      <div class="mr-2 self-center">
+        {{ 'i18n.common.available-actions' | translate }}
+      </div>
+
+      <ng-container *ngIf="hasChangeMonitoringPortSettingsPermisson$ | async">
+        <div
+          class="available-action"
+          (click)="toggleSetNewBaseline()"
+          [ngClass]="{
+            'pointer-events-none': baseline === null,
+            'action-active': setNewBaseline,
+            'action-non-active': !setNewBaseline
+          }"
+        >
+          <!-- prettier-ignore -->
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+        </svg>
+          <div class="my-auto text-center text-xs">
+            {{ 'i18n.common.set-new-baseline' | translate }}
+          </div>
+        </div>
+      </ng-container>
+
+      <div
+        *ngIf="baseline !== null"
+        class="available-action action-non-active"
+        [ngClass]="{
+          'pointer-events-none': baseline === null
+        }"
+        (click)="saveSor()"
+      >
+        <rtu-save-button class="h-8 w-8" />
+        <div class="my-auto text-center text-xs">
+          {{ 'i18n.common.save-sor' | translate }}
+        </div>
+      </div>
+
+      <ng-container *ngIf="baseline !== null">
+        <ng-container *ngIf="hasChangeMonitoringPortSettingsPermisson$ | async">
+          <div class="available-action action-non-active" (click)="toggleMaintainace()">
+            <!-- prettier-ignore -->
+
+            <svg viewBox="0 0 40 40" class="w-8 h-8"
+            [ngClass]="{ 'toggle-maintainance-on': this.monitoringPort?.status === statuses.Maintenance }">
+              <path d="M394.231,1201.923v3.654a5.848,5.848,0,0,0,4.144,5.593l-.49,1.715a3.654,3.654,0,0,0,4.385,0l-.49-1.715a5.848,5.848,0,0,0,4.144-5.593v-3.654Z" transform="translate(-372.237 -1189.711)" fill="currentColor"/>
+              <path d="M364.173,1293.59a1.825,1.825,0,0,0-1.527.822l-2.613,3.964a.731.731,0,1,1-1.22-.8l1.124-1.705a35.714,35.714,0,0,0-1.542-3.943,6.192,6.192,0,0,0-2.627,5.063h0q0,.257.021.514l.523,6.275a2.441,2.441,0,0,0,4.546,1.019l4.953-8.569a1.609,1.609,0,0,0,.189-.808A1.827,1.827,0,0,0,364.173,1293.59Z" transform="translate(-339.51 -1266.311)" fill="currentColor"/>
+              <path d="M490.385,1282.419v15.535h4.385v-9.662A6.128,6.128,0,0,0,490.385,1282.419Z" transform="translate(-453.898 -1258.25)" fill="currentColor"/>
+              <path d="M403.869,1276.389a5.069,5.069,0,0,1-6.452,0l-.642-.64-1.878.782c.279.6.575,1.322.9,2.14a3.29,3.29,0,0,1,4.849,2.9,3.038,3.038,0,0,1-.385,1.541l-2.211,3.825a34.654,34.654,0,0,1,.4,5.231h9.5V1276.3l-3.283-.7Z" transform="translate(-372.926 -1252.461)" fill="currentColor"/>
+              <path d="M387.732,1132.308H387a7.308,7.308,0,1,0-14.616,0h-.731a1.462,1.462,0,1,0,0,2.923h16.078a1.462,1.462,0,0,0,0-2.923Z" transform="translate(-351.976 -1124.269)" fill="currentColor"/>
+              <path d="M313.6,1253.654a1.1,1.1,0,0,1,0-2.193,11.31,11.31,0,0,0,5.328-1.331,1.1,1.1,0,1,1,1.036,1.932A13.521,13.521,0,0,1,313.6,1253.654Z" transform="translate(-302.701 -1230.531)" fill="currentColor"/>
+              <path d="M273.809,1132.616a2.923,2.923,0,0,1-.62-5.78,8.651,8.651,0,0,1,.292-1.207,9.867,9.867,0,1,0,.712,6.987Zm-8.039-2.558a1.1,1.1,0,0,1-.321.775l-4.385,4.385a1.1,1.1,0,0,1-1.55-1.55l4.064-4.063v-4.662a1.1,1.1,0,1,1,2.192,0Z" transform="translate(-253.629 -1120.192)" fill="currentColor"/>
+              <circle cx="1.462" cy="1.462" r="1.462" transform="translate(0 20.144) rotate(-22.5)" fill="currentColor"/>
+              <circle cx="1.462" cy="1.462" r="1.462" transform="translate(1.179 25.244)" fill="currentColor"/>
+              <circle cx="1.462" cy="1.462" r="1.462" transform="translate(3.371 30.293)" fill="currentColor"/>
+              <circle cx="1.462" cy="1.462" r="1.462" transform="translate(7.655 34.588)" fill="currentColor"/>
+              <circle cx="1.462" cy="1.462" r="1.462" transform="translate(12.408 39.328) rotate(-76.717)" fill="currentColor"/>
+            </svg>
+
+            <div class="my-auto text-center text-xs">
+              {{ 'i18n.common.mainte-nance' | translate }}
+            </div>
+          </div>
+
+          <div class="available-action action-non-active" (click)="toggleMonitoring()">
+            <!-- prettier-ignore -->
+
+            <svg viewBox="0 0 40 40" class="w-8 h-8"
+              [ngClass]="{ 'toggle-monitoring-on': this.monitoringPort?.status === statuses.On }">
+              <g transform="translate(-4008 -6648)">
+                <g transform="translate(4008 6648)">
+                  <path d="M130,70a20,20,0,1,1,20-20A20.023,20.023,0,0,1,130,70Zm0-39.024A19.024,19.024,0,1,0,149.024,50,19.046,19.046,0,0,0,130,30.976Z" transform="translate(-110 -30)" fill="currentColor"/>
+                </g>
+                <g transform="translate(4017.225 6655.007)">
+                  <path d="M185.178,101.021a.7.7,0,0,0-.938.655v1.947a.693.693,0,0,0,.4.623,7.6,7.6,0,1,1-6.529,0,.7.7,0,0,0,.406-.634v-1.939a.7.7,0,0,0-.941-.655,10.775,10.775,0,1,0,7.6,0Z" transform="translate(-170.603 -97.451)" fill="currentColor"/>
+                  <path d="M239.875,87.4a1.59,1.59,0,0,0,1.59-1.59V76.59a1.59,1.59,0,0,0-3.18,0v9.221A1.59,1.59,0,0,0,239.875,87.4Z" transform="translate(-229.1 -75)" fill="currentColor"/>
+                </g>
+              </g>
+            </svg>
+
+            <div class="my-auto text-center text-xs">
+              {{ 'i18n.common.monitoring' | translate }}
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="measurementSettings$ | async as measurementSettings">
+        <ng-container *ngIf="hasChangeMonitoringPortSettingsPermisson$ | async">
+          <rtu-baseline-manual-setup-button
+            *ngIf="monitoringPort && (setNewBaseline || (showStart$ | async) === false)"
+            [measurementSettings]="measurementSettings"
+            [monitoringPortId]="monitoringPort.id"
+          >
+          </rtu-baseline-manual-setup-button>
+        </ng-container>
+      </ng-container>
+    </div>
+
+    <div class="flex" *ngIf="baseline !== null">
+      <div class="available-action action-non-active" (click)="linkMapMode = !linkMapMode">
+        <ng-container *ngIf="!linkMapMode">
+          <!-- prettier-ignore -->
+          <svg class="h-8 w-8" x="0px" y="0px" viewBox="0 0 40 40" enable-background="new 0 0 40 40">
+              <path fill="currentColor" d="M19,33V7c0-2.757-2.243-5-5-5h-4C7.244,2,5,4.244,5,7v18H3V7c0-3.859,3.14-7,7-7h4c3.86,0,7,3.141,7,7v26
+                    c0,2.758,2.242,5,5,5h4c2.756,0,5-2.242,5-5V17h2v16c0,3.859-3.141,7-7,7h-4C22.139,40,19,36.86,19,33z"/>
+              <circle fill="currentColor" cx="4" cy="24.854" r="4"/>
+              <circle fill="currentColor" cx="36" cy="17.104" r="4"/>
+            </svg>
+
+          <div class="my-auto text-center text-xs">
+            {{ 'i18n.on-demand.switch-to-link-map' | translate }}
+          </div>
+        </ng-container>
+        <ng-container *ngIf="linkMapMode">
+          <!-- prettier-ignore -->
+          <svg class="h-8 w-8" x="0px" y="0px" viewBox="0 0 40 40" enable-background="new 0 0 40 40">
+              <path fill="currentColor" d="M40,32.292l-5.256-4.645c-0.266-0.232-0.617-0.34-0.969-0.287c-0.35,0.051-0.658,0.254-0.846,0.555
+                    l-2.889,4.656L27.84,3.584c-0.045-0.601-0.529-1.075-1.131-1.107c-0.6-0.02-1.133,0.385-1.244,0.978l-3.764,20.103L0,22.432v2.402
+                    l22.625,1.174c0.609,0.037,1.133-0.385,1.242-0.977l2.273-12.142l1.785,23.527c0.039,0.518,0.408,0.951,0.912,1.074
+                    c0.502,0.123,1.029-0.092,1.305-0.531l4.078-6.572L40,35.495V32.292z"/>
+              <g>
+                <rect x="4.5" y="6.5" fill="currentColor" width="1" height="7"/>
+                <rect x="4.5" y="0" fill="currentColor" width="1" height="3.5"/>
+                <rect x="4.5" y="36.5" fill="currentColor" width="1" height="3.5"/>
+                <rect x="4.5" y="16.5" fill="currentColor" width="1" height="7"/>
+                <rect x="4.5" y="26.5" fill="currentColor" width="1" height="7"/>
+              </g>
+              <g>
+                <rect x="19.5" y="6.5" fill="currentColor" width="1" height="7"/>
+                <rect x="19.5" y="0" fill="currentColor" width="1" height="3.5"/>
+                <rect x="19.5" y="36.5" fill="currentColor" width="1" height="3.5"/>
+                <rect x="19.5" y="16.5" fill="currentColor" width="1" height="7"/>
+                <rect x="19.5" y="26.5" fill="currentColor" width="1" height="7"/>
+              </g>
+              <g>
+                <rect x="34.5" y="6.5" fill="currentColor" width="1" height="7"/>
+                <rect x="34.5" y="0" fill="currentColor" width="1" height="3.5"/>
+                <rect x="34.5" y="36.5" fill="currentColor" width="1" height="3.5"/>
+                <rect x="34.5" y="16.5" fill="currentColor" width="1" height="7"/>
+                <rect x="34.5" y="26.5" fill="currentColor" width="1" height="7"/>
+              </g>
+            </svg>
+
+          <div class="my-auto text-center text-xs">
+            {{ 'i18n.on-demand.switch-to-otdr' | translate }}
+          </div>
+        </ng-container>
+      </div>
+      <div class="available-action action-non-active" (click)="toggleFullScreen()">
+        <!-- prettier-ignore -->
+        <svg *ngIf="!fullScreen" class="h-8 w-8" viewBox="0 0 100 100">
+        <path d="M10 40 V10 H40 M60 10 H90 V40 M 90 60 V90 H60 M 40 90 H10 V60" stroke="currentColor" fill="none" stroke-width="10" />
+      </svg>
+        <!-- prettier-ignore -->
+        <svg *ngIf="fullScreen"  class="h-8 w-8" viewBox="0 0 100 100">
+        <path d="M10 40 H40 V10 M60 10 V40 H90 M 90 60 H60 V90 M 40 90 V60 H10" stroke="currentColor" fill="none" stroke-width="10" />
+       </svg>
+
+        <div class="my-auto text-center text-xs">
+          <span *ngIf="!fullScreen">{{ 'i18n.common.expand' | translate }}</span>
+          <span *ngIf="fullScreen">{{ 'i18n.common.minimize' | translate }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="!fullScreen">
+    <div class="m-2 flex flex-wrap gap-2">
+      <!-- <div class="grouped-border">
+        <div class="label-color mb-2">{{ 'i18n.on-demand.on-demand-settings' | translate }}</div>
+        <rtu-on-demand-test-settings></rtu-on-demand-test-settings>
+      </div> -->
+      <ng-container *ngIf="setNewBaseline">
+        <div
+          class="grouped-border"
+          *ngIf="supportedMeasurementParameters$ | async as supportedMeasurementParameters"
+        >
+          <div class="label-color mb-2">
+            {{ 'i18n.measurement.measurement-settings' | translate }}
+          </div>
+          <rtu-measurement-settings></rtu-measurement-settings>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!fullScreen">
+    <ng-container *ngIf="!setNewBaseline">
+      <ng-container *ngIf="baseline && monitoringPort">
+        <div class="flex max-h-[40%] flex-1 justify-between">
+          <rtu-quick-analysis
+            class="flex-1"
+            [monitoringPortId]="baseline.monitoringPortId"
+          ></rtu-quick-analysis>
+          <rtu-port-dashboard-info
+            [monitoringPort]="monitoringPort"
+            [lastMonitoringCompletedAt]="lastMonitoring?.completedAt || null"
+            class="mx-5"
+          ></rtu-port-dashboard-info>
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+
+  <div class="w-full flex-1" *ngIf="!setNewBaseline && baseline !== null && baselineTrace !== null">
+    <rtu-sor-result-baseline-provider
+      *ngIf="!linkMapMode"
+      [result]="lastMonitoringTrace"
+      [baseline]="baselineTrace"
+    ></rtu-sor-result-baseline-provider>
+
+    <rtu-link-map-area-provider
+      *ngIf="linkMapMode"
+      [vscout]="lastMonitoringLinkmap || baselineLinkmap!"
+    ></rtu-link-map-area-provider>
+  </div>
+
+  <ng-container *ngIf="progress$ | async">
+    <div class="h-full w-full flex-1" *ngIf="lastProgressSorTrace$ | async as lastProgressSorTrace">
+      <rtu-sor-viewer-realtime-provider
+        *ngIf="lastProgressSorTrace"
+        [sor]="lastProgressSorTrace"
+      ></rtu-sor-viewer-realtime-provider>
+    </div>
+  </ng-container>
+</div>

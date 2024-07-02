@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\..\src\Fibertest30.Api\Protos\data.core.proto" GrpcServices="Client" />
+    <Protobuf Include="..\..\src\Fibertest30.Api\Protos\data.otdr.proto" GrpcServices="Client" />
+    <Protobuf Include="..\..\src\Fibertest30.Api\Protos\data.monitoring.proto" GrpcServices="Client" />
+    <Protobuf Include="..\..\src\Fibertest30.Api\Protos\identity.proto" GrpcServices="Client">
+      <Link>Core\Client\Protos\identity.proto</Link>
+    </Protobuf>
+    <Protobuf Include="..\..\src\Fibertest30.Api\Protos\measurement.proto" ProtoRoot="..\..\src\Fibertest30.Api\Protos" GrpcServices="Client">
+      <Link>Core\Client\Protos\measurement.proto</Link>
+    </Protobuf>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="6.10.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.22.1" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.52.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.53.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.2.2" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.2.2" />
+    <PackageReference Include="coverlet.collector" Version="3.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Fibertest30.Api\Fibertest30.Api.csproj" />
+    <ProjectReference Include="..\Fibertest30.TestUtils\Fibertest30.TestUtils.csproj" />
+  </ItemGroup>
+
+</Project>

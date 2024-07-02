@@ -1,0 +1,135 @@
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
+<rtu-single-error-popup [errorMessageId$]="errorMessageId$"></rtu-single-error-popup>
+
+<div class="flex w-full flex-col">
+  <div class="flex w-full flex-row gap-2">
+    <div class="m-2 flex-1">
+      <ng-container *ngIf="otauConfig !== null">
+        <div>
+          <div
+            class="grouped-border min-h-32 w-80"
+            [ngClass]="{ 'animate-pulse-2': blinking(otauConfig.Ocm.EmulatedOtauId) }"
+          >
+            <rtu-otau-emulator
+              [otau]="otauConfig.Ocm"
+              [exceptionExpanded]="exceptionExpanded"
+              (exceptionExpandedChange)="exceptionExpanded = !exceptionExpanded"
+              (otauChange)="saveOtauConfig()"
+            >
+              <div class="flex justify-between">
+                <div>OCM</div>
+                <ng-container
+                  *ngTemplateOutlet="
+                    otauActionTemplate;
+                    context: { emulatedOtauId: otauConfig.Ocm.EmulatedOtauId }
+                  "
+                ></ng-container>
+              </div>
+            </rtu-otau-emulator>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap content-start gap-2">
+          <div
+            class="grouped-border min-h-32 w-80"
+            *ngFor="let otau of otauConfig.Osm"
+            [ngClass]="{ 'animate-pulse-2': blinking(otau.EmulatedOtauId) }"
+          >
+            <rtu-otau-emulator
+              [otau]="otau"
+              [exceptionExpanded]="exceptionExpanded"
+              (exceptionExpandedChange)="exceptionExpanded = !exceptionExpanded"
+              (otauChange)="saveOtauConfig()"
+            >
+              <div class="flex justify-between">
+                <span>
+                  <span>OSM</span>
+                  <span class="ml-2 font-bold text-blue-600 dark:text-blue-400">
+                    {{ otau.ChainAddress }}
+                  </span>
+                </span>
+                <ng-container
+                  *ngTemplateOutlet="
+                    otauActionTemplate;
+                    context: { emulatedOtauId: otau.EmulatedOtauId }
+                  "
+                ></ng-container>
+              </div>
+            </rtu-otau-emulator>
+          </div>
+        </div>
+        <div class="flex flex-wrap content-start gap-2">
+          <div
+            class="grouped-border min-h-32 w-80"
+            *ngFor="let otau of otauConfig.Oxc"
+            [ngClass]="{ 'animate-pulse-2': blinking(otau.EmulatedOtauId) }"
+          >
+            <rtu-otau-emulator
+              [otau]="otau"
+              [exceptionExpanded]="exceptionExpanded"
+              (exceptionExpandedChange)="exceptionExpanded = !exceptionExpanded"
+              (otauChange)="saveOtauConfig()"
+            >
+              <div class="flex justify-between">
+                <span>
+                  <span>OXC</span>
+                  <span class="ml-2 text-blue-600 dark:text-blue-400"
+                    >{{ otau.Ip }}:{{ otau.Port }}</span
+                  >
+                </span>
+                <ng-container
+                  *ngTemplateOutlet="
+                    otauActionTemplate;
+                    context: { emulatedOtauId: otau.EmulatedOtauId }
+                  "
+                ></ng-container>
+              </div>
+            </rtu-otau-emulator>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="m-2 text-sm">
+      <div *ngIf="lastOtdrEvent">
+        <div class="text-yellow-400">
+          <div>{{ lastOtdrEvent.Action }}</div>
+        </div>
+        <div *ngIf="lastOtdrEvent.Action === 'MeasureProgress'" class="grid grid-cols-2 gap-x-4">
+          <div>Progress</div>
+          <div>{{ (lastOtdrEvent.Parameters.Progress * 100).toFixed(1) }}</div>
+          <div>Laser</div>
+          <div>{{ lastOtdrEvent.Parameters.Laser }}</div>
+          <div>DistanceRange</div>
+          <div>{{ lastOtdrEvent.Parameters.DistanceRange }}</div>
+          <div>AveragingTime</div>
+          <div>{{ lastOtdrEvent.Parameters.AveragingTime }}</div>
+          <div>Resolution</div>
+          <div>{{ lastOtdrEvent.Parameters.Resolution }}</div>
+          <div>Pulse</div>
+          <div>{{ lastOtdrEvent.Parameters.Pulse }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="m-2">
+    <rtu-emulator-port-changes
+      *ngIf="portChanges && otauConfig"
+      [portChanges]="portChanges"
+      [otauConfig]="otauConfig"
+      (configChange)="saveOtauPortChangesConfig($event)"
+    ></rtu-emulator-port-changes>
+  </div>
+</div>
+<ng-template #otauActionTemplate let-emulatedOtauId="emulatedOtauId">
+  <div
+    *ngIf="lastOtauAction(emulatedOtauId) as lastOtauAction; else lastSetPort"
+    class="text-yellow-400"
+  >
+    {{ lastOtauAction }}
+  </div>
+  <ng-template #lastSetPort>
+    <div *ngIf="lastOtauSetPort(emulatedOtauId) as lastOtauSetPort" class="text-yellow-400">
+      {{ lastOtauSetPort }}
+    </div>
+  </ng-template>
+</ng-template>

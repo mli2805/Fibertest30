@@ -1,0 +1,203 @@
+<div class="grouped-border min-w-144">
+  <div class="flex flex-col">
+    <div [formGroup]="form">
+      <div class="mx-2 flex justify-between">
+        <label style="grid-area: enabledLabel" class="my-auto text-base">{{
+          'i18n.notification-settings.email-notifications' | translate
+        }}</label>
+        <label
+          style="grid-area: enabledValue"
+          class="toggle my-2 place-self-end"
+          [ngClass]="{ 'inaccessible-slider': isSlidersDisabled() }"
+        >
+          <input formControlName="enabled" type="checkbox" />
+          <div class="slider"></div>
+        </label>
+      </div>
+
+      <fieldset [disabled]="isSettingsOff()">
+        <div class="grid-container mx-2 gap-x-6 gap-y-2 text-sm">
+          <label
+            style="grid-area: serverAddressLabel"
+            class="my-auto"
+            [ngClass]="{ 'disabled-label': isSettingsOff() }"
+            >{{ 'i18n.notification-settings.smtp-server-address' | translate }}</label
+          >
+          <div style="grid-area: serverAddressValue">
+            <input
+              formControlName="smtpServerAddress"
+              [ngClass]="{ 'invalid-border': !isServerAddressValid() }"
+              type="text"
+              class="input-simple w-full"
+            />
+          </div>
+
+          <label
+            style="grid-area: serverPortLabel"
+            class="my-auto"
+            [ngClass]="{ 'disabled-label': isSettingsOff() }"
+            >{{ 'i18n.notification-settings.smtp-server-port' | translate }}</label
+          >
+          <rtu-select
+            style="grid-area: serverPortValue"
+            formControlName="smtpServerPort"
+            [items]="ports"
+          >
+            <ng-template rtuSelectLabel let-selectedItem>
+              <div class="pl-1">{{ selectedItem }}</div>
+            </ng-template>
+            <ng-template rtuSelectItem let-item>
+              {{ item }}
+            </ng-template>
+          </rtu-select>
+
+          <label
+            style="grid-area: outgoingAddressLabel"
+            class="my-auto"
+            [ngClass]="{ 'disabled-label': isSettingsOff() }"
+            >{{ 'i18n.notification-settings.outgoing-email-address' | translate }}</label
+          >
+          <div style="grid-area: outgoingAddressValue">
+            <input
+              formControlName="outgoingAddress"
+              [ngClass]="{ 'invalid-border': !isEmailValid() }"
+              type="text"
+              class="input-simple w-full"
+            />
+          </div>
+
+          <label
+            style="grid-area: isAuthenticationOnLabel"
+            class="my-auto"
+            [ngClass]="{ 'disabled-label': isSettingsOff() }"
+            >{{ 'i18n.notification-settings.authentication' | translate }}</label
+          >
+          <label
+            style="grid-area: isAuthenticationOnValue"
+            class="toggle my-2 place-self-end"
+            [ngClass]="{ 'disabled-slider': isSlidersDisabled() }"
+          >
+            <input
+              formControlName="isAuthenticationOn"
+              type="checkbox"
+              (change)="onIsAuthenticationOnChanged()"
+            />
+            <div class="slider"></div>
+          </label>
+
+          <ng-container *ngIf="isAuthenticationOn">
+            <label
+              style="grid-area: usernameLabel"
+              class="my-auto"
+              [ngClass]="{ 'disabled-label': isSettingsOff() }"
+              >{{ 'i18n.notification-settings.smtp-server-username' | translate }}</label
+            >
+            <div style="grid-area: usernameValue">
+              <input
+                formControlName="serverUserName"
+                [ngClass]="{ 'invalid-border': !isUserNameValid() }"
+                type="text"
+                class="input-simple w-full"
+              />
+            </div>
+
+            <label
+              style="grid-area: passwordLabel"
+              class="my-auto"
+              [ngClass]="{ 'disabled-label': isSettingsOff() }"
+              >{{ 'i18n.notification-settings.smtp-server-password' | translate }}</label
+            >
+            <div style="grid-area: passwordValue" class="relative">
+              <rtu-input-password-with-eye
+                #psw
+                [showPlaceholder]="emailServer.isPasswordSet"
+                [placeholder]="passwordPlaceholder"
+                (changedValueEvent)="onPasswordChanged($event)"
+              ></rtu-input-password-with-eye>
+            </div>
+          </ng-container>
+
+          <label
+            style="grid-area: verifyCertificateLabel"
+            class="my-auto"
+            [ngClass]="{ 'disabled-label': isSettingsOff() }"
+            >{{ 'i18n.notification-settings.verify-smtp-server-certificate' | translate }}</label
+          >
+          <label
+            style="grid-area: verifyCertificateValue"
+            class="toggle my-2 place-self-end"
+            [ngClass]="{ 'disabled-slider': isSlidersDisabled() }"
+          >
+            <input formControlName="verifyCertificate" type="checkbox" />
+            <div class="slider"></div>
+          </label>
+
+          <label
+            *ngIf="false"
+            style="grid-area: floodingPolicyLabel"
+            class="my-auto"
+            [ngClass]="{ 'disabled-label': isSettingsOff() }"
+            >{{ 'i18n.notification-settings.enable-email-flooding-policy' | translate }}</label
+          >
+          <label
+            *ngIf="false"
+            style="grid-area: floodingPolicyValue"
+            class="toggle my-2 place-self-end"
+            [ngClass]="{ 'disabled-slider': isSlidersDisabled() }"
+          >
+            <input formControlName="floodingPolicy" type="checkbox" />
+            <div class="slider"></div>
+          </label>
+
+          <label
+            *ngIf="false"
+            style="grid-area: smsOverSmtpLabel"
+            class="my-auto"
+            [ngClass]="{ 'disabled-label': isSettingsOff() }"
+            >{{ 'i18n.notification-settings.send-sms-over-smtp' | translate }}</label
+          >
+          <label
+            *ngIf="false"
+            style="grid-area: smsOverSmtpValue"
+            class="toggle my-2 place-self-end"
+            [ngClass]="{ 'disabled-slider': isSlidersDisabled() }"
+          >
+            <input formControlName="smsOverSmtp" type="checkbox" />
+            <div class="slider"></div>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="flex flex-col pt-2">
+        <div *ngIf="testingEmailServer$ | async" class="flex items-center">
+          <rtu-loading-spinner class="ml-2 h-4 w-4"></rtu-loading-spinner>
+          <span class="text-data-highlight ml-3">{{ 'i18n.common.sending' | translate }}</span>
+        </div>
+        <div *ngIf="testSuccess$ | async" class="ml-3 text-green-600">
+          {{ 'i18n.common.success' | translate }}
+        </div>
+        <div *ngIf="testFailureId$ | async as message" class="ml-3 text-red-600">
+          {{ message | translate }}
+        </div>
+
+        <div class="flex">
+          <button
+            class="button-ok mx-1 mt-4 w-full"
+            (click)="onTestSmtpClicked()"
+            [disabled]="!formValidAndEmailsEnabled() || (testingEmailServer$ | async)"
+          >
+            {{ 'i18n.notification-settings.test-smtp-configuration' | translate }}
+          </button>
+
+          <button
+            class="button-ok mx-1 mt-4 w-full"
+            (click)="onApplyClicked()"
+            [disabled]="!isApplyEnabled()"
+          >
+            {{ 'i18n.common.apply' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

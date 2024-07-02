@@ -1,0 +1,8 @@
+<div *ngIf="datasets.length === 0" class="ml-5 text-left text-sm">
+  {{ 'i18n.common.no-data' | translate }}
+</div>
+
+<!-- not sure why max-height: 100% doesn't work (doesn't shrink when resize to smaller height) -->
+<div class="flex flex-1">
+  <canvas #MyChart style="max-width: 100%; max-height: 99%"> </canvas>
+</div>

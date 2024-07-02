@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+  <meta charset="utf-8">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings xmlns:o="urn:schemas-microsoft-com:office:office">
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <style>
+    td,th,div,p,a,h1,h2,h3,h4,h5,h6 {font-family: "Segoe UI", sans-serif; mso-line-height-rule: exactly;}
+  </style>
+  <![endif]-->
+  <title>RFTS Alarm</title>
+  <style>
+    .alarm-minor {
+      color: #facc15;
+    }
+    .alarm-major {
+      color: #f97316;
+    }
+    .alarm-critical {
+      color: #ef4444;
+    }
+    .alarm-resolved {
+      color: #16a34a;
+    }
+    .bg-table-even-row {
+      background-color: #F9F9F9
+    }
+    .bg-table-odd-row {
+      background-color: #F1F1F1
+    }
+    @media (max-width: 600px) {
+      .sm-my-2 {
+        margin-top: 8px !important;
+        margin-bottom: 8px !important
+      }
+      .sm-px-3 {
+        padding-left: 12px !important;
+        padding-right: 12px !important
+      }
+      .sm-leading-8 {
+        line-height: 32px !important
+      }
+    }
+  </style>
+</head>
+<body style="margin: 0; width: 100%; background-color: #F9F9F9; padding: 0; color: black; -webkit-font-smoothing: antialiased">
+  <table align="center" class="sm-my-2" style="margin-top: 16px; margin-bottom: 16px; background-color: #F9F9F9; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; color: black" cellpadding="0" cellspacing="0" role="none">
+    <tr>
+      <td style="width: 640px; max-width: 100%">
+        <div style="text-align: right">
+          <a href="https://www.veexinc.com">
+            <img alt="VeEx logo" width="170" height="69" src="https://download.veexinc.com/SecuredDownload/VeEX-logo-480-207.png" style="max-width: 100%; vertical-align: middle; line-height: 1">
+          </a>
+        </div>
+        <div role="article">
+          <table style="width: 100%;" cellpadding="0" cellspacing="0" role="none">
+            <th>
+            </th>
+            <td class="sm-px-3" style="border-radius: 4px; padding: 24px; font-size: 16px">
+              <h1 class="sm-leading-8" style="margin: 0 0 8px; text-align: center; font-size: 24px; font-weight: 600">
+                <div>RFTS Alarm</div>
+              </h1>
+              <div style="margin-bottom: 16px; margin-top: 24px; font-size: 20px; font-weight: 600">
+                Alarm Overview
+              </div>
+              <table style="margin-top: 4px; width: 100%; table-layout: fixed; border: 1px solid transparent" cellpadding="0" cellspacing="0" role="none">
+                <thead>
+                  <tr style="background-color: #F9F9F9; color: black; color: #4b5563">
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-table-odd-row" style="background-color: #F1F1F1;">
+                    <td style="border: 1px solid transparent; padding: 8px">
+                      Alarm ID
+                    </td>
+                    <td style="border: 1px solid transparent; padding: 8px;">
+                      {{ Alarm.GroupId }}
+                    </td>
+                  </tr>
+                  <tr class="bg-table-even-row" style="background-color: #F9F9F9;">
+                    <td style="border: 1px solid transparent; padding: 8px;">
+                      Port
+                    </td>
+                    <td style="border: 1px solid transparent; padding: 8px;">{{ if Port.CascadeOtauPortIndex != null  }}
+                      <div>
+                        <span style="font-weight: 700; color: #2563eb">{{ Port.OcmOtauPortIndex }}</span>
+                        <span>/</span>
+                        <span>{{ Port.CascadeOtauPortIndex }}</span>
+                      </div>
+                      {{ else }}
+                      <div>
+                        <span style="font-weight: 700; color: #2563eb;">{{ Port.OcmOtauPortIndex }}</span>
+                      </div>
+                      {{ end }}
+                    </td>
+                  </tr>
+                  <tr class="bg-table-odd-row" style="background-color: #F1F1F1;">
+                    <td style="border: 1px solid transparent; padding: 8px;">
+                      Alarm level
+                    </td>
+                    <td class="alarm-{{ Alarm.LevelColor }}" style="border: 1px solid transparent; padding: 8px;">
+                      {{ Alarm.Level }}
+                    </td>
+                  </tr>
+                  <tr class="bg-table-even-row" style="background-color: #F9F9F9;">
+                    <td style="border: 1px solid transparent; padding: 8px;">
+                      Alarm type
+                    </td>
+                    <td style="border: 1px solid transparent; padding: 8px;">
+                      {{ Alarm.Type }}
+                    </td>
+                  </tr>
+                  <tr class="bg-table-odd-row" style="background-color: #F1F1F1;">
+                    <td style="border: 1px solid transparent; padding: 8px;">
+                      Optical distance
+                    </td>
+                    <td style="border: 1px solid transparent; padding: 8px;">
+                      {{ Alarm.Distance }}
+                    </td>
+                  </tr>
+                  <tr class="bg-table-even-row" style="background-color: #F9F9F9;">
+                    <td style="border: 1px solid transparent; padding: 8px;">
+                      Alarm status
+                    </td>
+                    <td class="alarm-{{ Alarm.StatusColor }}" style="border: 1px solid transparent; padding: 8px;">
+                      {{ Alarm.Status }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table> {{ if Alarm.Change.ShowDistances  }}
+              <div style="margin: 16px; min-width: 200px">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" role="none">
+                  <tr>
+                    <td width="25%">&nbsp;</td>
+                    <td style="text-align: left;"> {{ Alarm.Change.BaselineLeftDeltaDistance }}</td>
+                    <td style="text-align: right;">{{ Alarm.Change.BaselineRightDeltaDistance }}</td>
+                    <td width="25%">&nbsp;</td>
+                  </tr>
+                </table> <img src="https://download.veexinc.com/SecuredDownload/rfts400-alarm-distance-998-64.png" style="max-width: 100%; vertical-align: middle; line-height: 1; height: 32px; width: 100%;" alt="Description">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" role="none">
+                  <tr>
+                    <td width="45%" style="text-align: left;">{{ Alarm.Change.BaselineLeftComment }}</td>
+                    <td width="10%" style="text-align: center;"> {{ Alarm.Distance }}</td>
+                    <td width="45%" style="text-align: right;">{{ Alarm.Change.BaselineRightComment }}</td>
+                  </tr>
+                </table>
+              </div>
+              {{ end }}
+              <div style="margin-bottom: 16px; margin-top: 24px; font-size: 20px; font-weight: 600;">
+                Alarm History
+              </div>
+              <table style="margin-top: 4px; width: 100%; table-layout: fixed; border: 1px solid transparent;" cellpadding="0" cellspacing="0" role="none">
+                <thead>
+                  <tr style="background-color: #F9F9F9; color: black; color: #4b5563;">
+                    <td style="padding: 8px; text-align: left">Datetime</td>
+                    <td style="padding: 8px; text-align: left;">Status</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{ for Event in Alarm.Events }}
+                  <tr class="bg-table-{{ Event.EvenOrOdd }}-row">
+                    <td style="border: 1px solid transparent; padding: 8px;">
+                      {{ Event.At }}
+                    </td>
+                    <td style="border: 1px solid transparent; padding: 8px;">
+                      {{ if Event.OldLevelValue == null || Event.OldStatusValue != null }}
+                      <div class="alarm-{{ Event.StatusColor }}">
+                        {{ Event.Status }}
+                      </div>
+                      {{ end }} {{ if Event.OldLevelValue != null && Event.OldStatusValue == null  }}
+                      <div>
+                        <span>{{ Event.OldLevel }}</span>
+                        <span>&rarr;</span>
+                        <span class="alarm-{{ Event.StatusColor }}">{{ Event.Level }}</span>
+                      </div>
+                      {{ end }}
+                    </td>
+                  </tr>
+                  {{ end }}
+                </tbody>
+              </table>
+            </td>
+          </table>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-top: 8px; padding-bottom: 8px">
+        <table style="margin: 0; width: 100%; font-size: 14px; color: #64748b" cellpadding="0" cellspacing="0" role="none">
+          <tr>
+            <td style="text-align: center;">RTU SN <span style="margin-left: 8px">{{ Device.SerialNumber }}</span></td>
+          </tr>
+          <tr>
+            <td style="text-align: center;">IP Address<span style="margin-left: 8px;">{{ Device.IpAddress }}</span></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

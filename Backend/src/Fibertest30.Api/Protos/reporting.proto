@@ -1,0 +1,282 @@
+syntax = "proto3";
+import "data.core.proto";
+import "data.otdr.proto";
+import "data.monitoring.proto";
+import "data.reporting.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Fibertest30.Api";
+package fibertest30.reporting;
+
+service Reporting {
+  rpc GetAlarm (GetAlarmRequest) returns (GetAlarmResponse);
+  rpc GetActiveAlarms (GetActiveAlarmsRequest) returns (GetActiveAlarmsResponse);
+  rpc GetAllAlarms (GetAllAlarmsRequest) returns (GetAllAlarmsResponse);
+  rpc GetSystemEvents (GetSystemEventsRequest) returns (GetSystemEventsResponse);
+  
+  rpc GetOnDemands (GetOnDemandsRequest) returns (GetOnDemandsResponse);
+  rpc GetOnDemand(GetOnDemandRequest) returns (GetOnDemandResponse);
+  rpc GetOnDemandTrace(GetOnDemandTraceRequest) returns (GetOnDemandTraceResponse);
+  rpc GetOnDemandLinkmap(GetOnDemandLinkmapRequest) returns (GetOnDemandLinkmapResponse);
+
+  rpc GetMonitorings (GetMonitoringsRequest) returns (GetMonitoringsResponse);
+  rpc GetMonitoring(GetMonitoringRequest) returns (GetMonitoringResponse);
+  rpc GetMonitoringTrace(GetMonitoringTraceRequest) returns (GetMonitoringTraceResponse);
+  rpc GetMonitoringLinkmap(GetMonitoringLinkmapRequest) returns (GetMonitoringLinkmapResponse);
+
+  rpc GetBaselines(GetBaselinesRequest) returns (GetBaselinesResponse);
+  rpc GetBaseline(GetBaselineRequest) returns (GetBaselineResponse);
+  rpc GetBaselineTrace(GetBaselineTraceRequest) returns (GetBaselineTraceResponse);
+  rpc GetBaselineLinkmap(GetBaselineLinkmapRequest) returns (GetBaselineLinkmapResponse);
+
+  rpc GetAlarmEvents(GetAlarmEventsRequest) returns (GetAlarmEventsResponse);
+  
+  rpc GetLastMonitoring(GetLastMonitoringRequest) returns (GetLastMonitoringResponse);
+  rpc GetLastMonitoringTrace(GetLastMonitoringTraceRequest) returns (GetLastMonitoringTraceResponse);
+  rpc GetLastMonitoringLinkmap(GetLastMonitoringLinkmapRequest) returns (GetLastMonitoringLinkmapResponse);
+
+  rpc GetMonitoringTraceAndBase(GetMonitoringTraceAndBaseRequest) returns (GetMonitoringTraceAndBaseResponse);
+}
+
+
+// GetAlarm
+
+message GetAlarmRequest {
+  int32 Id = 1;
+}
+
+message GetAlarmResponse {
+  data.monitoring.MonitoringAlarm alarm = 1;
+}
+
+// GetActiveAlarmsRequest
+
+message GetActiveAlarmsRequest {
+}
+
+message GetActiveAlarmsResponse {
+   repeated data.monitoring.MonitoringAlarm activeAlarms = 1;
+}
+
+// GetAllAlarms
+message GetAllAlarmsRequest {
+    repeated int32 monitoringPortIds = 1;
+}
+
+message GetAllAlarmsResponse {
+   repeated data.monitoring.MonitoringAlarm allAlarms = 1;
+}
+
+// GetSystemEvents
+
+message GetSystemEventsRequest {
+}
+
+message GetSystemEventsResponse {
+    repeated data.core.SystemEvent systemEvents = 1;
+}
+
+// GetOnDemands
+
+message CompletedOnDemand {
+  string id = 1;
+  string CreatedByUserId = 2;
+  google.protobuf.Timestamp completedAt = 3;
+  int32 monitoringPortId = 4;
+  data.otdr.MeasurementSettings measurementSettings = 5;
+}
+
+message GetOnDemandsRequest {
+    repeated int32 monitoringPortIds = 1;
+}
+
+message GetOnDemandsResponse {
+    repeated CompletedOnDemand onDemands = 1;
+}
+
+// GetOnDemand
+
+message GetOnDemandRequest {
+  string onDemandId = 1;
+}
+
+message GetOnDemandResponse {
+  CompletedOnDemand onDemand = 1;
+}
+
+// GetOnDemandTrace
+
+message GetOnDemandTraceRequest {
+  string onDemandId = 1;
+  bool vxsorFormat = 2;
+}
+
+message GetOnDemandTraceResponse {
+  bytes sor = 1;
+}
+
+// GetOnDemandLinkmap
+
+message GetOnDemandLinkmapRequest {
+  string onDemandId = 1;
+  double macrobendThreshold = 2;
+}
+
+message GetOnDemandLinkmapResponse {
+  bytes lmap = 1;
+}
+
+// GetMonitorings
+
+message MonitoringResult {
+  int32 id = 1;
+  google.protobuf.Timestamp completedAt = 2;
+  int32 monitoringPortId = 3;
+  data.otdr.MeasurementSettings measurementSettings = 4;
+  int32 baselineId = 5;
+  data.monitoring.MonitoringAlarmLevel mostSevereChangeLevel =6;
+  int32 changesCount = 7;
+  string jsonChanges = 8;
+}
+
+message GetMonitoringsRequest {
+    repeated int32 monitoringPortIds = 1;
+    data.reporting.DateTimeFilter dateTimeFilter = 2;
+}
+
+message GetMonitoringsResponse {
+  repeated MonitoringResult monitorings = 1;
+}
+
+// GetMonitoring
+
+message GetMonitoringRequest {
+  int32 monitoringId = 1;
+}
+
+message GetMonitoringResponse {
+  MonitoringResult monitoring = 1;
+}
+
+// GetMonitoringTrace
+
+message GetMonitoringTraceRequest {
+  int32 monitoringId = 1;
+  bool vxsorFormat = 2;
+}
+
+message GetMonitoringTraceResponse {
+  bytes sor = 1;
+}
+
+// GetMonitoringLinkmap
+
+message GetMonitoringLinkmapRequest {
+  int32 monitoringId = 1;
+  double macrobendThreshold = 2;
+}
+
+message GetMonitoringLinkmapResponse {
+  bytes lmap = 1;
+}
+
+
+//GetBaselines
+message GetBaselinesRequest {
+    repeated int32 monitoringPortIds = 1;
+}
+
+message GetBaselinesResponse {
+  repeated data.core.MonitoringBaseline baselines = 1;
+}
+
+
+//GetBaseline
+
+message GetBaselineRequest {
+  int32 baselineId = 1;
+}
+
+message GetBaselineResponse {
+  data.core.MonitoringBaseline baseline = 1;
+}
+
+// GetBaselineTrace 
+
+message GetBaselineTraceRequest {
+  int32 baselineId = 1;
+  bool vxsorFormat = 2;
+}
+
+message GetBaselineTraceResponse {
+  bytes sor = 1;
+}
+
+// GetBaselineLinkmap 
+
+message GetBaselineLinkmapRequest {
+  int32 baselineId = 1;
+  double macrobendThreshold = 2;
+}
+
+message GetBaselineLinkmapResponse {
+  bytes lmap = 1;
+}
+
+// GetMonitoringTraceAndBase
+message GetMonitoringTraceAndBaseRequest {
+  int32 monitoringId = 1;
+  bool vxsorFormat = 2;
+}
+
+message GetMonitoringTraceAndBaseResponse {
+  bytes archive = 1;
+}
+
+// GetAlarmEvents
+
+message GetAlarmEventsRequest {
+    repeated int32 monitoringPortIds = 1;
+}
+
+message GetAlarmEventsResponse {
+    repeated data.monitoring.MonitoringAlarmEvent alarmEvents = 1;
+}
+
+
+// GetLastMonitoring
+
+message GetLastMonitoringRequest {
+    int32 monitoringPortId = 1;
+    int32 baselineId = 2;
+}
+
+message GetLastMonitoringResponse {
+    MonitoringResult monitoring = 1;
+}
+
+
+// GetLastMonitoringTrace
+
+message GetLastMonitoringTraceRequest {
+    int32 monitoringPortId = 1;
+    int32 baselineId = 2;
+    bool vxsorFormat = 3;
+}
+
+message GetLastMonitoringTraceResponse {
+    bytes sor = 1;
+}
+
+// GetLastMonitoringLinkmap
+
+message GetLastMonitoringLinkmapRequest {
+    int32 monitoringPortId = 1;
+    int32 baselineId = 2;
+    double macrobendThreshold = 3;
+}
+
+message GetLastMonitoringLinkmapResponse {
+    bytes lmap = 1;
+}
+

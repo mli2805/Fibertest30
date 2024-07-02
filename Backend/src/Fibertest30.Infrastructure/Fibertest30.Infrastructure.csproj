@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fibertest30.Application\Fibertest30.Application.csproj" />
+    <ProjectReference Include="..\Fibertest30.Infrastructure.Device\Fibertest30.Infrastructure.Device.csproj" />
+    <ProjectReference Include="..\Fibertest30.Infrastructure.Emulator\Fibertest30.Infrastructure.Emulator.csproj" />
+    <ProjectReference Include="..\Iit\Iit.Fibertest.StringResources\Iit.Fibertest.StringResources.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Lextm.SharpSnmpLib" Version="12.5.2" />
+    <PackageReference Include="MailKit" Version="4.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
+    <PackageReference Include="NEventStore" Version="9.1.1" />
+    <PackageReference Include="NEventStore.Persistence.Sql" Version="9.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="MySql\Repositories\" />
+    <Folder Include="Persistence\Migrations\" />
+  </ItemGroup>
+
+</Project>

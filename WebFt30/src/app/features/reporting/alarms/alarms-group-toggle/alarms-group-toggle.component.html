@@ -1,0 +1,11 @@
+<div class="absolute right-4 top-8">
+  <div class="mx-2 flex items-center text-gray-600 dark:text-zinc-400">
+    <label class="mr-2 text-base capitalize">{{
+      'i18n.reporting.group-history' | translate
+    }}</label>
+    <label class="toggle">
+      <input type="checkbox" [checked]="checked" (change)="onToggle()" />
+      <div class="slider"></div>
+    </label>
+  </div>
+</div>

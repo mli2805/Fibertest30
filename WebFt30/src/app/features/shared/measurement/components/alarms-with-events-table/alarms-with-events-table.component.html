@@ -1,0 +1,158 @@
+<table class="min-w-full text-sm">
+  <thead class="text-center text-gray-600 dark:text-zinc-400">
+    <tr>
+      <th class="whitespace-nowrap pb-3 text-center font-thin">
+        {{ 'i18n.common.alarm-id' | translate }}
+      </th>
+      <th class="whitespace-nowrap pb-3 font-thin">{{ 'i18n.common.active-at' | translate }}</th>
+      <th *ngIf="mode === 'all'" class="whitespace-nowrap pb-3 font-thin">
+        {{ 'i18n.common.resolved-at' | translate }}
+      </th>
+      <th class="pb-3 font-thin">{{ 'i18n.common.port' | translate }}</th>
+      <th class="pb-3 font-thin">{{ 'i18n.common.level' | translate }}</th>
+      <th class="pb-3 pl-3 text-left font-thin">{{ 'i18n.common.type' | translate }}</th>
+      <th class="whitespace-nowrap pb-3 text-left font-thin">
+        {{ 'i18n.common.distance' | translate }}
+      </th>
+      <th *ngIf="mode === 'all'" class="pb-3 pl-5 pr-3 text-left font-thin">
+        {{ 'i18n.common.status' | translate }}
+      </th>
+      <th class="pb-3 pl-2 text-left font-thin"></th>
+    </tr>
+  </thead>
+  <tbody class="text-center text-gray-700 dark:text-zinc-300">
+    <ng-container *ngFor="let alarm of alarms; let i = index">
+      <tr
+        class="rounded-sm"
+        [ngClass]="{ 'bg-rtu-second-bg dark:bg-rtu-dark-second-bg': i % 2 === 0 }"
+      >
+        <td class="w-0 px-3 py-3 text-center">
+          {{ alarm.alarmGroupId }}
+        </td>
+        <td class="w-0 min-w-36 whitespace-nowrap px-3 py-3">
+          {{ alarm.activeAt | rtuDateTime : 'medium' }}
+        </td>
+        <td *ngIf="mode === 'all'" class="w-0 min-w-36 whitespace-nowrap px-3 py-3">
+          <ng-container *ngIf="alarm.resolvedAt; else noData">
+            {{ alarm.resolvedAt | rtuDateTime : 'medium' }}
+          </ng-container>
+          <ng-template #noData>
+            <div class="flex flex-1 items-center justify-center">--</div>
+          </ng-template>
+        </td>
+        <td class="w-0 whitespace-nowrap px-3 py-3">
+          <div *ngIf="getOtauPortPathByMonitoringPortId(alarm.monitoringPortId) as otauPortPath">
+            <rtu-otau-port-path-title [otauPortPath]="otauPortPath"></rtu-otau-port-path-title>
+          </div>
+        </td>
+        <td class="w-0 whitespace-nowrap px-3 py-3">
+          <div [rtuColorizeByAlarmLevel]="alarm.level">
+            {{ levels[alarm.level] }}
+          </div>
+        </td>
+        <td class="w-0 whitespace-nowrap px-3 py-3 text-left">
+          {{ converterUtils.monitoringAlarmTypeToString(alarm.type) | translate }}
+        </td>
+        <td class="w-0 min-w-[5ch] whitespace-nowrap px-3 py-3">
+          {{ converterUtils.toKmOrM(alarm.distanceMeters) }}
+        </td>
+        <td *ngIf="mode === 'all'" class="w-0 whitespace-nowrap py-3 pl-5 pr-3 text-left">
+          <div [ngClass]="{ 'alarm-resolved': alarm.status === statuses.Resolved }">
+            {{ statuses[alarm.status] }}
+          </div>
+        </td>
+        <td class="w-0 px-3 pb-1"></td>
+        <td class="w-0 pb-1 pr-4">
+          <div (click)="saveTraceAndBaseForAlarm(alarm)">
+            <rtu-save-button class="h-5 w-5 text-blue-500" />
+          </div>
+        </td>
+        <td class="overflow-x-clip pr-3 text-left">
+          <div class="flex items-center">
+            <rtu-navigate-button class="ml-2 h-6 w-6" (click)="navigateToAlarm(alarm)" />
+          </div>
+        </td>
+        <td class="w-0 cursor-pointer whitespace-nowrap py-3 pr-2 text-right text-xs">
+          <!-- Do not show just one event, cause it's Active -->
+          <div *ngIf="alarm.events.length > 1" (click)="setSelectedFullHistory(alarm.id)">
+            <span class="text-link-with-hover lowercase">
+              {{ 'i18n.common.full-history' | translate }}</span
+            >
+            ({{ alarm.events.length }})
+          </div>
+        </td>
+      </tr>
+
+      <tr
+        *ngIf="selectedFullHistoryAlarmId === alarm.id"
+        class="rounded-sm border-t-4"
+        [ngClass]="{
+                    'bg-rtu-second-bg dark:bg-rtu-dark-second-bg': i % 2 === 0,
+                    'border-t-rtu-second-bg dark:border-t-rtu-dark-second-bg': i % 2 !== 0,
+                    'border-t-rtu-primary-bg dark:border-t-rtu-dark-primary-bg': i % 2 === 0,
+             
+                  }"
+      >
+        <td colspan="100" class="pl-20 text-left">
+          <table>
+            <tbody class="text-center">
+              <ng-container *ngFor="let alarmEvent of alarm.events; let i = index">
+                <tr
+                  class="rounded-sm"
+                  *ngIf="
+                    i > 0 &&
+                    alarmEvent.monitoringAlarmGroupId !== alarm.events[i - 1].monitoringAlarmGroupId
+                  "
+                >
+                  <td colspan="1000">
+                    <div class="my-1 border-t border-gray-500"></div>
+                  </td>
+                </tr>
+                <tr class="rounded-sm">
+                  <td class="w-0 whitespace-nowrap px-3 py-1">
+                    {{ alarmEvent.monitoringAlarmGroupId }}
+                  </td>
+                  <td class="w-0 whitespace-nowrap px-3 py-1">
+                    {{ alarmEvent.at | rtuDateTime : 'medium' }}
+                  </td>
+                  <td class="w-0 whitespace-nowrap px-3 py-1">
+                    <div [rtuColorizeByAlarmLevel]="alarmEvent.level">
+                      {{ levels[alarmEvent.level] }}
+                    </div>
+                  </td>
+                  <td class="overflow-x-clip px-3 py-1 text-left">
+                    <div class="flex items-center">
+                      <rtu-alarm-event-viewer [alarmEvent]="alarmEvent"></rtu-alarm-event-viewer>
+                    </div>
+                  </td>
+                  <td class="w-0 whitespace-nowrap px-3 py-1"></td>
+                  <td class="w-0 pb-1 pr-4">
+                    <rtu-save-button
+                      (click)="saveTraceAndBaseForAlarmEvent(alarmEvent)"
+                      class="h-5 w-5 text-blue-500"
+                    />
+                  </td>
+                  <td>
+                    <div class="flex items-center">
+                      <rtu-navigate-button
+                        class="ml-2 h-6 w-6"
+                        (click)="navigateToAlarmEvent(alarmEvent.id)"
+                      />
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+
+          <!-- <div *ngFor="let event of alarm.events" class="flex flex-col">
+                      <div class="flex gap-x-2">
+                        <div>{{ event.at | rtuDateTime : 'medium' : 'time' }}</div>
+                        <div>{{ event.at | rtuDateTime : 'short' : 'date' }}</div>
+                      </div>
+                    </div> -->
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>

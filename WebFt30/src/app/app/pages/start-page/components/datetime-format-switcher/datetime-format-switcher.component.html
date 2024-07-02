@@ -1,0 +1,13 @@
+<rtu-select
+  #dateTimeFormatSelect
+  [items]="dateTimeFormats"
+  [selectedItem]="selectedDateTimeFormat$ | async"
+  (selectedItemChange)="setDateTimeFormat($event)"
+>
+  <ng-template rtuSelectLabel let-selectedItem>
+    <div class="pl-1">{{ currentDate | rtuDateTime : 'medium' : 'full' : selectedItem }}</div>
+  </ng-template>
+  <ng-template rtuSelectItem let-item>
+    {{ currentDate | rtuDateTime : 'medium' : 'full' : item }}
+  </ng-template>
+</rtu-select>

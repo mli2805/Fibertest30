@@ -1,0 +1,9 @@
+<span
+  [ngClass]="{
+    'text-orange-500': status === monitoringPortStatus.Maintenance,
+    'text-green-500': status === monitoringPortStatus.On
+  }"
+  class="flex flex-1 items-center"
+>
+  {{ convertUtils.monitoringPortStatusToString(status) | translate }}
+</span>

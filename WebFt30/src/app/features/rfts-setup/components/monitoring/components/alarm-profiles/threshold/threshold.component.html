@@ -1,0 +1,52 @@
+<div class="mx-2">
+  <div *ngIf="!threshold" class="flex flex-col items-center">
+    <span class="text-gray-500">{{ '-' }}</span>
+  </div>
+  <div *ngIf="threshold">
+    <div>
+      <div *ngIf="threshold.isOn()" class="flex flex-col items-center">
+        <div class="flex">
+          <div
+            class="flex flex-col items-center px-1"
+            [ngClass]="threshold.isMinorOn ? 'alarm-minor' : 'alarm-off'"
+          >
+            <span style="font-size: x-small">{{ 'i18n.common.minor' | translate }}</span>
+            <div *ngIf="threshold.minor">
+              <span class="">{{ threshold.minor }}</span>
+            </div>
+            <div *ngIf="!threshold.minor">
+              <span class="">{{ '-' }}</span>
+            </div>
+          </div>
+          <div
+            class="flex flex-col items-center px-1"
+            [ngClass]="threshold.isMajorOn ? 'alarm-major' : 'alarm-off'"
+          >
+            <span style="font-size: x-small">{{ 'i18n.common.major' | translate }}</span>
+            <div *ngIf="threshold.major">
+              <span class="">{{ threshold.major }}</span>
+            </div>
+            <div *ngIf="!threshold.major">
+              <span class="">{{ '-' }}</span>
+            </div>
+          </div>
+          <div
+            class="flex flex-col items-center px-1"
+            [ngClass]="threshold.isCriticalOn ? 'alarm-critical' : 'alarm-off'"
+          >
+            <span style="font-size: x-small">{{ 'i18n.common.critical' | translate }}</span>
+            <div *ngIf="threshold.critical">
+              <span class="">{{ threshold.critical }}</span>
+            </div>
+            <div *ngIf="!threshold.critical">
+              <span class="">{{ '-' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!threshold.isOn()" class="flex flex-col items-center">
+        <span class="alarm-off">{{ 'i18n.common.disabled' | translate | lowercase }}</span>
+      </div>
+    </div>
+  </div>
+</div>

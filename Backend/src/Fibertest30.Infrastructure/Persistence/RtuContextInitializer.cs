@@ -1,0 +1,353 @@
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Fibertest30.Infrastructure.Emulator;
+
+namespace Fibertest30.Infrastructure;
+public class RtuContextInitializer
+{
+    private readonly ILogger<RtuContextInitializer> _logger;
+    private readonly RtuContext _context;
+    private readonly IDefaultPermissionProvider _permissionProvider;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly IOtauRepository _otauRepository;
+
+    public RtuContextInitializer(
+        ILogger<RtuContextInitializer> logger,
+        RtuContext context,
+        IDefaultPermissionProvider permissionProvider,
+        UserManager<ApplicationUser> userManager,
+        RoleManager<IdentityRole> roleManager,
+        IOtauRepository otauRepository
+        )
+    {
+        _logger = logger;
+        _context = context;
+        _permissionProvider = permissionProvider;
+        _userManager = userManager;
+        _roleManager = roleManager;
+        _otauRepository = otauRepository;
+    }
+
+    public async Task InitialiseAsync()
+    {
+        try
+        {
+            //await _context.Database.EnsureCreatedAsync();
+            await _context.Database.MigrateAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while initializing the database.");
+            throw;
+        }
+    }
+
+    public async Task SeedAsync(string seedDemoOtaus = "", bool seedDemoUsers = false)
+    {
+        try
+        {
+            await TrySeedAsync(seedDemoOtaus, seedDemoUsers);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while seeding the database.");
+            throw;
+        }
+    }
+
+    private async Task TrySeedAsync(string seedDemoOtaus, bool seedDemoUsers)
+    {
+        // NOTE: It is called at each start
+        // Don't forget to check if seed is needed
+
+        await SeedDefaultRolesAndPermissions();
+        await SeedMonitoringTimeSlots();
+        await SeedDefaultAlarmProfile();
+        await SeedEmptyNotificationSettings();
+
+        if (!string.IsNullOrEmpty(seedDemoOtaus))
+        {
+            await SeedDemoOtaus(seedDemoOtaus);
+        }
+
+        if (seedDemoUsers)
+        {
+            await SeedDemoUsers();
+        }
+        else
+        {
+            await SeedAdministratorUser();
+        }
+
+        await _context.SaveChangesAsync();
+    }
+
+    private async Task SeedDefaultRolesAndPermissions()
+    {
+        // add a new default role if doesn't exist 
+        var defaultRoles = _permissionProvider.DefaultRoles.Select(x => x.ToString()).ToList();
+        foreach (var defaultRole in defaultRoles)
+        {
+
+            if (!(await _roleManager.RoleExistsAsync(defaultRole)))
+            {
+                var result = await _roleManager.CreateAsync(new IdentityRole(defaultRole));
+                ThrowIfNotSucceed(result, $"Can't add {defaultRole} role");
+            }
+        }
+
+        // NOTE: we don't need to add permissions to defaultRoles
+        // as we they are known at compile time and not supposed to be changed dynamically
+
+        // Also we don't need to add a new permission for a custom role
+        // But we should remove missed permission from custom roles
+
+
+        var customRoles = _roleManager.Roles.ToList().Where(x => !defaultRoles.Exists(y => y == x.Name)).ToList();
+        var applicationPermissions = _permissionProvider.AllPermissions;
+
+        foreach (var customRole in customRoles)
+        {
+            var roleCurrentClaims = await _roleManager.GetClaimsAsync(customRole);
+            var rolePermissionClaims = roleCurrentClaims.Where(x => x.Type == ApplicationClaims.Permissions);
+            foreach (var rolePermissionClaim in rolePermissionClaims)
+            {
+                var notExistAnymore = !applicationPermissions.Any(x => x.ToString() == rolePermissionClaim.Value);
+                if (notExistAnymore)
+                {
+                    var result = await _roleManager.RemoveClaimAsync(customRole, rolePermissionClaim);
+                    ThrowIfNotSucceed(result, $"Can't remove {rolePermissionClaim.Value} permission from {customRole.Name} role");
+                }
+            }
+        }
+    }
+
+    private async Task SeedMonitoringTimeSlots()
+    {
+        if (await _context.MonitoringTimeSlots.AnyAsync())
+        {
+            return;
+        }
+
+        foreach (var i in Enumerable.Range(0, 24))
+        {
+            var timeSlot = new MonitoringTimeSlotEf
+            {
+                StartTime = TimeOnly.Parse($"{i}:00"),
+                EndTime = TimeOnly.Parse($"{(i + 1) % 24}:00")
+            };
+            _context.MonitoringTimeSlots.Add(timeSlot);
+        }
+    }
+
+    private async Task SeedDemoUsers()
+    {
+        var userCount = await _userManager.Users.CountAsync();
+        if (userCount > 0) { return;} 
+        
+        // Seed users for test needs.
+        foreach (var testUser in TestUsersProvider.TestUsers)
+        {
+            var currentUser = await _userManager.FindByNameAsync(testUser.UserName);
+            if (currentUser == null)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = testUser.UserName,
+                    FirstName = testUser.FirstName,
+                    LastName = testUser.LastName,
+                    JobTitle = testUser.JobTitle,
+                    Email = testUser.Email,
+                    PhoneNumber = testUser.PhoneNumber
+                };
+                var result = await CreateUserWithLoosePassword(user, TestUsersProvider.DefaultAdminPassword);
+                ThrowIfNotSucceed(result, $"Can't create {user.UserName} user");
+
+
+                result = await _userManager.AddToRoleAsync(user, testUser.Role.ToString());
+                ThrowIfNotSucceed(result, $"Can't add {user.UserName} user to {testUser.Role.ToString()} role");
+            }
+        }
+    }
+
+    private async Task SeedAdministratorUser()
+    {
+        var userCount = await _userManager.Users.CountAsync();
+        if (userCount > 0) { return;} 
+
+        var adminRole = ApplicationDefaultRole.Administrator;
+
+        var user = new ApplicationUser
+        {
+            UserName = "admin",
+        };
+
+        var result = await CreateUserWithLoosePassword(user, TestUsersProvider.DefaultAdminPassword);
+        ThrowIfNotSucceed(result, $"Can't create {user.UserName} user");
+
+        result = await _userManager.AddToRoleAsync(user, adminRole.ToString());
+        ThrowIfNotSucceed(result, $"Can't add {user.UserName} user to {adminRole.ToString()} role");
+    }
+
+    private async Task<IdentityResult> CreateUserWithLoosePassword(ApplicationUser user, string password)
+    {
+        var originalPasswordOptions = _userManager.Options.Password;
+        _userManager.Options.Password = GetLoosePasswordOptions();
+        var result = await _userManager.CreateAsync(user, password);
+        _userManager.Options.Password = originalPasswordOptions;
+        return result;
+    }
+
+    private PasswordOptions GetLoosePasswordOptions()
+    {
+        return new PasswordOptions
+        {
+            RequireDigit = false,
+            RequiredLength = 1,
+            RequireLowercase = false,
+            RequireUppercase = false,
+            RequireNonAlphanumeric = false,
+            RequiredUniqueChars = 1
+        };
+    }
+
+    private async Task SeedEmptyNotificationSettings()
+    {
+        if (await _context.NotificationSettings.AnyAsync()) return;
+
+        var emailServer = new EmailServer()
+        {
+            Enabled = false,
+            ServerAddress = "",
+            ServerPort = 587,
+            OutgoingAddress = "",
+            IsAuthenticationOn = true,
+            ServerUserName = "",
+            IsPasswordSet = false,
+            ServerPassword = "",
+            VerifyCertificate = false,
+            FloodingPolicy = false,
+            SmsOverSmtp = false,
+        };
+
+        var trapReceiver = new TrapReceiver()
+        {
+            Enabled = false,
+            SnmpVersion = "v1",
+            UseVeexOid = false,
+            CustomOid = "",
+            Community = "",
+            AuthoritativeEngineId = "",
+            UserName = "",
+            IsAuthPswSet = false,
+            AuthenticationPassword = "",
+            AuthenticationProtocol = "SHA",
+            IsPrivPswSet = false,
+            PrivacyPassword = "",
+            PrivacyProtocol = "Aes256",
+            TrapReceiverAddress = "",
+            TrapReceiverPort = 162
+        };
+
+        var settings = new NotificationSettings() { EmailServer = emailServer, TrapReceiver = trapReceiver, };
+
+        _context.NotificationSettings.Add(settings.ToEf());
+    }
+
+    public async Task SeedDefaultAlarmProfile()
+    {
+        if (await _context.AlarmProfiles.AnyAsync()) return;
+
+        var alarmProfile = new AlarmProfile { Name = "Default", Thresholds = new List<Threshold>() };
+        foreach (var param in Enum.GetValues(typeof(ThresholdParameter)))
+        {
+            var thr = (ThresholdParameter)param == ThresholdParameter.SectionAttenuation 
+                ? new Threshold((ThresholdParameter)param, 0.3, 0.5, 0.7)
+                : new Threshold((ThresholdParameter)param, 0.5, 0.7, 1.0);
+
+            alarmProfile.Thresholds.Add(thr);
+        }
+        _context.AlarmProfiles.Add(alarmProfile.ToEf());
+
+        var alarmProfile2 = new AlarmProfile { Name = "Default Dark Fiber", Thresholds = new List<Threshold>() };
+        foreach (var param in Enum.GetValues(typeof(ThresholdParameter)))
+        {
+            var thr = (ThresholdParameter)param == ThresholdParameter.SectionAttenuation 
+                ? new Threshold((ThresholdParameter)param, 0.3, 0.5, 0.7)
+                : new Threshold((ThresholdParameter)param, 0.5, 0.7, 1.0);
+
+            alarmProfile2.Thresholds.Add(thr);
+        }
+        alarmProfile2.Thresholds.First(t => t.Parameter == ThresholdParameter.EventLoss).IsCriticalOn = true;
+        _context.AlarmProfiles.Add(alarmProfile2.ToEf());
+
+        var alarmProfile3 = new AlarmProfile { Name = "Default In Service", Thresholds = new List<Threshold>() };
+        foreach (var param in Enum.GetValues(typeof(ThresholdParameter)))
+        {
+            var thr = (ThresholdParameter)param == ThresholdParameter.SectionAttenuation 
+                ? new Threshold((ThresholdParameter)param, 0.3, 0.5, 0.7)
+                : new Threshold((ThresholdParameter)param, 0.5, 0.7, 1.0);
+
+            alarmProfile3.Thresholds.Add(thr);
+        }
+        alarmProfile3.Thresholds.First(t => t.Parameter == ThresholdParameter.EventLoss).IsCriticalOn = true;
+        var threshold = alarmProfile3.Thresholds.First(t => t.Parameter == ThresholdParameter.EventReflectance);
+        threshold.IsCriticalOn = true;
+        threshold.Critical = 2;
+        _context.AlarmProfiles.Add(alarmProfile3.ToEf());
+    }
+
+    private async Task SeedDemoOtaus(string seemDemoOtaus) // "onlyOcm" or "all"
+    {
+        if (await _context.Otaus.AnyAsync())
+        {
+            return;
+        }
+
+        var ocmPortCount = 8;
+        await _otauRepository.AddOtau(OtauType.Ocm, OtauService.OcmOtauOcmPortIndex,
+            EmulatedController.GetSerialNumber(OtauType.Ocm, ocmPortCount), ocmPortCount,
+            new OcmOtauParameters());
+
+        if (seemDemoOtaus == "onlyOcm")
+        {
+            return;
+        }
+
+        foreach (var demoOtauOcmIndex in Enumerable.Range(1, 2))
+        {
+            var portCount = demoOtauOcmIndex * 2;
+            var otauId = await _otauRepository.AddOtau(OtauType.Osm, demoOtauOcmIndex,
+                EmulatedController.GetSerialNumber(OtauType.Osm, portCount),
+                portCount, new OsmOtauParameters(demoOtauOcmIndex));
+
+            await _otauRepository.UpdateOtau(otauId, new OtauPatch(
+                    (demoOtauOcmIndex == 1) ? "MySwitch" : "Another switch",
+                    "Nad Elektrarnou 411/5" + demoOtauOcmIndex,
+                    "BA-04-OPT-" + demoOtauOcmIndex,
+                    demoOtauOcmIndex == 1 ? "8" : "1",
+                    demoOtauOcmIndex == 1 ? "The same tray as RTU" : "TOR Switch")
+                , CancellationToken.None);
+        }
+
+        foreach (var demoOtauOcmIndex in Enumerable.Range(6, 2))
+        {
+            var portCount = demoOtauOcmIndex * 2;
+            await _otauRepository.AddOtau(OtauType.Oxc, demoOtauOcmIndex,
+                EmulatedController.GetSerialNumber(OtauType.Oxc, portCount),
+                portCount, new OxcOtauParameters($"192.168.0.{demoOtauOcmIndex}", 4001));
+        }
+    }
+
+    private void ThrowIfNotSucceed(IdentityResult result, string message)
+    {
+        if (!result.Succeeded)
+        {
+            var errorDescriptions = result.Errors.Select(x => x.Description);
+            var strErrorDescriptions = string.Join(Environment.NewLine, errorDescriptions);
+            throw new Exception($"{message} {Environment.NewLine}Description: {strErrorDescriptions}");
+        }
+    }
+}

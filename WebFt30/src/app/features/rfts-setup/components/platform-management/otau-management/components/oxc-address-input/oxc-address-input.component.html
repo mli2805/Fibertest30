@@ -1,0 +1,28 @@
+<div class="flex flex-col" [formGroup]="form">
+  <div class="flex self-center">
+    <div>
+      <input
+        formControlName="ipAddress"
+        type="text"
+        class="input-simple peer"
+        placeholder="{{ 'i18n.common.ip-address' | translate }}"
+        [ngClass]="{ 'invalid-border': showIpInvalidBorder() }"
+        (input)="onAnyChange()"
+      />
+      <rtu-validation-error
+        class="hidden peer-focus:block"
+        [errors]="form.controls['ipAddress'].errors"
+      />
+    </div>
+
+    <input
+      formControlName="port"
+      type="text"
+      [defaultValue]="4001"
+      placeholder="{{ 'i18n.common.port' | translate }}"
+      class="input-simple mx-2 w-24"
+      [ngClass]="{ 'invalid-border': showPortInvalidBorder() }"
+      (input)="onAnyChange()"
+    />
+  </div>
+</div>

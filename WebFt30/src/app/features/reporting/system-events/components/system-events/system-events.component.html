@@ -1,0 +1,49 @@
+<rtu-single-error-popup
+  [errorMessageId$]="errorMessageId$"
+  [resetErrorAction]="systemEventsActions.resetError()"
+></rtu-single-error-popup>
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
+
+<div class="h-full w-full p-5">
+  <div class="relative">
+    <rtu-relative-time-refresh
+      [loadedTime]="loadedTime$ | async"
+      (refresh)="refresh()"
+    ></rtu-relative-time-refresh>
+    <table class="min-w-full text-sm">
+      <thead class="text-center text-gray-600 dark:text-zinc-400">
+        <tr>
+          <th class="pb-3 font-thin">{{ 'i18n.common.at' | translate }}</th>
+          <th class="pb-3 font-thin">{{ 'i18n.common.level' | translate }}</th>
+          <th class="pb-3 font-thin">{{ 'i18n.common.source' | translate }}</th>
+          <th class="pb-3 pl-5 text-left font-thin">{{ 'i18n.common.event' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody
+        *ngIf="systemEvents$ | async as systemEvents"
+        class="text-center text-gray-700 dark:text-zinc-300"
+      >
+        <tr
+          *ngFor="let systemEvent of systemEvents"
+          class="rounded-sm odd:bg-rtu-second-bg dark:odd:bg-rtu-dark-second-bg"
+        >
+          <td class="w-0 whitespace-nowrap py-3 pl-5 pr-5">
+            {{ systemEvent.at | rtuDateTime : 'medium' }}
+          </td>
+          <td class="w-0 whitespace-nowrap py-3 pl-5 pr-5">
+            <div [rtuColorizeBySystemEventLevel]="systemEvent.level">
+              {{ levels[systemEvent.level] }}
+            </div>
+          </td>
+          <td class="w-0 whitespace-nowrap py-3 pl-5 pr-5">{{ getSource(systemEvent.source) }}</td>
+          <td class="py-4 pl-5 pr-5 text-left">
+            <rtu-system-event-viewer [systemEvent]="systemEvent"></rtu-system-event-viewer>
+          </td>
+        </tr>
+        <tr *ngIf="systemEvents.length === 0">
+          <td colspan="100" class="py-5 text-left">{{ 'i18n.common.no-data' | translate }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

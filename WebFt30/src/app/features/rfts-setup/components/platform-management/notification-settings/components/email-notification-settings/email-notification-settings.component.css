@@ -1,0 +1,17 @@
+.grid-container {
+  display: grid;
+
+  grid-template-columns: auto_minmax(0, 1fr);
+
+  grid-template-areas:
+    'enabledLabel enabledValue'
+    'serverAddressLabel serverAddressValue'
+    'serverPortLabel serverPortValue'
+    'outgoingAddressLabel outgoingAddressValue'
+    'isAuthenticationOnLabel isAuthenticationOnValue'
+    'usernameLabel usernameValue'
+    'passwordLabel passwordValue'
+    'verifyCertificateLabel verifyCertificateValue'
+    'floodingPolicyLabel floodingPolicyValue'
+    'smsOverSmtpLabel smsOverSmtpValue';
+}

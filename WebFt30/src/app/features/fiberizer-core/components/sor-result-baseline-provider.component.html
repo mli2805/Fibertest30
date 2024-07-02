@@ -1,0 +1,36 @@
+<div class="flex h-full w-full flex-1 flex-col">
+  <div *ngIf="result && baseline" class="m-1 flex justify-end gap-3 text-sm">
+    <div class="flex items-center">
+      <div
+        class="mr-1 h-2 w-2"
+        [ngStyle]="{ 'background-color': sorColors.Measurement.toHex() }"
+      ></div>
+      <button
+        [ngClass]="activeTrace === result ? 'rtu-text' : 'text-data-highlight'"
+        (click)="clickMeasurement()"
+      >
+        <span> {{ 'i18n.common.result' | translate }}</span>
+      </button>
+    </div>
+    <div class="flex items-center">
+      <div
+        class="mr-1 h-2 w-2"
+        [ngStyle]="{ 'background-color': sorColors.Baseline.toHex() }"
+      ></div>
+      <button
+        (click)="clickBaseline()"
+        [ngClass]="activeTrace === baseline ? 'rtu-text' : 'text-data-highlight'"
+      >
+        <span>
+          {{ 'i18n.common.baseline' | translate }}
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div class="h-full w-full flex-1">
+    <rtu-sor-area-provider
+      [sors]="result ? [result, baseline] : [baseline]"
+    ></rtu-sor-area-provider>
+  </div>
+</div>

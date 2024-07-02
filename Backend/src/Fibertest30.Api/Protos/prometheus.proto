@@ -1,0 +1,57 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Fibertest30.Api";
+package fibertest30.prometheus;
+
+service Prometheus {
+  rpc GetCumulativeStats (GetCumulativeStatsRequest) returns (GetCumulativeStatsResponse);
+  rpc GetFiberSectionStats (GetFiberSectionStatsRequest) returns (GetFiberSectionStatsResponse);
+  rpc GetFiberEventStats (GetFiberEventStatsRequest) returns (GetFiberEventStatsResponse);
+}
+
+message GetCumulativeStatsRequest {
+  string timeRange = 1;
+  int32 monitoringPortId = 2;
+  string metricName = 3;
+}
+message GetFiberSectionStatsRequest {
+  string timeRange = 1;
+  int32 monitoringPortId = 2;
+  string metricName = 3;
+}
+message GetFiberEventStatsRequest {
+  string timeRange = 1;
+  int32 monitoringPortId = 2;
+  string metricName = 3;
+}
+
+message GetCumulativeStatsResponse {
+  repeated CumulativeMetric metrics = 1;
+}
+message GetFiberSectionStatsResponse {
+  repeated FiberSectionMetric metrics = 1;
+}
+message GetFiberEventStatsResponse {
+  repeated FiberEventMetric metrics = 1;
+}
+
+message CumulativeMetric {
+  string wavelength = 1;
+  repeated DataPoint dataPoints = 2;
+}
+message FiberSectionMetric {
+  string wavelength = 1;
+  int32 index = 2;
+  repeated DataPoint dataPoints = 3;
+}
+message FiberEventMetric {
+  string wavelength = 1;
+  int32 index = 2;
+  repeated DataPoint dataPoints = 3;
+}
+
+message DataPoint {
+  google.protobuf.Timestamp x = 1;
+  double y = 2;
+}

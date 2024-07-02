@@ -1,0 +1,172 @@
+syntax = "proto3";
+import "data.otdr.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+
+option csharp_namespace = "Fibertest30.Api";
+package fibertest30.data.core;
+
+message SystemEventSource {
+  string userId = 1;
+  string source = 2;
+}
+
+enum SystemEventLevel {
+  Internal = 0;
+  Info = 1;
+  Major = 2;
+  Critical = 3;
+}
+
+message SystemEvent {
+  int32 id = 1;
+  string type = 2;
+  SystemEventLevel level = 3;
+  SystemEventSource source = 4;
+  string jsonData = 5;
+  google.protobuf.Timestamp at = 6;
+}
+
+enum MonitoringPortStatus {
+  Off = 0;
+  On = 1;
+  Maintenance = 2;
+}
+
+enum MonitoringSchedulerMode {
+  RoundRobin = 0;
+  FixedTimeSlot = 1;
+  AtLeastOnceIn = 2;
+}
+
+
+message MonitoringSchedule {
+	MonitoringSchedulerMode schedulerMode = 1;
+	google.protobuf.Duration interval = 2;
+	repeated int32 timeSlotIds = 3;
+}
+
+message MonitoringBaseline {
+  int32 id = 1;
+  int32 monitoringPortId = 2;
+  string createdByUserId = 3;
+  google.protobuf.Timestamp createdAt = 4;
+  data.otdr.MeasurementSettings measurementSettings = 5;
+}
+
+message MonitoringPort {
+  int32 id = 1;
+  int32 otauPortId = 2;
+  int32 otauId = 3;
+  MonitoringPortStatus status = 4;
+  MonitoringSchedulerMode schedulerMode = 5;
+  MonitoringBaseline baseline = 6;
+  google.protobuf.Duration interval = 7;
+  repeated int32 timeSlotIds = 8;
+  int32 alarmProfileId = 9;
+	string Note = 10;
+}
+
+message TimeOnlyHourMinute {
+  int32 hour = 1;
+  int32 minute = 2;
+}
+
+message MonitoringTimeSlot {
+  int32 id = 1;
+  TimeOnlyHourMinute start = 2;
+  TimeOnlyHourMinute end = 3;
+}
+
+enum ThresholdParameter {
+  EventLoss = 0;
+  TotalLoss = 1;
+  EventReflectance = 2;
+  SectionAttenuation = 3;
+  SectionLoss = 4;
+  SectionLengthChange = 5;
+  PortHealth = 6;
+}
+
+message Threshold {
+	int32 id = 1;
+	ThresholdParameter parameter = 2;
+	bool isMinorOn = 3;
+	optional double minor = 4;
+	bool isMajorOn = 5;
+	optional double major = 6;
+	bool isCriticalOn =7;
+	optional double critical = 8;
+}
+
+message AlarmProfile {
+	int32 id = 1;
+	string name = 2;
+	repeated Threshold thresholds = 3;
+}
+
+message EmailServer {
+	bool enabled = 1;
+	string serverAddress = 2;
+	int32 serverPort = 3;
+	string outgoingAddress = 4;
+	string serverUserName = 5;
+	string serverPassword = 6;
+	bool verifyCertificate = 7;
+	bool floodingPolicy = 8;
+	bool smsOverSmtp = 9;
+	bool isPasswordSet = 10;
+	bool isAuthenticationOn = 11;
+}
+
+message TrapReceiver {
+	bool enabled = 1;
+	string snmpVersion = 2;
+	bool useVeexOid = 3;
+	string customOid = 4;
+	string community = 5;
+	string AuthoritativeEngineId = 6;
+	string UserName = 7;
+	string AuthenticationPassword = 8;
+	string AuthenticationProtocol = 9;
+	string PrivacyPassword = 10;
+	string PrivacyProtocol = 11;
+	string TrapReceiverAddress = 12;
+	int32 TrapReceiverPort = 13;
+	bool isAuthPwdSet = 14;
+	bool isPrivPwdSet = 15;
+}
+
+message NotificationSettings {
+	int32 id = 1;
+	EmailServer emailServer = 2;
+	TrapReceiver trapReceiver = 3;
+}
+
+message NetworkSettings {
+	string networkMode = 1;
+
+	string localIpAddress = 2;
+	string localSubnetMask = 3;
+	string localGatewayIp = 4;
+
+	optional string primaryDnsServer = 5;
+	optional string secondaryDnsServer = 6;
+}
+
+
+message AppTimeZone {
+  string ianaId = 1;
+  string displayName = 2;
+  string displayBaseUtcOffset = 3;
+}
+
+message NtpSettings {
+	optional string primaryNtpServer = 1;
+	optional string secondaryNtpServer = 2;
+}
+
+message TimeSettings {
+	AppTimeZone appTimeZone = 1;
+	NtpSettings ntpSettings = 2;
+}

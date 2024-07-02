@@ -1,0 +1,1 @@
+﻿global using Fibertest30.Domain;

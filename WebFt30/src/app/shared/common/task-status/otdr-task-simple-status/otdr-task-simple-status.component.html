@@ -1,0 +1,15 @@
+<div *ngIf="status === 'pending'">
+  {{ 'i18n.otdr-task-status.pending' | translate }}
+</div>
+<div *ngIf="status === 'running'" class="text-green-700 dark:text-green-500">
+  {{ 'i18n.otdr-task-status.running' | translate }}
+</div>
+<div *ngIf="status === 'cancelled'">
+  {{ 'i18n.otdr-task-status.cancelled' | translate }}
+</div>
+<div *ngIf="status === 'failed'" class="text-red-500 dark:text-red-400">
+  {{ 'i18n.common.failed' | translate }}
+</div>
+<div *ngIf="status === 'completed'" class="text-green-700 dark:text-green-500">
+  {{ 'i18n.otdr-task-status.completed' | translate }}
+</div>

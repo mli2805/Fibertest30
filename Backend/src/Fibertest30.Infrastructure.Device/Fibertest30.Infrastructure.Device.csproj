@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Fibertest30.Infrastructure.Device.UnitTests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fibertest30.Application\Fibertest30.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Optixsoft.FiberizerModel">
+      <HintPath>..\..\libs\fiberizer\Optixsoft.FiberizerModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Optixsoft.OtdrDataFormat">
+      <HintPath>..\..\libs\fiberizer\Optixsoft.OtdrDataFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="SorMapper">
+      <HintPath>..\..\libs\fiberizer\SorMapper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Otdr\Detail\OtdrMeasEngine\grpc_otdr.proto" GrpcServices="Client" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.22.1" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.52.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.53.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
+    <PackageReference Include="System.IO.Ports" Version="8.0.0" />
+  </ItemGroup>
+
+</Project>

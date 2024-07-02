@@ -1,0 +1,133 @@
+<div class="flex w-full items-center justify-between p-1">
+  <div class="flex items-center">
+    <ng-container *ngIf="routerStateUrl$ | async as routerStateUrl">
+      <button
+        class="button-extra h-6"
+        *ngIf="routerStateUrl.data.navigateToParent"
+        (click)="goUp(routerStateUrl, routerStateUrl.data.navigateToParent)"
+      >
+        <div class="flex h-full items-center justify-center">
+          <!-- prettier-ignore -->
+          <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+      </svg>
+        </div>
+      </button>
+    </ng-container>
+    <div class="mx-2 truncate font-medium" *ngIf="routerStateUrl$ | async as routerStateUrl">
+      <ng-container *ngIf="getTitle(routerStateUrl) as title">
+        <ng-container [ngSwitch]="title.customHeader">
+          <rtu-router-otau-title
+            *ngSwitchCase="'routerOtauTitle'"
+            [titleId]="title.titleId"
+          ></rtu-router-otau-title>
+          <rtu-router-baseline-title
+            *ngSwitchCase="'routerBaselineTitle'"
+            [titleId]="title.titleId"
+          ></rtu-router-baseline-title>
+          <ng-container *ngSwitchDefault>
+            {{ title.titleId | translate }}
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <div class="flex items-center gap-x-1">
+    <ng-container *ngIf="currentUser$ | async as currentUser">
+      <div
+        *ngIf="!currentUser.email"
+        class="ml-2 mr-5 cursor-pointer text-xs text-orange-500 hover:text-orange-600 dark:text-orange-400 dark:hover:text-orange-500"
+        (click)="openUserEditDialog(currentUser)"
+      >
+        <div>{{ 'i18n.first-start.complete-profile1' | translate }}</div>
+        <div>{{ 'i18n.first-start.complete-profile2' | translate }}</div>
+      </div>
+    </ng-container>
+    <div class="relative cursor-pointer select-none" (click)="toggleSystemNotification()">
+      <!-- prettier-ignore -->
+      <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+            </svg>
+      <span
+        *ngIf="(totalCountSystemNotifications$ | async)! > 0"
+        class="absolute right-0 top-0 inline-block h-2 w-2 rounded-full bg-blue-600 dark:bg-blue-500"
+      ></span>
+
+      <ng-container>
+        <!-- <span
+          *ngIf="
+            (showOnDemandNotification$ | async) &&
+            ((onDemandCompleted$ | async) || (onDemandRunning$ | async))
+          "
+          class="absolute left-0 top-0 inline-block h-2 w-2 rounded-full bg-green-600 dark:bg-green-500"
+        ></span>
+        <span
+          *ngIf="(showOnDemandNotification$ | async) && (onDemandPending$ | async)"
+          class="absolute left-0 top-0 inline-block h-2 w-2 rounded-full bg-white dark:bg-white"
+        ></span>
+        <span
+          class="absolute -left-[0.125rem] -top-[0.125rem] flex h-3 w-3"
+          *ngIf="(showOnDemandNotification$ | async) && (onDemandRunning$ | async)"
+        >
+          <span
+            class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-600 opacity-75 dark:bg-green-500"
+          ></span>
+        </span> -->
+
+        <span
+          *ngIf="(showOnDemandNotification$ | async) && (onDemandCompleted$ | async)"
+          class="absolute left-0 top-0 inline-block h-2 w-2 rounded-full bg-green-600 dark:bg-green-500"
+        ></span>
+
+        <span *ngIf="(showOnDemandNotification$ | async) && (onDemandPending$ | async)">
+          <span
+            class="absolute left-0 top-0 inline-block h-2 w-2 rounded-full bg-white dark:bg-white"
+          ></span>
+          <span
+            class="absolute -left-[0.125rem] -top-[0.125rem] inline-flex h-3 w-3 animate-ping rounded-full bg-white dark:bg-white"
+          ></span>
+        </span>
+
+        <span *ngIf="(showOnDemandNotification$ | async) && (onDemandRunning$ | async)">
+          <span
+            class="absolute left-0 top-0 inline-block h-2 w-2 rounded-full bg-green-600 dark:bg-green-500"
+          ></span>
+          <span
+            class="absolute -left-[0.125rem] -top-[0.125rem] inline-flex h-3 w-3 animate-ping rounded-full bg-green-600 opacity-75 dark:bg-green-500"
+          ></span>
+        </span>
+      </ng-container>
+    </div>
+    <div class="relative cursor-pointer select-none" (click)="toggleAlarmNotification()">
+      <!-- prettier-ignore -->
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+            </svg>
+      <span
+        *ngIf="(totalCountAlarmNotifications$ | async)! > 0"
+        class="absolute right-0 top-0 inline-block h-2 w-2 rounded-full bg-red-500 dark:bg-red-500"
+      ></span>
+    </div>
+    <div
+      class="relative ml-1 flex cursor-pointer select-none items-center"
+      (click)="openUserMenu = !openUserMenu"
+      cdkOverlayOrigin
+      #userMenu="cdkOverlayOrigin"
+    >
+      <ng-container *ngIf="currentUser$ | async as currentUser">
+        <rtu-user-avatar
+          size="small"
+          [firstName]="currentUser.firstName"
+          [lastName]="currentUser.lastName"
+        ></rtu-user-avatar>
+      </ng-container>
+
+      <rtu-account-menu
+        [open]="openUserMenu"
+        (openChange)="openUserMenu = $event"
+        [overlayOrigin]="userMenu"
+      >
+      </rtu-account-menu>
+    </div>
+  </div>
+</div>

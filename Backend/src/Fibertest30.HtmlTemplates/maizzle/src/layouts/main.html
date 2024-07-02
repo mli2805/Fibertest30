@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+  <meta charset="utf-8">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings xmlns:o="urn:schemas-microsoft-com:office:office">
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <style>
+    td,th,div,p,a,h1,h2,h3,h4,h5,h6 {font-family: "Segoe UI", sans-serif; mso-line-height-rule: exactly;}
+  </style>
+  <![endif]-->
+  <if condition="page.title">
+    <title>{{{ page.title }}}</title>
+  </if>
+  <style>
+  .alarm-minor {
+    color: #facc15;
+  }
+
+  .alarm-major {
+    color: #f97316;
+  }
+
+  .alarm-critical {
+    color: #ef4444;
+  }
+
+  .alarm-resolved {
+    color: #16a34a;
+  }
+     {{{ page.css }}}
+  </style>  
+</head>
+<body class="m-0 p-0 w-full bg-bg-color text-text-color [-webkit-font-smoothing:antialiased]">
+  <table align="center" class="my-4 sm:my-2 font-sans bg-bg-color text-text-color">
+    <tr>
+      <td class="w-[640px] max-w-full">
+        <div class="text-right">
+          <x-veex-logo></x-veex-logo>
+        </div>
+        <div role="article" >
+          <content />
+        </div>
+      </td>
+  </tr>
+  <tr>
+    <td class="py-2">
+      <table class="w-full m-0 text-sm text-slate-500">
+        <tr>
+          <td class="text-center">RTU SN <span class="ml-2">@{{ Device.SerialNumber }}</span></td>
+        </tr>
+        <tr>
+          <td class="text-center">IP Address<span class="ml-2">@{{ Device.IpAddress }}</span></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+ </table>
+
+</body>
+</html>

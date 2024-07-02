@@ -1,0 +1,296 @@
+syntax = "proto3";
+import "data.otdr.proto";
+import "data.monitoring.proto";
+import "data.core.proto";
+import "port_labeling.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Fibertest30.Api";
+package fibertest30.core;
+
+service Core {
+  rpc GetDeviceInfo (DeviceInfoRequest) returns (DeviceInfoResponse);
+  rpc GetSystemMessageStream(GetSystemMessageStreamRequest) returns (stream GetSystemMessageStreamResponse);
+
+  rpc GetUserAlarmNotifications(GetUserAlarmNotificationsRequest) returns (GetUserAlarmNotificationsResponse);
+  rpc DismissUserAlarmNotification(DismissUserAlarmNotificationRequest) returns (DismissUserAlarmNotificationResponse);
+  rpc DismissUserAlarmNotificationsByLevel(DismissUserAlarmNotificationsByLevelRequest) returns (DismissUserAlarmNotificationsByLevelResponse);
+  rpc DismissAllUserAlarmNotifications(DismissAllUserAlarmNotificationsRequest) returns (DismissAllUserAlarmNotificationsResponse);
+  
+  rpc GetUserSystemNotifications(GetUserSystemNotificationsRequest) returns (GetUserSystemNotificationsResponse);
+  rpc DismissUserSystemNotification(DismissUserSystemNotificationRequest) returns (DismissUserSystemNotificationResponse);
+  rpc DismissUserSystemNotificationsByLevel(DismissUserSystemNotificationsByLevelRequest) returns (DismissUserSystemNotificationsByLevelResponse);
+  rpc DismissAllUserSystemNotifications(DismissAllUserSystemNotificationsRequest) returns (DismissAllUserSystemNotificationsResponse);
+  
+  rpc BlinkOsmOtau (BlinkOsmOtauRequest) returns (BlinkOtauResponse);
+  rpc BlinkOxcOtau (BlinkOxcOtauRequest) returns (BlinkOtauResponse);
+  rpc BlinkOtau (BlinkOtauRequest) returns (BlinkOtauResponse);
+  
+  rpc DiscoverOsmOtau (DiscoverOsmOtauRequest) returns (DiscoverOtauResponse);
+  rpc DiscoverOxcOtau (DiscoverOxcOtauRequest) returns (DiscoverOtauResponse);
+  rpc AddOsmOtau (AddOsmOtauRequest) returns (AddOsmOtauResponse);
+  rpc AddOxcOtau (AddOxcOtauRequest) returns (AddOxcOtauResponse);
+
+  rpc UpdateOtau (UpdateOtauRequest) returns (UpdateOtauResponse);
+  rpc GetOtau (GetOtauRequest) returns (GetOtauResponse);
+  rpc RemoveOtau (RemoveOtauRequest) returns (RemoveOtauResponse);
+}
+
+message OtauDiscover {
+  string serialNumber = 1;
+  int32 portCount = 2;
+}
+
+enum OtauDiscoverError {
+	NoError = 0;
+	OsmModuleNotFound = 1;
+	UnsupportedOsmModuleConnected = 2;
+}
+
+message OtauDiscoverResult {
+	optional OtauDiscover discover = 1;
+	OtauDiscoverError error = 2;
+}
+
+
+message OtauPort {
+  int32 id = 1;
+  int32 portIndex = 2;
+  bool unavailable = 3;
+  int32 monitoringPortId = 4;
+  int32 otauId = 5;
+}
+
+message Otau {
+  int32 id = 1;
+  string type = 2;
+  int32 ocmPortIndex = 3;
+  int32 portCount = 4;
+  string serialNumber = 5;
+  string name = 6;
+  string location = 7;
+  string rack = 8;
+  string shelf = 9;
+  string note = 10;
+  string jsonParameters = 11;
+  bool isConnected = 12;
+  google.protobuf.Timestamp onlineAt = 13;
+  google.protobuf.Timestamp offlineAt = 14;
+  repeated OtauPort ports = 15;
+}
+
+message OtauPatch {
+  optional string name = 1;
+  optional string location = 2;
+  optional string rack = 3;
+  optional string shelf = 4;
+  optional string note = 5;
+}
+
+// GetDeviceInfo
+
+message DeviceInfoRequest {
+
+}
+
+message DeviceInfoResponse {
+  string serialNumber = 1;
+  data.otdr.OtdrMeasurementParameterSet supportedMeasurementParameters = 2;
+  repeated Otau otaus = 3;
+  repeated data.core.MonitoringPort monitoringPorts = 4;
+  repeated data.core.MonitoringTimeSlot monitoringTimeSlots = 5;
+  repeated data.core.AlarmProfile alarmProfiles = 6;
+  data.core.NotificationSettings notificationSettings = 7;
+  string ipV4Address = 8;
+  repeated data.monitoring.MonitoringAlarm activeAlarms = 9;
+  data.core.AppTimeZone timezone = 10;
+  string apiVersion = 11;
+  data.core.NetworkSettings networkSettings = 12;
+  repeated port_labeling.PortLabel portLabels = 13;
+  data.core.TimeSettings timeSettings = 14;
+}
+
+// GetOtau
+message GetOtauRequest{
+	int32 otauId = 1;
+}
+
+message GetOtauResponse{
+	Otau otau = 1;
+}
+
+// UpdateOtau
+message UpdateOtauRequest{
+	int32 otauId = 1;
+	OtauPatch patch = 2;
+}
+
+message UpdateOtauResponse {
+
+}
+
+
+message InAppSystemNotification {
+  data.core.SystemEvent systemEvent = 1;
+  bool inAppInternal = 2;
+  bool inApp = 3;
+}
+
+
+//  GetUserAlarmNotifications
+message GetUserAlarmNotificationsRequest {
+}
+
+message GetUserAlarmNotificationsResponse {
+  repeated data.monitoring.MonitoringAlarmEvent alarmEvents = 1;
+}
+
+// DismissUserAlarmNotification
+
+message DismissUserAlarmNotificationRequest {
+  int32 alarmEventId = 1;
+}
+
+message DismissUserAlarmNotificationResponse {
+}
+
+// DismissUserAlarmNotificationsByLevel
+message DismissUserAlarmNotificationsByLevelRequest {
+  data.monitoring.MonitoringAlarmLevel alarmLevel = 1;
+}
+
+message DismissUserAlarmNotificationsByLevelResponse {
+
+}
+
+// DismissAllUserAlarmNotifications
+message DismissAllUserAlarmNotificationsRequest {
+}
+
+message DismissAllUserAlarmNotificationsResponse {
+}
+
+
+
+
+//  GetUserSystemNotifications
+message GetUserSystemNotificationsRequest {
+}
+
+message GetUserSystemNotificationsResponse {
+  repeated data.core.SystemEvent systemEvents = 1;
+}
+
+// DismissUserSystemNotification
+
+message DismissUserSystemNotificationRequest {
+  int32 systemEventId = 1;
+}
+
+message DismissUserSystemNotificationResponse {
+}
+
+// DismissUserSystemNotificationsByLevel
+message DismissUserSystemNotificationsByLevelRequest {
+  data.core.SystemEventLevel systemEventLevel = 1;
+}
+
+message DismissUserSystemNotificationsByLevelResponse {
+  
+}
+
+// DismissAllUserSystemNotifications
+message DismissAllUserSystemNotificationsRequest {
+}
+
+message DismissAllUserSystemNotificationsResponse {
+}
+
+// GetSystemMessageStream
+
+message GetSystemMessageStreamRequest {
+}
+
+message GetSystemMessageStreamResponse {
+  oneof message {
+      InAppSystemNotification systemNotification = 1;
+      data.monitoring.MonitoringAlarmEvent alarmNotification = 2;
+  }  
+}
+
+// RemoveOtau
+
+message RemoveOtauRequest {
+  int32 otauId = 1;
+}
+
+message RemoveOtauResponse {
+}
+
+
+// common for Discover
+
+message DiscoverOtauResponse {
+  OtauDiscoverResult discoverResult = 1;
+}
+
+
+// DiscoverOsmOtau
+
+message DiscoverOsmOtauRequest {
+  int32 chainAddress = 1;
+}
+
+// DiscoverOxcOtauRequest
+
+message DiscoverOxcOtauRequest {
+  string ipAddress = 1;
+  int32 port = 2;
+}
+
+// BlinkOtau
+
+message BlinkOtauRequest {
+  int32 otauId = 1;
+}
+
+message BlinkOtauResponse {
+  bool success = 1;
+}
+
+// BlinkOsmOtau
+
+message BlinkOsmOtauRequest {
+  int32 chainAddress = 1;
+}
+
+// BlinkOxcOtauRequest
+
+message BlinkOxcOtauRequest {
+  string ipAddress = 1;
+  int32 port = 2;
+}
+
+
+// AddOsmOtau
+
+message AddOsmOtauRequest {
+  int32 ocmPortIndex = 1;
+  int32 chainAddress = 2;
+}
+
+message AddOsmOtauResponse {
+}
+
+// AddOxcOtau
+
+message AddOxcOtauRequest {
+  int32 ocmPortIndex = 1;
+  string ipAddress = 2;
+  int32 port = 3;
+}
+
+message AddOxcOtauResponse {
+}
+
+

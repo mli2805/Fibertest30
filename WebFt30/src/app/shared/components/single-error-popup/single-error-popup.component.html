@@ -1,0 +1,8 @@
+<div
+  class="fixed bottom-0 right-2 z-40 m-3 cursor-pointer rounded-sm bg-red-400 px-5 py-2 text-sm opacity-0 transition-opacity duration-500 ease-in-out dark:bg-red-500"
+  [class.opacity-90]="showError"
+  (click)="hideError()"
+  *ngIf="errorMessageId"
+>
+  {{ errorMessageId | translate }}
+</div>

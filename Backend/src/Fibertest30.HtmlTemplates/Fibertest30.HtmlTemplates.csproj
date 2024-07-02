@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Scriban" Version="5.9.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="assets\" />
+    <Folder Include="assets\html-templates\maizzle-generated\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="assets\html-templates\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="maizzle\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="maizzle\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="maizzle\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fibertest30.Application\Fibertest30.Application.csproj" />
+  </ItemGroup>
+
+</Project>

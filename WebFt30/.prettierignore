@@ -1,0 +1,10 @@
+
+package.json
+package-lock.json
+
+# formatOnSave is disabled for html files in VsCode settings.json
+# let's not ignore html files in Prettier, so we still can use "Format Document" command manually
+# *.html 
+
+# generated
+src/grpc-generated

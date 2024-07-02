@@ -1,0 +1,12 @@
+<rtu-loading-centered-big-spinner
+  *ngIf="(loading$ | async) || (networkSettingsLoading$ | async) || (timeSettingsLoading$ | async)"
+></rtu-loading-centered-big-spinner>
+
+<div *ngIf="deviceInfo$ | async as deviceInfo">
+  <fieldset [disabled]="(hasChangeNetworkSettingsPermission$ | async) === false">
+    <rtu-network-settings></rtu-network-settings>
+  </fieldset>
+  <fieldset [disabled]="(hasChangeTimeSettingsPermission$ | async) === false">
+    <rtu-time-settings></rtu-time-settings>
+  </fieldset>
+</div>

@@ -1,0 +1,13 @@
+<div *ngIf="array$ | async as array">
+  <div *ngIf="array.length === 0">
+    <div class="py-5 text-left">{{ 'i18n.common.no-data' | translate }}</div>
+  </div>
+  <div
+    *ngIf="array.length > 0 && array.length % pageSize === 0"
+    class="flex place-content-center pb-2"
+  >
+    <div (click)="onLoadMore(array[array.length - 1])">
+      <div class="border-1 cursor-pointer text-xs">{{ 'i18n.common.load-more' | translate }}..</div>
+    </div>
+  </div>
+</div>

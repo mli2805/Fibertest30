@@ -1,0 +1,159 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Fibertest30.Api";
+package fibertest30.Identity;
+
+service Identity {
+  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc RefreshToken (RefreshTokenRequest) returns (RefreshTokenResponse);
+  rpc IsAuthenticated(IsAuthenticatedRequest) returns (IsAuthenticatedResponse);
+  
+  // Todo: consider moving user settings to a separate service
+  rpc GetCurrentUser(GetCurrentUserRequest) returns (GetCurrentUserResponse);
+  rpc SaveUserSettings(SaveUserSettingsRequest) returns (SaveUserSettingsResponse);
+
+  rpc GetAllUsers(GetAllUsersRequest) returns (GetAllUsersResponse);
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+  
+  rpc GetAllRoles(GetAllRolesRequest) returns (GetAllRolesResponse);
+}
+
+message Role {
+  string name = 1;
+  repeated string permissions = 2;
+}
+
+message User {
+	string userId = 1;
+	string userName = 2;
+	string firstName = 3;
+	string lastName = 4;
+	string email = 5;
+	string phoneNumber = 6;
+	string jobTitle = 7;
+	string role = 8;
+	repeated string permissions = 9;
+}
+
+message ApplicationUserPatch {
+	optional string userName = 1;
+	optional string firstName = 2;
+	optional string lastName = 3;
+	optional string email = 4;
+	optional string phoneNumber = 5;
+	optional string jobTitle = 6;
+	optional string role = 7;
+	optional string password = 8;
+}
+
+
+message UserSettings {
+  string language = 2;
+  string theme = 3;
+  string dateTimeFormat = 5;
+}
+
+// Login
+message LoginRequest {
+  string userName = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  bool allow = 1;
+  string token = 2;
+  User user = 3;
+  UserSettings settings = 4;
+}
+
+
+// RefreshToken
+message RefreshTokenRequest {
+}
+
+message RefreshTokenResponse {
+  string token = 1;
+}
+
+// IsAuthenticated
+message IsAuthenticatedRequest {
+}
+
+message IsAuthenticatedResponse {
+  bool isAuthenticated = 1;
+}
+
+
+// GetCurrentUser
+message GetCurrentUserRequest {
+}
+
+message GetCurrentUserResponse {
+  User user = 1;
+  UserSettings settings = 2;
+}
+
+// SaveUserSettings
+message SaveUserSettingsRequest {
+  UserSettings settings = 1;
+}
+
+message SaveUserSettingsResponse {
+}
+
+// GetAllUsers
+message GetAllUsersRequest {
+}
+
+message GetAllUsersResponse {
+	repeated User users = 1;
+}
+
+// GetUser
+message GetUserRequest {
+  string userId = 1;
+}
+
+message GetUserResponse {
+  User user = 1;
+}
+
+// UpdateUser
+message UpdateUserRequest{
+  string userId = 1;
+	ApplicationUserPatch patch = 2;
+}
+
+message UpdateUserResponse {
+
+}
+
+// CreateUser
+message CreateUserRequest{
+	ApplicationUserPatch patch = 1;
+}
+
+message CreateUserResponse {
+
+}
+
+// DeleteUser
+message DeleteUserRequest{
+	string userId = 1;
+}
+
+message DeleteUserResponse{
+
+}
+
+// GetAllRoles
+message GetAllRolesRequest {
+}
+
+message GetAllRolesResponse {
+  repeated Role roles = 1;
+}
+

@@ -1,0 +1,17 @@
+<rtu-single-error-popup
+  [errorMessageId$]="errorMessageId$"
+  [resetErrorAction]="otausActions.resetError()"
+></rtu-single-error-popup>
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
+
+<div>
+  <rtu-platform-card></rtu-platform-card>
+  <div class="m-2 flex grow flex-wrap content-start gap-2">
+    <ng-container *ngFor="let otau of otaus$ | async">
+      <rtu-otau-card
+        [otau]="otau"
+        [hasPermission]="hasOtauConfigurationPermission$ | async"
+      ></rtu-otau-card>
+    </ng-container>
+  </div>
+</div>

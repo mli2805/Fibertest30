@@ -1,0 +1,86 @@
+<rtu-single-error-popup
+  [errorMessageId$]="errorMessageId$"
+  [resetErrorAction]="monitoringHistoryActions.resetError()"
+></rtu-single-error-popup>
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
+
+<div class="flex h-full w-full flex-col pl-5 pt-5">
+  <rtu-monitoring-history-filter
+    (filterChanged)="onFilterChanged($event)"
+  ></rtu-monitoring-history-filter>
+
+  <cdk-virtual-scroll-viewport itemSize="50" class="h-full w-full" style="overflow-y: scroll">
+    <div class="pr-5">
+      <table class="reporting-table">
+        <thead>
+          <tr>
+            <th class="w-48" rtuInverseCdkScrollOffset>
+              <div class="flex justify-center gap-x-2">
+                <div>{{ 'i18n.common.at' | translate }}</div>
+                <rtu-order-button [orderDescending]="orderDescending" (click)="onOrderChanged()" />
+              </div>
+            </th>
+            <th class="w-14" rtuInverseCdkScrollOffset>
+              {{ 'i18n.common.port' | translate }}
+            </th>
+            <th class="pl-5 pr-5 text-left" rtuInverseCdkScrollOffset>
+              <div class="flex items-center">{{ 'i18n.common.status' | translate }}</div>
+            </th>
+            <th rtuInverseCdkScrollOffset>
+              <rtu-relative-time-refresh
+                class="flex items-center"
+                [loadedTime]="loadedTime$ | async"
+                (refresh)="refresh()"
+              ></rtu-relative-time-refresh>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            [id]="monitoring.id"
+            [ngClass]="{
+              'animate-bounce-higlight':
+                higlightService.monitoringHistoryMonitoringId === monitoring.id
+            }"
+            *cdkVirtualFor="let monitoring of monitorings$ | async; trackBy: trackById"
+          >
+            <td class="w-0 whitespace-nowrap pl-5 pr-5">
+              {{ monitoring.completedAt | rtuDateTime : 'medium' }}
+            </td>
+            <td class="w-0 whitespace-nowrap pl-5 pr-5" (click)="toPortDashboard(monitoring)">
+              <div
+                class="cursor-pointer"
+                *ngIf="
+                  getOtauPortPathByMonitoringPortId(monitoring.monitoringPortId) as otauPortPath
+                "
+              >
+                <rtu-otau-port-path-title [otauPortPath]="otauPortPath"></rtu-otau-port-path-title>
+              </div>
+            </td>
+            <td class="whitespace-nowrap pl-5 pr-5">
+              <rtu-monitoring-change-status
+                [changesCount]="monitoring.changesCount"
+                [mostServerChangeLevel]="monitoring.mostSevereChangeLevel"
+              >
+              </rtu-monitoring-change-status>
+            </td>
+            <td class="w-0 pr-5">
+              <div class="flex items-center">
+                <rtu-save-button
+                  class="mr-4 h-5 w-5 text-blue-500"
+                  (click)="saveTraceAndBase(monitoring)"
+                />
+                <rtu-navigate-button class="ml-2 h-6 w-6" [routerLink]="['./', monitoring.id]" />
+              </div>
+            </td>
+          </tr>
+          <tr style="background-color: unset">
+            <td colspan="100">
+              <rtu-no-data-or-load-more [array$]="monitorings$" (loadMore)="loadNextPage($event)" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</div>

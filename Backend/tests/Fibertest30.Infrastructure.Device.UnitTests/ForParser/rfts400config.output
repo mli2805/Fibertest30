@@ -1,0 +1,24 @@
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.177.30  netmask 255.255.255.128  broadcast 192.168.177.127
+        ether 00:18:63:03:4e:24  txqueuelen 1000  (Ethernet)
+        RX packets 243571  bytes 163503825 (155.9 MiB)
+        RX errors 0  dropped 72848  overruns 0  frame 0
+        TX packets 65978  bytes 43998143 (41.9 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.177.1   0.0.0.0         UG    0      0        0 eth0
+192.168.177.0   0.0.0.0         255.255.255.128 U     0      0        0 eth0
+Local IP address   : 192.168.177.30
+Local subnet mask  : 255.255.255.128
+Local gateway IP   : 192.168.177.1
+rtu410 Machine number : 1236
+rtu410 Server IP address  : 192.168.176.153
+rtu410 Server port number : 12300
+rtu410 Server Domain: 
+rtu410 Server Domain Enable: 0
+DNS : 8.8.8.8
+DNSEnable : 1
+Network Mode : IPV4
+Domain: LOCAL

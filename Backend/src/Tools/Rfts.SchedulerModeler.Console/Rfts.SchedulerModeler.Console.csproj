@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>rfts-scheduler</AssemblyName>
+        <RootNamespace>Rfts.ConsoleSchedulerModeler</RootNamespace>
+        <Version>1.4</Version>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Fibertest30.Application\Fibertest30.Application.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="ports-model.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+</Project>

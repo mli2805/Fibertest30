@@ -1,0 +1,6 @@
+<div class="mb-2 flex justify-between">
+  <div class="text-xl">
+    <ng-content></ng-content>
+  </div>
+  <rtu-close-button *ngIf="showClose" class="ml-20 h-6 w-6" (click)="close()" />
+</div>

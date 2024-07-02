@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>Iit.Fibertest.Graph</RootNamespace>
+		<Version>1.0.0.0</Version>
+		<Company>IIT</Company>
+		<Copyright>Copyright © IIT Minsk 2017-2024</Copyright>
+		<Authors>Leanid Marholin</Authors>
+		<AssemblyName>Iit.Fibertest.Graph</AssemblyName>
+
+		<!-- Disable "BinaryFormatter is obsolete" warnings for entire project -->
+		<NoWarn>$(NoWarn);SYSLIB0011</NoWarn>
+		<!-- Warning: Setting the following switch is *NOT* recommended in web apps. -->
+		<EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Utils\**" />
+	  <EmbeddedResource Remove="Utils\**" />
+	  <None Remove="Utils\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="AutoMapper" Version="13.0.1" />
+	  <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
+	  <ProjectReference Include="..\Iit.Fibertest.Dto\Iit.Fibertest.Dto.csproj" />
+	  <ProjectReference Include="..\Iit.Fibertest.StringResources\Iit.Fibertest.StringResources.csproj" />
+	  <ProjectReference Include="..\Iit.Fibertest.UtilsLib\Iit.Fibertest.UtilsLib.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="Optixsoft.OtdrDataFormat">
+	    <HintPath>..\..\..\libs\fiberizer\Optixsoft.OtdrDataFormat.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+</Project>

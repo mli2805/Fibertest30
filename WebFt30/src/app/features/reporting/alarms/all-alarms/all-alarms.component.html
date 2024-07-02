@@ -1,0 +1,39 @@
+<rtu-single-error-popup
+  [errorMessageId$]="errorMessageId$"
+  [resetErrorAction]="allAlarmsActions.resetError()"
+></rtu-single-error-popup>
+
+<div class="p-5">
+  <rtu-monitoring-history-filter
+    (filterChanged)="onFilterChanged($event)"
+  ></rtu-monitoring-history-filter>
+  <div class="relative">
+    <rtu-relative-time-refresh
+      [loadedTime]="loadedTime$ | async"
+      (refresh)="refresh()"
+    ></rtu-relative-time-refresh>
+    <rtu-alarms-with-events-table *ngIf="allAlarms$ | async as alarms" [alarms]="alarms">
+    </rtu-alarms-with-events-table>
+  </div>
+  <div *ngIf="allAlarms$ | async as alarms">
+    <div *ngIf="alarms.length === 250" class="my-2 flex place-content-center text-sm">
+      {{
+        'i18n.monitoring-history.only-first-n-rows-are-displayed'
+          | translate : { '0': alarms.length }
+      }}
+    </div>
+  </div>
+
+  <div *ngIf="allAlarms$ | async as alarms">
+    <div
+      *ngIf="alarms.length === 0 && (loading$ | async) === false"
+      class="flex h-full items-center justify-start"
+    >
+      <div class="py-5 text-left text-sm">
+        {{ 'i18n.common.no-data' | translate }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>

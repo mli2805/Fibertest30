@@ -1,0 +1,14 @@
+<div class="h-full">
+  <div class="flex flex-row items-center">
+    <span class="text-base">{{ 'i18n.common.quick-analysis' | translate }}</span>
+
+    <rtu-quick-analysis-filter
+      [presetMonitoringPortId]="monitoringPortId"
+      (filterChanged)="quickAnalysisChart.refresh($event)"
+    ></rtu-quick-analysis-filter>
+  </div>
+
+  <rtu-quick-analysis-chart #quickAnalysisChart class="h-full pb-9"></rtu-quick-analysis-chart>
+</div>
+
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>

@@ -1,0 +1,23 @@
+<div class="flex h-full w-full flex-col gap-y-6 overflow-auto p-5">
+  <div>
+    <div class="mb-4 text-sm">{{ 'i18n.dashboard.test-queue-monitor' | translate }}</div>
+    <rtu-test-queue-monitor class="ml-6 block"></rtu-test-queue-monitor>
+  </div>
+  <div class="to-h-full-w-full-relative">
+    <div class="to-h-full-w-full-absolute flex flex-col gap-y-6">
+      <div class="flex max-h-[50%] shrink-0 flex-col">
+        <div class="mb-4 text-sm">{{ 'i18n.common.active-alarms' | translate }}</div>
+        <div class="flex-1 overflow-y-auto">
+          <rtu-active-alarms class="ml-6 block"></rtu-active-alarms>
+        </div>
+      </div>
+
+      <div class="flex flex-grow flex-col">
+        <div class="mb-4 text-sm">{{ 'i18n.common.quick-analysis' | translate }}</div>
+        <div class="flex flex-1">
+          <rtu-quick-analysis class="ml-6 flex flex-1"></rtu-quick-analysis>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

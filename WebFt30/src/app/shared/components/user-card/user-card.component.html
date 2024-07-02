@@ -1,0 +1,17 @@
+<div class="flex">
+  <div class="mt-4">
+    <rtu-user-avatar [firstName]="user.firstName" [lastName]="user.lastName"></rtu-user-avatar>
+  </div>
+  <div class="ml-5 flex flex-col self-center">
+    <div class="text-xs text-gray-600 dark:text-gray-400">{{ user.name }}</div>
+    <div class="mb-1 text-lg" *ngIf="user.firstName || user.lastName">
+      {{ user.fullName }}
+    </div>
+    <div class="mb-1 text-sm text-purple-500 dark:text-purple-400">
+      <span>{{ user.role }}</span>
+      <span *ngIf="user.jobTitle">, {{ user.jobTitle }}</span>
+    </div>
+    <div class="text-sm text-gray-600 dark:text-gray-400">{{ user.phoneNumber }}</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400">{{ user.email }}</div>
+  </div>
+</div>

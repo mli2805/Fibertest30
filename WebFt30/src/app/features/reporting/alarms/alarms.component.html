@@ -1,0 +1,15 @@
+<div class="p-0">
+  <div class="relative">
+    <rtu-alarms-group-toggle
+      [checked]="isAlarmsGroupedWithEvents"
+      (toggle)="groupByAlarmId()"
+    ></rtu-alarms-group-toggle>
+
+    <ng-container *ngIf="isAlarmsGroupedWithEvents">
+      <rtu-all-alarms></rtu-all-alarms>
+    </ng-container>
+    <ng-container *ngIf="!isAlarmsGroupedWithEvents">
+      <rtu-alarm-events></rtu-alarm-events>
+    </ng-container>
+  </div>
+</div>

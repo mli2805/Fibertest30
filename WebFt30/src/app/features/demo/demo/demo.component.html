@@ -1,0 +1,17 @@
+<div class="flex h-full w-full flex-col p-2">
+  <div class="ml-1 flex flex-row items-center gap-2">
+    <rtu-router-link [routerLink]="['./greeter']">{{
+      'i18n.demo.greeter' | translate
+    }}</rtu-router-link>
+    <rtu-router-link [routerLink]="['./components']">{{
+      'i18n.demo.components' | translate
+    }}</rtu-router-link>
+    <rtu-router-link [routerLink]="['./sor-viewer']">{{
+      'i18n.demo.sor-viewer' | translate
+    }}</rtu-router-link>
+  </div>
+
+  <div class="flex-1 overflow-y-auto">
+    <router-outlet></router-outlet>
+  </div>
+</div>

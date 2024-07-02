@@ -1,0 +1,48 @@
+<div class="dialog">
+  <div class="flex max-w-md flex-col">
+    <rtu-dialog-header *ngIf="title">
+      <div>
+        <span *ngIf="mode === 'remove'" class="mr-1 text-red-500 dark:text-red-400">{{
+          'i18n.common.remove' | translate
+        }}</span>
+        <ng-container *ngIf="isComponent(title); else titleText" #titleContainer> </ng-container>
+        <ng-template #titleText>
+          <span>{{ title }}</span>
+        </ng-template>
+      </div>
+    </rtu-dialog-header>
+    <div class="text-data-highlight w-full text-sm">{{ message }}</div>
+    <div class="mt-4 flex justify-end">
+      <button
+        [ngClass]="{
+          'button-extra': mode === 'remove',
+          'button-cancel': mode === 'yes-no'
+        }"
+        class="button-extra min-w-36"
+        (click)="onCancel()"
+      >
+        <ng-container *ngIf="mode === 'remove'">
+          {{ 'i18n.common.cancel' | translate }}
+        </ng-container>
+        <ng-container *ngIf="mode === 'yes-no'">
+          {{ 'i18n.common.no' | translate }}
+        </ng-container>
+      </button>
+      <button
+        [ngClass]="{
+          'button-delete': mode === 'remove',
+          'button-ok': mode === 'yes-no'
+        }"
+        class="ml-2 min-w-36"
+        (click)="onOk()"
+      >
+        <ng-container *ngIf="mode === 'remove'">
+          {{ 'i18n.common.remove' | translate }}
+        </ng-container>
+        <ng-container *ngIf="mode === 'yes-no'">
+          {{ 'i18n.common.yes' | translate }}
+        </ng-container>
+      </button>
+    </div>
+  </div>
+</div>

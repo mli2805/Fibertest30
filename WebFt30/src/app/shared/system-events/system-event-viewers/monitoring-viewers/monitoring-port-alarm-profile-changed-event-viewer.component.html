@@ -1,0 +1,29 @@
+<div class="flex flex-col">
+  <div>
+    <span>{{ 'i18n.alarm-profiles.alarm-profile' | translate }}</span>
+    <span *ngIf="getAlarmProfileById(data.AlarmProfileId) as alarmProfile; else noAlarmProfile">
+      <span class="text-data-highlight ml-1"> {{ alarmProfile.name }} </span>
+    </span>
+    <ng-template #noAlarmProfile>
+      <span class="text-data-highlight ml-1 lowercase"> ID = {{ data.AlarmProfileId }} </span>
+    </ng-template>
+  </div>
+
+  <div class="flex items-center lowercase">
+    {{ 'i18n.otau-management.assigned-to' | translate }}
+    {{ 'i18n.common.port' | translate }}
+    <rtu-otau-port-path-title
+      *ngIf="
+        getOtauPortPathByMonitoringPortId(data.MonitoringPortId) as otauPortPath;
+        else noOtauPortPath
+      "
+      class="ml-1"
+      [otauPortPath]="otauPortPath"
+    ></rtu-otau-port-path-title>
+    <ng-template #noOtauPortPath>
+      <span class="text-data-highlight ml-1 lowercase">
+        -{{ 'i18n.common.deleted' | translate }}-
+      </span>
+    </ng-template>
+  </div>
+</div>

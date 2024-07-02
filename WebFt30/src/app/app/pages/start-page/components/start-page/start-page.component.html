@@ -1,0 +1,54 @@
+<rtu-single-error-popup [errorMessageId$]="popupErrorMessageId$"></rtu-single-error-popup>
+
+<div class="flex h-full items-start">
+  <rtu-start-page-sidebar></rtu-start-page-sidebar>
+
+  <!-- min-w-0 class is required for truncating the page title inside the header to work correctly -->
+  <div class="flex h-full w-full min-w-0 flex-col">
+    <rtu-start-page-header #header></rtu-start-page-header>
+
+    <div *ngIf="selectShowSystemNotifications$ | async" class="relative z-20">
+      <div
+        [style.top.px]="headerHeight"
+        class="pointer-events-none fixed bottom-0 right-0 top-0 flex max-w-full pl-10"
+      >
+        <div class="pointer-events-auto w-screen max-w-4xl">
+          <div
+            class="flex h-full flex-col overflow-y-auto rounded-sm bg-rtu-second-bg p-3 dark:bg-rtu-dark-second-bg"
+          >
+            <div class="flex justify-between">
+              <div class="select-none text-blue-600 dark:text-blue-500">
+                {{ 'i18n.start-page.notifications' | translate }}
+              </div>
+              <rtu-close-button class="h-6 w-6" (click)="toggleSystemNotification()" />
+            </div>
+            <rtu-system-notifications class="mt-2"></rtu-system-notifications>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectShowAlarmNotifications$ | async" class="relative z-20">
+      <div
+        [style.top.px]="headerHeight"
+        class="pointer-events-none fixed bottom-0 right-0 top-0 flex max-w-full pl-10"
+      >
+        <div class="pointer-events-auto w-screen max-w-4xl">
+          <div
+            class="flex h-full flex-col overflow-y-auto rounded-sm bg-rtu-second-bg p-3 dark:bg-rtu-dark-second-bg"
+          >
+            <div class="flex justify-between">
+              <div class="select-none text-red-500 dark:text-red-400">
+                {{ 'i18n.start-page.alarms' | translate }}
+              </div>
+              <rtu-close-button class="h-6 w-6" (click)="toggleAlarmNotification()" />
+            </div>
+            <rtu-alarm-notifications class="mt-2"></rtu-alarm-notifications>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <router-outlet></router-outlet>
+  </div>
+</div>

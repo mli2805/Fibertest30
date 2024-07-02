@@ -1,0 +1,265 @@
+syntax = "proto3";
+import "data.core.proto";
+import "data.otdr.proto";
+
+option csharp_namespace = "Fibertest30.Api";
+package fibertest30.measurement;
+
+service Measurement {
+  rpc GetSorSample (GetSorSampleRequest) returns (GetSorSampleResponse);
+  rpc StartOnDemand (StartOnDemandRequest) returns (StartOnDemandResponse);
+  rpc GetOnDemandProgressTrace(GetOnDemandProgressTraceRequest) returns (GetOnDemandProgressTraceResponse);
+  rpc StopOnDemand (StopOnDemandRequest) returns (StopOnDemandResponse);
+  
+  rpc SetMonitoringPortStatus(SetMonitoringPortStatusRequest) returns (SetMonitoringPortStatusResponse);
+  rpc GetMonitoringPort(GetMonitoringPortRequest) returns (GetMonitoringPortResponse);
+  rpc GetOtauMonitoringPorts(GetOtauMonitoringPortsRequest) returns (GetOtauMonitoringPortsResponse);
+
+  rpc SetMonitoringPortSchedule(SetMonitoringPortScheduleRequest) returns (SetMonitoringPortScheduleResponse);
+  rpc SetPortAlarmProfile(SetPortAlarmProfileRequest) returns (SetPortAlarmProfileResponse);
+  // Sets text note for a specific monitoring port.
+  rpc SetMonitoringPortNote(SetMonitoringPortNoteRequest) returns (SetMonitoringPortNoteResponse);
+  
+  rpc StartBaselineSetup(StartBaselineSetupRequest) returns (StartBaselineSetupResponse);
+  rpc StopBaselineSetup(StopBaselineSetupRequest) returns (StopBaselineSetupResponse);
+  rpc GetBaselineProgressTrace(GetBaselineProgressTraceRequest) returns (GetBaselineProgressTraceResponse);
+
+  rpc GetAllAlarmProfiles(GetAllAlarmProfilesRequest) returns (GetAllAlarmProfilesResponse);
+  rpc UpdateAlarmProfile(UpdateAlarmProfileRequest) returns (UpdateAlarmProfileResponse);
+  rpc GetAlarmProfile(GetAlarmProfileRequest) returns (GetAlarmProfileResponse);
+  rpc CreateAlarmProfile(CreateAlarmProfileRequest) returns (CreateAlarmProfileResponse);
+  rpc DeleteAlarmProfile(DeleteAlarmProfileRequest) returns (DeleteAlarmProfileResponse);
+
+  rpc UpdateNotificationSettings(UpdateNotificationSettingsRequest) returns (UpdateNotificationSettingsResponse);
+  rpc GetNotificationSettings(GetNotificationSettingsRequest) returns(GetNotificationSettingsResponse);
+  rpc TestEmailServerSettings(TestEmailServerSettingsRequest) returns(TestEmailServerSettingsResponse);
+  rpc TestTrapReceiverSettings(TestTrapReceiverSettingsRequest) returns(TestTrapReceiverSettingsResponse);
+
+  rpc GetNetworkSettings(GetNetworkSettingsRequest) returns(GetNetworkSettingsResponse);
+  rpc UpdateNetworkSettings(UpdateNetworkSettingsRequest) returns(UpdateNetworkSettingsResponse);
+  rpc GetTimeSettings(GetTimeSettingsRequest) returns(GetTimeSettingsResponse);
+  rpc UpdateTimeSettings(UpdateTimeSettingsRequest) returns(UpdateTimeSettingsResponse);
+}
+
+message GetSorSampleRequest {
+}
+
+message GetSorSampleResponse {
+  bytes sor = 1;
+}
+
+// StartOnDemand
+
+message StartOnDemandRequest {
+  int32 monitoringPortId = 1;
+  data.otdr.MeasurementSettings measurementSettings = 2;
+}
+
+message StartOnDemandResponse {
+  string onDemandId = 1;
+}
+
+//  GetOnDemandProgressTrace
+message GetOnDemandProgressTraceRequest {
+  string onDemandId = 1;
+}
+
+message GetOnDemandProgressTraceResponse {
+  bytes sor = 1;
+}
+
+// StopOnDemand
+message StopOnDemandRequest {
+  string onDemandId = 1;
+}
+
+message StopOnDemandResponse {
+}
+
+// SetMonitoringPortStatus
+message SetMonitoringPortStatusRequest {
+  int32 monitoringPortId = 1;
+  data.core.MonitoringPortStatus status = 2;
+}
+
+message SetMonitoringPortStatusResponse {
+}
+
+// SetMonitoringPortSchedule
+message SetMonitoringPortScheduleRequest {
+	int32 monitoringPortId = 1;
+	data.core.MonitoringSchedule schedule = 2;
+}
+
+message SetMonitoringPortScheduleResponse {}
+
+// SetPortAlarmProfile
+message SetPortAlarmProfileRequest {
+	int32 monitoringPortId = 1;
+	int32 alarmProfileId = 2;
+}
+
+message SetPortAlarmProfileResponse {}
+
+// SetMonitoringPortNote
+message SetMonitoringPortNoteRequest {
+  int32 monitoringPortId = 1;
+  string note = 2; // The name max length is 1000 characters.
+}
+
+message SetMonitoringPortNoteResponse {
+  /*
+    Server sends SystemEventType.MonitoringPortStatusChanged event with MonitoringPortStatusChangedData via server streaming.
+   "MonitoringPortStatusChangedData": {
+      "MonitoringPortId": "int",
+      "Note": "string"
+  }
+ */
+}
+
+// GetMonitoringPort
+
+message GetMonitoringPortRequest {
+  int32 monitoringPortId = 1;
+}
+
+message GetMonitoringPortResponse {
+  data.core.MonitoringPort monitoringPort = 1;
+}
+
+// GetOtauMonitoringPorts
+
+message GetOtauMonitoringPortsRequest {
+  int32 otauId = 1;
+}
+
+message GetOtauMonitoringPortsResponse {
+  repeated data.core.MonitoringPort monitoringPorts = 1;
+}
+
+// StartBaselineSetup
+
+message StartBaselineSetupRequest {
+  int32 monitoringPortId = 1;
+  bool fullAutoMode = 2;
+  data.otdr.MeasurementSettings measurementSettings = 3;
+}
+
+message StartBaselineSetupResponse {
+}
+
+// StopBaselineSetup
+
+message StopBaselineSetupRequest {
+  int32 monitoringPortId = 1;
+}
+
+message StopBaselineSetupResponse {
+}
+
+//  GetBaselineProgressTrace
+message GetBaselineProgressTraceRequest {
+  string taskId = 1;
+}
+
+message GetBaselineProgressTraceResponse {
+  bytes sor = 1;
+}
+
+//
+
+// GetAllAlarmProfiles
+message GetAllAlarmProfilesRequest {
+}
+
+message GetAllAlarmProfilesResponse {
+	repeated data.core.AlarmProfile alarmProfiles = 1;
+}
+
+// UpdateAlarmProfile
+message UpdateAlarmProfileRequest {
+	data.core.AlarmProfile alarmProfile = 1;
+}
+
+message UpdateAlarmProfileResponse {}
+
+// GetAlarmProfile
+message GetAlarmProfileRequest {
+	int32 id = 1;
+}
+
+message GetAlarmProfileResponse {
+	data.core.AlarmProfile alarmProfile = 1;
+}
+
+// CreateAlarmProfile
+message CreateAlarmProfileRequest {
+	data.core.AlarmProfile alarmProfile = 1;
+}
+
+message CreateAlarmProfileResponse {
+	int32 id = 1;
+}
+
+// DeleteAlarmProfile
+message DeleteAlarmProfileRequest {
+	int32 alarmProfileId = 1;
+}
+
+message DeleteAlarmProfileResponse{}
+
+// UpdateNotificationSettings
+message UpdateNotificationSettingsRequest {
+	data.core.NotificationSettings notificationSettings = 1;
+}
+
+message UpdateNotificationSettingsResponse {}
+
+// GetNotificationSettings
+message GetNotificationSettingsRequest {}
+
+message GetNotificationSettingsResponse {
+	data.core.NotificationSettings notificationSettings = 1;
+}
+
+// TestEmailServerSettings
+message TestEmailServerSettingsRequest {
+	data.core.EmailServer emailServer = 1;
+}
+
+message TestEmailServerSettingsResponse {}
+
+// TestTrapReceiverSettings
+message TestTrapReceiverSettingsRequest {
+	data.core.TrapReceiver trapReceiver = 1;
+}
+
+message TestTrapReceiverSettingsResponse {}
+
+// GetNetworkSettings
+message GetNetworkSettingsRequest {}
+
+message GetNetworkSettingsResponse {
+	data.core.NetworkSettings networkSettings = 1;
+}
+
+// UpdateNetworkSettings
+message UpdateNetworkSettingsRequest{
+	data.core.NetworkSettings networkSettings = 1;
+}
+
+message UpdateNetworkSettingsResponse {}
+
+// GetTimeSettings
+message GetTimeSettingsRequest {}
+
+message GetTimeSettingsResponse {
+	data.core.TimeSettings timeSettings = 1;
+}
+
+// UpdateTiemSettings
+message UpdateTimeSettingsRequest{
+	data.core.TimeSettings timeSettings = 1;
+}
+
+message UpdateTimeSettingsResponse {}

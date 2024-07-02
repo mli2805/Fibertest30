@@ -1,0 +1,53 @@
+<div class="dialog">
+  <div class="mb-6 text-base">{{ 'Add new remote Syslog host' }}</div>
+  <div class="grid-container gap-x-6 gap-y-2 text-sm" [formGroup]="form">
+    <label style="grid-area: nameLabel" class="my-auto">{{ 'i18n.common.name' | translate }}</label>
+    <div style="grid-area: nameValue">
+      <input formControlName="name" type="text" class="input-simple w-full" />
+    </div>
+
+    <label style="grid-area: versionLabel" class="my-auto">{{
+      'i18n.common.version' | translate
+    }}</label>
+    <rtu-select style="grid-area: versionValue" formControlName="version" [items]="syslogVersions">
+      <ng-template rtuSelectLabel let-selectedItem>
+        <div class="pl-1">{{ selectedItem }}</div>
+      </ng-template>
+      <ng-template rtuSelectItem let-item>
+        {{ item }}
+      </ng-template>
+    </rtu-select>
+
+    <label style="grid-area: protocolLabel" class="my-auto">{{
+      'i18n.notification-settings.syslog-transport-protocol' | translate
+    }}</label>
+    <rtu-select
+      style="grid-area: protocolValue"
+      formControlName="protocol"
+      [items]="syslogProtocols"
+    >
+      <ng-template rtuSelectLabel let-selectedItem>
+        <div class="pl-1">{{ selectedItem }}</div>
+      </ng-template>
+      <ng-template rtuSelectItem let-item>
+        {{ item }}
+      </ng-template>
+    </rtu-select>
+
+    <label style="grid-area: addressLabel" class="my-auto">{{
+      'i18n.notification-settings.syslog-host-address' | translate
+    }}</label>
+    <div style="grid-area: addressValue">
+      <input formControlName="address" type="text" class="input-simple w-full" />
+    </div>
+  </div>
+
+  <div class="mt-6 flex w-full justify-end">
+    <button class="button-cancel min-w-36" (click)="onDiscardClicked()">
+      {{ 'i18n.common.discard' | translate }}
+    </button>
+    <button class="button-ok ml-2 min-w-36" (click)="onAddClicked()">
+      {{ 'i18n.common.add' | translate }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,103 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>61ddea6a-2040-4f62-8064-8af72d8d5b0d</UserSecretsId>
+
+	  <!-- Disable "BinaryFormatter is obsolete" warnings for entire project -->
+	  <NoWarn>$(NoWarn);SYSLIB0011</NoWarn>
+	  <!-- Warning: Setting the following switch is *NOT* recommended in web apps. -->
+	  <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Fibertest30.FunctionalTests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\data.otdr.proto" ProtoRoot="Protos" GrpcServices="Server" />
+    <Protobuf Include="Protos\data.core.proto" ProtoRoot="Protos" GrpcServices="Server" />
+    <Protobuf Include="Protos\data.monitoring.proto" ProtoRoot="Protos" GrpcServices="Server" />
+    <Protobuf Include="Protos\data.reporting.proto" ProtoRoot="Protos" GrpcServices="Server" />
+    <Protobuf Include="Protos\greet.proto" ProtoRoot="Protos" GrpcServices="Server" />
+    <Protobuf Include="Protos\core.proto" ProtoRoot="Protos" GrpcServices="Server" />
+    <Protobuf Include="Protos\identity.proto" ProtoRoot="Protos" GrpcServices="Server" />
+    <Protobuf Include="Protos\platform.proto" ProtoRoot="Protos" GrpcServices="Server" />
+    <Protobuf Include="Protos\measurement.proto" ProtoRoot="Protos" GrpcServices="Server" />
+    <Protobuf Include="Protos\reporting.proto" ProtoRoot="Protos" GrpcServices="Server" />
+    <Protobuf Include="Protos\prometheus.proto" ProtoRoot="Protos" GrpcServices="Server" />
+    <Protobuf Include="Protos\port_labeling.proto" ProtoRoot="Protos" GrpcServices="Server" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Destructurama.ByIgnoring" Version="1.1.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.52.0" />
+    <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.52.0" />
+    <PackageReference Include="Grpc.AspNetCore.Web" Version="2.52.0" />
+    <PackageReference Include="Lib.AspNetCore.ServerSentEvents" Version="8.3.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+    <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fibertest30.Application\Fibertest30.Application.csproj" />
+    <ProjectReference Include="..\Fibertest30.HtmlTemplates\Fibertest30.HtmlTemplates.csproj" />
+    <ProjectReference Include="..\Fibertest30.Infrastructure\Fibertest30.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="assets\samples\" />
+    <Folder Include="Identity\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="assets\samples\dr_sample_1310.sor">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\libs\fiberizer\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Fiberizer.Common">
+      <HintPath>..\..\libs\fiberizer\Fiberizer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="FiberizerShared">
+      <HintPath>..\..\libs\fiberizer\FiberizerShared.dll</HintPath>
+    </Reference>
+    <Reference Include="Optixsoft.FiberizerModel">
+      <HintPath>..\..\libs\fiberizer\Optixsoft.FiberizerModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Optixsoft.OtdrDataFormat">
+      <HintPath>..\..\libs\fiberizer\Optixsoft.OtdrDataFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="Optixsoft.PortableGeometry.Portable">
+      <HintPath>..\..\libs\fiberizer\Optixsoft.PortableGeometry.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Optixsoft.SharedCommons.Portable">
+      <HintPath>..\..\libs\fiberizer\Optixsoft.SharedCommons.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Optixsoft.SorFormat.Protobuf">
+      <HintPath>..\..\libs\fiberizer\Optixsoft.SorFormat.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>..\..\libs\fiberizer\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net.Core">
+      <HintPath>..\..\libs\fiberizer\protobuf-net.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SorMapper">
+      <HintPath>..\..\libs\fiberizer\SorMapper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

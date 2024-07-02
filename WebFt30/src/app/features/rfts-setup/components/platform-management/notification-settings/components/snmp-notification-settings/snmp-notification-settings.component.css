@@ -1,0 +1,25 @@
+.grid-head {
+  display: grid;
+  grid-template-columns: auto_minmax(0, 1fr);
+  grid-template-areas: 'enabledLabel enabledValue';
+}
+
+.grid-container {
+  display: grid;
+
+  grid-template-columns: auto_minmax(0, 1fr);
+
+  grid-template-areas:
+    'versionLabel versionValue'
+    'useVeexOidLabel useVeexOidValue'
+    'customOidLabel customOidValue'
+    'communityLabel communityValue'
+    'authoritativeEngineIdLabel authoritativeEngineIdValue'
+    'usernameLabel usernameValue'
+    'authenticationPasswordLabel authenticationPasswordValue'
+    'authenticationProtocolLabel authenticationProtocolValue'
+    'privacyPasswordLabel privacyPasswordValue'
+    'privacyProtocolLabel privacyProtocolValue'
+    'snmpTrapReceiverAddressLabel snmpTrapReceiverAddressValue'
+    'snmpTrapReceiverPortLabel snmpTrapReceiverPortValue';
+}
