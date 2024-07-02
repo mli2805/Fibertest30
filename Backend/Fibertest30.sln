@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
+		IgnoredWords.dic = IgnoredWords.dic
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Emulator", "Emulator", "{A977ED93-DE84-4E3D-BE27-9088578C1A89}"
@@ -64,11 +65,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iit.Fibertest.Dto", "src\Ii
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iit.Fibertest.Graph", "src\Iit\Iit.Fibertest.Graph\Iit.Fibertest.Graph.csproj", "{ECE0BEDC-67A2-4304-81D5-E25A9C915243}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GMap.NET.Core", "src\Iit\GMap.NET.Core\GMap.NET.Core.csproj", "{9B1C8763-69B6-4573-B978-27DCAF5ED132}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GMap.NET.Core", "src\Iit\GMap.NET.Core\GMap.NET.Core.csproj", "{9B1C8763-69B6-4573-B978-27DCAF5ED132}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iit.Fibertest.StringResources", "src\Iit\Iit.Fibertest.StringResources\Iit.Fibertest.StringResources.csproj", "{294AD1CE-8110-4D01-AE70-6207EB5FE216}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iit.Fibertest.UtilsLib", "src\Iit\Iit.Fibertest.UtilsLib\Iit.Fibertest.UtilsLib.csproj", "{E24D7CFF-EF14-4447-A92E-D02B4BFDAE55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iit.Fibertest.UtilsLib", "src\Iit\Iit.Fibertest.UtilsLib\Iit.Fibertest.UtilsLib.csproj", "{E24D7CFF-EF14-4447-A92E-D02B4BFDAE55}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

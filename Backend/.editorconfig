@@ -255,3 +255,7 @@ dotnet_naming_symbols.instance_fields.applicable_kinds = field
 
 dotnet_naming_style.instance_field_style.capitalization = camel_case
 dotnet_naming_style.instance_field_style.required_prefix = _
+[*]
+vsspell_section_id = 89a6208fb6eb4a5694b6c4879f9acf6f
+vsspell_ignored_words_89a6208fb6eb4a5694b6c4879f9acf6f = IIT|OTAU|RTU|sor|Timestamp|Veex|IP|username
+
