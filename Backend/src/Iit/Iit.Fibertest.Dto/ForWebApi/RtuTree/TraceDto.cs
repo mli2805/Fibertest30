@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Dto
         [DataMember] public Guid TraceId;
         [DataMember] public Guid RtuId;
         [DataMember] public string Title;
-        [DataMember] public OtauPortDto OtauPort;
+        [DataMember] public OtauPortDto? OtauPort;
         [DataMember] public bool IsAttached;
 
         [DataMember] public FiberState State;

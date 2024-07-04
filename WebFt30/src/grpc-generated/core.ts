@@ -7,6 +7,7 @@ import { SystemEventLevel } from "./data.core";
 import { MonitoringAlarmLevel } from "./data.monitoring";
 import { MonitoringAlarmEvent } from "./data.monitoring";
 import { SystemEvent } from "./data.core";
+import { Rtu } from "./rtu_tree";
 import { TimeSettings } from "./data.core";
 import { PortLabel } from "./port_labeling";
 import { NetworkSettings } from "./data.core";
@@ -226,6 +227,10 @@ export interface DeviceInfoResponse {
      * @generated from protobuf field: fibertest30.data.core.TimeSettings timeSettings = 14;
      */
     timeSettings?: TimeSettings;
+    /**
+     * @generated from protobuf field: repeated fibertest30.rtu_tree.Rtu rtus = 15;
+     */
+    rtus: Rtu[];
 }
 /**
  * GetOtau
@@ -705,7 +710,8 @@ class DeviceInfoResponse$Type extends MessageType<DeviceInfoResponse> {
             { no: 11, name: "apiVersion", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 12, name: "networkSettings", kind: "message", T: () => NetworkSettings },
             { no: 13, name: "portLabels", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => PortLabel },
-            { no: 14, name: "timeSettings", kind: "message", T: () => TimeSettings }
+            { no: 14, name: "timeSettings", kind: "message", T: () => TimeSettings },
+            { no: 15, name: "rtus", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Rtu }
         ]);
     }
 }

@@ -7,7 +7,7 @@ namespace Iit.Fibertest.Dto
     public class OtauPortDto
     {
         [DataMember]
-        public string OtauId { get; set; } // in VeEX RTU main OTAU has its own ID, for MAK it is a RTU ID
+        public string? OtauId { get; set; } // in VeEX RTU main OTAU has its own ID, for MAK it is a RTU ID or NULL
 
         [DataMember]
         public NetAddress NetAddress { get; set; } = new NetAddress();

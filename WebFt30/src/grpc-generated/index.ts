@@ -17,3 +17,5 @@ export * from './prometheus';
 export * from './prometheus.client';
 export * from './port_labeling';
 export * from './port_labeling.client';
+export * from './rtu_tree';
+export * from './rtu_tree.client';

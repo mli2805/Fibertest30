@@ -3,6 +3,7 @@ import "data.otdr.proto";
 import "data.monitoring.proto";
 import "data.core.proto";
 import "port_labeling.proto";
+import "rtu_tree.proto";
 import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Fibertest30.Api";
@@ -108,6 +109,8 @@ message DeviceInfoResponse {
   data.core.NetworkSettings networkSettings = 12;
   repeated port_labeling.PortLabel portLabels = 13;
   data.core.TimeSettings timeSettings = 14;
+
+  repeated rtu_tree.Rtu rtus = 15;
 }
 
 // GetOtau

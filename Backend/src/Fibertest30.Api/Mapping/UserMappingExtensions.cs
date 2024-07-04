@@ -14,7 +14,7 @@ public static class UserMappingExtensions
             PhoneNumber = authUser.User.PhoneNumber ?? string.Empty,
             JobTitle = authUser.User.JobTitle,
             Role = authUser.Role.Name,
-            Permissions = {  authUser.Role.Permissions.Select(x => x.ToString()) }
+            Permissions = { authUser.Role.Permissions.Select(x => x.ToString()) }
         };
     }
 
@@ -26,13 +26,13 @@ public static class UserMappingExtensions
     public static Fibertest30.Application.ApplicationUserPatch FromProto(this ApplicationUserPatch patch)
     {
         return new Fibertest30.Application.ApplicationUserPatch(
-            patch.HasUserName ? patch.UserName : null, 
-            patch.HasFirstName ? patch.FirstName : null, 
-            patch.HasLastName ? patch.LastName : null, 
-            patch.HasEmail ? patch.Email : null, 
+            patch.HasUserName ? patch.UserName : null,
+            patch.HasFirstName ? patch.FirstName : null,
+            patch.HasLastName ? patch.LastName : null,
+            patch.HasEmail ? patch.Email : null,
             patch.HasPhoneNumber ? patch.PhoneNumber : null,
-            patch.HasJobTitle ? patch.JobTitle : null, 
-            patch.HasRole ? patch.Role : null, 
+            patch.HasJobTitle ? patch.JobTitle : null,
+            patch.HasRole ? patch.Role : null,
             patch.HasPassword ? patch.Password : null);
     }
 
@@ -45,7 +45,7 @@ public static class UserMappingExtensions
             DateTimeFormat = settings.DateTimeFormat,
         };
     }
-    
+
     public static Fibertest30.Application.UserSettings FromProto(this UserSettings settings)
     {
         return new Fibertest30.Application.UserSettings()

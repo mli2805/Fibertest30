@@ -1,3 +1,5 @@
+using Iit.Fibertest.Dto;
+
 namespace Fibertest30.Application;
 
 public class DeviceInfo
@@ -19,4 +21,6 @@ public class DeviceInfo
     public TimeSettings TimeSettings { get; set; } = null!;
     
     public List<PortLabel> PortLabels { get; set; } = null!;
+
+    public List<RtuDto> RtuTree { get; set; } = null!;
 }

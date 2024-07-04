@@ -29,6 +29,7 @@
     <Protobuf Include="Protos\reporting.proto" ProtoRoot="Protos" GrpcServices="Server" />
     <Protobuf Include="Protos\prometheus.proto" ProtoRoot="Protos" GrpcServices="Server" />
     <Protobuf Include="Protos\port_labeling.proto" ProtoRoot="Protos" GrpcServices="Server" />
+    <Protobuf Include="Protos\rtu_tree.proto" ProtoRoot="Protos" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>

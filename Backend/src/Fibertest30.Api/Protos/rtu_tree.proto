@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+option csharp_namespace = "Fibertest30.Api";
+package fibertest30.rtu_tree;
+
+service RtuTree {
+	rpc GetRtuTree (GetRtuTreeRequest) returns (GetRtuTreeResponse);
+}
+
+enum RtuPartState { 
+    NotSetYet = 0;
+    RtuPartState_Ok = 1; // can't be just Ok
+	Broken = -1; 
+}
+
+enum MonitoringState {
+    MonitoringState_Unknown = 0; // can't be just Unknown
+    Off = 1;
+    On = 2;
+}
+
+enum FiberState {
+    //
+    NotInTrace = 0x0;
+    NotJoined = 0x1;
+    //
+    FiberState_Unknown = 0x2; // can't be just Unknown
+    NotInZone = 0x3;
+    //
+    FiberState_Ok = 0x4; // can't be just Ok
+    Suspicion = 0x5;
+    Minor = 0x6;
+    Major = 0x7;
+    Critical = 0x8;
+    User = 0x9;
+    FiberBreak = 0xA;
+    NoFiber = 0xB;
+    //
+    HighLighted = 0xE;
+    DistanceMeasurement = 0xF;
+    //
+    Nothing = -1;
+
+}
+
+message NetAddress {
+    string ip4Address = 1;
+    string hostName = 2;
+    int32 port = 3;
+}
+
+message PortOfOtau {
+    optional string otauId = 1; // main MAK-100 OTAU has no ID
+    NetAddress otauNetAddress = 2;
+    string otauSerial = 3;
+
+    int32 opticalPort = 4;
+    bool isPortOnMainCharon = 5;
+    int32 mainCharonPort = 6;
+}
+
+message Trace {
+	string traceId = 1;
+	string rtuId = 2;
+	string title = 3;
+    optional PortOfOtau port = 4; // there is no PortOfOtau if trace is detached
+	bool isAttached = 5;
+    FiberState state = 6;
+    bool hasEnoughBaseRefsToPerformMonitoring = 7;
+    bool isIncludedInMonitoringCycle = 8;
+}
+
+message Bop {
+    string bopId = 1;
+	string rtuId = 2;
+    NetAddress bopNetAddress = 3;
+    int32 masterPort = 4;
+    bool isOk = 5;
+    string serial = 6;
+    int32 portCount = 7;
+
+	repeated Trace traces = 8;
+}
+
+message Rtu {
+	string rtuId = 1;
+	string title = 2;
+	RtuPartState mainChannelState = 3;
+	RtuPartState reserveChannelState = 4;
+	MonitoringState monitoringMode = 5;
+    int32 ownPortCount = 6;
+    
+	repeated Bop bops = 7;
+	repeated Trace traces = 8;
+}
+
+message GetRtuTreeRequest {}
+message GetRtuTreeResponse {
+	repeated Rtu rtus = 1;
+}

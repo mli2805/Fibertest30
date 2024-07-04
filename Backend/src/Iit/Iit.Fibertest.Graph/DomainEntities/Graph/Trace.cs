@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Graph
         public Guid RtuId { get; set; } // it's better to store than search through the RTU list
 
         public FiberState State { get; set; } = FiberState.NotJoined;
-        public OtauPortDto OtauPort { get; set; } // it's better to store due attach to port, cos search is too complicated
+        public OtauPortDto? OtauPort { get; set; } // it's better to store due attach to port, cos search is too complicated
         public bool IsAttached => OtauPort != null;
         public int Port { get; set; } = -1;
 

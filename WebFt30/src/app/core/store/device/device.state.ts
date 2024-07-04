@@ -12,6 +12,7 @@ import { AlarmProfile } from '../models/alarm-profile';
 import { NetworkSettings } from '../models/network-settings';
 import { NtpSettings } from '../models/ntp-settings';
 import { TimeSettings } from '../models/time-settings';
+import { Rtu } from '../models/ft30/rtu';
 
 export interface DeviceState {
   deviceInfo: DeviceInfo | null;
@@ -34,4 +35,5 @@ export class DeviceInfo {
   ntpSettings!: NtpSettings;
   timeSettings!: TimeSettings;
   portLabels!: PortLabel[];
+  rtus!: Rtu[];
 }

@@ -56,6 +56,7 @@ import { NetworkSettings } from './store/models/network-settings';
 import { NtpSettings } from './store/models/ntp-settings';
 import { TimeSettings } from './store/models/time-settings';
 import { TimeZone } from './store/models/time-zone';
+import { TreeMapping } from './store/mapping/tree-mapping';
 
 export class MapUtils {
   static toGrpcNotificationSettings(settings: NotificationSettings): grpc.NotificationSettings {
@@ -444,6 +445,7 @@ export class MapUtils {
     deviceInfo.networkSettings = this.toNetworkSettings(response.networkSettings!);
     deviceInfo.timeSettings = this.toTimeSettings(response.timeSettings!);
     deviceInfo.portLabels = response.portLabels.map((x) => MapUtils.toPortLabel(x));
+    deviceInfo.rtus = response.rtus.map((r) => TreeMapping.fromGrpcRtu(r));
 
     const supportedMeasurementParameters = new OtdrMeasurementParameters();
     supportedMeasurementParameters.laserUnits = [];

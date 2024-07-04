@@ -42,7 +42,9 @@ public class CoreService : Core.CoreBase
             ActiveAlarms = { deviceInfo.ActiveAlarms.Select(x => x.ToProto()) },
             NetworkSettings = deviceInfo.NetworkSettings.ToProto(),
             TimeSettings = deviceInfo.TimeSettings.ToProto(),
-            PortLabels = { deviceInfo.PortLabels.Select(x => x.ToProto()) }
+            PortLabels = { deviceInfo.PortLabels.Select(x => x.ToProto()) },
+
+            Rtus = { deviceInfo.RtuTree.Select(r=>r.ToProto())},
         };
 
         return response;
