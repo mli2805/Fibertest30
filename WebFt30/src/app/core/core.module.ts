@@ -45,6 +45,7 @@ import { BaselineHistoryEffects } from './store/baseline-history/baseline-histor
 import { NetworkSettingsEffects } from './store/network-settings/network-settings.effects';
 import { PortLabelsEffects } from './store/port-labels/port-labs.effects';
 import { TimeSettingsEffects } from './store/time-settings/time-settings.effects';
+import { RtuTreeEffects } from './store/rtu-tree/rtu-tree.effects';
 
 @NgModule({
   imports: [
@@ -103,7 +104,9 @@ import { TimeSettingsEffects } from './store/time-settings/time-settings.effects
       BaselineHistoryEffects,
       NetworkSettingsEffects,
       TimeSettingsEffects,
-      PortLabelsEffects
+      PortLabelsEffects,
+
+      RtuTreeEffects
     ]),
     StoreRouterConnectingModule.forRoot(), //setup dev tools
     environment.production

@@ -56,6 +56,8 @@ import { PortLabelsState } from './store/port-labels/port-labels.state';
 import { portLabelsReducer } from './store/port-labels/port-labels.reducer';
 import { timeSettingsReducer } from './store/time-settings/time-settings.reducer';
 import { TimeSettingsState } from './store/time-settings/time-settings.state';
+import { RtuTreeState } from './store/rtu-tree/rtu-tree.state';
+import { rtuTreeReducer } from './store/rtu-tree/rtu-tree.reducer';
 
 export interface AppState {
   auth: AuthState;
@@ -85,6 +87,8 @@ export interface AppState {
   networkSettings: NetworkSettingsState;
   timeSettings: TimeSettingsState;
   portLabels: PortLabelsState;
+
+  rtuTree: RtuTreeState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -114,7 +118,9 @@ export const reducers: ActionReducerMap<AppState> = {
   router: routerReducer,
   networkSettings: networkSettingsReducer,
   timeSettings: timeSettingsReducer,
-  portLabels: portLabelsReducer
+  portLabels: portLabelsReducer,
+
+  rtuTree: rtuTreeReducer
 };
 
 // better to use Chrome's Redux DevTools plugin instead of 'debug' metaReducer
@@ -149,3 +155,4 @@ export const selectBaselineHistoryState = (state: AppState) => state.baselineHis
 export const selectNetworkSettingsState = (state: AppState) => state.networkSettings;
 export const selectTimeSettingsState = (state: AppState) => state.timeSettings;
 export const selectPortLabelsState = (state: AppState) => state.portLabels;
+export const selectRtuTreeState = (state: AppState) => state.rtuTree;
