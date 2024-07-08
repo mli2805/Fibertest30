@@ -8,6 +8,11 @@ import { ActiveAlarmsComponent } from './components/active-alarms/active-alarms.
 import { QuickAnalysisComponent } from './components/quick-analysis/quick-analysis.component';
 import { MeasurementModule } from '../shared/measurement/measurement.module';
 import { RtuTreeComponent } from './components/rtu-tree/rtu-tree.component';
+import { OneRtuComponent } from './components/rtu-tree/one-rtu/one-rtu.component';
+import { AttachedTraceComponent } from './components/rtu-tree/attached-trace/attached-trace.component';
+import { DetachedTraceComponent } from './components/rtu-tree/detached-trace/detached-trace.component';
+import { FreePortComponent } from './components/rtu-tree/free-port/free-port.component';
+import { OneBopComponent } from './components/rtu-tree/one-bop/one-bop.component';
 
 @NgModule({
   imports: [DashboardRoutingModule, SharedModule, MeasurementModule],
@@ -17,7 +22,12 @@ import { RtuTreeComponent } from './components/rtu-tree/rtu-tree.component';
     TestQueueMonitorComponent,
     ActiveAlarmsComponent,
     QuickAnalysisComponent,
-    RtuTreeComponent
+    RtuTreeComponent,
+    OneRtuComponent,
+    AttachedTraceComponent,
+    DetachedTraceComponent,
+    FreePortComponent,
+    OneBopComponent
   ],
   providers: []
 })

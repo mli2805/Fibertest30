@@ -13,4 +13,6 @@ export class Rtu {
 
   bops!: Bop[];
   traces!: Trace[];
+
+  children!: any[];
 }

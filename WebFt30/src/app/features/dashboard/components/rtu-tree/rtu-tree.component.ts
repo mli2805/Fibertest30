@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { firstValueFrom } from 'rxjs';
 import { AppState, RtuTreeSelectors } from 'src/app/core';
+import { CoreUtils } from 'src/app/core/core.utils';
+import { RtuTreeService } from 'src/app/core/grpc/services/rtu-tree.service';
+import { TreeMapping } from 'src/app/core/store/mapping/tree-mapping';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 
 @Component({
@@ -8,24 +12,57 @@ import { Rtu } from 'src/app/core/store/models/ft30/rtu';
   templateUrl: './rtu-tree.component.html'
 })
 export class RtuTreeComponent {
-  rtus$ = this.store.select(RtuTreeSelectors.selectRtuTree);
-
+  rtus!: Rtu[] | null;
   expandedIds: string[] = [];
+  collectionOfChildren!: any[];
 
-  constructor(private store: Store<AppState>) {
-    //
+  constructor(private store: Store<AppState>, private rtuTreeService: RtuTreeService) {
+    this.rtus = CoreUtils.getCurrentState(store, RtuTreeSelectors.selectRtuTree);
+    if (!this.rtus) this.loadRtus();
+    this.collectionOfChildren = [];
+    for (const rtu of this.rtus!) {
+      this.arrangeRtuChildren(rtu);
+    }
+    console.log(this.collectionOfChildren);
   }
 
-  flipBranch(rtu: Rtu) {
-    const index = this.expandedIds.indexOf(rtu.rtuId);
-    if (index === -1) {
-      this.expandedIds.push(rtu.rtuId);
-    } else {
-      this.expandedIds.splice(index, 1);
+  async loadRtus(): Promise<boolean> {
+    try {
+      const response = await firstValueFrom(this.rtuTreeService.refreshRtuTree());
+      this.rtus = response.rtus.map((r) => TreeMapping.fromGrpcRtu(r));
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
     }
   }
 
-  isExpanded(id: string) {
-    return this.expandedIds.indexOf(id) !== -1;
+  arrangeRtuChildren(rtu: Rtu) {
+    const children = [];
+    for (let i = 0; i < rtu.ownPortCount; i++) {
+      const bop = rtu.bops.find((b) => b.masterPort === i + 1);
+      if (bop !== undefined) {
+        const child = { type: 'bop', port: i + 1, payload: bop };
+        children.push(child);
+        continue;
+      }
+      const trace = rtu.traces.find((t) => t.port !== null && t.port.opticalPort === i + 1);
+      if (trace !== undefined) {
+        const child = { type: 'attached-trace', port: i + 1, payload: trace };
+        children.push(child);
+        continue;
+      }
+      const child = { type: 'free-port', port: i + 1, payload: null };
+      children.push(child);
+    }
+
+    for (const trace of rtu.traces) {
+      if (trace.port === null) {
+        const child = { type: 'detached-trace', port: -1, payload: trace };
+        children.push(child);
+      }
+    }
+
+    this.collectionOfChildren.push(children);
   }
 }
