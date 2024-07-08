@@ -1,0 +1,62 @@
+<ng-container *ngIf="rtus$ | async as rtus">
+  <table class="min-w-full text-sm">
+    <tbody class="text-center text-gray-700 dark:text-zinc-300">
+      <ng-container *ngFor="let rtu of rtus; let i = index">
+        <tr
+          class="rounded-sm"
+          [ngClass]="{ 'bg-rtu-second-bg dark:bg-rtu-dark-second-bg': i % 2 === 0 }"
+        >
+          <td class="w-0" *ngIf="!isExpanded(rtu.rtuId)">
+            <div class="flex items-center">
+              <rtu-expand-branch class="ml-2 h-6 w-6" (click)="flipBranch(rtu)"></rtu-expand-branch>
+            </div>
+          </td>
+          <td class="w-0" *ngIf="isExpanded(rtu.rtuId)">
+            <div class="flex items-center">
+              <rtu-collapse-branch
+                class="ml-2 h-6 w-6"
+                (click)="flipBranch(rtu)"
+              ></rtu-collapse-branch>
+            </div>
+          </td>
+
+          <td class="w-0">
+            <div class="flex items-center">
+              <rtu-square-pictogram
+                class="ml-1 h-4 w-4 text-blue-500"
+                [fillColor]="'currentColor'"
+              ></rtu-square-pictogram>
+            </div>
+          </td>
+          <td class="w-0">
+            <div class="flex items-center">
+              <rtu-square-pictogram
+                class="ml-1 h-4 w-4 text-gray-500"
+                [fillColor]="'currentColor'"
+              ></rtu-square-pictogram>
+            </div>
+          </td>
+          <td class="w-0">
+            <div class="flex items-center">
+              <rtu-square-pictogram
+                class="ml-1 h-4 w-4 text-red-500"
+                [fillColor]="'currentColor'"
+              ></rtu-square-pictogram>
+            </div>
+          </td>
+          <td class="w-0">
+            <div class="flex items-center">
+              <rtu-square-pictogram
+                class="ml-1 h-4 w-4"
+                [fillColor]="'none'"
+              ></rtu-square-pictogram>
+            </div>
+          </td>
+
+          <td class="w-0 min-w-36 whitespace-nowrap px-3 py-2 text-left">{{ rtu.title }}</td>
+          <td></td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</ng-container>

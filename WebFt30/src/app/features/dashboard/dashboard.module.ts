@@ -7,6 +7,7 @@ import { TestQueueMonitorComponent } from './components/test-queue-monitor/test-
 import { ActiveAlarmsComponent } from './components/active-alarms/active-alarms.component';
 import { QuickAnalysisComponent } from './components/quick-analysis/quick-analysis.component';
 import { MeasurementModule } from '../shared/measurement/measurement.module';
+import { RtuTreeComponent } from './components/rtu-tree/rtu-tree.component';
 
 @NgModule({
   imports: [DashboardRoutingModule, SharedModule, MeasurementModule],
@@ -15,7 +16,8 @@ import { MeasurementModule } from '../shared/measurement/measurement.module';
     DashboardComponent,
     TestQueueMonitorComponent,
     ActiveAlarmsComponent,
-    QuickAnalysisComponent
+    QuickAnalysisComponent,
+    RtuTreeComponent
   ],
   providers: []
 })

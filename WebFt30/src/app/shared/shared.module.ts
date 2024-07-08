@@ -89,6 +89,9 @@ import { QuickAnalysisFilterComponent } from './quick-analysis/filter/quick-anal
 import { PortAlarmStatusComponent } from './common/port-alarm-status/port-alarm-status.component';
 import { MonitoringChangeDistancesComponent } from './domain-components/monitoring-change-distances/monitoring-change-distances.component';
 import { OrderButtonComponent } from './components/svg-buttons/order-button.component';
+import { ExpandBranchComponent } from './components/svg-buttons/expand-branch.component';
+import { CollapseBranchComponent } from './components/svg-buttons/collapse-branch.component';
+import { SquarePictogramComponent } from './components/svg-buttons/square-pictogram.component';
 
 @NgModule({
   imports: [
@@ -164,9 +167,12 @@ import { OrderButtonComponent } from './components/svg-buttons/order-button.comp
     ScheduleModeLineComponent,
     ScheduleModeIconComponent,
     NavigateButtonComponent,
+    CollapseBranchComponent,
+    ExpandBranchComponent,
     SaveButtonComponent,
     CloseButtonComponent,
     OrderButtonComponent,
+    SquarePictogramComponent,
     QuickAnalysisFilterComponent,
     QuickAnalysisChartComponent,
 
@@ -242,9 +248,12 @@ import { OrderButtonComponent } from './components/svg-buttons/order-button.comp
     ScheduleModeLineComponent,
     ScheduleModeIconComponent,
     NavigateButtonComponent,
+    CollapseBranchComponent,
+    ExpandBranchComponent,
     SaveButtonComponent,
     CloseButtonComponent,
     OrderButtonComponent,
+    SquarePictogramComponent,
     QuickAnalysisFilterComponent,
     QuickAnalysisChartComponent,
 
