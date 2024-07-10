@@ -1,1 +1,16 @@
-<p>detached-trace works!</p>
+<div
+  class="flex items-center"
+  [ngClass]="{
+  'bg-rtu-second-bg dark:bg-rtu-dark-second-bg': i % 2 === 0,
+  'border-t-rtu-second-bg dark:border-t-rtu-dark-second-bg': i % 2 !== 0,
+  'border-t-rtu-primary-bg dark:border-t-rtu-dark-primary-bg': i % 2 === 0,
+}"
+>
+  <rtu-trace-monitoring-mode-pictogram
+    [trace]="trace"
+    [rtuMonitoringMode]="rtuMonitoringMode"
+  ></rtu-trace-monitoring-mode-pictogram>
+  <rtu-tce-link-pictogram [state]="trace.tceLinkState"></rtu-tce-link-pictogram>
+  <rtu-fiber-state-pictogram [state]="trace.state"></rtu-fiber-state-pictogram>
+  <div class="ml-2 text-left">{{ trace.title }}</div>
+</div>

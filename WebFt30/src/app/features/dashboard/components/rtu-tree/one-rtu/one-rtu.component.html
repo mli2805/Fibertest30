@@ -1,75 +1,59 @@
-<div class="text-left">
-  <td class="w-0" *ngIf="!isExpanded">
-    <div class="flex items-center">
-      <rtu-expand-branch class="ml-2 h-6 w-6" (click)="flipExpanded()"></rtu-expand-branch>
-    </div>
-  </td>
-  <td class="w-0" *ngIf="isExpanded">
-    <div class="flex items-center">
-      <rtu-collapse-branch class="ml-2 h-6 w-6" (click)="flipExpanded()"></rtu-collapse-branch>
-    </div>
-  </td>
+<!-- rtu line itself -->
+<div
+  class="flex items-center text-left"
+  [ngClass]="{
+  'bg-rtu-second-bg dark:bg-rtu-dark-second-bg': i % 2 === 0,
+}"
+>
+  <div *ngIf="rtu.ownPortCount === 0">
+    <div class="ml-8"></div>
+  </div>
+  <div *ngIf="rtu.ownPortCount !== 0" class="mt-1">
+    <rtu-expand-branch
+      *ngIf="!isExpanded"
+      class="ml-2 h-6 w-6"
+      (click)="flipExpanded()"
+    ></rtu-expand-branch>
+    <rtu-collapse-branch
+      *ngIf="isExpanded"
+      class="ml-2 h-6 w-6"
+      (click)="flipExpanded()"
+    ></rtu-collapse-branch>
+  </div>
 
-  <td class="w-0">
-    <div class="flex items-center">
-      <rtu-square-pictogram
-        class="ml-1 h-4 w-4 text-blue-500"
-        [fillColor]="'currentColor'"
-      ></rtu-square-pictogram>
-    </div>
-  </td>
-  <td class="w-0">
-    <div class="flex items-center">
-      <rtu-square-pictogram
-        class="ml-1 h-4 w-4 text-gray-500"
-        [fillColor]="'currentColor'"
-      ></rtu-square-pictogram>
-    </div>
-  </td>
-  <td class="w-0">
-    <div class="flex items-center">
-      <rtu-square-pictogram
-        class="ml-1 h-4 w-4 text-red-500"
-        [fillColor]="'currentColor'"
-      ></rtu-square-pictogram>
-    </div>
-  </td>
-  <td class="w-0">
-    <div class="flex items-center">
-      <rtu-square-pictogram class="ml-1 h-4 w-4" [fillColor]="'none'"></rtu-square-pictogram>
-    </div>
-  </td>
+  <rtu-monitoring-mode-pictogram [mode]="rtu.monitoringMode"></rtu-monitoring-mode-pictogram>
+  <rtu-rtu-part-state-pictogram [state]="bopState"></rtu-rtu-part-state-pictogram>
+  <rtu-rtu-part-state-pictogram [state]="rtu.mainChannelState"></rtu-rtu-part-state-pictogram>
+  <rtu-rtu-part-state-pictogram [state]="rtu.reserveChannelState"></rtu-rtu-part-state-pictogram>
 
-  <td class="w-0 min-w-36 whitespace-nowrap px-3 py-2 text-left">{{ rtu.title }}</td>
-  <td></td>
-
-  <tr *ngIf="isExpanded" class="rounded-sm border-t-4">
-    <table>
-      <tbody class="text-center">
-        <ng-container *ngFor="let child of children; let i = index">
-          <tr
-            [ngClass]="{
-            'bg-rtu-second-bg dark:bg-rtu-dark-second-bg': i % 2 === 0,
-            'border-t-rtu-second-bg dark:border-t-rtu-dark-second-bg': i % 2 !== 0,
-            'border-t-rtu-primary-bg dark:border-t-rtu-dark-primary-bg': i % 2 === 0,
-     
-          }"
-          >
-            <ng-container *ngIf="child.type === 'bop'">
-              <rtu-one-bop [bop]="child.payload"></rtu-one-bop>
-            </ng-container>
-            <ng-container *ngIf="child.type === 'attached-trace'">
-              <rtu-attached-trace [trace]="child.payload"></rtu-attached-trace>
-            </ng-container>
-            <ng-container *ngIf="child.type === 'free-port'">
-              <rtu-free-port [port]="child.port"></rtu-free-port>
-            </ng-container>
-            <ng-container *ngIf="child.type === 'detached-trace'">
-              <rtu-detached-trace [trace]="child.payload"></rtu-detached-trace>
-            </ng-container>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
-  </tr>
+  <div class="w-0 min-w-36 whitespace-nowrap px-3 py-1 text-left">{{ rtu.title }}</div>
+  <div></div>
 </div>
+
+<!-- children -->
+<ng-container *ngIf="isExpanded" class="rounded-sm">
+  <div class="ml-32 border-t-4 border-t-rtu-primary-bg dark:border-t-rtu-dark-primary-bg">
+    <ng-container *ngFor="let child of children; let ic = index">
+      <ng-container *ngIf="child.type === 'bop'">
+        <rtu-one-bop
+          [bop]="child.payload"
+          [children]="collectionOfChildren[ic]"
+          [i]="ic"
+        ></rtu-one-bop>
+      </ng-container>
+      <ng-container *ngIf="child.type === 'attached-trace'">
+        <rtu-attached-trace
+          [trace]="child.payload"
+          [rtuMonitoringMode]="rtu.monitoringMode"
+          [i]="ic"
+        ></rtu-attached-trace>
+      </ng-container>
+      <ng-container *ngIf="child.type === 'free-port'">
+        <rtu-free-port [port]="child.port" [i]="ic"></rtu-free-port>
+      </ng-container>
+      <ng-container *ngIf="child.type === 'detached-trace'">
+        <rtu-detached-trace [trace]="child.payload" [i]="ic"></rtu-detached-trace>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-container>

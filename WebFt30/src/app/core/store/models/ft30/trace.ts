@@ -1,4 +1,4 @@
-import { FiberState } from './ft-enums';
+import { FiberState, TceLinkState } from './ft-enums';
 import { PortOfOtau } from './port-of-otau';
 
 export class Trace {
@@ -10,4 +10,5 @@ export class Trace {
   state!: FiberState;
   hasEnoughBaseRefsToPerformMonitoring!: boolean;
   isIncludedInMonitoringCycle!: boolean;
+  tceLinkState!: TceLinkState;
 }

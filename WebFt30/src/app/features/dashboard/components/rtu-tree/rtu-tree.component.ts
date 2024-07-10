@@ -13,7 +13,6 @@ import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 })
 export class RtuTreeComponent {
   rtus!: Rtu[] | null;
-  expandedIds: string[] = [];
   collectionOfChildren!: any[];
 
   constructor(private store: Store<AppState>, private rtuTreeService: RtuTreeService) {
@@ -23,7 +22,6 @@ export class RtuTreeComponent {
     for (const rtu of this.rtus!) {
       this.arrangeRtuChildren(rtu);
     }
-    console.log(this.collectionOfChildren);
   }
 
   async loadRtus(): Promise<boolean> {

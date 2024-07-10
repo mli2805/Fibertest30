@@ -1,0 +1,24 @@
+<div class="ml-1 mt-1">
+  <div *ngIf="!trace.hasEnoughBaseRefsToPerformMonitoring">
+    <rtu-square-pictogram class="h-4 w-4" [fillColor]="'none'"></rtu-square-pictogram>
+  </div>
+  <div *ngIf="trace.hasEnoughBaseRefsToPerformMonitoring && !trace.isIncludedInMonitoringCycle">
+    <rtu-square-pictogram
+      class="h-4 w-4 text-gray-200"
+      [fillColor]="'currentColor'"
+    ></rtu-square-pictogram>
+  </div>
+  <!-- for detached trace rtuMonitoringMode === null -->
+  <div *ngIf="trace.isIncludedInMonitoringCycle && rtuMonitoringMode === monitoringState.Off">
+    <rtu-square-pictogram
+      class="h-4 w-4 text-gray-400"
+      [fillColor]="'currentColor'"
+    ></rtu-square-pictogram>
+  </div>
+  <div *ngIf="trace.isIncludedInMonitoringCycle && rtuMonitoringMode === monitoringState.On">
+    <rtu-square-pictogram
+      class="h-4 w-4 text-green-500"
+      [fillColor]="'currentColor'"
+    ></rtu-square-pictogram>
+  </div>
+</div>

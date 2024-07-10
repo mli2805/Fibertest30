@@ -146,6 +146,7 @@ namespace Iit.Fibertest.Graph
                 State = t.State,
                 HasEnoughBaseRefsToPerformMonitoring = t.HasEnoughBaseRefsToPerformMonitoring,
                 IsIncludedInMonitoringCycle = t.IsIncludedInMonitoringCycle,
+                TceLinkState = t.TraceToTceLinkState
             };
         }
 

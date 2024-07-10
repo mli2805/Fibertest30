@@ -1,11 +1,21 @@
 import { Component, Input } from '@angular/core';
-import { Trace } from 'src/grpc-generated/rtu_tree';
+import { MonitoringState } from 'src/app/core/store/models/ft30/ft-enums';
+import { Trace } from 'src/app/core/store/models/ft30/trace';
 
 @Component({
   selector: 'rtu-detached-trace',
-  templateUrl: './detached-trace.component.html',
-  styleUrls: ['./detached-trace.component.scss']
+  templateUrl: './detached-trace.component.html'
 })
 export class DetachedTraceComponent {
-  @Input() trace!: Trace;
+  private _trace!: Trace;
+  @Input() set trace(value: Trace) {
+    this._trace = value;
+  }
+  get trace() {
+    return this._trace;
+  }
+
+  @Input() i!: number;
+  // for detached trace is undefined
+  rtuMonitoringMode!: MonitoringState;
 }

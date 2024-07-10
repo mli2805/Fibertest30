@@ -85,6 +85,10 @@ export interface Trace {
      * @generated from protobuf field: bool isIncludedInMonitoringCycle = 8;
      */
     isIncludedInMonitoringCycle: boolean;
+    /**
+     * @generated from protobuf field: fibertest30.rtu_tree.TceLinkState tceLinkState = 9;
+     */
+    tceLinkState: TceLinkState;
 }
 /**
  * @generated from protobuf message fibertest30.rtu_tree.Bop
@@ -281,6 +285,23 @@ export enum FiberState {
      */
     Nothing = -1
 }
+/**
+ * @generated from protobuf enum fibertest30.rtu_tree.TceLinkState
+ */
+export enum TceLinkState {
+    /**
+     * @generated from protobuf enum value: NoLink = 0;
+     */
+    NoLink = 0,
+    /**
+     * @generated from protobuf enum value: SnmpTrapOff = 1;
+     */
+    SnmpTrapOff = 1,
+    /**
+     * @generated from protobuf enum value: SnmpTrapOn = 2;
+     */
+    SnmpTrapOn = 2
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class NetAddress$Type extends MessageType<NetAddress> {
     constructor() {
@@ -323,7 +344,8 @@ class Trace$Type extends MessageType<Trace> {
             { no: 5, name: "isAttached", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 6, name: "state", kind: "enum", T: () => ["fibertest30.rtu_tree.FiberState", FiberState] },
             { no: 7, name: "hasEnoughBaseRefsToPerformMonitoring", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 8, name: "isIncludedInMonitoringCycle", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+            { no: 8, name: "isIncludedInMonitoringCycle", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 9, name: "tceLinkState", kind: "enum", T: () => ["fibertest30.rtu_tree.TceLinkState", TceLinkState] }
         ]);
     }
 }

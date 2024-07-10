@@ -1,1 +1,10 @@
-<p>free-port works!</p>
+<div
+  class="ml-16 text-left"
+  [ngClass]="{
+  'bg-rtu-second-bg dark:bg-rtu-dark-second-bg': i % 2 === 0,
+  'border-t-rtu-second-bg dark:border-t-rtu-dark-second-bg': i % 2 !== 0,
+  'border-t-rtu-primary-bg dark:border-t-rtu-dark-primary-bg': i % 2 === 0,
+}"
+>
+  <span class="ml-1">N{{ port }}</span>
+</div>

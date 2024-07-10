@@ -1,5 +1,5 @@
 import * as grpc from 'src/grpc-generated';
-import { FiberState, MonitoringState, RtuPartState } from '../models/ft30/ft-enums';
+import { FiberState, MonitoringState, RtuPartState, TceLinkState } from '../models/ft30/ft-enums';
 
 export class FtEnumsMapping {
   static fromGrpcFiberState(grpcFiberState: grpc.FiberState): FiberState {
@@ -44,6 +44,17 @@ export class FtEnumsMapping {
         case grpc.RtuPartState.RtuPartState_Ok: return RtuPartState.Ok;
         default:
             throw new Error(`Unknown grpc.RtuPartState: ${grpcRtuPartState}`);
+    }
+  }
+
+  static fromGrpcTceLinkState(grpcTceLinkState: grpc.TceLinkState): TceLinkState {
+    // prettier-ignore
+    switch(grpcTceLinkState) {
+      case grpc.TceLinkState.NoLink: return TceLinkState.NoLink;
+      case grpc.TceLinkState.SnmpTrapOff: return TceLinkState.SnmpTrapOff;
+      case grpc.TceLinkState.SnmpTrapOn: return TceLinkState.SnmpTrapOn;
+      default:
+        throw new Error(`Unknown grpc.TceLinkState: ${grpcTceLinkState}`);
     }
   }
 }

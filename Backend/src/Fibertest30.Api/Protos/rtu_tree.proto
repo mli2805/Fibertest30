@@ -40,7 +40,12 @@ enum FiberState {
     DistanceMeasurement = 0xF;
     //
     Nothing = -1;
+}
 
+enum TceLinkState {
+  NoLink = 0;
+  SnmpTrapOff = 1;
+  SnmpTrapOn = 2;
 }
 
 message NetAddress {
@@ -68,6 +73,7 @@ message Trace {
     FiberState state = 6;
     bool hasEnoughBaseRefsToPerformMonitoring = 7;
     bool isIncludedInMonitoringCycle = 8;
+    TceLinkState tceLinkState = 9;
 }
 
 message Bop {

@@ -1,0 +1,42 @@
+<div class="ml-1 mt-1">
+  <div *ngIf="state === fiberState.NotJoined || state === fiberState.Unknown">
+    <rtu-square-pictogram class="h-4 w-4" [fillColor]="'none'"></rtu-square-pictogram>
+  </div>
+
+  <div *ngIf="state === fiberState.Ok">
+    <rtu-square-pictogram
+      class="h-4 w-4 text-green-500"
+      [fillColor]="'currentColor'"
+    ></rtu-square-pictogram>
+  </div>
+  <div *ngIf="state === fiberState.Suspicion">
+    <rtu-square-pictogram
+      class="h-4 w-4 text-yellow-500"
+      [fillColor]="'currentColor'"
+    ></rtu-square-pictogram>
+  </div>
+  <div *ngIf="state === fiberState.Minor">
+    <rtu-square-pictogram
+      class="h-4 w-4 text-[#a480e0]"
+      [fillColor]="'currentColor'"
+    ></rtu-square-pictogram>
+  </div>
+  <div *ngIf="state === fiberState.Major">
+    <rtu-square-pictogram
+      class="h-4 w-4 text-[#ff00ff]"
+      [fillColor]="'currentColor'"
+    ></rtu-square-pictogram>
+  </div>
+  <div
+    *ngIf="
+      state === fiberState.Critical ||
+      state === fiberState.FiberBreak ||
+      state === fiberState.NoFiber
+    "
+  >
+    <rtu-square-pictogram
+      class="h-4 w-4 text-red-500"
+      [fillColor]="'currentColor'"
+    ></rtu-square-pictogram>
+  </div>
+</div>

@@ -32,3 +32,9 @@ export enum MonitoringState {
   Off = 1,
   On = 2
 }
+
+export enum TceLinkState {
+  NoLink = 0,
+  SnmpTrapOff = 1,
+  SnmpTrapOn = 2
+}

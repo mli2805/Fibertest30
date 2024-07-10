@@ -1,12 +1,5 @@
-<table class="min-w-full text-sm">
-  <tbody class="text-center text-gray-700 dark:text-zinc-300">
-    <ng-container *ngFor="let rtu of rtus; let i = index">
-      <tr
-        class="rounded-sm"
-        [ngClass]="{ 'bg-rtu-second-bg dark:bg-rtu-dark-second-bg': i % 2 === 0 }"
-      >
-        <rtu-one-rtu [rtu]="rtu" [children]="collectionOfChildren[i]"></rtu-one-rtu>
-      </tr>
-    </ng-container>
-  </tbody>
-</table>
+<div class="min-w-full text-sm text-gray-700 dark:text-zinc-300">
+  <ng-container *ngFor="let rtu of rtus; let i = index">
+    <rtu-one-rtu [rtu]="rtu" [children]="collectionOfChildren[i]" [i]="i"></rtu-one-rtu>
+  </ng-container>
+</div>

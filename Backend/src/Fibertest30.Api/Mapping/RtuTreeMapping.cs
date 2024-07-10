@@ -49,6 +49,17 @@ public static class RtuTreeMapping
         };
     }
 
+    private static TceLinkState ToProto(this TraceToTceLinkState state)
+    {
+        return state switch
+        {
+            TraceToTceLinkState.NoLink => TceLinkState.NoLink,
+            TraceToTceLinkState.LinkTceOff => TceLinkState.SnmpTrapOff,
+            TraceToTceLinkState.LinkTceOn => TceLinkState.SnmpTrapOn,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
+
     private static NetAddress ToProto(this Iit.Fibertest.Dto.NetAddress netAddress)
     {
         return new NetAddress()
@@ -102,6 +113,7 @@ public static class RtuTreeMapping
             State = trace.State.ToProto(),
             HasEnoughBaseRefsToPerformMonitoring = trace.HasEnoughBaseRefsToPerformMonitoring,
             IsIncludedInMonitoringCycle = trace.IsIncludedInMonitoringCycle,
+            TceLinkState = trace.TceLinkState.ToProto(),
         };
         if (trace.OtauPort != null) // only for attached trace
         {
