@@ -43,20 +43,33 @@
   <td class="w-0 min-w-36 whitespace-nowrap px-3 py-2 text-left">{{ rtu.title }}</td>
   <td></td>
 
-  <ng-container *ngIf="isExpanded">
-    <ng-container *ngFor="let child of children">
-      <ng-container *ngIf="child.type === 'bop'">
-        <rtu-one-bop [bop]="child.payload"></rtu-one-bop>
-      </ng-container>
-      <ng-container *ngIf="child.type === 'attached-trace'">
-        <rtu-attached-trace [trace]="child.payload"></rtu-attached-trace>
-      </ng-container>
-      <ng-container *ngIf="child.type === 'free-port'">
-        <rtu-free-port [port]="child.port"></rtu-free-port>
-      </ng-container>
-      <ng-container *ngIf="child.type === 'detached-trace'">
-        <rtu-detached-trace [trace]="child.payload"></rtu-detached-trace>
-      </ng-container>
-    </ng-container>
-  </ng-container>
+  <tr *ngIf="isExpanded" class="rounded-sm border-t-4">
+    <table>
+      <tbody class="text-center">
+        <ng-container *ngFor="let child of children; let i = index">
+          <tr
+            [ngClass]="{
+            'bg-rtu-second-bg dark:bg-rtu-dark-second-bg': i % 2 === 0,
+            'border-t-rtu-second-bg dark:border-t-rtu-dark-second-bg': i % 2 !== 0,
+            'border-t-rtu-primary-bg dark:border-t-rtu-dark-primary-bg': i % 2 === 0,
+     
+          }"
+          >
+            <ng-container *ngIf="child.type === 'bop'">
+              <rtu-one-bop [bop]="child.payload"></rtu-one-bop>
+            </ng-container>
+            <ng-container *ngIf="child.type === 'attached-trace'">
+              <rtu-attached-trace [trace]="child.payload"></rtu-attached-trace>
+            </ng-container>
+            <ng-container *ngIf="child.type === 'free-port'">
+              <rtu-free-port [port]="child.port"></rtu-free-port>
+            </ng-container>
+            <ng-container *ngIf="child.type === 'detached-trace'">
+              <rtu-detached-trace [trace]="child.payload"></rtu-detached-trace>
+            </ng-container>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </tr>
 </div>
