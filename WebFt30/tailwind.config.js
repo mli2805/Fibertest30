@@ -40,10 +40,10 @@ module.exports = {
       colors: {
         'rtu-text': 'black',
         'rtu-dark-text': 'white', //#D0D1D3',
-        'rtu-primary-bg': '#F9F9F9',
-        'rtu-second-bg': '#F1F1F1',
-        'rtu-dark-primary-bg': '#212224',
-        'rtu-dark-second-bg': '#313336' // combobox, extra button, switch
+        'rtu-primary-bg': '#FfFfFf',
+        'rtu-second-bg': '#F3F3F3',
+        'rtu-dark-primary-bg': '#222222',
+        'rtu-dark-second-bg': '#282828' // combobox, extra button, switch
       },
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],

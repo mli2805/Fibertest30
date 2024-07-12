@@ -3,10 +3,10 @@
     <rtu-square-pictogram class="h-4 w-4" [fillColor]="'none'"></rtu-square-pictogram>
   </div>
   <div *ngIf="trace.hasEnoughBaseRefsToPerformMonitoring && !trace.isIncludedInMonitoringCycle">
-    <rtu-square-pictogram
-      class="h-4 w-4 text-gray-200"
+    <rtu-triangle-pictogram
+      class="h-4 w-4 text-gray-400"
       [fillColor]="'currentColor'"
-    ></rtu-square-pictogram>
+    ></rtu-triangle-pictogram>
   </div>
   <!-- for detached trace rtuMonitoringMode === null -->
   <div *ngIf="trace.isIncludedInMonitoringCycle && rtuMonitoringMode === monitoringState.Off">

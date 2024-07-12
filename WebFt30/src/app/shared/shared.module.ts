@@ -92,6 +92,8 @@ import { OrderButtonComponent } from './components/svg-buttons/order-button.comp
 import { ExpandBranchComponent } from './components/svg-buttons/expand-branch.component';
 import { CollapseBranchComponent } from './components/svg-buttons/collapse-branch.component';
 import { SquarePictogramComponent } from './components/svg-buttons/square-pictogram.component';
+import { IitLogoComponent } from './components/svg-buttons/iit-logo.component';
+import { TrianglePictogramComponent } from './components/svg-buttons/triangle-pictogram.component';
 
 @NgModule({
   imports: [
@@ -173,6 +175,8 @@ import { SquarePictogramComponent } from './components/svg-buttons/square-pictog
     CloseButtonComponent,
     OrderButtonComponent,
     SquarePictogramComponent,
+    TrianglePictogramComponent,
+    IitLogoComponent,
     QuickAnalysisFilterComponent,
     QuickAnalysisChartComponent,
 
@@ -254,6 +258,8 @@ import { SquarePictogramComponent } from './components/svg-buttons/square-pictog
     CloseButtonComponent,
     OrderButtonComponent,
     SquarePictogramComponent,
+    TrianglePictogramComponent,
+    IitLogoComponent,
     QuickAnalysisFilterComponent,
     QuickAnalysisChartComponent,
 
