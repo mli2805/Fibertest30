@@ -31,7 +31,7 @@ export class OneBopComponent {
 
   @Input() rtuMonitoringMode!: MonitoringState;
 
-  isExpanded = true;
+  isExpanded = false;
   flipExpanded() {
     this.isExpanded = !this.isExpanded;
   }

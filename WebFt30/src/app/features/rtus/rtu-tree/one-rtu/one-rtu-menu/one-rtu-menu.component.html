@@ -1,0 +1,35 @@
+<button
+  class="cursor-pointer"
+  cdkOverlayOrigin
+  #selectButton="cdkOverlayOrigin"
+  type="button"
+  (click)="onRtuNameClicked()"
+>
+  <span>{{ rtu.title }}</span>
+</button>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="selectButton"
+  [cdkConnectedOverlayOpen]="open"
+>
+  <div
+    class="background-base ml-3 mt-2 rounded-sm border border-gray-300 dark:border-[#575859]"
+    (click)="onOverlayClick($event)"
+  >
+    <!-- prettier-ignore -->
+    <div class="mx-4 my-2 flex flex-col">
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onInformationClicked()">{{ 'i18n.ft.information' | translate }}</button>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onNetworkSettignsClicked()">{{ 'i18n.ft.network-settings' | translate }}</button>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onStateClicked()">{{ 'i18n.ft.state' | translate }}</button>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onLandmarksClicked()">{{ 'i18n.ft.landmarks' | translate }}</button>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onAutomaticBaseRefsClicked()">{{ 'i18n.ft.automatic-base-refs' | translate }}</button>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onMonitoringSettingsClicked()">{{ 'i18n.ft.monitoring-settings' | translate }}</button>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onManualModeClicked()">{{ 'i18n.ft.manual-mode' | translate }}</button>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onClicked()">{{ 'i18n.ft.automatic-mode' | translate }}</button>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onClicked()">{{ 'i18n.ft.detach-all-traces' | translate }}</button>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onClicked()">{{ 'i18n.ft.remove' | translate }}</button>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onClicked()">{{ 'i18n.ft.define-trace' | translate }}</button>
+    </div>
+  </div>
+</ng-template>

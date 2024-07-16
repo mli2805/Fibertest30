@@ -36,7 +36,7 @@ export class OneRtuComponent {
     }
   }
 
-  isExpanded = true;
+  isExpanded = false;
   flipExpanded() {
     this.isExpanded = !this.isExpanded;
   }

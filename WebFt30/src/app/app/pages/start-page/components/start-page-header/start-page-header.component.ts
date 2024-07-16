@@ -28,7 +28,7 @@ import { RolesResolver } from '../guards';
 })
 export class StartPageHeaderComponent {
   private readonly titleMap = new Map<RegExp, StartPageHeaderTitle>([
-    [/^\/dashboard$/, { titleId: 'i18n.start-page.rtus' }],
+    [/^\/rtus$/, { titleId: 'i18n.ft.rtus' }],
     [/^\/rfts-setup$/, { titleId: 'i18n.start-page.rfts-setup' }],
     [/^\/rfts-setup\/platform-management$/, { titleId: 'i18n.page-title.platform-management' }],
     [/^\/rfts-setup\/monitoring\/alarm-profiles$/, { titleId: 'i18n.monitoring.alarm-profiles' }],

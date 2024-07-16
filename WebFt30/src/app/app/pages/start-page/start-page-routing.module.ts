@@ -17,13 +17,12 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'rtus',
         pathMatch: 'full'
       },
       {
-        path: 'dashboard',
-        loadChildren: () =>
-          import('../../../features/dashboard/dashboard.module').then((m) => m.DashboardModule)
+        path: 'rtus',
+        loadChildren: () => import('../../../features/rtus/rtus.module').then((m) => m.RtusModule)
       },
       {
         path: 'rfts-setup',
