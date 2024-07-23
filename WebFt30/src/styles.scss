@@ -99,6 +99,16 @@
     active:bg-red-600;
   }
 
+  .button-neutral {
+    @apply button-base
+    bg-stone-300
+    hover:bg-stone-400
+    active:bg-stone-400
+    dark:bg-zinc-600
+    dark:hover:bg-zinc-500
+    dark:active:bg-zinc-500;
+  }
+
   .button-extra {
     @apply button-base
     bg-rtu-second-bg

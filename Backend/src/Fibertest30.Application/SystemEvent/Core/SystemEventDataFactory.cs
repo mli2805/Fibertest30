@@ -36,6 +36,7 @@ public static class SystemEventDataFactory
             SystemEventType.PortLabelAttached => Deserialize<PortLabelAttachedData>(jsonData),
             SystemEventType.PortLabelUpdated => Deserialize<PortLabelUpdatedData>(jsonData),
             SystemEventType.PortLabelDetached => Deserialize<PortLabelDetachedData>(jsonData),
+            SystemEventType.RtuConnectionChecked => Deserialize<RtuConnectionCheckedData>(jsonData),
 
             _ => throw new ArgumentException("SystemEventDataFactory: Invalid SystemEventType", nameof(type))
         };

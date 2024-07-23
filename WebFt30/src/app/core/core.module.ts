@@ -46,6 +46,7 @@ import { NetworkSettingsEffects } from './store/network-settings/network-setting
 import { PortLabelsEffects } from './store/port-labels/port-labs.effects';
 import { TimeSettingsEffects } from './store/time-settings/time-settings.effects';
 import { RtuTreeEffects } from './store/rtu-tree/rtu-tree.effects';
+import { RtuMgmtEffects } from './store/rtu-mgmt/rtu-mgmt.effects';
 
 @NgModule({
   imports: [
@@ -106,7 +107,8 @@ import { RtuTreeEffects } from './store/rtu-tree/rtu-tree.effects';
       TimeSettingsEffects,
       PortLabelsEffects,
 
-      RtuTreeEffects
+      RtuTreeEffects,
+      RtuMgmtEffects
     ]),
     StoreRouterConnectingModule.forRoot(), //setup dev tools
     environment.production

@@ -4,7 +4,6 @@ import { RtuTreeService } from '../../grpc/services/rtu-tree.service';
 import { RtuTreeActions } from './rtu-tree.actions';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { TreeMapping } from '../mapping/tree-mapping';
-import { Rtu } from 'src/grpc-generated';
 
 @Injectable()
 export class RtuTreeEffects {

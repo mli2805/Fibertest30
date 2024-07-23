@@ -89,6 +89,8 @@ public static class ConfigureServices
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<ISnmpService, SnmpService>();
 
+        services.AddScoped<IRtuManager, RtuManager>();
+
         services.AddInfrastructureDeviceServices(configuration);
 
         services.AddScoped<IOtauRepository, OtauRepository>();

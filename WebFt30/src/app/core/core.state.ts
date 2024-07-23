@@ -58,6 +58,8 @@ import { timeSettingsReducer } from './store/time-settings/time-settings.reducer
 import { TimeSettingsState } from './store/time-settings/time-settings.state';
 import { RtuTreeState } from './store/rtu-tree/rtu-tree.state';
 import { rtuTreeReducer } from './store/rtu-tree/rtu-tree.reducer';
+import { RtuMgmtState } from './store/rtu-mgmt/rtu-mgmt.state';
+import { rtuMgmtReducer } from './store/rtu-mgmt/rtu-mgmt.reducer';
 
 export interface AppState {
   auth: AuthState;
@@ -89,6 +91,7 @@ export interface AppState {
   portLabels: PortLabelsState;
 
   rtuTree: RtuTreeState;
+  rtuMgmt: RtuMgmtState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -120,7 +123,8 @@ export const reducers: ActionReducerMap<AppState> = {
   timeSettings: timeSettingsReducer,
   portLabels: portLabelsReducer,
 
-  rtuTree: rtuTreeReducer
+  rtuTree: rtuTreeReducer,
+  rtuMgmt: rtuMgmtReducer
 };
 
 // better to use Chrome's Redux DevTools plugin instead of 'debug' metaReducer
@@ -156,3 +160,4 @@ export const selectNetworkSettingsState = (state: AppState) => state.networkSett
 export const selectTimeSettingsState = (state: AppState) => state.timeSettings;
 export const selectPortLabelsState = (state: AppState) => state.portLabels;
 export const selectRtuTreeState = (state: AppState) => state.rtuTree;
+export const selectRtuMgmtState = (state: AppState) => state.rtuMgmt;

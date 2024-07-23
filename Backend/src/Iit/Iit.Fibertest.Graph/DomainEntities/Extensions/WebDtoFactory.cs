@@ -57,6 +57,10 @@ namespace Iit.Fibertest.Graph
                 RtuMaker = r.RtuMaker,
                 Serial = r.Serial,
                 MainVeexOtau = r.MainVeexOtau,
+                Mfid = r.Mfid,
+                Mfsn = r.Mfsn,
+                Omid = r.Omid,
+                Omsn = r.Omsn,
                 OtdrId = r.OtdrId,
 
                 FullPortCount = r.FullPortCount,

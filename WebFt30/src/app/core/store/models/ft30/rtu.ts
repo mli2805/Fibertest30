@@ -1,18 +1,32 @@
 import { Bop } from './bop';
-import { RtuPartState, MonitoringState } from './ft-enums';
+import { RtuPartState, MonitoringState, RtuMaker } from './ft-enums';
+import { NetAddress } from './net-address';
 import { Trace } from './trace';
 
 export class Rtu {
   rtuId!: string;
+  rtuMaker!: RtuMaker;
   title!: string;
 
-  mainChannelState!: RtuPartState;
-  reserveChannelState!: RtuPartState;
-  monitoringMode!: MonitoringState;
+  mfid!: string | null;
+  mfsn!: string | null;
+  omid!: string | null;
+  omsn!: string | null;
+  serial!: string | null;
+  version!: string | null;
+  version2!: string | null;
+
   ownPortCount!: number;
+  fullPortCount!: number;
+
+  mainChannel!: NetAddress;
+  mainChannelState!: RtuPartState;
+  reserveChannel!: NetAddress;
+  reserveChannelState!: RtuPartState;
+  isReserveChannelSet!: boolean;
+  otdrNetAddress!: NetAddress;
+  monitoringMode!: MonitoringState;
 
   bops!: Bop[];
   traces!: Trace[];
-
-  children!: any[];
 }

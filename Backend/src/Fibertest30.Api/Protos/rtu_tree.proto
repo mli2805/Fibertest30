@@ -7,6 +7,11 @@ service RtuTree {
 	rpc GetRtuTree (GetRtuTreeRequest) returns (GetRtuTreeResponse);
 }
 
+enum RtuMaker {
+    Iit = 0;
+    Veex = 1;
+}
+
 enum RtuPartState { 
     NotSetYet = 0;
     RtuPartState_Ok = 1; // can't be just Ok
@@ -90,14 +95,32 @@ message Bop {
 
 message Rtu {
 	string rtuId = 1;
-	string title = 2;
-	RtuPartState mainChannelState = 3;
-	RtuPartState reserveChannelState = 4;
-	MonitoringState monitoringMode = 5;
-    int32 ownPortCount = 6;
+    RtuMaker rtuMaker = 2;
+	string title = 3;
+
+    optional string mfid = 4;
+    optional string mfsn = 5;
+    optional string omid = 6;
+    optional string omsn = 7;
+    optional string serial = 8;
+
+    int32 ownPortCount = 9;
+    int32 fullPortCount = 10;
+
+    NetAddress mainChannel = 11;
+	RtuPartState mainChannelState = 12;
+    NetAddress reserveChannel = 13;
+	RtuPartState reserveChannelState = 14;
+    bool isReserveChannelSet = 15;
+
+    NetAddress otdrNetAddress = 16;
+	MonitoringState monitoringMode = 17;
     
-	repeated Bop bops = 7;
-	repeated Trace traces = 8;
+    optional string version = 18;
+    optional string version2 = 19;
+
+	repeated Bop bops = 20;
+	repeated Trace traces = 21;
 }
 
 message GetRtuTreeRequest {}

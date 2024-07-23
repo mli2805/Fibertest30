@@ -1,3 +1,5 @@
+using Iit.Fibertest.Dto;
+
 namespace Fibertest30.Application;
 
 // The purpose of this factory,
@@ -243,5 +245,11 @@ public static class SystemEventFactory
         return new SystemEvent(SystemEventType.PortLabelUpdated, SystemEventLevel.Info,
             new PortLabelUpdatedData(oldPortLabel, newPortLabel),
             SystemEventSource.FromUser(userId));
+    }
+
+    public static SystemEvent RtuConnectionChecked(string userId, RtuConnectionCheckedDto dto)
+    {
+        return new SystemEvent(SystemEventType.RtuConnectionChecked, SystemEventLevel.Info,
+            new RtuConnectionCheckedData(dto), SystemEventSource.FromUser(userId));
     }
 }

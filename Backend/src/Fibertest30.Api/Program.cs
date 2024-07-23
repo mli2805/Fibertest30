@@ -259,6 +259,13 @@ void MapGrpcServices(WebApplication app, bool startGrpcReflectionService)
         .EnableGrpcWeb()
         .RequireCors("AllowAll");
 
+    app.MapGrpcService<RtuTreeService>()
+          .EnableGrpcWeb()
+          .RequireCors("AllowAll");
+    app.MapGrpcService<RtuMgmtService>()
+          .EnableGrpcWeb()
+          .RequireCors("AllowAll");
+
     if (startGrpcReflectionService)
     {
         // To utilize gRPC reflection, temporary change Kestrel settings in appsettings.json to:

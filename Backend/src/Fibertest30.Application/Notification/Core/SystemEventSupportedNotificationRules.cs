@@ -144,6 +144,10 @@ public static class SystemEventSupportedNotificationRules
             SystemEventType.PortLabelDetached,
             Rules(Rule(NotificationChannel.InApp, NotificationTarget.All))
         },
+        {
+            SystemEventType.RtuConnectionChecked,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        }
     };
 
     private class NotificationRule

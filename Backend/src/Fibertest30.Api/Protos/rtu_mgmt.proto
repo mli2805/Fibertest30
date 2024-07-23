@@ -1,0 +1,19 @@
+syntax = "proto3";
+import "rtu_tree.proto";
+
+option csharp_namespace = "Fibertest30.Api.Protos";
+package fibertest30.rtu_mgmt;
+
+service RtuMgmt {
+	rpc TestRtuConnection (TestRtuConnectionRequest) returns (TestRtuConnectionResponse);
+}
+
+message TestRtuConnectionRequest {
+	// not RtuId because it could be new address
+	rtu_tree.NetAddress netAddress = 1;
+}
+
+message TestRtuConnectionResponse {
+	rtu_tree.NetAddress netAddress = 1;
+	bool isConnectionSuccessful = 2;
+}

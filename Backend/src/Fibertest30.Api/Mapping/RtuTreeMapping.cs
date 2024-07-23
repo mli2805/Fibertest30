@@ -4,6 +4,16 @@ namespace Fibertest30.Api;
 
 public static class RtuTreeMapping
 {
+    private static RtuMaker ToProto(this Iit.Fibertest.Dto.RtuMaker rtuMaker)
+    {
+        return rtuMaker switch
+        {
+            Iit.Fibertest.Dto.RtuMaker.IIT => RtuMaker.Iit,
+            Iit.Fibertest.Dto.RtuMaker.VeEX => RtuMaker.Veex,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
+
     private static RtuPartState ToProto(this Iit.Fibertest.Dto.RtuPartState state)
     {
         return state switch
@@ -60,13 +70,24 @@ public static class RtuTreeMapping
         };
     }
 
-    private static NetAddress ToProto(this Iit.Fibertest.Dto.NetAddress netAddress)
+    public static NetAddress ToProto(this Iit.Fibertest.Dto.NetAddress netAddress)
     {
         return new NetAddress()
         {
             Ip4Address = netAddress.Ip4Address,
             HostName = netAddress.HostName,
             Port = netAddress.Port,
+        };
+    }
+
+    public static Iit.Fibertest.Dto.NetAddress FromProto(this NetAddress netAddress)
+    {
+        return new Iit.Fibertest.Dto.NetAddress()
+        {
+            Ip4Address = netAddress.Ip4Address,
+            HostName = netAddress.HostName,
+            Port = netAddress.Port,
+
         };
     }
 
@@ -127,14 +148,38 @@ public static class RtuTreeMapping
         Rtu protoRtu = new Rtu()
         {
             RtuId = rtu.RtuId.ToString(),
+            RtuMaker = rtu.RtuMaker.ToProto(),
             Title = rtu.Title,
-            MainChannelState = rtu.MainChannelState.ToProto(),
-            ReserveChannelState = rtu.ReserveChannelState.ToProto(),
-            MonitoringMode = rtu.MonitoringMode.ToProto(),
+
             OwnPortCount = rtu.OwnPortCount,
+            FullPortCount = rtu.FullPortCount,
+
+            MainChannel = rtu.MainChannel.ToProto(),
+            MainChannelState = rtu.MainChannelState.ToProto(),
+            ReserveChannel = rtu.ReserveChannel.ToProto(),
+            ReserveChannelState = rtu.ReserveChannelState.ToProto(),
+            IsReserveChannelSet = rtu.IsReserveChannelSet,
+
+            OtdrNetAddress = rtu.OtdrNetAddress.ToProto(),
+            MonitoringMode = rtu.MonitoringMode.ToProto(),
+
             Traces = { rtu.Children.Where(c => c is TraceDto).Cast<TraceDto>().Select(t => t.ToProto()) },
             Bops = { rtu.Children.Where(c => c is OtauWebDto).Cast<OtauWebDto>().Select(o => o.ToProto()) }
         };
+        if (rtu.Mfid != null)
+            protoRtu.Mfid = rtu.Mfid;
+        if (rtu.Mfsn != null)
+            protoRtu.Mfsn = rtu.Mfsn;
+        if (rtu.Omid != null)
+            protoRtu.Omid = rtu.Omid;
+        if (rtu.Omsn != null)
+            protoRtu.Omsn = rtu.Omsn;
+        if (rtu.Serial != null)
+            protoRtu.Serial = rtu.Serial;
+        if (rtu.Version != null)
+            protoRtu.Version = rtu.Version;
+        if (rtu.Version2 != null)
+            protoRtu.Version2 = rtu.Version2;
 
         return protoRtu;
     }

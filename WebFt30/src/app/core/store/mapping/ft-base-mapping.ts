@@ -12,6 +12,14 @@ export class FtBaseMapping {
     return netAddress;
   }
 
+  static toGrpcNetAddress(netAddress: NetAddress): grpc.NetAddress {
+    return {
+      ip4Address: netAddress.ip4Address,
+      hostName: netAddress.hostName,
+      port: netAddress.port
+    };
+  }
+
   static fromGrpcPortOfOtau(grpcPortOfOtau: grpc.PortOfOtau): PortOfOtau {
     const portOfOtau = new PortOfOtau();
     portOfOtau.otauId = grpcPortOfOtau.otauId !== undefined ? grpcPortOfOtau.otauId : null;

@@ -1,7 +1,24 @@
 import * as grpc from 'src/grpc-generated';
-import { FiberState, MonitoringState, RtuPartState, TceLinkState } from '../models/ft30/ft-enums';
+import {
+  FiberState,
+  MonitoringState,
+  RtuMaker,
+  RtuPartState,
+  TceLinkState
+} from '../models/ft30/ft-enums';
 
 export class FtEnumsMapping {
+  static fromGrpcRtuMaker(grpcRtuMaker: grpc.RtuMaker): RtuMaker {
+    switch (grpcRtuMaker) {
+      case grpc.RtuMaker.Iit:
+        return RtuMaker.Iit;
+      case grpc.RtuMaker.Veex:
+        return RtuMaker.Veex;
+      default:
+        throw new Error(`Unknown grpc.RtuMaker: ${grpcRtuMaker}`);
+    }
+  }
+
   static fromGrpcFiberState(grpcFiberState: grpc.FiberState): FiberState {
     // prettier-ignore
     switch (grpcFiberState) {

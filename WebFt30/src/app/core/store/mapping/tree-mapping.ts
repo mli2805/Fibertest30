@@ -37,11 +37,28 @@ export class TreeMapping {
   static fromGrpcRtu(grpcRtu: grpc.Rtu): Rtu {
     const rtu = new Rtu();
     rtu.rtuId = grpcRtu.rtuId;
+    rtu.rtuMaker = FtEnumsMapping.fromGrpcRtuMaker(grpcRtu.rtuMaker);
     rtu.title = grpcRtu.title;
-    rtu.mainChannelState = FtEnumsMapping.fromGrpcRtuPartState(grpcRtu.mainChannelState);
-    rtu.reserveChannelState = FtEnumsMapping.fromGrpcRtuPartState(grpcRtu.reserveChannelState);
-    rtu.monitoringMode = FtEnumsMapping.fromGrpcMonitoringState(grpcRtu.monitoringMode);
+
+    rtu.mfid = grpcRtu.mfid !== undefined ? grpcRtu.mfid : null;
+    rtu.mfsn = grpcRtu.mfsn !== undefined ? grpcRtu.mfsn : null;
+    rtu.omid = grpcRtu.omid !== undefined ? grpcRtu.omid : null;
+    rtu.omsn = grpcRtu.omsn !== undefined ? grpcRtu.omsn : null;
+    rtu.serial = grpcRtu.serial !== undefined ? grpcRtu.serial : null;
+    rtu.version = grpcRtu.version !== undefined ? grpcRtu.version : null;
+    rtu.version2 = grpcRtu.version2 !== undefined ? grpcRtu.version2 : null;
+
     rtu.ownPortCount = grpcRtu.ownPortCount;
+    rtu.fullPortCount = grpcRtu.fullPortCount;
+
+    rtu.mainChannel = FtBaseMapping.fromGrpcNetAddress(grpcRtu.mainChannel!);
+    rtu.mainChannelState = FtEnumsMapping.fromGrpcRtuPartState(grpcRtu.mainChannelState);
+    rtu.reserveChannel = FtBaseMapping.fromGrpcNetAddress(grpcRtu.mainChannel!);
+    rtu.reserveChannelState = FtEnumsMapping.fromGrpcRtuPartState(grpcRtu.reserveChannelState);
+    rtu.isReserveChannelSet = grpcRtu.isReserveChannelSet;
+    rtu.otdrNetAddress = FtBaseMapping.fromGrpcNetAddress(grpcRtu.otdrNetAddress!);
+    rtu.monitoringMode = FtEnumsMapping.fromGrpcMonitoringState(grpcRtu.monitoringMode);
+
     rtu.bops = grpcRtu.bops.map((b) => this.fromGrpcBop(b));
     rtu.traces = grpcRtu.traces.map((t) => this.fromGrpcTrace(t));
     return rtu;

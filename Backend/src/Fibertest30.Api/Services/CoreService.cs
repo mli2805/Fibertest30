@@ -1,4 +1,5 @@
 using Grpc.Core;
+using Iit.Fibertest.Dto;
 using MediatR;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;

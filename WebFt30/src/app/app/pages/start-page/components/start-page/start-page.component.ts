@@ -49,6 +49,7 @@ import {
 import { NotificationSettingsActions } from 'src/app/core/store/notification-settings/notification-settings.action';
 import { NetworkSettingsActions } from 'src/app/core/store/network-settings/network-settings.action';
 import { TimeSettingsActions } from 'src/app/core/store/time-settings/time-settings.action';
+import { RtuConnectionCheckedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/rtu-connection-checked-data';
 
 @Component({
   selector: 'rtu-start-page',
@@ -344,6 +345,11 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
 
       case 'TimeSettingsUpdated': {
         this.store.dispatch(TimeSettingsActions.updateTimeSettingsSuccess());
+        return;
+      }
+      case 'RtuConnectionChecked': {
+        const data = <RtuConnectionCheckedData>JSON.parse(systemEvent.jsonData);
+        console.log(data);
         return;
       }
     }

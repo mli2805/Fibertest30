@@ -1,3 +1,8 @@
+export enum RtuMaker {
+  Iit = 0,
+  Veex = 1
+}
+
 export enum FiberState {
   //
   NotInTrace = 0x0,
