@@ -6,6 +6,10 @@ const selectInProgress = createSelector(
   selectRtuMgmtState,
   (state: RtuMgmtState) => state.inProgress
 );
+const selectInitializing = createSelector(
+  selectRtuMgmtState,
+  (state: RtuMgmtState) => state.initializing
+);
 
 const selectRtuAddress = createSelector(
   selectRtuMgmtState,
@@ -22,6 +26,7 @@ const selectErrorMessageId = createSelector(
 
 export const RtuMgmtSelectors = {
   selectInProgress,
+  selectInitializing,
   selectRtuAddress,
   selectIsTestSuccessful,
   selectErrorMessageId

@@ -5,6 +5,45 @@ import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
 import { NetAddress } from "./rtu_tree";
 /**
+ * @generated from protobuf message fibertest30.rtu_mgmt.DoubleAddress
+ */
+export interface DoubleAddress {
+    /**
+     * @generated from protobuf field: fibertest30.rtu_tree.NetAddress main = 1;
+     */
+    main?: NetAddress;
+    /**
+     * @generated from protobuf field: bool hasReserveAddress = 2;
+     */
+    hasReserveAddress: boolean;
+    /**
+     * @generated from protobuf field: fibertest30.rtu_tree.NetAddress reserve = 3;
+     */
+    reserve?: NetAddress;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.InitializeRtuDto
+ */
+export interface InitializeRtuDto {
+    /**
+     * @generated from protobuf field: string rtuId = 1;
+     */
+    rtuId: string;
+    /**
+     * @generated from protobuf field: fibertest30.rtu_mgmt.DoubleAddress rtuAddresses = 2;
+     */
+    rtuAddresses?: DoubleAddress;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.RtuInitializedDto
+ */
+export interface RtuInitializedDto {
+    /**
+     * @generated from protobuf field: bool isInitialized = 1;
+     */
+    isInitialized: boolean;
+}
+/**
  * @generated from protobuf message fibertest30.rtu_mgmt.TestRtuConnectionRequest
  */
 export interface TestRtuConnectionRequest {
@@ -28,6 +67,63 @@ export interface TestRtuConnectionResponse {
      */
     isConnectionSuccessful: boolean;
 }
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.InitializeRtuRequest
+ */
+export interface InitializeRtuRequest {
+    /**
+     * @generated from protobuf field: fibertest30.rtu_mgmt.InitializeRtuDto dto = 1;
+     */
+    dto?: InitializeRtuDto;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.InitializeRtuResponse
+ */
+export interface InitializeRtuResponse {
+    /**
+     * @generated from protobuf field: fibertest30.rtu_mgmt.RtuInitializedDto dto = 1;
+     */
+    dto?: RtuInitializedDto;
+}
+// @generated message type with reflection information, may provide speed optimized methods
+class DoubleAddress$Type extends MessageType<DoubleAddress> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.DoubleAddress", [
+            { no: 1, name: "main", kind: "message", T: () => NetAddress },
+            { no: 2, name: "hasReserveAddress", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 3, name: "reserve", kind: "message", T: () => NetAddress }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.DoubleAddress
+ */
+export const DoubleAddress = new DoubleAddress$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class InitializeRtuDto$Type extends MessageType<InitializeRtuDto> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.InitializeRtuDto", [
+            { no: 1, name: "rtuId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "rtuAddresses", kind: "message", T: () => DoubleAddress }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.InitializeRtuDto
+ */
+export const InitializeRtuDto = new InitializeRtuDto$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class RtuInitializedDto$Type extends MessageType<RtuInitializedDto> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.RtuInitializedDto", [
+            { no: 1, name: "isInitialized", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.RtuInitializedDto
+ */
+export const RtuInitializedDto = new RtuInitializedDto$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class TestRtuConnectionRequest$Type extends MessageType<TestRtuConnectionRequest> {
     constructor() {
@@ -53,9 +149,34 @@ class TestRtuConnectionResponse$Type extends MessageType<TestRtuConnectionRespon
  * @generated MessageType for protobuf message fibertest30.rtu_mgmt.TestRtuConnectionResponse
  */
 export const TestRtuConnectionResponse = new TestRtuConnectionResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class InitializeRtuRequest$Type extends MessageType<InitializeRtuRequest> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.InitializeRtuRequest", [
+            { no: 1, name: "dto", kind: "message", T: () => InitializeRtuDto }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.InitializeRtuRequest
+ */
+export const InitializeRtuRequest = new InitializeRtuRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class InitializeRtuResponse$Type extends MessageType<InitializeRtuResponse> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.InitializeRtuResponse", [
+            { no: 1, name: "dto", kind: "message", T: () => RtuInitializedDto }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.InitializeRtuResponse
+ */
+export const InitializeRtuResponse = new InitializeRtuResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.rtu_mgmt.RtuMgmt
  */
 export const RtuMgmt = new ServiceType("fibertest30.rtu_mgmt.RtuMgmt", [
-    { name: "TestRtuConnection", options: {}, I: TestRtuConnectionRequest, O: TestRtuConnectionResponse }
+    { name: "TestRtuConnection", options: {}, I: TestRtuConnectionRequest, O: TestRtuConnectionResponse },
+    { name: "InitializeRtu", options: {}, I: InitializeRtuRequest, O: InitializeRtuResponse }
 ]);

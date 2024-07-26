@@ -89,7 +89,7 @@ try
     Log.Information("Initialize and seed NEventStore ..");
     using (var scope = app.Services.CreateScope())
     {
-        var eventStoreService = scope.ServiceProvider.GetRequiredService<EventStoreService>();
+        var eventStoreService = scope.ServiceProvider.GetRequiredService<IEventStoreService>();
         await eventStoreService.InitializeBothDbAndService();
     }
 

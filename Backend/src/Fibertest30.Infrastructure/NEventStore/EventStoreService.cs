@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using NEventStore;
 
 namespace Fibertest30.Infrastructure;
-public class EventStoreService
+public class EventStoreService : IEventStoreService
 {
     private readonly ILogger<EventStoreService> _logger;
     private readonly Model _writeModel;
@@ -14,8 +14,6 @@ public class EventStoreService
     private readonly CommandAggregator _commandAggregator;
     private readonly EventsQueue _eventsQueue;
 
-    public IStoreEvents? StoreEvents;
-    public Guid StreamIdOriginal;
     public int LastEventNumberInSnapshot;
     public DateTime LastEventDateInSnapshot;
 
@@ -36,15 +34,15 @@ public class EventStoreService
 
     public async Task InitializeBothDbAndService()
     {
-        StreamIdOriginal = _eventStoreInitializer.GetStreamIdIfExists();
+        _eventStoreInitializer.StreamIdOriginal = _eventStoreInitializer.GetStreamIdIfExists();
         await InitializeEventStoreService();
     }
 
     private async Task<int> InitializeEventStoreService()
     {
-        StoreEvents = _eventStoreInitializer.Init();
+        _eventStoreInitializer.Init();
 
-        var snapshot = await _snapshotRepository.ReadSnapshotAsync(StreamIdOriginal);
+        var snapshot = await _snapshotRepository.ReadSnapshotAsync(_eventStoreInitializer.StreamIdOriginal);
         if (snapshot == null)
         {
             LastEventNumberInSnapshot = 0;
@@ -59,7 +57,7 @@ public class EventStoreService
             _eventLogComposer.Initialize();
         }
 
-        var eventStream = StoreEvents.OpenStream(StreamIdOriginal);
+        var eventStream = _eventStoreInitializer.StoreEvents.OpenStream(_eventStoreInitializer.StreamIdOriginal);
 
         if (LastEventNumberInSnapshot == 0 && eventStream.CommittedEvents.FirstOrDefault() == null)
         {
@@ -87,7 +85,20 @@ public class EventStoreService
         return eventMessages.Count;
     }
 
-    public Task<string?> SendCommand(object cmd, string username, string clientIp)
+    public Task<int> SendCommands(List<object> cmds, string? username, string clientIp)
+    {
+        foreach (var cmd in cmds)
+        {
+            var result = _commandAggregator.Validate(cmd);
+            if (!string.IsNullOrEmpty(result))
+                _logger.LogError(result);
+        }
+
+        StoreEventsInDb(username, clientIp);
+        return Task.FromResult(cmds.Count);
+    }
+
+    public Task<string?> SendCommand(object cmd, string? username, string clientIp)
     {
         // ilya: can pass user id\role as an argument to When to check permissions
         var result = _commandAggregator.Validate(cmd); // Aggregate checks if command is valid
@@ -99,9 +110,9 @@ public class EventStoreService
         return Task.FromResult(result);
     }
 
-    private void StoreEventsInDb(string username, string clientIp)
+    private void StoreEventsInDb(string? username, string clientIp)
     {
-        var eventStream = StoreEvents.OpenStream(StreamIdOriginal);
+        var eventStream = _eventStoreInitializer.StoreEvents.OpenStream(_eventStoreInitializer.StreamIdOriginal);
         foreach (var e in _eventsQueue.EventsWaitingForCommit)   // takes already applied event(s) from WriteModel's list
         {
             var eventMessage = WrapEvent(e, username, clientIp);
@@ -125,13 +136,13 @@ public class EventStoreService
 
     }
 
-    private EventMessage WrapEvent(object e, string username, string clientIp)
+    private EventMessage WrapEvent(object e, string? username, string clientIp)
     {
         var msg = new EventMessage();
         msg.Headers.Add("Timestamp", DateTime.Now);
-        msg.Headers.Add("Username", username);
+        msg.Headers.Add("Username", username ?? "");
         msg.Headers.Add("ClientIp", clientIp);
-        msg.Headers.Add("VersionId", StreamIdOriginal);
+        msg.Headers.Add("VersionId", _eventStoreInitializer.StreamIdOriginal);
         msg.Body = e;
         return msg;
     }

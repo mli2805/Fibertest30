@@ -6,6 +6,7 @@ import { GrpcUtils } from '../grpc.utils';
 import { Observable } from 'rxjs';
 import { NetAddress } from '../../store/models/ft30/net-address';
 import { FtBaseMapping } from '../../store/mapping/ft-base-mapping';
+import { InitializeRtuDto } from '../../store/models/ft30/initialize-rtu-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +30,10 @@ export class RtuMgmtService {
       request,
       {}
     );
+  }
+
+  initializeRtu(dto: InitializeRtuDto): Observable<grpc.InitializeRtuResponse> {
+    const request: grpc.InitializeRtuRequest = { dto };
+    return GrpcUtils.unaryToObservable(this.client.initializeRtu.bind(this.client), request, {});
   }
 }

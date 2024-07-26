@@ -25,6 +25,7 @@ import { RtuStateComponent } from './rtu-state/rtu-state.component';
 import { RtuMonitoringSettingsComponent } from './rtu-monitoring-settings/rtu-monitoring-settings.component';
 import { RtuLandmarksComponent } from './rtu-landmarks/rtu-landmarks.component';
 import { RtusComponent } from './rtus/rtus.component';
+import { OneChannelTestComponent } from './rtu-initialization/one-channel-test/one-channel-test.component';
 
 @NgModule({
   imports: [
@@ -54,7 +55,8 @@ import { RtusComponent } from './rtus/rtus.component';
     RtuStateComponent,
     RtuMonitoringSettingsComponent,
     RtuLandmarksComponent,
-    RtusComponent
+    RtusComponent,
+    OneChannelTestComponent
   ],
   providers: []
 })

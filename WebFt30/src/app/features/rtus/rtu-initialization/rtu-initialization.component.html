@@ -1,69 +1,68 @@
 <div class="flex flex-col">
   <div class="grouped-border m-2 w-96">
     <div>{{ rtu.title }}</div>
-    <div>{{ rtu.rtuId }}</div>
+    <div class="text-sm text-gray-600 dark:text-zinc-400">{{ rtu.rtuId }}</div>
   </div>
+
+  <rtu-one-channel-test
+    #mainChannel
+    [networkAddress]="rtu.mainChannel"
+    [isMain]="true"
+    [isOn]="true"
+  ></rtu-one-channel-test>
+
   <div class="grouped-border m-2 flex w-96 flex-col">
-    <div>
-      <span>{{ 'i18n.ft.main' | translate }}</span>
-      {{ 'i18n.ft.channel' | translate }}
-    </div>
-    <div class="flex">
-      <span class="mr-5">{{ 'i18n.ft.ip' | translate }}</span>
-      <div>{{ rtu.mainChannel.ip4Address }}</div>
-    </div>
-    <div class="flex">
-      <span class="mr-5">{{ 'i18n.ft.port' | translate }}</span>
-      <div>{{ rtu.mainChannel.port }}</div>
-    </div>
-
-    <div class="relative mt-2">
-      <button class="button-neutral mb-6 w-24 self-end" (click)="onTestClicked()">
-        {{ 'i18n.ft.test' | translate }}
-      </button>
-
-      <div class="absolute top-11">
-        <div *ngIf="testInProgress$ | async" class="flex items-center">
-          <rtu-loading-spinner class="ml-2 h-4 w-4"></rtu-loading-spinner>
-          <span class="text-data-highlight ml-3">{{ 'i18n.common.sending' | translate }}</span>
-        </div>
-        <div *ngIf="testSuccess$ | async" class="ml-2 text-green-600">
-          {{ 'i18n.ft.connected-successfully' | translate }}
-        </div>
-        <div *ngIf="(testSuccess$ | async) === false" class="ml-2 text-red-600">
-          {{ 'i18n.ft.failed-to-connect' | translate }}
-        </div>
-        <div *ngIf="testFailure$ | async as message" class="ml-3 text-red-600">
-          {{ message | translate }}
-        </div>
+    <div class="mb-2">{{ 'i18n.ft.otdr-network-address' | translate }}</div>
+    <div class="text-sm">
+      <div class="flex">
+        <span class="w-20">{{ 'i18n.ft.ip' | translate }}</span>
+        <div>{{ rtu.otdrNetAddress.ip4Address }}</div>
+      </div>
+      <div class="flex">
+        <span class="w-20">{{ 'i18n.ft.port' | translate }}</span>
+        <div>{{ rtu.otdrNetAddress.port }}</div>
       </div>
     </div>
   </div>
-  <div class="grouped-border m-2 flex w-96 flex-col">
-    {{ 'i18n.ft.otdr-network-address' | translate }}
-  </div>
-  <div class="grouped-border m-2 flex w-96 flex-col">
-    <div>
-      <span>{{ 'i18n.ft.reserve' | translate }}</span>
-      {{ 'i18n.ft.channel' | translate }}
-    </div>
-  </div>
-  <div class="grouped-border m-2 flex w-96 flex-col">
-    {{ 'i18n.ft.information' | translate }}
 
-    <div>
-      <span class="mr-8">{{ rtu.mfid }}</span>
-      <span class="mr-2">{{ 'i18n.ft.serial' | translate }}</span>
-      {{ rtu.serial }}
-    </div>
-    <div>
-      <span class="mr-2">{{ 'i18n.ft.rtu-manager-version' | translate }}</span>
-      {{ rtu.version }}
+  <rtu-one-channel-test
+    #reserveChannel
+    [networkAddress]="rtu.reserveChannel"
+    [isMain]="false"
+    [isOn]="rtu.isReserveChannelSet"
+  ></rtu-one-channel-test>
+
+  <div class="grouped-border m-2 flex w-96 flex-col">
+    <div class="mb-2">
+      {{ 'i18n.ft.information' | translate }}
     </div>
 
-    <div>
-      <span class="mr-2">{{ 'i18n.ft.ports-available' | translate }}</span>
-      {{ rtu.fullPortCount - rtu.bops.length }}
+    <div class="text-sm">
+      <div>
+        <span class="mr-8">{{ rtu.mfid }}</span>
+        <span class="mr-2">{{ 'i18n.ft.serial' | translate }}</span>
+        {{ rtu.serial }}
+      </div>
+      <div>
+        <span class="mr-2">{{ 'i18n.ft.rtu-manager-version' | translate }}</span>
+        {{ rtu.version }}
+      </div>
+
+      <div>
+        <span class="mr-2">{{ 'i18n.ft.ports-available' | translate }}</span>
+        {{ rtu.fullPortCount - rtu.bops.length }}
+      </div>
+    </div>
+  </div>
+
+  <div class="flex items-center">
+    <button class="button-neutral min-w-48 self-start" (click)="onInitializeClicked()">
+      {{ 'i18n.ft.initialize' | translate }}
+    </button>
+
+    <div *ngIf="initializing$ | async" class="flex items-center">
+      <rtu-loading-spinner class="ml-2 h-4 w-4"></rtu-loading-spinner>
+      <span class="text-data-highlight ml-3">{{ 'i18n.ft.initializing' | translate }}</span>
     </div>
   </div>
 </div>

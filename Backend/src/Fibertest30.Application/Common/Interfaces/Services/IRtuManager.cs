@@ -4,9 +4,5 @@ namespace Fibertest30.Application;
 public interface IRtuManager
 {
     Task<RtuConnectionCheckedDto> CheckRtuConnection(NetAddress netAddress, CancellationToken cancellationToken);
-
-    Task<RtuCurrentStateDto> GetRtuCurrentState(GetCurrentRtuStateDto dto);
-
-    Task<TResult> SendCommand<T, TResult>(T dto, DoubleAddress rtuDoubleAddress)
-        where TResult : RequestAnswer, new();
+    Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto);
 }

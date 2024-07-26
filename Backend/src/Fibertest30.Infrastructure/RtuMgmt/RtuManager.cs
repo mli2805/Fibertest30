@@ -1,111 +1,136 @@
 ﻿using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System.Text;
 
 namespace Fibertest30.Infrastructure;
-public class RtuManager : IRtuManager
+public partial class RtuManager : IRtuManager
 {
     private readonly ILogger<RtuManager> _logger;
+    private readonly IRtuTransmitter _rtuTransmitter;
+    private readonly Model _writeModel;
+    private readonly IEventStoreService _eventStoreService;
+    private readonly RtuStationsRepository _rtuStationsRepository;
+    private readonly IRtuOccupationService _rtuOccupationService;
+    private readonly ICurrentUserService _currentUserService;
 
-    private static readonly HttpClient _httpClient = new();
-    private static readonly JsonSerializerSettings _jsonSerializerSettings =
-        new() { TypeNameHandling = TypeNameHandling.All };
-
-    public RtuManager(ILogger<RtuManager> logger)
+    public RtuManager(ILogger<RtuManager> logger, Model writeModel, 
+        IRtuTransmitter rtuTransmitter, IEventStoreService eventStoreService, RtuStationsRepository rtuStationsRepository,
+        IRtuOccupationService rtuOccupationService, ICurrentUserService currentUserService)
     {
         _logger = logger;
+        _rtuTransmitter = rtuTransmitter;
+        _writeModel = writeModel;
+        _eventStoreService = eventStoreService;
+        _rtuStationsRepository = rtuStationsRepository;
+        _rtuOccupationService = rtuOccupationService;
+        _currentUserService = currentUserService;
     }
 
-
-    public async Task<RtuConnectionCheckedDto> CheckRtuConnection(NetAddress netAddress, CancellationToken cancellationToken)
+    public Task<RtuConnectionCheckedDto> CheckRtuConnection(NetAddress netAddress, CancellationToken cancellationToken)
     {
-        if (netAddress.Port == -1) netAddress.Port = (int)TcpPorts.RtuListenToHttp;
-        var result = new RtuConnectionCheckedDto()
+        return _rtuTransmitter.CheckRtuConnection(netAddress, cancellationToken);
+    }
+
+    public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
+    {
+        // дозаполнить
+        dto = CompleteDto(dto);
+
+        // проверить не занят ли
+        if (!_rtuOccupationService.TrySetOccupation(dto.RtuId, RtuOccupation.Initialization, _currentUserService.UserName,
+                out RtuOccupationState? currentState))
+            return new RtuInitializedDto(ReturnCode.RtuIsBusy);
+
+        // отправить
+        var rtuInitializedDto = await _rtuTransmitter.SendCommand<InitializeRtuDto, RtuInitializedDto>(dto, dto.RtuAddresses);
+        if (rtuInitializedDto.ReturnCode == ReturnCode.InProgress)
         {
-            NetAddress = netAddress.Clone(),
+            // дождаться результата или таймаута
+            rtuInitializedDto = await PollMakLinuxForInitializationResult(dto.RtuId, dto.RtuAddresses);
+        }
+
+        // получили результат инициализации или вышли по таймауту
+
+        // освободить рту
+        _rtuOccupationService.TrySetOccupation(dto.RtuId, RtuOccupation.None, _currentUserService.UserName,
+            out RtuOccupationState? _);
+        
+        rtuInitializedDto.RtuAddresses = dto.RtuAddresses;
+        if (rtuInitializedDto.IsInitialized)
+        {
+            // пометить в БД время последнего конекта с рту
+            await RefreshRtuConnectionTime(rtuInitializedDto);
+
+            // сохранить результат инициализации в EventStore
+            await _eventStoreService.SendCommands(
+                DtoToCommandList(dto, rtuInitializedDto), _currentUserService.UserName, dto.ClientIp);
+        }
+
+        return rtuInitializedDto;
+    }
+
+    private InitializeRtuDto CompleteDto(InitializeRtuDto dto)
+    {
+        var rtu = _writeModel.Rtus.First(r => r.Id == dto.RtuId);
+        dto.RtuMaker = rtu.RtuMaker;
+        dto.ServerAddresses = new DoubleAddress(); // в случае MakLinux вообще не нужен, все идет от сервера к рту
+        dto.IsFirstInitialization = !rtu.IsInitialized;
+        dto.Serial = rtu.Serial;
+        dto.OwnPortCount = rtu.OwnPortCount;
+        dto.Children = rtu.Children;
+        return dto;
+    }
+
+    private async Task RefreshRtuConnectionTime(RtuInitializedDto rtuInitializedDto)
+    {
+        try
+        {
+            var rtuStation = CreateRtuStation(rtuInitializedDto);
+            await _rtuStationsRepository.RegisterRtuInitializationResultAsync(rtuStation);
+        }
+        catch (Exception e)
+        {
+            rtuInitializedDto.ReturnCode = ReturnCode.Error;
+            rtuInitializedDto.ErrorMessage = $"Failed to save RTU in DB: {e.Message}";
+        }
+    }
+
+    private RtuStation CreateRtuStation(RtuInitializedDto dto)
+    {
+        var rtuStation = new RtuStation()
+        {
+            RtuGuid = dto.RtuId,
+            Version = dto.Version,
+            MainAddress = dto.RtuAddresses.Main.GetAddress(),
+            MainAddressPort = dto.RtuAddresses.Main.Port,
+            LastConnectionByMainAddressTimestamp = DateTime.Now,
+            IsMainAddressOkDuePreviousCheck = true,
+            IsReserveAddressSet = dto.RtuAddresses.HasReserveAddress,
+            LastMeasurementTimestamp = DateTime.Now,
         };
-
-        var uri = $"http://{netAddress.ToStringA()}/rtu/current-state";
-        var request = new HttpRequestMessage(new HttpMethod("GET"), uri);
-        try
+        if (dto.RtuAddresses.HasReserveAddress)
         {
-            var _ = await _httpClient.SendAsync(request, cancellationToken);
-            // just a fact of successful sending
-            result.IsConnectionSuccessfull = true;
+            rtuStation.ReserveAddress = dto.RtuAddresses.Reserve.GetAddress();
+            rtuStation.ReserveAddressPort = dto.RtuAddresses.Reserve.Port;
+            rtuStation.LastConnectionByReserveAddressTimestamp = DateTime.Now;
         }
-        catch (Exception e)
-        {
-            result.IsConnectionSuccessfull = false;
-            _logger.LogError(e, $"CheckRtuConnection: {e.Message}");
-        }
-
-        return result;
+        return rtuStation;
     }
 
-    public async Task<RtuCurrentStateDto> GetRtuCurrentState(GetCurrentRtuStateDto dto)
+    private async Task<RtuInitializedDto> PollMakLinuxForInitializationResult(Guid rtuId, DoubleAddress rtuDoubleAddress)
     {
-        var uri = $"http://{dto.RtuDoubleAddress.Main.ToStringA()}/rtu/current-state";
-        var json = JsonConvert.SerializeObject(dto, _jsonSerializerSettings);
-        var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
-        try
-        {
-            var response = await _httpClient.SendAsync(request);
-            if (!response.IsSuccessStatusCode)
-            {
-                return new RtuCurrentStateDto(ReturnCode.D2RHttpError)
-                {
-                    ErrorMessage = response.ReasonPhrase ?? ""
-                };
-            }
+        await Task.Delay(20000);
 
-            var responseJson = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<RtuCurrentStateDto>(responseJson, _jsonSerializerSettings);
-            if (result == null) return new RtuCurrentStateDto(ReturnCode.DeserializationError);
-            return result;
-        }
-        catch (Exception e)
+        var count = 16; // 20 +  16 * 5 sec = 100 sec limit
+        var requestDto = new GetCurrentRtuStateDto() { RtuId = rtuId, RtuDoubleAddress = rtuDoubleAddress };
+        while (--count >= 0)
         {
-            return new RtuCurrentStateDto(ReturnCode.D2RHttpError)
-            {
-                ErrorMessage = e.Message
-            };
+            await Task.Delay(5000);
+            var state = await _rtuTransmitter.GetRtuCurrentState(requestDto);
+            if (state.LastInitializationResult != null)
+                return state.LastInitializationResult.Result;
         }
-    }
 
-    public async Task<TResult> SendCommand<T, TResult>(T dto, DoubleAddress rtuDoubleAddress) where TResult : RequestAnswer, new()
-    {
-        var uri = $"http://{rtuDoubleAddress.Main.ToStringA()}/rtu/do-operation";
-        var json = JsonConvert.SerializeObject(dto, _jsonSerializerSettings);
-        var request = CreateRequestMessage(uri, "post", "application/merge-patch+json", json);
-        try
-        {
-            var response = await _httpClient.SendAsync(request);
-            if (!response.IsSuccessStatusCode)
-                return new TResult()
-                {
-                    ReturnCode = ReturnCode.D2RHttpError,
-                    ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase
-                };
-
-            var responseJson = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<TResult>(responseJson);
-            if (result == null) return new TResult(){ReturnCode = ReturnCode.DeserializationError};
-            return result;
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, $"SendCommand: {e.Message}");
-            return new TResult() { ReturnCode = ReturnCode.D2RHttpError, ErrorMessage = e.Message };
-        }
-    }
-
-    private HttpRequestMessage CreateRequestMessage(string url, string method,
-        string contentRepresentationType, string? jsonData = null)
-    {
-        var request = new HttpRequestMessage(new HttpMethod(method.ToUpper()), url);
-        if (jsonData != null)
-            request.Content = new StringContent(jsonData, Encoding.UTF8, contentRepresentationType);
-        return request;
+        return new RtuInitializedDto(ReturnCode.TimeOutExpired);
     }
 }

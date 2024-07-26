@@ -1,11 +1,27 @@
 syntax = "proto3";
 import "rtu_tree.proto";
 
-option csharp_namespace = "Fibertest30.Api.Protos";
+option csharp_namespace = "Fibertest30.Api";
 package fibertest30.rtu_mgmt;
 
 service RtuMgmt {
 	rpc TestRtuConnection (TestRtuConnectionRequest) returns (TestRtuConnectionResponse);
+	rpc InitializeRtu (InitializeRtuRequest) returns (InitializeRtuResponse);
+}
+
+message DoubleAddress {
+	rtu_tree.NetAddress main = 1;
+    bool hasReserveAddress = 2;
+	rtu_tree.NetAddress reserve = 3;
+}
+
+message InitializeRtuDto {
+	string rtuId = 1;
+	DoubleAddress rtuAddresses = 2;
+}
+
+message RtuInitializedDto {
+	bool isInitialized = 1;
 }
 
 message TestRtuConnectionRequest {
@@ -16,4 +32,12 @@ message TestRtuConnectionRequest {
 message TestRtuConnectionResponse {
 	rtu_tree.NetAddress netAddress = 1;
 	bool isConnectionSuccessful = 2;
+}
+
+message InitializeRtuRequest {
+	InitializeRtuDto dto = 1;
+}
+
+message InitializeRtuResponse {
+	RtuInitializedDto dto = 1;
 }

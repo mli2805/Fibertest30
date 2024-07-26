@@ -12,7 +12,7 @@
     {
         // public Guid RtuId { get; set; }
         public RtuOccupation RtuOccupation;
-        public string UserName; // who started occupation
+        public string? UserName; // who started occupation
         public DateTime Expired;
     }
 

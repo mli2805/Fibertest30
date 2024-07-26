@@ -19,7 +19,7 @@ public class RtuStationsRepository
     {
         try
         {
-            var previousRtuStationRow = _ftDbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == rtuStation.RtuGuid);
+            var previousRtuStationRow = await _ftDbContext.RtuStations.FirstOrDefaultAsync(r => r.RtuGuid == rtuStation.RtuGuid);
             if (previousRtuStationRow == null)
             {
                 _ftDbContext.RtuStations.Add(rtuStation);

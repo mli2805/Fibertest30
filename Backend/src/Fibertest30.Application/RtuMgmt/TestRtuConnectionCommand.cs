@@ -9,19 +9,19 @@ public class TestRtuConnectionCommandHandler : IRequestHandler<TestRtuConnection
 {
     private readonly ISystemEventSender _systemEventSender;
     private readonly ICurrentUserService _currentUserService;
-    private readonly IRtuManager _rtuManager;
+    private readonly IRtuTransmitter _rtuTransmitter;
 
     public TestRtuConnectionCommandHandler(
-        ISystemEventSender systemEventSender, ICurrentUserService currentUserService, IRtuManager rtuManager)
+        ISystemEventSender systemEventSender, ICurrentUserService currentUserService, IRtuTransmitter rtuTransmitter)
     {
         _systemEventSender = systemEventSender;
         _currentUserService = currentUserService;
-        _rtuManager = rtuManager;
+        _rtuTransmitter = rtuTransmitter;
     }
 
     public async Task<RtuConnectionCheckedDto> Handle(TestRtuConnectionCommand command, CancellationToken cancellationToken)
     {
-        var rtuConnectionCheckedDto = await _rtuManager.CheckRtuConnection(command.NetAddress, cancellationToken);
+        var rtuConnectionCheckedDto = await _rtuTransmitter.CheckRtuConnection(command.NetAddress, cancellationToken);
 
         SystemEvent systemEvent = SystemEventFactory.RtuConnectionChecked(_currentUserService.UserId!, rtuConnectionCheckedDto);
         await _systemEventSender.Send(

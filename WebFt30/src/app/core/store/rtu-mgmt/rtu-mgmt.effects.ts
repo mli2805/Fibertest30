@@ -26,5 +26,24 @@ export class RtuMgmtEffects {
     )
   );
 
+  initializeRtu = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RtuMgmtActions.initializeRtu),
+      switchMap(({ dto }) => {
+        return this.rtuMgmtService.initializeRtu(dto).pipe(
+          map((response) => {
+            console.log(response);
+            return RtuMgmtActions.initializeRtuSuccess({
+              dto: response.dto
+            });
+          }),
+          catchError((error) => {
+            return of(RtuMgmtActions.initializeRtuFailure({ errorMessageId: error }));
+          })
+        );
+      })
+    )
+  );
+
   constructor(private actions$: Actions, private rtuMgmtService: RtuMgmtService) {}
 }

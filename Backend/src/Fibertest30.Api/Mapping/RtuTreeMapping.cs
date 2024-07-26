@@ -2,6 +2,22 @@ using Iit.Fibertest.Dto;
 
 namespace Fibertest30.Api;
 
+public static class RtuMgmtMapping
+{
+    public static Iit.Fibertest.Dto.InitializeRtuDto FromProto(this InitializeRtuDto dto)
+    {
+        return new Iit.Fibertest.Dto.InitializeRtuDto()
+        {
+            RtuId = Guid.Parse(dto.RtuId), 
+            RtuAddresses = dto.RtuAddresses.FromProto()
+        };
+    }
+
+    public static RtuInitializedDto ToProto(this Iit.Fibertest.Dto.RtuInitializedDto dto)
+    {
+        return new RtuInitializedDto() { IsInitialized = dto.IsInitialized, };
+    }
+}
 public static class RtuTreeMapping
 {
     private static RtuMaker ToProto(this Iit.Fibertest.Dto.RtuMaker rtuMaker)
@@ -89,6 +105,20 @@ public static class RtuTreeMapping
             Port = netAddress.Port,
 
         };
+    }
+
+    public static Iit.Fibertest.Dto.DoubleAddress FromProto(this DoubleAddress doubleAddress)
+    {
+        Iit.Fibertest.Dto.DoubleAddress result = new Iit.Fibertest.Dto.DoubleAddress()
+        {
+            Main = doubleAddress.Main.FromProto(),
+            HasReserveAddress = doubleAddress.HasReserveAddress,
+        };
+
+        if (doubleAddress.Reserve != null)
+            result.Reserve = doubleAddress.Reserve.FromProto();
+
+        return result;
     }
 
     private static PortOfOtau ToProto(this OtauPortDto otauPortDto)

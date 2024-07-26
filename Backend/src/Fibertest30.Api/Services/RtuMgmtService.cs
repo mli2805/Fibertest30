@@ -1,5 +1,4 @@
-﻿using Fibertest30.Api.Protos;
-using Grpc.Core;
+﻿using Grpc.Core;
 using MediatR;
 
 namespace Fibertest30.Api;
@@ -25,5 +24,12 @@ public class RtuMgmtService : RtuMgmt.RtuMgmtBase
             NetAddress = rtuConnectionCheckedDto.NetAddress.ToProto(), 
             IsConnectionSuccessful = rtuConnectionCheckedDto.IsConnectionSuccessfull
         };
+    }
+
+    public override async Task<InitializeRtuResponse> InitializeRtu(InitializeRtuRequest request,
+        ServerCallContext context)
+    {
+        var dto = await _mediator.Send(new InitializeRtuCommand(request.Dto.FromProto()), context.CancellationToken);
+        return new InitializeRtuResponse() { Dto = dto.ToProto() };
     }
 }

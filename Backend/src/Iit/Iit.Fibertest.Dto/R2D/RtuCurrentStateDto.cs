@@ -6,7 +6,7 @@ namespace Iit.Fibertest.Dto
     public class RtuCurrentStateDto : RequestAnswer
     {
         [DataMember]
-        public InitializationResult LastInitializationResult { get; set; }
+        public InitializationResult? LastInitializationResult { get; set; }
         [DataMember]
         public CurrentMonitoringStepDto CurrentStepDto { get; set; }
 

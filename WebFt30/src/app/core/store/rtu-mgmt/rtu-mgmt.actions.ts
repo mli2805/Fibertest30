@@ -1,5 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 import { NetAddress } from '../models/ft30/net-address';
+import { DoubleAddress } from '../models/ft30/double-address';
+import { InitializeRtuDto } from '../models/ft30/initialize-rtu-dto';
+import { RtuInitializedDto } from '../models/ft30/rtu-initialized-dto';
 
 const testRtuConnection = createAction(
   '[RtuMgmt] Test Rtu Connection',
@@ -16,8 +19,22 @@ const testRtuConnectionFailure = createAction(
   props<{ errorMessageId: string }>()
 );
 
+const initializeRtu = createAction('[RtuMgmt] Initialize Rtu', props<{ dto: InitializeRtuDto }>());
+const initializeRtuSuccess = createAction(
+  '[RtuMgmt] Initialize Rtu Success',
+  props<{ dto: RtuInitializedDto | undefined }>()
+);
+const initializeRtuFailure = createAction(
+  '[RtuMgmt] Initialize Rtu Failure',
+  props<{ errorMessageId: string }>()
+);
+
 export const RtuMgmtActions = {
   testRtuConnection,
   testRtuConnectionSuccess,
-  testRtuConnectionFailure
+  testRtuConnectionFailure,
+
+  initializeRtu,
+  initializeRtuSuccess,
+  initializeRtuFailure
 };

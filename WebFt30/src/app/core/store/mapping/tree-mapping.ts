@@ -53,7 +53,7 @@ export class TreeMapping {
 
     rtu.mainChannel = FtBaseMapping.fromGrpcNetAddress(grpcRtu.mainChannel!);
     rtu.mainChannelState = FtEnumsMapping.fromGrpcRtuPartState(grpcRtu.mainChannelState);
-    rtu.reserveChannel = FtBaseMapping.fromGrpcNetAddress(grpcRtu.mainChannel!);
+    rtu.reserveChannel = FtBaseMapping.fromGrpcNetAddress(grpcRtu.reserveChannel!);
     rtu.reserveChannelState = FtEnumsMapping.fromGrpcRtuPartState(grpcRtu.reserveChannelState);
     rtu.isReserveChannelSet = grpcRtu.isReserveChannelSet;
     rtu.otdrNetAddress = FtBaseMapping.fromGrpcNetAddress(grpcRtu.otdrNetAddress!);

@@ -17,13 +17,17 @@ public class EventStoreInitializer
     private string FtConnectionString => 
         "server=localhost;port=3306;user id=root;password=root;database=ft20efcore";
 
+    public Guid StreamIdOriginal { get; set; } = Guid.Empty;
+    public IStoreEvents? StoreEvents { get; set; }
+
+
     public EventStoreInitializer(ILogger<EventStoreInitializer> logger, MySerializer mySerializer)
     {
         _logger = logger;
         _mySerializer = mySerializer;
     }
 
-    public IStoreEvents Init()
+    public void Init()
     {
         CreateDatabaseIfNotExists();
         try
@@ -31,7 +35,7 @@ public class EventStoreInitializer
             DbProviderFactories.RegisterFactory("AnyNameYouWant", MySqlConnectorFactory.Instance);
             var providerFactory = DbProviderFactories.GetFactory("AnyNameYouWant");
 
-            var eventStore = Wireup.Init()
+            StoreEvents = Wireup.Init()
                 .UsingSqlPersistence(providerFactory, $"{EventSourcingConnectionString}")
                 .WithDialect(new MySqlDialect())
                 .InitializeStorageEngine()
@@ -39,8 +43,6 @@ public class EventStoreInitializer
                 .Build();
 
             _logger.LogInformation("Events store: MYSQL=localhost:3306   Database=ft20graph");
-
-            return eventStore;
         }
         catch (Exception e)
         {
@@ -69,16 +71,19 @@ public class EventStoreInitializer
 
     public Guid GetStreamIdIfExists()
     {
+        if (StreamIdOriginal != Guid.Empty) return StreamIdOriginal;
+
         try
         {
-            MySqlConnection connection = new MySqlConnection(FtConnectionString);
+            MySqlConnection connection = new MySqlConnection(EventSourcingConnectionString);
             MySqlCommand command = new MySqlCommand(
                 $"SELECT StreamIdOriginal FROM {EventSourcingScheme}.Commits", connection);
             connection.Open();
             var result = (string)(command.ExecuteScalar() ?? 0);
             connection.Close();
             Thread.Sleep(TimeSpan.FromMilliseconds(100));
-            return Guid.Parse(result);
+            StreamIdOriginal = Guid.Parse(result);
+            return StreamIdOriginal;
         }
         catch (Exception e)
         {

@@ -58,17 +58,20 @@ public static class ConfigureServices
 
         services.AddMemoryCache();
 
-        services.AddScoped<EventStoreService>();
-        services.AddScoped<EventStoreInitializer>();
-        services.AddScoped<MySerializer>();
+       
 
         services.AddScoped<RtuStationsRepository>();
         services.AddScoped<SnapshotRepository>();
         services.AddScoped<SorFileRepository>();
         services.AddScoped<EventLogComposer>();
-        services.AddScoped<EventToLogLineParser>();
+
         services.AddScoped<CommandAggregator>();
         services.AddScoped<EventsQueue>(); // Singleton?
+
+        services.AddSingleton<EventToLogLineParser>();
+        services.AddSingleton<MySerializer>();
+        services.AddSingleton<EventStoreInitializer>();
+        services.AddScoped<IEventStoreService, EventStoreService>();
 
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IUsersRepository, UsersRepository>();
@@ -89,6 +92,7 @@ public static class ConfigureServices
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<ISnmpService, SnmpService>();
 
+        services.AddScoped<IRtuTransmitter, MakLinuxHttpTransmitter>();
         services.AddScoped<IRtuManager, RtuManager>();
 
         services.AddInfrastructureDeviceServices(configuration);
@@ -100,6 +104,7 @@ public static class ConfigureServices
         services.AddEmulatedDelayService(configuration, environmentName);
         services.AddDeviceInfoProvider(configuration);
         services.AddSingleton<IShellCommand, ShellCommand>();
+        services.AddSingleton<IRtuOccupationService, RtuOccupationService>();
         services.AddNetworkSettingsProvider(configuration);
         services.AddTimeSettingsProvider(configuration);
 

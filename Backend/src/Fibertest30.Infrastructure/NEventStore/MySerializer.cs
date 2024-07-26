@@ -22,7 +22,7 @@ public class MySerializer : ISerialize
             using var sw = new StreamWriter(stream);
             using var jsonTextWriter = new JsonTextWriter(sw);
          
-            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings() {TypeNameHandling = TypeNameHandling.All});
+            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings() {TypeNameHandling = TypeNameHandling.None});
             serializer.Serialize(jsonTextWriter, ev);
         }
         catch (Exception e)

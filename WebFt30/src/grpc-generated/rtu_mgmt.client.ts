@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { RtuMgmt } from "./rtu_mgmt";
+import type { InitializeRtuResponse } from "./rtu_mgmt";
+import type { InitializeRtuRequest } from "./rtu_mgmt";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
 import type { TestRtuConnectionResponse } from "./rtu_mgmt";
 import type { TestRtuConnectionRequest } from "./rtu_mgmt";
@@ -17,6 +19,10 @@ export interface IRtuMgmtClient {
      * @generated from protobuf rpc: TestRtuConnection(fibertest30.rtu_mgmt.TestRtuConnectionRequest) returns (fibertest30.rtu_mgmt.TestRtuConnectionResponse);
      */
     testRtuConnection(input: TestRtuConnectionRequest, options?: RpcOptions): UnaryCall<TestRtuConnectionRequest, TestRtuConnectionResponse>;
+    /**
+     * @generated from protobuf rpc: InitializeRtu(fibertest30.rtu_mgmt.InitializeRtuRequest) returns (fibertest30.rtu_mgmt.InitializeRtuResponse);
+     */
+    initializeRtu(input: InitializeRtuRequest, options?: RpcOptions): UnaryCall<InitializeRtuRequest, InitializeRtuResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.rtu_mgmt.RtuMgmt
@@ -33,5 +39,12 @@ export class RtuMgmtClient implements IRtuMgmtClient, ServiceInfo {
     testRtuConnection(input: TestRtuConnectionRequest, options?: RpcOptions): UnaryCall<TestRtuConnectionRequest, TestRtuConnectionResponse> {
         const method = this.methods[0], opt = this._transport.mergeOptions(options);
         return stackIntercept<TestRtuConnectionRequest, TestRtuConnectionResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: InitializeRtu(fibertest30.rtu_mgmt.InitializeRtuRequest) returns (fibertest30.rtu_mgmt.InitializeRtuResponse);
+     */
+    initializeRtu(input: InitializeRtuRequest, options?: RpcOptions): UnaryCall<InitializeRtuRequest, InitializeRtuResponse> {
+        const method = this.methods[1], opt = this._transport.mergeOptions(options);
+        return stackIntercept<InitializeRtuRequest, InitializeRtuResponse>("unary", this._transport, method, opt, input);
     }
 }
