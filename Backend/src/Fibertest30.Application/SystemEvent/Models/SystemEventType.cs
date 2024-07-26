@@ -41,4 +41,5 @@ public enum SystemEventType
     PortLabelDetached,
 
     RtuConnectionChecked,
+    RtuInitialized,
 }

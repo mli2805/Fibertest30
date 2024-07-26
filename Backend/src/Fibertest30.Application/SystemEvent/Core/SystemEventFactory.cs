@@ -250,6 +250,12 @@ public static class SystemEventFactory
     public static SystemEvent RtuConnectionChecked(string userId, RtuConnectionCheckedDto dto)
     {
         return new SystemEvent(SystemEventType.RtuConnectionChecked, SystemEventLevel.Info,
-            new RtuConnectionCheckedData(dto), SystemEventSource.FromUser(userId));
+            new RtuConnectionCheckedData(dto.NetAddress.ToStringA(), dto.IsConnectionSuccessfull), SystemEventSource.FromUser(userId));
+    }
+
+    public static SystemEvent RtuInitialized(string userId, RtuInitializedDto dto, string rtuTitle)
+    {
+        return new SystemEvent(SystemEventType.RtuInitialized, SystemEventLevel.Info,
+            new RtuInitializedData(dto.RtuId.ToString(), rtuTitle), SystemEventSource.FromUser(userId));
     }
 }

@@ -37,11 +37,12 @@ public static class SystemEventDataFactory
             SystemEventType.PortLabelUpdated => Deserialize<PortLabelUpdatedData>(jsonData),
             SystemEventType.PortLabelDetached => Deserialize<PortLabelDetachedData>(jsonData),
             SystemEventType.RtuConnectionChecked => Deserialize<RtuConnectionCheckedData>(jsonData),
+            SystemEventType.RtuInitialized => Deserialize<RtuInitializedData>(jsonData),
 
             _ => throw new ArgumentException("SystemEventDataFactory: Invalid SystemEventType", nameof(type))
         };
     }
-    
+
     private static ISystemEventData? Deserialize<T>(string jsonData) where T : ISystemEventData
     {
         if (string.IsNullOrEmpty(jsonData)) { return null; }

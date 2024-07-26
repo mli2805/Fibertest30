@@ -24,8 +24,7 @@ public class TestRtuConnectionCommandHandler : IRequestHandler<TestRtuConnection
         var rtuConnectionCheckedDto = await _rtuTransmitter.CheckRtuConnection(command.NetAddress, cancellationToken);
 
         SystemEvent systemEvent = SystemEventFactory.RtuConnectionChecked(_currentUserService.UserId!, rtuConnectionCheckedDto);
-        await _systemEventSender.Send(
-            systemEvent);
+        await _systemEventSender.Send(systemEvent);
 
         return rtuConnectionCheckedDto;
     }

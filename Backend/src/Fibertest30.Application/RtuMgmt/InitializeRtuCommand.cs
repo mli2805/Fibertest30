@@ -1,4 +1,5 @@
 ﻿using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using MediatR;
 
 namespace Fibertest30.Application;
@@ -9,16 +10,25 @@ public class InitializeRtuCommandHandler : IRequestHandler<InitializeRtuCommand,
 {
     private readonly ICurrentUserService _currentUserService;
     private readonly IRtuManager _rtuManager;
+    private readonly ISystemEventSender _systemEventSender;
+    private readonly Model _writeModel;
 
-    public InitializeRtuCommandHandler(ICurrentUserService currentUserService, IRtuManager rtuManager)
+    public InitializeRtuCommandHandler(ICurrentUserService currentUserService, IRtuManager rtuManager, 
+        ISystemEventSender systemEventSender, Model writeModel)
     {
         _currentUserService = currentUserService;
         _rtuManager = rtuManager;
+        _systemEventSender = systemEventSender;
+        _writeModel = writeModel;
     }
 
     public async Task<RtuInitializedDto> Handle(InitializeRtuCommand request, CancellationToken cancellationToken)
     {
         var rtuInitializedDto = await _rtuManager.InitializeRtuAsync(request.dto);
+
+        var rtu = _writeModel.Rtus.First(r => r.Id == rtuInitializedDto.RtuId);
+        SystemEvent systemEvent = SystemEventFactory.RtuInitialized(_currentUserService.UserId!, rtuInitializedDto, rtu.Title);
+        await _systemEventSender.Send(systemEvent);
 
         return rtuInitializedDto;
     }

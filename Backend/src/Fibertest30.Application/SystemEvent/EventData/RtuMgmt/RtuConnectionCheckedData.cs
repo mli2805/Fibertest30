@@ -5,13 +5,13 @@ namespace Fibertest30.Application;
 
 public class RtuConnectionCheckedData : ISystemEventData
 {
-    NetAddress NetAddress { get; init; }
-    bool IsSuccessful { get; init; }
+    public string Address { get; init; }
+    public bool IsSuccessful { get; init; }
 
-    public RtuConnectionCheckedData(RtuConnectionCheckedDto dto)
+    public RtuConnectionCheckedData(string address, bool isSuccessful)
     {
-        NetAddress = dto.NetAddress;
-        IsSuccessful = dto.IsConnectionSuccessfull;
+        Address = address;
+        IsSuccessful = isSuccessful;
     }
 
     public string ToJsonData()

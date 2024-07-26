@@ -147,6 +147,10 @@ public static class SystemEventSupportedNotificationRules
         {
             SystemEventType.RtuConnectionChecked,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },
+        {
+            SystemEventType.RtuInitialized,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         }
     };
 
