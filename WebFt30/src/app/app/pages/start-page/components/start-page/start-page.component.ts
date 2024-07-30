@@ -18,7 +18,8 @@ import {
   AlarmNotificationActions,
   OtdrTaskProgress,
   TestQueueSelectors,
-  TestQueueActions
+  TestQueueActions,
+  RtuTreeActions
 } from 'src/app/core';
 import { AuthUtils } from 'src/app/core/auth/auth.utils';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -50,6 +51,7 @@ import { NotificationSettingsActions } from 'src/app/core/store/notification-set
 import { NetworkSettingsActions } from 'src/app/core/store/network-settings/network-settings.action';
 import { TimeSettingsActions } from 'src/app/core/store/time-settings/time-settings.action';
 import { RtuConnectionCheckedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/rtu-connection-checked-data';
+import { RtuInitializedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/rtu-initialized-data';
 
 @Component({
   selector: 'rtu-start-page',
@@ -349,7 +351,11 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       }
       case 'RtuConnectionChecked': {
         const data = <RtuConnectionCheckedData>JSON.parse(systemEvent.jsonData);
-        console.log(data);
+        return;
+      }
+      case 'RtuInitialized': {
+        const data = <RtuInitializedData>JSON.parse(systemEvent.jsonData);
+        this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
         return;
       }
     }

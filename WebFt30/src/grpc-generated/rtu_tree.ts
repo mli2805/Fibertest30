@@ -231,6 +231,24 @@ export interface GetRtuTreeResponse {
     rtus: Rtu[];
 }
 /**
+ * @generated from protobuf message fibertest30.rtu_tree.GetRtuRequest
+ */
+export interface GetRtuRequest {
+    /**
+     * @generated from protobuf field: string rtuId = 1;
+     */
+    rtuId: string;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.GetRtuResponse
+ */
+export interface GetRtuResponse {
+    /**
+     * @generated from protobuf field: fibertest30.rtu_tree.Rtu rtu = 1;
+     */
+    rtu?: Rtu;
+}
+/**
  * @generated from protobuf enum fibertest30.rtu_tree.RtuMaker
  */
 export enum RtuMaker {
@@ -491,9 +509,34 @@ class GetRtuTreeResponse$Type extends MessageType<GetRtuTreeResponse> {
  * @generated MessageType for protobuf message fibertest30.rtu_tree.GetRtuTreeResponse
  */
 export const GetRtuTreeResponse = new GetRtuTreeResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetRtuRequest$Type extends MessageType<GetRtuRequest> {
+    constructor() {
+        super("fibertest30.rtu_tree.GetRtuRequest", [
+            { no: 1, name: "rtuId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.GetRtuRequest
+ */
+export const GetRtuRequest = new GetRtuRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetRtuResponse$Type extends MessageType<GetRtuResponse> {
+    constructor() {
+        super("fibertest30.rtu_tree.GetRtuResponse", [
+            { no: 1, name: "rtu", kind: "message", T: () => Rtu }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.GetRtuResponse
+ */
+export const GetRtuResponse = new GetRtuResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.rtu_tree.RtuTree
  */
 export const RtuTree = new ServiceType("fibertest30.rtu_tree.RtuTree", [
-    { name: "GetRtuTree", options: {}, I: GetRtuTreeRequest, O: GetRtuTreeResponse }
+    { name: "GetRtuTree", options: {}, I: GetRtuTreeRequest, O: GetRtuTreeResponse },
+    { name: "GetRtu", options: {}, I: GetRtuRequest, O: GetRtuResponse }
 ]);

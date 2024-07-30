@@ -5,6 +5,7 @@ package fibertest30.rtu_tree;
 
 service RtuTree {
 	rpc GetRtuTree (GetRtuTreeRequest) returns (GetRtuTreeResponse);
+    rpc GetRtu (GetRtuRequest) returns (GetRtuResponse);
 }
 
 enum RtuMaker {
@@ -126,4 +127,11 @@ message Rtu {
 message GetRtuTreeRequest {}
 message GetRtuTreeResponse {
 	repeated Rtu rtus = 1;
+}
+
+message GetRtuRequest {
+	string rtuId = 1;
+}
+message GetRtuResponse {
+	Rtu rtu = 1;
 }

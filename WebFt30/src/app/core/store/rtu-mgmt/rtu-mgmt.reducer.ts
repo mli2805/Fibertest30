@@ -8,6 +8,7 @@ export const initialState: RtuMgmtState = {
   rtuTestSuccess: null,
 
   initializing: false,
+  rtuInitializationResult: null,
 
   errorMessageId: null
 };
@@ -33,9 +34,22 @@ const reducer = createReducer(
     inProgress: false,
     errorMessageId: errorMessageId
   })),
+
   on(RtuMgmtActions.initializeRtu, (state, { dto }) => ({
     ...state,
-    initializing: true
+    initializing: true,
+    rtuInitializationResult: null
+  })),
+  on(RtuMgmtActions.initializeRtuSuccess, (state, { dto }) => ({
+    ...state,
+    initializing: false,
+    rtuInitializationResult: dto?.isInitialized ?? false
+  })),
+  on(RtuMgmtActions.initializeRtuFailure, (state, { errorMessageId }) => ({
+    ...state,
+    initializing: false,
+    errorMessageId: errorMessageId,
+    rtuInitializationResult: false
   }))
 );
 

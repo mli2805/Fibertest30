@@ -19,7 +19,28 @@ export class RtuTreeEffects {
           catchError((error) => {
             return of(
               RtuTreeActions.refreshRtuTreeFailure({
-                errorMessageId: ''
+                errorMessageId: 'i18n.ft.cant-load-rtu-tree'
+              })
+            );
+          })
+        );
+      })
+    )
+  );
+
+  getOneRtu = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RtuTreeActions.getOneRtu),
+      switchMap(({ rtuId }) => {
+        return this.rtuTreeService.getOneRtu(rtuId).pipe(
+          map((response) => {
+            const rtu = TreeMapping.fromGrpcRtu(response.rtu!);
+            return RtuTreeActions.getOneRtuSuccess({ rtu });
+          }),
+          catchError((error) => {
+            return of(
+              RtuTreeActions.getOneRtuFailure({
+                errorMessageId: 'i18n.ft.cant-load-rtu'
               })
             );
           })

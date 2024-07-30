@@ -394,6 +394,10 @@
   "i18n.ft.testing": "testing...",
   "i18n.ft.initializing": "initializing...",
   "i18n.ft.initialize": "Initialize",
+  "i18n.ft.cant-load-rtu-tree": "Can't load RTU tree",
+  "i18n.ft.cant-load-rtu": "Can't load RTU",
+  "i18n.ft.success": "Success!",
+  "i18n.ft.failed": "Failed!",
 
   "i18n.start-page.gis": "Gis",
   "i18n.start-page.notifications": "Notifications",

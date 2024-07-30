@@ -4,23 +4,26 @@ using MediatR;
 
 namespace Fibertest30.Application;
 
-public record GetRtuTreeQuery : IRequest<List<RtuDto>>;
+public record GetRtuQuery(string RtuId) : IRequest<RtuDto>;
 
-public class GetRtuTreeQueryHandler: IRequestHandler<GetRtuTreeQuery, List<RtuDto>>
+public class GetRtuQueryHandler : IRequestHandler<GetRtuQuery, RtuDto>
 {
     private readonly Model _writeModel;
     private readonly ICurrentUserService _currentUserService;
 
-    public GetRtuTreeQueryHandler(Model writeModel, ICurrentUserService currentUserService)
+    public GetRtuQueryHandler(Model writeModel, ICurrentUserService currentUserService)
     {
         _writeModel = writeModel;
         _currentUserService = currentUserService;
     }
 
-    public Task<List<RtuDto>> Handle(GetRtuTreeQuery request, CancellationToken cancellationToken)
+    public Task<RtuDto> Handle(GetRtuQuery request, CancellationToken cancellationToken)
     {
         var userId = _currentUserService.UserId!;
         User user = _writeModel.Users.FirstOrDefault(u=>u.Title == userId) ?? _writeModel.Users.First(u=>u.Title == "root");
-        return Task.FromResult(_writeModel.GetTree(user).ToList());
+        return Task.FromResult(_writeModel.GetRtu(request.RtuId, user));
+
     }
 }
+
+

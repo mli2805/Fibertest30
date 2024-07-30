@@ -6,25 +6,37 @@ namespace Iit.Fibertest.Graph
 {
     public static class WebDtoFactory
     {
+        public static RtuDto GetRtu(this Model writeModel, string rtuGuid, User user)
+        {
+            var rtuId = Guid.Parse(rtuGuid);
+            var rtu = writeModel.Rtus.First(r => r.Id == rtuId);
+            return writeModel.GetRtuWithChildren(rtu, user);
+        }
+
         public static IEnumerable<RtuDto> GetTree(this Model writeModel, User user)
         {
-            foreach (var rtu in writeModel.Rtus)
-            {
-                if (!rtu.ZoneIds.Contains(user.ZoneId))
-                    continue;
-                var rtuDto = rtu.CreateRtuDto();
-                for (int i = 1; i <= rtuDto.OwnPortCount; i++)
-                {
-                    rtuDto.Children.Add(rtu.GetChildForPort(i, writeModel, user));
-                }
-                //detached traces
-                foreach (var trace in writeModel.Traces.Where(t => t.RtuId == rtu.Id && t.Port == -1))
-                {
-                    rtuDto.Children.Add(trace.CreateTraceDto(rtu, null));
-                }
+            return from rtu in writeModel.Rtus 
+                where rtu.ZoneIds.Contains(user.ZoneId) 
+                select writeModel.GetRtuWithChildren(rtu, user);
+        }
 
-                yield return rtuDto;
+        private static RtuDto GetRtuWithChildren(this Model writeModel, Rtu rtu, User user)
+        {
+            var rtuDto = rtu.CreateRtuDto();
+            for (int i = 1; i <= rtuDto.OwnPortCount; i++)
+            {
+                ChildDto? childForPort = rtu.GetChildForPort(i, writeModel, user);
+                if (childForPort != null)
+                {
+                    rtuDto.Children.Add(childForPort);
+                }
             }
+            //detached traces
+            foreach (var trace in writeModel.Traces.Where(t => t.RtuId == rtu.Id && t.Port == -1))
+            {
+                rtuDto.Children.Add(trace.CreateTraceDto(rtu, null));
+            }
+            return rtuDto;
         }
 
         public static IEnumerable<AboutRtuDto> CreateAboutRtuList(this Model writeModel, User user)
@@ -80,7 +92,7 @@ namespace Iit.Fibertest.Graph
             };
         }
 
-        private static ChildDto GetChildForPort(this Rtu rtu, int port, Model writeModel, User user)
+        private static ChildDto? GetChildForPort(this Rtu rtu, int port, Model writeModel, User user)
         {
             if (rtu.Children.TryGetValue(port, out var child))
             {
@@ -117,9 +129,9 @@ namespace Iit.Fibertest.Graph
                 : new ChildDto(ChildType.FreePort) { Port = port };
         }
 
-        private static TraceDto CreateTraceDto(this Trace t, Rtu rtu, OtauWebDto otauWebDto)
+        private static TraceDto CreateTraceDto(this Trace t, Rtu rtu, OtauWebDto? otauWebDto)
         {
-            OtauPortDto otauPortDto = null;
+            OtauPortDto? otauPortDto = null;
             if (t.OtauPort != null) // trace attached
             {
                 var otauId = t.OtauPort.IsPortOnMainCharon
@@ -175,8 +187,8 @@ namespace Iit.Fibertest.Graph
             return new OpticalEventDto()
             {
                 EventId = m.SorFileId,
-                RtuTitle = writeModel.Rtus.FirstOrDefault(r => r.Id == m.RtuId)?.Title,
-                TraceTitle = writeModel.Traces.FirstOrDefault(t => t.TraceId == m.TraceId)?.Title,
+                RtuTitle = writeModel.Rtus.FirstOrDefault(r => r.Id == m.RtuId)?.Title ?? "",
+                TraceTitle = writeModel.Traces.FirstOrDefault(t => t.TraceId == m.TraceId)?.Title ?? "",
                 TraceState = m.TraceState,
                 BaseRefType = m.BaseRefType,
                 EventRegistrationTimestamp = m.EventRegistrationTimestamp,
@@ -206,22 +218,22 @@ namespace Iit.Fibertest.Graph
         public static NetworkEventDto CreateNetworkEventDto(this NetworkEvent n, Model writeModel)
         {
             var dto = Mapper.Map<NetworkEventDto>(n);
-            dto.RtuTitle = writeModel.Rtus.FirstOrDefault(r => r.Id == n.RtuId)?.Title;
+            dto.RtuTitle = writeModel.Rtus.FirstOrDefault(r => r.Id == n.RtuId)?.Title ?? "";
             return dto;
         }
 
         public static RtuAccidentDto CreateAccidentDto(this RtuAccident n, Model writeModel)
         {
             var dto = Mapper.Map<RtuAccidentDto>(n);
-            dto.RtuTitle = writeModel.Rtus.FirstOrDefault(r => r.Id == n.RtuId)?.Title;
-            dto.TraceTitle = writeModel.Traces.FirstOrDefault(t => t.TraceId == n.TraceId)?.Title;
+            dto.RtuTitle = writeModel.Rtus.FirstOrDefault(r => r.Id == n.RtuId)?.Title ?? "";
+            dto.TraceTitle = writeModel.Traces.FirstOrDefault(t => t.TraceId == n.TraceId)?.Title ?? "";
             return dto;
         }
 
         public static BopEventDto CreateBopEventDto(this BopNetworkEvent n, Model writeModel)
         {
             var dto = Mapper.Map<BopEventDto>(n);
-            dto.RtuTitle = writeModel.Rtus.FirstOrDefault(r => r.Id == n.RtuId)?.Title;
+            dto.RtuTitle = writeModel.Rtus.FirstOrDefault(r => r.Id == n.RtuId)?.Title ?? "";
             return dto;
         }
 

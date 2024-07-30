@@ -11,8 +11,19 @@ const refreshRtuTreeFailure = createAction(
   props<{ errorMessageId: string }>()
 );
 
+const getOneRtu = createAction('[RtuTree] Get One Rtu', props<{ rtuId: string }>());
+const getOneRtuSuccess = createAction('[RtuTree] Get One Rtu Success', props<{ rtu: Rtu }>());
+const getOneRtuFailure = createAction(
+  '[RtuTree] Get One Rtu Failure',
+  props<{ errorMessageId: string }>()
+);
+
 export const RtuTreeActions = {
   refreshRtuTree,
   refreshRtuTreeSuccess,
-  refreshRtuTreeFailure
+  refreshRtuTreeFailure,
+
+  getOneRtu,
+  getOneRtuSuccess,
+  getOneRtuFailure
 };

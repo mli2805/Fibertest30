@@ -10,6 +10,10 @@ const selectInitializing = createSelector(
   selectRtuMgmtState,
   (state: RtuMgmtState) => state.initializing
 );
+const selectRtuInitializationResult = createSelector(
+  selectRtuMgmtState,
+  (state: RtuMgmtState) => state.rtuInitializationResult
+);
 
 const selectRtuAddress = createSelector(
   selectRtuMgmtState,
@@ -19,6 +23,7 @@ const selectIsTestSuccessful = createSelector(
   selectRtuMgmtState,
   (state: RtuMgmtState) => state.rtuTestSuccess
 );
+
 const selectErrorMessageId = createSelector(
   selectRtuMgmtState,
   (state: RtuMgmtState) => state.errorMessageId
@@ -27,6 +32,7 @@ const selectErrorMessageId = createSelector(
 export const RtuMgmtSelectors = {
   selectInProgress,
   selectInitializing,
+  selectRtuInitializationResult,
   selectRtuAddress,
   selectIsTestSuccessful,
   selectErrorMessageId

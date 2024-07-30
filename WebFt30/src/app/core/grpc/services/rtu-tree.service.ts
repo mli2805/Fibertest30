@@ -23,4 +23,9 @@ export class RtuTreeService {
     const request: grpc.GetRtuTreeRequest = {};
     return GrpcUtils.unaryToObservable(this.client.getRtuTree.bind(this.client), request, {});
   }
+
+  getOneRtu(rtuId: string): Observable<grpc.GetRtuResponse> {
+    const request: grpc.GetRtuRequest = { rtuId: rtuId };
+    return GrpcUtils.unaryToObservable(this.client.getRtu.bind(this.client), request, {});
+  }
 }

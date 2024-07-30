@@ -6,6 +6,7 @@ export interface RtuMgmtState {
   rtuTestSuccess: boolean | null;
 
   initializing: boolean;
+  rtuInitializationResult: boolean | null;
 
   errorMessageId: string | null;
 }

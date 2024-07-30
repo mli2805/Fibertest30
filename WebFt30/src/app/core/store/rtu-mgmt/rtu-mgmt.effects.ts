@@ -12,7 +12,6 @@ export class RtuMgmtEffects {
       switchMap(({ netAddress }) => {
         return this.rtuMgmtService.testRtuConnection(netAddress).pipe(
           map((response) => {
-            console.log(response);
             return RtuMgmtActions.testRtuConnectionSuccess({
               netAddress: response.netAddress,
               isConnectionSuccessful: response.isConnectionSuccessful

@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { RtuTree } from "./rtu_tree";
+import type { GetRtuResponse } from "./rtu_tree";
+import type { GetRtuRequest } from "./rtu_tree";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
 import type { GetRtuTreeResponse } from "./rtu_tree";
 import type { GetRtuTreeRequest } from "./rtu_tree";
@@ -17,6 +19,10 @@ export interface IRtuTreeClient {
      * @generated from protobuf rpc: GetRtuTree(fibertest30.rtu_tree.GetRtuTreeRequest) returns (fibertest30.rtu_tree.GetRtuTreeResponse);
      */
     getRtuTree(input: GetRtuTreeRequest, options?: RpcOptions): UnaryCall<GetRtuTreeRequest, GetRtuTreeResponse>;
+    /**
+     * @generated from protobuf rpc: GetRtu(fibertest30.rtu_tree.GetRtuRequest) returns (fibertest30.rtu_tree.GetRtuResponse);
+     */
+    getRtu(input: GetRtuRequest, options?: RpcOptions): UnaryCall<GetRtuRequest, GetRtuResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.rtu_tree.RtuTree
@@ -33,5 +39,12 @@ export class RtuTreeClient implements IRtuTreeClient, ServiceInfo {
     getRtuTree(input: GetRtuTreeRequest, options?: RpcOptions): UnaryCall<GetRtuTreeRequest, GetRtuTreeResponse> {
         const method = this.methods[0], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetRtuTreeRequest, GetRtuTreeResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetRtu(fibertest30.rtu_tree.GetRtuRequest) returns (fibertest30.rtu_tree.GetRtuResponse);
+     */
+    getRtu(input: GetRtuRequest, options?: RpcOptions): UnaryCall<GetRtuRequest, GetRtuResponse> {
+        const method = this.methods[1], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetRtuRequest, GetRtuResponse>("unary", this._transport, method, opt, input);
     }
 }

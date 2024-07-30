@@ -22,6 +22,7 @@ export class RtuInitializationComponent implements OnInit {
 
   public store: Store<AppState> = inject(Store);
   initializing$ = this.store.select(RtuMgmtSelectors.selectInitializing);
+  rtuInitializationResult$ = this.store.select(RtuMgmtSelectors.selectRtuInitializationResult);
 
   constructor(private route: ActivatedRoute) {}
 
@@ -29,7 +30,6 @@ export class RtuInitializationComponent implements OnInit {
     this.rtuId = this.route.snapshot.paramMap.get('id')!;
 
     this.rtu = CoreUtils.getCurrentState(this.store, RtuTreeSelectors.selectRtu(this.rtuId))!;
-    console.log(this.rtu);
   }
 
   onInitializeClicked() {

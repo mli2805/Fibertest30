@@ -17,8 +17,12 @@ public class RtuTreeService : RtuTree.RtuTreeBase
     public override async Task<GetRtuTreeResponse> GetRtuTree(GetRtuTreeRequest request, ServerCallContext context)
     {
         var tree = await _mediator.Send(new GetRtuTreeQuery(), context.CancellationToken);
-        var protoTree = tree.Select(r => r.ToProto());
-        var response = new GetRtuTreeResponse() { Rtus = { protoTree } };
-        return response;
+        return new GetRtuTreeResponse() { Rtus = { tree.Select(r => r.ToProto()) } };
+    }
+
+    public override async Task<GetRtuResponse> GetRtu(GetRtuRequest request, ServerCallContext context)
+    {
+        var rtuDto = await _mediator.Send(new GetRtuQuery(request.RtuId), context.CancellationToken);
+        return new GetRtuResponse() { Rtu = rtuDto.ToProto() };
     }
 }
