@@ -62,18 +62,6 @@ export class MeasurementService {
     );
   }
 
-  setPortAlarmProfile(
-    monitoringPortId: number,
-    alarmProfileId: number
-  ): Observable<grpc.SetPortAlarmProfileResponse> {
-    const request: grpc.SetPortAlarmProfileRequest = { monitoringPortId, alarmProfileId };
-    return GrpcUtils.unaryToObservable(
-      this.client.setPortAlarmProfile.bind(this.client),
-      request,
-      {}
-    );
-  }
-
   setPortNote(
     monitoringPortId: number,
     note: string
@@ -148,55 +136,6 @@ export class MeasurementService {
     const request: grpc.GetBaselineProgressTraceRequest = { taskId };
     return GrpcUtils.unaryToObservable(
       this.client.getBaselineProgressTrace.bind(this.client),
-      request,
-      {}
-    );
-  }
-
-  getAllAlarmProfiles(): Observable<grpc.GetAllAlarmProfilesResponse> {
-    const request: grpc.GetAllAlarmProfilesRequest = {};
-    return GrpcUtils.unaryToObservable(
-      this.client.getAllAlarmProfiles.bind(this.client),
-      request,
-      {}
-    );
-  }
-
-  updateAlarmProfile(
-    grpcAlarmProfile: grpc.AlarmProfile
-  ): Observable<grpc.UpdateAlarmProfileResponse> {
-    const request: grpc.UpdateAlarmProfileRequest = {
-      alarmProfile: grpcAlarmProfile
-    };
-
-    return GrpcUtils.unaryToObservable(
-      this.client.updateAlarmProfile.bind(this.client),
-      request,
-      {}
-    );
-  }
-
-  getAlarmProfile(alarmProfileId: number): Observable<grpc.GetAlarmProfileResponse> {
-    const request: grpc.GetAlarmProfileRequest = { id: alarmProfileId };
-    return GrpcUtils.unaryToObservable(this.client.getAlarmProfile.bind(this.client), request, {});
-  }
-
-  createAlarmProfile(
-    grpcAlarmProfile: grpc.AlarmProfile
-  ): Observable<grpc.CreateAlarmProfileResponse> {
-    const request: grpc.CreateAlarmProfileRequest = { alarmProfile: grpcAlarmProfile };
-
-    return GrpcUtils.unaryToObservable(
-      this.client.createAlarmProfile.bind(this.client),
-      request,
-      {}
-    );
-  }
-
-  deleteAlarmProfile(alarmProfileId: number): Observable<grpc.DeleteAlarmProfileResponse> {
-    const request: grpc.DeleteAlarmProfileRequest = { alarmProfileId };
-    return GrpcUtils.unaryToObservable(
-      this.client.deleteAlarmProfile.bind(this.client),
       request,
       {}
     );
