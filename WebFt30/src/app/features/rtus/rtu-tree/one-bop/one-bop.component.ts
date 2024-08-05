@@ -11,13 +11,11 @@ export class OneBopComponent {
   @Input() set bop(value: Bop) {
     this._bop = value;
     this.bopState = this._bop.isOk ? RtuPartState.Ok : RtuPartState.Broken;
-    this.lineContent = `N${this._bop.masterPort}: ${this._bop.bopNetAddress.toString()}`;
   }
   get bop() {
     return this._bop;
   }
   bopState!: RtuPartState;
-  lineContent!: string;
 
   @Input() children!: any[];
 

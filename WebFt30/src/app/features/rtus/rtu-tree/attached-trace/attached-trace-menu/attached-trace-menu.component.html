@@ -1,0 +1,36 @@
+<button
+  class="cursor-pointer"
+  cdkOverlayOrigin
+  #selectButton="cdkOverlayOrigin"
+  type="button"
+  (click)="onTraceNameClicked()"
+>
+  <span class="ml-2">{{ lineContent }}</span>
+</button>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="selectButton"
+  [cdkConnectedOverlayOpen]="open"
+>
+  <div
+    class="background-base ml-3 mt-2 rounded-sm border border-gray-300 dark:border-[#575859]"
+    (click)="onOverlayClick($event)"
+  >
+    <!-- prettier-ignore -->
+    <div class="mx-4 my-2 flex flex-col">
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onInformationClicked()">{{ 'i18n.ft.information' | translate }}</button>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onStateClicked()">{{ 'i18n.ft.state' | translate }}</button>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onStatisticsClicked()">{{ 'i18n.ft.statistics' | translate }}</button>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onLandmarksClicked()">{{ 'i18n.ft.landmarks' | translate }}</button>
+      <div>{{ '----------------' }}</div>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onClicked()">{{ 'i18n.ft.detach-trace' | translate }}</button>
+      <div>{{ '----------------' }}</div>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onClicked()">{{ 'i18n.ft.assign-base-refs' | translate }}</button>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onAutomaticBaseRefsClicked()">{{ 'i18n.ft.automatic-base-refs' | translate }}</button>
+      <div>{{ '----------------' }}</div>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onClicked()">{{ 'i18n.ft.precise-out-of-order' | translate }}</button>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onMeasurementClientClicked()">{{ 'i18n.ft.measurement-client' | translate }}</button>
+    </div>
+  </div>
+</ng-template>

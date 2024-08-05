@@ -5,6 +5,7 @@ import { AppState, RtuTreeSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { RtuTreeService } from 'src/app/core/grpc/services/rtu-tree.service';
 import { TreeMapping } from 'src/app/core/store/mapping/tree-mapping';
+import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 
 @Component({
@@ -22,6 +23,7 @@ export class RtuTreeComponent {
     for (const rtu of this.rtus!) {
       this.arrangeRtuChildren(rtu);
     }
+    console.log(this.collectionOfChildren);
   }
 
   async loadRtus(): Promise<boolean> {
@@ -50,7 +52,10 @@ export class RtuTreeComponent {
         children.push(child);
         continue;
       }
-      const child = { type: 'free-port', port: i + 1, payload: null };
+      const freePort = new PortOfOtau();
+      freePort.isPortOnMainCharon = true;
+      freePort.opticalPort = i + 1;
+      const child = { type: 'free-port', port: i + 1, payload: freePort };
       children.push(child);
     }
 

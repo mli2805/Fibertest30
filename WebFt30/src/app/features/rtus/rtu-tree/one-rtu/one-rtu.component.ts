@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Bop } from 'src/app/core/store/models/ft30/bop';
 import { RtuPartState } from 'src/app/core/store/models/ft30/ft-enums';
+import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 
 @Component({
@@ -54,7 +55,11 @@ export class OneRtuComponent {
             oneBopChildren.push(child);
             continue;
           }
-          const child = { type: 'free-port', port: i + 1, payload: null };
+          const freePort = new PortOfOtau();
+          freePort.isPortOnMainCharon = false;
+          freePort.opticalPort = i + 1;
+          freePort.mainCharonPort = bop.masterPort;
+          const child = { type: 'free-port', port: i + 1, payload: freePort };
           oneBopChildren.push(child);
         }
       }

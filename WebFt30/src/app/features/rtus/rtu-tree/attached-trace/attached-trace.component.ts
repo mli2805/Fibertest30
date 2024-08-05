@@ -7,17 +7,8 @@ import { Trace } from 'src/app/core/store/models/ft30/trace';
   templateUrl: './attached-trace.component.html'
 })
 export class AttachedTraceComponent {
-  private _trace!: Trace;
-  @Input() set trace(value: Trace) {
-    this._trace = value;
-    this.lineContent = `N${this._trace.port!.opticalPort}: ${this._trace.title}`;
-  }
-  get trace() {
-    return this._trace;
-  }
+  @Input() trace!: Trace;
 
   @Input() rtuMonitoringMode!: MonitoringState;
   @Input() i!: number;
-
-  lineContent!: string;
 }

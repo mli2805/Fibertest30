@@ -12,5 +12,6 @@
   ></rtu-trace-monitoring-mode-pictogram>
   <rtu-tce-link-pictogram [state]="trace.tceLinkState"></rtu-tce-link-pictogram>
   <rtu-fiber-state-pictogram [state]="trace.state"></rtu-fiber-state-pictogram>
-  <div class="ml-2 text-left">{{ lineContent }}</div>
+  <!-- <div class="ml-2 text-left">{{ lineContent }}</div> -->
+  <rtu-attached-trace-menu [trace]="trace"></rtu-attached-trace-menu>
 </div>

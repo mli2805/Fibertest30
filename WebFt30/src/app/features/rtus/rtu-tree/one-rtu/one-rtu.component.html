@@ -51,7 +51,7 @@
         ></rtu-attached-trace>
       </ng-container>
       <ng-container *ngIf="child.type === 'free-port'">
-        <rtu-free-port [port]="child.port" [i]="ic"></rtu-free-port>
+        <rtu-free-port [portOfOtau]="child.payload" [i]="ic"></rtu-free-port>
       </ng-container>
       <ng-container *ngIf="child.type === 'detached-trace'">
         <rtu-detached-trace [trace]="child.payload" [i]="ic"></rtu-detached-trace>

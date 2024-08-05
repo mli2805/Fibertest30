@@ -1,0 +1,26 @@
+<button
+  class="cursor-pointer"
+  cdkOverlayOrigin
+  #selectButton="cdkOverlayOrigin"
+  type="button"
+  (click)="onBopNameClicked()"
+>
+  <span class="ml-2">{{ lineContent }}</span>
+</button>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="selectButton"
+  [cdkConnectedOverlayOpen]="open"
+>
+  <div
+    class="background-base ml-3 mt-2 rounded-sm border border-gray-300 dark:border-[#575859]"
+    (click)="onOverlayClick($event)"
+  >
+    <!-- prettier-ignore -->
+    <div class="mx-4 my-2 flex flex-col">
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onRemoveClicked()">{{ 'i18n.ft.remove' | translate }}</button>
+    
+    </div>
+  </div>
+</ng-template>

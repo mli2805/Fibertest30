@@ -1,0 +1,29 @@
+<button
+  class="cursor-pointer"
+  cdkOverlayOrigin
+  #selectButton="cdkOverlayOrigin"
+  type="button"
+  (click)="onFreePortNameClicked()"
+>
+  <span class="ml-1">N{{ portOfOtau.opticalPort }}</span>
+</button>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="selectButton"
+  [cdkConnectedOverlayOpen]="open"
+>
+  <div
+    class="background-base ml-3 mt-2 rounded-sm border border-gray-300 dark:border-[#575859]"
+    (click)="onOverlayClick($event)"
+  >
+    <!-- prettier-ignore -->
+    <div class="mx-4 my-2 flex flex-col">
+     
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onClicked()">{{ 'i18n.ft.attach-trace' | translate }}</button>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onClicked()">{{ 'i18n.ft.attach-optical-switch' | translate }}</button>
+      <div>{{ '----------------' }}</div>
+      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onMeasurementClientClicked()">{{ 'i18n.ft.measurement-client' | translate }}</button>
+    </div>
+  </div>
+</ng-template>

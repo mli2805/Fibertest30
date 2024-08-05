@@ -5,6 +5,7 @@ import { RtuTreeComponent } from './rtu-tree/rtu-tree.component';
 import { RtuInformationComponent } from './rtu-information/rtu-information.component';
 import { RtuInitializationComponent } from './rtu-initialization/rtu-initialization.component';
 import { RtusComponent } from './rtus/rtus.component';
+import { OndemandMeasurementComponent } from './ondemand-measurement/ondemand-measurement.component';
 
 export const routes: Routes = [
   {
@@ -30,6 +31,12 @@ export const routes: Routes = [
         path: 'initialization/:id',
         pathMatch: 'full',
         component: RtuInitializationComponent,
+        data: { navigateToParent: 2 }
+      },
+      {
+        path: 'measurement-client/:portName',
+        pathMatch: 'full',
+        component: OndemandMeasurementComponent,
         data: { navigateToParent: 2 }
       }
     ]

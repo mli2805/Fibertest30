@@ -22,7 +22,7 @@
   </div>
   <rtu-rtu-part-state-pictogram [state]="bopState"></rtu-rtu-part-state-pictogram>
 
-  <div class="w-0 min-w-36 whitespace-nowrap px-2 py-1 text-left">{{ lineContent }}</div>
+  <rtu-one-bop-menu [bop]="bop"></rtu-one-bop-menu>
   <div></div>
 </div>
 
@@ -38,7 +38,7 @@
         ></rtu-attached-trace>
       </ng-container>
       <ng-container *ngIf="child.type === 'free-port'">
-        <rtu-free-port [port]="child.port" [i]="ib"></rtu-free-port>
+        <rtu-free-port [portOfOtau]="child.payload" [i]="ib"></rtu-free-port>
       </ng-container>
     </ng-container>
   </div>

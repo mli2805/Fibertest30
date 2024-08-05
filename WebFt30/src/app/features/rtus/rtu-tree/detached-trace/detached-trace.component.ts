@@ -7,13 +7,7 @@ import { Trace } from 'src/app/core/store/models/ft30/trace';
   templateUrl: './detached-trace.component.html'
 })
 export class DetachedTraceComponent {
-  private _trace!: Trace;
-  @Input() set trace(value: Trace) {
-    this._trace = value;
-  }
-  get trace() {
-    return this._trace;
-  }
+  @Input() trace!: Trace;
 
   @Input() i!: number;
   // for detached trace is undefined
