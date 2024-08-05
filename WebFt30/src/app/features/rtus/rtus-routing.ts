@@ -26,8 +26,12 @@ export const routes: Routes = [
         pathMatch: 'full',
         component: RtuInformationComponent
       },
-      { path: 'initialization', pathMatch: 'full', component: RtuInitializationComponent },
-      { path: 'initialization/:id', pathMatch: 'full', component: RtuInitializationComponent }
+      {
+        path: 'initialization/:id',
+        pathMatch: 'full',
+        component: RtuInitializationComponent,
+        data: { navigateToParent: 2 }
+      }
     ]
   }
 ];
