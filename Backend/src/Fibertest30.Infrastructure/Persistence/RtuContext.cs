@@ -25,9 +25,6 @@ public class RtuContext : IdentityDbContext<ApplicationUser>
     public DbSet<OtauPortEf> OtauPorts { get; set; }
     public DbSet<MonitoringPortEf> MonitoringPorts { get; set; }
 
-    public DbSet<AlarmProfileEf> AlarmProfiles { get; set; }
-    public DbSet<ThresholdEf> Thresholds { get; set; }
-
     public DbSet<MonitoringTimeSlotEf> MonitoringTimeSlots { get; set; }
     
     public DbSet<MonitoringBaselineEf> Baselines { get; set; }

@@ -73,12 +73,7 @@ public class ExceptionInterceptor : Interceptor
             message = "OnDemandAlreadyStarted";
         }
 
-        if (ex is AlarmProfileIsUsedException)
-        {
-            statusCode = StatusCode.FailedPrecondition;
-            message = "AlarmProfileIsUsed";
-        }
-
+     
         if (ex is BaselineAlreadyStartedException)
         {
             statusCode = StatusCode.FailedPrecondition;

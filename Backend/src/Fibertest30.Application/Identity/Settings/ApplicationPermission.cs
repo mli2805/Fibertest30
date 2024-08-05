@@ -14,7 +14,6 @@ public enum ApplicationPermission
     ReceiveSystemNotifications,
     EditUsers,
     ChangeNotificationSettings,
-    ChangeAlarmProfiles,
     ChangeNetworkSettings,
     ChangeTimeSettings,
     EditPortLabels,

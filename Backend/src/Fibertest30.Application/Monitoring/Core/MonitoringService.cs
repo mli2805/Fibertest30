@@ -14,7 +14,6 @@ public class MonitoringService : OtdrTaskService<IMonitoringService>, IMonitorin
     private IOtauService _otauService = null!;
     private readonly IMonitoringScheduler _scheduler;
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly ITraceComparator _traceComparator;
     private readonly IMonitoringAlarmService _alarmService;
     private readonly IPrometheusPushService _prometheusPushService;
 
@@ -32,7 +31,6 @@ public class MonitoringService : OtdrTaskService<IMonitoringService>, IMonitorin
         ISystemEventDispatcher systemEventDispatcher,
         IMonitoringScheduler scheduler,
         IServiceScopeFactory serviceScopeFactory,
-        ITraceComparator traceComparator,
         IMonitoringAlarmService alarmService,
         IPrometheusPushService prometheusPushService,
         ISystemEventSender systemEventSender)
@@ -40,7 +38,6 @@ public class MonitoringService : OtdrTaskService<IMonitoringService>, IMonitorin
     {
         _scheduler = scheduler;
         _serviceScopeFactory = serviceScopeFactory;
-        _traceComparator = traceComparator;
         _alarmService = alarmService;
         _prometheusPushService = prometheusPushService;
         _schedulerEnumerator = scheduler.GetEnumerator();
@@ -68,21 +65,10 @@ public class MonitoringService : OtdrTaskService<IMonitoringService>, IMonitorin
         MonitoringBaseline baseline = monitoringTask.Baseline!;
         var baselineSor = await GetBaselineSor(baseline.Id ,ct); 
         
-        var alarmProfileId = monitoringTask.AlarmProfileId;
-        var alarmProfile = await GetAlarmProfile(alarmProfileId, ct);
+     
         
-        var result = await _traceComparator.Compare(
-            task.MonitoringPortId, 
-            baselineSor,
-            measurementSor: task.Measurement.Progress!.Trace!.SorBytes, 
-            alarmProfile);
-
-        FillAdditionalChangesContextFromBaseline(result.Changes, baselineSor);
-
-        var monitoringId = await SaveMonitoring((MonitoringOtdrTask)task, result.ModifiedTrace, result.Changes, ct);
-        await _alarmService.ProcessMonitoringChanges(task.MonitoringPortId, monitoringId, baseline.Id, result.Changes, ct);
-
-        _prometheusPushService.PushMetrics(task.MonitoringPortId, result.ModifiedTrace, task.CompletedAt, ct);
+      
+      
     }
 
     protected override Task OnAfterCompleted(OtdrTask task, CancellationToken ct)
@@ -109,7 +95,6 @@ public class MonitoringService : OtdrTaskService<IMonitoringService>, IMonitorin
             throw new Exception($"Monitoring port {monitoringPort.Id} has no baseline assigned");
         }
 
-        ((MonitoringOtdrTask)task).AlarmProfileId = monitoringPort.AlarmProfileId;
         ((MonitoringOtdrTask)task).Baseline = monitoringPort.Baseline;
 
         var baselineSor = await GetBaselineSor(monitoringPort.Baseline.Id ,ct);
@@ -241,12 +226,7 @@ public class MonitoringService : OtdrTaskService<IMonitoringService>, IMonitorin
         return await repo.GetSor(baselineId, ct);
     }
     
-    private async Task<AlarmProfile> GetAlarmProfile(int alarmProfileId, CancellationToken ct)
-    {
-        using var scope = _serviceScopeFactory.CreateScope();
-        var repo = scope.ServiceProvider.GetRequiredService<IAlarmProfileRepository>();
-        return await repo.GetById(alarmProfileId, ct);
-    }
+  
 
     private async Task<int> SaveMonitoring(MonitoringOtdrTask monitoring
         , byte[] modifiedSor
@@ -289,13 +269,7 @@ public class MonitoringService : OtdrTaskService<IMonitoringService>, IMonitorin
         await monitoringPortRepository.SetMonitoringPortSchedule(monitoringPortId, mode, interval, timeSlotIds, ct);
     }
 
-    public async Task SetPortAlarmProfile(int monitoringPortId, int alarmProfileId, CancellationToken ct)
-    {
-        using var scope = _serviceScopeFactory.CreateScope();
-        var monitoringPortRepository = scope.ServiceProvider.GetRequiredService<IMonitoringPortRepository>();
-
-        await monitoringPortRepository.SetMonitoringPortAlarmProfile(monitoringPortId, alarmProfileId, ct);
-    }
+   
     
     private void FillAdditionalChangesContextFromBaseline(List<MonitoringChange> changes, byte[] baselineSor)
     {

@@ -11,7 +11,6 @@ public class GetDeviceInfoQueryHandler : IRequestHandler<GetDeviceInfoQuery, Dev
     private readonly IOtdr _otdr;
     private readonly IOtauService _otauService;
     private readonly IMonitoringPortRepository _monitoringPortRepository;
-    private readonly IAlarmProfileRepository _alarmProfileRepository;
     private readonly IMonitoringAlarmRepository _monitoringAlarmRepository;
     private readonly INotificationSettingsRepository _notificationSettingsRepository;
     private readonly INetworkSettingsProvider _networkSettingsProvider;
@@ -26,7 +25,6 @@ public class GetDeviceInfoQueryHandler : IRequestHandler<GetDeviceInfoQuery, Dev
         IOtdr otdr,
         IOtauService otauService,
         IMonitoringPortRepository monitoringPortRepository,
-        IAlarmProfileRepository alarmProfileRepository,
         IMonitoringAlarmRepository monitoringAlarmRepository,
         INotificationSettingsRepository notificationSettingsRepository,
         INetworkSettingsProvider networkSettingsProvider,
@@ -39,7 +37,6 @@ public class GetDeviceInfoQueryHandler : IRequestHandler<GetDeviceInfoQuery, Dev
         _otdr = otdr;
         _otauService = otauService;
         _monitoringPortRepository = monitoringPortRepository;
-        _alarmProfileRepository = alarmProfileRepository;
         _monitoringAlarmRepository = monitoringAlarmRepository;
         _notificationSettingsRepository = notificationSettingsRepository;
         _networkSettingsProvider = networkSettingsProvider;
@@ -55,7 +52,6 @@ public class GetDeviceInfoQueryHandler : IRequestHandler<GetDeviceInfoQuery, Dev
         var otaus = await _otauService.GetAllOtau(ct);
         var monitoringPorts = await _monitoringPortRepository.GetAllMonitoringPorts(ct);
         var monitoringTimeSlots = await _monitoringPortRepository.GetMonitoringTimeSlots(ct);
-        var alarmProfiles = await _alarmProfileRepository.GetAll(ct);
         var notificationSettings = await _notificationSettingsRepository.GetSettingsWithoutPasswords(ct);
         var networkSettings = await _networkSettingsProvider.GetNetworkSettings(ct);
         var activeAlarms = await _monitoringAlarmRepository.GetAllActiveAlarms(true, ct);
@@ -80,7 +76,6 @@ public class GetDeviceInfoQueryHandler : IRequestHandler<GetDeviceInfoQuery, Dev
             Otaus = otaus,
             MonitoringPorts = monitoringPorts,
             MonitoringTimeSlots = monitoringTimeSlots,
-            AlarmProfiles = alarmProfiles,
             NotificationSettings = notificationSettings,
             NetworkSettings = networkSettings,
             ActiveAlarms = activeAlarms,

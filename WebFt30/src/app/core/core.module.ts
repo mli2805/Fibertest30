@@ -34,7 +34,6 @@ import { OtausEffects } from './store/otaus/otaus.effects';
 import { MonitoringPortEffects } from './store/monitoring/monitoring-port.effects';
 import { MonitoringHistoryEffects } from './store/monitoring-history/monitoring-history.effects';
 import { BaselineSetupEffects } from './store/baseline/baseline-setup.effects';
-import { AlarmProfilesEffects } from './store/alarm-profile/alarm-profiles.effects';
 import { AlarmNotificationEffects } from './store/alarm-notification/alarm-notification.effects';
 import { NotificationSettingsEffects } from './store/notification-settings/notification-settings.effects';
 import { ActiveAlarmsEffects } from './store/active-alarms/active-alarms.effects';
@@ -98,7 +97,6 @@ import { RtuMgmtEffects } from './store/rtu-mgmt/rtu-mgmt.effects';
       BaselineSetupEffects,
       GlobalUiEffects,
       SystemEventsEffects,
-      AlarmProfilesEffects,
       AlarmEventsEffects,
       NotificationSettingsEffects,
       QuickAnalysisEffects,

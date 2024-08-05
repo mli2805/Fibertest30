@@ -5,10 +5,8 @@ import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
 import { AuthInterceptor } from '../auth.interceptor';
 import { GrpcUtils } from '../grpc.utils';
 import * as grpc from 'src/grpc-generated';
-import { MeasurementSettings, OtauPortPath } from '../../store/models';
-import { DefaultParameters } from 'src/app/shared/utils/default-parameters';
+import { MeasurementSettings } from '../../store/models';
 import { MapUtils } from '../../map.utils';
-import { AlarmProfile } from '../../store/models/alarm-profile';
 
 @Injectable({
   providedIn: 'root'

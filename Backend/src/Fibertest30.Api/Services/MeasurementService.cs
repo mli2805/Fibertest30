@@ -84,14 +84,7 @@ public class MeasurementService : Measurement.MeasurementBase
         return new SetMonitoringPortScheduleResponse();
     }
 
-    public override async Task<SetPortAlarmProfileResponse> SetPortAlarmProfile(
-        SetPortAlarmProfileRequest request, ServerCallContext context)
-    {
-        await _mediator.Send(new SetPortAlarmProfileCommand(request.MonitoringPortId, 
-            request.AlarmProfileId), context.CancellationToken);
-
-        return new SetPortAlarmProfileResponse();
-    }
+  
 
     public override async Task<SetMonitoringPortNoteResponse> SetMonitoringPortNote(SetMonitoringPortNoteRequest request, ServerCallContext context)
     {
@@ -157,48 +150,6 @@ public class MeasurementService : Measurement.MeasurementBase
         }
 
         return response;
-    }
-
-    public override async Task<GetAllAlarmProfilesResponse> GetAllAlarmProfiles(GetAllAlarmProfilesRequest request,
-        ServerCallContext context)
-    {
-        var profiles = await _mediator.Send(new GetAllAlarmProfilesQuery(), context.CancellationToken);
-        var protoProfiles = profiles.Select(a => a.ToProto());
-
-        return new GetAllAlarmProfilesResponse() { AlarmProfiles = { protoProfiles } };
-    }
-
-    public override async Task<UpdateAlarmProfileResponse> UpdateAlarmProfile(UpdateAlarmProfileRequest request, ServerCallContext context)
-    {
-        var profile = request.AlarmProfile.FromProto();
-        await _mediator.Send(new UpdateAlarmProfileCommand(profile), context.CancellationToken);
-
-        return new UpdateAlarmProfileResponse();
-    }
-
-    public override async Task<GetAlarmProfileResponse> GetAlarmProfile(GetAlarmProfileRequest request,
-        ServerCallContext context)
-    {
-        var profile = await _mediator.Send(new GetAlarmProfileQuery(request.Id), context.CancellationToken);
-        var protoProfile = profile.ToProto();
-
-        return new GetAlarmProfileResponse() { AlarmProfile = protoProfile };
-    }
-
-    public override async Task<CreateAlarmProfileResponse> CreateAlarmProfile(CreateAlarmProfileRequest request,
-        ServerCallContext context)
-    {
-        var profile = request.AlarmProfile.FromProto();
-        var createdProfileId = await _mediator.Send(new CreateAlarmProfileCommand(profile), context.CancellationToken);
-        return new CreateAlarmProfileResponse() { Id = createdProfileId };
-    }
-
-    public override async Task<DeleteAlarmProfileResponse> DeleteAlarmProfile(DeleteAlarmProfileRequest request,
-            ServerCallContext context)
-    {
-        await _mediator.Send(new DeleteAlarmProfileCommand(request.AlarmProfileId), context.CancellationToken);
-
-        return new DeleteAlarmProfileResponse();
     }
 
     public override async Task<UpdateNotificationSettingsResponse> UpdateNotificationSettings(

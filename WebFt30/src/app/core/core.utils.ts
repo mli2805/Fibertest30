@@ -145,10 +145,6 @@ export class CoreUtils {
         return 'i18n.error.baseline-already-started';
       }
 
-      if (error.message === 'AlarmProfileIsUsed') {
-        return 'i18n.error.alarm-profile-is-used';
-      }
-
       if (error.message === 'FailedToConnectEmailServer') {
         return 'i18n.error.failed-connect-email-server';
       }

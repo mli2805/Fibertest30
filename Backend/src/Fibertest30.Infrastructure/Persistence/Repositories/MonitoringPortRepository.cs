@@ -155,14 +155,7 @@ public class MonitoringPortRepository : IMonitoringPortRepository
         }
     }
 
-    public async Task SetMonitoringPortAlarmProfile(int monitoringPortId, int alarmProfileId, CancellationToken ct)
-    {
-        var portEf = new MonitoringPortEf{ Id = monitoringPortId, AlarmProfileId = alarmProfileId };
-        _rtuContext.Entry(portEf).Property(x => x.AlarmProfileId).IsModified = true;
-        await _rtuContext.SaveChangesAsync(ct);
-        
-        _cache.Remove(GetAllMonitoringPortsKey);
-    }
+  
 
     public async Task SetMonitoringPortNote(int monitoringPortId, string note, CancellationToken ct)
     {

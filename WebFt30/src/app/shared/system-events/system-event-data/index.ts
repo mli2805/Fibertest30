@@ -20,10 +20,5 @@ export * from './otau/otau-removed-data';
 
 export * from './monitoring/monitoring-port-status-changed-data';
 export * from './monitoring/monitoring-port-schedule-changed-data';
-export * from './monitoring/monitoring-port-alarm-profile-changed-data';
-
-export * from './alarm-profile/alarm-profile-changed-data';
-export * from './alarm-profile/alarm-profile-created-data';
-export * from './alarm-profile/alarm-profile-deleted-data';
 
 export * from './notification-settings/notification-settings-updated-data';

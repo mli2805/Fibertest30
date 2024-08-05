@@ -67,22 +67,6 @@ const setPortScheduleFailure = createAction(
   props<{ errorMessageId: string }>()
 );
 
-const setPortAlarmProfile = createAction(
-  '[MonitoringPort] Set Port AlarmProfile',
-  props<{
-    monitoringPortId: number;
-    alarmProfileId: number;
-  }>()
-);
-const setPortAlarmProfileSuccess = createAction(
-  '[MonitoringPort] Set Port AlarmProfile Success',
-  props<{ monitoringPortId: number }>()
-);
-const setPortAlarmProfileFailure = createAction(
-  '[MonitoringPort] Set Port AlarmProfile Failure',
-  props<{ errorMessageId: string }>()
-);
-
 export const MonitoringPortActions = {
   setPortStatus,
   setPortStatusSuccess,
@@ -99,9 +83,5 @@ export const MonitoringPortActions = {
 
   setPortSchedule,
   setPortScheduleSuccess,
-  setPortScheduleFailure,
-
-  setPortAlarmProfile,
-  setPortAlarmProfileSuccess,
-  setPortAlarmProfileFailure
+  setPortScheduleFailure
 };

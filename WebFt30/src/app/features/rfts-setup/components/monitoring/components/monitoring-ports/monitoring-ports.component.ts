@@ -40,8 +40,6 @@ import { SelectComponent } from 'src/app/shared/components/select/select.compone
 import { CombinedPort } from 'src/app/core/store/models/combined-port';
 import { MonitoringSchedule } from 'src/app/core/store/models/monitoring-schedule';
 import { ScheduleSelectComponent } from '../schedule-select/schedule-select.component';
-import { AlarmProfilesSelectors } from 'src/app/core/store/alarm-profile/alarm-profiles.selectors';
-import { AlarmProfile } from 'src/app/core/store/models/alarm-profile';
 
 @Component({
   selector: 'rtu-monitoring-ports',
@@ -68,8 +66,6 @@ export class MonitoringPortsComponent extends OnDestroyBase {
   hasChangeMonitoringPortSettingsPermisson$ = this.store.select(
     AuthSelectors.selectHasChangeMonitoringPortSettingsPermisson
   );
-
-  alarmProfiles$ = this.store.select(AlarmProfilesSelectors.selectAlarmProfilesArray);
 
   statuses: MonitoringPortStatus[] = [
     MonitoringPortStatus.Off,
@@ -138,13 +134,6 @@ export class MonitoringPortsComponent extends OnDestroyBase {
     );
   }
 
-  getAlarmProfile(
-    profiles: AlarmProfile[],
-    monitoringPort: MonitoringPort
-  ): AlarmProfile | undefined {
-    return profiles.find((p) => p.id === monitoringPort.alarmProfileId);
-  }
-
   onPortStatus(monitoringPortId: number, status: MonitoringPortStatus) {
     this.store.dispatch(MonitoringPortActions.setPortStatus({ monitoringPortId, status }));
   }
@@ -165,12 +154,6 @@ export class MonitoringPortsComponent extends OnDestroyBase {
 
   onScheduleChanged(monitoringPortId: number, schedule: MonitoringSchedule) {
     this.store.dispatch(MonitoringPortActions.setPortSchedule({ monitoringPortId, schedule }));
-  }
-
-  onPortAlarmProfileChanged(monitoringPortId: number, profile: AlarmProfile) {
-    this.store.dispatch(
-      MonitoringPortActions.setPortAlarmProfile({ monitoringPortId, alarmProfileId: profile.id })
-    );
   }
 
   navigateToOtau(ocmPortIndex: number) {

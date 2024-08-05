@@ -16,10 +16,6 @@ import {
   OtauInformationChangedSystemEventViewerComponent,
   MonitoringPortStatusChangedSystemEventViewerComponent,
   MonitoringPortScheduleChangedSystemEventViewerComponent,
-  MonitoringPortAlarmProfileChangedEventViewerComponent,
-  AlarmProfileChangedEventViewerComponent,
-  AlarmProfileCreatedEventViewerComponent,
-  AlarmProfileDeletedEventViewerComponent,
   NotificationSettingsUpdatedSystemEventViewerComponent,
   UnsupportedOsmModuleEventViewerComponent
 } from '.';
@@ -79,18 +75,7 @@ export class SystemEventViewerFactory {
       case 'MonitoringPortScheduleChanged':
         component = MonitoringPortScheduleChangedSystemEventViewerComponent;
         break;
-      case 'MonitoringPortAlarmProfileChanged':
-        component = MonitoringPortAlarmProfileChangedEventViewerComponent;
-        break;
-      case 'AlarmProfileChanged':
-        component = AlarmProfileChangedEventViewerComponent;
-        break;
-      case 'AlarmProfileCreated':
-        component = AlarmProfileCreatedEventViewerComponent;
-        break;
-      case 'AlarmProfileDeleted':
-        component = AlarmProfileDeletedEventViewerComponent;
-        break;
+
       case 'NotificationSettingsUpdated':
         component = NotificationSettingsUpdatedSystemEventViewerComponent;
         break;

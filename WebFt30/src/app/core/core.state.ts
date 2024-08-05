@@ -32,8 +32,6 @@ import { MonitoringHistoryState } from './store/monitoring-history/monitoring-hi
 import { monitoringHistoryReducer } from './store/monitoring-history/monitoring-history.reducer';
 import { BaselineSetupState } from './store/baseline/baseline-setup.state';
 import { baselineSetupReducer } from './store/baseline/baseline-setup.reducer';
-import { AlarmProfilesState } from './store/alarm-profile/alarm-profiles.state';
-import { alarmProfilesReducer } from './store/alarm-profile/alarm-profiles.reducer';
 import { AlarmNotificationState } from './store/alarm-notification/alarm-notification.state';
 import { alarmNotificationReducer } from './store/alarm-notification/alarm-notification.reducer';
 import { NotificationSettingsState } from './store/notification-settings/notification-settings.state';
@@ -78,7 +76,6 @@ export interface AppState {
   eventNotification: SystemNotificationState;
   monitoringPort: MonitoringPortState;
   baselineSetup: BaselineSetupState;
-  alarmProfiles: AlarmProfilesState;
   notificationSettings: NotificationSettingsState;
   activeAlarms: ActiveAlarmsState;
   allAlarms: AllAlarmsState;
@@ -111,7 +108,6 @@ export const reducers: ActionReducerMap<AppState> = {
   eventNotification: systemNotificationReducer,
   monitoringPort: monitoringPortReducer,
   baselineSetup: baselineSetupReducer,
-  alarmProfiles: alarmProfilesReducer,
   notificationSettings: notificationSettingsReducer,
   activeAlarms: activeAlarmsReducer,
   allAlarms: allAlarmsReducer,
@@ -149,7 +145,6 @@ export const selectAlarmNotificationState = (state: AppState) => state.alarmNoti
 export const selectSystemNotificationState = (state: AppState) => state.eventNotification;
 export const selectMonitoringPortState = (state: AppState) => state.monitoringPort;
 export const selectBaselineSetupState = (state: AppState) => state.baselineSetup;
-export const selectAlarmProfilesState = (state: AppState) => state.alarmProfiles;
 export const selectNotificationSettingsState = (state: AppState) => state.notificationSettings;
 export const selectActiveAlarmsState = (state: AppState) => state.activeAlarms;
 export const selectAllAlarmsState = (state: AppState) => state.allAlarms;

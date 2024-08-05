@@ -28,11 +28,9 @@ import { MapUtils } from 'src/app/core/map.utils';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
 import { InAppSystemNotification, MonitoringAlarmEvent, SystemEvent } from 'src/grpc-generated';
 import { UsersActions } from 'src/app/core/store/users/users.actions';
-import { AlarmProfilesActions } from 'src/app/core/store/alarm-profile/alarm-profiles.actions';
 import {
   MonitoringPortStatusChangedData,
   MonitoringPortScheduleChangedData,
-  MonitoringPortAlarmProfileChangedData,
   OtauAddedData,
   OtauChangedData,
   OtauConnectionStatusChangedData,
@@ -41,9 +39,6 @@ import {
   UserChangedData,
   UserCreatedData,
   UserDeletedData,
-  AlarmProfileChangedData,
-  AlarmProfileCreatedData,
-  AlarmProfileDeletedData,
   NotificationSettingsUpdatedData,
   OtdrTaskProgressData
 } from 'src/app/shared/system-events/system-event-data';
@@ -295,42 +290,6 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         this.store.dispatch(
           MonitoringPortActions.setPortScheduleSuccess({
             monitoringPortId: data.MonitoringPortId
-          })
-        );
-        return;
-      }
-      case 'MonitoringPortAlarmProfileChanged': {
-        const data = <MonitoringPortAlarmProfileChangedData>JSON.parse(systemEvent.jsonData);
-        this.store.dispatch(
-          MonitoringPortActions.setPortAlarmProfileSuccess({
-            monitoringPortId: data.MonitoringPortId
-          })
-        );
-        return;
-      }
-      case 'AlarmProfileChanged': {
-        const data = <AlarmProfileChangedData>JSON.parse(systemEvent.jsonData);
-        this.store.dispatch(
-          AlarmProfilesActions.updateAlarmProfileSuccess({
-            profileId: data.AlarmProfileId
-          })
-        );
-        return;
-      }
-      case 'AlarmProfileCreated': {
-        const data = <AlarmProfileCreatedData>JSON.parse(systemEvent.jsonData);
-        this.store.dispatch(
-          AlarmProfilesActions.createAlarmProfileSuccess({
-            profileId: data.AlarmProfileId
-          })
-        );
-        return;
-      }
-      case 'AlarmProfileDeleted': {
-        const data = <AlarmProfileDeletedData>JSON.parse(systemEvent.jsonData);
-        this.store.dispatch(
-          AlarmProfilesActions.deleteAlarmProfileSuccess({
-            alarmProfileId: data.AlarmProfileId
           })
         );
         return;

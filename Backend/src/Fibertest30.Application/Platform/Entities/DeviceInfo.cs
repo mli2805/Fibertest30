@@ -13,7 +13,6 @@ public class DeviceInfo
     public List<CombinedOtau> Otaus { get; set; } = null!;
     public List<MonitoringPort> MonitoringPorts { get; set; } = null!;
     public List<MonitoringTimeSlot> MonitoringTimeSlots { get; set; } = null!;
-    public List<AlarmProfile> AlarmProfiles { get; set; } = null!;
     public NotificationSettings NotificationSettings { get; set; } = null!;
     public NetworkSettings NetworkSettings { get; set; } = null!;
     public List<MonitoringAlarm> ActiveAlarms { get; set; } = null!;

@@ -99,11 +99,7 @@ message Threshold {
 	optional double critical = 8;
 }
 
-message AlarmProfile {
-	int32 id = 1;
-	string name = 2;
-	repeated Threshold thresholds = 3;
-}
+
 
 message EmailServer {
 	bool enabled = 1;

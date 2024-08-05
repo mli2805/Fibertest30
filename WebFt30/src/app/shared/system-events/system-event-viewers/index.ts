@@ -22,10 +22,5 @@ export * from './otau-viewers/unsupported-osm-module-event-viewer.component';
 
 export * from './monitoring-viewers/monitoring-port-status-changed-system-event-viewer.component';
 export * from './monitoring-viewers/monitoring-port-schedule-changed-system-event-viewer.component';
-export * from './monitoring-viewers/monitoring-port-alarm-profile-changed-event-viewer.component';
-
-export * from './alarm-profile-viewers/alarm-profile-changed-event-viewer.component';
-export * from './alarm-profile-viewers/alarm-profile-created-event-viewer.component';
-export * from './alarm-profile-viewers/alarm-profile-deleted-event-viewer.component';
 
 export * from './notification-settings-viewers/notification-settings-updated-system-event-viewer.component';

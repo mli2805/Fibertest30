@@ -1,6 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
 import { createEntityAdapter } from '@ngrx/entity';
-import { filter } from 'rxjs';
 import { MonitoringPortState } from './monitoring-port.state';
 import { MonitoringPortActions } from './monitoring-port.actions';
 import { MonitoringPort } from '../models';

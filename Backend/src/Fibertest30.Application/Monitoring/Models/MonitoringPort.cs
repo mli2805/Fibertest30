@@ -14,5 +14,4 @@ public class MonitoringPort
     
     public int OtauPortId { get; set; }
     public int OtauId { get; set; }
-    public int AlarmProfileId { get; set; }
 }

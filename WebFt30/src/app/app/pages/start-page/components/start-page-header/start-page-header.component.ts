@@ -31,7 +31,6 @@ export class StartPageHeaderComponent {
     [/^\/rtus$/, { titleId: 'i18n.ft.rtus' }],
     [/^\/rfts-setup$/, { titleId: 'i18n.start-page.rfts-setup' }],
     [/^\/rfts-setup\/platform-management$/, { titleId: 'i18n.page-title.platform-management' }],
-    [/^\/rfts-setup\/monitoring\/alarm-profiles$/, { titleId: 'i18n.monitoring.alarm-profiles' }],
     [
       /^\/rfts-setup\/monitoring\/monitoring-profiles$/,
       { titleId: 'i18n.monitoring.monitoring-profiles' }

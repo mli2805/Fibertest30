@@ -80,7 +80,6 @@ public static class ConfigureServices
         services.AddScoped<IOnDemandRepository, OnDemandRepository>();
         services.AddScoped<IMonitoringRepository, MonitoringRepository>();
         services.AddScoped<IBaselineRepository, BaselineRepository>();
-        services.AddScoped<IAlarmProfileRepository, AlarmProfileRepository>();
         services.AddScoped<INotificationSettingsRepository, NotificationSettingsRepository>();
         services.AddScoped<ISystemEventRepository, SystemEventRepository>();
         services.AddScoped<IMonitoringPortRepository, MonitoringPortRepository>();
@@ -117,14 +116,12 @@ public static class ConfigureServices
         if (emulator)
         {
             services.AddSingleton<IOtdr, Emulator.Otdr>();
-            services.AddSingleton<ITraceComparator, Emulator.TraceComparator>();
             services.AddSingleton<ILinkmapGenerator, Emulator.LinkmapGenerator>();
         }
         else
         {
             services.Configure<Device.OtdrSettings>(configuration.GetRequiredSection(Device.OtdrSettings.SectionName));
             services.AddSingleton<IOtdr, Device.Otdr>();
-            services.AddSingleton<ITraceComparator, Device.TraceComparator>();
             services.AddSingleton<ILinkmapGenerator, Device.LinkmapGenerator>();
         }
     }

@@ -44,8 +44,6 @@ import { OtdrTaskProgressData } from '../shared/system-events/system-event-data'
 import { MonitoringSchedule } from './store/models/monitoring-schedule';
 import { Duration } from 'src/grpc-generated/google/protobuf/duration';
 import { OtdrTaskProgress } from './store/models/task-progress';
-import { AlarmProfile } from './store/models/alarm-profile';
-import { Threshold, ThresholdParameter } from './store/models/threshold';
 import {
   EmailServer,
   NotificationSettings,
@@ -107,50 +105,6 @@ export class MapUtils {
       trapReceiverAddress: receiver.trapReceiverAddress,
       trapReceiverPort: receiver.trapReceiverPort
     };
-  }
-
-  static toGrpcAlarmProfile(profile: AlarmProfile): grpc.AlarmProfile {
-    return {
-      id: profile.id,
-      name: profile.name,
-      thresholds: profile.thresholds.map((x) => this.toGrpcThreshold(x))
-    };
-  }
-
-  static toGrpcThreshold(threshold: Threshold): grpc.Threshold {
-    const result = {
-      id: threshold.id,
-      parameter: this.toGrpcThresholdParameter(threshold.parameter),
-      isMinorOn: threshold.isMinorOn,
-      isMajorOn: threshold.isMajorOn,
-      isCriticalOn: threshold.isCriticalOn,
-      minor: threshold.minor !== null ? threshold.minor : undefined,
-      major: threshold.major !== null ? threshold.major : undefined,
-      critical: threshold.critical !== null ? threshold.critical : undefined
-    };
-
-    return result;
-  }
-
-  static toGrpcThresholdParameter(param: ThresholdParameter): grpc.ThresholdParameter {
-    switch (param) {
-      case ThresholdParameter.EventLoss:
-        return grpc.ThresholdParameter.EventLoss;
-      case ThresholdParameter.TotalLoss:
-        return grpc.ThresholdParameter.TotalLoss;
-      case ThresholdParameter.EventReflectance:
-        return grpc.ThresholdParameter.EventReflectance;
-      case ThresholdParameter.SectionAttenuation:
-        return grpc.ThresholdParameter.SectionAttenuation;
-      case ThresholdParameter.SectionLoss:
-        return grpc.ThresholdParameter.SectionLoss;
-      case ThresholdParameter.SectionLengthChange:
-        return grpc.ThresholdParameter.SectionLengthChange;
-      case ThresholdParameter.PortHealth:
-        return grpc.ThresholdParameter.PortHealth;
-      default:
-        throw new Error(`Unknown ThresholdParameter: ${param}`);
-    }
   }
 
   static toNtpSettings(grpcNtpSettings: grpc.NtpSettings): NtpSettings {
@@ -264,54 +218,6 @@ export class MapUtils {
     trapReceiver.trapReceiverPort = grpcTrapReceiver.trapReceiverPort;
 
     return trapReceiver;
-  }
-
-  static toAlarmProfiles(grpcAlarmProfiles: grpc.AlarmProfile[]): AlarmProfile[] {
-    const alarmProfiles = grpcAlarmProfiles.map((a) => this.toAlarmProfile(a));
-    return alarmProfiles;
-  }
-
-  static toAlarmProfile(grpcAlarmProfile: grpc.AlarmProfile): AlarmProfile {
-    const alarmProfile = new AlarmProfile();
-    alarmProfile.id = grpcAlarmProfile.id;
-    alarmProfile.name = grpcAlarmProfile.name;
-    alarmProfile.thresholds = grpcAlarmProfile.thresholds.map((t) => this.toThreshold(t));
-    return alarmProfile;
-  }
-
-  static toThreshold(grpcThreshold: grpc.Threshold): Threshold {
-    const threshold = new Threshold(this.toThresholdParameter(grpcThreshold.parameter));
-    threshold.id = grpcThreshold.id;
-    threshold.isMinorOn = grpcThreshold.isMinorOn;
-    threshold.isMajorOn = grpcThreshold.isMajorOn;
-    threshold.isCriticalOn = grpcThreshold.isCriticalOn;
-
-    threshold.minor = grpcThreshold.minor ? grpcThreshold.minor : null;
-    threshold.major = grpcThreshold.major ? grpcThreshold.major : null;
-    threshold.critical = grpcThreshold.critical ? grpcThreshold.critical : null;
-
-    return threshold;
-  }
-
-  static toThresholdParameter(grpcThresholdParameter: grpc.ThresholdParameter): ThresholdParameter {
-    switch (grpcThresholdParameter) {
-      case grpc.ThresholdParameter.EventLoss:
-        return ThresholdParameter.EventLoss;
-      case grpc.ThresholdParameter.TotalLoss:
-        return ThresholdParameter.TotalLoss;
-      case grpc.ThresholdParameter.EventReflectance:
-        return ThresholdParameter.EventReflectance;
-      case grpc.ThresholdParameter.SectionAttenuation:
-        return ThresholdParameter.SectionAttenuation;
-      case grpc.ThresholdParameter.SectionLoss:
-        return ThresholdParameter.SectionLoss;
-      case grpc.ThresholdParameter.SectionLengthChange:
-        return ThresholdParameter.SectionLengthChange;
-      case grpc.ThresholdParameter.PortHealth:
-        return ThresholdParameter.PortHealth;
-      default:
-        throw new Error(`Unknown grpc.ThresholdParameter: ${grpcThresholdParameter}`);
-    }
   }
 
   static toUsers(grpcUsers: grpc.User[]): User[] {
@@ -435,7 +341,6 @@ export class MapUtils {
     deviceInfo.monitoringTimeSlots = response.monitoringTimeSlots.map((slot) =>
       MapUtils.toMonitoringTimeSlot(slot)
     );
-    deviceInfo.alarmProfiles = response.alarmProfiles.map((p) => MapUtils.toAlarmProfile(p));
     deviceInfo.notificationSettings = this.toNotificationSettings(response.notificationSettings!);
     deviceInfo.serialNumber = response.serialNumber;
     deviceInfo.ipV4Address = response.ipV4Address;

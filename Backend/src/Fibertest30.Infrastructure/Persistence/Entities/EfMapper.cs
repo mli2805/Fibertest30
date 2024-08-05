@@ -103,7 +103,6 @@ public static class EfMapper
             TimeSlots = portEf.TimeSlots?.Select(x => x.FromEf()).ToList() ?? new List<MonitoringTimeSlot>(),
             OtauPortId = portEf.OtauPort.Id,
             OtauId = portEf.OtauPort.OtauId,
-            AlarmProfileId = portEf.AlarmProfileId,
         };
     }
 
@@ -126,58 +125,6 @@ public static class EfMapper
             CreatedByUserId = baseline.CreatedByUserId,
             CreatedAt = baseline.CreatedAt,
             MeasurementSettings = baseline.MeasurementSettings,
-        };
-    }
-
-    public static AlarmProfile FromEf(this AlarmProfileEf alarmProfileEf)
-    {
-        return new AlarmProfile()
-        {
-            Id = alarmProfileEf.Id,
-            Name = alarmProfileEf.Name,
-
-            Thresholds = alarmProfileEf.Thresholds.Select(t => t.FromEf()).ToList(),
-        };
-    }
-
-    public static AlarmProfileEf ToEf(this AlarmProfile alarmProfile)
-    {
-        return new AlarmProfileEf()
-        {
-            Id = alarmProfile.Id,
-            Name = alarmProfile.Name,
-
-            Thresholds = alarmProfile.Thresholds.Select(t => t.ToEf()).ToList(),
-        };
-    }
-
-    public static Threshold FromEf(this ThresholdEf thresholdEf)
-    {
-        return new Threshold()
-        {
-            Id = thresholdEf.Id,
-            Parameter = thresholdEf.Parameter,
-            IsMinorOn = thresholdEf.IsMinorOn,
-            IsMajorOn = thresholdEf.IsMajorOn,
-            IsCriticalOn = thresholdEf.IsCriticalOn,
-            Minor = thresholdEf.Minor,
-            Major = thresholdEf.Major,
-            Critical = thresholdEf.Critical,
-        };
-    }
-
-    public static ThresholdEf ToEf(this Threshold threshold)
-    {
-        return new ThresholdEf()
-        {
-            Id = threshold.Id,
-            Parameter = threshold.Parameter,
-            IsMinorOn = threshold.IsMinorOn,
-            IsMajorOn = threshold.IsMajorOn,
-            IsCriticalOn = threshold.IsCriticalOn,
-            Minor = threshold.Minor,
-            Major = threshold.Major,
-            Critical = threshold.Critical,
         };
     }
 

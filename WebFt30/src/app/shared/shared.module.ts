@@ -46,10 +46,6 @@ import {
   OtauPortPathTitleComponent,
   MonitoringPortStatusChangedSystemEventViewerComponent,
   MonitoringPortScheduleChangedSystemEventViewerComponent,
-  MonitoringPortAlarmProfileChangedEventViewerComponent,
-  AlarmProfileChangedEventViewerComponent,
-  AlarmProfileCreatedEventViewerComponent,
-  AlarmProfileDeletedEventViewerComponent,
   NotificationSettingsUpdatedSystemEventViewerComponent,
   UnsupportedOsmModuleEventViewerComponent
 } from './system-events/system-event-viewers';
@@ -77,8 +73,6 @@ import { BaselineStatusComponent } from './common/task-status/baseline-status/ba
 import { NavigateButtonComponent } from './components/svg-buttons/navigate-button.component';
 import { SaveButtonComponent } from './components/svg-buttons/save-button.component';
 import { CloseButtonComponent } from './components/svg-buttons/close-button.component';
-import { ThresholdParameterPipe } from './pipes/threshold-parameter.pipe';
-import { ThresholdUnitPipe } from './pipes/threshold-unit.pipe';
 import { AlarmLevelDirective } from './domain-components/alarm-events/colorize-by-alarm-level/colorize-by-alarm-level.directive';
 import { AlarmEventViewerComponent } from './domain-components/alarm-events/alarm-event-viewer/alarm-event-viewer.component';
 import { OtdrTaskStatusComponent } from './common/task-status/otdr-task-simple-status/otdr-task-simple-status.component';
@@ -118,8 +112,6 @@ import { TrianglePictogramComponent } from './components/svg-buttons/triangle-pi
     DialogHeaderComponent,
     RtuDateTimePipe,
     RtuDateToDayOfWeekPipe,
-    ThresholdParameterPipe,
-    ThresholdUnitPipe,
     SignedNumberPipe,
     SimpleErrorComponent,
     DescriptionLabelComponent,
@@ -153,10 +145,6 @@ import { TrianglePictogramComponent } from './components/svg-buttons/triangle-pi
     UnsupportedOsmModuleEventViewerComponent,
     MonitoringPortStatusChangedSystemEventViewerComponent,
     MonitoringPortScheduleChangedSystemEventViewerComponent,
-    MonitoringPortAlarmProfileChangedEventViewerComponent,
-    AlarmProfileChangedEventViewerComponent,
-    AlarmProfileCreatedEventViewerComponent,
-    AlarmProfileDeletedEventViewerComponent,
     NotificationSettingsUpdatedSystemEventViewerComponent,
     OtauTitleComponent,
     OtauPortIndexComponent,
@@ -209,8 +197,6 @@ import { TrianglePictogramComponent } from './components/svg-buttons/triangle-pi
     DialogHeaderComponent,
     RtuDateTimePipe,
     RtuDateToDayOfWeekPipe,
-    ThresholdParameterPipe,
-    ThresholdUnitPipe,
     SignedNumberPipe,
     SimpleErrorComponent,
     DescriptionLabelComponent,
@@ -240,11 +226,7 @@ import { TrianglePictogramComponent } from './components/svg-buttons/triangle-pi
     OtauInformationChangedSystemEventViewerComponent,
     MonitoringPortStatusChangedSystemEventViewerComponent,
     MonitoringPortScheduleChangedSystemEventViewerComponent,
-    MonitoringPortAlarmProfileChangedEventViewerComponent,
     NotificationSettingsUpdatedSystemEventViewerComponent,
-    AlarmProfileChangedEventViewerComponent,
-    AlarmProfileCreatedEventViewerComponent,
-    AlarmProfileDeletedEventViewerComponent,
     OtauTitleComponent,
     OtauPortIndexComponent,
     OtauPortPathTitleComponent,

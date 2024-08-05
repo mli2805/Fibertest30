@@ -154,14 +154,7 @@ public static class SystemEventFactory
             SystemEventSource.FromUser(userId));
     }
 
-    public static SystemEvent MonitoringPortAlarmProfileChanged
-         (string userId, int monitoringPortId, int alarmProfileId)
-    {
-        return new SystemEvent(SystemEventType.MonitoringPortAlarmProfileChanged,
-            SystemEventLevel.Info,
-            new MonitoringPortAlarmProfileChangedData(monitoringPortId, alarmProfileId),
-            SystemEventSource.FromUser(userId));
-    }
+   
 
     public static SystemEvent MonitoringPortNoteChanged
         (string userId, int monitoringPortId, string note)
@@ -172,26 +165,7 @@ public static class SystemEventFactory
             SystemEventSource.FromUser(userId));
     }
 
-    public static SystemEvent AlarmProfileChanged(string userId, int alarmProfileId, string name)
-    {
-        return new SystemEvent(SystemEventType.AlarmProfileChanged, SystemEventLevel.Info,
-            new AlarmProfileChangedData(alarmProfileId, name),
-            SystemEventSource.FromUser(userId));
-    }
-
-    public static SystemEvent AlarmProfileCreated(string userId, int alarmProfileId, string name)
-    {
-        return new SystemEvent(SystemEventType.AlarmProfileCreated, SystemEventLevel.Info,
-            new AlarmProfileCreatedData(alarmProfileId, name),
-            SystemEventSource.FromUser(userId));
-    }
-
-    public static SystemEvent AlarmProfileDeleted(string userId, int alarmProfileId)
-    {
-        return new SystemEvent(SystemEventType.AlarmProfileDeleted, SystemEventLevel.Info,
-            new AlarmProfileDeletedData(alarmProfileId),
-            SystemEventSource.FromUser(userId));
-    }
+  
 
     public static SystemEvent NotificationSettingsUpdated(string userId, string part)
     {

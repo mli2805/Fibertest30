@@ -16,7 +16,6 @@ service Measurement {
   rpc GetOtauMonitoringPorts(GetOtauMonitoringPortsRequest) returns (GetOtauMonitoringPortsResponse);
 
   rpc SetMonitoringPortSchedule(SetMonitoringPortScheduleRequest) returns (SetMonitoringPortScheduleResponse);
-  rpc SetPortAlarmProfile(SetPortAlarmProfileRequest) returns (SetPortAlarmProfileResponse);
   // Sets text note for a specific monitoring port.
   rpc SetMonitoringPortNote(SetMonitoringPortNoteRequest) returns (SetMonitoringPortNoteResponse);
   
@@ -24,12 +23,7 @@ service Measurement {
   rpc StopBaselineSetup(StopBaselineSetupRequest) returns (StopBaselineSetupResponse);
   rpc GetBaselineProgressTrace(GetBaselineProgressTraceRequest) returns (GetBaselineProgressTraceResponse);
 
-  rpc GetAllAlarmProfiles(GetAllAlarmProfilesRequest) returns (GetAllAlarmProfilesResponse);
-  rpc UpdateAlarmProfile(UpdateAlarmProfileRequest) returns (UpdateAlarmProfileResponse);
-  rpc GetAlarmProfile(GetAlarmProfileRequest) returns (GetAlarmProfileResponse);
-  rpc CreateAlarmProfile(CreateAlarmProfileRequest) returns (CreateAlarmProfileResponse);
-  rpc DeleteAlarmProfile(DeleteAlarmProfileRequest) returns (DeleteAlarmProfileResponse);
-
+ 
   rpc UpdateNotificationSettings(UpdateNotificationSettingsRequest) returns (UpdateNotificationSettingsResponse);
   rpc GetNotificationSettings(GetNotificationSettingsRequest) returns(GetNotificationSettingsResponse);
   rpc TestEmailServerSettings(TestEmailServerSettingsRequest) returns(TestEmailServerSettingsResponse);
@@ -92,14 +86,6 @@ message SetMonitoringPortScheduleRequest {
 }
 
 message SetMonitoringPortScheduleResponse {}
-
-// SetPortAlarmProfile
-message SetPortAlarmProfileRequest {
-	int32 monitoringPortId = 1;
-	int32 alarmProfileId = 2;
-}
-
-message SetPortAlarmProfileResponse {}
 
 // SetMonitoringPortNote
 message SetMonitoringPortNoteRequest {
@@ -166,47 +152,6 @@ message GetBaselineProgressTraceResponse {
   bytes sor = 1;
 }
 
-//
-
-// GetAllAlarmProfiles
-message GetAllAlarmProfilesRequest {
-}
-
-message GetAllAlarmProfilesResponse {
-	repeated data.core.AlarmProfile alarmProfiles = 1;
-}
-
-// UpdateAlarmProfile
-message UpdateAlarmProfileRequest {
-	data.core.AlarmProfile alarmProfile = 1;
-}
-
-message UpdateAlarmProfileResponse {}
-
-// GetAlarmProfile
-message GetAlarmProfileRequest {
-	int32 id = 1;
-}
-
-message GetAlarmProfileResponse {
-	data.core.AlarmProfile alarmProfile = 1;
-}
-
-// CreateAlarmProfile
-message CreateAlarmProfileRequest {
-	data.core.AlarmProfile alarmProfile = 1;
-}
-
-message CreateAlarmProfileResponse {
-	int32 id = 1;
-}
-
-// DeleteAlarmProfile
-message DeleteAlarmProfileRequest {
-	int32 alarmProfileId = 1;
-}
-
-message DeleteAlarmProfileResponse{}
 
 // UpdateNotificationSettings
 message UpdateNotificationSettingsRequest {

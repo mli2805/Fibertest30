@@ -110,10 +110,7 @@ public abstract class SqliteTestBase
         await _initializer.SeedAsync(seedDemoOtaus: "all", seedDemoUsers: true);
     }
 
-    public async Task SeedAlarmProfiles()
-    {
-        await _initializer.SeedDefaultAlarmProfile();
-    }
+  
 
     private void ResetPermissionProvider()
     {

@@ -14,10 +14,8 @@
       <tr>
         <th class="whitespace-nowrap pb-1 font-thin">{{ 'i18n.common.port' | translate }}</th>
         <th class="pb-1 pl-3 text-left font-thin">{{ 'i18n.common.baseline' | translate }}</th>
-        <th class="pb-1 pl-3 text-left font-thin">
-          {{ 'i18n.monitoring.alarm-profile' | translate }}
-        </th>
-        <th class="min-w-72 w-72 pb-1 pl-3 text-left font-thin">
+
+        <th class="w-72 min-w-72 pb-1 pl-3 text-left font-thin">
           {{ 'i18n.monitoring.monitoring-schedule' | translate }}
         </th>
         <!-- <th class="pb-1 pl-3 text-left font-thin">
@@ -127,28 +125,7 @@
                   </div>
                 </div>
               </td>
-              <td class="w-0 py-2 pl-3 pr-3 text-left">
-                <div *ngIf="alarmProfiles$ | async as prs">
-                  <rtu-select
-                    *ngIf="hasChangeMonitoringPortSettingsPermisson$ | async"
-                    [minimalistic]="true"
-                    [items]="prs"
-                    [selectedItem]="getAlarmProfile(prs, combinedPort.monitoringPort)"
-                    (selectedItemChange)="
-                      onPortAlarmProfileChanged(combinedPort.monitoringPort.id, $event)
-                    "
-                  >
-                    <ng-template rtuSelectLabel let-selectedItem>
-                      <div *ngIf="selectedItem">
-                        <div class="w-48 truncate pl-1 text-left">{{ selectedItem.name }}</div>
-                      </div>
-                    </ng-template>
-                    <ng-template rtuSelectItem let-item>
-                      {{ item.name }}
-                    </ng-template>
-                  </rtu-select>
-                </div>
-              </td>
+
               <td class="w-0 py-2 pl-3 pr-3 text-left">
                 <rtu-schedule-select
                   [minimalistic]="true"

@@ -106,7 +106,6 @@ public class BaselineSetupOtdrTask : OtdrTask
 public class MonitoringOtdrTask : OtdrTask
 {
     public MonitoringBaseline? Baseline { get; set; }
-    public int AlarmProfileId { get; set; }
     public MonitoringOtdrTask(string id, OtdrTaskPriority priority, int monitoringPortId, DateTime createdAt, string userId) 
         : base(id, priority, monitoringPortId, createdAt, userId)
     {

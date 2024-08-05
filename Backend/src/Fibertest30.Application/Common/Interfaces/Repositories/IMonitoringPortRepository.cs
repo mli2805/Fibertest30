@@ -11,8 +11,6 @@ public interface IMonitoringPortRepository
     Task SetBaseline(int monitoringPortId, int baselineId, CancellationToken ct);
     Task SetMonitoringPortSchedule(int monitoringPortId, 
         MonitoringSchedulerMode mode, TimeSpan interval, List<int> timeSlotIds, CancellationToken ct);
-   Task SetMonitoringPortAlarmProfile(int monitoringPortId, 
-        int alarmProfileId, CancellationToken ct);
    Task SetMonitoringPortNote(int monitoringPortId, string note, CancellationToken ct);
 
 }

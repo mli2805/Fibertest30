@@ -12,10 +12,6 @@ import { BaselineSetupComponent } from './components/baseline-setup/baseline-set
 import { FiberizerCoreModule } from 'src/app/features/fiberizer-core/fiberizer-core.module';
 import { MeasurementModule } from 'src/app/features/shared/measurement/measurement.module';
 import { BaselineManualSetupButtonComponent } from './components/baseline-manual-setup-button/baseline-manual-setup-button.component';
-import { AlarmProfilesComponent } from './components/alarm-profiles/alarm-profiles.component';
-import { ThresholdComponent } from './components/alarm-profiles/threshold/threshold.component';
-import { AlarmProfileEditComponent } from './components/alarm-profiles/alarm-profile-edit/alarm-profile-edit.component';
-import { ThresholdEditComponent } from './components/alarm-profiles/threshold-edit/threshold-edit.component';
 import { QuickAnalysisComponent } from './components/quick-analysis/quick-analysis.component';
 import { PortDashboardInfoComponent } from './components/port-dashboard-info/port-dashboard-info.component';
 
@@ -36,14 +32,10 @@ import { PortDashboardInfoComponent } from './components/port-dashboard-info/por
     BaselineAutoSetupButtonComponent,
     BaselineManualSetupButtonComponent,
     BaselineSetupComponent,
-    AlarmProfilesComponent,
-    ThresholdComponent,
-    AlarmProfileEditComponent,
-    ThresholdEditComponent,
     QuickAnalysisComponent,
     PortDashboardInfoComponent
   ],
-  exports: [ScheduleSelectComponent, AlarmProfilesComponent],
+  exports: [ScheduleSelectComponent],
   providers: []
 })
 export class MonitoringModule {}

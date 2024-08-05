@@ -48,7 +48,6 @@ public class OtauRepositoryTests : SqliteTestBase
 
     private async Task<int> AddOcmOtau()
     {
-        await SeedAlarmProfiles();
         return await _otauRepository.AddOtau(OtauType.Ocm, OtauService.OcmOtauOcmPortIndex, "123", OcmOtauTestPortCount,
             new OcmOtauParameters());
     }

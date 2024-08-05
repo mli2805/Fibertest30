@@ -8,7 +8,6 @@ import {
   PortLabel
 } from '../models';
 import { MonitoringTimeSlot } from '../models';
-import { AlarmProfile } from '../models/alarm-profile';
 import { NetworkSettings } from '../models/network-settings';
 import { NtpSettings } from '../models/ntp-settings';
 import { TimeSettings } from '../models/time-settings';
@@ -28,7 +27,6 @@ export class DeviceInfo {
   otaus!: Otau[];
   monitoringPorts!: MonitoringPort[];
   monitoringTimeSlots!: MonitoringTimeSlot[];
-  alarmProfiles!: AlarmProfile[];
   notificationSettings!: NotificationSettings;
   activeAlarms!: MonitoringAlarm[];
   networkSettings!: NetworkSettings;

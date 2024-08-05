@@ -44,11 +44,7 @@ public class MonitoringPortConfiguration : IEntityTypeConfiguration<MonitoringPo
         builder.Property(x => x.Interval)
             .IsRequired(false);
 
-        builder.HasOne<AlarmProfileEf>()
-            .WithMany(x => x.MonitoringPorts)
-            .HasForeignKey(x => x.AlarmProfileId)
-            .OnDelete(DeleteBehavior.Restrict)
-            .IsRequired(false); 
+      
         
         builder
             .HasMany(t => t.PortLabelMonitoringPorts)

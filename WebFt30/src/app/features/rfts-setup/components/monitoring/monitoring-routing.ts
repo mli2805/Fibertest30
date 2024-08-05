@@ -6,7 +6,6 @@ import { MonitoringComponent } from './monitoring/monitoring.component';
 import { DummyComponent } from 'src/app/shared/components/dummy/dummy.component';
 import { RouterSelectedOtauRedirectComponent } from './monitoring/router-selected-otau-redirect.component';
 import { BaselineSetupComponent } from './components/baseline-setup/baseline-setup.component';
-import { AlarmProfilesComponent } from './components/alarm-profiles/alarm-profiles.component';
 
 export const routes: Routes = [
   {
@@ -51,14 +50,6 @@ export const routes: Routes = [
         component: DummyComponent,
         data: {
           navigateToParent: 3
-        }
-      },
-      {
-        path: 'alarm-profiles',
-        component: AlarmProfilesComponent,
-        pathMatch: 'full',
-        data: {
-          navigateToParent: 2
         }
       },
       {

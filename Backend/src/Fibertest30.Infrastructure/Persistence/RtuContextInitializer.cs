@@ -64,7 +64,6 @@ public class RtuContextInitializer
 
         await SeedDefaultRolesAndPermissions();
         await SeedMonitoringTimeSlots();
-        await SeedDefaultAlarmProfile();
         await SeedEmptyNotificationSettings();
 
         if (!string.IsNullOrEmpty(seedDemoOtaus))
@@ -256,50 +255,7 @@ public class RtuContextInitializer
         _context.NotificationSettings.Add(settings.ToEf());
     }
 
-    public async Task SeedDefaultAlarmProfile()
-    {
-        if (await _context.AlarmProfiles.AnyAsync()) return;
-
-        var alarmProfile = new AlarmProfile { Name = "Default", Thresholds = new List<Threshold>() };
-        foreach (var param in Enum.GetValues(typeof(ThresholdParameter)))
-        {
-            var thr = (ThresholdParameter)param == ThresholdParameter.SectionAttenuation 
-                ? new Threshold((ThresholdParameter)param, 0.3, 0.5, 0.7)
-                : new Threshold((ThresholdParameter)param, 0.5, 0.7, 1.0);
-
-            alarmProfile.Thresholds.Add(thr);
-        }
-        _context.AlarmProfiles.Add(alarmProfile.ToEf());
-
-        var alarmProfile2 = new AlarmProfile { Name = "Default Dark Fiber", Thresholds = new List<Threshold>() };
-        foreach (var param in Enum.GetValues(typeof(ThresholdParameter)))
-        {
-            var thr = (ThresholdParameter)param == ThresholdParameter.SectionAttenuation 
-                ? new Threshold((ThresholdParameter)param, 0.3, 0.5, 0.7)
-                : new Threshold((ThresholdParameter)param, 0.5, 0.7, 1.0);
-
-            alarmProfile2.Thresholds.Add(thr);
-        }
-        alarmProfile2.Thresholds.First(t => t.Parameter == ThresholdParameter.EventLoss).IsCriticalOn = true;
-        _context.AlarmProfiles.Add(alarmProfile2.ToEf());
-
-        var alarmProfile3 = new AlarmProfile { Name = "Default In Service", Thresholds = new List<Threshold>() };
-        foreach (var param in Enum.GetValues(typeof(ThresholdParameter)))
-        {
-            var thr = (ThresholdParameter)param == ThresholdParameter.SectionAttenuation 
-                ? new Threshold((ThresholdParameter)param, 0.3, 0.5, 0.7)
-                : new Threshold((ThresholdParameter)param, 0.5, 0.7, 1.0);
-
-            alarmProfile3.Thresholds.Add(thr);
-        }
-        alarmProfile3.Thresholds.First(t => t.Parameter == ThresholdParameter.EventLoss).IsCriticalOn = true;
-        var threshold = alarmProfile3.Thresholds.First(t => t.Parameter == ThresholdParameter.EventReflectance);
-        threshold.IsCriticalOn = true;
-        threshold.Critical = 2;
-        _context.AlarmProfiles.Add(alarmProfile3.ToEf());
-    }
-
-    private async Task SeedDemoOtaus(string seemDemoOtaus) // "onlyOcm" or "all"
+      private async Task SeedDemoOtaus(string seemDemoOtaus) // "onlyOcm" or "all"
     {
         if (await _context.Otaus.AnyAsync())
         {

@@ -152,4 +152,8 @@
     <ProjectReference Include="..\Fibertest30.Application\Fibertest30.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Changes\" />
+  </ItemGroup>
+
 </Project>

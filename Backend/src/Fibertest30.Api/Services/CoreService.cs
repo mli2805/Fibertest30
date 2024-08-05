@@ -38,7 +38,6 @@ public class CoreService : Core.CoreBase
             Otaus = {  deviceInfo.Otaus.Select(x => x.ToProto())  },
             MonitoringPorts = { deviceInfo.MonitoringPorts.Select(x => x.ToProto()) },
             MonitoringTimeSlots = { deviceInfo.MonitoringTimeSlots.Select(x => x.ToProto()) },
-            AlarmProfiles = { deviceInfo.AlarmProfiles.Select(x=>x.ToProto()) },
             NotificationSettings = deviceInfo.NotificationSettings.ToProto(),
             ActiveAlarms = { deviceInfo.ActiveAlarms.Select(x => x.ToProto()) },
             NetworkSettings = deviceInfo.NetworkSettings.ToProto(),

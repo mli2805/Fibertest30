@@ -75,12 +75,7 @@ public static class SystemEventSupportedNotificationRules
                 Rule(NotificationChannel.InAppInternal, NotificationTarget.All)
                 )
         },
-        {
-            SystemEventType.MonitoringPortAlarmProfileChanged,
-            Rules(
-                Rule(NotificationChannel.InAppInternal, NotificationTarget.All)
-                )
-        },
+       
         {
             SystemEventType.MonitoringPortNoteChanged,
             Rules(
@@ -99,18 +94,7 @@ public static class SystemEventSupportedNotificationRules
             SystemEventType.OtdrTaskProgress,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         },
-        {
-            SystemEventType.AlarmProfileChanged,
-            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
-        },
-        {
-            SystemEventType.AlarmProfileCreated,
-            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
-        },
-        {
-            SystemEventType.AlarmProfileDeleted,
-            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
-        },
+       
         {
             SystemEventType.NotificationSettingsUpdated,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))

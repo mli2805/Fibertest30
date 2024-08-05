@@ -75,7 +75,6 @@ public static class OtauMappingExtensions
             SchedulerMode = (MonitoringSchedulerMode)port.Mode,
             Baseline = port.Baseline?.ToProto(),
             TimeSlotIds = { port.TimeSlots.Select(x => x.Id) },
-            AlarmProfileId = port.AlarmProfileId,
         };
         
         if (port.Interval.HasValue)

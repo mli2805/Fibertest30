@@ -20,6 +20,5 @@ public class MonitoringPortEf
     
     public ICollection<PortLabelEf> PortLabels { get; set; } = null!;
     public ICollection<PortLabelMonitoringPortEf> PortLabelMonitoringPorts { get; set; } = null!;
-    public int AlarmProfileId { get; set; }
 }
 

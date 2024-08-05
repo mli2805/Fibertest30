@@ -100,7 +100,6 @@ message DeviceInfoResponse {
   repeated Otau otaus = 3;
   repeated data.core.MonitoringPort monitoringPorts = 4;
   repeated data.core.MonitoringTimeSlot monitoringTimeSlots = 5;
-  repeated data.core.AlarmProfile alarmProfiles = 6;
   data.core.NotificationSettings notificationSettings = 7;
   string ipV4Address = 8;
   repeated data.monitoring.MonitoringAlarm activeAlarms = 9;

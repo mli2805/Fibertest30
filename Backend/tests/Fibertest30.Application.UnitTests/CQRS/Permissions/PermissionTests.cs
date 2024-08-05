@@ -24,7 +24,6 @@ public class PermissionTests
         {
             typeof(SetMonitoringPortStatusCommand),
             typeof(SetMonitoringPortScheduleCommand),
-            typeof(SetPortAlarmProfileCommand)
         };
         
         commands.MustHavePermissionAttribute(ApplicationPermission.ChangeMonitoringPortSettings);

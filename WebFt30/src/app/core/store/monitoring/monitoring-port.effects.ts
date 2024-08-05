@@ -120,31 +120,4 @@ export class MonitoringPortEffects {
       })
     )
   );
-
-  setPortAlarmProfile = createEffect(() =>
-    this.actions$.pipe(
-      ofType(MonitoringPortActions.setPortAlarmProfile),
-      switchMap(({ monitoringPortId, alarmProfileId }) => {
-        return this.measurementService.setPortAlarmProfile(monitoringPortId, alarmProfileId).pipe(
-          map((response) => {
-            return GlobalUiActions.dummyAction();
-          }),
-          catchError((error) => {
-            console.log(error);
-            const errorMessageId = 'i18n.error.cant-set-port-alarm-profile';
-            return of(MonitoringPortActions.setPortAlarmProfileFailure({ errorMessageId }));
-          })
-        );
-      })
-    )
-  );
-
-  setPortAlarmProfileSuccess = createEffect(() =>
-    this.actions$.pipe(
-      ofType(MonitoringPortActions.setPortAlarmProfileSuccess),
-      mergeMap(({ monitoringPortId }) => {
-        return of(MonitoringPortActions.updatePortGetPort({ monitoringPortId }));
-      })
-    )
-  );
 }

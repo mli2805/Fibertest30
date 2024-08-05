@@ -25,7 +25,6 @@ public static class ApplicationDefaultPermissions
         AddPermission(P.ReceiveSystemNotifications);
         AddPermission(P.EditUsers);
         AddPermission(P.ChangeNotificationSettings);
-        AddPermission(P.ChangeAlarmProfiles);
         AddPermission(P.ChangeNetworkSettings);
         AddPermission(P.ChangeTimeSettings);
         AddPermission(P.EditPortLabels, R.User);

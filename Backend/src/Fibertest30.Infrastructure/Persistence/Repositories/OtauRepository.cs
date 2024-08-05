@@ -113,7 +113,6 @@ public class OtauRepository : IOtauRepository
             {
                 SchedulerMode = MonitoringSchedulerMode.RoundRobin,
                 Status = MonitoringPortStatus.Off,
-                AlarmProfileId = 1
             };
             
             monitoringPorts.Add(monitoringPort);
