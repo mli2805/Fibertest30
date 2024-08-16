@@ -1,3 +1,4 @@
+import { TreeOfAcceptableMeasurementParameters } from './acceptable-measurement-parameters';
 import { Bop } from './bop';
 import { RtuPartState, MonitoringState, RtuMaker } from './ft-enums';
 import { NetAddress } from './net-address';
@@ -29,4 +30,6 @@ export class Rtu {
 
   bops!: Bop[];
   traces!: Trace[];
+
+  acceptableParams!: TreeOfAcceptableMeasurementParameters;
 }

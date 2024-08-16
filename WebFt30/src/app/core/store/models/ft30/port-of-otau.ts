@@ -1,11 +1,13 @@
 import { NetAddress } from './net-address';
 
 export class PortOfOtau {
-  otauId!: string | null;
-  otauNetAddress!: NetAddress;
-  otauSerial!: string;
+  otauId!: string | undefined;
+  otauNetAddress!: NetAddress | undefined;
 
+  otauSerial!: string;
   opticalPort!: number;
   isPortOnMainCharon!: boolean;
-  mainCharonPort!: number;
+  mainCharonPort!: number | undefined;
+
+  rtuId!: string | undefined;
 }

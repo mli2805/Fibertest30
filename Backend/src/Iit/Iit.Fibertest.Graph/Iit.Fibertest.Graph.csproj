@@ -24,7 +24,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="AutoMapper" Version="13.0.1" />
 	  <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
@@ -37,6 +36,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Reference Include="AutoMapper">
+	    <HintPath>..\..\..\libs\fiberizer\AutoMapper.dll</HintPath>
+	  </Reference>
 	  <Reference Include="Optixsoft.OtdrDataFormat">
 	    <HintPath>..\..\..\libs\fiberizer\Optixsoft.OtdrDataFormat.dll</HintPath>
 	  </Reference>

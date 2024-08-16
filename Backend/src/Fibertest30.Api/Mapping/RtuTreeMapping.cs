@@ -2,22 +2,6 @@ using Iit.Fibertest.Dto;
 
 namespace Fibertest30.Api;
 
-public static class RtuMgmtMapping
-{
-    public static Iit.Fibertest.Dto.InitializeRtuDto FromProto(this InitializeRtuDto dto)
-    {
-        return new Iit.Fibertest.Dto.InitializeRtuDto()
-        {
-            RtuId = Guid.Parse(dto.RtuId), 
-            RtuAddresses = dto.RtuAddresses.FromProto()
-        };
-    }
-
-    public static RtuInitializedDto ToProto(this Iit.Fibertest.Dto.RtuInitializedDto dto)
-    {
-        return new RtuInitializedDto() { IsInitialized = dto.IsInitialized, };
-    }
-}
 public static class RtuTreeMapping
 {
     private static RtuMaker ToProto(this Iit.Fibertest.Dto.RtuMaker rtuMaker)
@@ -121,6 +105,51 @@ public static class RtuTreeMapping
         return result;
     }
 
+    private static LeafOfAcceptableMeasParams ToProto(this Iit.Fibertest.Dto.LeafOfAcceptableMeasParams leaf)
+    {
+        return new LeafOfAcceptableMeasParams()
+        {
+            Resolutions = { leaf.Resolutions },
+            PulseDurations = { leaf.PulseDurations },
+            PeriodsToAverage = { leaf.PeriodsToAverage },
+            MeasCountsToAverage = { leaf.MeasCountsToAverage }
+        };
+    }
+
+    private static BranchOfAcceptableMeasParams ToProto(this Iit.Fibertest.Dto.BranchOfAcceptableMeasParams branch)
+    {
+        var result = new BranchOfAcceptableMeasParams()
+        {
+            Distances = { },
+            BackscatterCoeff = branch.BackscatteredCoefficient,
+            RefractiveIndex = branch.RefractiveIndex,
+        };
+        foreach (string distancesKey in branch.Distances.Keys)
+        {
+            result.Distances.Add(new DistanceMeasParam()
+            {
+                Distance = distancesKey,
+                OtherParams = branch.Distances[distancesKey].ToProto()
+            });
+        }
+
+        return result;
+    }
+
+    private static TreeOfAcceptableMeasParams ToProto(this Iit.Fibertest.Dto.TreeOfAcceptableMeasParams tree)
+    {
+        var result = new TreeOfAcceptableMeasParams() { Units = { } };
+        foreach (string unitsKey in tree.Units.Keys)
+        {
+            result.Units.Add(new UnitMeasParam()
+            {
+                Unit = unitsKey,
+                Branch = tree.Units[unitsKey].ToProto()
+            });
+        }
+        return result;
+    }
+
     private static PortOfOtau ToProto(this OtauPortDto otauPortDto)
     {
         PortOfOtau portOfOtau = new PortOfOtau()
@@ -133,9 +162,26 @@ public static class RtuTreeMapping
         };
         if (otauPortDto.OtauId != null) // main MAK-100 OTAU has no ID
         {
-            otauPortDto.OtauId = otauPortDto.OtauId;
+            portOfOtau.OtauId = otauPortDto.OtauId;
         }
+
         return portOfOtau;
+    }
+
+    public static OtauPortDto FromProto(this PortOfOtau portOfOtau)
+    {
+        var otauPortDto = new OtauPortDto()
+        {
+            NetAddress = portOfOtau.OtauNetAddress?.FromProto() ?? new Iit.Fibertest.Dto.NetAddress(),
+            Serial = portOfOtau.OtauSerial,
+            OpticalPort = portOfOtau.OpticalPort,
+            IsPortOnMainCharon = portOfOtau.IsPortOnMainCharon,
+        };
+        if (portOfOtau.HasOtauId)
+            otauPortDto.OtauId = portOfOtau.OtauId;
+        if (portOfOtau.HasMainCharonPort)
+            otauPortDto.MainCharonPort = portOfOtau.MainCharonPort;
+        return otauPortDto;
     }
 
     private static Bop ToProto(this OtauWebDto otau)
@@ -210,6 +256,9 @@ public static class RtuTreeMapping
             protoRtu.Version = rtu.Version;
         if (rtu.Version2 != null)
             protoRtu.Version2 = rtu.Version2;
+
+        if (rtu.TreeOfAcceptableMeasParams != null) // after RTU is initialized
+            protoRtu.TreeOfAcceptableMeasParams = rtu.TreeOfAcceptableMeasParams.ToProto();
 
         return protoRtu;
     }

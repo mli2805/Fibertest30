@@ -160,6 +160,16 @@ export class CoreUtils {
       if (error.message === 'FailedToVerifySmtpServerCertificate') {
         return 'i18n.error.failed-verify-email-server-certificate';
       }
+
+      if (error.message === 'FailedToConnectRtu') {
+        return 'i18n.error.failed-to-connect-rtu';
+      }
+      if (error.message === 'RtuIsBusy') {
+        return 'i18n.error.rtu-is-busy';
+      }
+      if (error.message === 'NoSuchRtu') {
+        return 'i18n.error.no-such-rtu';
+      }
     }
 
     return null;

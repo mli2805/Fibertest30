@@ -23,7 +23,6 @@ export class RtuTreeComponent {
     for (const rtu of this.rtus!) {
       this.arrangeRtuChildren(rtu);
     }
-    console.log(this.collectionOfChildren);
   }
 
   async loadRtus(): Promise<boolean> {
@@ -53,6 +52,8 @@ export class RtuTreeComponent {
         continue;
       }
       const freePort = new PortOfOtau();
+      freePort.rtuId = rtu.rtuId;
+      freePort.otauSerial = rtu.serial!; // порты есть только у инициализированного рту
       freePort.isPortOnMainCharon = true;
       freePort.opticalPort = i + 1;
       const child = { type: 'free-port', port: i + 1, payload: freePort };

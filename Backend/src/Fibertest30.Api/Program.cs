@@ -30,6 +30,7 @@ try
     builder.Services.AddHostedService<SystemEventBackgroundService>();
     builder.Services.AddHostedService<NotificationBackgroundService>();
     builder.Services.AddHostedService<MeasurementBackgroundService>();
+    builder.Services.AddHostedService<RtuPollsterBackgroundService>();
 
     builder.Services.AddScoped<IEmailBodyBuilder, EmailBodyBuilder>();
     builder.Services.AddScoped<ISnmpContentBuilder, SnmpContentBuilder>();

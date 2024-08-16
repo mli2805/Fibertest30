@@ -7,12 +7,19 @@ package fibertest30.rtu_mgmt;
 service RtuMgmt {
 	rpc TestRtuConnection (TestRtuConnectionRequest) returns (TestRtuConnectionResponse);
 	rpc InitializeRtu (InitializeRtuRequest) returns (InitializeRtuResponse);
+	rpc DoMeasurementClient(DoMeasurementClientRequest) returns (DoMeasurementClientResponse);
+	rpc GetMeasurementClientSor(GetMeasurementClientSorRequest) returns (GetMeasurementClientSorResponse);
 }
 
 message DoubleAddress {
 	rtu_tree.NetAddress main = 1;
     bool hasReserveAddress = 2;
 	rtu_tree.NetAddress reserve = 3;
+}
+
+message MeasParamByPosition {
+	int32 param = 1;
+	int32 position = 2;
 }
 
 message InitializeRtuDto {
@@ -23,6 +30,14 @@ message InitializeRtuDto {
 message RtuInitializedDto {
 	bool isInitialized = 1;
 }
+
+message DoMeasurementClientDto {
+	string rtuId = 1;
+	repeated rtu_tree.PortOfOtau portOfOtau = 2;
+	repeated MeasParamByPosition measParamsByPosition = 3;
+}
+
+//------------------------------------------------------------
 
 message TestRtuConnectionRequest {
 	// not RtuId because it could be new address
@@ -40,4 +55,21 @@ message InitializeRtuRequest {
 
 message InitializeRtuResponse {
 	RtuInitializedDto dto = 1;
+}
+
+message DoMeasurementClientRequest{
+	DoMeasurementClientDto dto = 1;
+}
+
+message DoMeasurementClientResponse{
+	string measurementClientId = 1;
+}
+
+message GetMeasurementClientSorRequest {
+	string measurementClientId = 1;
+	bool vxsorFormat = 2;
+}
+
+message GetMeasurementClientSorResponse {
+	bytes sor = 1;
 }

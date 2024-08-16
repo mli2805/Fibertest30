@@ -14,7 +14,6 @@ import { NetworkSettings } from "./data.core";
 import { AppTimeZone } from "./data.core";
 import { MonitoringAlarm } from "./data.monitoring";
 import { NotificationSettings } from "./data.core";
-import { AlarmProfile } from "./data.core";
 import { MonitoringTimeSlot } from "./data.core";
 import { MonitoringPort } from "./data.core";
 import { OtdrMeasurementParameterSet } from "./data.otdr";
@@ -191,10 +190,6 @@ export interface DeviceInfoResponse {
      * @generated from protobuf field: repeated fibertest30.data.core.MonitoringTimeSlot monitoringTimeSlots = 5;
      */
     monitoringTimeSlots: MonitoringTimeSlot[];
-    /**
-     * @generated from protobuf field: repeated fibertest30.data.core.AlarmProfile alarmProfiles = 6;
-     */
-    alarmProfiles: AlarmProfile[];
     /**
      * @generated from protobuf field: fibertest30.data.core.NotificationSettings notificationSettings = 7;
      */
@@ -702,7 +697,6 @@ class DeviceInfoResponse$Type extends MessageType<DeviceInfoResponse> {
             { no: 3, name: "otaus", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Otau },
             { no: 4, name: "monitoringPorts", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => MonitoringPort },
             { no: 5, name: "monitoringTimeSlots", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => MonitoringTimeSlot },
-            { no: 6, name: "alarmProfiles", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => AlarmProfile },
             { no: 7, name: "notificationSettings", kind: "message", T: () => NotificationSettings },
             { no: 8, name: "ipV4Address", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 9, name: "activeAlarms", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => MonitoringAlarm },

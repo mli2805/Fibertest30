@@ -135,6 +135,10 @@ public static class SystemEventSupportedNotificationRules
         {
             SystemEventType.RtuInitialized,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },
+        {
+            SystemEventType.MeasurementClientDone,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.Me))
         }
     };
 

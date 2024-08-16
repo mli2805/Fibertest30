@@ -8,7 +8,6 @@ import { NetworkSettings } from "./data.core";
 import { TrapReceiver } from "./data.core";
 import { EmailServer } from "./data.core";
 import { NotificationSettings } from "./data.core";
-import { AlarmProfile } from "./data.core";
 import { MonitoringPort } from "./data.core";
 import { MonitoringSchedule } from "./data.core";
 import { MonitoringPortStatus } from "./data.core";
@@ -126,26 +125,6 @@ export interface SetMonitoringPortScheduleRequest {
  * @generated from protobuf message fibertest30.measurement.SetMonitoringPortScheduleResponse
  */
 export interface SetMonitoringPortScheduleResponse {
-}
-/**
- * SetPortAlarmProfile
- *
- * @generated from protobuf message fibertest30.measurement.SetPortAlarmProfileRequest
- */
-export interface SetPortAlarmProfileRequest {
-    /**
-     * @generated from protobuf field: int32 monitoringPortId = 1;
-     */
-    monitoringPortId: number;
-    /**
-     * @generated from protobuf field: int32 alarmProfileId = 2;
-     */
-    alarmProfileId: number;
-}
-/**
- * @generated from protobuf message fibertest30.measurement.SetPortAlarmProfileResponse
- */
-export interface SetPortAlarmProfileResponse {
 }
 /**
  * SetMonitoringPortNote
@@ -273,96 +252,6 @@ export interface GetBaselineProgressTraceResponse {
      * @generated from protobuf field: bytes sor = 1;
      */
     sor: Uint8Array;
-}
-// 
-
-/**
- * GetAllAlarmProfiles
- *
- * @generated from protobuf message fibertest30.measurement.GetAllAlarmProfilesRequest
- */
-export interface GetAllAlarmProfilesRequest {
-}
-/**
- * @generated from protobuf message fibertest30.measurement.GetAllAlarmProfilesResponse
- */
-export interface GetAllAlarmProfilesResponse {
-    /**
-     * @generated from protobuf field: repeated fibertest30.data.core.AlarmProfile alarmProfiles = 1;
-     */
-    alarmProfiles: AlarmProfile[];
-}
-/**
- * UpdateAlarmProfile
- *
- * @generated from protobuf message fibertest30.measurement.UpdateAlarmProfileRequest
- */
-export interface UpdateAlarmProfileRequest {
-    /**
-     * @generated from protobuf field: fibertest30.data.core.AlarmProfile alarmProfile = 1;
-     */
-    alarmProfile?: AlarmProfile;
-}
-/**
- * @generated from protobuf message fibertest30.measurement.UpdateAlarmProfileResponse
- */
-export interface UpdateAlarmProfileResponse {
-}
-/**
- * GetAlarmProfile
- *
- * @generated from protobuf message fibertest30.measurement.GetAlarmProfileRequest
- */
-export interface GetAlarmProfileRequest {
-    /**
-     * @generated from protobuf field: int32 id = 1;
-     */
-    id: number;
-}
-/**
- * @generated from protobuf message fibertest30.measurement.GetAlarmProfileResponse
- */
-export interface GetAlarmProfileResponse {
-    /**
-     * @generated from protobuf field: fibertest30.data.core.AlarmProfile alarmProfile = 1;
-     */
-    alarmProfile?: AlarmProfile;
-}
-/**
- * CreateAlarmProfile
- *
- * @generated from protobuf message fibertest30.measurement.CreateAlarmProfileRequest
- */
-export interface CreateAlarmProfileRequest {
-    /**
-     * @generated from protobuf field: fibertest30.data.core.AlarmProfile alarmProfile = 1;
-     */
-    alarmProfile?: AlarmProfile;
-}
-/**
- * @generated from protobuf message fibertest30.measurement.CreateAlarmProfileResponse
- */
-export interface CreateAlarmProfileResponse {
-    /**
-     * @generated from protobuf field: int32 id = 1;
-     */
-    id: number;
-}
-/**
- * DeleteAlarmProfile
- *
- * @generated from protobuf message fibertest30.measurement.DeleteAlarmProfileRequest
- */
-export interface DeleteAlarmProfileRequest {
-    /**
-     * @generated from protobuf field: int32 alarmProfileId = 1;
-     */
-    alarmProfileId: number;
-}
-/**
- * @generated from protobuf message fibertest30.measurement.DeleteAlarmProfileResponse
- */
-export interface DeleteAlarmProfileResponse {
 }
 /**
  * UpdateNotificationSettings
@@ -632,29 +521,6 @@ class SetMonitoringPortScheduleResponse$Type extends MessageType<SetMonitoringPo
  */
 export const SetMonitoringPortScheduleResponse = new SetMonitoringPortScheduleResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class SetPortAlarmProfileRequest$Type extends MessageType<SetPortAlarmProfileRequest> {
-    constructor() {
-        super("fibertest30.measurement.SetPortAlarmProfileRequest", [
-            { no: 1, name: "monitoringPortId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "alarmProfileId", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.measurement.SetPortAlarmProfileRequest
- */
-export const SetPortAlarmProfileRequest = new SetPortAlarmProfileRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class SetPortAlarmProfileResponse$Type extends MessageType<SetPortAlarmProfileResponse> {
-    constructor() {
-        super("fibertest30.measurement.SetPortAlarmProfileResponse", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.measurement.SetPortAlarmProfileResponse
- */
-export const SetPortAlarmProfileResponse = new SetPortAlarmProfileResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
 class SetMonitoringPortNoteRequest$Type extends MessageType<SetMonitoringPortNoteRequest> {
     constructor() {
         super("fibertest30.measurement.SetMonitoringPortNoteRequest", [
@@ -795,120 +661,6 @@ class GetBaselineProgressTraceResponse$Type extends MessageType<GetBaselineProgr
  * @generated MessageType for protobuf message fibertest30.measurement.GetBaselineProgressTraceResponse
  */
 export const GetBaselineProgressTraceResponse = new GetBaselineProgressTraceResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetAllAlarmProfilesRequest$Type extends MessageType<GetAllAlarmProfilesRequest> {
-    constructor() {
-        super("fibertest30.measurement.GetAllAlarmProfilesRequest", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.measurement.GetAllAlarmProfilesRequest
- */
-export const GetAllAlarmProfilesRequest = new GetAllAlarmProfilesRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetAllAlarmProfilesResponse$Type extends MessageType<GetAllAlarmProfilesResponse> {
-    constructor() {
-        super("fibertest30.measurement.GetAllAlarmProfilesResponse", [
-            { no: 1, name: "alarmProfiles", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => AlarmProfile }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.measurement.GetAllAlarmProfilesResponse
- */
-export const GetAllAlarmProfilesResponse = new GetAllAlarmProfilesResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateAlarmProfileRequest$Type extends MessageType<UpdateAlarmProfileRequest> {
-    constructor() {
-        super("fibertest30.measurement.UpdateAlarmProfileRequest", [
-            { no: 1, name: "alarmProfile", kind: "message", T: () => AlarmProfile }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.measurement.UpdateAlarmProfileRequest
- */
-export const UpdateAlarmProfileRequest = new UpdateAlarmProfileRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateAlarmProfileResponse$Type extends MessageType<UpdateAlarmProfileResponse> {
-    constructor() {
-        super("fibertest30.measurement.UpdateAlarmProfileResponse", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.measurement.UpdateAlarmProfileResponse
- */
-export const UpdateAlarmProfileResponse = new UpdateAlarmProfileResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetAlarmProfileRequest$Type extends MessageType<GetAlarmProfileRequest> {
-    constructor() {
-        super("fibertest30.measurement.GetAlarmProfileRequest", [
-            { no: 1, name: "id", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.measurement.GetAlarmProfileRequest
- */
-export const GetAlarmProfileRequest = new GetAlarmProfileRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetAlarmProfileResponse$Type extends MessageType<GetAlarmProfileResponse> {
-    constructor() {
-        super("fibertest30.measurement.GetAlarmProfileResponse", [
-            { no: 1, name: "alarmProfile", kind: "message", T: () => AlarmProfile }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.measurement.GetAlarmProfileResponse
- */
-export const GetAlarmProfileResponse = new GetAlarmProfileResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class CreateAlarmProfileRequest$Type extends MessageType<CreateAlarmProfileRequest> {
-    constructor() {
-        super("fibertest30.measurement.CreateAlarmProfileRequest", [
-            { no: 1, name: "alarmProfile", kind: "message", T: () => AlarmProfile }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.measurement.CreateAlarmProfileRequest
- */
-export const CreateAlarmProfileRequest = new CreateAlarmProfileRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class CreateAlarmProfileResponse$Type extends MessageType<CreateAlarmProfileResponse> {
-    constructor() {
-        super("fibertest30.measurement.CreateAlarmProfileResponse", [
-            { no: 1, name: "id", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.measurement.CreateAlarmProfileResponse
- */
-export const CreateAlarmProfileResponse = new CreateAlarmProfileResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class DeleteAlarmProfileRequest$Type extends MessageType<DeleteAlarmProfileRequest> {
-    constructor() {
-        super("fibertest30.measurement.DeleteAlarmProfileRequest", [
-            { no: 1, name: "alarmProfileId", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.measurement.DeleteAlarmProfileRequest
- */
-export const DeleteAlarmProfileRequest = new DeleteAlarmProfileRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class DeleteAlarmProfileResponse$Type extends MessageType<DeleteAlarmProfileResponse> {
-    constructor() {
-        super("fibertest30.measurement.DeleteAlarmProfileResponse", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.measurement.DeleteAlarmProfileResponse
- */
-export const DeleteAlarmProfileResponse = new DeleteAlarmProfileResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateNotificationSettingsRequest$Type extends MessageType<UpdateNotificationSettingsRequest> {
     constructor() {
@@ -1097,16 +849,10 @@ export const Measurement = new ServiceType("fibertest30.measurement.Measurement"
     { name: "GetMonitoringPort", options: {}, I: GetMonitoringPortRequest, O: GetMonitoringPortResponse },
     { name: "GetOtauMonitoringPorts", options: {}, I: GetOtauMonitoringPortsRequest, O: GetOtauMonitoringPortsResponse },
     { name: "SetMonitoringPortSchedule", options: {}, I: SetMonitoringPortScheduleRequest, O: SetMonitoringPortScheduleResponse },
-    { name: "SetPortAlarmProfile", options: {}, I: SetPortAlarmProfileRequest, O: SetPortAlarmProfileResponse },
     { name: "SetMonitoringPortNote", options: {}, I: SetMonitoringPortNoteRequest, O: SetMonitoringPortNoteResponse },
     { name: "StartBaselineSetup", options: {}, I: StartBaselineSetupRequest, O: StartBaselineSetupResponse },
     { name: "StopBaselineSetup", options: {}, I: StopBaselineSetupRequest, O: StopBaselineSetupResponse },
     { name: "GetBaselineProgressTrace", options: {}, I: GetBaselineProgressTraceRequest, O: GetBaselineProgressTraceResponse },
-    { name: "GetAllAlarmProfiles", options: {}, I: GetAllAlarmProfilesRequest, O: GetAllAlarmProfilesResponse },
-    { name: "UpdateAlarmProfile", options: {}, I: UpdateAlarmProfileRequest, O: UpdateAlarmProfileResponse },
-    { name: "GetAlarmProfile", options: {}, I: GetAlarmProfileRequest, O: GetAlarmProfileResponse },
-    { name: "CreateAlarmProfile", options: {}, I: CreateAlarmProfileRequest, O: CreateAlarmProfileResponse },
-    { name: "DeleteAlarmProfile", options: {}, I: DeleteAlarmProfileRequest, O: DeleteAlarmProfileResponse },
     { name: "UpdateNotificationSettings", options: {}, I: UpdateNotificationSettingsRequest, O: UpdateNotificationSettingsResponse },
     { name: "GetNotificationSettings", options: {}, I: GetNotificationSettingsRequest, O: GetNotificationSettingsResponse },
     { name: "TestEmailServerSettings", options: {}, I: TestEmailServerSettingsRequest, O: TestEmailServerSettingsResponse },

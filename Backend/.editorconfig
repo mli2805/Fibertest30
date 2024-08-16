@@ -257,5 +257,5 @@ dotnet_naming_style.instance_field_style.capitalization = camel_case
 dotnet_naming_style.instance_field_style.required_prefix = _
 [*]
 vsspell_section_id = 89a6208fb6eb4a5694b6c4879f9acf6f
-vsspell_ignored_words_89a6208fb6eb4a5694b6c4879f9acf6f = app|deserializer|GPS|http|IIT|IP|json|mgmt|OTAU|OTDR|proto|RTU|serializer|smtp|snmp|sor|TCP|Timestamp|username|Veex|auth
+vsspell_ignored_words_89a6208fb6eb4a5694b6c4879f9acf6f = app|auth|deserializer|dto|GPS|http|IIT|IP|json|mgmt|OTAU|OTDR|proto|RTU|serializer|smtp|snmp|sor|TCP|Timestamp|username|Veex|deserialize|deserialization
 

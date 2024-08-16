@@ -21,17 +21,123 @@ export interface NetAddress {
     port: number;
 }
 /**
+ * @generated from protobuf message fibertest30.rtu_tree.LeafOfAcceptableMeasParams
+ */
+export interface LeafOfAcceptableMeasParams {
+    /**
+     * @generated from protobuf field: repeated string resolutions = 1;
+     */
+    resolutions: string[];
+    /**
+     * @generated from protobuf field: repeated string pulseDurations = 2;
+     */
+    pulseDurations: string[];
+    /**
+     * @generated from protobuf field: repeated string periodsToAverage = 3;
+     */
+    periodsToAverage: string[];
+    /**
+     * @generated from protobuf field: repeated string measCountsToAverage = 4;
+     */
+    measCountsToAverage: string[];
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.DistanceMeasParam
+ */
+export interface DistanceMeasParam {
+    /**
+     * @generated from protobuf field: string distance = 1;
+     */
+    distance: string;
+    /**
+     * @generated from protobuf field: fibertest30.rtu_tree.LeafOfAcceptableMeasParams otherParams = 2;
+     */
+    otherParams?: LeafOfAcceptableMeasParams;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.BranchOfAcceptableMeasParams
+ */
+export interface BranchOfAcceptableMeasParams {
+    /**
+     * @generated from protobuf field: repeated fibertest30.rtu_tree.DistanceMeasParam distances = 1;
+     */
+    distances: DistanceMeasParam[];
+    /**
+     * @generated from protobuf field: double backscatterCoeff = 2;
+     */
+    backscatterCoeff: number;
+    /**
+     * @generated from protobuf field: double refractiveIndex = 3;
+     */
+    refractiveIndex: number;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.UnitMeasParam
+ */
+export interface UnitMeasParam {
+    /**
+     * @generated from protobuf field: string unit = 1;
+     */
+    unit: string;
+    /**
+     * @generated from protobuf field: fibertest30.rtu_tree.BranchOfAcceptableMeasParams branch = 2;
+     */
+    branch?: BranchOfAcceptableMeasParams;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.TreeOfAcceptableMeasParams
+ */
+export interface TreeOfAcceptableMeasParams {
+    /**
+     * @generated from protobuf field: repeated fibertest30.rtu_tree.UnitMeasParam units = 1;
+     */
+    units: UnitMeasParam[];
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.MeasurementSettingsStrings
+ */
+export interface MeasurementSettingsStrings {
+    /**
+     * @generated from protobuf field: string laser = 1;
+     */
+    laser: string;
+    /**
+     * @generated from protobuf field: string backscatterCoeff = 2;
+     */
+    backscatterCoeff: string;
+    /**
+     * @generated from protobuf field: string refractiveIndex = 3;
+     */
+    refractiveIndex: string;
+    /**
+     * @generated from protobuf field: string distance = 4;
+     */
+    distance: string;
+    /**
+     * @generated from protobuf field: string pulse = 5;
+     */
+    pulse: string;
+    /**
+     * @generated from protobuf field: string resolution = 6;
+     */
+    resolution: string;
+    /**
+     * @generated from protobuf field: string averagingTime = 7;
+     */
+    averagingTime: string;
+}
+/**
  * @generated from protobuf message fibertest30.rtu_tree.PortOfOtau
  */
 export interface PortOfOtau {
     /**
      * @generated from protobuf field: optional string otauId = 1;
      */
-    otauId?: string; // main MAK-100 OTAU has no ID
+    otauId?: string; // main MAK-100 OTAU has no ID, but BOP has its ID
     /**
-     * @generated from protobuf field: fibertest30.rtu_tree.NetAddress otauNetAddress = 2;
+     * @generated from protobuf field: optional fibertest30.rtu_tree.NetAddress otauNetAddress = 2;
      */
-    otauNetAddress?: NetAddress;
+    otauNetAddress?: NetAddress; // only for BOP
     /**
      * @generated from protobuf field: string otauSerial = 3;
      */
@@ -45,9 +151,9 @@ export interface PortOfOtau {
      */
     isPortOnMainCharon: boolean;
     /**
-     * @generated from protobuf field: int32 mainCharonPort = 6;
+     * @generated from protobuf field: optional int32 mainCharonPort = 6;
      */
-    mainCharonPort: number;
+    mainCharonPort?: number; // only for BOP
 }
 /**
  * @generated from protobuf message fibertest30.rtu_tree.Trace
@@ -215,6 +321,10 @@ export interface Rtu {
      * @generated from protobuf field: repeated fibertest30.rtu_tree.Trace traces = 21;
      */
     traces: Trace[];
+    /**
+     * @generated from protobuf field: optional fibertest30.rtu_tree.TreeOfAcceptableMeasParams treeOfAcceptableMeasParams = 22;
+     */
+    treeOfAcceptableMeasParams?: TreeOfAcceptableMeasParams;
 }
 /**
  * @generated from protobuf message fibertest30.rtu_tree.GetRtuTreeRequest
@@ -400,6 +510,91 @@ class NetAddress$Type extends MessageType<NetAddress> {
  */
 export const NetAddress = new NetAddress$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class LeafOfAcceptableMeasParams$Type extends MessageType<LeafOfAcceptableMeasParams> {
+    constructor() {
+        super("fibertest30.rtu_tree.LeafOfAcceptableMeasParams", [
+            { no: 1, name: "resolutions", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "pulseDurations", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "periodsToAverage", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "measCountsToAverage", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.LeafOfAcceptableMeasParams
+ */
+export const LeafOfAcceptableMeasParams = new LeafOfAcceptableMeasParams$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class DistanceMeasParam$Type extends MessageType<DistanceMeasParam> {
+    constructor() {
+        super("fibertest30.rtu_tree.DistanceMeasParam", [
+            { no: 1, name: "distance", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "otherParams", kind: "message", T: () => LeafOfAcceptableMeasParams }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.DistanceMeasParam
+ */
+export const DistanceMeasParam = new DistanceMeasParam$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class BranchOfAcceptableMeasParams$Type extends MessageType<BranchOfAcceptableMeasParams> {
+    constructor() {
+        super("fibertest30.rtu_tree.BranchOfAcceptableMeasParams", [
+            { no: 1, name: "distances", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => DistanceMeasParam },
+            { no: 2, name: "backscatterCoeff", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 3, name: "refractiveIndex", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.BranchOfAcceptableMeasParams
+ */
+export const BranchOfAcceptableMeasParams = new BranchOfAcceptableMeasParams$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UnitMeasParam$Type extends MessageType<UnitMeasParam> {
+    constructor() {
+        super("fibertest30.rtu_tree.UnitMeasParam", [
+            { no: 1, name: "unit", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "branch", kind: "message", T: () => BranchOfAcceptableMeasParams }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.UnitMeasParam
+ */
+export const UnitMeasParam = new UnitMeasParam$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class TreeOfAcceptableMeasParams$Type extends MessageType<TreeOfAcceptableMeasParams> {
+    constructor() {
+        super("fibertest30.rtu_tree.TreeOfAcceptableMeasParams", [
+            { no: 1, name: "units", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => UnitMeasParam }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.TreeOfAcceptableMeasParams
+ */
+export const TreeOfAcceptableMeasParams = new TreeOfAcceptableMeasParams$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class MeasurementSettingsStrings$Type extends MessageType<MeasurementSettingsStrings> {
+    constructor() {
+        super("fibertest30.rtu_tree.MeasurementSettingsStrings", [
+            { no: 1, name: "laser", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "backscatterCoeff", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "refractiveIndex", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "distance", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "pulse", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "resolution", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "averagingTime", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.MeasurementSettingsStrings
+ */
+export const MeasurementSettingsStrings = new MeasurementSettingsStrings$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class PortOfOtau$Type extends MessageType<PortOfOtau> {
     constructor() {
         super("fibertest30.rtu_tree.PortOfOtau", [
@@ -408,7 +603,7 @@ class PortOfOtau$Type extends MessageType<PortOfOtau> {
             { no: 3, name: "otauSerial", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "opticalPort", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 5, name: "isPortOnMainCharon", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 6, name: "mainCharonPort", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+            { no: 6, name: "mainCharonPort", kind: "scalar", opt: true, T: 5 /*ScalarType.INT32*/ }
         ]);
     }
 }
@@ -479,7 +674,8 @@ class Rtu$Type extends MessageType<Rtu> {
             { no: 18, name: "version", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 19, name: "version2", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 20, name: "bops", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Bop },
-            { no: 21, name: "traces", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Trace }
+            { no: 21, name: "traces", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Trace },
+            { no: 22, name: "treeOfAcceptableMeasParams", kind: "message", T: () => TreeOfAcceptableMeasParams }
         ]);
     }
 }

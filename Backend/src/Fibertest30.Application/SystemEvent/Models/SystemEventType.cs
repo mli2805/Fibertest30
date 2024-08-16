@@ -38,4 +38,5 @@ public enum SystemEventType
 
     RtuConnectionChecked,
     RtuInitialized,
+    MeasurementClientDone,
 }

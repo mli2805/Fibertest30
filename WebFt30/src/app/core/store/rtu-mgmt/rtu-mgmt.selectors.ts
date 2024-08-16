@@ -2,9 +2,13 @@ import { createSelector } from '@ngrx/store';
 import { selectRtuMgmtState } from '../../core.state';
 import { RtuMgmtState } from './rtu-mgmt.state';
 
-const selectInProgress = createSelector(
+const selectRtuOperationInProgress = createSelector(
   selectRtuMgmtState,
-  (state: RtuMgmtState) => state.inProgress
+  (state: RtuMgmtState) => state.rtuOperationInProgress
+);
+const selectRtuOperationSuccess = createSelector(
+  selectRtuMgmtState,
+  (state: RtuMgmtState) => state.rtuOperationSuccess
 );
 const selectInitializing = createSelector(
   selectRtuMgmtState,
@@ -24,16 +28,22 @@ const selectIsTestSuccessful = createSelector(
   (state: RtuMgmtState) => state.rtuTestSuccess
 );
 
+const selectMeasurementClientId = createSelector(
+  selectRtuMgmtState,
+  (state: RtuMgmtState) => state.measurementClientId
+);
 const selectErrorMessageId = createSelector(
   selectRtuMgmtState,
   (state: RtuMgmtState) => state.errorMessageId
 );
 
 export const RtuMgmtSelectors = {
-  selectInProgress,
+  selectRtuOperationInProgress,
+  selectRtuOperationSuccess,
   selectInitializing,
   selectRtuInitializationResult,
   selectRtuAddress,
   selectIsTestSuccessful,
+  selectMeasurementClientId,
   selectErrorMessageId
 };

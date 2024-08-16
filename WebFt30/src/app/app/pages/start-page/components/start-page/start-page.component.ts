@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { mergeMap, takeUntil, timer } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import {
   AppState,
   AuthActions,
@@ -47,6 +47,8 @@ import { NetworkSettingsActions } from 'src/app/core/store/network-settings/netw
 import { TimeSettingsActions } from 'src/app/core/store/time-settings/time-settings.action';
 import { RtuConnectionCheckedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/rtu-connection-checked-data';
 import { RtuInitializedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/rtu-initialized-data';
+import { MeasurementClientDoneData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/measurement-client-done-data';
+import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 
 @Component({
   selector: 'rtu-start-page',
@@ -315,6 +317,13 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       case 'RtuInitialized': {
         const data = <RtuInitializedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
+        return;
+      }
+      case 'MeasurementClientDone': {
+        const data = <MeasurementClientDoneData>JSON.parse(systemEvent.jsonData);
+        this.store.dispatch(
+          RtuMgmtActions.measurementClientDone({ measurementClientId: data.MeasurementClientId })
+        );
         return;
       }
     }

@@ -1,5 +1,4 @@
-﻿using Iit.Fibertest.Dto;
-using System.Text.Json;
+﻿using System.Text.Json;
 
 namespace Fibertest30.Application;
 

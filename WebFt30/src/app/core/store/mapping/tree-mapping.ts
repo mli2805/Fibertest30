@@ -4,6 +4,7 @@ import { FtBaseMapping } from './ft-base-mapping';
 import { FtEnumsMapping } from './ft-enums-mapping';
 import { Bop } from '../models/ft30/bop';
 import { Rtu } from '../models/ft30/rtu';
+import { AcceptableParamsMapping } from './acceptable-params-mapping';
 
 export class TreeMapping {
   static fromGrpcTrace(grpcTrace: grpc.Trace): Trace {
@@ -61,6 +62,10 @@ export class TreeMapping {
 
     rtu.bops = grpcRtu.bops.map((b) => this.fromGrpcBop(b));
     rtu.traces = grpcRtu.traces.map((t) => this.fromGrpcTrace(t));
+
+    rtu.acceptableParams = AcceptableParamsMapping.fromGrpcAcceptableParams(
+      grpcRtu.treeOfAcceptableMeasParams!
+    );
     return rtu;
   }
 }

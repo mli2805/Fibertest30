@@ -3,6 +3,7 @@
 // tslint:disable
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
+import { PortOfOtau } from "./rtu_tree";
 import { NetAddress } from "./rtu_tree";
 /**
  * @generated from protobuf message fibertest30.rtu_mgmt.DoubleAddress
@@ -20,6 +21,19 @@ export interface DoubleAddress {
      * @generated from protobuf field: fibertest30.rtu_tree.NetAddress reserve = 3;
      */
     reserve?: NetAddress;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.MeasParamByPosition
+ */
+export interface MeasParamByPosition {
+    /**
+     * @generated from protobuf field: int32 param = 1;
+     */
+    param: number;
+    /**
+     * @generated from protobuf field: int32 position = 2;
+     */
+    position: number;
 }
 /**
  * @generated from protobuf message fibertest30.rtu_mgmt.InitializeRtuDto
@@ -43,6 +57,25 @@ export interface RtuInitializedDto {
      */
     isInitialized: boolean;
 }
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.DoMeasurementClientDto
+ */
+export interface DoMeasurementClientDto {
+    /**
+     * @generated from protobuf field: string rtuId = 1;
+     */
+    rtuId: string;
+    /**
+     * @generated from protobuf field: repeated fibertest30.rtu_tree.PortOfOtau portOfOtau = 2;
+     */
+    portOfOtau: PortOfOtau[];
+    /**
+     * @generated from protobuf field: repeated fibertest30.rtu_mgmt.MeasParamByPosition measParamsByPosition = 3;
+     */
+    measParamsByPosition: MeasParamByPosition[];
+}
+// ------------------------------------------------------------
+
 /**
  * @generated from protobuf message fibertest30.rtu_mgmt.TestRtuConnectionRequest
  */
@@ -85,6 +118,46 @@ export interface InitializeRtuResponse {
      */
     dto?: RtuInitializedDto;
 }
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.DoMeasurementClientRequest
+ */
+export interface DoMeasurementClientRequest {
+    /**
+     * @generated from protobuf field: fibertest30.rtu_mgmt.DoMeasurementClientDto dto = 1;
+     */
+    dto?: DoMeasurementClientDto;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.DoMeasurementClientResponse
+ */
+export interface DoMeasurementClientResponse {
+    /**
+     * @generated from protobuf field: string measurementClientId = 1;
+     */
+    measurementClientId: string;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.GetMeasurementClientSorRequest
+ */
+export interface GetMeasurementClientSorRequest {
+    /**
+     * @generated from protobuf field: string measurementClientId = 1;
+     */
+    measurementClientId: string;
+    /**
+     * @generated from protobuf field: bool vxsorFormat = 2;
+     */
+    vxsorFormat: boolean;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.GetMeasurementClientSorResponse
+ */
+export interface GetMeasurementClientSorResponse {
+    /**
+     * @generated from protobuf field: bytes sor = 1;
+     */
+    sor: Uint8Array;
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class DoubleAddress$Type extends MessageType<DoubleAddress> {
     constructor() {
@@ -99,6 +172,19 @@ class DoubleAddress$Type extends MessageType<DoubleAddress> {
  * @generated MessageType for protobuf message fibertest30.rtu_mgmt.DoubleAddress
  */
 export const DoubleAddress = new DoubleAddress$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class MeasParamByPosition$Type extends MessageType<MeasParamByPosition> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.MeasParamByPosition", [
+            { no: 1, name: "param", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "position", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.MeasParamByPosition
+ */
+export const MeasParamByPosition = new MeasParamByPosition$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class InitializeRtuDto$Type extends MessageType<InitializeRtuDto> {
     constructor() {
@@ -124,6 +210,20 @@ class RtuInitializedDto$Type extends MessageType<RtuInitializedDto> {
  * @generated MessageType for protobuf message fibertest30.rtu_mgmt.RtuInitializedDto
  */
 export const RtuInitializedDto = new RtuInitializedDto$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class DoMeasurementClientDto$Type extends MessageType<DoMeasurementClientDto> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.DoMeasurementClientDto", [
+            { no: 1, name: "rtuId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "portOfOtau", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => PortOfOtau },
+            { no: 3, name: "measParamsByPosition", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => MeasParamByPosition }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.DoMeasurementClientDto
+ */
+export const DoMeasurementClientDto = new DoMeasurementClientDto$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class TestRtuConnectionRequest$Type extends MessageType<TestRtuConnectionRequest> {
     constructor() {
@@ -173,10 +273,61 @@ class InitializeRtuResponse$Type extends MessageType<InitializeRtuResponse> {
  * @generated MessageType for protobuf message fibertest30.rtu_mgmt.InitializeRtuResponse
  */
 export const InitializeRtuResponse = new InitializeRtuResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class DoMeasurementClientRequest$Type extends MessageType<DoMeasurementClientRequest> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.DoMeasurementClientRequest", [
+            { no: 1, name: "dto", kind: "message", T: () => DoMeasurementClientDto }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.DoMeasurementClientRequest
+ */
+export const DoMeasurementClientRequest = new DoMeasurementClientRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class DoMeasurementClientResponse$Type extends MessageType<DoMeasurementClientResponse> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.DoMeasurementClientResponse", [
+            { no: 1, name: "measurementClientId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.DoMeasurementClientResponse
+ */
+export const DoMeasurementClientResponse = new DoMeasurementClientResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetMeasurementClientSorRequest$Type extends MessageType<GetMeasurementClientSorRequest> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.GetMeasurementClientSorRequest", [
+            { no: 1, name: "measurementClientId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "vxsorFormat", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.GetMeasurementClientSorRequest
+ */
+export const GetMeasurementClientSorRequest = new GetMeasurementClientSorRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetMeasurementClientSorResponse$Type extends MessageType<GetMeasurementClientSorResponse> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.GetMeasurementClientSorResponse", [
+            { no: 1, name: "sor", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.GetMeasurementClientSorResponse
+ */
+export const GetMeasurementClientSorResponse = new GetMeasurementClientSorResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.rtu_mgmt.RtuMgmt
  */
 export const RtuMgmt = new ServiceType("fibertest30.rtu_mgmt.RtuMgmt", [
     { name: "TestRtuConnection", options: {}, I: TestRtuConnectionRequest, O: TestRtuConnectionResponse },
-    { name: "InitializeRtu", options: {}, I: InitializeRtuRequest, O: InitializeRtuResponse }
+    { name: "InitializeRtu", options: {}, I: InitializeRtuRequest, O: InitializeRtuResponse },
+    { name: "DoMeasurementClient", options: {}, I: DoMeasurementClientRequest, O: DoMeasurementClientResponse },
+    { name: "GetMeasurementClientSor", options: {}, I: GetMeasurementClientSorRequest, O: GetMeasurementClientSorResponse }
 ]);

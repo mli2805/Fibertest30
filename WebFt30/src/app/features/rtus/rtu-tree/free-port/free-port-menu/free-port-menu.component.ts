@@ -50,7 +50,6 @@ export class FreePortMenuComponent {
     } else {
       portName = `${this.portOfOtau.mainCharonPort}-${this.portOfOtau.opticalPort}`;
     }
-    const path = `rtus/measurement-client/${portName}`;
-    this.router.navigate([path]);
+    this.router.navigate([`rtus/measurement-client/`, this.portOfOtau.rtuId, portName]);
   }
 }

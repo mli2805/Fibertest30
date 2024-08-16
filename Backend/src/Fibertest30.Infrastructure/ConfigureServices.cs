@@ -104,6 +104,7 @@ public static class ConfigureServices
         services.AddDeviceInfoProvider(configuration);
         services.AddSingleton<IShellCommand, ShellCommand>();
         services.AddSingleton<IRtuOccupationService, RtuOccupationService>();
+        services.AddSingleton<IRtuLinuxPollster, RtuLinuxPollster>();
         services.AddNetworkSettingsProvider(configuration);
         services.AddTimeSettingsProvider(configuration);
 

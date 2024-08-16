@@ -35,5 +35,7 @@ namespace Iit.Fibertest.Dto
         [DataMember] public string? Version;
         [DataMember] public string? Version2;
 
+        [DataMember] public TreeOfAcceptableMeasParams? TreeOfAcceptableMeasParams;
+
     }
 }

@@ -60,14 +60,51 @@ message NetAddress {
     int32 port = 3;
 }
 
-message PortOfOtau {
-    optional string otauId = 1; // main MAK-100 OTAU has no ID
-    NetAddress otauNetAddress = 2;
-    string otauSerial = 3;
+message LeafOfAcceptableMeasParams {
+    repeated string resolutions = 1;
+    repeated string pulseDurations = 2;
+    repeated string periodsToAverage = 3;
+    repeated string measCountsToAverage = 4;
+}
 
+message DistanceMeasParam {
+    string distance = 1;
+    LeafOfAcceptableMeasParams otherParams = 2;
+}
+
+message BranchOfAcceptableMeasParams {
+    repeated DistanceMeasParam distances = 1;
+    double backscatterCoeff = 2;
+    double refractiveIndex = 3;
+}
+
+message UnitMeasParam {
+    string unit = 1;
+    BranchOfAcceptableMeasParams branch = 2;
+}
+
+message TreeOfAcceptableMeasParams {
+    repeated UnitMeasParam units = 1;
+}
+
+message MeasurementSettingsStrings {
+    string laser = 1;
+    string backscatterCoeff = 2;
+    string refractiveIndex = 3;
+    string distance = 4;
+    string pulse = 5;
+    string resolution = 6;
+    string averagingTime = 7;
+}
+
+message PortOfOtau {
+    optional string otauId = 1; // main MAK-100 OTAU has no ID, but BOP has its ID
+    optional NetAddress otauNetAddress = 2; // only for BOP
+    
+    string otauSerial = 3;
     int32 opticalPort = 4;
     bool isPortOnMainCharon = 5;
-    int32 mainCharonPort = 6;
+    optional int32 mainCharonPort = 6; // only for BOP
 }
 
 message Trace {
@@ -122,6 +159,8 @@ message Rtu {
 
 	repeated Bop bops = 20;
 	repeated Trace traces = 21;
+
+    optional TreeOfAcceptableMeasParams treeOfAcceptableMeasParams = 22;
 }
 
 message GetRtuTreeRequest {}

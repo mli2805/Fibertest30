@@ -26,11 +26,11 @@ import { RtuMonitoringSettingsComponent } from './rtu-monitoring-settings/rtu-mo
 import { RtuLandmarksComponent } from './rtu-landmarks/rtu-landmarks.component';
 import { RtusComponent } from './rtus/rtus.component';
 import { OneChannelTestComponent } from './rtu-initialization/one-channel-test/one-channel-test.component';
-import { OndemandMeasurementComponent } from './ondemand-measurement/ondemand-measurement.component';
 import { FreePortMenuComponent } from './rtu-tree/free-port/free-port-menu/free-port-menu.component';
 import { AttachedTraceMenuComponent } from './rtu-tree/attached-trace/attached-trace-menu/attached-trace-menu.component';
 import { DetachedTraceMenuComponent } from './rtu-tree/detached-trace/detached-trace-menu/detached-trace-menu.component';
 import { OneBopMenuComponent } from './rtu-tree/one-bop/one-bop-menu/one-bop-menu.component';
+import { MeasurementClientComponent } from './measurement-client/measurement-client.component';
 
 @NgModule({
   imports: [
@@ -62,11 +62,11 @@ import { OneBopMenuComponent } from './rtu-tree/one-bop/one-bop-menu/one-bop-men
     RtuLandmarksComponent,
     RtusComponent,
     OneChannelTestComponent,
-    OndemandMeasurementComponent,
     FreePortMenuComponent,
     AttachedTraceMenuComponent,
     DetachedTraceMenuComponent,
-    OneBopMenuComponent
+    OneBopMenuComponent,
+    MeasurementClientComponent
   ],
   providers: []
 })

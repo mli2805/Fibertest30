@@ -14,6 +14,9 @@ public static class ApplicationDefaultPermissions
         // Don't specify the Administrator (it will be done automatically)
 
         AddPermission(P.ChangeRtuSettings);
+
+
+
         AddPermission(P.ConfigureOtau);
         AddPermission(P.PerformOnDemandTest, R.User);
         AddPermission(P.SetupMonitoringThresholds, R.User);
@@ -28,6 +31,10 @@ public static class ApplicationDefaultPermissions
         AddPermission(P.ChangeNetworkSettings);
         AddPermission(P.ChangeTimeSettings);
         AddPermission(P.EditPortLabels, R.User);
+
+        AddPermission(P.CheckRtuConnection, R.User, R.Viewer);
+        AddPermission(P.InitializeRtu, R.User);
+        AddPermission(P.DoMeasurementClient, R.User);
     }
 
     private static void AddPermission(ApplicationPermission permission, params ApplicationDefaultRole[] roles)

@@ -20,16 +20,6 @@ import type { GetNotificationSettingsResponse } from "./measurement";
 import type { GetNotificationSettingsRequest } from "./measurement";
 import type { UpdateNotificationSettingsResponse } from "./measurement";
 import type { UpdateNotificationSettingsRequest } from "./measurement";
-import type { DeleteAlarmProfileResponse } from "./measurement";
-import type { DeleteAlarmProfileRequest } from "./measurement";
-import type { CreateAlarmProfileResponse } from "./measurement";
-import type { CreateAlarmProfileRequest } from "./measurement";
-import type { GetAlarmProfileResponse } from "./measurement";
-import type { GetAlarmProfileRequest } from "./measurement";
-import type { UpdateAlarmProfileResponse } from "./measurement";
-import type { UpdateAlarmProfileRequest } from "./measurement";
-import type { GetAllAlarmProfilesResponse } from "./measurement";
-import type { GetAllAlarmProfilesRequest } from "./measurement";
 import type { GetBaselineProgressTraceResponse } from "./measurement";
 import type { GetBaselineProgressTraceRequest } from "./measurement";
 import type { StopBaselineSetupResponse } from "./measurement";
@@ -38,8 +28,6 @@ import type { StartBaselineSetupResponse } from "./measurement";
 import type { StartBaselineSetupRequest } from "./measurement";
 import type { SetMonitoringPortNoteResponse } from "./measurement";
 import type { SetMonitoringPortNoteRequest } from "./measurement";
-import type { SetPortAlarmProfileResponse } from "./measurement";
-import type { SetPortAlarmProfileRequest } from "./measurement";
 import type { SetMonitoringPortScheduleResponse } from "./measurement";
 import type { SetMonitoringPortScheduleRequest } from "./measurement";
 import type { GetOtauMonitoringPortsResponse } from "./measurement";
@@ -96,10 +84,6 @@ export interface IMeasurementClient {
      */
     setMonitoringPortSchedule(input: SetMonitoringPortScheduleRequest, options?: RpcOptions): UnaryCall<SetMonitoringPortScheduleRequest, SetMonitoringPortScheduleResponse>;
     /**
-     * @generated from protobuf rpc: SetPortAlarmProfile(fibertest30.measurement.SetPortAlarmProfileRequest) returns (fibertest30.measurement.SetPortAlarmProfileResponse);
-     */
-    setPortAlarmProfile(input: SetPortAlarmProfileRequest, options?: RpcOptions): UnaryCall<SetPortAlarmProfileRequest, SetPortAlarmProfileResponse>;
-    /**
      * Sets text note for a specific monitoring port.
      *
      * @generated from protobuf rpc: SetMonitoringPortNote(fibertest30.measurement.SetMonitoringPortNoteRequest) returns (fibertest30.measurement.SetMonitoringPortNoteResponse);
@@ -117,26 +101,6 @@ export interface IMeasurementClient {
      * @generated from protobuf rpc: GetBaselineProgressTrace(fibertest30.measurement.GetBaselineProgressTraceRequest) returns (fibertest30.measurement.GetBaselineProgressTraceResponse);
      */
     getBaselineProgressTrace(input: GetBaselineProgressTraceRequest, options?: RpcOptions): UnaryCall<GetBaselineProgressTraceRequest, GetBaselineProgressTraceResponse>;
-    /**
-     * @generated from protobuf rpc: GetAllAlarmProfiles(fibertest30.measurement.GetAllAlarmProfilesRequest) returns (fibertest30.measurement.GetAllAlarmProfilesResponse);
-     */
-    getAllAlarmProfiles(input: GetAllAlarmProfilesRequest, options?: RpcOptions): UnaryCall<GetAllAlarmProfilesRequest, GetAllAlarmProfilesResponse>;
-    /**
-     * @generated from protobuf rpc: UpdateAlarmProfile(fibertest30.measurement.UpdateAlarmProfileRequest) returns (fibertest30.measurement.UpdateAlarmProfileResponse);
-     */
-    updateAlarmProfile(input: UpdateAlarmProfileRequest, options?: RpcOptions): UnaryCall<UpdateAlarmProfileRequest, UpdateAlarmProfileResponse>;
-    /**
-     * @generated from protobuf rpc: GetAlarmProfile(fibertest30.measurement.GetAlarmProfileRequest) returns (fibertest30.measurement.GetAlarmProfileResponse);
-     */
-    getAlarmProfile(input: GetAlarmProfileRequest, options?: RpcOptions): UnaryCall<GetAlarmProfileRequest, GetAlarmProfileResponse>;
-    /**
-     * @generated from protobuf rpc: CreateAlarmProfile(fibertest30.measurement.CreateAlarmProfileRequest) returns (fibertest30.measurement.CreateAlarmProfileResponse);
-     */
-    createAlarmProfile(input: CreateAlarmProfileRequest, options?: RpcOptions): UnaryCall<CreateAlarmProfileRequest, CreateAlarmProfileResponse>;
-    /**
-     * @generated from protobuf rpc: DeleteAlarmProfile(fibertest30.measurement.DeleteAlarmProfileRequest) returns (fibertest30.measurement.DeleteAlarmProfileResponse);
-     */
-    deleteAlarmProfile(input: DeleteAlarmProfileRequest, options?: RpcOptions): UnaryCall<DeleteAlarmProfileRequest, DeleteAlarmProfileResponse>;
     /**
      * @generated from protobuf rpc: UpdateNotificationSettings(fibertest30.measurement.UpdateNotificationSettingsRequest) returns (fibertest30.measurement.UpdateNotificationSettingsResponse);
      */
@@ -236,131 +200,89 @@ export class MeasurementClient implements IMeasurementClient, ServiceInfo {
         return stackIntercept<SetMonitoringPortScheduleRequest, SetMonitoringPortScheduleResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: SetPortAlarmProfile(fibertest30.measurement.SetPortAlarmProfileRequest) returns (fibertest30.measurement.SetPortAlarmProfileResponse);
-     */
-    setPortAlarmProfile(input: SetPortAlarmProfileRequest, options?: RpcOptions): UnaryCall<SetPortAlarmProfileRequest, SetPortAlarmProfileResponse> {
-        const method = this.methods[8], opt = this._transport.mergeOptions(options);
-        return stackIntercept<SetPortAlarmProfileRequest, SetPortAlarmProfileResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
      * Sets text note for a specific monitoring port.
      *
      * @generated from protobuf rpc: SetMonitoringPortNote(fibertest30.measurement.SetMonitoringPortNoteRequest) returns (fibertest30.measurement.SetMonitoringPortNoteResponse);
      */
     setMonitoringPortNote(input: SetMonitoringPortNoteRequest, options?: RpcOptions): UnaryCall<SetMonitoringPortNoteRequest, SetMonitoringPortNoteResponse> {
-        const method = this.methods[9], opt = this._transport.mergeOptions(options);
+        const method = this.methods[8], opt = this._transport.mergeOptions(options);
         return stackIntercept<SetMonitoringPortNoteRequest, SetMonitoringPortNoteResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: StartBaselineSetup(fibertest30.measurement.StartBaselineSetupRequest) returns (fibertest30.measurement.StartBaselineSetupResponse);
      */
     startBaselineSetup(input: StartBaselineSetupRequest, options?: RpcOptions): UnaryCall<StartBaselineSetupRequest, StartBaselineSetupResponse> {
-        const method = this.methods[10], opt = this._transport.mergeOptions(options);
+        const method = this.methods[9], opt = this._transport.mergeOptions(options);
         return stackIntercept<StartBaselineSetupRequest, StartBaselineSetupResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: StopBaselineSetup(fibertest30.measurement.StopBaselineSetupRequest) returns (fibertest30.measurement.StopBaselineSetupResponse);
      */
     stopBaselineSetup(input: StopBaselineSetupRequest, options?: RpcOptions): UnaryCall<StopBaselineSetupRequest, StopBaselineSetupResponse> {
-        const method = this.methods[11], opt = this._transport.mergeOptions(options);
+        const method = this.methods[10], opt = this._transport.mergeOptions(options);
         return stackIntercept<StopBaselineSetupRequest, StopBaselineSetupResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetBaselineProgressTrace(fibertest30.measurement.GetBaselineProgressTraceRequest) returns (fibertest30.measurement.GetBaselineProgressTraceResponse);
      */
     getBaselineProgressTrace(input: GetBaselineProgressTraceRequest, options?: RpcOptions): UnaryCall<GetBaselineProgressTraceRequest, GetBaselineProgressTraceResponse> {
-        const method = this.methods[12], opt = this._transport.mergeOptions(options);
+        const method = this.methods[11], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetBaselineProgressTraceRequest, GetBaselineProgressTraceResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
-     * @generated from protobuf rpc: GetAllAlarmProfiles(fibertest30.measurement.GetAllAlarmProfilesRequest) returns (fibertest30.measurement.GetAllAlarmProfilesResponse);
-     */
-    getAllAlarmProfiles(input: GetAllAlarmProfilesRequest, options?: RpcOptions): UnaryCall<GetAllAlarmProfilesRequest, GetAllAlarmProfilesResponse> {
-        const method = this.methods[13], opt = this._transport.mergeOptions(options);
-        return stackIntercept<GetAllAlarmProfilesRequest, GetAllAlarmProfilesResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
-     * @generated from protobuf rpc: UpdateAlarmProfile(fibertest30.measurement.UpdateAlarmProfileRequest) returns (fibertest30.measurement.UpdateAlarmProfileResponse);
-     */
-    updateAlarmProfile(input: UpdateAlarmProfileRequest, options?: RpcOptions): UnaryCall<UpdateAlarmProfileRequest, UpdateAlarmProfileResponse> {
-        const method = this.methods[14], opt = this._transport.mergeOptions(options);
-        return stackIntercept<UpdateAlarmProfileRequest, UpdateAlarmProfileResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
-     * @generated from protobuf rpc: GetAlarmProfile(fibertest30.measurement.GetAlarmProfileRequest) returns (fibertest30.measurement.GetAlarmProfileResponse);
-     */
-    getAlarmProfile(input: GetAlarmProfileRequest, options?: RpcOptions): UnaryCall<GetAlarmProfileRequest, GetAlarmProfileResponse> {
-        const method = this.methods[15], opt = this._transport.mergeOptions(options);
-        return stackIntercept<GetAlarmProfileRequest, GetAlarmProfileResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
-     * @generated from protobuf rpc: CreateAlarmProfile(fibertest30.measurement.CreateAlarmProfileRequest) returns (fibertest30.measurement.CreateAlarmProfileResponse);
-     */
-    createAlarmProfile(input: CreateAlarmProfileRequest, options?: RpcOptions): UnaryCall<CreateAlarmProfileRequest, CreateAlarmProfileResponse> {
-        const method = this.methods[16], opt = this._transport.mergeOptions(options);
-        return stackIntercept<CreateAlarmProfileRequest, CreateAlarmProfileResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
-     * @generated from protobuf rpc: DeleteAlarmProfile(fibertest30.measurement.DeleteAlarmProfileRequest) returns (fibertest30.measurement.DeleteAlarmProfileResponse);
-     */
-    deleteAlarmProfile(input: DeleteAlarmProfileRequest, options?: RpcOptions): UnaryCall<DeleteAlarmProfileRequest, DeleteAlarmProfileResponse> {
-        const method = this.methods[17], opt = this._transport.mergeOptions(options);
-        return stackIntercept<DeleteAlarmProfileRequest, DeleteAlarmProfileResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: UpdateNotificationSettings(fibertest30.measurement.UpdateNotificationSettingsRequest) returns (fibertest30.measurement.UpdateNotificationSettingsResponse);
      */
     updateNotificationSettings(input: UpdateNotificationSettingsRequest, options?: RpcOptions): UnaryCall<UpdateNotificationSettingsRequest, UpdateNotificationSettingsResponse> {
-        const method = this.methods[18], opt = this._transport.mergeOptions(options);
+        const method = this.methods[12], opt = this._transport.mergeOptions(options);
         return stackIntercept<UpdateNotificationSettingsRequest, UpdateNotificationSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetNotificationSettings(fibertest30.measurement.GetNotificationSettingsRequest) returns (fibertest30.measurement.GetNotificationSettingsResponse);
      */
     getNotificationSettings(input: GetNotificationSettingsRequest, options?: RpcOptions): UnaryCall<GetNotificationSettingsRequest, GetNotificationSettingsResponse> {
-        const method = this.methods[19], opt = this._transport.mergeOptions(options);
+        const method = this.methods[13], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetNotificationSettingsRequest, GetNotificationSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: TestEmailServerSettings(fibertest30.measurement.TestEmailServerSettingsRequest) returns (fibertest30.measurement.TestEmailServerSettingsResponse);
      */
     testEmailServerSettings(input: TestEmailServerSettingsRequest, options?: RpcOptions): UnaryCall<TestEmailServerSettingsRequest, TestEmailServerSettingsResponse> {
-        const method = this.methods[20], opt = this._transport.mergeOptions(options);
+        const method = this.methods[14], opt = this._transport.mergeOptions(options);
         return stackIntercept<TestEmailServerSettingsRequest, TestEmailServerSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: TestTrapReceiverSettings(fibertest30.measurement.TestTrapReceiverSettingsRequest) returns (fibertest30.measurement.TestTrapReceiverSettingsResponse);
      */
     testTrapReceiverSettings(input: TestTrapReceiverSettingsRequest, options?: RpcOptions): UnaryCall<TestTrapReceiverSettingsRequest, TestTrapReceiverSettingsResponse> {
-        const method = this.methods[21], opt = this._transport.mergeOptions(options);
+        const method = this.methods[15], opt = this._transport.mergeOptions(options);
         return stackIntercept<TestTrapReceiverSettingsRequest, TestTrapReceiverSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetNetworkSettings(fibertest30.measurement.GetNetworkSettingsRequest) returns (fibertest30.measurement.GetNetworkSettingsResponse);
      */
     getNetworkSettings(input: GetNetworkSettingsRequest, options?: RpcOptions): UnaryCall<GetNetworkSettingsRequest, GetNetworkSettingsResponse> {
-        const method = this.methods[22], opt = this._transport.mergeOptions(options);
+        const method = this.methods[16], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetNetworkSettingsRequest, GetNetworkSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: UpdateNetworkSettings(fibertest30.measurement.UpdateNetworkSettingsRequest) returns (fibertest30.measurement.UpdateNetworkSettingsResponse);
      */
     updateNetworkSettings(input: UpdateNetworkSettingsRequest, options?: RpcOptions): UnaryCall<UpdateNetworkSettingsRequest, UpdateNetworkSettingsResponse> {
-        const method = this.methods[23], opt = this._transport.mergeOptions(options);
+        const method = this.methods[17], opt = this._transport.mergeOptions(options);
         return stackIntercept<UpdateNetworkSettingsRequest, UpdateNetworkSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetTimeSettings(fibertest30.measurement.GetTimeSettingsRequest) returns (fibertest30.measurement.GetTimeSettingsResponse);
      */
     getTimeSettings(input: GetTimeSettingsRequest, options?: RpcOptions): UnaryCall<GetTimeSettingsRequest, GetTimeSettingsResponse> {
-        const method = this.methods[24], opt = this._transport.mergeOptions(options);
+        const method = this.methods[18], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetTimeSettingsRequest, GetTimeSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: UpdateTimeSettings(fibertest30.measurement.UpdateTimeSettingsRequest) returns (fibertest30.measurement.UpdateTimeSettingsResponse);
      */
     updateTimeSettings(input: UpdateTimeSettingsRequest, options?: RpcOptions): UnaryCall<UpdateTimeSettingsRequest, UpdateTimeSettingsResponse> {
-        const method = this.methods[25], opt = this._transport.mergeOptions(options);
+        const method = this.methods[19], opt = this._transport.mergeOptions(options);
         return stackIntercept<UpdateTimeSettingsRequest, UpdateTimeSettingsResponse>("unary", this._transport, method, opt, input);
     }
 }

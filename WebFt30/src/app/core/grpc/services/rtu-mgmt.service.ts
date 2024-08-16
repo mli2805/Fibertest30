@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 import { NetAddress } from '../../store/models/ft30/net-address';
 import { FtBaseMapping } from '../../store/mapping/ft-base-mapping';
 import { InitializeRtuDto } from '../../store/models/ft30/initialize-rtu-dto';
+import { DoMeasurementClientDto } from '../../store/models/ft30/do-measurement-client-dto';
+import { RtuMgmtMapping } from '../../store/mapping/rtu-mgmt-mapping';
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +37,31 @@ export class RtuMgmtService {
   initializeRtu(dto: InitializeRtuDto): Observable<grpc.InitializeRtuResponse> {
     const request: grpc.InitializeRtuRequest = { dto };
     return GrpcUtils.unaryToObservable(this.client.initializeRtu.bind(this.client), request, {});
+  }
+
+  startMeasurementClient(
+    dto: DoMeasurementClientDto
+  ): Observable<grpc.DoMeasurementClientResponse> {
+    const grpcDto = RtuMgmtMapping.toGrpcDoClientMeasurementDto(dto);
+    const request: grpc.DoMeasurementClientRequest = { dto: grpcDto };
+    return GrpcUtils.unaryToObservable(
+      this.client.doMeasurementClient.bind(this.client),
+      request,
+      {}
+    );
+  }
+
+  getMeasurementClientSor(
+    measurementClientId: string
+  ): Observable<grpc.GetMeasurementClientSorResponse> {
+    const request: grpc.GetMeasurementClientSorRequest = {
+      measurementClientId: measurementClientId,
+      vxsorFormat: true
+    };
+    return GrpcUtils.unaryToObservable(
+      this.client.getMeasurementClientSor.bind(this.client),
+      request,
+      {}
+    );
   }
 }

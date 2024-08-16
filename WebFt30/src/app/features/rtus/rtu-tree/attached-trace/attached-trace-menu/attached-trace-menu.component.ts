@@ -74,8 +74,7 @@ export class AttachedTraceMenuComponent {
     } else {
       portName = `${this.trace.port!.mainCharonPort}-${this.trace.port!.opticalPort}`;
     }
-    const path = `rtus/measurement-client/${portName}`;
-    this.router.navigate([path]);
+    this.router.navigate([`rtus/measurement-client/`, this._trace.rtuId, portName]);
   }
 
   onClicked() {

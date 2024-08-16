@@ -53,23 +53,20 @@ public class MakLinuxHttpTransmitter : IRtuTransmitter
             var response = await _httpClient.SendAsync(request);
             if (!response.IsSuccessStatusCode)
             {
-                return new RtuCurrentStateDto(ReturnCode.D2RHttpError)
-                {
-                    ErrorMessage = response.ReasonPhrase ?? ""
-                };
+                throw new FailedToConnectRtuException(response.ReasonPhrase ?? "");
             }
 
             var responseJson = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<RtuCurrentStateDto>(responseJson, _jsonSerializerSettings);
-            if (result == null) return new RtuCurrentStateDto(ReturnCode.DeserializationError);
+            if (result == null)
+            {
+                throw new DeserializationException("RtuCurrentStateDto");
+            }
             return result;
         }
         catch (Exception e)
         {
-            return new RtuCurrentStateDto(ReturnCode.D2RHttpError)
-            {
-                ErrorMessage = e.Message
-            };
+            throw new FailedToConnectRtuException(e.Message);
         }
     }
 
@@ -82,21 +79,16 @@ public class MakLinuxHttpTransmitter : IRtuTransmitter
         {
             var response = await _httpClient.SendAsync(request);
             if (!response.IsSuccessStatusCode)
-                return new TResult()
-                {
-                    ReturnCode = ReturnCode.D2RHttpError,
-                    ErrorMessage = $"StatusCode: {response.StatusCode}; " + response.ReasonPhrase
-                };
+                throw new FailedToConnectRtuException($"StatusCode: {{response.StatusCode}}; \" + response.ReasonPhrase");
 
             var responseJson = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<TResult>(responseJson);
-            if (result == null) return new TResult(){ReturnCode = ReturnCode.DeserializationError};
+            if (result == null) return new TResult() { ReturnCode = ReturnCode.DeserializationError };
             return result;
         }
         catch (Exception e)
         {
-            _logger.LogError(e, $"SendCommand: {e.Message}");
-            return new TResult() { ReturnCode = ReturnCode.D2RHttpError, ErrorMessage = e.Message };
+            throw new FailedToConnectRtuException(e.Message);
         }
     }
 

@@ -392,6 +392,7 @@
   "i18n.ft.detach-trace": "Detach trace",
   "i18n.ft.attach-optical-switch": "Attach optical switch",
   "i18n.ft.measurement-client": "Measurement (Client)",
+  "i18n.ft.measure": "Measure",
 
   "i18n.start-page.gis": "Gis",
   "i18n.start-page.notifications": "Notifications",

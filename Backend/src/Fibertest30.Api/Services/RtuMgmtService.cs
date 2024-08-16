@@ -32,4 +32,26 @@ public class RtuMgmtService : RtuMgmt.RtuMgmtBase
         var dto = await _mediator.Send(new InitializeRtuCommand(request.Dto.FromProto()), context.CancellationToken);
         return new InitializeRtuResponse() { Dto = dto.ToProto() };
     }
+
+    public override async Task<DoMeasurementClientResponse> DoMeasurementClient(DoMeasurementClientRequest request,
+        ServerCallContext context)
+    {
+        var dto = await _mediator.Send(new DoMeasurementClientCommand(request.Dto.FromProto()),
+            context.CancellationToken);
+
+        return new DoMeasurementClientResponse() { };
+    }
+
+    public override async Task<GetMeasurementClientSorResponse> GetMeasurementClientSor(
+        GetMeasurementClientSorRequest request, ServerCallContext context)
+    {
+        var sor = await _mediator.Send(new GetMeasurementClientSorQuery(Guid.Parse(request.MeasurementClientId)),
+            context.CancellationToken);
+
+        return new GetMeasurementClientSorResponse()
+        {
+            Sor = ProtoUtils.MeasurementTraceToSorByteString(sor, request.VxsorFormat)
+        };
+    }
+
 }

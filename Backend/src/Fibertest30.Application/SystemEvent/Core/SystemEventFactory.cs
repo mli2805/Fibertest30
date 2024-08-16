@@ -232,4 +232,10 @@ public static class SystemEventFactory
         return new SystemEvent(SystemEventType.RtuInitialized, SystemEventLevel.Info,
             new RtuInitializedData(dto.RtuId.ToString(), rtuTitle), SystemEventSource.FromUser(userId));
     }
+
+    public static SystemEvent MeasurementClientDone(string userId, Guid measurementClientId)
+    {
+        return new SystemEvent(SystemEventType.MeasurementClientDone, SystemEventLevel.Internal, 
+            new MeasurementClientDoneData(measurementClientId), SystemEventSource.FromUser(userId));
+    }
 }

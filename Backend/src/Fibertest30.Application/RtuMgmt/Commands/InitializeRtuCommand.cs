@@ -13,7 +13,7 @@ public class InitializeRtuCommandHandler : IRequestHandler<InitializeRtuCommand,
     private readonly ISystemEventSender _systemEventSender;
     private readonly Model _writeModel;
 
-    public InitializeRtuCommandHandler(ICurrentUserService currentUserService, IRtuManager rtuManager, 
+    public InitializeRtuCommandHandler(ICurrentUserService currentUserService, IRtuManager rtuManager,
         ISystemEventSender systemEventSender, Model writeModel)
     {
         _currentUserService = currentUserService;

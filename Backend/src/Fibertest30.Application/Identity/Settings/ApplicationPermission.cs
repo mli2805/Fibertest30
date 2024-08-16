@@ -17,4 +17,8 @@ public enum ApplicationPermission
     ChangeNetworkSettings,
     ChangeTimeSettings,
     EditPortLabels,
+
+    CheckRtuConnection,
+    InitializeRtu,
+    DoMeasurementClient,
 }

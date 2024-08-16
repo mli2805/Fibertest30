@@ -1,62 +1,59 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.1" />
-    <PackageReference Include="Google.Protobuf" Version="3.22.1" />
-    <PackageReference Include="MediatR" Version="12.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="3.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="7.0.4" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
-    <PackageReference Include="Snappier" Version="1.1.5" />
-    <PackageReference Include="System.Reactive" Version="6.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.1" />
+		<PackageReference Include="Google.Protobuf" Version="3.22.1" />
+		<PackageReference Include="MediatR" Version="12.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="3.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="7.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
+		<PackageReference Include="Snappier" Version="1.1.5" />
+		<PackageReference Include="System.Reactive" Version="6.0.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Fibertest30.Domain\Fibertest30.Domain.csproj" />
-    <ProjectReference Include="..\Iit\Iit.Fibertest.Graph\Iit.Fibertest.Graph.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Fibertest30.Domain\Fibertest30.Domain.csproj" />
+		<ProjectReference Include="..\Iit\Iit.Fibertest.Graph\Iit.Fibertest.Graph.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="AutoMapper">
-      <HintPath>..\..\libs\fiberizer\AutoMapper.dll</HintPath>
-    </Reference>
-    <Reference Include="Fiberizer.Common">
-      <HintPath>..\..\libs\fiberizer\Fiberizer.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="FiberizerShared">
-      <HintPath>..\..\libs\fiberizer\FiberizerShared.dll</HintPath>
-    </Reference>
-    <Reference Include="Optixsoft.FiberizerModel">
-      <HintPath>..\..\libs\fiberizer\Optixsoft.FiberizerModel.dll</HintPath>
-    </Reference>
-    <Reference Include="Optixsoft.OtdrDataFormat">
-      <HintPath>..\..\libs\fiberizer\Optixsoft.OtdrDataFormat.dll</HintPath>
-    </Reference>
-    <Reference Include="Optixsoft.PortableGeometry.Portable">
-      <HintPath>..\..\libs\fiberizer\Optixsoft.PortableGeometry.Portable.dll</HintPath>
-    </Reference>
-    <Reference Include="Optixsoft.SharedCommons.Portable">
-      <HintPath>..\..\libs\fiberizer\Optixsoft.SharedCommons.Portable.dll</HintPath>
-    </Reference>
-    <Reference Include="Optixsoft.SorFormat.Protobuf">
-      <HintPath>..\..\libs\fiberizer\Optixsoft.SorFormat.Protobuf.dll</HintPath>
-    </Reference>
-    <Reference Include="protobuf-net">
-      <HintPath>..\..\libs\fiberizer\protobuf-net.dll</HintPath>
-    </Reference>
-    <Reference Include="protobuf-net.Core">
-      <HintPath>..\..\libs\fiberizer\protobuf-net.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="SorMapper">
-      <HintPath>..\..\libs\fiberizer\SorMapper.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="Fiberizer.Common">
+			<HintPath>..\..\libs\fiberizer\Fiberizer.Common.dll</HintPath>
+		</Reference>
+		<Reference Include="FiberizerShared">
+			<HintPath>..\..\libs\fiberizer\FiberizerShared.dll</HintPath>
+		</Reference>
+		<Reference Include="Optixsoft.FiberizerModel">
+			<HintPath>..\..\libs\fiberizer\Optixsoft.FiberizerModel.dll</HintPath>
+		</Reference>
+		<Reference Include="Optixsoft.OtdrDataFormat">
+			<HintPath>..\..\libs\fiberizer\Optixsoft.OtdrDataFormat.dll</HintPath>
+		</Reference>
+		<Reference Include="Optixsoft.PortableGeometry.Portable">
+			<HintPath>..\..\libs\fiberizer\Optixsoft.PortableGeometry.Portable.dll</HintPath>
+		</Reference>
+		<Reference Include="Optixsoft.SharedCommons.Portable">
+			<HintPath>..\..\libs\fiberizer\Optixsoft.SharedCommons.Portable.dll</HintPath>
+		</Reference>
+		<Reference Include="Optixsoft.SorFormat.Protobuf">
+			<HintPath>..\..\libs\fiberizer\Optixsoft.SorFormat.Protobuf.dll</HintPath>
+		</Reference>
+		<Reference Include="protobuf-net">
+			<HintPath>..\..\libs\fiberizer\protobuf-net.dll</HintPath>
+		</Reference>
+		<Reference Include="protobuf-net.Core">
+			<HintPath>..\..\libs\fiberizer\protobuf-net.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="SorMapper">
+			<HintPath>..\..\libs\fiberizer\SorMapper.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
 </Project>

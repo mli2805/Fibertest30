@@ -89,6 +89,8 @@ namespace Iit.Fibertest.Graph
                 MonitoringMode = r.MonitoringState,
                 Version = r.Version,
                 Version2 = r.Version2,
+
+                TreeOfAcceptableMeasParams = r.AcceptableMeasParams
             };
         }
 

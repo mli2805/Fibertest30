@@ -22,7 +22,7 @@ export class OneChannelTestComponent implements OnInit {
   @Input() isOn!: boolean; // for reserve address
 
   public store: Store<AppState> = inject(Store);
-  testInProgress$ = this.store.select(RtuMgmtSelectors.selectInProgress);
+  testInProgress$ = this.store.select(RtuMgmtSelectors.selectRtuOperationInProgress);
   testSuccess$ = this.store.select(RtuMgmtSelectors.selectIsTestSuccessful);
   testFailure$ = this.store.select(RtuMgmtSelectors.selectErrorMessageId);
 

@@ -202,23 +202,6 @@ export interface Threshold {
     critical?: number;
 }
 /**
- * @generated from protobuf message fibertest30.data.core.AlarmProfile
- */
-export interface AlarmProfile {
-    /**
-     * @generated from protobuf field: int32 id = 1;
-     */
-    id: number;
-    /**
-     * @generated from protobuf field: string name = 2;
-     */
-    name: string;
-    /**
-     * @generated from protobuf field: repeated fibertest30.data.core.Threshold thresholds = 3;
-     */
-    thresholds: Threshold[];
-}
-/**
  * @generated from protobuf message fibertest30.data.core.EmailServer
  */
 export interface EmailServer {
@@ -636,20 +619,6 @@ class Threshold$Type extends MessageType<Threshold> {
  * @generated MessageType for protobuf message fibertest30.data.core.Threshold
  */
 export const Threshold = new Threshold$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class AlarmProfile$Type extends MessageType<AlarmProfile> {
-    constructor() {
-        super("fibertest30.data.core.AlarmProfile", [
-            { no: 1, name: "id", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "thresholds", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Threshold }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.data.core.AlarmProfile
- */
-export const AlarmProfile = new AlarmProfile$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class EmailServer$Type extends MessageType<EmailServer> {
     constructor() {

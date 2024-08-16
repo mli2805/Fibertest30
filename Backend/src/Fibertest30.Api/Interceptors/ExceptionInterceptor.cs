@@ -110,6 +110,25 @@ public class ExceptionInterceptor : Interceptor
             message = "FailedToVerifySmtpServerCertificate";
         }
 
+        if (ex is FailedToConnectRtuException)
+        {
+            statusCode =  StatusCode.Aborted;
+            message = "FailedToConnectRtu";
+        }
+
+        if (ex is RtuIsBusyException)
+        {
+            statusCode = StatusCode.Aborted;
+            message = "RtuIsBusy";
+        }
+
+        if (ex is NoSuchRtuException)
+        {
+            statusCode = StatusCode.InvalidArgument;
+            message = "NoSuchRtu";
+        }
+
+
         var status = new Status(statusCode, message);
         return new RpcException(status);
     }

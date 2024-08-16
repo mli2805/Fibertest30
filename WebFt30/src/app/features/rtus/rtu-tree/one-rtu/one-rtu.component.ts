@@ -56,6 +56,10 @@ export class OneRtuComponent {
             continue;
           }
           const freePort = new PortOfOtau();
+          freePort.otauId = bop.bopId;
+          freePort.otauSerial = bop.serial;
+          freePort.otauNetAddress = bop.bopNetAddress;
+          freePort.rtuId = rtu.rtuId;
           freePort.isPortOnMainCharon = false;
           freePort.opticalPort = i + 1;
           freePort.mainCharonPort = bop.masterPort;

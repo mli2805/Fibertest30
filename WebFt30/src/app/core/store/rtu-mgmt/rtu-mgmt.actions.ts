@@ -1,8 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 import { NetAddress } from '../models/ft30/net-address';
-import { DoubleAddress } from '../models/ft30/double-address';
 import { InitializeRtuDto } from '../models/ft30/initialize-rtu-dto';
 import { RtuInitializedDto } from '../models/ft30/rtu-initialized-dto';
+import { DoMeasurementClientDto } from '../models/ft30/do-measurement-client-dto';
 
 const testRtuConnection = createAction(
   '[RtuMgmt] Test Rtu Connection',
@@ -29,6 +29,22 @@ const initializeRtuFailure = createAction(
   props<{ errorMessageId: string }>()
 );
 
+const startMeasurementClient = createAction(
+  '[RtuMgmt] Start Measurement Client',
+  props<{ dto: DoMeasurementClientDto }>()
+);
+const startMeasurementClientSuccess = createAction('[RtuMgmt] Start Measurement Client Success');
+const startMeasurementClientFailure = createAction(
+  '[RtuMgmt] Start Measurement Client Failure',
+  props<{ errorMessageId: string }>()
+);
+
+const measurementClientDone = createAction(
+  '[RtuMgmt] Measurement Client Done',
+  props<{ measurementClientId: string }>()
+);
+const getMeasurementClientSorSuccess = createAction('[RtuMgmt] Get Measurement Client Success');
+
 export const RtuMgmtActions = {
   testRtuConnection,
   testRtuConnectionSuccess,
@@ -36,5 +52,12 @@ export const RtuMgmtActions = {
 
   initializeRtu,
   initializeRtuSuccess,
-  initializeRtuFailure
+  initializeRtuFailure,
+
+  startMeasurementClient,
+  startMeasurementClientSuccess,
+  startMeasurementClientFailure,
+
+  measurementClientDone,
+  getMeasurementClientSorSuccess
 };
