@@ -14,26 +14,25 @@
   [cdkConnectedOverlayOpen]="open"
 >
   <div
-    class="background-base ml-3 mt-2 rounded-sm border border-gray-300 dark:border-[#575859]"
-    (click)="onOverlayClick($event)"
+    class="min-w-40 rounded-sm border border-gray-300 bg-rtu-second-bg p-2 dark:border-[#575859] dark:bg-rtu-dark-second-bg"
   >
     <!-- prettier-ignore -->
-    <div class="mx-4 my-2 flex flex-col">
-      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onInformationClicked()">{{ 'i18n.ft.information' | translate }}</button>
-      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onNetworkSettignsClicked()">{{ 'i18n.ft.network-settings' | translate }}</button>
-      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onStateClicked()">{{ 'i18n.ft.state' | translate }}</button>
-      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onLandmarksClicked()">{{ 'i18n.ft.landmarks' | translate }}</button>
-      <div>{{ '----------------' }}</div>
-      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onAutomaticBaseRefsClicked()">{{ 'i18n.ft.automatic-base-refs' | translate }}</button>
-      <div>{{ '----------------' }}</div>
-      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onMonitoringSettingsClicked()">{{ 'i18n.ft.monitoring-settings' | translate }}</button>
-      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onManualModeClicked()">{{ 'i18n.ft.manual-mode' | translate }}</button>
-      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onClicked()">{{ 'i18n.ft.automatic-mode' | translate }}</button>
-      <div>{{ '----------------' }}</div>
-      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onClicked()">{{ 'i18n.ft.detach-all-traces' | translate }}</button>
-      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onClicked()">{{ 'i18n.ft.remove' | translate }}</button>
-      <div>{{ '----------------' }}</div>
-      <button class="px-3 text-left  hover:bg-blue-500 focus:bg-blue-500" (click)="onClicked()">{{ 'i18n.ft.define-trace' | translate }}</button>
+    <div class="flex flex-col" (click)="onOverlayClick($event)">
+      <button class="px-3 py-2 text-sm rounded-sm text-left  hover:bg-blue-500" (click)="onInformationClicked()">{{ 'i18n.ft.information' | translate }}</button>
+      <button class="px-3 py-2 text-sm rounded-sm text-left  hover:bg-blue-500" (click)="onNetworkSettignsClicked()">{{ 'i18n.ft.network-settings' | translate }}</button>
+      <button class="px-3 py-2 text-sm rounded-sm text-left  hover:bg-blue-500" (click)="onStateClicked()">{{ 'i18n.ft.state' | translate }}</button>
+      <button class="px-3 py-2 text-sm rounded-sm text-left  hover:bg-blue-500" (click)="onLandmarksClicked()">{{ 'i18n.ft.landmarks' | translate }}</button>
+      <hr class="my-2" />
+      <button class="px-3 py-2 text-sm rounded-sm text-left  hover:bg-blue-500" (click)="onAutomaticBaseRefsClicked()">{{ 'i18n.ft.automatic-base-refs' | translate }}</button>
+      <hr class="my-2" />
+      <button class="px-3 py-2 text-sm rounded-sm text-left  hover:bg-blue-500" (click)="onMonitoringSettingsClicked()">{{ 'i18n.ft.monitoring-settings' | translate }}</button>
+      <button class="px-3 py-2 text-sm rounded-sm text-left  hover:bg-blue-500" (click)="onManualModeClicked()">{{ 'i18n.ft.manual-mode' | translate }}</button>
+      <button class="px-3 py-2 text-sm rounded-sm text-left  hover:bg-blue-500" (click)="onClicked()">{{ 'i18n.ft.automatic-mode' | translate }}</button>
+      <hr class="my-2" />
+      <button class="px-3 py-2 text-sm rounded-sm text-left  hover:bg-blue-500" (click)="onClicked()">{{ 'i18n.ft.detach-all-traces' | translate }}</button>
+      <button class="px-3 py-2 text-sm rounded-sm text-left  hover:bg-blue-500" (click)="onClicked()">{{ 'i18n.ft.remove' | translate }}</button>
+      <hr class="my-2" />
+      <button class="px-3 py-2 text-sm rounded-sm text-left  hover:bg-blue-500" (click)="onClicked()">{{ 'i18n.ft.define-trace' | translate }}</button>
     </div>
   </div>
 </ng-template>
