@@ -60,6 +60,8 @@ export class RtuLanguageSwitcherComponent {
     switch (language) {
       case 'en':
         return 'English';
+      case 'ru':
+        return 'Russian';
       case 'ja':
         return 'Japanese';
       case 'de':

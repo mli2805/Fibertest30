@@ -9,6 +9,7 @@ import { AppLanguage } from '../store/settings/settings.state';
 // If any new language is added, we should add a corresponding regex pattern here
 const StripAgoPatterns: Record<AppLanguage, string> = {
   en: 'ago',
+  ru: 'назад',
   de: 'vor',
   fr: 'il y a',
   it: 'fa',
