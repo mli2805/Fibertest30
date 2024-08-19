@@ -21,7 +21,7 @@
             </svg>
 
         <div class="my-auto text-center text-xs">
-          {{ 'i18n.on-demand.create-report' | translate }}
+          {{ 'i18n.create-report' | translate }}
         </div>
       </div>
       <div *ngIf="false" class="available-action action-non-active">
@@ -38,7 +38,7 @@
                     C40,22.396,37.795,19.316,34.717,18.15z"/>
             </svg>
         <div class="my-auto text-center text-xs">
-          {{ 'i18n.on-demand.upload-to-fiberizer-cloud' | translate }}
+          {{ 'i18n.upload-to-fiberizer-cloud' | translate }}
         </div>
       </div>
       <div class="available-action action-non-active" (click)="saveSor()">
@@ -61,7 +61,7 @@
             </svg>
 
           <div class="my-auto text-center text-xs">
-            {{ 'i18n.on-demand.switch-to-link-map' | translate }}
+            {{ 'i18n.switch-to-link-map' | translate }}
           </div>
         </ng-container>
         <ng-container *ngIf="linkMapMode">
@@ -95,7 +95,7 @@
             </svg>
 
           <div class="my-auto text-center text-xs">
-            {{ 'i18n.on-demand.switch-to-otdr' | translate }}
+            {{ 'i18n.switch-to-otdr' | translate }}
           </div>
         </ng-container>
       </div>
@@ -123,9 +123,6 @@
         <div class="mb-2">{{ 'i18n.common.info' | translate }}</div>
         <div>
           <div class="grid grid-cols-[auto,minmax(150px,1fr)] gap-x-4 gap-y-1 text-left">
-            <span class="whitespace-nowrap text-gray-400 dark:text-zinc-400">{{
-              'i18n.on-demand-status.completed-at' | translate
-            }}</span>
             <div class="inline whitespace-nowrap">
               <span class="">{{ monitoring.completedAt | rtuDateTime : 'short' : 'date' }}</span>
               <span class="ml-2">
@@ -145,25 +142,10 @@
                 <rtu-otau-port-path-title [otauPortPath]="otauPortPath"></rtu-otau-port-path-title>
               </div>
             </span>
-            <!-- <span class="whitespace-nowrap text-gray-400 dark:text-zinc-400"
-              >{{ 'i18n.on-demand-test-settings.network-type' | translate }}
-            </span>
-            <span class="whitespace-nowrap">{{
-              convertUtils.networkTypeToString(monitoring.measurementSettings.networkType)
-                | translate
-            }}</span> -->
           </div>
         </div>
       </div>
       <div class="flex-1"></div>
-      <!-- <div class="grouped-border flex-1">
-        <div class="mb-2">{{ 'i18n.ft.measurement-settings' | translate }}</div>
-        <rtu-on-demand-measurement-settings-info
-          [mode]="'full'"
-          [measSettings]="monitoring.measurementSettings"
-        >
-        </rtu-on-demand-measurement-settings-info>
-      </div> -->
     </div>
 
     <ng-container *ngIf="monitoring">

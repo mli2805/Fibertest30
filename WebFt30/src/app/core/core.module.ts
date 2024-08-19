@@ -9,13 +9,12 @@ import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { DialogModule } from '@angular/cdk/dialog';
 
-import { metaReducers, reducers } from './core.state';
+import { reducers } from './core.state';
 import { environment } from 'src/environments/environment';
 import { CustomSerializer } from './router/custom-serializer';
 import { AuthEffects } from './auth/auth.effects';
 import { SettingsEffects } from './store/settings/settings.effects';
 import { DeviceEffects } from './store/device/device.effects';
-import { OnDemandEffects } from './store/on-demand/on-demand.effects';
 import { GlobalUiEffects } from './store/global-ui/global-ui.effects';
 import { RtuTranslateLoader } from '../shared/utils/rtu-translate-loader';
 import { StartPageModule } from '../app/pages/start-page/start-page.module';
@@ -29,7 +28,6 @@ import { UsersEffects } from './store/users/users.effects';
 import { SystemEventsEffects } from './store/system-events/system-events.effects';
 import { SystemNotificationEffects } from './store/system-notification/system-notification.effects';
 import { RolesEffects } from './store/roles/roles.effects';
-import { OnDemandHistoryEffects } from './store/on-demand-history/on-demand-history.effects';
 import { OtausEffects } from './store/otaus/otaus.effects';
 import { MonitoringPortEffects } from './store/monitoring/monitoring-port.effects';
 import { MonitoringHistoryEffects } from './store/monitoring-history/monitoring-history.effects';
@@ -69,7 +67,6 @@ import { RtuMgmtEffects } from './store/rtu-mgmt/rtu-mgmt.effects';
 
     // ngrx
     StoreModule.forRoot(reducers, {
-      metaReducers,
       runtimeChecks: {
         strictStateImmutability: !environment.production,
         strictActionImmutability: false,
@@ -87,8 +84,6 @@ import { RtuMgmtEffects } from './store/rtu-mgmt/rtu-mgmt.effects';
       ActiveAlarmsEffects,
       AllAlarmsEffects,
       SystemNotificationEffects,
-      OnDemandEffects,
-      OnDemandHistoryEffects,
       MonitoringHistoryEffects,
       UsersEffects,
       RolesEffects,

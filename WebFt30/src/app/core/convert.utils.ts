@@ -242,10 +242,8 @@ export class ConvertUtils {
     return '';
   }
 
-  static taskTypeToString(taskType: 'ondemand' | 'baseline' | 'monitoring'): string {
+  static taskTypeToString(taskType: 'baseline' | 'monitoring'): string {
     switch (taskType) {
-      case 'ondemand':
-        return 'i18n.start-page.on-demand';
       case 'baseline':
         return 'i18n.common.baseline';
       case 'monitoring':

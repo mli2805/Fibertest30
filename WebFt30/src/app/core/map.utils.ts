@@ -11,7 +11,6 @@ import {
   SystemEvent,
   SystemEventLevel,
   SystemEventSource,
-  CompletedOnDemand,
   MeasurementSettings,
   Otau,
   OtauPort,
@@ -602,23 +601,6 @@ export class MapUtils {
       default:
         throw new Error(`Unknown SystemEventLevel: ${level}`);
     }
-  }
-
-  static toCompletedOnDemands(grpcOnDemands: grpc.CompletedOnDemand[]): CompletedOnDemand[] {
-    const onDemands = grpcOnDemands.map((item) => MapUtils.toCompletedOnDemand(item));
-    return onDemands;
-  }
-
-  static toCompletedOnDemand(grpcOnDemand: grpc.CompletedOnDemand): CompletedOnDemand {
-    const onDemand = new CompletedOnDemand();
-    onDemand.id = grpcOnDemand.id;
-    onDemand.createdByUserId = grpcOnDemand.createdByUserId;
-    onDemand.completedAt = Timestamp.toDate(grpcOnDemand.completedAt!);
-    onDemand.monitoringPortId = grpcOnDemand.monitoringPortId;
-    onDemand.measurementSettings = MapUtils.toMeasurementSettings(
-      grpcOnDemand.measurementSettings!
-    );
-    return onDemand;
   }
 
   static toMonitoringResults(grpcMonitorings: grpc.MonitoringResult[]): MonitoringResult[] {

@@ -17,10 +17,6 @@ export * from './store/device/device.actions';
 export * from './store/device/device.selectors';
 export * from './store/device/device.state';
 
-export * from './store/on-demand/on-demand.actions';
-export * from './store/on-demand/on-demand.selectors';
-export * from './store/on-demand/on-demand.state';
-
 export * from './store/global-ui/global-ui.actions';
 export * from './store/global-ui/global-ui.selectors';
 export * from './store/global-ui/global-ui.state';
@@ -28,10 +24,6 @@ export * from './store/global-ui/global-ui.state';
 export * from './store/system-events/system-events.actions';
 export * from './store/system-events/system-events.selectors';
 export * from './store/system-events/system-events.state';
-
-export * from './store/on-demand-history/on-demand-history.actions';
-export * from './store/on-demand-history/on-demand-history.selectors';
-export * from './store/on-demand-history/on-demand-history.state';
 
 export * from './store/monitoring-history/monitoring-history.actions';
 export * from './store/monitoring-history/monitoring-history.selectors';

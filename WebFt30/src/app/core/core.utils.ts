@@ -137,10 +137,6 @@ export class CoreUtils {
         return 'i18n.common.grpc.error.invalid-arguments';
       }
 
-      if (error.message === 'OnDemandAlreadyStarted') {
-        return 'i18n.error.on-demand.already-started';
-      }
-
       if (error.message === 'BaselineAlreadyStarted') {
         return 'i18n.error.baseline-already-started';
       }

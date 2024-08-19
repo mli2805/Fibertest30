@@ -29,8 +29,6 @@ import { LoadingCenteredBigSpinnerComponent } from './components/loading-spinner
 
 import {
   DefaultSystemEventViewerComponent,
-  OnDemandCompletedSystemEventViewerComponent,
-  OnDemandFailedSystemEventViewerComponent,
   BaselineCompletedSystemEventViewerComponent,
   BaselineFailedSystemEventViewerComponent,
   UserChangedSystemEventViewerComponent,
@@ -51,7 +49,6 @@ import {
 } from './system-events/system-event-viewers';
 import { DoubleRangeSliderComponent } from './components/double-range-slider/double-range-slider.component';
 import { SystemEventLevelDirective } from './system-events/colorize-by-system-event-level/colorize-by-system-event-level.directive';
-import { OnDemandStatusComponent } from './common/task-status/on-demand-status/on-demand-status.component';
 import { PasswordValidationComponent } from './components/overlays/password-validation/password-validation.component';
 import { UserAvatarComponent } from './components/user-avatar/user-avatar.component';
 import { CheckmarkOrCircleComponent } from './components/overlays/password-validation/checkmark-or-circle/checkmark-or-circle.component';
@@ -123,15 +120,12 @@ import { TrianglePictogramComponent } from './components/svg-buttons/triangle-pi
     DoubleRangeSliderComponent,
     TaskStatusComponent,
     OtdrTaskStatusComponent,
-    OnDemandStatusComponent,
     BaselineStatusComponent,
     UserAvatarComponent,
     RelativeTimeRefreshComponent,
 
     SystemEventViewerComponent,
     DefaultSystemEventViewerComponent,
-    OnDemandCompletedSystemEventViewerComponent,
-    OnDemandFailedSystemEventViewerComponent,
     BaselineCompletedSystemEventViewerComponent,
     BaselineFailedSystemEventViewerComponent,
     UserChangedSystemEventViewerComponent,
@@ -209,14 +203,11 @@ import { TrianglePictogramComponent } from './components/svg-buttons/triangle-pi
     TaskStatusComponent,
     OtdrTaskStatusComponent,
     BaselineStatusComponent,
-    OnDemandStatusComponent,
     UserAvatarComponent,
     RelativeTimeRefreshComponent,
 
     SystemEventViewerComponent,
     DefaultSystemEventViewerComponent,
-    OnDemandCompletedSystemEventViewerComponent,
-    OnDemandFailedSystemEventViewerComponent,
     BaselineCompletedSystemEventViewerComponent,
     BaselineFailedSystemEventViewerComponent,
     UserChangedSystemEventViewerComponent,

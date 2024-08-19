@@ -3,8 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ReportingComponent } from './reporting/reporting.component';
 import { SystemEventsComponent } from './system-events/components/system-events/system-events.component';
-import { OnDemandHistoryComponent } from './on-demand-history/components/on-demand-history/on-demand-history.component';
-import { CompletedOnDemandComponent } from './on-demand-history/components/completed-on-demand/completed-on-demand.component';
 import { MonitoringHistoryComponent } from './monitoring-history/components/monitoring-history/monitoring-history.component';
 import { MonitoringResultComponent } from './monitoring-history/components/monitoring-result/monitoring-result.component';
 import { AlarmViewComponent } from './alarms/alarm-view/alarm-view.component';
@@ -40,19 +38,7 @@ export const routes: Routes = [
         pathMatch: 'full',
         component: SystemEventsComponent
       },
-      {
-        path: 'on-demand-history/:id',
-        pathMatch: 'full',
-        component: CompletedOnDemandComponent,
-        data: {
-          navigateToParent: 1
-        }
-      },
-      {
-        path: 'on-demand-history',
-        pathMatch: 'full',
-        component: OnDemandHistoryComponent
-      },
+
       {
         path: 'monitoring-history/:id',
         pathMatch: 'full',

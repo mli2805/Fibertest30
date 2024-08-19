@@ -5,7 +5,6 @@ import { MonitoringPortsComponent } from './components/monitoring-ports/monitori
 import { MonitoringComponent } from './monitoring/monitoring.component';
 import { DummyComponent } from 'src/app/shared/components/dummy/dummy.component';
 import { RouterSelectedOtauRedirectComponent } from './monitoring/router-selected-otau-redirect.component';
-import { BaselineSetupComponent } from './components/baseline-setup/baseline-setup.component';
 
 export const routes: Routes = [
   {
@@ -31,14 +30,7 @@ export const routes: Routes = [
           navigateToParent: 3
         }
       },
-      {
-        path: 'ports/:ocmPortIndex/dashboard/:monitoringPortId',
-        pathMatch: 'full',
-        component: BaselineSetupComponent,
-        data: {
-          navigateToParent: 2
-        }
-      },
+
       {
         path: 'otau-dashboard',
         component: RouterSelectedOtauRedirectComponent,

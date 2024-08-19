@@ -3,7 +3,7 @@ import { NgModule, inject } from '@angular/core';
 
 import { StartPageComponent } from './components/start-page/start-page.component';
 import { DeviceInfoResolver, UsersResolver } from './components/guards';
-import { canActivateStartPage, canActivateOnDemandPage } from 'src/app/guards';
+import { canActivateStartPage } from 'src/app/guards';
 
 const routes: Routes = [
   {
@@ -29,12 +29,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('../../../features/rfts-setup/rfts-setup.module').then((m) => m.RftsSetupModule)
       },
-      {
-        path: 'on-demand',
-        canActivate: [canActivateOnDemandPage],
-        loadChildren: () =>
-          import('../../../features/on-demand/on-demand.module').then((m) => m.OnDemandModule)
-      },
+
       {
         path: 'reporting',
         loadChildren: () =>

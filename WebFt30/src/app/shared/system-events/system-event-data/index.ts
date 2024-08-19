@@ -2,9 +2,6 @@ export * from './changed-property';
 
 export * from './otdr-task/otdr-task-progress-data';
 
-export * from './on-demand/on-demand-failed-data';
-export * from './on-demand/on-demand-completed-data';
-
 export * from './baseline/baseline-failed-data';
 export * from './baseline/baseline-completed-data';
 

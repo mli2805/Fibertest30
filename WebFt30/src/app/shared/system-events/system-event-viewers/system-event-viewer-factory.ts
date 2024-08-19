@@ -2,8 +2,6 @@ import { EventEmitter, Injectable, ViewContainerRef } from '@angular/core';
 import { SystemEvent } from 'src/app/core/store/models';
 import {
   DefaultSystemEventViewerComponent,
-  OnDemandCompletedSystemEventViewerComponent,
-  OnDemandFailedSystemEventViewerComponent,
   BaselineCompletedSystemEventViewerComponent,
   BaselineFailedSystemEventViewerComponent,
   UserChangedSystemEventViewerComponent,
@@ -30,12 +28,6 @@ export class SystemEventViewerFactory {
     let component;
 
     switch (systemEvent.type) {
-      case 'OnDemandFailed':
-        component = OnDemandFailedSystemEventViewerComponent;
-        break;
-      case 'OnDemandCompleted':
-        component = OnDemandCompletedSystemEventViewerComponent;
-        break;
       case 'BaselineFailed':
         component = BaselineFailedSystemEventViewerComponent;
         break;

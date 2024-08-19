@@ -26,7 +26,6 @@ import { ReportingService } from 'src/app/core/grpc';
 import { MapUtils } from 'src/app/core/map.utils';
 import { MonitoringResult } from 'src/app/core/store/models';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
-import { TRACE_FULL_SCREEN_KEY } from '../../../on-demand-history/components/completed-on-demand/completed-on-demand.component';
 import { SorResultBaselineComponent } from 'src/app/features/fiberizer-core/components/viewer-providers';
 
 @Component({
@@ -60,8 +59,6 @@ export class MonitoringResultComponent extends OnDestroyBase implements OnInit {
     private localStorageService: LocalStorageService
   ) {
     super();
-
-    this.fullScreen = this.localStorageService.getItem(TRACE_FULL_SCREEN_KEY) || false;
   }
 
   async ngOnInit() {
@@ -142,7 +139,6 @@ export class MonitoringResultComponent extends OnDestroyBase implements OnInit {
 
   toggleFullScreen() {
     this.fullScreen = !this.fullScreen;
-    this.localStorageService.setItem(TRACE_FULL_SCREEN_KEY, this.fullScreen);
   }
 
   clickBaselineDetails(keyEventIndex: number) {

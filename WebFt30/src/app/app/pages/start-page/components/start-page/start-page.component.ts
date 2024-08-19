@@ -12,8 +12,6 @@ import {
   GlobalUiActions,
   GlobalUiSelectors,
   MonitoringPortActions,
-  OnDemandActions,
-  OnDemandSelectors,
   OtausActions,
   AlarmNotificationActions,
   OtdrTaskProgress,
@@ -337,35 +335,6 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
 
     if (progress.taskType === 'ondemand') {
       const currentUser = CoreUtils.getCurrentState(this.store, AuthSelectors.selectUser);
-      if (progress.createdByUserId === currentUser!.id) {
-        // process only user's on-demand task
-        this.processOnDemandProgress(progress);
-      }
-    } else if (progress.taskType === 'baseline') {
-      this.processBaselineProgress(progress);
-    }
-  }
-
-  private processOnDemandProgress(progress: OtdrTaskProgress) {
-    const otdrTaskId = CoreUtils.getCurrentState(this.store, OnDemandSelectors.selectOtdrTaskId);
-
-    if (otdrTaskId !== progress.otdrTaskId) {
-      this.store.dispatch(
-        OnDemandActions.startOnDemandSuccess({
-          otdrTaskId: progress.otdrTaskId,
-          monitoringPortId: progress.monitoringPortId
-        })
-      );
-    }
-
-    this.store.dispatch(OnDemandActions.onDemandProgress({ progress }));
-
-    if (
-      progress.status == 'completed' ||
-      progress.status == 'failed' ||
-      progress.status == 'cancelled'
-    ) {
-      this.store.dispatch(OnDemandActions.onDemandFinished({ progress }));
     }
   }
 

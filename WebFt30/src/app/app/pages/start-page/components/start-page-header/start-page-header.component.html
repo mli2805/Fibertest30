@@ -52,51 +52,6 @@
         *ngIf="(totalCountSystemNotifications$ | async)! > 0"
         class="absolute right-0 top-0 inline-block h-2 w-2 rounded-full bg-blue-600 dark:bg-blue-500"
       ></span>
-
-      <ng-container>
-        <!-- <span
-          *ngIf="
-            (showOnDemandNotification$ | async) &&
-            ((onDemandCompleted$ | async) || (onDemandRunning$ | async))
-          "
-          class="absolute left-0 top-0 inline-block h-2 w-2 rounded-full bg-green-600 dark:bg-green-500"
-        ></span>
-        <span
-          *ngIf="(showOnDemandNotification$ | async) && (onDemandPending$ | async)"
-          class="absolute left-0 top-0 inline-block h-2 w-2 rounded-full bg-white dark:bg-white"
-        ></span>
-        <span
-          class="absolute -left-[0.125rem] -top-[0.125rem] flex h-3 w-3"
-          *ngIf="(showOnDemandNotification$ | async) && (onDemandRunning$ | async)"
-        >
-          <span
-            class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-600 opacity-75 dark:bg-green-500"
-          ></span>
-        </span> -->
-
-        <span
-          *ngIf="(showOnDemandNotification$ | async) && (onDemandCompleted$ | async)"
-          class="absolute left-0 top-0 inline-block h-2 w-2 rounded-full bg-green-600 dark:bg-green-500"
-        ></span>
-
-        <span *ngIf="(showOnDemandNotification$ | async) && (onDemandPending$ | async)">
-          <span
-            class="absolute left-0 top-0 inline-block h-2 w-2 rounded-full bg-white dark:bg-white"
-          ></span>
-          <span
-            class="absolute -left-[0.125rem] -top-[0.125rem] inline-flex h-3 w-3 animate-ping rounded-full bg-white dark:bg-white"
-          ></span>
-        </span>
-
-        <span *ngIf="(showOnDemandNotification$ | async) && (onDemandRunning$ | async)">
-          <span
-            class="absolute left-0 top-0 inline-block h-2 w-2 rounded-full bg-green-600 dark:bg-green-500"
-          ></span>
-          <span
-            class="absolute -left-[0.125rem] -top-[0.125rem] inline-flex h-3 w-3 animate-ping rounded-full bg-green-600 opacity-75 dark:bg-green-500"
-          ></span>
-        </span>
-      </ng-container>
     </div>
     <div class="relative cursor-pointer select-none" (click)="toggleAlarmNotification()">
       <!-- prettier-ignore -->

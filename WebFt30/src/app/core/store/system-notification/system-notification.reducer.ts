@@ -3,7 +3,6 @@ import { SystemNotificationState } from './system-notification.state';
 import { createReducer, on } from '@ngrx/store';
 import { SystemNotification } from '../models';
 import { SystemNotificationActions } from './system-notification.actions';
-import { OnDemandActions } from '../on-demand/on-demand.actions';
 
 export const SystemNotificationStateAdapter = createEntityAdapter<SystemNotification>({
   selectId: (systemNotification: SystemNotification) => systemNotification.systemEvent.id,
@@ -55,15 +54,7 @@ const reducer = createReducer(
     }
 
     return state;
-  }),
-  on(OnDemandActions.startOnDemandSuccess, (state) => ({
-    ...state,
-    showOnDemandNotification: true
-  })),
-  on(SystemNotificationActions.hideOnDemandNotification, (state) => ({
-    ...state,
-    showOnDemandNotification: false
-  }))
+  })
 );
 
 export function systemNotificationReducer(

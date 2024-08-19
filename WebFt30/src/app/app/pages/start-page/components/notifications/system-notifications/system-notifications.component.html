@@ -1,5 +1,3 @@
-<rtu-on-demand-notification></rtu-on-demand-notification>
-
 <div *ngIf="(systemNotificationTotalCount$ | async)! > 0" class="flex justify-end gap-2 text-xs">
   <div class="text-gray-600 dark:text-zinc-400">{{ 'i18n.common.dismiss' | translate }}:</div>
   <div [rtuColorizeBySystemEventLevelWithHover]="levels.Info" class="cursor-pointer">

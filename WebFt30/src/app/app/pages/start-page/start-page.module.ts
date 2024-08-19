@@ -6,7 +6,6 @@ import { StartPageHeaderComponent } from './components/start-page-header/start-p
 import { StartPageRoutingModule } from './start-page-routing.module';
 import { SharedModule } from '../../../shared/shared.module';
 import { SystemNotificationsComponent } from './components/notifications/system-notifications/system-notifications.component';
-import { OnDemandNotificationComponent } from './components/notifications/system-notifications/on-demand-notification/on-demand-notification.component';
 import { AccountMenuComponent } from './components/start-page-header/account-menu/account-menu.component';
 import { RouterOtauTitleComponent } from './components/start-page-header/titles/router-otau-title/router-otau-title.component';
 import { RouterBaselineTitleComponent } from './components/start-page-header/titles/router-baseline-title/router-baseline-title.component';
@@ -21,7 +20,6 @@ import { AlarmNotificationsComponent } from './components/notifications/alarm-no
     StartPageHeaderComponent,
     AlarmNotificationsComponent,
     SystemNotificationsComponent,
-    OnDemandNotificationComponent,
     AccountMenuComponent,
     RouterOtauTitleComponent,
     RouterBaselineTitleComponent

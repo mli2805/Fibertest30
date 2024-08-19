@@ -55,8 +55,6 @@ const commonDismissNotificationFailure = createAction(
   props<{ error: ServerError }>()
 );
 
-const hideOnDemandNotification = createAction('[SystemNotification] Hide On-Demand Notification');
-
 export const SystemNotificationActions = {
   getNotifications,
   getNotificationsSuccess,
@@ -69,6 +67,5 @@ export const SystemNotificationActions = {
   dismissNotificationsByLevelSuccess,
   dismissAllNotifications,
   dismissAllNotificationsSuccess,
-  commonDismissNotificationFailure,
-  hideOnDemandNotification
+  commonDismissNotificationFailure
 };

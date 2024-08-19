@@ -6,9 +6,6 @@ import { ReportingComponent } from './reporting/reporting.component';
 import { ReportingRoutingModule } from './reporting-routing';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SystemEventsComponent } from './system-events/components/system-events/system-events.component';
-import { OnDemandHistoryComponent } from './on-demand-history/components/on-demand-history/on-demand-history.component';
-import { OnDemandMeasurementSettingsInfoComponent } from './on-demand-history/components/on-demand-measurement-settings-info/on-demand-measurement-settings-info.component';
-import { CompletedOnDemandComponent } from './on-demand-history/components/completed-on-demand/completed-on-demand.component';
 import { FiberizerCoreModule } from '../fiberizer-core/fiberizer-core.module';
 import { MonitoringHistoryComponent } from './monitoring-history/components/monitoring-history/monitoring-history.component';
 import { MonitoringResultComponent } from './monitoring-history/components/monitoring-result/monitoring-result.component';
@@ -40,11 +37,8 @@ import { InverseCdkScrollOffsetDirective } from './shared/inverse-rendered-offse
   declarations: [
     ReportingComponent,
     SystemEventsComponent,
-    OnDemandHistoryComponent,
     MonitoringHistoryComponent,
     MonitoringResultComponent,
-    OnDemandMeasurementSettingsInfoComponent,
-    CompletedOnDemandComponent,
     MonitoringHistoryFilterComponent,
     MonitoringChangeDetailsComponent,
     MonitoringChangeValueComponent,

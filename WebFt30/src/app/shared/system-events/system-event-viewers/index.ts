@@ -1,9 +1,6 @@
 export * from './system-event-viewer/system-event-viewer.component';
 export * from './default-system-event-viewer/default-system-event-viewer.component';
 
-export * from './on-demand-viewers/on-demand-completed-system-event-viewer.component';
-export * from './on-demand-viewers/on-demand-failed-system-event-viewer.component';
-
 export * from './baseline-viewers/baseline-completed-system-event-viewer.component';
 export * from './baseline-viewers/baseline-failed-system-event-viewer.component';
 

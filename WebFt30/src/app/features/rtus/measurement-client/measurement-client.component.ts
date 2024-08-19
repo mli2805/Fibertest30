@@ -1,32 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { LinkMapBase } from '@veex/link-map';
 import { SorTrace } from '@veex/sor';
-import {
-  catchError,
-  forkJoin,
-  merge,
-  mergeMap,
-  Observable,
-  of,
-  switchMap,
-  takeUntil,
-  tap
-} from 'rxjs';
-import {
-  AppState,
-  OnDemandActions,
-  OnDemandSelectors,
-  OtdrTaskProgress,
-  RtuTreeSelectors
-} from 'src/app/core';
+import { catchError, forkJoin, mergeMap, Observable, of, takeUntil, tap } from 'rxjs';
+import { AppState, RtuTreeSelectors } from 'src/app/core';
 import { ConvertUtils } from 'src/app/core/convert.utils';
 import { CoreUtils } from 'src/app/core/core.utils';
-import { ReportingService, RtuMgmtService } from 'src/app/core/grpc';
+import { RtuMgmtService } from 'src/app/core/grpc';
 import { RouterSelectors } from 'src/app/core/router/router.selectors';
-import { RouterStateUrl } from 'src/app/core/router/router.state';
 import {
   BranchOfAcceptableMeasParams,
   DistanceMeasParam,

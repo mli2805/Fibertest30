@@ -10,7 +10,6 @@ export * from './system-event-level';
 export * from './system-notification';
 export * from './user';
 export * from './role';
-export * from './completed-on-demand';
 export * from './otau';
 export * from './otau-port';
 export * from './otau-port-path';

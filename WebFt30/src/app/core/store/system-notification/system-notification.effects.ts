@@ -21,12 +21,10 @@ import { GlobalUiActions } from '../global-ui/global-ui.actions';
 import { MapUtils } from '../../map.utils';
 import { SystemNotification } from '../models';
 import { GrpcUtils } from '../../grpc/grpc.utils';
-import { OnDemandSelectors } from '../on-demand/on-demand.selectors';
 import { RouterSelectors } from '../../router/router.selectors';
 
 @Injectable()
 export class SystemNotificationEffects {
-  onDemandCompleted$ = this.store.select(OnDemandSelectors.selectCompleted);
   routerStateUrl$ = this.store.select(RouterSelectors.selectRouterStateUrl);
 
   getNotifications = createEffect(() =>
@@ -130,18 +128,6 @@ export class SystemNotificationEffects {
     this.actions$.pipe(
       ofType(SystemNotificationActions.getNotificationsFailure),
       map(({ error }) => GlobalUiActions.showError({ error }))
-    )
-  );
-
-  // The idea is not to show On-Demand completed notification if user is on /on-demand page
-  // or hide the notification when user navigates to the on-demand page
-  hideOnDemandNotification$ = createEffect(() =>
-    combineLatest([this.onDemandCompleted$, this.routerStateUrl$]).pipe(
-      filter(
-        ([onDemandCompleted, routerStateUrl]) =>
-          onDemandCompleted && routerStateUrl?.url === '/on-demand'
-      ),
-      map(() => SystemNotificationActions.hideOnDemandNotification())
     )
   );
 

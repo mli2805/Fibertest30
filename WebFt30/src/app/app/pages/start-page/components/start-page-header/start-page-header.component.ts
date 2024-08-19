@@ -9,7 +9,6 @@ import {
   AuthSelectors,
   SystemNotificationSelectors,
   GlobalUiActions,
-  OnDemandSelectors,
   AlarmNotificationSelectors,
   User,
   RolesSelectors
@@ -37,10 +36,8 @@ export class StartPageHeaderComponent {
       /^\/rfts-setup\/monitoring\/monitoring-profiles$/,
       { titleId: 'i18n.monitoring.monitoring-profiles' }
     ],
-    [/^\/on-demand$/, { titleId: 'i18n.start-page.on-demand' }],
     [/^\/reporting$/, { titleId: 'i18n.start-page.reporting' }],
     [/^\/reporting\/system-events$/, { titleId: 'i18n.page-title.system-events' }],
-    [/^\/reporting\/on-demand-history$/, { titleId: 'i18n.page-title.on-demand-history' }],
     [/^\/reporting\/monitoring-history$/, { titleId: 'i18n.page-title.monitoring-history' }],
     [/^\/reporting\/baseline-history$/, { titleId: 'i18n.page-title.baseline-history' }],
     [/^\/reporting\/alarm-view$/, { titleId: 'i18n.page-title.alarm-view' }],
@@ -72,12 +69,7 @@ export class StartPageHeaderComponent {
   currentUser$ = this.store.select(AuthSelectors.selectUser);
   routerStateUrl$ = this.store.select(RouterSelectors.selectRouterStateUrl);
   routeData$ = this.store.select(RouterSelectors.selectRouterData);
-  showOnDemandNotification$ = this.store.select(
-    SystemNotificationSelectors.selectShowOnDemandNotification
-  );
-  onDemandPending$ = this.store.select(OnDemandSelectors.selectPending);
-  onDemandRunning$ = this.store.select(OnDemandSelectors.selectRunning);
-  onDemandCompleted$ = this.store.select(OnDemandSelectors.selectCompleted);
+
   totalCountSystemNotifications$ = this.store.select(SystemNotificationSelectors.selectTotalCount);
   totalCountAlarmNotifications$ = this.store.select(AlarmNotificationSelectors.selectTotalCount);
 

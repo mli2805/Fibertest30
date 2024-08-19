@@ -4,16 +4,14 @@ import { RouterReducerState, routerReducer } from '@ngrx/router-store';
 import { AuthState } from './auth/auth.state';
 import { SettingsState } from './store/settings/settings.state';
 import { DeviceState } from './store/device/device.state';
-import { OnDemandState } from './store/on-demand/on-demand.state';
 import { RouterStateUrl } from './router/router.state';
 import { GlobalUiState } from './store/global-ui/global-ui.state';
 import { authReducer } from './auth/auth.reducer';
 import { settingsReducer } from './store/settings/settings.reducer';
 import { deviceReducer } from './store/device/device.reducer';
-import { onDemandReducer } from './store/on-demand/on-demand.reducer';
 import { globalUiReducer } from './store/global-ui/global-ui.reducer';
 import { environment } from 'src/environments/environment';
-import { initStateFromLocalStorage, onDemandErrorHook } from './meta-reducers';
+import { initStateFromLocalStorage } from './meta-reducers';
 import { UsersState } from './store/users/users.state';
 import { RolesState } from './store/roles/roles.state';
 import { usersReducer } from './store/users/users.reducer';
@@ -22,8 +20,6 @@ import { systemEventsReducer } from './store/system-events/system-events.reducer
 import { SystemNotificationState } from './store/system-notification/system-notification.state';
 import { systemNotificationReducer } from './store/system-notification/system-notification.reducer';
 import { rolesReducer } from './store/roles/roles.reduces';
-import { OnDemandHistoryState } from './store/on-demand-history/on-demand-history.state';
-import { onDemandHistoryReducer } from './store/on-demand-history/on-demand-history.reducer';
 import { OtausState } from './store/otaus/otaus.state';
 import { otausReducer } from './store/otaus/otaus.reducer';
 import { MonitoringPortState } from './store/monitoring/monitoring-port.state';
@@ -63,8 +59,6 @@ export interface AppState {
   auth: AuthState;
   settings: SettingsState;
   device: DeviceState;
-  onDemand: OnDemandState;
-  onDemandHistory: OnDemandHistoryState;
   monitoringHistory: MonitoringHistoryState;
   alarmEventsHistory: AlarmEventsState;
   users: UsersState;
@@ -95,8 +89,6 @@ export const reducers: ActionReducerMap<AppState> = {
   auth: authReducer,
   settings: settingsReducer,
   device: deviceReducer,
-  onDemand: onDemandReducer,
-  onDemandHistory: onDemandHistoryReducer,
   monitoringHistory: monitoringHistoryReducer,
   alarmEventsHistory: alarmEventsReducer,
   users: usersReducer,
@@ -123,17 +115,10 @@ export const reducers: ActionReducerMap<AppState> = {
   rtuMgmt: rtuMgmtReducer
 };
 
-// better to use Chrome's Redux DevTools plugin instead of 'debug' metaReducer
-export const metaReducers: MetaReducer<AppState>[] = !environment.production
-  ? [initStateFromLocalStorage, onDemandErrorHook /*, debug*/]
-  : [initStateFromLocalStorage, onDemandErrorHook];
-
 export const selectAuthState = (state: AppState) => state.auth;
 export const selectSettingsState = (state: AppState) => state.settings;
 export const selectRouterState = (state: AppState) => state.router;
 export const selectDeviceState = (state: AppState) => state.device;
-export const selectOnDemandState = (state: AppState) => state.onDemand;
-export const selectOnDemandHistoryState = (state: AppState) => state.onDemandHistory;
 export const selectMonitoringHistoryState = (state: AppState) => state.monitoringHistory;
 export const selectAlarmEventsHistory = (state: AppState) => state.alarmEventsHistory;
 export const selectUsersState = (state: AppState) => state.users;
