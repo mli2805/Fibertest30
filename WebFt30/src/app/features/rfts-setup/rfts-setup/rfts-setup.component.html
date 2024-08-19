@@ -6,12 +6,4 @@
 
 <div>
   <rtu-platform-card></rtu-platform-card>
-  <div class="m-2 flex grow flex-wrap content-start gap-2">
-    <ng-container *ngFor="let otau of otaus$ | async">
-      <rtu-otau-card
-        [otau]="otau"
-        [hasPermission]="hasOtauConfigurationPermission$ | async"
-      ></rtu-otau-card>
-    </ng-container>
-  </div>
 </div>

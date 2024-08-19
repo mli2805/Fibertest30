@@ -62,15 +62,6 @@ export class MonitoringPortEffects {
     )
   );
 
-  addOtauSuccess = createEffect(() =>
-    this.actions$.pipe(
-      ofType(OtausActions.addOtauSuccess),
-      mergeMap(({ otauId }) => {
-        return of(MonitoringPortActions.refreshOtauMonitoringPorts({ otauId }));
-      })
-    )
-  );
-
   refreshOtauMonitoringPorts = createEffect(() =>
     this.actions$.pipe(
       ofType(MonitoringPortActions.refreshOtauMonitoringPorts),

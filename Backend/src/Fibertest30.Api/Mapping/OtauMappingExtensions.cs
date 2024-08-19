@@ -52,17 +52,7 @@ public static class OtauMappingExtensions
         };
     }
 
-    public static Fibertest30.Application.OtauPatch FromProto(this OtauPatch patch)
-    {
-        return new Fibertest30.Application.OtauPatch(
-            patch.HasName ? patch.Name : null,
-            patch.HasLocation ? patch.Location : null,
-            patch.HasRack ? patch.Rack : null,
-            patch.HasShelf ? patch.Shelf : null,
-            patch.HasNote ? patch.Note : null
-        );
-    }
-
+  
     public static MonitoringPort ToProto(this Fibertest30.Application.MonitoringPort port)
     {
         var proto = new MonitoringPort

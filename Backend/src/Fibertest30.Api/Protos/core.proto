@@ -22,37 +22,7 @@ service Core {
   rpc DismissUserSystemNotification(DismissUserSystemNotificationRequest) returns (DismissUserSystemNotificationResponse);
   rpc DismissUserSystemNotificationsByLevel(DismissUserSystemNotificationsByLevelRequest) returns (DismissUserSystemNotificationsByLevelResponse);
   rpc DismissAllUserSystemNotifications(DismissAllUserSystemNotificationsRequest) returns (DismissAllUserSystemNotificationsResponse);
-  
-  rpc BlinkOsmOtau (BlinkOsmOtauRequest) returns (BlinkOtauResponse);
-  rpc BlinkOxcOtau (BlinkOxcOtauRequest) returns (BlinkOtauResponse);
-  rpc BlinkOtau (BlinkOtauRequest) returns (BlinkOtauResponse);
-  
-  rpc DiscoverOsmOtau (DiscoverOsmOtauRequest) returns (DiscoverOtauResponse);
-  rpc DiscoverOxcOtau (DiscoverOxcOtauRequest) returns (DiscoverOtauResponse);
-  rpc AddOsmOtau (AddOsmOtauRequest) returns (AddOsmOtauResponse);
-  rpc AddOxcOtau (AddOxcOtauRequest) returns (AddOxcOtauResponse);
-
-  rpc UpdateOtau (UpdateOtauRequest) returns (UpdateOtauResponse);
-  rpc GetOtau (GetOtauRequest) returns (GetOtauResponse);
-  rpc RemoveOtau (RemoveOtauRequest) returns (RemoveOtauResponse);
 }
-
-message OtauDiscover {
-  string serialNumber = 1;
-  int32 portCount = 2;
-}
-
-enum OtauDiscoverError {
-	NoError = 0;
-	OsmModuleNotFound = 1;
-	UnsupportedOsmModuleConnected = 2;
-}
-
-message OtauDiscoverResult {
-	optional OtauDiscover discover = 1;
-	OtauDiscoverError error = 2;
-}
-
 
 message OtauPort {
   int32 id = 1;
@@ -80,13 +50,6 @@ message Otau {
   repeated OtauPort ports = 15;
 }
 
-message OtauPatch {
-  optional string name = 1;
-  optional string location = 2;
-  optional string rack = 3;
-  optional string shelf = 4;
-  optional string note = 5;
-}
 
 // GetDeviceInfo
 
@@ -111,26 +74,6 @@ message DeviceInfoResponse {
 
   repeated rtu_tree.Rtu rtus = 15;
 }
-
-// GetOtau
-message GetOtauRequest{
-	int32 otauId = 1;
-}
-
-message GetOtauResponse{
-	Otau otau = 1;
-}
-
-// UpdateOtau
-message UpdateOtauRequest{
-	int32 otauId = 1;
-	OtauPatch patch = 2;
-}
-
-message UpdateOtauResponse {
-
-}
-
 
 message InAppSystemNotification {
   data.core.SystemEvent systemEvent = 1;
@@ -218,81 +161,6 @@ message GetSystemMessageStreamResponse {
       InAppSystemNotification systemNotification = 1;
       data.monitoring.MonitoringAlarmEvent alarmNotification = 2;
   }  
-}
-
-// RemoveOtau
-
-message RemoveOtauRequest {
-  int32 otauId = 1;
-}
-
-message RemoveOtauResponse {
-}
-
-
-// common for Discover
-
-message DiscoverOtauResponse {
-  OtauDiscoverResult discoverResult = 1;
-}
-
-
-// DiscoverOsmOtau
-
-message DiscoverOsmOtauRequest {
-  int32 chainAddress = 1;
-}
-
-// DiscoverOxcOtauRequest
-
-message DiscoverOxcOtauRequest {
-  string ipAddress = 1;
-  int32 port = 2;
-}
-
-// BlinkOtau
-
-message BlinkOtauRequest {
-  int32 otauId = 1;
-}
-
-message BlinkOtauResponse {
-  bool success = 1;
-}
-
-// BlinkOsmOtau
-
-message BlinkOsmOtauRequest {
-  int32 chainAddress = 1;
-}
-
-// BlinkOxcOtauRequest
-
-message BlinkOxcOtauRequest {
-  string ipAddress = 1;
-  int32 port = 2;
-}
-
-
-// AddOsmOtau
-
-message AddOsmOtauRequest {
-  int32 ocmPortIndex = 1;
-  int32 chainAddress = 2;
-}
-
-message AddOsmOtauResponse {
-}
-
-// AddOxcOtau
-
-message AddOxcOtauRequest {
-  int32 ocmPortIndex = 1;
-  string ipAddress = 2;
-  int32 port = 3;
-}
-
-message AddOxcOtauResponse {
 }
 
 

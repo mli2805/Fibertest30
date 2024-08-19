@@ -66,10 +66,7 @@ public class RtuContextInitializer
         await SeedMonitoringTimeSlots();
         await SeedEmptyNotificationSettings();
 
-        if (!string.IsNullOrEmpty(seedDemoOtaus))
-        {
-            await SeedDemoOtaus(seedDemoOtaus);
-        }
+       
 
         if (seedDemoUsers)
         {
@@ -255,47 +252,7 @@ public class RtuContextInitializer
         _context.NotificationSettings.Add(settings.ToEf());
     }
 
-      private async Task SeedDemoOtaus(string seemDemoOtaus) // "onlyOcm" or "all"
-    {
-        if (await _context.Otaus.AnyAsync())
-        {
-            return;
-        }
-
-        var ocmPortCount = 8;
-        await _otauRepository.AddOtau(OtauType.Ocm, OtauService.OcmOtauOcmPortIndex,
-            EmulatedController.GetSerialNumber(OtauType.Ocm, ocmPortCount), ocmPortCount,
-            new OcmOtauParameters());
-
-        if (seemDemoOtaus == "onlyOcm")
-        {
-            return;
-        }
-
-        foreach (var demoOtauOcmIndex in Enumerable.Range(1, 2))
-        {
-            var portCount = demoOtauOcmIndex * 2;
-            var otauId = await _otauRepository.AddOtau(OtauType.Osm, demoOtauOcmIndex,
-                EmulatedController.GetSerialNumber(OtauType.Osm, portCount),
-                portCount, new OsmOtauParameters(demoOtauOcmIndex));
-
-            await _otauRepository.UpdateOtau(otauId, new OtauPatch(
-                    (demoOtauOcmIndex == 1) ? "MySwitch" : "Another switch",
-                    "Nad Elektrarnou 411/5" + demoOtauOcmIndex,
-                    "BA-04-OPT-" + demoOtauOcmIndex,
-                    demoOtauOcmIndex == 1 ? "8" : "1",
-                    demoOtauOcmIndex == 1 ? "The same tray as RTU" : "TOR Switch")
-                , CancellationToken.None);
-        }
-
-        foreach (var demoOtauOcmIndex in Enumerable.Range(6, 2))
-        {
-            var portCount = demoOtauOcmIndex * 2;
-            await _otauRepository.AddOtau(OtauType.Oxc, demoOtauOcmIndex,
-                EmulatedController.GetSerialNumber(OtauType.Oxc, portCount),
-                portCount, new OxcOtauParameters($"192.168.0.{demoOtauOcmIndex}", 4001));
-        }
-    }
+     
 
     private void ThrowIfNotSucceed(IdentityResult result, string message)
     {

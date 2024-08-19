@@ -66,12 +66,7 @@ const reducer = createReducer(
     loading: false,
     errorMessageId
   })),
-  on(OtausActions.removeOtauSuccess, (state, { otauId }) => {
-    const idsToRemove = Object.values(state.entities)
-      .filter((x) => x?.otauId === otauId)
-      .map((x) => x!.id);
-    return MonitoringPortStateAdapter.removeMany(idsToRemove, state);
-  }),
+
   on(MonitoringPortActions.refreshOtauMonitoringPorts, (state) => ({
     ...state,
     loading: true

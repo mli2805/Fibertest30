@@ -107,32 +107,6 @@
         {{ 'i18n.platform-management.software-management' | translate }}
       </div>
     </div>
-
-    <div
-      class="available-action"
-      [routerLink]="['./otau-management']"
-      routerLinkActive
-      #rlaOsmManagement="routerLinkActive"
-      [ngClass]="rlaOsmManagement.isActive ? 'action-active' : 'action-non-active'"
-    >
-      <!-- prettier-ignore -->
-      <svg class="h-8 w-8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
-        <polygon fill="currentColor" points="4,36 4,28 7,28 7,25.094 7,24 4,24 4,16 7,16 7,15.094 7,12.5 4,12.5 4,4.5 7,4.5 7,2 5,2 5,0 0,0 0,40 5,40 5,38 7,38 7,36 	"/>
-        <path fill="currentColor" d="M16,6.5v4H6v-4H16 M17,5.5H5v6h12V5.5L17,5.5z"/>
-        <path fill="currentColor" d="M16,18v4H6v-4H16 M17,17H5v6h12V17L17,17z"/>
-        <path fill="currentColor" d="M16,30v4H6v-4H16 M17,29H5v6h12V29L17,29z"/>
-        <path fill="currentColor" d="M34,26v14h1V26c0-3.584-2.916-6.5-6.5-6.5H24v1h4.5C31.532,20.5,34,22.967,34,26z"/>
-        <path fill="currentColor" d="M39,16.5V40h1V16.5c0-4.687-3.813-8.5-8.5-8.5H24v1h7.5C35.636,9,39,12.364,39,16.5z"/>
-        <rect x="16.552" y="6.5" fill="currentColor" width="7.448" height="4"/>
-        <rect x="16.552" y="18" fill="currentColor" width="7.448" height="4"/>
-        <rect x="16.552" y="30" fill="currentColor" width="7.448" height="4"/>
-        <path fill="currentColor" d="M28.766,36v4h1v-4c0-2.481-2.019-4.5-4.5-4.5H24v1h1.266C27.195,32.5,28.766,34.07,28.766,36z"/>
-      </svg>
-      <div class="my-auto text-center text-xs">
-        {{ 'i18n.platform-management.otau-management' | translate }}
-      </div>
-    </div>
   </div>
   <div class="flex flex-1">
     <router-outlet></router-outlet>

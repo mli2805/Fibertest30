@@ -6,7 +6,6 @@ import { PlatformManagementComponent } from './components/platform-management/pl
 import { DummyComponent } from 'src/app/shared/components/dummy/dummy.component';
 import { UserAccountsComponent } from './components/platform-management/user-accounts/user-accounts.component';
 import { RolesResolver } from 'src/app/app/pages/start-page/components/guards';
-import { OtauManagementComponent } from './components/platform-management/otau-management/otau-management.component';
 import { NotificationSettingsComponent } from './components/platform-management/notification-settings/notification-settings.component';
 import { SystemSettingsComponent } from './components/platform-management/system-settings/system-settings.component';
 
@@ -59,14 +58,6 @@ export const routes: Routes = [
       {
         path: 'software-management',
         component: DummyComponent,
-        pathMatch: 'full',
-        data: {
-          navigateToParent: 2
-        }
-      },
-      {
-        path: 'otau-management',
-        component: OtauManagementComponent,
         pathMatch: 'full',
         data: {
           navigateToParent: 2

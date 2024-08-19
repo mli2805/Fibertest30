@@ -95,37 +95,10 @@ try
     }
 
 
-    Log.Information("Initialize Otaus..");
-    var otauService = app.Services.GetRequiredService<IOtauService>();
-    await otauService.Initialize(CancellationToken.None);
+  
 
-
-    Log.Information("Initialize Monitoring..");
-    var monitoringService = app.Services.GetRequiredService<IMonitoringService>();
-
-    // set circular dependency
-    monitoringService.SetOtauService(otauService);
-    otauService.SetMonitoringService(monitoringService);
-
-    await monitoringService.StartMonitoring(CancellationToken.None);
-
-
-    Log.Information("Start Pinging Otaus..");
-    // start pinging otau after monitoringService is initialized
-    otauService.StartPingingOtaus(CancellationToken.None);
-
-    //Log.Information("Run debug code..");
-    //using (var scope = app.Services.CreateScope())
-    //{
-    //    var mediatr = scope.ServiceProvider.GetRequiredService<ISender>();
-
-    //    var before = await mediatr.Send(new GetSamplePeopleQuery());
-
-    //    await mediatr.Send(new CreateSamplePersonCommand(Guid.NewGuid(),"Sue","Storm"));
-
-    //    var after = await mediatr.Send(new GetSamplePeopleQuery());
-    //}
-
+ 
+  
 
     app.UseRouting();
     app.UseGrpcWeb(); // Must be added between UseRouting and UseEndpoints

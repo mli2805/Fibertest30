@@ -26,4 +26,8 @@
     <ProjectReference Include="..\Fibertest30.TestUtils\Fibertest30.TestUtils.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Persistence\Otau\" />
+  </ItemGroup>
+
 </Project>

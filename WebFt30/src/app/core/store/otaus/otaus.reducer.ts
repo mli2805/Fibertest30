@@ -49,16 +49,6 @@ const reducer = createReducer(
       return state;
     }
   ),
-  on(OtausActions.updateOtau, (state) => ({
-    ...state,
-    loading: true,
-    errorMessageId: null
-  })),
-  on(OtausActions.updateOtauFailure, (state, { errorMessageId }) => ({
-    ...state,
-    loading: false,
-    errorMessageId
-  })),
 
   on(OtausActions.getOtau, (state) => ({
     ...state,
@@ -74,51 +64,6 @@ const reducer = createReducer(
     );
   }),
   on(OtausActions.getOtauFailure, (state, { errorMessageId }) => ({
-    ...state,
-    loading: false,
-    errorMessageId
-  })),
-
-  on(OtausActions.getCreatedOtau, (state) => ({
-    ...state,
-    loading: true
-  })),
-  on(OtausActions.getCreatedOtauSuccess, (state, { otau }) => {
-    return OtausStateAdapter.addOne(otau, {
-      ...state,
-      loading: false
-    });
-  }),
-  on(OtausActions.getCreatedOtauFailure, (state, { errorMessageId }) => ({
-    ...state,
-    loading: false,
-    errorMessageId
-  })),
-
-  on(OtausActions.removeOtau, (state) => ({
-    ...state,
-    loading: true
-  })),
-  on(OtausActions.removeOtauSuccess, (state, { otauId }) => {
-    return OtausStateAdapter.removeOne(otauId, { ...state, loading: false });
-  }),
-
-  on(OtausActions.removeOtauFailure, (state, { errorMessageId }) => ({
-    ...state,
-    loading: false,
-    errorMessageId
-  })),
-
-  on(OtausActions.addOsmOtau, (state) => ({
-    ...state,
-    loading: true
-  })),
-  on(OtausActions.addOxcOtau, (state) => ({
-    ...state,
-    loading: true
-  })),
-
-  on(OtausActions.addOtauFailure, (state, { errorMessageId }) => ({
     ...state,
     loading: false,
     errorMessageId

@@ -60,7 +60,7 @@ public class MonitoringPortRepository : IMonitoringPortRepository
             }
             
             // if trying to enable monitoring on OCM port
-            if (status == MonitoringPortStatus.On && portEf.OtauPort.OtauId == OtauService.OcmOtauId)
+            if (status == MonitoringPortStatus.On )
             {
                 var cascadeOtau = await _rtuContext.Otaus.SingleOrDefaultAsync(x => x.OcmPortIndex == portEf.OtauPort.PortIndex, ct);
                 if (cascadeOtau != null)

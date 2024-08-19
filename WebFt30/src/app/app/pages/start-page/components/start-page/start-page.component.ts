@@ -244,16 +244,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         this.store.dispatch(UsersActions.deleteUserSuccess({ userId: data.UserId }));
         return;
       }
-      case 'OtauChanged': {
-        const data = <OtauChangedData>JSON.parse(systemEvent.jsonData);
-        this.store.dispatch(OtausActions.updateOtauSuccess({ otauId: data.OtauId }));
-        return;
-      }
-      case 'OtauInformationChanged': {
-        const data = <OtauInformationChangedData>JSON.parse(systemEvent.jsonData);
-        this.store.dispatch(OtausActions.updateOtauSuccess({ otauId: data.OtauId }));
-        return;
-      }
+
       case 'OtauConnectionStatusChanged': {
         const data = <OtauConnectionStatusChangedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(
@@ -266,16 +257,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         );
         return;
       }
-      case 'OtauRemoved': {
-        const data = <OtauRemovedData>JSON.parse(systemEvent.jsonData);
-        this.store.dispatch(OtausActions.removeOtauSuccess({ otauId: data.OtauId }));
-        return;
-      }
-      case 'OtauAdded': {
-        const data = <OtauAddedData>JSON.parse(systemEvent.jsonData);
-        this.store.dispatch(OtausActions.addOtauSuccess({ otauId: data.OtauId }));
-        return;
-      }
+
       case 'MonitoringPortStatusChanged': {
         const data = <MonitoringPortStatusChangedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(

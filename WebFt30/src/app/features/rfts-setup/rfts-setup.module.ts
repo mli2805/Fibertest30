@@ -9,13 +9,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { UserAccountsComponent } from './components/platform-management/user-accounts/user-accounts.component';
 import { UserPlusComponent } from './components/platform-management/user-accounts/components/user-plus/user-plus.component';
 import { UserEditDialogComponent } from './components/platform-management/user-accounts/components/user-edit-dialog/user-edit-dialog.component';
-import { OtauCardComponent } from './rfts-setup/otau-card/otau-card.component';
 import { InputByPencilComponent } from '../../shared/components/input-by-pencil/input-by-pencil.component';
-import { OtauManagementComponent } from './components/platform-management/otau-management/otau-management.component';
-import { BinarySwitchFigureComponent } from './components/platform-management/otau-management/components/binary-switch-figure/binary-switch-figure.component';
-import { AddOtauDialogComponent } from './components/platform-management/otau-management/components/add-otau-dialog/add-otau-dialog.component';
-import { OxcAddressInputComponent } from './components/platform-management/otau-management/components/oxc-address-input/oxc-address-input.component';
-import { BlinkOtauComponent } from './components/platform-management/otau-management/components/blink-otau/blink-otau.component';
 import { NotificationSettingsComponent } from './components/platform-management/notification-settings/notification-settings.component';
 import { EmailNotificationSettingsComponent } from './components/platform-management/notification-settings/components/email-notification-settings/email-notification-settings.component';
 import { SyslogNotificationSettingsComponent } from './components/platform-management/notification-settings/components/syslog-notification-settings/syslog-notification-settings.component';
@@ -40,14 +34,8 @@ import { TimeZoneComponent } from './components/platform-management/system-setti
     UserAccountsComponent,
     UserPlusComponent,
     UserEditDialogComponent,
-    OtauCardComponent,
     InputByPencilComponent,
     InputPasswordWithEyeComponent,
-    OtauManagementComponent,
-    BinarySwitchFigureComponent,
-    AddOtauDialogComponent,
-    OxcAddressInputComponent,
-    BlinkOtauComponent,
     NotificationSettingsComponent,
     EmailNotificationSettingsComponent,
     SyslogNotificationSettingsComponent,

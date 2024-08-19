@@ -27,53 +27,6 @@ export class CoreService {
     return GrpcUtils.unaryToObservable(this.client.getDeviceInfo.bind(this.client), request, {});
   }
 
-  updateOtau(otauId: number, patch: grpc.OtauPatch): Observable<grpc.UpdateOtauResponse> {
-    const request: grpc.UpdateOtauRequest = {
-      otauId,
-      patch
-    };
-    return GrpcUtils.unaryToObservable(this.client.updateOtau.bind(this.client), request, {});
-  }
-
-  getOtau(otauId: number): Observable<grpc.GetOtauResponse> {
-    const request: grpc.GetOtauRequest = { otauId };
-    return GrpcUtils.unaryToObservable(this.client.getOtau.bind(this.client), request, {});
-  }
-
-  removeOtau(otauId: number): Observable<grpc.RemoveOtauResponse> {
-    const request: grpc.RemoveOtauRequest = { otauId };
-    return GrpcUtils.unaryToObservable(this.client.removeOtau.bind(this.client), request, {});
-  }
-
-  addOsmOtau(ocmPortIndex: number, chainAddress: number): Observable<grpc.AddOsmOtauResponse> {
-    const request: grpc.AddOsmOtauRequest = { ocmPortIndex, chainAddress };
-    return GrpcUtils.unaryToObservable(this.client.addOsmOtau.bind(this.client), request, {});
-  }
-
-  addOxcOtau(
-    ocmPortIndex: number,
-    ipAddress: string,
-    port: number
-  ): Observable<grpc.AddOxcOtauResponse> {
-    const request: grpc.AddOxcOtauRequest = { ocmPortIndex, ipAddress, port };
-    return GrpcUtils.unaryToObservable(this.client.addOxcOtau.bind(this.client), request, {});
-  }
-
-  blinkOtau(otauId: number): Observable<grpc.BlinkOtauResponse> {
-    const request: grpc.BlinkOtauRequest = { otauId };
-    return GrpcUtils.unaryToObservable(this.client.blinkOtau.bind(this.client), request, {});
-  }
-
-  discoverOsmOtau(chainAddress: number): Observable<grpc.DiscoverOtauResponse> {
-    const request: grpc.DiscoverOsmOtauRequest = { chainAddress };
-    return GrpcUtils.unaryToObservable(this.client.discoverOsmOtau.bind(this.client), request, {});
-  }
-
-  discoverOxcOtau(ipAddress: string, port: number): Observable<grpc.DiscoverOtauResponse> {
-    const request: grpc.DiscoverOxcOtauRequest = { ipAddress, port };
-    return GrpcUtils.unaryToObservable(this.client.discoverOxcOtau.bind(this.client), request, {});
-  }
-
   getUserSystemNotifications(): Observable<grpc.GetUserSystemNotificationsResponse> {
     const request: grpc.GetUserSystemNotificationsRequest = {};
     return GrpcUtils.unaryToObservable(

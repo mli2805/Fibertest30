@@ -37,7 +37,6 @@ import { TimezoneUtils } from 'src/app/core/timezone.utils';
 
 import { Timestamp } from 'src/grpc-generated/google/protobuf/timestamp';
 import { ApplicationUserPatch } from '../features/rfts-setup/components/platform-management/user-accounts/components/user-edit-dialog/application-user-patch';
-import { OtauPatch } from '../features/rfts-setup/rfts-setup/otau-card/otau-patch';
 import { OtauDiscover, OtauDiscoverError, OtauDiscoverResult } from './store/models/otau-discover';
 import { OtdrTaskProgressData } from '../shared/system-events/system-event-data';
 import { MonitoringSchedule } from './store/models/monitoring-schedule';
@@ -259,16 +258,6 @@ export class MapUtils {
       email: patch.email,
       phoneNumber: patch.phoneNumber,
       password: patch.password
-    };
-  }
-
-  static toGrpcOtauPatch(patch: OtauPatch): grpc.OtauPatch {
-    return {
-      name: patch.name,
-      location: patch.location,
-      rack: patch.rack,
-      shelf: patch.shelf,
-      note: patch.note
     };
   }
 
@@ -769,24 +758,6 @@ export class MapUtils {
     time.hour = grpcTime.hour;
     time.minute = grpcTime.minute;
     return time;
-  }
-
-  private static toDiscoverOtau(grpcDiscoverOtau: grpc.OtauDiscover): OtauDiscover {
-    const otauDiscover = new OtauDiscover();
-    otauDiscover.serialNumber = grpcDiscoverOtau.serialNumber;
-    otauDiscover.portCount = grpcDiscoverOtau.portCount;
-    return otauDiscover;
-  }
-
-  static toOtauDiscoverResult(grpcDiscoverOtauResult: grpc.OtauDiscoverResult): OtauDiscoverResult {
-    const otauDiscoverResult = new OtauDiscoverResult();
-    if (grpcDiscoverOtauResult.discover === undefined) {
-      otauDiscoverResult.discover = null;
-    } else {
-      otauDiscoverResult.discover = this.toDiscoverOtau(grpcDiscoverOtauResult.discover);
-    }
-    otauDiscoverResult.error = grpcDiscoverOtauResult.error;
-    return otauDiscoverResult;
   }
 
   static toPortLabel(grpcPortLabel: grpc.PortLabel): PortLabel {
