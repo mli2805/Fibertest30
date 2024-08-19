@@ -14,11 +14,6 @@ service Reporting {
   rpc GetAllAlarms (GetAllAlarmsRequest) returns (GetAllAlarmsResponse);
   rpc GetSystemEvents (GetSystemEventsRequest) returns (GetSystemEventsResponse);
   
-  rpc GetOnDemands (GetOnDemandsRequest) returns (GetOnDemandsResponse);
-  rpc GetOnDemand(GetOnDemandRequest) returns (GetOnDemandResponse);
-  rpc GetOnDemandTrace(GetOnDemandTraceRequest) returns (GetOnDemandTraceResponse);
-  rpc GetOnDemandLinkmap(GetOnDemandLinkmapRequest) returns (GetOnDemandLinkmapResponse);
-
   rpc GetMonitorings (GetMonitoringsRequest) returns (GetMonitoringsResponse);
   rpc GetMonitoring(GetMonitoringRequest) returns (GetMonitoringResponse);
   rpc GetMonitoringTrace(GetMonitoringTraceRequest) returns (GetMonitoringTraceResponse);
@@ -74,56 +69,6 @@ message GetSystemEventsRequest {
 
 message GetSystemEventsResponse {
     repeated data.core.SystemEvent systemEvents = 1;
-}
-
-// GetOnDemands
-
-message CompletedOnDemand {
-  string id = 1;
-  string CreatedByUserId = 2;
-  google.protobuf.Timestamp completedAt = 3;
-  int32 monitoringPortId = 4;
-  data.otdr.MeasurementSettings measurementSettings = 5;
-}
-
-message GetOnDemandsRequest {
-    repeated int32 monitoringPortIds = 1;
-}
-
-message GetOnDemandsResponse {
-    repeated CompletedOnDemand onDemands = 1;
-}
-
-// GetOnDemand
-
-message GetOnDemandRequest {
-  string onDemandId = 1;
-}
-
-message GetOnDemandResponse {
-  CompletedOnDemand onDemand = 1;
-}
-
-// GetOnDemandTrace
-
-message GetOnDemandTraceRequest {
-  string onDemandId = 1;
-  bool vxsorFormat = 2;
-}
-
-message GetOnDemandTraceResponse {
-  bytes sor = 1;
-}
-
-// GetOnDemandLinkmap
-
-message GetOnDemandLinkmapRequest {
-  string onDemandId = 1;
-  double macrobendThreshold = 2;
-}
-
-message GetOnDemandLinkmapResponse {
-  bytes lmap = 1;
 }
 
 // GetMonitorings

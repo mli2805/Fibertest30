@@ -18,7 +18,6 @@ public static class ApplicationDefaultPermissions
 
 
         AddPermission(P.ConfigureOtau);
-        AddPermission(P.PerformOnDemandTest, R.User);
         AddPermission(P.SetupMonitoringThresholds, R.User);
         AddPermission(P.HandleAlarm, R.User);
         AddPermission(P.ViewDataLog, R.User, R.Viewer);

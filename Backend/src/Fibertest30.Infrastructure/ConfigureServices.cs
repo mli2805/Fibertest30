@@ -77,7 +77,6 @@ public static class ConfigureServices
         services.AddScoped<IUsersRepository, UsersRepository>();
         services.AddScoped<INotificationRepository, NotificationRepository>();
         services.AddScoped<IUserSettingsRepository, UserSettingsRepository>();
-        services.AddScoped<IOnDemandRepository, OnDemandRepository>();
         services.AddScoped<IMonitoringRepository, MonitoringRepository>();
         services.AddScoped<IBaselineRepository, BaselineRepository>();
         services.AddScoped<INotificationSettingsRepository, NotificationSettingsRepository>();

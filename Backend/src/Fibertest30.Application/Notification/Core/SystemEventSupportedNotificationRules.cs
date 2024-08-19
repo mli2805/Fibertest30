@@ -7,14 +7,7 @@ public static class SystemEventSupportedNotificationRules
     public static IReadOnlyDictionary<SystemEventType, IReadOnlyDictionary<NotificationChannel, NotificationTarget>> Map { get; }
         = new Dictionary<SystemEventType, IReadOnlyDictionary<NotificationChannel, NotificationTarget>>()
     {
-        {
-            SystemEventType.OnDemandFailed,
-            Rules()
-        },
-        {
-            SystemEventType.OnDemandCompleted,
-            Rules(Rule(NotificationChannel.InApp, NotificationTarget.Others))
-        },
+       
         {
             SystemEventType.UserChanged,
             Rules(

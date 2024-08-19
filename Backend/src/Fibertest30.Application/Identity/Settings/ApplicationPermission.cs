@@ -4,7 +4,6 @@ public enum ApplicationPermission
 {
     ChangeRtuSettings,
     ConfigureOtau,
-    PerformOnDemandTest,
     SetupMonitoringThresholds,
     HandleAlarm,
     ViewDataLog,

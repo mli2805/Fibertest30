@@ -67,13 +67,7 @@ public class ExceptionInterceptor : Interceptor
             message = "UnauthorizedAccess";
         }
 
-        if (ex is OnDemandAlreadyStartedException)
-        {
-            statusCode = StatusCode.FailedPrecondition;
-            message = "OnDemandAlreadyStarted";
-        }
-
-     
+    
         if (ex is BaselineAlreadyStartedException)
         {
             statusCode = StatusCode.FailedPrecondition;

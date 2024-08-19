@@ -27,37 +27,6 @@ export class ReportingService {
     return GrpcUtils.unaryToObservable(this.client.getSystemEvents.bind(this.client), request, {});
   }
 
-  getOnDemands(monitoringPortIds: number[]): Observable<gprc.GetOnDemandsResponse> {
-    const request: gprc.GetOnDemandsRequest = { monitoringPortIds };
-    return GrpcUtils.unaryToObservable(this.client.getOnDemands.bind(this.client), request, {});
-  }
-
-  getOnDemand(onDemandId: string): Observable<gprc.GetOnDemandResponse> {
-    const request: gprc.GetOnDemandRequest = { onDemandId };
-    return GrpcUtils.unaryToObservable(this.client.getOnDemand.bind(this.client), request, {});
-  }
-
-  getOnDemandTrace(
-    onDemandId: string,
-    vxsorFormat = true
-  ): Observable<gprc.GetOnDemandTraceResponse> {
-    const request: gprc.GetOnDemandTraceRequest = { onDemandId, vxsorFormat };
-    return GrpcUtils.unaryToObservable(this.client.getOnDemandTrace.bind(this.client), request, {});
-  }
-
-  getOnDemandLinkmap(onDemandId: string): Observable<gprc.GetOnDemandLinkmapResponse> {
-    const defaultMacrobendThreshold = 0.2;
-    const request: gprc.GetOnDemandLinkmapRequest = {
-      onDemandId,
-      macrobendThreshold: defaultMacrobendThreshold
-    };
-    return GrpcUtils.unaryToObservable(
-      this.client.getOnDemandLinkmap.bind(this.client),
-      request,
-      {}
-    );
-  }
-
   getMonitorings(
     since: Date | null,
     monitoringPortIds: number[],

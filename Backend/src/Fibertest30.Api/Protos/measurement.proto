@@ -7,9 +7,6 @@ package fibertest30.measurement;
 
 service Measurement {
   rpc GetSorSample (GetSorSampleRequest) returns (GetSorSampleResponse);
-  rpc StartOnDemand (StartOnDemandRequest) returns (StartOnDemandResponse);
-  rpc GetOnDemandProgressTrace(GetOnDemandProgressTraceRequest) returns (GetOnDemandProgressTraceResponse);
-  rpc StopOnDemand (StopOnDemandRequest) returns (StopOnDemandResponse);
   
   rpc SetMonitoringPortStatus(SetMonitoringPortStatusRequest) returns (SetMonitoringPortStatusResponse);
   rpc GetMonitoringPort(GetMonitoringPortRequest) returns (GetMonitoringPortResponse);
@@ -40,34 +37,6 @@ message GetSorSampleRequest {
 
 message GetSorSampleResponse {
   bytes sor = 1;
-}
-
-// StartOnDemand
-
-message StartOnDemandRequest {
-  int32 monitoringPortId = 1;
-  data.otdr.MeasurementSettings measurementSettings = 2;
-}
-
-message StartOnDemandResponse {
-  string onDemandId = 1;
-}
-
-//  GetOnDemandProgressTrace
-message GetOnDemandProgressTraceRequest {
-  string onDemandId = 1;
-}
-
-message GetOnDemandProgressTraceResponse {
-  bytes sor = 1;
-}
-
-// StopOnDemand
-message StopOnDemandRequest {
-  string onDemandId = 1;
-}
-
-message StopOnDemandResponse {
 }
 
 // SetMonitoringPortStatus

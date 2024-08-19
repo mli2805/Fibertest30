@@ -27,62 +27,7 @@ public class ReportingService : Reporting.ReportingBase
         return response;
     }
 
-    public override async Task<GetOnDemandsResponse> GetOnDemands(GetOnDemandsRequest request, ServerCallContext context)
-    {
-        var onDemands = await _mediator.Send(
-            new GetOnDemandsQuery(request.MonitoringPortIds.ToList()),
-            context.CancellationToken);
-
-        var response = new GetOnDemandsResponse()
-        {
-            OnDemands =  { onDemands.Select(x => x.ToProto()) }
-        };
-        
-        return response;
-    }
-
-    public override async Task<GetOnDemandResponse> GetOnDemand(GetOnDemandRequest request, ServerCallContext context)
-    {
-        var onDemand = await _mediator.Send(
-            new GetOnDemandQuery(request.OnDemandId),
-            context.CancellationToken);
-
-        var response = new GetOnDemandResponse()
-        {
-            OnDemand =  onDemand.ToProto()
-        };
-        
-        return response;
-    }
-
-    public override async Task<GetOnDemandTraceResponse> GetOnDemandTrace(GetOnDemandTraceRequest request, ServerCallContext context)
-    {
-        var trace = await _mediator.Send(
-            new GetCompletedOnDemandTraceQuery(request.OnDemandId),
-            context.CancellationToken);
-        
-        return new GetOnDemandTraceResponse()
-        {
-            Sor = ProtoUtils.MeasurementTraceToSorByteString(trace, request.VxsorFormat)
-        };
-    }
-
-    public override async Task<GetOnDemandLinkmapResponse> GetOnDemandLinkmap(GetOnDemandLinkmapRequest request, ServerCallContext context)
-    {
-        var lmapBytes = await _mediator.Send(
-            new GetCompletedOnDemandLinkmapQuery(request.OnDemandId, request.MacrobendThreshold),
-            context.CancellationToken);
-
-        if (lmapBytes == null)
-        {
-            return new GetOnDemandLinkmapResponse();
-        }
-        return new GetOnDemandLinkmapResponse
-        {
-            Lmap = ByteString.CopyFrom(lmapBytes)
-        };
-    }
-    
+  
     public override async Task<GetMonitoringsResponse> GetMonitorings(GetMonitoringsRequest request, ServerCallContext context)
     {
         var monitorings = await _mediator.Send(

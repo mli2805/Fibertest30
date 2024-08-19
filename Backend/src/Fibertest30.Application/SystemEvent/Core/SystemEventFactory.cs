@@ -6,22 +6,7 @@ namespace Fibertest30.Application;
 // is to create SystemEvent objects with the correct data & level
 public static class SystemEventFactory
 {
-    public static SystemEvent OnDemandFailed(string userId, string onDemandId, int monitoringPortId, string failReason)
-    {
-        return new SystemEvent(SystemEventType.OnDemandFailed,
-            SystemEventLevel.Info,
-            new OnDemandFailedData(onDemandId, monitoringPortId, failReason),
-            SystemEventSource.FromUser(userId));
-    }
-
-    public static SystemEvent OnDemandCompleted(string userId, string onDemandId, int monitoringPortId)
-    {
-        return new SystemEvent(SystemEventType.OnDemandCompleted,
-            SystemEventLevel.Info,
-            new OnDemandCompletedData(onDemandId, monitoringPortId),
-            SystemEventSource.FromUser(userId));
-    }
-
+   
     public static SystemEvent BaselineFailed(string userId, string taskId, int monitoringPortId, string failReason)
     {
         return new SystemEvent(SystemEventType.BaselineFailed,

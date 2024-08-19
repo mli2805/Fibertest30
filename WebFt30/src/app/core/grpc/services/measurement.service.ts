@@ -22,32 +22,6 @@ export class MeasurementService {
     this.client = new grpc.MeasurementClient(transport);
   }
 
-  startOnDemand(
-    monitoringPortId: number,
-    measurementSettings: MeasurementSettings
-  ): Observable<grpc.StartOnDemandResponse> {
-    const gprcMeasurementSettings = MapUtils.toGrpcMeasurementSettings(measurementSettings);
-    const request: grpc.StartOnDemandRequest = {
-      monitoringPortId,
-      measurementSettings: gprcMeasurementSettings
-    };
-    return GrpcUtils.unaryToObservable(this.client.startOnDemand.bind(this.client), request, {});
-  }
-
-  stopOnDemand(onDemandId: string): Observable<grpc.StopOnDemandResponse> {
-    const request: grpc.StopOnDemandRequest = { onDemandId };
-    return GrpcUtils.unaryToObservable(this.client.stopOnDemand.bind(this.client), request, {});
-  }
-
-  getOnDemandProgressTrace(onDemandId: string): Observable<grpc.GetOnDemandProgressTraceResponse> {
-    const request: grpc.GetOnDemandProgressTraceRequest = { onDemandId };
-    return GrpcUtils.unaryToObservable(
-      this.client.getOnDemandProgressTrace.bind(this.client),
-      request,
-      {}
-    );
-  }
-
   setPortStatus(
     monitoringPortId: number,
     status: grpc.MonitoringPortStatus

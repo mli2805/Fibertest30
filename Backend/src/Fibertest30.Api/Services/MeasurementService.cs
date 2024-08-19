@@ -17,41 +17,6 @@ public class MeasurementService : Measurement.MeasurementBase
         _mediator = mediator;
     }
 
-    public override async Task<StartOnDemandResponse> StartOnDemand(StartOnDemandRequest request, ServerCallContext context)
-    {
-        var measurementSettings = request.MeasurementSettings.FromProto();
-        var onDemandId = await _mediator.Send(
-            new StartOnDemandCommand(request.MonitoringPortId, measurementSettings),
-            context.CancellationToken);
-
-        return new StartOnDemandResponse { OnDemandId = onDemandId };
-    }
-
-    public override async Task<StopOnDemandResponse> StopOnDemand(StopOnDemandRequest request, ServerCallContext context)
-    {
-        await _mediator.Send(
-            new StopOnDemandCommand(request.OnDemandId),
-            context.CancellationToken);
-
-        return new StopOnDemandResponse();
-    }
-
-    public override async Task<GetOnDemandProgressTraceResponse>
-        GetOnDemandProgressTrace(GetOnDemandProgressTraceRequest request, ServerCallContext context)
-    {
-        var trace = await _mediator.Send(
-            new GetOnDemandProgressTraceQuery(request.OnDemandId),
-            context.CancellationToken);
-
-        var response = new GetOnDemandProgressTraceResponse();
-        if (trace != null)
-        {
-            response.Sor = ProtoUtils.MeasurementTraceToSorByteString(trace);
-        }
-
-        return response;
-    }
-
     public override Task<GetSorSampleResponse> GetSorSample(GetSorSampleRequest request, ServerCallContext context)
     {
         var sorBytes = File.ReadAllBytes(@"assets\samples\dr_sample_1310.sor");

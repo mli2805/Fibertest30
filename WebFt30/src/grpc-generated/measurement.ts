@@ -8,10 +8,10 @@ import { NetworkSettings } from "./data.core";
 import { TrapReceiver } from "./data.core";
 import { EmailServer } from "./data.core";
 import { NotificationSettings } from "./data.core";
+import { MeasurementSettings } from "./data.otdr";
 import { MonitoringPort } from "./data.core";
 import { MonitoringSchedule } from "./data.core";
 import { MonitoringPortStatus } from "./data.core";
-import { MeasurementSettings } from "./data.otdr";
 /**
  * @generated from protobuf message fibertest30.measurement.GetSorSampleRequest
  */
@@ -25,66 +25,6 @@ export interface GetSorSampleResponse {
      * @generated from protobuf field: bytes sor = 1;
      */
     sor: Uint8Array;
-}
-// StartOnDemand
-
-/**
- * @generated from protobuf message fibertest30.measurement.StartOnDemandRequest
- */
-export interface StartOnDemandRequest {
-    /**
-     * @generated from protobuf field: int32 monitoringPortId = 1;
-     */
-    monitoringPortId: number;
-    /**
-     * @generated from protobuf field: fibertest30.data.otdr.MeasurementSettings measurementSettings = 2;
-     */
-    measurementSettings?: MeasurementSettings;
-}
-/**
- * @generated from protobuf message fibertest30.measurement.StartOnDemandResponse
- */
-export interface StartOnDemandResponse {
-    /**
-     * @generated from protobuf field: string onDemandId = 1;
-     */
-    onDemandId: string;
-}
-/**
- *  GetOnDemandProgressTrace
- *
- * @generated from protobuf message fibertest30.measurement.GetOnDemandProgressTraceRequest
- */
-export interface GetOnDemandProgressTraceRequest {
-    /**
-     * @generated from protobuf field: string onDemandId = 1;
-     */
-    onDemandId: string;
-}
-/**
- * @generated from protobuf message fibertest30.measurement.GetOnDemandProgressTraceResponse
- */
-export interface GetOnDemandProgressTraceResponse {
-    /**
-     * @generated from protobuf field: bytes sor = 1;
-     */
-    sor: Uint8Array;
-}
-/**
- * StopOnDemand
- *
- * @generated from protobuf message fibertest30.measurement.StopOnDemandRequest
- */
-export interface StopOnDemandRequest {
-    /**
-     * @generated from protobuf field: string onDemandId = 1;
-     */
-    onDemandId: string;
-}
-/**
- * @generated from protobuf message fibertest30.measurement.StopOnDemandResponse
- */
-export interface StopOnDemandResponse {
 }
 /**
  * SetMonitoringPortStatus
@@ -403,77 +343,6 @@ class GetSorSampleResponse$Type extends MessageType<GetSorSampleResponse> {
  * @generated MessageType for protobuf message fibertest30.measurement.GetSorSampleResponse
  */
 export const GetSorSampleResponse = new GetSorSampleResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class StartOnDemandRequest$Type extends MessageType<StartOnDemandRequest> {
-    constructor() {
-        super("fibertest30.measurement.StartOnDemandRequest", [
-            { no: 1, name: "monitoringPortId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "measurementSettings", kind: "message", T: () => MeasurementSettings }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.measurement.StartOnDemandRequest
- */
-export const StartOnDemandRequest = new StartOnDemandRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class StartOnDemandResponse$Type extends MessageType<StartOnDemandResponse> {
-    constructor() {
-        super("fibertest30.measurement.StartOnDemandResponse", [
-            { no: 1, name: "onDemandId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.measurement.StartOnDemandResponse
- */
-export const StartOnDemandResponse = new StartOnDemandResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetOnDemandProgressTraceRequest$Type extends MessageType<GetOnDemandProgressTraceRequest> {
-    constructor() {
-        super("fibertest30.measurement.GetOnDemandProgressTraceRequest", [
-            { no: 1, name: "onDemandId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.measurement.GetOnDemandProgressTraceRequest
- */
-export const GetOnDemandProgressTraceRequest = new GetOnDemandProgressTraceRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetOnDemandProgressTraceResponse$Type extends MessageType<GetOnDemandProgressTraceResponse> {
-    constructor() {
-        super("fibertest30.measurement.GetOnDemandProgressTraceResponse", [
-            { no: 1, name: "sor", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.measurement.GetOnDemandProgressTraceResponse
- */
-export const GetOnDemandProgressTraceResponse = new GetOnDemandProgressTraceResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class StopOnDemandRequest$Type extends MessageType<StopOnDemandRequest> {
-    constructor() {
-        super("fibertest30.measurement.StopOnDemandRequest", [
-            { no: 1, name: "onDemandId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.measurement.StopOnDemandRequest
- */
-export const StopOnDemandRequest = new StopOnDemandRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class StopOnDemandResponse$Type extends MessageType<StopOnDemandResponse> {
-    constructor() {
-        super("fibertest30.measurement.StopOnDemandResponse", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.measurement.StopOnDemandResponse
- */
-export const StopOnDemandResponse = new StopOnDemandResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class SetMonitoringPortStatusRequest$Type extends MessageType<SetMonitoringPortStatusRequest> {
     constructor() {
@@ -842,9 +711,6 @@ export const UpdateTimeSettingsResponse = new UpdateTimeSettingsResponse$Type();
  */
 export const Measurement = new ServiceType("fibertest30.measurement.Measurement", [
     { name: "GetSorSample", options: {}, I: GetSorSampleRequest, O: GetSorSampleResponse },
-    { name: "StartOnDemand", options: {}, I: StartOnDemandRequest, O: StartOnDemandResponse },
-    { name: "GetOnDemandProgressTrace", options: {}, I: GetOnDemandProgressTraceRequest, O: GetOnDemandProgressTraceResponse },
-    { name: "StopOnDemand", options: {}, I: StopOnDemandRequest, O: StopOnDemandResponse },
     { name: "SetMonitoringPortStatus", options: {}, I: SetMonitoringPortStatusRequest, O: SetMonitoringPortStatusResponse },
     { name: "GetMonitoringPort", options: {}, I: GetMonitoringPortRequest, O: GetMonitoringPortResponse },
     { name: "GetOtauMonitoringPorts", options: {}, I: GetOtauMonitoringPortsRequest, O: GetOtauMonitoringPortsResponse },

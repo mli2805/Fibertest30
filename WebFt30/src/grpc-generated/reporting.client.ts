@@ -30,14 +30,6 @@ import type { GetMonitoringResponse } from "./reporting";
 import type { GetMonitoringRequest } from "./reporting";
 import type { GetMonitoringsResponse } from "./reporting";
 import type { GetMonitoringsRequest } from "./reporting";
-import type { GetOnDemandLinkmapResponse } from "./reporting";
-import type { GetOnDemandLinkmapRequest } from "./reporting";
-import type { GetOnDemandTraceResponse } from "./reporting";
-import type { GetOnDemandTraceRequest } from "./reporting";
-import type { GetOnDemandResponse } from "./reporting";
-import type { GetOnDemandRequest } from "./reporting";
-import type { GetOnDemandsResponse } from "./reporting";
-import type { GetOnDemandsRequest } from "./reporting";
 import type { GetSystemEventsResponse } from "./reporting";
 import type { GetSystemEventsRequest } from "./reporting";
 import type { GetAllAlarmsResponse } from "./reporting";
@@ -69,22 +61,6 @@ export interface IReportingClient {
      * @generated from protobuf rpc: GetSystemEvents(fibertest30.reporting.GetSystemEventsRequest) returns (fibertest30.reporting.GetSystemEventsResponse);
      */
     getSystemEvents(input: GetSystemEventsRequest, options?: RpcOptions): UnaryCall<GetSystemEventsRequest, GetSystemEventsResponse>;
-    /**
-     * @generated from protobuf rpc: GetOnDemands(fibertest30.reporting.GetOnDemandsRequest) returns (fibertest30.reporting.GetOnDemandsResponse);
-     */
-    getOnDemands(input: GetOnDemandsRequest, options?: RpcOptions): UnaryCall<GetOnDemandsRequest, GetOnDemandsResponse>;
-    /**
-     * @generated from protobuf rpc: GetOnDemand(fibertest30.reporting.GetOnDemandRequest) returns (fibertest30.reporting.GetOnDemandResponse);
-     */
-    getOnDemand(input: GetOnDemandRequest, options?: RpcOptions): UnaryCall<GetOnDemandRequest, GetOnDemandResponse>;
-    /**
-     * @generated from protobuf rpc: GetOnDemandTrace(fibertest30.reporting.GetOnDemandTraceRequest) returns (fibertest30.reporting.GetOnDemandTraceResponse);
-     */
-    getOnDemandTrace(input: GetOnDemandTraceRequest, options?: RpcOptions): UnaryCall<GetOnDemandTraceRequest, GetOnDemandTraceResponse>;
-    /**
-     * @generated from protobuf rpc: GetOnDemandLinkmap(fibertest30.reporting.GetOnDemandLinkmapRequest) returns (fibertest30.reporting.GetOnDemandLinkmapResponse);
-     */
-    getOnDemandLinkmap(input: GetOnDemandLinkmapRequest, options?: RpcOptions): UnaryCall<GetOnDemandLinkmapRequest, GetOnDemandLinkmapResponse>;
     /**
      * @generated from protobuf rpc: GetMonitorings(fibertest30.reporting.GetMonitoringsRequest) returns (fibertest30.reporting.GetMonitoringsResponse);
      */
@@ -176,122 +152,94 @@ export class ReportingClient implements IReportingClient, ServiceInfo {
         return stackIntercept<GetSystemEventsRequest, GetSystemEventsResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: GetOnDemands(fibertest30.reporting.GetOnDemandsRequest) returns (fibertest30.reporting.GetOnDemandsResponse);
-     */
-    getOnDemands(input: GetOnDemandsRequest, options?: RpcOptions): UnaryCall<GetOnDemandsRequest, GetOnDemandsResponse> {
-        const method = this.methods[4], opt = this._transport.mergeOptions(options);
-        return stackIntercept<GetOnDemandsRequest, GetOnDemandsResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
-     * @generated from protobuf rpc: GetOnDemand(fibertest30.reporting.GetOnDemandRequest) returns (fibertest30.reporting.GetOnDemandResponse);
-     */
-    getOnDemand(input: GetOnDemandRequest, options?: RpcOptions): UnaryCall<GetOnDemandRequest, GetOnDemandResponse> {
-        const method = this.methods[5], opt = this._transport.mergeOptions(options);
-        return stackIntercept<GetOnDemandRequest, GetOnDemandResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
-     * @generated from protobuf rpc: GetOnDemandTrace(fibertest30.reporting.GetOnDemandTraceRequest) returns (fibertest30.reporting.GetOnDemandTraceResponse);
-     */
-    getOnDemandTrace(input: GetOnDemandTraceRequest, options?: RpcOptions): UnaryCall<GetOnDemandTraceRequest, GetOnDemandTraceResponse> {
-        const method = this.methods[6], opt = this._transport.mergeOptions(options);
-        return stackIntercept<GetOnDemandTraceRequest, GetOnDemandTraceResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
-     * @generated from protobuf rpc: GetOnDemandLinkmap(fibertest30.reporting.GetOnDemandLinkmapRequest) returns (fibertest30.reporting.GetOnDemandLinkmapResponse);
-     */
-    getOnDemandLinkmap(input: GetOnDemandLinkmapRequest, options?: RpcOptions): UnaryCall<GetOnDemandLinkmapRequest, GetOnDemandLinkmapResponse> {
-        const method = this.methods[7], opt = this._transport.mergeOptions(options);
-        return stackIntercept<GetOnDemandLinkmapRequest, GetOnDemandLinkmapResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
      * @generated from protobuf rpc: GetMonitorings(fibertest30.reporting.GetMonitoringsRequest) returns (fibertest30.reporting.GetMonitoringsResponse);
      */
     getMonitorings(input: GetMonitoringsRequest, options?: RpcOptions): UnaryCall<GetMonitoringsRequest, GetMonitoringsResponse> {
-        const method = this.methods[8], opt = this._transport.mergeOptions(options);
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetMonitoringsRequest, GetMonitoringsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetMonitoring(fibertest30.reporting.GetMonitoringRequest) returns (fibertest30.reporting.GetMonitoringResponse);
      */
     getMonitoring(input: GetMonitoringRequest, options?: RpcOptions): UnaryCall<GetMonitoringRequest, GetMonitoringResponse> {
-        const method = this.methods[9], opt = this._transport.mergeOptions(options);
+        const method = this.methods[5], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetMonitoringRequest, GetMonitoringResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetMonitoringTrace(fibertest30.reporting.GetMonitoringTraceRequest) returns (fibertest30.reporting.GetMonitoringTraceResponse);
      */
     getMonitoringTrace(input: GetMonitoringTraceRequest, options?: RpcOptions): UnaryCall<GetMonitoringTraceRequest, GetMonitoringTraceResponse> {
-        const method = this.methods[10], opt = this._transport.mergeOptions(options);
+        const method = this.methods[6], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetMonitoringTraceRequest, GetMonitoringTraceResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetMonitoringLinkmap(fibertest30.reporting.GetMonitoringLinkmapRequest) returns (fibertest30.reporting.GetMonitoringLinkmapResponse);
      */
     getMonitoringLinkmap(input: GetMonitoringLinkmapRequest, options?: RpcOptions): UnaryCall<GetMonitoringLinkmapRequest, GetMonitoringLinkmapResponse> {
-        const method = this.methods[11], opt = this._transport.mergeOptions(options);
+        const method = this.methods[7], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetMonitoringLinkmapRequest, GetMonitoringLinkmapResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetBaselines(fibertest30.reporting.GetBaselinesRequest) returns (fibertest30.reporting.GetBaselinesResponse);
      */
     getBaselines(input: GetBaselinesRequest, options?: RpcOptions): UnaryCall<GetBaselinesRequest, GetBaselinesResponse> {
-        const method = this.methods[12], opt = this._transport.mergeOptions(options);
+        const method = this.methods[8], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetBaselinesRequest, GetBaselinesResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetBaseline(fibertest30.reporting.GetBaselineRequest) returns (fibertest30.reporting.GetBaselineResponse);
      */
     getBaseline(input: GetBaselineRequest, options?: RpcOptions): UnaryCall<GetBaselineRequest, GetBaselineResponse> {
-        const method = this.methods[13], opt = this._transport.mergeOptions(options);
+        const method = this.methods[9], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetBaselineRequest, GetBaselineResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetBaselineTrace(fibertest30.reporting.GetBaselineTraceRequest) returns (fibertest30.reporting.GetBaselineTraceResponse);
      */
     getBaselineTrace(input: GetBaselineTraceRequest, options?: RpcOptions): UnaryCall<GetBaselineTraceRequest, GetBaselineTraceResponse> {
-        const method = this.methods[14], opt = this._transport.mergeOptions(options);
+        const method = this.methods[10], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetBaselineTraceRequest, GetBaselineTraceResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetBaselineLinkmap(fibertest30.reporting.GetBaselineLinkmapRequest) returns (fibertest30.reporting.GetBaselineLinkmapResponse);
      */
     getBaselineLinkmap(input: GetBaselineLinkmapRequest, options?: RpcOptions): UnaryCall<GetBaselineLinkmapRequest, GetBaselineLinkmapResponse> {
-        const method = this.methods[15], opt = this._transport.mergeOptions(options);
+        const method = this.methods[11], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetBaselineLinkmapRequest, GetBaselineLinkmapResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetAlarmEvents(fibertest30.reporting.GetAlarmEventsRequest) returns (fibertest30.reporting.GetAlarmEventsResponse);
      */
     getAlarmEvents(input: GetAlarmEventsRequest, options?: RpcOptions): UnaryCall<GetAlarmEventsRequest, GetAlarmEventsResponse> {
-        const method = this.methods[16], opt = this._transport.mergeOptions(options);
+        const method = this.methods[12], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetAlarmEventsRequest, GetAlarmEventsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetLastMonitoring(fibertest30.reporting.GetLastMonitoringRequest) returns (fibertest30.reporting.GetLastMonitoringResponse);
      */
     getLastMonitoring(input: GetLastMonitoringRequest, options?: RpcOptions): UnaryCall<GetLastMonitoringRequest, GetLastMonitoringResponse> {
-        const method = this.methods[17], opt = this._transport.mergeOptions(options);
+        const method = this.methods[13], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetLastMonitoringRequest, GetLastMonitoringResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetLastMonitoringTrace(fibertest30.reporting.GetLastMonitoringTraceRequest) returns (fibertest30.reporting.GetLastMonitoringTraceResponse);
      */
     getLastMonitoringTrace(input: GetLastMonitoringTraceRequest, options?: RpcOptions): UnaryCall<GetLastMonitoringTraceRequest, GetLastMonitoringTraceResponse> {
-        const method = this.methods[18], opt = this._transport.mergeOptions(options);
+        const method = this.methods[14], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetLastMonitoringTraceRequest, GetLastMonitoringTraceResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetLastMonitoringLinkmap(fibertest30.reporting.GetLastMonitoringLinkmapRequest) returns (fibertest30.reporting.GetLastMonitoringLinkmapResponse);
      */
     getLastMonitoringLinkmap(input: GetLastMonitoringLinkmapRequest, options?: RpcOptions): UnaryCall<GetLastMonitoringLinkmapRequest, GetLastMonitoringLinkmapResponse> {
-        const method = this.methods[19], opt = this._transport.mergeOptions(options);
+        const method = this.methods[15], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetLastMonitoringLinkmapRequest, GetLastMonitoringLinkmapResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetMonitoringTraceAndBase(fibertest30.reporting.GetMonitoringTraceAndBaseRequest) returns (fibertest30.reporting.GetMonitoringTraceAndBaseResponse);
      */
     getMonitoringTraceAndBase(input: GetMonitoringTraceAndBaseRequest, options?: RpcOptions): UnaryCall<GetMonitoringTraceAndBaseRequest, GetMonitoringTraceAndBaseResponse> {
-        const method = this.methods[20], opt = this._transport.mergeOptions(options);
+        const method = this.methods[16], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetMonitoringTraceAndBaseRequest, GetMonitoringTraceAndBaseResponse>("unary", this._transport, method, opt, input);
     }
 }

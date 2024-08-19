@@ -10,9 +10,6 @@ public class RtuContext : IdentityDbContext<ApplicationUser>
     public RtuContext() { /* Empty ctor for EF Moq */ }
     public RtuContext(DbContextOptions<RtuContext> options) : base(options) { }
     public DbSet<UserSettings> UserSettings { get; set; }
-    public DbSet<CompletedOnDemand> OnDemands { get; set; }
-    public DbSet<CompletedOnDemandSor> OnDemandSors { get; set; }
-    
     public virtual DbSet<MonitoringResult> Monitorings { get; set; }
     
     public DbSet<MonitoringResultSor> MonitoringSors{ get; set; }

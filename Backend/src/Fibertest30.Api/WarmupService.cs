@@ -7,15 +7,13 @@ public class WarmupService
 {
     private readonly ILogger<WarmupService> _logger;
     private readonly IUsersRepository _usersRepository;
-    private readonly IOnDemandRepository _onDemandRepository;
 
     public WarmupService(ILogger<WarmupService> logger, 
-        IUsersRepository usersRepository,
-        IOnDemandRepository onDemandRepository)
+        IUsersRepository usersRepository
+       )
     {
         _logger = logger;
         _usersRepository = usersRepository;
-        _onDemandRepository = onDemandRepository;
     }
     
     public async Task Execute()
@@ -38,13 +36,6 @@ public class WarmupService
         // get all users (fill users cache)
         var users = await _usersRepository.GetAllUsers();
         
-        // get on demands
-        var onDemands = await _onDemandRepository.GetAll(new List<int>(), false);
-        if (onDemands.Count > 0)
-        {
-            // serialize otdr trace
-            var sor = await _onDemandRepository.GetSor(onDemands[0].Id);
-            var sorProto = new MeasurementTrace(sor).OtdrData.ToSorDataBuf().ToBytes();
-        }
+       
     }
 }

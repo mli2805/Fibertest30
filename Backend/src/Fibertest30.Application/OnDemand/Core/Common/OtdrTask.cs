@@ -76,7 +76,6 @@ public class OtdrTask : IDisposable
     {
         return this switch
         {
-            OnDemandOtdrTask _ => OtdrTaskType.OnDemand,
             BaselineSetupOtdrTask _ => OtdrTaskType.Baseline,
             MonitoringOtdrTask _ => OtdrTaskType.Monitoring,
             _ => throw new ArgumentOutOfRangeException($"Unknown OtdrTask type: {GetType().Name}")
@@ -84,14 +83,6 @@ public class OtdrTask : IDisposable
     }
 }
 
-
-public class OnDemandOtdrTask : OtdrTask
-{
-    public OnDemandOtdrTask(string id, OtdrTaskPriority priority, int monitoringPortId, DateTime createdAt, string userId) 
-        : base(id, priority, monitoringPortId, createdAt, userId)
-    {
-    }
-}
 
 public class BaselineSetupOtdrTask : OtdrTask
 {

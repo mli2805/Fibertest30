@@ -11,8 +11,6 @@ namespace Fibertest30.Application;
 public enum SystemEventType
 {
     Unknown,
-    OnDemandFailed,
-    OnDemandCompleted,
     UserChanged,
     UserCreated,
     UserDeleted,

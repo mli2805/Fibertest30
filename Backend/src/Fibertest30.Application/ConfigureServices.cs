@@ -34,7 +34,6 @@ public static class ConfigureServices
         
         services.AddSingleton<IMeasurementDispatcher, MeasurementDispatcher>();
         services.AddSingleton<IMeasurementService, MeasurementService>();
-        services.AddSingleton<IOnDemandService, OnDemandService>();
         services.AddSingleton<IMonitoringAlarmService, MonitoringAlarmService>();
         services.AddSingleton<IMonitoringService, MonitoringService>();
         services.AddSingleton<IPrometheusPushService, PrometheusPushService>();

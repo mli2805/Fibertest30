@@ -8,8 +8,6 @@ public static class SystemEventDataFactory
     {
         return type switch
         {
-            SystemEventType.OnDemandFailed => Deserialize<OnDemandFailedData>(jsonData),
-            SystemEventType.OnDemandCompleted => Deserialize<OnDemandCompletedData>(jsonData),
             SystemEventType.UserChanged => Deserialize<UserChangedData>(jsonData),
             SystemEventType.UserCreated => Deserialize<UserCreatedData>(jsonData),
             SystemEventType.UserDeleted => Deserialize<UserDeletedData>(jsonData),

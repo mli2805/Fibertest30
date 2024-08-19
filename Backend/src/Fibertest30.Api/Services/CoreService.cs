@@ -150,7 +150,6 @@ public class CoreService : Core.CoreBase
             context.CancellationToken);
 
         // send current on demand progress at once
-        await SendUserCurrentOnDemandProgress(responseStream, context);
         await SendAllBaselineProgress(responseStream, context);
 
         var notificationsResponseObservable = notificationsDisposableObservable.Observable
@@ -189,30 +188,7 @@ public class CoreService : Core.CoreBase
         }
     }
 
-    private async Task SendUserCurrentOnDemandProgress(IServerStreamWriter<GetSystemMessageStreamResponse> responseStream, ServerCallContext context)
-    {
-        var currentUserOnDemand = await _mediator.Send(new GetUserCurrentOnDemandProgressQuery(),
-            context.CancellationToken);
-
-        if (currentUserOnDemand != null)
-        {
-            var systemEvent =
-                SystemEventFactory.OtdrTaskProgress(_currentUserService.UserId!, currentUserOnDemand);
-            systemEvent.At = _dateTime.UtcNow;
-            
-            var notification = new Fibertest30.Application.InAppSystemEventNotification()
-            {
-                InAppInternal = true,
-                InApp = false,
-                SystemEvent = systemEvent
-            };
-            
-            var response = new GetSystemMessageStreamResponse()
-                { SystemNotification = notification.ToProto() };
-
-            await responseStream.WriteAsync(response, context.CancellationToken);
-        }
-    }
+  
     
     public async Task SendAllBaselineProgress(IServerStreamWriter<GetSystemMessageStreamResponse> responseStream, ServerCallContext context)
     {

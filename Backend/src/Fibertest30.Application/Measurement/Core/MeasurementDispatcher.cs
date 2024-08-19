@@ -11,20 +11,17 @@ public class MeasurementDispatcher : IMeasurementDispatcher
     private readonly ILogger _logger;
     private readonly IOtdrTasksService _otdrTasksService;
     private readonly IMonitoringService _monitoring;
-    private readonly IOnDemandService _onDemand;
     private readonly IBaselineSetupService _baselineSetup;
 
     public MeasurementDispatcher(
         ILogger<MeasurementDispatcher> logger,
         IOtdrTasksService otdrTasksService,
         IMonitoringService monitoring,
-        IOnDemandService onDemand,
         IBaselineSetupService baselineSetup)
     {
         _logger = logger;
         _otdrTasksService = otdrTasksService;
         _monitoring = monitoring;
-        _onDemand = onDemand;
         _baselineSetup = baselineSetup;
     }
 
@@ -75,10 +72,7 @@ public class MeasurementDispatcher : IMeasurementDispatcher
         {
             await _baselineSetup.ProcessTask(otdrTask, ct);
         }
-        else if (otdrTask is OnDemandOtdrTask)
-        {
-            await _onDemand.ProcessTask(otdrTask, ct);
-        }
+       
         else if (otdrTask is MonitoringOtdrTask)
         {
             await _monitoring.ProcessTask(otdrTask, ct);
