@@ -10,9 +10,9 @@ public class UserRolePermissionProviderTests : SqliteTestBase
 
         var provider = new UserRolePermissionProvider(_permissionProvider, _userManager, _roleManager);
         
-        await TestDefaultRolePermission(provider, ApplicationDefaultRole.Administrator);
-        await TestDefaultRolePermission(provider, ApplicationDefaultRole.User);
-        await TestDefaultRolePermission(provider, ApplicationDefaultRole.Viewer);
+        await TestDefaultRolePermission(provider, ApplicationDefaultRole.Root);
+        await TestDefaultRolePermission(provider, ApplicationDefaultRole.Operator);
+        await TestDefaultRolePermission(provider, ApplicationDefaultRole.Supervisor);
         await TestDefaultRolePermission(provider, ApplicationDefaultRole.NotificationReceiver);
     }
 

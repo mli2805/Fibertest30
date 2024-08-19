@@ -2,33 +2,32 @@ namespace Fibertest30.Application;
 
 public static class TestUsersProvider
 {
-    public class TestUser
-    {
-        public ApplicationDefaultRole Role { get; set; } 
-        public string UserName { get;  set; } = null!;
-        public string FirstName { get;  set; } = null!;
-        public string LastName { get;  set; } = null!;
-        
-        public string JobTitle { get;  set; } = null!;
-        public string Email { get;  set; } = null!;
-        public string PhoneNumber { get;  set; } = null!;
-    }
     public static List<TestUser> TestUsers =>
         new()
         {
             new TestUser
             {
-                Role = ApplicationDefaultRole.Administrator,
-                UserName = "admin",
-                FirstName = "John",
-                LastName = "Smith",
-                JobTitle = "Project Supervisor",
+                Role = ApplicationDefaultRole.Root,
+                UserName = "root",
+                FirstName = "Alex",
+                LastName = "Khazanov",
+                JobTitle = "Product Manager",
                 Email = "john.smith@veexinc.com",
                 PhoneNumber = "+1234567890"
             },
+            // new TestUser
+            // {
+            //     Role = ApplicationDefaultRole.Administrator,
+            //     UserName = "admin",
+            //     FirstName = "John",
+            //     LastName = "Smith",
+            //     JobTitle = "Project Supervisor",
+            //     Email = "john.smith@veexinc.com",
+            //     PhoneNumber = "+1234567890"
+            // }, 
             new TestUser
             {
-                Role = ApplicationDefaultRole.User,
+                Role = ApplicationDefaultRole.Operator,
                 UserName = "mdavis",
                 FirstName = "Maria",
                 LastName = "Davis",
@@ -38,23 +37,13 @@ public static class TestUsersProvider
             },
             new TestUser
             {
-                Role = ApplicationDefaultRole.User,
+                Role = ApplicationDefaultRole.Supervisor,
                 UserName = "wjones",
                 FirstName = "William",
                 LastName = "Jones",
                 JobTitle = "Fiber Installation Inspector",
                 Email = "wjones@veexinc.com",
                 PhoneNumber = string.Empty
-            },
-            new TestUser
-            {
-                Role = ApplicationDefaultRole.Viewer,
-                UserName = "lrodriguez",
-                FirstName = "Luis",
-                LastName = "Rodriguez",
-                JobTitle = string.Empty,
-                Email = "lrodriguez@veexinc.com",
-                PhoneNumber = "+1234567896"
             },
             new TestUser
             {
@@ -68,7 +57,20 @@ public static class TestUsersProvider
             }
         };
 
-    public static readonly string DefaultAdminPassword = "admin";
+    public class TestUser
+    {
+        public ApplicationDefaultRole Role { get; set; } 
+        public string UserName { get;  set; } = null!;
+        public string FirstName { get;  set; } = null!;
+        public string LastName { get;  set; } = null!;
+        
+        public string JobTitle { get;  set; } = null!;
+        public string Email { get;  set; } = null!;
+        public string PhoneNumber { get;  set; } = null!;
+    }
+
+    // public static readonly string DefaultAdminPassword = "admin";
+    public static readonly string DefaultRootPassword = "root";
 
     public static TestUser GetFirstUserByRole(ApplicationDefaultRole role)
     {

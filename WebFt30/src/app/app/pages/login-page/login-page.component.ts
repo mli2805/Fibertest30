@@ -39,20 +39,16 @@ export class LoginPageComponent {
 
   public demoUsers: DemoUser[] = [
     {
-      name: 'admin',
-      role: 'Administrator'
+      name: 'root',
+      role: 'Root'
     },
     {
       name: 'mdavis',
-      role: 'User'
+      role: 'Operator'
     },
     {
       name: 'wjones',
-      role: 'User'
-    },
-    {
-      name: 'lrodriguez',
-      role: 'Viewer'
+      role: 'Supervisor'
     },
     {
       name: 'gmartin',
@@ -76,7 +72,7 @@ export class LoginPageComponent {
   }
 
   get defaultPassword() {
-    return `admin`;
+    return `root`;
   }
 
   onLoginClick(demoUser: DemoUser) {

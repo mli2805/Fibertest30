@@ -45,7 +45,7 @@ export class UserAccountsComponent {
     const user = new User();
     user.jobTitle = '';
     user.phoneNumber = '';
-    user.role = 'Viewer';
+    user.role = 'Operator';
     await this.openUserDialog(user, true);
   }
 

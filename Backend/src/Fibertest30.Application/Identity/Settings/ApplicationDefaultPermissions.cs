@@ -18,30 +18,30 @@ public static class ApplicationDefaultPermissions
 
 
         AddPermission(P.ConfigureOtau);
-        AddPermission(P.SetupMonitoringThresholds, R.User);
-        AddPermission(P.HandleAlarm, R.User);
-        AddPermission(P.ViewDataLog, R.User, R.Viewer);
-        AddPermission(P.ChangeMonitoringPortSettings, R.User);
-        AddPermission(P.ViewMonitoringPortSettings, R.User, R.Viewer);
-        AddPermission(P.ReceiveOpticalNotifications, R.User, R.Viewer, R.NotificationReceiver);
+        AddPermission(P.SetupMonitoringThresholds, R.Operator);
+        AddPermission(P.HandleAlarm, R.Operator);
+        AddPermission(P.ViewDataLog, R.Operator, R.Supervisor);
+        AddPermission(P.ChangeMonitoringPortSettings, R.Operator);
+        AddPermission(P.ViewMonitoringPortSettings, R.Operator, R.Supervisor);
+        AddPermission(P.ReceiveOpticalNotifications, R.Operator, R.Supervisor, R.NotificationReceiver);
         AddPermission(P.ReceiveSystemNotifications);
         AddPermission(P.EditUsers);
         AddPermission(P.ChangeNotificationSettings);
         AddPermission(P.ChangeNetworkSettings);
         AddPermission(P.ChangeTimeSettings);
-        AddPermission(P.EditPortLabels, R.User);
+        AddPermission(P.EditPortLabels, R.Operator);
 
-        AddPermission(P.CheckRtuConnection, R.User, R.Viewer);
-        AddPermission(P.InitializeRtu, R.User);
-        AddPermission(P.DoMeasurementClient, R.User);
+        AddPermission(P.CheckRtuConnection, R.Operator, R.Supervisor);
+        AddPermission(P.InitializeRtu, R.Operator);
+        AddPermission(P.DoMeasurementClient, R.Operator);
     }
 
     private static void AddPermission(ApplicationPermission permission, params ApplicationDefaultRole[] roles)
     {
-        var withAdmin = roles.ToList();
-        withAdmin.Add(R.Administrator);
+        var explicitlyListed = roles.ToList();
+        explicitlyListed.Add(R.Root);
 
-        _map.Add(permission, withAdmin);
+        _map.Add(permission, explicitlyListed);
     }
 
     public static List<ApplicationPermission> GetPermissionsByRole(ApplicationDefaultRole role)

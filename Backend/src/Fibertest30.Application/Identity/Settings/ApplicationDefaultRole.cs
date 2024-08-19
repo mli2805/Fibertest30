@@ -2,8 +2,11 @@
 
 public enum ApplicationDefaultRole
 {
-    Administrator,
-    User,
-    Viewer,
+    // Administrator,
+    Root,
+    Operator,
+    Supervisor,
+    // User,
+    // Viewer,
     NotificationReceiver
 }

@@ -88,9 +88,9 @@ public class UsersRepository : IUsersRepository
 
             if (patch.Role is not null)
             {
-                var adminRole = _rtuContext.Roles.First(r => r.Name == ApplicationDefaultRole.Administrator.ToString());
+                var adminRole = _rtuContext.Roles.First(r => r.Name == ApplicationDefaultRole.Root.ToString());
                 var admins = _rtuContext.UserRoles.Where(u => u.RoleId == adminRole.Id).ToList();
-                if (admins.Count() == 1 && admins[0].UserId == userId && patch.Role != ApplicationDefaultRole.Administrator.ToString())
+                if (admins.Count() == 1 && admins[0].UserId == userId && patch.Role != ApplicationDefaultRole.Root.ToString())
                     throw new ArgumentException("Prohibited to downgrade last administrator");
 
                 await ChangeRole(existingUser, patch.Role);

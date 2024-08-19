@@ -161,7 +161,7 @@ public class RtuContextInitializer
                     Email = testUser.Email,
                     PhoneNumber = testUser.PhoneNumber
                 };
-                var result = await CreateUserWithLoosePassword(user, TestUsersProvider.DefaultAdminPassword);
+                var result = await CreateUserWithLoosePassword(user, TestUsersProvider.DefaultRootPassword);
                 ThrowIfNotSucceed(result, $"Can't create {user.UserName} user");
 
 
@@ -176,14 +176,14 @@ public class RtuContextInitializer
         var userCount = await _userManager.Users.CountAsync();
         if (userCount > 0) { return;} 
 
-        var adminRole = ApplicationDefaultRole.Administrator;
+        var adminRole = ApplicationDefaultRole.Root;
 
         var user = new ApplicationUser
         {
-            UserName = "admin",
+            UserName = "root",
         };
 
-        var result = await CreateUserWithLoosePassword(user, TestUsersProvider.DefaultAdminPassword);
+        var result = await CreateUserWithLoosePassword(user, TestUsersProvider.DefaultRootPassword);
         ThrowIfNotSucceed(result, $"Can't create {user.UserName} user");
 
         result = await _userManager.AddToRoleAsync(user, adminRole.ToString());

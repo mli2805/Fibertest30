@@ -115,6 +115,11 @@ export const reducers: ActionReducerMap<AppState> = {
   rtuMgmt: rtuMgmtReducer
 };
 
+// better to use Chrome's Redux DevTools plugin instead of 'debug' metaReducer
+export const metaReducers: MetaReducer<AppState>[] = !environment.production
+  ? [initStateFromLocalStorage /*, debug*/]
+  : [initStateFromLocalStorage];
+
 export const selectAuthState = (state: AppState) => state.auth;
 export const selectSettingsState = (state: AppState) => state.settings;
 export const selectRouterState = (state: AppState) => state.router;

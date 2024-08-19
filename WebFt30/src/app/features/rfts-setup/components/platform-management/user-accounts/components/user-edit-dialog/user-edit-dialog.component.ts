@@ -84,7 +84,10 @@ export class UserEditDialogComponent {
     this.p1InputType = 'password';
 
     this.userForm = new FormGroup({
-      userName: new FormControl(this.userInWork.name, [this.usernameValidator()]),
+      userName: new FormControl(this.userInWork.name, [
+        Validators.required,
+        this.usernameValidator()
+      ]),
       firstName: new FormControl(this.userInWork.firstName, Validators.required),
       lastName: new FormControl(this.userInWork.lastName, Validators.required),
       role: new FormControl(

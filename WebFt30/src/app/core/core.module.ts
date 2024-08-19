@@ -9,7 +9,7 @@ import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { DialogModule } from '@angular/cdk/dialog';
 
-import { reducers } from './core.state';
+import { metaReducers, reducers } from './core.state';
 import { environment } from 'src/environments/environment';
 import { CustomSerializer } from './router/custom-serializer';
 import { AuthEffects } from './auth/auth.effects';
@@ -67,6 +67,7 @@ import { RtuMgmtEffects } from './store/rtu-mgmt/rtu-mgmt.effects';
 
     // ngrx
     StoreModule.forRoot(reducers, {
+      metaReducers,
       runtimeChecks: {
         strictStateImmutability: !environment.production,
         strictActionImmutability: false,

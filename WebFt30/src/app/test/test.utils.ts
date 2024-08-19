@@ -18,32 +18,16 @@ export class TestUtils {
       language: 'en',
       dateTimeFormat: 'en',
       saveUserSettingsError: null
-    },
-    onDemand: {
-      otdrTask: null,
-      measurementSettings: null,
-      otauPortPath: null
     }
   };
 
   static ValidToken =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0YWRjYTdmYS03ZTMyLTQ1OTUtOGFhMC1kZGI5Y2VmYjRjYmQiLCJqdGkiOiIwYzE1ZjI5MC0wNWVhLTQyNWUtODI4NC1hZWFiYjY1MGMxNGIiLCJuYW1lIjoiVmlld2VyIiwicm9sZSI6IlZpZXdlciIsIm5iZiI6MTY4MTIwNjE5MiwiZXhwIjoxNjgxMjA2NDkyLCJpc3MiOiJSZnRzNDAwIiwiYXVkIjoiUmZ0czQwMCJ9.h9ANo0tR_lvnJGX5kZ3nBxhQiftRnS84dsnpjL8tuc4';
 
-  // {
-  //   "sub": "4adca7fa-7e32-4595-8aa0-ddb9cefb4cbd",
-  //   "jti": "0c15f290-05ea-425e-8284-aeabb650c14b",
-  //   "name": "Viewer",
-  //   "role": "Viewer",
-  //   "nbf": 1681206192,
-  //   "exp": 1681206492,
-  //   "iss": "Rfts400",
-  //   "aud": "Rfts400"
-  // }
-
   static ValidUser: grpc.User = {
     userId: '4adca7fa-7e32-4595-8aa0-ddb9cefb4cbd',
-    userName: 'Viewer',
-    role: 'Viewer',
+    userName: 'jdoe',
+    role: 'Operator',
     permissions: [],
     firstName: 'John',
     lastName: 'Doe',
@@ -76,7 +60,6 @@ export class TestUtils {
       otaus: [],
       monitoringPorts: [],
       monitoringTimeSlots: [],
-      alarmProfiles: [],
       activeAlarms: [],
       notificationSettings: {
         id: 1,
@@ -125,7 +108,8 @@ export class TestUtils {
           secondaryNtpServer: '71.52.196.112'
         }
       },
-      portLabels: []
+      portLabels: [],
+      rtus: []
     };
   }
 

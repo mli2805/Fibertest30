@@ -34,7 +34,7 @@ public static class TestMock
             .Returns(() => Task.FromResult(false));
         
         _mockUserViewer.SetupGet(x => x.UserId).Returns("userid_viewer");
-        _mockUserViewer.SetupGet(x => x.Role).Returns(ApplicationDefaultRole.Viewer.ToString());
+        _mockUserViewer.SetupGet(x => x.Role).Returns(ApplicationDefaultRole.Supervisor.ToString());
         
         // no need to setup _mockUserAnonymous, returns null by default
         
