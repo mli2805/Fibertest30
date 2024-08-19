@@ -37,5 +37,15 @@
   "i18n.ft.statistics": "Статистика",
   "i18n.ft.success": "Успешно!",
   "i18n.ft.test": "Тест",
-  "i18n.ft.testing": "тестирование..."
+  "i18n.ft.testing": "тестирование...",
+
+  "i18n.ft.measurement-settings": "Параметры измерения",
+  "i18n.ft.averaging-time": "Время измерения",
+  "i18n.ft.backscattering-coeff-dB": "Коэффициент обратного рассеяния - BC [dB]",
+  "i18n.ft.distance": "Диапазон расстояний - Lmax",
+  "i18n.ft.distance-range-km": "Диапазон расстояний - Lmax [km]",
+  "i18n.ft.laser": "Тип лазера - Длина волны",
+  "i18n.ft.pulse-width-ns": "Длительность зондирующего импульса - Tp [ns]",
+  "i18n.ft.refractive-index": "Показатель преломления - n",
+  "i18n.ft.sampling-resolution-m": "Разрешение - dL [m]"
 }

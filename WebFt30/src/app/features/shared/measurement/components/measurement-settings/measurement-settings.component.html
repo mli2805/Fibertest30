@@ -4,7 +4,7 @@
   class="grid gap-y-1 text-sm"
 >
   <label style="grid-area: autModeLabel" class="m-2 my-auto">
-    {{ 'i18n.on-demand-measurement-settings.use-auto-mode' | translate }}
+    {{ 'i18n.ft.use-auto-mode' | translate }}
   </label>
   <label style="grid-area: autoModeValue" class="toggle my-2 flex w-max justify-start">
     <input
@@ -18,7 +18,7 @@
 
   <ng-container *ngIf="!settingsService.autoMode">
     <label style="grid-area: fastMeasurementLabel" class="m-2 my-auto">
-      {{ 'i18n.on-demand-measurement-settings.fast-measurement' | translate }}
+      {{ 'i18n.ft.fast-measurement' | translate }}
     </label>
     <label style="grid-area: fastMeasurementValue" class="toggle my-2 flex w-max justify-start">
       <input
@@ -32,7 +32,7 @@
   </ng-container>
 
   <label style="grid-area: laserLabel" class="m-2 my-auto">
-    {{ 'i18n.on-demand-measurement-settings.laser' | translate }}
+    {{ 'i18n.ft.laser' | translate }}
   </label>
   <rtu-select
     style="grid-area: laserValue"
@@ -53,7 +53,7 @@
 
   <ng-container *ngIf="!settingsService.autoMode">
     <label style="grid-area: averagingTimeLabel" class="m-2 my-auto">
-      {{ 'i18n.on-demand-measurement-settings.averaging-time' | translate }}
+      {{ 'i18n.ft.averaging-time' | translate }}
     </label>
     <rtu-select
       style="grid-area: averagingTimeValue"
@@ -75,7 +75,7 @@
 
   <ng-container>
     <label style="grid-area: backscatteringCoeffLabel" class="m-2 my-auto">
-      {{ 'i18n.on-demand-measurement-settings.backscattering-coeff-dB' | translate }}
+      {{ 'i18n.ft.backscattering-coeff-dB' | translate }}
     </label>
 
     <!-- 
@@ -115,7 +115,7 @@
 
   <ng-container *ngIf="!settingsService.autoMode">
     <label style="grid-area: sampleResolutionLabel" class="m-2 my-auto">
-      {{ 'i18n.on-demand-measurement-settings.sampling-resolution-m' | translate }}
+      {{ 'i18n.ft.sampling-resolution-m' | translate }}
     </label>
     <rtu-select
       style="grid-area: sampleResolutionValue"
@@ -135,7 +135,7 @@
 
   <ng-container>
     <label style="grid-area: refractiveIndexLabel" class="m-2 my-auto">
-      {{ 'i18n.on-demand-measurement-settings.refractive-index' | translate }}
+      {{ 'i18n.ft.refractive-index' | translate }}
     </label>
 
     <div style="grid-area: refractiveIndexValue">
@@ -159,7 +159,7 @@
 
   <ng-container *ngIf="!settingsService.autoMode">
     <label style="grid-area: pulseLable" class="m-2 my-auto">
-      {{ 'i18n.on-demand-measurement-settings.pulse-width-ns' | translate }}
+      {{ 'i18n.ft.pulse-width-ns' | translate }}
     </label>
 
     <rtu-select
@@ -180,7 +180,7 @@
 
   <ng-container *ngIf="!settingsService.autoMode">
     <label style="grid-area: distanceRangeLabel" class="m-2 my-auto">
-      {{ 'i18n.on-demand-measurement-settings.distance-range-km' | translate }}
+      {{ 'i18n.ft.distance-range-km' | translate }}
     </label>
 
     <rtu-select
@@ -200,7 +200,7 @@
   </ng-container>
 
   <label style="grid-area: eventLossThresholdLabel" class="m-2 my-auto">
-    {{ 'i18n.on-demand-measurement-settings.event-loss-threshold-dB' | translate }}
+    {{ 'i18n.ft.event-loss-threshold-dB' | translate }}
   </label>
 
   <div style="grid-area: eventLossThresholdValue">
@@ -222,7 +222,7 @@
   </div>
 
   <label style="grid-area: reflectanceThresholdLabel" class="m-2 my-auto">
-    {{ 'i18n.on-demand-measurement-settings.reflectance-threshold-dB' | translate }}
+    {{ 'i18n.ft.reflectance-threshold-dB' | translate }}
   </label>
 
   <div style="grid-area: reflectanceThresholdValue" class="flex items-center">
@@ -248,7 +248,7 @@
     class="m-2 my-auto"
     [rtuContextTooltip]="'EofThresholdHelpComponent'"
   >
-    {{ 'i18n.on-demand-measurement-settings.end-of-fiber-threshold-dB' | translate }}
+    {{ 'i18n.ft.end-of-fiber-threshold-dB' | translate }}
   </label>
 
   <div style="grid-area: endOfFiberThresholdValue">
@@ -271,7 +271,7 @@
 
   <ng-container *ngIf="settingsService.showMux">
     <label style="grid-area: dynamic1Label" class="m-2 my-auto">
-      {{ 'i18n.on-demand-measurement-settings.number-of-mux' | translate }}
+      {{ 'i18n.ft.number-of-mux' | translate }}
     </label>
 
     <rtu-select
@@ -292,7 +292,7 @@
 
   <ng-container *ngIf="settingsService.showSplitters">
     <label style="grid-area: dynamic1Label" class="m-2 my-auto">
-      {{ 'i18n.on-demand-measurement-settings.splitter' | translate }} 1
+      {{ 'i18n.ft.splitter' | translate }} 1
     </label>
 
     <rtu-select
@@ -313,7 +313,7 @@
 
   <ng-container *ngIf="settingsService.showSplitters">
     <label style="grid-area: dynamic2Label" class="m-2 my-auto">
-      {{ 'i18n.on-demand-measurement-settings.splitter' | translate }} 2
+      {{ 'i18n.ft.splitter' | translate }} 2
     </label>
 
     <rtu-select

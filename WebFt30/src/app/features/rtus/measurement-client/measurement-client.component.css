@@ -11,7 +11,7 @@
     'averagingTimeLabel averagingTimeValue';
 }
 
-@media (min-width: 640px) {
+@media (min-width: 860px) {
   .settings-grid {
     grid-template-columns: minmax(6rem, 1fr) minmax(6rem, 1fr) 2rem minmax(6rem, 1fr) minmax(
         6rem,
@@ -26,7 +26,7 @@
   }
 }
 
-@media (min-width: 1060px) {
+@media (min-width: 1280px) {
   .settings-grid {
     grid-template-columns:
       minmax(6rem, 1fr) minmax(6rem, 1fr) 6rem minmax(6rem, 1fr) minmax(6rem, 1fr)

@@ -1,50 +1,43 @@
 <div class="grid grid-cols-[repeat(auto-fill,minmax(20ch,1fr))] text-left">
   <div *ngIf="measSettings.autoMode" class="text-left">
     <span>
-      {{ 'i18n.on-demand-measurement-settings.auto-mode' | translate }}
+      {{ 'i18n.ft.auto-mode' | translate }}
     </span>
   </div>
 
   <div *ngIf="mode === 'full'" class="whitespace-nowrap">
-    <span class="text-gray-400 dark:text-zinc-400"
-      >{{ 'i18n.on-demand-measurement-settings.laser' | translate }}: </span
+    <span class="text-gray-400 dark:text-zinc-400">{{ 'i18n.ft.laser' | translate }}: </span
     ><span class="">{{ measSettings.laser }}</span>
   </div>
   <div *ngIf="!measSettings.autoMode && mode === 'full'" class="whitespace-nowrap">
     <span class="text-gray-400 dark:text-zinc-400"
-      >{{ 'i18n.on-demand-measurement-settings.backscattering' | translate }}: </span
+      >{{ 'i18n.ft.backscattering' | translate }}: </span
     ><span class="">{{ measSettings.backscatteringCoeff }}</span>
     <span>&nbsp;{{ 'i18n.common.units.dB' | translate }}</span>
   </div>
   <div *ngIf="!measSettings.autoMode && mode === 'full'" class="whitespace-nowrap">
-    <span class="text-gray-400 dark:text-zinc-400"
-      >{{ 'i18n.on-demand-measurement-settings.refractive' | translate }}: </span
+    <span class="text-gray-400 dark:text-zinc-400">{{ 'i18n.ft.refractive' | translate }}: </span
     ><span class="">{{ measSettings.refractiveIndex }}</span>
   </div>
   <div *ngIf="!measSettings.autoMode">
-    <span class="text-gray-400 dark:text-zinc-400">
-      {{ 'i18n.on-demand-measurement-settings.distance' | translate }}: </span
+    <span class="text-gray-400 dark:text-zinc-400"> {{ 'i18n.ft.distance' | translate }}: </span
     ><span class="">{{ measSettings.distanceRange }}</span>
     <span>&nbsp;{{ 'i18n.common.units.km' | translate }}</span>
   </div>
   <div *ngIf="!measSettings.autoMode" class="whitespace-nowrap">
-    <span class="text-gray-400 dark:text-zinc-400">
-      {{ 'i18n.on-demand-measurement-settings.averaging' | translate }}:
-    </span>
+    <span class="text-gray-400 dark:text-zinc-400"> {{ 'i18n.ft.averaging' | translate }}: </span>
 
     <span class="">{{ measSettings.averagingTime }}</span>
   </div>
   <div *ngIf="!measSettings.autoMode" class="whitespace-nowrap">
-    <span class="text-gray-400 dark:text-zinc-400"
-      >{{ 'i18n.on-demand-measurement-settings.sampling' | translate }}: </span
+    <span class="text-gray-400 dark:text-zinc-400">{{ 'i18n.ft.sampling' | translate }}: </span
     ><span class="">{{ measSettings.samplingResolution }}</span>
     <span *ngIf="measSettings.samplingResolution !== 'AUTO'"
       >&nbsp;{{ 'i18n.common.units.m' | translate }}</span
     >
   </div>
   <div *ngIf="!measSettings.autoMode" class="whitespace-nowrap">
-    <span class="text-gray-400 dark:text-zinc-400"
-      >{{ 'i18n.on-demand-measurement-settings.pulse' | translate }}: </span
+    <span class="text-gray-400 dark:text-zinc-400">{{ 'i18n.ft.pulse' | translate }}: </span
     ><span class="">{{ measSettings.pulse }}</span>
     <span>&nbsp;{{ 'i18n.common.units.ns' | translate }}</span>
   </div>
@@ -52,8 +45,7 @@
     *ngIf="measSettings.networkType === networkType.ManualPON && measSettings.splitter1dB"
     class="whitespace-nowrap"
   >
-    <span class="text-gray-400 dark:text-zinc-400"
-      >{{ 'i18n.on-demand-measurement-settings.splitter' | translate }}1: </span
+    <span class="text-gray-400 dark:text-zinc-400">{{ 'i18n.ft.splitter' | translate }}1: </span
     ><span class="">{{ measSettings.splitter1dB }}</span>
     <span>&nbsp;{{ 'i18n.common.units.dB' | translate }}</span>
   </div>
@@ -61,14 +53,12 @@
     *ngIf="measSettings.networkType === networkType.ManualPON && measSettings.splitter2dB"
     class="whitespace-nowrap"
   >
-    <span class="text-gray-400 dark:text-zinc-400"
-      >{{ 'i18n.on-demand-measurement-settings.splitter' | translate }}2: </span
+    <span class="text-gray-400 dark:text-zinc-400">{{ 'i18n.ft.splitter' | translate }}2: </span
     ><span class="">{{ measSettings.splitter2dB }}</span>
     <span>&nbsp;{{ 'i18n.common.units.dB' | translate }}</span>
   </div>
   <div *ngIf="measSettings.networkType === networkType.xWDM" class="whitespace-nowrap">
-    <span class="text-gray-400 dark:text-zinc-400"
-      >{{ 'i18n.on-demand-measurement-settings.mux' | translate }}: </span
+    <span class="text-gray-400 dark:text-zinc-400">{{ 'i18n.ft.mux' | translate }}: </span
     ><span class="">{{ measSettings.mux }}</span>
   </div>
 </div>
