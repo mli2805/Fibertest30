@@ -30,6 +30,7 @@ import { AttachedTraceMenuComponent } from './rtu-tree/attached-trace/attached-t
 import { DetachedTraceMenuComponent } from './rtu-tree/detached-trace/detached-trace-menu/detached-trace-menu.component';
 import { OneBopMenuComponent } from './rtu-tree/one-bop/one-bop-menu/one-bop-menu.component';
 import { MeasurementClientComponent } from './measurement-client/measurement-client.component';
+import { ContextMenuLineComponent } from './shared/context-menu-line/context-menu-line.component';
 
 @NgModule({
   imports: [
@@ -64,7 +65,8 @@ import { MeasurementClientComponent } from './measurement-client/measurement-cli
     AttachedTraceMenuComponent,
     DetachedTraceMenuComponent,
     OneBopMenuComponent,
-    MeasurementClientComponent
+    MeasurementClientComponent,
+    ContextMenuLineComponent
   ],
   providers: []
 })
