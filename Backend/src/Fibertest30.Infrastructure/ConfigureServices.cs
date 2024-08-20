@@ -3,8 +3,6 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Fibertest30.Infrastructure.Device;
-using Fibertest30.Infrastructure.Emulator;
 using Iit.Fibertest.Graph;
 
 namespace Fibertest30.Infrastructure;
@@ -77,14 +75,8 @@ public static class ConfigureServices
         services.AddScoped<IUsersRepository, UsersRepository>();
         services.AddScoped<INotificationRepository, NotificationRepository>();
         services.AddScoped<IUserSettingsRepository, UserSettingsRepository>();
-        services.AddScoped<IMonitoringRepository, MonitoringRepository>();
-        services.AddScoped<IBaselineRepository, BaselineRepository>();
         services.AddScoped<INotificationSettingsRepository, NotificationSettingsRepository>();
         services.AddScoped<ISystemEventRepository, SystemEventRepository>();
-        services.AddScoped<IMonitoringPortRepository, MonitoringPortRepository>();
-        services.AddScoped<IMonitoringAlarmRepository, MonitoringAlarmRepository>();
-        services.AddScoped<IAlarmEventRepository, AlarmEventRepository>();
-        services.AddScoped<IPortLabelRepository, PortLabelRepository>();
 
         services.AddScoped<IEmailBuilder, EmailBuilder>();
         services.AddScoped<IEmailService, EmailService>();
@@ -93,109 +85,13 @@ public static class ConfigureServices
         services.AddScoped<IRtuTransmitter, MakLinuxHttpTransmitter>();
         services.AddScoped<IRtuManager, RtuManager>();
 
-        services.AddInfrastructureDeviceServices(configuration);
-
-        services.AddScoped<IOtauRepository, OtauRepository>();
-
-        services.AddOtdr(configuration);
-        services.AddOtau(configuration);
-        services.AddEmulatedDelayService(configuration, environmentName);
-        services.AddDeviceInfoProvider(configuration);
-        services.AddSingleton<IShellCommand, ShellCommand>();
         services.AddSingleton<IRtuOccupationService, RtuOccupationService>();
         services.AddSingleton<IRtuLinuxPollster, RtuLinuxPollster>();
-        services.AddNetworkSettingsProvider(configuration);
-        services.AddTimeSettingsProvider(configuration);
 
         return services;
     }
 
-    private static void AddOtdr(this IServiceCollection services, IConfiguration configuration)
-    {
-        var emulator = configuration.GetValue<bool>("Emulator:Enabled");
-        if (emulator)
-        {
-            services.AddSingleton<IOtdr, Emulator.Otdr>();
-            services.AddSingleton<ILinkmapGenerator, Emulator.LinkmapGenerator>();
-        }
-        else
-        {
-            services.Configure<Device.OtdrSettings>(configuration.GetRequiredSection(Device.OtdrSettings.SectionName));
-            services.AddSingleton<IOtdr, Device.Otdr>();
-            services.AddSingleton<ILinkmapGenerator, Device.LinkmapGenerator>();
-        }
-    }
-
-    private static void AddOtau(this IServiceCollection services, IConfiguration configuration)
-    {
-        var emulator = configuration.GetValue<bool>("Emulator:Enabled");
-        if (emulator)
-        {
-            services.AddSingleton<IOtauControllerFactory, Emulator.OtauControllerFactory>();
-        }
-        else
-        {
-            services.AddSingleton<IOtauControllerFactory, Device.OtauControllerFactory>();
-        }
-    }
-
-    private static void AddEmulatedDelayService(this IServiceCollection services,
-        IConfiguration configuration, string environmentName)
-    {
-        var emulator = configuration.GetValue<bool>("Emulator:Enabled");
-        if (!emulator)
-        {
-            return;
-        }
-
-        if (environmentName == "Test" || environmentName == "Development")
-        {
-            services.AddSingleton<IEmulatorDelayService, TestDelayService>();
-        }
-        else
-        {
-            services.AddSingleton<IEmulatorDelayService, EmulatorDelayService>();
-        }
-    }
-
-    private static void AddDeviceInfoProvider(this IServiceCollection services, IConfiguration configuration)
-    {
-        var emulator = configuration.GetValue<bool>("Emulator:Enabled");
-        if (emulator)
-        {
-            services.AddSingleton<IDeviceInfoProvider, Emulator.DeviceInfoProvider>();
-        }
-        else
-        {
-            services.AddSingleton<IDeviceInfoProvider, Device.DeviceInfoProvider>();
-        }
-    }
-
-    private static void AddNetworkSettingsProvider(this IServiceCollection services, IConfiguration configuration)
-    {
-        var emulator = configuration.GetValue<bool>("Emulator:Enabled");
-        if (emulator)
-        {
-            services.AddSingleton<INetworkSettingsProvider, Emulator.NetworkSettingsProvider>();
-        }
-        else
-        {
-            services.AddSingleton<INetworkSettingsProvider, Device.NetworkSettingsProvider>();
-        }
-    }
-
-    private static void AddTimeSettingsProvider(this IServiceCollection services, IConfiguration configuration)
-    {
-        var emulator = configuration.GetValue<bool>("Emulator:Enabled");
-        if (emulator)
-        {
-            services.AddSingleton<INtpSettingsProvider, Emulator.NtpSettingsProvider>();
-        }
-        else
-        {
-            services.AddSingleton<INtpSettingsProvider, Device.NtpSettingsProvider>();
-        }
-    }
+  
 }
 
 public static class SqliteSharedConnection

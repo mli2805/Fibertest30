@@ -7,9 +7,6 @@ import { StartPageRoutingModule } from './start-page-routing.module';
 import { SharedModule } from '../../../shared/shared.module';
 import { SystemNotificationsComponent } from './components/notifications/system-notifications/system-notifications.component';
 import { AccountMenuComponent } from './components/start-page-header/account-menu/account-menu.component';
-import { RouterOtauTitleComponent } from './components/start-page-header/titles/router-otau-title/router-otau-title.component';
-import { RouterBaselineTitleComponent } from './components/start-page-header/titles/router-baseline-title/router-baseline-title.component';
-import { AlarmNotificationsComponent } from './components/notifications/alarm-notifications/alarm-notifications.component';
 
 @NgModule({
   imports: [StartPageRoutingModule, SharedModule],
@@ -18,11 +15,8 @@ import { AlarmNotificationsComponent } from './components/notifications/alarm-no
     StartPageComponent,
     StartPageSidebarComponent,
     StartPageHeaderComponent,
-    AlarmNotificationsComponent,
     SystemNotificationsComponent,
-    AccountMenuComponent,
-    RouterOtauTitleComponent,
-    RouterBaselineTitleComponent
+    AccountMenuComponent
   ],
   providers: []
 })

@@ -22,7 +22,7 @@ public class SnmpChannelSender : ISnmpChannelSender
         var trapReceiver = await notificationSettingsRepository.GetTrapReceiver(ct);
         if (!trapReceiver.Enabled) { return; }
 
-        var portPath = GetOtauPortPathByMonitoringPortId(alarmEvent.MonitoringPortId);
+        var portPath = "234-21";
 
         var snmpContentBuilder = scope.ServiceProvider.GetRequiredService<ISnmpContentBuilder>();
         var payload = snmpContentBuilder.BuildSnmpPayload(portPath, alarmEvent);
@@ -31,12 +31,7 @@ public class SnmpChannelSender : ISnmpChannelSender
         snmpService.SendSnmpTrap(trapReceiver, (int)SnmpSpecificTrapType.OpticalAlarm, payload);
     }
 
-    private OtauPortPath GetOtauPortPathByMonitoringPortId(int monitoringPortId)
-    {
-        using var scope = _serviceScopeFactory.CreateScope();
-        var otauService = scope.ServiceProvider.GetRequiredService<IOtauService>();
-        return otauService.GetOtauPortPathByMonitoringPortId(monitoringPortId);
-    }
+  
 
     public Task Send(SystemEvent systemEvent, CancellationToken ct)
     {

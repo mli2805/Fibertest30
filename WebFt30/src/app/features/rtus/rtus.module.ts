@@ -4,7 +4,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FiberizerCoreModule } from '../fiberizer-core/fiberizer-core.module';
-import { MeasurementModule } from '../shared/measurement/measurement.module';
 import { RtusRoutingModule } from './rtus-routing';
 
 import { RtuTreeComponent } from './rtu-tree/rtu-tree.component';
@@ -36,7 +35,6 @@ import { MeasurementClientComponent } from './measurement-client/measurement-cli
   imports: [
     RtusRoutingModule,
     SharedModule,
-    MeasurementModule,
     FiberizerCoreModule,
     ScrollingModule,
     TranslateModule.forChild()

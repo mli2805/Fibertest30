@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Fibertest30.Infrastructure.Emulator;
 
 namespace Fibertest30.Infrastructure;
 public class RtuContextInitializer
@@ -11,15 +10,13 @@ public class RtuContextInitializer
     private readonly IDefaultPermissionProvider _permissionProvider;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
-    private readonly IOtauRepository _otauRepository;
 
     public RtuContextInitializer(
         ILogger<RtuContextInitializer> logger,
         RtuContext context,
         IDefaultPermissionProvider permissionProvider,
         UserManager<ApplicationUser> userManager,
-        RoleManager<IdentityRole> roleManager,
-        IOtauRepository otauRepository
+        RoleManager<IdentityRole> roleManager
         )
     {
         _logger = logger;
@@ -27,15 +24,14 @@ public class RtuContextInitializer
         _permissionProvider = permissionProvider;
         _userManager = userManager;
         _roleManager = roleManager;
-        _otauRepository = otauRepository;
     }
 
     public async Task InitialiseAsync()
     {
         try
         {
-            //await _context.Database.EnsureCreatedAsync();
-            await _context.Database.MigrateAsync();
+            await _context.Database.EnsureCreatedAsync();
+            // await _context.Database.MigrateAsync();
         }
         catch (Exception ex)
         {
@@ -63,7 +59,6 @@ public class RtuContextInitializer
         // Don't forget to check if seed is needed
 
         await SeedDefaultRolesAndPermissions();
-        await SeedMonitoringTimeSlots();
         await SeedEmptyNotificationSettings();
 
        
@@ -120,24 +115,7 @@ public class RtuContextInitializer
         }
     }
 
-    private async Task SeedMonitoringTimeSlots()
-    {
-        if (await _context.MonitoringTimeSlots.AnyAsync())
-        {
-            return;
-        }
-
-        foreach (var i in Enumerable.Range(0, 24))
-        {
-            var timeSlot = new MonitoringTimeSlotEf
-            {
-                StartTime = TimeOnly.Parse($"{i}:00"),
-                EndTime = TimeOnly.Parse($"{(i + 1) % 24}:00")
-            };
-            _context.MonitoringTimeSlots.Add(timeSlot);
-        }
-    }
-
+ 
     private async Task SeedDemoUsers()
     {
         var userCount = await _userManager.Users.CountAsync();

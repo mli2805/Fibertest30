@@ -22,9 +22,6 @@ export class DeviceEffects {
           map((grpcDeviceInfo) => {
             const deviceInfo = MapUtils.toDeviceInfo(grpcDeviceInfo);
 
-            // so that chart-js displays DataPoints in the device timezone
-            moment.tz.setDefault(deviceInfo.timezone.ianaId);
-
             return DeviceActions.loadDeviceInfoSuccess({
               deviceInfo
             });

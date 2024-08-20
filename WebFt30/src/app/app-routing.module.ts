@@ -21,10 +21,7 @@ const routes: Routes = [
     path: 'demo',
     loadChildren: () => import('./features/demo/demo.module').then((m) => m.DemoModule)
   },
-  {
-    path: 'emulator',
-    loadChildren: () => import('./features/emulator/emulator.module').then((m) => m.EmulatorModule)
-  },
+
   {
     path: 'error',
     canActivate: [canActivateErrorPage],

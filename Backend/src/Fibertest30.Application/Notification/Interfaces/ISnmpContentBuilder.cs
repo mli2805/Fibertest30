@@ -2,5 +2,5 @@
 
 public interface ISnmpContentBuilder
 {
-    Dictionary<int, string> BuildSnmpPayload(OtauPortPath portPath, MonitoringAlarmEvent alarmEvent);
+    Dictionary<int, string> BuildSnmpPayload(string portPath, MonitoringAlarmEvent alarmEvent);
 }

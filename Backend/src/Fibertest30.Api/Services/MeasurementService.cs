@@ -27,95 +27,7 @@ public class MeasurementService : Measurement.MeasurementBase
         return Task.FromResult(response);
     }
 
-    public override async Task<SetMonitoringPortStatusResponse> SetMonitoringPortStatus
-        (SetMonitoringPortStatusRequest request, ServerCallContext context)
-    {
-        await _mediator.Send(
-            new SetMonitoringPortStatusCommand(request.MonitoringPortId,
-                (Fibertest30.Application.MonitoringPortStatus)request.Status),
-            context.CancellationToken);
-
-        return new SetMonitoringPortStatusResponse();
-    }
-
-    public override async Task<SetMonitoringPortScheduleResponse> SetMonitoringPortSchedule(
-        SetMonitoringPortScheduleRequest request, ServerCallContext context)
-    {
-        await _mediator.Send(new SetMonitoringPortScheduleCommand(request.MonitoringPortId,
-                (Application.MonitoringSchedulerMode)request.Schedule.SchedulerMode,
-                request.Schedule.Interval.ToTimeSpan(), request.Schedule.TimeSlotIds.ToList()),
-            context.CancellationToken);
-
-        return new SetMonitoringPortScheduleResponse();
-    }
-
   
-
-    public override async Task<SetMonitoringPortNoteResponse> SetMonitoringPortNote(SetMonitoringPortNoteRequest request, ServerCallContext context)
-    {
-        await _mediator.Send(new SetMonitoringPortNoteCommand(request.MonitoringPortId, 
-            request.Note), context.CancellationToken);
-
-        return new SetMonitoringPortNoteResponse();
-    }
-
-    public override async Task<GetMonitoringPortResponse> GetMonitoringPort(GetMonitoringPortRequest request, ServerCallContext context)
-    {
-        var monitoringPort = await _mediator.Send(
-             new GetMonitoringPortQuery(request.MonitoringPortId),
-             context.CancellationToken);
-
-        return new GetMonitoringPortResponse { MonitoringPort = monitoringPort.ToProto() };
-    }
-
-    public override async Task<GetOtauMonitoringPortsResponse>
-        GetOtauMonitoringPorts(GetOtauMonitoringPortsRequest request, ServerCallContext context)
-    {
-        var ports = await _mediator.Send(
-            new GetOtauMonitoringPortsQuery(request.OtauId),
-            context.CancellationToken);
-
-        return new GetOtauMonitoringPortsResponse
-        {
-            MonitoringPorts = { ports.Select(x => x.ToProto()) }
-        };
-    }
-
-    public override async Task<StartBaselineSetupResponse> StartBaselineSetup(
-        StartBaselineSetupRequest request,
-        ServerCallContext context)
-    {
-        await _mediator.Send(
-            new StartBaselineSetupCommand(
-                request.MonitoringPortId, request.FullAutoMode, request.MeasurementSettings?.FromProto()),
-            context.CancellationToken);
-
-        return new StartBaselineSetupResponse();
-    }
-
-    public override async Task<StopBaselineSetupResponse> StopBaselineSetup(StopBaselineSetupRequest request, ServerCallContext context)
-    {
-        await _mediator.Send(
-            new StopBaselineSetupCommand(request.MonitoringPortId),
-            context.CancellationToken);
-
-        return new StopBaselineSetupResponse();
-    }
-
-    public override async Task<GetBaselineProgressTraceResponse> GetBaselineProgressTrace(GetBaselineProgressTraceRequest request, ServerCallContext context)
-    {
-        var trace = await _mediator.Send(
-            new GetBaselineProgressTraceQuery(request.TaskId),
-            context.CancellationToken);
-
-        var response = new GetBaselineProgressTraceResponse();
-        if (trace != null)
-        {
-            response.Sor = ProtoUtils.MeasurementTraceToSorByteString(trace);
-        }
-
-        return response;
-    }
 
     public override async Task<UpdateNotificationSettingsResponse> UpdateNotificationSettings(
         UpdateNotificationSettingsRequest request, ServerCallContext context)
@@ -151,38 +63,5 @@ public class MeasurementService : Measurement.MeasurementBase
         return new TestTrapReceiverSettingsResponse();
     }
 
-    public override async Task<GetNetworkSettingsResponse> GetNetworkSettings(GetNetworkSettingsRequest request,
-        ServerCallContext context)
-    {
-        var settings = await _mediator.Send(new GetNetworkSettingsQuery(), context.CancellationToken);
-        var protoSettings = settings.ToProto();
-        var response = new GetNetworkSettingsResponse() { NetworkSettings = protoSettings };
-        return response;
-    }
-
-    public override async Task<UpdateNetworkSettingsResponse> UpdateNetworkSettings(
-        UpdateNetworkSettingsRequest request,
-        ServerCallContext context)
-    {
-        var settings = request.NetworkSettings.FromProto();
-        await _mediator.Send(new UpdateNetworkSettingsCommand(settings), context.CancellationToken);
-        return new UpdateNetworkSettingsResponse();
-    }
-
-    public override async Task<GetTimeSettingsResponse> GetTimeSettings(GetTimeSettingsRequest request,
-        ServerCallContext context)
-    {
-        var settings = await _mediator.Send(new GetTimeSettingsQuery(), context.CancellationToken);
-        var protoSettings = settings.ToProto();
-        var response = new GetTimeSettingsResponse() { TimeSettings = protoSettings };
-        return response;
-    }
-
-    public override async Task<UpdateTimeSettingsResponse> UpdateTimeSettings(UpdateTimeSettingsRequest request,
-        ServerCallContext context)
-    {
-        var settings = request.TimeSettings.FromProto();
-        await _mediator.Send(new UpdateTimeSettingsCommand(settings), context.CancellationToken);
-        return new UpdateTimeSettingsResponse();
-    }
+ 
 }

@@ -12,14 +12,6 @@ import type { DismissUserSystemNotificationResponse } from "./core";
 import type { DismissUserSystemNotificationRequest } from "./core";
 import type { GetUserSystemNotificationsResponse } from "./core";
 import type { GetUserSystemNotificationsRequest } from "./core";
-import type { DismissAllUserAlarmNotificationsResponse } from "./core";
-import type { DismissAllUserAlarmNotificationsRequest } from "./core";
-import type { DismissUserAlarmNotificationsByLevelResponse } from "./core";
-import type { DismissUserAlarmNotificationsByLevelRequest } from "./core";
-import type { DismissUserAlarmNotificationResponse } from "./core";
-import type { DismissUserAlarmNotificationRequest } from "./core";
-import type { GetUserAlarmNotificationsResponse } from "./core";
-import type { GetUserAlarmNotificationsRequest } from "./core";
 import type { GetSystemMessageStreamResponse } from "./core";
 import type { GetSystemMessageStreamRequest } from "./core";
 import type { ServerStreamingCall } from "@protobuf-ts/runtime-rpc";
@@ -40,22 +32,6 @@ export interface ICoreClient {
      * @generated from protobuf rpc: GetSystemMessageStream(fibertest30.core.GetSystemMessageStreamRequest) returns (stream fibertest30.core.GetSystemMessageStreamResponse);
      */
     getSystemMessageStream(input: GetSystemMessageStreamRequest, options?: RpcOptions): ServerStreamingCall<GetSystemMessageStreamRequest, GetSystemMessageStreamResponse>;
-    /**
-     * @generated from protobuf rpc: GetUserAlarmNotifications(fibertest30.core.GetUserAlarmNotificationsRequest) returns (fibertest30.core.GetUserAlarmNotificationsResponse);
-     */
-    getUserAlarmNotifications(input: GetUserAlarmNotificationsRequest, options?: RpcOptions): UnaryCall<GetUserAlarmNotificationsRequest, GetUserAlarmNotificationsResponse>;
-    /**
-     * @generated from protobuf rpc: DismissUserAlarmNotification(fibertest30.core.DismissUserAlarmNotificationRequest) returns (fibertest30.core.DismissUserAlarmNotificationResponse);
-     */
-    dismissUserAlarmNotification(input: DismissUserAlarmNotificationRequest, options?: RpcOptions): UnaryCall<DismissUserAlarmNotificationRequest, DismissUserAlarmNotificationResponse>;
-    /**
-     * @generated from protobuf rpc: DismissUserAlarmNotificationsByLevel(fibertest30.core.DismissUserAlarmNotificationsByLevelRequest) returns (fibertest30.core.DismissUserAlarmNotificationsByLevelResponse);
-     */
-    dismissUserAlarmNotificationsByLevel(input: DismissUserAlarmNotificationsByLevelRequest, options?: RpcOptions): UnaryCall<DismissUserAlarmNotificationsByLevelRequest, DismissUserAlarmNotificationsByLevelResponse>;
-    /**
-     * @generated from protobuf rpc: DismissAllUserAlarmNotifications(fibertest30.core.DismissAllUserAlarmNotificationsRequest) returns (fibertest30.core.DismissAllUserAlarmNotificationsResponse);
-     */
-    dismissAllUserAlarmNotifications(input: DismissAllUserAlarmNotificationsRequest, options?: RpcOptions): UnaryCall<DismissAllUserAlarmNotificationsRequest, DismissAllUserAlarmNotificationsResponse>;
     /**
      * @generated from protobuf rpc: GetUserSystemNotifications(fibertest30.core.GetUserSystemNotificationsRequest) returns (fibertest30.core.GetUserSystemNotificationsResponse);
      */
@@ -97,59 +73,31 @@ export class CoreClient implements ICoreClient, ServiceInfo {
         return stackIntercept<GetSystemMessageStreamRequest, GetSystemMessageStreamResponse>("serverStreaming", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: GetUserAlarmNotifications(fibertest30.core.GetUserAlarmNotificationsRequest) returns (fibertest30.core.GetUserAlarmNotificationsResponse);
-     */
-    getUserAlarmNotifications(input: GetUserAlarmNotificationsRequest, options?: RpcOptions): UnaryCall<GetUserAlarmNotificationsRequest, GetUserAlarmNotificationsResponse> {
-        const method = this.methods[2], opt = this._transport.mergeOptions(options);
-        return stackIntercept<GetUserAlarmNotificationsRequest, GetUserAlarmNotificationsResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
-     * @generated from protobuf rpc: DismissUserAlarmNotification(fibertest30.core.DismissUserAlarmNotificationRequest) returns (fibertest30.core.DismissUserAlarmNotificationResponse);
-     */
-    dismissUserAlarmNotification(input: DismissUserAlarmNotificationRequest, options?: RpcOptions): UnaryCall<DismissUserAlarmNotificationRequest, DismissUserAlarmNotificationResponse> {
-        const method = this.methods[3], opt = this._transport.mergeOptions(options);
-        return stackIntercept<DismissUserAlarmNotificationRequest, DismissUserAlarmNotificationResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
-     * @generated from protobuf rpc: DismissUserAlarmNotificationsByLevel(fibertest30.core.DismissUserAlarmNotificationsByLevelRequest) returns (fibertest30.core.DismissUserAlarmNotificationsByLevelResponse);
-     */
-    dismissUserAlarmNotificationsByLevel(input: DismissUserAlarmNotificationsByLevelRequest, options?: RpcOptions): UnaryCall<DismissUserAlarmNotificationsByLevelRequest, DismissUserAlarmNotificationsByLevelResponse> {
-        const method = this.methods[4], opt = this._transport.mergeOptions(options);
-        return stackIntercept<DismissUserAlarmNotificationsByLevelRequest, DismissUserAlarmNotificationsByLevelResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
-     * @generated from protobuf rpc: DismissAllUserAlarmNotifications(fibertest30.core.DismissAllUserAlarmNotificationsRequest) returns (fibertest30.core.DismissAllUserAlarmNotificationsResponse);
-     */
-    dismissAllUserAlarmNotifications(input: DismissAllUserAlarmNotificationsRequest, options?: RpcOptions): UnaryCall<DismissAllUserAlarmNotificationsRequest, DismissAllUserAlarmNotificationsResponse> {
-        const method = this.methods[5], opt = this._transport.mergeOptions(options);
-        return stackIntercept<DismissAllUserAlarmNotificationsRequest, DismissAllUserAlarmNotificationsResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
      * @generated from protobuf rpc: GetUserSystemNotifications(fibertest30.core.GetUserSystemNotificationsRequest) returns (fibertest30.core.GetUserSystemNotificationsResponse);
      */
     getUserSystemNotifications(input: GetUserSystemNotificationsRequest, options?: RpcOptions): UnaryCall<GetUserSystemNotificationsRequest, GetUserSystemNotificationsResponse> {
-        const method = this.methods[6], opt = this._transport.mergeOptions(options);
+        const method = this.methods[2], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetUserSystemNotificationsRequest, GetUserSystemNotificationsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: DismissUserSystemNotification(fibertest30.core.DismissUserSystemNotificationRequest) returns (fibertest30.core.DismissUserSystemNotificationResponse);
      */
     dismissUserSystemNotification(input: DismissUserSystemNotificationRequest, options?: RpcOptions): UnaryCall<DismissUserSystemNotificationRequest, DismissUserSystemNotificationResponse> {
-        const method = this.methods[7], opt = this._transport.mergeOptions(options);
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
         return stackIntercept<DismissUserSystemNotificationRequest, DismissUserSystemNotificationResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: DismissUserSystemNotificationsByLevel(fibertest30.core.DismissUserSystemNotificationsByLevelRequest) returns (fibertest30.core.DismissUserSystemNotificationsByLevelResponse);
      */
     dismissUserSystemNotificationsByLevel(input: DismissUserSystemNotificationsByLevelRequest, options?: RpcOptions): UnaryCall<DismissUserSystemNotificationsByLevelRequest, DismissUserSystemNotificationsByLevelResponse> {
-        const method = this.methods[8], opt = this._transport.mergeOptions(options);
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
         return stackIntercept<DismissUserSystemNotificationsByLevelRequest, DismissUserSystemNotificationsByLevelResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: DismissAllUserSystemNotifications(fibertest30.core.DismissAllUserSystemNotificationsRequest) returns (fibertest30.core.DismissAllUserSystemNotificationsResponse);
      */
     dismissAllUserSystemNotifications(input: DismissAllUserSystemNotificationsRequest, options?: RpcOptions): UnaryCall<DismissAllUserSystemNotificationsRequest, DismissAllUserSystemNotificationsResponse> {
-        const method = this.methods[9], opt = this._transport.mergeOptions(options);
+        const method = this.methods[5], opt = this._transport.mergeOptions(options);
         return stackIntercept<DismissAllUserSystemNotificationsRequest, DismissAllUserSystemNotificationsResponse>("unary", this._transport, method, opt, input);
     }
 }

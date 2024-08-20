@@ -2,20 +2,10 @@ import { EventEmitter, Injectable, ViewContainerRef } from '@angular/core';
 import { SystemEvent } from 'src/app/core/store/models';
 import {
   DefaultSystemEventViewerComponent,
-  BaselineCompletedSystemEventViewerComponent,
-  BaselineFailedSystemEventViewerComponent,
   UserChangedSystemEventViewerComponent,
   UserCreatedSystemEventViewerComponent,
   UserDeletedSystemEventViewerComponent,
-  OtauConnectionStatusChangedSystemEventViewerComponent,
-  OtauChangedSystemEventViewerComponent,
-  OtauRemovedEventViewerComponent,
-  OtauAddedEventViewerComponent,
-  OtauInformationChangedSystemEventViewerComponent,
-  MonitoringPortStatusChangedSystemEventViewerComponent,
-  MonitoringPortScheduleChangedSystemEventViewerComponent,
-  NotificationSettingsUpdatedSystemEventViewerComponent,
-  UnsupportedOsmModuleEventViewerComponent
+  NotificationSettingsUpdatedSystemEventViewerComponent
 } from '.';
 
 @Injectable({ providedIn: 'root' })
@@ -28,12 +18,6 @@ export class SystemEventViewerFactory {
     let component;
 
     switch (systemEvent.type) {
-      case 'BaselineFailed':
-        component = BaselineFailedSystemEventViewerComponent;
-        break;
-      case 'BaselineCompleted':
-        component = BaselineCompletedSystemEventViewerComponent;
-        break;
       case 'UserChanged':
         component = UserChangedSystemEventViewerComponent;
         break;
@@ -42,30 +26,6 @@ export class SystemEventViewerFactory {
         break;
       case 'UserDeleted':
         component = UserDeletedSystemEventViewerComponent;
-        break;
-      case 'OtauConnectionStatusChanged':
-        component = OtauConnectionStatusChangedSystemEventViewerComponent;
-        break;
-      case 'OtauChanged':
-        component = OtauChangedSystemEventViewerComponent;
-        break;
-      case 'OtauInformationChanged':
-        component = OtauInformationChangedSystemEventViewerComponent;
-        break;
-      case 'OtauRemoved':
-        component = OtauRemovedEventViewerComponent;
-        break;
-      case 'OtauAdded':
-        component = OtauAddedEventViewerComponent;
-        break;
-      case 'UnsupportedOsmModuleConnected':
-        component = UnsupportedOsmModuleEventViewerComponent;
-        break;
-      case 'MonitoringPortStatusChanged':
-        component = MonitoringPortStatusChangedSystemEventViewerComponent;
-        break;
-      case 'MonitoringPortScheduleChanged':
-        component = MonitoringPortScheduleChangedSystemEventViewerComponent;
         break;
 
       case 'NotificationSettingsUpdated':

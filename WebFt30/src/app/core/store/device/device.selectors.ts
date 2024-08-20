@@ -7,16 +7,6 @@ const selectDevice = createSelector(selectDeviceState, (state: DeviceState) => s
 
 const selectInfo = createSelector(selectDevice, (state: DeviceState) => state.deviceInfo);
 
-const selectSerialNumber = createSelector(
-  selectInfo,
-  (info: DeviceInfo | null) => info?.serialNumber ?? null
-);
-
-const selectIpV4Address = createSelector(
-  selectInfo,
-  (info: DeviceInfo | null) => info?.ipV4Address ?? null
-);
-
 const selectApiVersion = createSelector(
   selectInfo,
   (info: DeviceInfo | null) => info?.apiVersion ?? null
@@ -35,8 +25,6 @@ const selectLoading = createSelector(
 export const DeviceSelectors = {
   selectDevice,
   selectInfo,
-  selectSerialNumber,
-  selectIpV4Address,
   selectApiVersion,
   selectSupportedMeasurementParameters,
   selectLoading

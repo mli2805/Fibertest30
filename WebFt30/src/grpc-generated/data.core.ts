@@ -2,8 +2,6 @@
 // @generated from protobuf file "data.core.proto" (package "fibertest30.data.core", syntax proto3)
 // tslint:disable
 import { MessageType } from "@protobuf-ts/runtime";
-import { MeasurementSettings } from "./data.otdr";
-import { Duration } from "./google/protobuf/duration";
 import { Timestamp } from "./google/protobuf/timestamp";
 /**
  * @generated from protobuf message fibertest30.data.core.SystemEventSource
@@ -46,123 +44,6 @@ export interface SystemEvent {
      * @generated from protobuf field: google.protobuf.Timestamp at = 6;
      */
     at?: Timestamp;
-}
-/**
- * @generated from protobuf message fibertest30.data.core.MonitoringSchedule
- */
-export interface MonitoringSchedule {
-    /**
-     * @generated from protobuf field: fibertest30.data.core.MonitoringSchedulerMode schedulerMode = 1;
-     */
-    schedulerMode: MonitoringSchedulerMode;
-    /**
-     * @generated from protobuf field: google.protobuf.Duration interval = 2;
-     */
-    interval?: Duration;
-    /**
-     * @generated from protobuf field: repeated int32 timeSlotIds = 3;
-     */
-    timeSlotIds: number[];
-}
-/**
- * @generated from protobuf message fibertest30.data.core.MonitoringBaseline
- */
-export interface MonitoringBaseline {
-    /**
-     * @generated from protobuf field: int32 id = 1;
-     */
-    id: number;
-    /**
-     * @generated from protobuf field: int32 monitoringPortId = 2;
-     */
-    monitoringPortId: number;
-    /**
-     * @generated from protobuf field: string createdByUserId = 3;
-     */
-    createdByUserId: string;
-    /**
-     * @generated from protobuf field: google.protobuf.Timestamp createdAt = 4;
-     */
-    createdAt?: Timestamp;
-    /**
-     * @generated from protobuf field: fibertest30.data.otdr.MeasurementSettings measurementSettings = 5;
-     */
-    measurementSettings?: MeasurementSettings;
-}
-/**
- * @generated from protobuf message fibertest30.data.core.MonitoringPort
- */
-export interface MonitoringPort {
-    /**
-     * @generated from protobuf field: int32 id = 1;
-     */
-    id: number;
-    /**
-     * @generated from protobuf field: int32 otauPortId = 2;
-     */
-    otauPortId: number;
-    /**
-     * @generated from protobuf field: int32 otauId = 3;
-     */
-    otauId: number;
-    /**
-     * @generated from protobuf field: fibertest30.data.core.MonitoringPortStatus status = 4;
-     */
-    status: MonitoringPortStatus;
-    /**
-     * @generated from protobuf field: fibertest30.data.core.MonitoringSchedulerMode schedulerMode = 5;
-     */
-    schedulerMode: MonitoringSchedulerMode;
-    /**
-     * @generated from protobuf field: fibertest30.data.core.MonitoringBaseline baseline = 6;
-     */
-    baseline?: MonitoringBaseline;
-    /**
-     * @generated from protobuf field: google.protobuf.Duration interval = 7;
-     */
-    interval?: Duration;
-    /**
-     * @generated from protobuf field: repeated int32 timeSlotIds = 8;
-     */
-    timeSlotIds: number[];
-    /**
-     * @generated from protobuf field: int32 alarmProfileId = 9;
-     */
-    alarmProfileId: number;
-    /**
-     * @generated from protobuf field: string Note = 10 [json_name = "Note"];
-     */
-    note: string;
-}
-/**
- * @generated from protobuf message fibertest30.data.core.TimeOnlyHourMinute
- */
-export interface TimeOnlyHourMinute {
-    /**
-     * @generated from protobuf field: int32 hour = 1;
-     */
-    hour: number;
-    /**
-     * @generated from protobuf field: int32 minute = 2;
-     */
-    minute: number;
-}
-/**
- * @generated from protobuf message fibertest30.data.core.MonitoringTimeSlot
- */
-export interface MonitoringTimeSlot {
-    /**
-     * @generated from protobuf field: int32 id = 1;
-     */
-    id: number;
-    /**
-     * @generated from protobuf field: fibertest30.data.core.TimeOnlyHourMinute start = 2;
-     */
-    start?: TimeOnlyHourMinute;
-    /**
-     * @generated from protobuf field: fibertest30.data.core.TimeOnlyHourMinute end = 3;
-     */
-    end?: TimeOnlyHourMinute;
 }
 /**
  * @generated from protobuf message fibertest30.data.core.Threshold
@@ -333,35 +214,6 @@ export interface NotificationSettings {
     trapReceiver?: TrapReceiver;
 }
 /**
- * @generated from protobuf message fibertest30.data.core.NetworkSettings
- */
-export interface NetworkSettings {
-    /**
-     * @generated from protobuf field: string networkMode = 1;
-     */
-    networkMode: string;
-    /**
-     * @generated from protobuf field: string localIpAddress = 2;
-     */
-    localIpAddress: string;
-    /**
-     * @generated from protobuf field: string localSubnetMask = 3;
-     */
-    localSubnetMask: string;
-    /**
-     * @generated from protobuf field: string localGatewayIp = 4;
-     */
-    localGatewayIp: string;
-    /**
-     * @generated from protobuf field: optional string primaryDnsServer = 5;
-     */
-    primaryDnsServer?: string;
-    /**
-     * @generated from protobuf field: optional string secondaryDnsServer = 6;
-     */
-    secondaryDnsServer?: string;
-}
-/**
  * @generated from protobuf message fibertest30.data.core.AppTimeZone
  */
 export interface AppTimeZone {
@@ -377,32 +229,6 @@ export interface AppTimeZone {
      * @generated from protobuf field: string displayBaseUtcOffset = 3;
      */
     displayBaseUtcOffset: string;
-}
-/**
- * @generated from protobuf message fibertest30.data.core.NtpSettings
- */
-export interface NtpSettings {
-    /**
-     * @generated from protobuf field: optional string primaryNtpServer = 1;
-     */
-    primaryNtpServer?: string;
-    /**
-     * @generated from protobuf field: optional string secondaryNtpServer = 2;
-     */
-    secondaryNtpServer?: string;
-}
-/**
- * @generated from protobuf message fibertest30.data.core.TimeSettings
- */
-export interface TimeSettings {
-    /**
-     * @generated from protobuf field: fibertest30.data.core.AppTimeZone appTimeZone = 1;
-     */
-    appTimeZone?: AppTimeZone;
-    /**
-     * @generated from protobuf field: fibertest30.data.core.NtpSettings ntpSettings = 2;
-     */
-    ntpSettings?: NtpSettings;
 }
 /**
  * @generated from protobuf enum fibertest30.data.core.SystemEventLevel
@@ -424,40 +250,6 @@ export enum SystemEventLevel {
      * @generated from protobuf enum value: Critical = 3;
      */
     Critical = 3
-}
-/**
- * @generated from protobuf enum fibertest30.data.core.MonitoringPortStatus
- */
-export enum MonitoringPortStatus {
-    /**
-     * @generated from protobuf enum value: Off = 0;
-     */
-    Off = 0,
-    /**
-     * @generated from protobuf enum value: On = 1;
-     */
-    On = 1,
-    /**
-     * @generated from protobuf enum value: Maintenance = 2;
-     */
-    Maintenance = 2
-}
-/**
- * @generated from protobuf enum fibertest30.data.core.MonitoringSchedulerMode
- */
-export enum MonitoringSchedulerMode {
-    /**
-     * @generated from protobuf enum value: RoundRobin = 0;
-     */
-    RoundRobin = 0,
-    /**
-     * @generated from protobuf enum value: FixedTimeSlot = 1;
-     */
-    FixedTimeSlot = 1,
-    /**
-     * @generated from protobuf enum value: AtLeastOnceIn = 2;
-     */
-    AtLeastOnceIn = 2
 }
 /**
  * @generated from protobuf enum fibertest30.data.core.ThresholdParameter
@@ -522,84 +314,6 @@ class SystemEvent$Type extends MessageType<SystemEvent> {
  * @generated MessageType for protobuf message fibertest30.data.core.SystemEvent
  */
 export const SystemEvent = new SystemEvent$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class MonitoringSchedule$Type extends MessageType<MonitoringSchedule> {
-    constructor() {
-        super("fibertest30.data.core.MonitoringSchedule", [
-            { no: 1, name: "schedulerMode", kind: "enum", T: () => ["fibertest30.data.core.MonitoringSchedulerMode", MonitoringSchedulerMode] },
-            { no: 2, name: "interval", kind: "message", T: () => Duration },
-            { no: 3, name: "timeSlotIds", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.data.core.MonitoringSchedule
- */
-export const MonitoringSchedule = new MonitoringSchedule$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class MonitoringBaseline$Type extends MessageType<MonitoringBaseline> {
-    constructor() {
-        super("fibertest30.data.core.MonitoringBaseline", [
-            { no: 1, name: "id", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "monitoringPortId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 3, name: "createdByUserId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "createdAt", kind: "message", T: () => Timestamp },
-            { no: 5, name: "measurementSettings", kind: "message", T: () => MeasurementSettings }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.data.core.MonitoringBaseline
- */
-export const MonitoringBaseline = new MonitoringBaseline$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class MonitoringPort$Type extends MessageType<MonitoringPort> {
-    constructor() {
-        super("fibertest30.data.core.MonitoringPort", [
-            { no: 1, name: "id", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "otauPortId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 3, name: "otauId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 4, name: "status", kind: "enum", T: () => ["fibertest30.data.core.MonitoringPortStatus", MonitoringPortStatus] },
-            { no: 5, name: "schedulerMode", kind: "enum", T: () => ["fibertest30.data.core.MonitoringSchedulerMode", MonitoringSchedulerMode] },
-            { no: 6, name: "baseline", kind: "message", T: () => MonitoringBaseline },
-            { no: 7, name: "interval", kind: "message", T: () => Duration },
-            { no: 8, name: "timeSlotIds", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/ },
-            { no: 9, name: "alarmProfileId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 10, name: "Note", kind: "scalar", jsonName: "Note", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.data.core.MonitoringPort
- */
-export const MonitoringPort = new MonitoringPort$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class TimeOnlyHourMinute$Type extends MessageType<TimeOnlyHourMinute> {
-    constructor() {
-        super("fibertest30.data.core.TimeOnlyHourMinute", [
-            { no: 1, name: "hour", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "minute", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.data.core.TimeOnlyHourMinute
- */
-export const TimeOnlyHourMinute = new TimeOnlyHourMinute$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class MonitoringTimeSlot$Type extends MessageType<MonitoringTimeSlot> {
-    constructor() {
-        super("fibertest30.data.core.MonitoringTimeSlot", [
-            { no: 1, name: "id", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "start", kind: "message", T: () => TimeOnlyHourMinute },
-            { no: 3, name: "end", kind: "message", T: () => TimeOnlyHourMinute }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.data.core.MonitoringTimeSlot
- */
-export const MonitoringTimeSlot = new MonitoringTimeSlot$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Threshold$Type extends MessageType<Threshold> {
     constructor() {
@@ -682,23 +396,6 @@ class NotificationSettings$Type extends MessageType<NotificationSettings> {
  */
 export const NotificationSettings = new NotificationSettings$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class NetworkSettings$Type extends MessageType<NetworkSettings> {
-    constructor() {
-        super("fibertest30.data.core.NetworkSettings", [
-            { no: 1, name: "networkMode", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "localIpAddress", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "localSubnetMask", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "localGatewayIp", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "primaryDnsServer", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "secondaryDnsServer", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.data.core.NetworkSettings
- */
-export const NetworkSettings = new NetworkSettings$Type();
-// @generated message type with reflection information, may provide speed optimized methods
 class AppTimeZone$Type extends MessageType<AppTimeZone> {
     constructor() {
         super("fibertest30.data.core.AppTimeZone", [
@@ -712,29 +409,3 @@ class AppTimeZone$Type extends MessageType<AppTimeZone> {
  * @generated MessageType for protobuf message fibertest30.data.core.AppTimeZone
  */
 export const AppTimeZone = new AppTimeZone$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class NtpSettings$Type extends MessageType<NtpSettings> {
-    constructor() {
-        super("fibertest30.data.core.NtpSettings", [
-            { no: 1, name: "primaryNtpServer", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "secondaryNtpServer", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.data.core.NtpSettings
- */
-export const NtpSettings = new NtpSettings$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class TimeSettings$Type extends MessageType<TimeSettings> {
-    constructor() {
-        super("fibertest30.data.core.TimeSettings", [
-            { no: 1, name: "appTimeZone", kind: "message", T: () => AppTimeZone },
-            { no: 2, name: "ntpSettings", kind: "message", T: () => NtpSettings }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.data.core.TimeSettings
- */
-export const TimeSettings = new TimeSettings$Type();

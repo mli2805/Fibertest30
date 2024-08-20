@@ -5,7 +5,7 @@ import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
 import { AuthInterceptor } from '../auth.interceptor';
 import { GrpcUtils } from '../grpc.utils';
 import * as grpc from 'src/grpc-generated';
-import { MonitoringAlarmLevel, SystemEventLevel } from '../../store/models';
+import { SystemEventLevel } from '../../store/models';
 import { MapUtils } from '../../map.utils';
 
 @Injectable({
@@ -42,48 +42,6 @@ export class CoreService {
     const request: grpc.DismissUserSystemNotificationRequest = { systemEventId };
     return GrpcUtils.unaryToObservable(
       this.client.dismissUserSystemNotification.bind(this.client),
-      request,
-      {}
-    );
-  }
-
-  getUserAlarmNotifications(): Observable<grpc.GetUserAlarmNotificationsResponse> {
-    const request: grpc.GetUserAlarmNotificationsRequest = {};
-    return GrpcUtils.unaryToObservable(
-      this.client.getUserAlarmNotifications.bind(this.client),
-      request,
-      {}
-    );
-  }
-
-  dismissUserAlarmNotification(
-    alarmEventId: number
-  ): Observable<grpc.DismissUserAlarmNotificationResponse> {
-    const request: grpc.DismissUserAlarmNotificationRequest = { alarmEventId };
-    return GrpcUtils.unaryToObservable(
-      this.client.dismissUserAlarmNotification.bind(this.client),
-      request,
-      {}
-    );
-  }
-
-  dismissUserAlarmNotificationsByLevel(
-    alarmLevel: MonitoringAlarmLevel
-  ): Observable<grpc.DismissUserAlarmNotificationsByLevelResponse> {
-    const request: grpc.DismissUserAlarmNotificationsByLevelRequest = {
-      alarmLevel: MapUtils.toGrpcMonitoringAlarmLevel(alarmLevel)
-    };
-    return GrpcUtils.unaryToObservable(
-      this.client.dismissUserAlarmNotificationsByLevel.bind(this.client),
-      request,
-      {}
-    );
-  }
-
-  dismissAllUserAlarmNotifications(): Observable<grpc.DismissAllUserAlarmNotificationsResponse> {
-    const request: grpc.DismissAllUserAlarmNotificationsRequest = {};
-    return GrpcUtils.unaryToObservable(
-      this.client.dismissAllUserAlarmNotifications.bind(this.client),
       request,
       {}
     );

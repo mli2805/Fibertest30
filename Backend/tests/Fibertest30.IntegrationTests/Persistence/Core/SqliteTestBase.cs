@@ -43,7 +43,6 @@ public abstract class SqliteTestBase
         var rtuContext = _useSqliteMemory ? GetSqliteDbContext() : GetEntityFrameworkInMemory();
         var userStore = new UserStore<ApplicationUser>(rtuContext);
         var roleStore = new RoleStore<IdentityRole>(rtuContext);
-        var otauRepository = new OtauRepository(rtuContext, _cache);
 
         var services = new ServiceCollection();
         services.AddIdentityCore<ApplicationUser>(options => { })
@@ -65,8 +64,8 @@ public abstract class SqliteTestBase
             rtuContext,
             _mockPermissionProvier.Object,
             _userManager,
-            _roleManager,
-            otauRepository);
+            _roleManager
+            );
         _rtuContext = rtuContext;
     }
 

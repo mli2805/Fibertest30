@@ -1,7 +1,5 @@
 syntax = "proto3";
-import "data.otdr.proto";
 import "google/protobuf/timestamp.proto";
-import "google/protobuf/duration.proto";
 
 option csharp_namespace = "Fibertest30.Api";
 package fibertest30.data.core;
@@ -25,57 +23,6 @@ message SystemEvent {
   SystemEventSource source = 4;
   string jsonData = 5;
   google.protobuf.Timestamp at = 6;
-}
-
-enum MonitoringPortStatus {
-  Off = 0;
-  On = 1;
-  Maintenance = 2;
-}
-
-enum MonitoringSchedulerMode {
-  RoundRobin = 0;
-  FixedTimeSlot = 1;
-  AtLeastOnceIn = 2;
-}
-
-
-message MonitoringSchedule {
-	MonitoringSchedulerMode schedulerMode = 1;
-	google.protobuf.Duration interval = 2;
-	repeated int32 timeSlotIds = 3;
-}
-
-message MonitoringBaseline {
-  int32 id = 1;
-  int32 monitoringPortId = 2;
-  string createdByUserId = 3;
-  google.protobuf.Timestamp createdAt = 4;
-  data.otdr.MeasurementSettings measurementSettings = 5;
-}
-
-message MonitoringPort {
-  int32 id = 1;
-  int32 otauPortId = 2;
-  int32 otauId = 3;
-  MonitoringPortStatus status = 4;
-  MonitoringSchedulerMode schedulerMode = 5;
-  MonitoringBaseline baseline = 6;
-  google.protobuf.Duration interval = 7;
-  repeated int32 timeSlotIds = 8;
-  int32 alarmProfileId = 9;
-	string Note = 10;
-}
-
-message TimeOnlyHourMinute {
-  int32 hour = 1;
-  int32 minute = 2;
-}
-
-message MonitoringTimeSlot {
-  int32 id = 1;
-  TimeOnlyHourMinute start = 2;
-  TimeOnlyHourMinute end = 3;
 }
 
 enum ThresholdParameter {
@@ -139,30 +86,10 @@ message NotificationSettings {
 	TrapReceiver trapReceiver = 3;
 }
 
-message NetworkSettings {
-	string networkMode = 1;
-
-	string localIpAddress = 2;
-	string localSubnetMask = 3;
-	string localGatewayIp = 4;
-
-	optional string primaryDnsServer = 5;
-	optional string secondaryDnsServer = 6;
-}
-
-
 message AppTimeZone {
   string ianaId = 1;
   string displayName = 2;
   string displayBaseUtcOffset = 3;
 }
 
-message NtpSettings {
-	optional string primaryNtpServer = 1;
-	optional string secondaryNtpServer = 2;
-}
 
-message TimeSettings {
-	AppTimeZone appTimeZone = 1;
-	NtpSettings ntpSettings = 2;
-}

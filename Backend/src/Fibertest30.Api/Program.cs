@@ -29,13 +29,10 @@ try
 
     builder.Services.AddHostedService<SystemEventBackgroundService>();
     builder.Services.AddHostedService<NotificationBackgroundService>();
-    builder.Services.AddHostedService<MeasurementBackgroundService>();
     builder.Services.AddHostedService<RtuPollsterBackgroundService>();
 
     builder.Services.AddScoped<IEmailBodyBuilder, EmailBodyBuilder>();
     builder.Services.AddScoped<ISnmpContentBuilder, SnmpContentBuilder>();
-
-    builder.Services.TryAddEmulatorServices(builder.Configuration);
 
     builder.Services.AddPrometheusHttpClient(builder.Configuration);
 
@@ -94,12 +91,6 @@ try
         await eventStoreService.InitializeBothDbAndService();
     }
 
-
-  
-
- 
-  
-
     app.UseRouting();
     app.UseGrpcWeb(); // Must be added between UseRouting and UseEndpoints
     app.UseCors();
@@ -111,8 +102,6 @@ try
     // app.UseAuthorization();  // Authorization middleware is in MediatR AuthorizationBehavior
 
     MapGrpcServices(app, builder.Configuration.GetValue<bool>("StartGrpcReflectionService"));
-
-    app.TryStartEmulatorServices();
 
     app.MapGet("/",
         () =>
@@ -229,10 +218,7 @@ void MapGrpcServices(WebApplication app, bool startGrpcReflectionService)
         .EnableGrpcWeb()
         .RequireCors("AllowAll");
 
-    app.MapGrpcService<PortLabelingService>()
-        .EnableGrpcWeb()
-        .RequireCors("AllowAll");
-
+  
     app.MapGrpcService<RtuTreeService>()
           .EnableGrpcWeb()
           .RequireCors("AllowAll");

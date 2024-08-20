@@ -2,33 +2,14 @@ import * as grpc from 'src/grpc-generated';
 import { UserSettings } from './models/user-settings';
 import { DeviceInfo } from './store/device/device.state';
 import {
-  DistanceRange,
   SystemNotification,
-  LaserUnit,
-  OtdrMeasurementParameters,
   User,
   Role,
   SystemEvent,
   SystemEventLevel,
   SystemEventSource,
-  MeasurementSettings,
-  Otau,
-  OtauPort,
-  OxcOtauParameters,
-  MonitoringPort,
-  MonitoringTimeSlot,
-  TimeOnlyHourMinute,
-  MonitoringResult,
-  MonitoringBaseline,
-  MonitoringAlarmEvent,
-  AlarmNotification,
-  MonitoringAlarmType,
-  MonitoringAlarmLevel,
-  MonitoringAlarmStatus,
-  MonitoringAlarm,
   DataPoint,
-  AppTimezone,
-  PortLabel
+  AppTimezone
 } from './store/models';
 
 import { PbLong } from '@protobuf-ts/runtime';
@@ -37,21 +18,11 @@ import { TimezoneUtils } from 'src/app/core/timezone.utils';
 
 import { Timestamp } from 'src/grpc-generated/google/protobuf/timestamp';
 import { ApplicationUserPatch } from '../features/rfts-setup/components/platform-management/user-accounts/components/user-edit-dialog/application-user-patch';
-import { OtauDiscover, OtauDiscoverError, OtauDiscoverResult } from './store/models/otau-discover';
-import { OtdrTaskProgressData } from '../shared/system-events/system-event-data';
-import { MonitoringSchedule } from './store/models/monitoring-schedule';
-import { Duration } from 'src/grpc-generated/google/protobuf/duration';
-import { OtdrTaskProgress } from './store/models/task-progress';
 import {
   EmailServer,
   NotificationSettings,
   TrapReceiver
 } from './store/models/notification-settings';
-import { MapJsonUtils } from './map-json.utils';
-import { NetworkSettings } from './store/models/network-settings';
-import { NtpSettings } from './store/models/ntp-settings';
-import { TimeSettings } from './store/models/time-settings';
-import { TimeZone } from './store/models/time-zone';
 import { TreeMapping } from './store/mapping/tree-mapping';
 
 export class MapUtils {
@@ -103,72 +74,6 @@ export class MapUtils {
       trapReceiverAddress: receiver.trapReceiverAddress,
       trapReceiverPort: receiver.trapReceiverPort
     };
-  }
-
-  static toNtpSettings(grpcNtpSettings: grpc.NtpSettings): NtpSettings {
-    const ntpSettings = new NtpSettings();
-    ntpSettings.primaryNtpServer = grpcNtpSettings.primaryNtpServer
-      ? grpcNtpSettings.primaryNtpServer
-      : null;
-    ntpSettings.secondaryNtpServer = grpcNtpSettings.secondaryNtpServer
-      ? grpcNtpSettings.secondaryNtpServer
-      : null;
-    return ntpSettings;
-  }
-
-  static toGrpcNtpSettings(ntpSettings: NtpSettings): grpc.NtpSettings {
-    const result = {
-      primaryNtpServer:
-        ntpSettings.primaryNtpServer !== null ? ntpSettings.primaryNtpServer : undefined,
-      secondaryNtpServer:
-        ntpSettings.secondaryNtpServer !== null ? ntpSettings.secondaryNtpServer : undefined
-    };
-    return result;
-  }
-
-  static toTimeSettings(grpcTimeSettings: grpc.TimeSettings): TimeSettings {
-    const timeSettings = new TimeSettings();
-    timeSettings.timeZone = this.toTimezone(grpcTimeSettings.appTimeZone!);
-    timeSettings.ntpSettings = this.toNtpSettings(grpcTimeSettings.ntpSettings!);
-    return timeSettings;
-  }
-
-  static toGrpcTimeSettings(timeSettings: TimeSettings): grpc.TimeSettings {
-    const result = {
-      appTimeZone: this.toGrpcTimezone(timeSettings.timeZone!),
-      ntpSettings: this.toGrpcNtpSettings(timeSettings.ntpSettings)
-    };
-    return result;
-  }
-
-  static toNetworkSettings(grpcNetworkSettings: grpc.NetworkSettings): NetworkSettings {
-    const networkSettings = new NetworkSettings();
-    networkSettings.networkMode = grpcNetworkSettings.networkMode;
-    networkSettings.localIpAddress = grpcNetworkSettings.localIpAddress;
-    networkSettings.localSubnetMask = grpcNetworkSettings.localSubnetMask;
-    networkSettings.localGatewayIp = grpcNetworkSettings.localGatewayIp;
-    networkSettings.primaryDnsServer = grpcNetworkSettings.primaryDnsServer
-      ? grpcNetworkSettings.primaryDnsServer
-      : null;
-    networkSettings.secondaryDnsServer = grpcNetworkSettings.secondaryDnsServer
-      ? grpcNetworkSettings.secondaryDnsServer
-      : null;
-    return networkSettings;
-  }
-
-  static toGrpcNetworkSettings(networkSettings: NetworkSettings): grpc.NetworkSettings {
-    const result = {
-      networkMode: networkSettings.networkMode,
-      localIpAddress: networkSettings.localIpAddress,
-      localSubnetMask: networkSettings.localSubnetMask,
-      localGatewayIp: networkSettings.localGatewayIp,
-
-      primaryDnsServer:
-        networkSettings.primaryDnsServer !== null ? networkSettings.primaryDnsServer : undefined,
-      secondaryDnsServer:
-        networkSettings.secondaryDnsServer !== null ? networkSettings.secondaryDnsServer : undefined
-    };
-    return result;
   }
 
   static toNotificationSettings(
@@ -261,17 +166,6 @@ export class MapUtils {
     };
   }
 
-  static toGrpcMonitoringSchedule(schedule: MonitoringSchedule): grpc.MonitoringSchedule {
-    const duration = Duration.create();
-    if (schedule.schedulerMode === grpc.MonitoringSchedulerMode.AtLeastOnceIn)
-      duration.seconds = '' + schedule.intervalSeconds!;
-    return {
-      schedulerMode: schedule.schedulerMode,
-      interval: duration,
-      timeSlotIds: schedule.timeSlotIds === undefined ? [] : schedule.timeSlotIds
-    };
-  }
-
   static toRoles(grpcRoles: grpc.Role[]): Role[] {
     const users = grpcRoles.map((item) => MapUtils.toRole(item));
     return users;
@@ -304,64 +198,11 @@ export class MapUtils {
     };
   }
 
-  static toOtdrTaskProgress(progressData: OtdrTaskProgressData): OtdrTaskProgress {
-    const progress = {
-      otdrTaskId: progressData.TaskId,
-      taskType: <any>progressData.TaskType.toLowerCase(),
-      monitoringPortId: progressData.MonitoringPortId,
-      createdByUserId: progressData.CreatedByUserId,
-      queuePosition: progressData.QueuePosition,
-      status: <any>progressData.Status.toLowerCase(),
-      progress: progressData.Progress,
-      completedAt: progressData.CompletedAt == null ? null : new Date(progressData.CompletedAt),
-      stepName: progressData.StepName,
-      failReason: progressData.FailReason
-    };
-    return progress;
-  }
-
   static toDeviceInfo(response: grpc.DeviceInfoResponse): DeviceInfo {
     const deviceInfo = new DeviceInfo();
-    deviceInfo.otaus = response.otaus.map((otau) => MapUtils.toOtau(otau));
-    deviceInfo.monitoringPorts = response.monitoringPorts.map((port) =>
-      MapUtils.toMonitoringPort(port)
-    );
-    deviceInfo.monitoringTimeSlots = response.monitoringTimeSlots.map((slot) =>
-      MapUtils.toMonitoringTimeSlot(slot)
-    );
     deviceInfo.notificationSettings = this.toNotificationSettings(response.notificationSettings!);
-    deviceInfo.serialNumber = response.serialNumber;
-    deviceInfo.ipV4Address = response.ipV4Address;
-    deviceInfo.timezone = this.toTimezone(response.timezone!);
     deviceInfo.apiVersion = response.apiVersion;
-    deviceInfo.activeAlarms = response.activeAlarms.map((x) => MapUtils.toAlarm(x));
-    deviceInfo.networkSettings = this.toNetworkSettings(response.networkSettings!);
-    deviceInfo.timeSettings = this.toTimeSettings(response.timeSettings!);
-    deviceInfo.portLabels = response.portLabels.map((x) => MapUtils.toPortLabel(x));
     deviceInfo.rtus = response.rtus.map((r) => TreeMapping.fromGrpcRtu(r));
-
-    const supportedMeasurementParameters = new OtdrMeasurementParameters();
-    supportedMeasurementParameters.laserUnits = [];
-
-    for (const gRpcLaserUnit of response.supportedMeasurementParameters!.laserUnits) {
-      const laserUnit = new LaserUnit();
-      laserUnit.name = gRpcLaserUnit.name;
-      laserUnit.distanceRanges = [];
-
-      for (const gRpcDistanceRange of gRpcLaserUnit.distanceRanges) {
-        const distanceRange = new DistanceRange();
-        distanceRange.name = gRpcDistanceRange.name;
-        distanceRange.pulseDurations = gRpcDistanceRange.pulseDurations;
-        distanceRange.averagingTimes = gRpcDistanceRange.averagingTimes;
-        distanceRange.liveAveragingTimes = gRpcDistanceRange.liveAveragingTimes;
-        distanceRange.resolutions = gRpcDistanceRange.resolutions;
-        laserUnit.distanceRanges.push(distanceRange);
-      }
-
-      supportedMeasurementParameters.laserUnits.push(laserUnit);
-    }
-
-    deviceInfo.supportedMeasurementParameters = supportedMeasurementParameters;
 
     return deviceInfo;
   }
@@ -387,41 +228,6 @@ export class MapUtils {
     return result;
   }
 
-  static toGrpcTimezone(timezone: TimeZone): grpc.AppTimeZone {
-    const result = {
-      ianaId: timezone.ianaId,
-      displayName: timezone.displayName,
-      displayBaseUtcOffset: timezone.displayBaseUtcOffset
-    };
-    return result;
-  }
-
-  static toAlarms(grpcAlarms: grpc.MonitoringAlarm[]): MonitoringAlarm[] {
-    const alarms = grpcAlarms.map((item) => MapUtils.toAlarm(item));
-    return alarms;
-  }
-
-  static toAlarm(grpcAlarm: grpc.MonitoringAlarm): MonitoringAlarm {
-    const alarm = new MonitoringAlarm();
-    alarm.id = grpcAlarm.id;
-    alarm.alarmGroupId = grpcAlarm.alarmGroupId;
-    alarm.monitoringPortId = grpcAlarm.monitoringPortId;
-    alarm.monitoringResultId = grpcAlarm.monitoringResultId;
-    alarm.lastChangedAt = Timestamp.toDate(grpcAlarm.lastChangedAt!);
-    alarm.activeAt = Timestamp.toDate(grpcAlarm.activeAt!);
-    alarm.resolvedAt = grpcAlarm.resolvedAt ? Timestamp.toDate(grpcAlarm.resolvedAt!) : null;
-    alarm.type = MapUtils.toMonitoringAlarmType(grpcAlarm.type);
-    alarm.level = MapUtils.toMonitoringAlarmLevel(grpcAlarm.level);
-    alarm.status = MapUtils.toMonitoringAlarmStatus(grpcAlarm.status);
-    alarm.distanceMeters = grpcAlarm.distanceMeters?.value ?? null;
-    alarm.events = grpcAlarm.events.map((item) => MapUtils.toAlarmEvent(item));
-
-    // sort by descending
-    alarm.events.sort((a, b) => new Date(b.at).getTime() - new Date(a.at).getTime());
-
-    return alarm;
-  }
-
   static toDataPoints(grpcDataPoints: grpc.DataPoint[]): DataPoint[] {
     const result = grpcDataPoints.map((item) => {
       // borrowed from the Timestamp.toDate(...), we spare a single call of new Date(...)
@@ -434,46 +240,6 @@ export class MapUtils {
       };
     });
     return result;
-  }
-
-  static toAlarmEvents(grpcAlarmEvents: grpc.MonitoringAlarmEvent[]): MonitoringAlarmEvent[] {
-    const alarmEvents = grpcAlarmEvents.map((item) => MapUtils.toAlarmEvent(item));
-    return alarmEvents;
-  }
-
-  static toAlarmEvent(grpcAlarmEvent: grpc.MonitoringAlarmEvent): MonitoringAlarmEvent {
-    const alarmEvent = new MonitoringAlarmEvent();
-    alarmEvent.id = grpcAlarmEvent.id;
-    alarmEvent.monitoringAlarmGroupId = grpcAlarmEvent.monitoringAlarmGroupId;
-    alarmEvent.monitoringPortId = grpcAlarmEvent.monitoringPortId;
-    alarmEvent.monitoringAlarmId = grpcAlarmEvent.monitoringAlarmId;
-    alarmEvent.monitoringResultId = grpcAlarmEvent.monitoringResultId;
-    alarmEvent.type = MapUtils.toMonitoringAlarmType(grpcAlarmEvent.type);
-    alarmEvent.distanceMeters = grpcAlarmEvent.distanceMeters?.value ?? null;
-    alarmEvent.at = Timestamp.toDate(grpcAlarmEvent.at!);
-
-    alarmEvent.oldLevel = grpcAlarmEvent.oldLevel
-      ? MapUtils.toMonitoringAlarmLevel(grpcAlarmEvent.oldLevel.value)
-      : null;
-    alarmEvent.level = MapUtils.toMonitoringAlarmLevel(grpcAlarmEvent.level);
-
-    alarmEvent.oldStatus = grpcAlarmEvent.oldStatus
-      ? MapUtils.toMonitoringAlarmStatus(grpcAlarmEvent.oldStatus.value)
-      : null;
-
-    alarmEvent.status = MapUtils.toMonitoringAlarmStatus(grpcAlarmEvent.status);
-
-    alarmEvent.change = grpcAlarmEvent.jsonChange
-      ? MapJsonUtils.fromJsonToChange(grpcAlarmEvent.jsonChange)
-      : null;
-
-    return alarmEvent;
-  }
-
-  static toAlarmNotification(grpcAlarmEvent: grpc.MonitoringAlarmEvent): AlarmNotification {
-    const notification = new AlarmNotification();
-    notification.alarmEvent = MapUtils.toAlarmEvent(grpcAlarmEvent);
-    return notification;
   }
 
   static toSystemEvents(grpcSystemEvents: grpc.SystemEvent[]): SystemEvent[] {
@@ -502,70 +268,6 @@ export class MapUtils {
     return eventNotification;
   }
 
-  static toMonitoringAlarmType(grpcAlarmType: grpc.MonitoringAlarmType): MonitoringAlarmType {
-    switch (grpcAlarmType) {
-      case grpc.MonitoringAlarmType.EventLoss:
-        return MonitoringAlarmType.EventLoss;
-      case grpc.MonitoringAlarmType.TotalLoss:
-        return MonitoringAlarmType.TotalLoss;
-      case grpc.MonitoringAlarmType.EventReflectance:
-        return MonitoringAlarmType.EventReflectance;
-      case grpc.MonitoringAlarmType.SectionAttenuation:
-        return MonitoringAlarmType.SectionAttenuation;
-      case grpc.MonitoringAlarmType.SectionLoss:
-        return MonitoringAlarmType.SectionLoss;
-      case grpc.MonitoringAlarmType.SectionLengthChange:
-        return MonitoringAlarmType.SectionLengthChange;
-      case grpc.MonitoringAlarmType.PortHealth:
-        return MonitoringAlarmType.PortHealth;
-      case grpc.MonitoringAlarmType.FiberBreak:
-        return MonitoringAlarmType.FiberBreak;
-      case grpc.MonitoringAlarmType.NewEvent:
-        return MonitoringAlarmType.NewEvent;
-      case grpc.MonitoringAlarmType.NewEventAfterEof:
-        return MonitoringAlarmType.NewEventAfterEof;
-      default:
-        throw new Error(`Unknown grpc.MonitoringAlarmType: ${grpcAlarmType}`);
-    }
-  }
-
-  static toMonitoringAlarmLevel(grpcLevel: grpc.MonitoringAlarmLevel): MonitoringAlarmLevel {
-    switch (grpcLevel) {
-      case grpc.MonitoringAlarmLevel.Minor:
-        return MonitoringAlarmLevel.Minor;
-      case grpc.MonitoringAlarmLevel.Major:
-        return MonitoringAlarmLevel.Major;
-      case grpc.MonitoringAlarmLevel.Critical:
-        return MonitoringAlarmLevel.Critical;
-      default:
-        throw new Error(`Unknown grpc.MonitoringAlarmLevel: ${grpcLevel}`);
-    }
-  }
-
-  static toGrpcMonitoringAlarmLevel(alarmLevel: MonitoringAlarmLevel): grpc.MonitoringAlarmLevel {
-    switch (alarmLevel) {
-      case MonitoringAlarmLevel.Minor:
-        return grpc.MonitoringAlarmLevel.Minor;
-      case MonitoringAlarmLevel.Major:
-        return grpc.MonitoringAlarmLevel.Major;
-      case MonitoringAlarmLevel.Critical:
-        return grpc.MonitoringAlarmLevel.Critical;
-      default:
-        throw new Error(`Unknown MonitoringAlarmLevel: ${alarmLevel}`);
-    }
-  }
-
-  static toMonitoringAlarmStatus(grpcStatus: grpc.MonitoringAlarmStatus): MonitoringAlarmStatus {
-    switch (grpcStatus) {
-      case grpc.MonitoringAlarmStatus.Active:
-        return MonitoringAlarmStatus.Active;
-      case grpc.MonitoringAlarmStatus.Resolved:
-        return MonitoringAlarmStatus.Resolved;
-      default:
-        throw new Error(`Unknown grpc.MonitoringAlarmStatus: ${grpcStatus}`);
-    }
-  }
-
   static toSystemEventLevel(grpcLevel: grpc.SystemEventLevel): SystemEventLevel {
     switch (grpcLevel) {
       case grpc.SystemEventLevel.Info:
@@ -590,182 +292,5 @@ export class MapUtils {
       default:
         throw new Error(`Unknown SystemEventLevel: ${level}`);
     }
-  }
-
-  static toMonitoringResults(grpcMonitorings: grpc.MonitoringResult[]): MonitoringResult[] {
-    const monitorings = grpcMonitorings.map((item) => MapUtils.toMonitoringResult(item));
-    return monitorings;
-  }
-
-  static toMonitoringResult(grpcMonitoring: grpc.MonitoringResult): MonitoringResult {
-    const monitoring = new MonitoringResult();
-    monitoring.id = grpcMonitoring.id;
-    monitoring.completedAt = Timestamp.toDate(grpcMonitoring.completedAt!);
-    monitoring.monitoringPortId = grpcMonitoring.monitoringPortId;
-    monitoring.baselineId = grpcMonitoring.baselineId;
-    monitoring.changesCount = grpcMonitoring.changesCount;
-
-    monitoring.mostSevereChangeLevel =
-      grpcMonitoring.changesCount > 0
-        ? MapUtils.toMonitoringAlarmLevel(grpcMonitoring.mostSevereChangeLevel)
-        : null;
-
-    monitoring.measurementSettings = grpcMonitoring.measurementSettings
-      ? MapUtils.toMeasurementSettings(grpcMonitoring.measurementSettings!)
-      : null;
-
-    monitoring.changes = grpcMonitoring.jsonChanges
-      ? MapJsonUtils.fromJsonToChanges(grpcMonitoring.jsonChanges || null)
-      : null;
-
-    return monitoring;
-  }
-
-  static toMeasurementSettings(grpcSettings: grpc.MeasurementSettings): MeasurementSettings {
-    const measSettings = new MeasurementSettings();
-    measSettings.autoMode = grpcSettings.measurementType === grpc.MeasurementType.Auto;
-    measSettings.networkType = grpcSettings.networkType;
-    measSettings.backscatteringCoeff = grpcSettings.backscatterCoeff.toString();
-    measSettings.refractiveIndex = grpcSettings.refractiveIndex.toString();
-    measSettings.laser = grpcSettings.laser;
-    measSettings.distanceRange = grpcSettings.distanceRange ?? '';
-    measSettings.averagingTime = grpcSettings.averagingTime ?? '';
-    measSettings.pulse = grpcSettings.pulse ?? '';
-    measSettings.samplingResolution = grpcSettings.samplingResolution ?? '';
-    measSettings.eventLossThreshold = grpcSettings.eventLossThreshold.toString();
-    measSettings.eventReflectanceThreshold = grpcSettings.eventReflectanceThreshold.toString();
-    measSettings.endOfFiberThreshold = grpcSettings.endOfFiberThreshold.toString();
-    measSettings.fastMeasurement = grpcSettings.fastMeasurement;
-    measSettings.frontPanelCheck = grpcSettings.checkConnectionQuality;
-    measSettings.splitter1dB = grpcSettings.splitter1DB;
-    measSettings.splitter2dB = grpcSettings.splitter2DB;
-    measSettings.mux = grpcSettings.mux;
-    return measSettings;
-  }
-
-  static toGrpcMeasurementSettings(measSettings: MeasurementSettings): grpc.MeasurementSettings {
-    return {
-      measurementType: measSettings.autoMode
-        ? grpc.MeasurementType.Auto
-        : grpc.MeasurementType.Manual,
-      networkType: measSettings.networkType,
-      backscatterCoeff: +measSettings.backscatteringCoeff!,
-      refractiveIndex: +measSettings.refractiveIndex!,
-      laser: measSettings.laser,
-      distanceRange: measSettings.distanceRange ?? '',
-      averagingTime: measSettings.averagingTime ?? '',
-      pulse: measSettings.pulse ?? '',
-      samplingResolution: measSettings.samplingResolution ?? '',
-      eventLossThreshold: +measSettings.eventLossThreshold!,
-      eventReflectanceThreshold: +measSettings.eventReflectanceThreshold!,
-      endOfFiberThreshold: +measSettings.endOfFiberThreshold!,
-      fastMeasurement: measSettings.fastMeasurement,
-      checkConnectionQuality: measSettings.frontPanelCheck,
-      splitter1DB: measSettings.splitter1dB,
-      splitter2DB: measSettings.splitter2dB,
-      mux: measSettings.mux
-    };
-  }
-
-  static toOtau(gprcOtau: grpc.Otau): Otau {
-    const otau = new Otau();
-    otau.id = gprcOtau.id;
-    otau.type = gprcOtau.type;
-    otau.ocmPortIndex = gprcOtau.ocmPortIndex;
-    otau.portCount = gprcOtau.portCount;
-    otau.serialNumber = gprcOtau.serialNumber;
-    otau.name = gprcOtau.name;
-    otau.location = gprcOtau.location;
-    otau.rack = gprcOtau.rack;
-    otau.shelf = gprcOtau.shelf;
-    otau.note = gprcOtau.note;
-    otau.jsonParameters = gprcOtau.jsonParameters;
-    otau.isConnected = gprcOtau.isConnected;
-    otau.onlineAt = gprcOtau.onlineAt ? Timestamp.toDate(gprcOtau.onlineAt!) : null;
-    otau.offlineAt = gprcOtau.offlineAt ? Timestamp.toDate(gprcOtau.offlineAt!) : null;
-    otau.name = gprcOtau.name;
-    otau.ports = gprcOtau.ports.map((x) => MapUtils.toOtauPort(x));
-    return otau;
-  }
-
-  static toOxcOtauParameters(jsonParameters: string): OxcOtauParameters {
-    return <OxcOtauParameters>JSON.parse(jsonParameters);
-  }
-
-  static toOtauPort(gprcOtauPort: grpc.OtauPort): OtauPort {
-    const otauPort = new OtauPort();
-    otauPort.id = gprcOtauPort.id;
-    otauPort.portIndex = gprcOtauPort.portIndex;
-    otauPort.unavailable = gprcOtauPort.unavailable;
-    otauPort.monitoringPortId = gprcOtauPort.monitoringPortId;
-    otauPort.otauId = gprcOtauPort.otauId;
-    return otauPort;
-  }
-
-  static toMonitoringPort(gprcMonitoringPort: grpc.MonitoringPort): MonitoringPort {
-    const port = new MonitoringPort();
-    port.id = gprcMonitoringPort.id;
-    port.note = gprcMonitoringPort.note;
-    port.otauPortId = gprcMonitoringPort.otauPortId;
-    port.otauId = gprcMonitoringPort.otauId;
-    port.status = gprcMonitoringPort.status;
-    port.schedule = new MonitoringSchedule();
-    port.schedule.schedulerMode = gprcMonitoringPort.schedulerMode;
-    port.schedule.intervalSeconds = gprcMonitoringPort.interval
-      ? parseInt(gprcMonitoringPort.interval.seconds)
-      : null;
-    port.schedule.timeSlotIds = gprcMonitoringPort.timeSlotIds;
-
-    port.baseline = MapUtils.toMonitoringBaseline(gprcMonitoringPort.baseline || null);
-    port.alarmProfileId = gprcMonitoringPort.alarmProfileId;
-
-    return port;
-  }
-
-  static toMonitoringBaselines(grpcBaselines: grpc.MonitoringBaseline[]): MonitoringBaseline[] {
-    const baselines = grpcBaselines.map((item) => MapUtils.toMonitoringBaseline(item)!);
-    return baselines;
-  }
-
-  static toMonitoringBaseline(
-    grpcBaseline: grpc.MonitoringBaseline | null
-  ): MonitoringBaseline | null {
-    if (grpcBaseline === null) {
-      return null;
-    }
-
-    const baseline = new MonitoringBaseline();
-    baseline.id = grpcBaseline.id;
-    baseline.monitoringPortId = grpcBaseline.monitoringPortId;
-    baseline.createdByUserId = grpcBaseline.createdByUserId;
-    baseline.createdAt = Timestamp.toDate(grpcBaseline.createdAt!);
-    baseline.measurementSettings = MapUtils.toMeasurementSettings(
-      grpcBaseline.measurementSettings!
-    );
-    return baseline;
-  }
-
-  static toMonitoringTimeSlot(gprcMonitoringTimeSlot: grpc.MonitoringTimeSlot): MonitoringTimeSlot {
-    const timeSlot = new MonitoringTimeSlot();
-    timeSlot.id = gprcMonitoringTimeSlot.id;
-    timeSlot.start = MapUtils.toHoursMinutes(gprcMonitoringTimeSlot.start!);
-    timeSlot.end = MapUtils.toHoursMinutes(gprcMonitoringTimeSlot.end!);
-    return timeSlot;
-  }
-
-  static toHoursMinutes(grpcTime: grpc.TimeOnlyHourMinute): TimeOnlyHourMinute {
-    const time = new TimeOnlyHourMinute();
-    time.hour = grpcTime.hour;
-    time.minute = grpcTime.minute;
-    return time;
-  }
-
-  static toPortLabel(grpcPortLabel: grpc.PortLabel): PortLabel {
-    const portLabel = new PortLabel();
-    portLabel.id = grpcPortLabel.id;
-    portLabel.name = grpcPortLabel.name;
-    portLabel.hexColor = grpcPortLabel.hexColor;
-    portLabel.monitoringPortIds = grpcPortLabel.monitoringPortIds;
-    return portLabel;
   }
 }

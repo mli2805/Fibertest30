@@ -11,7 +11,7 @@ public class EmailBuilder : IEmailBuilder
         _serviceScopeFactory = serviceScopeFactory;
     }
 
-    public string BuildAlarmSubject(OtauPortPath portPath, MonitoringAlarmEvent alarmEvent)
+    public string BuildAlarmSubject(string portPath, MonitoringAlarmEvent alarmEvent)
     {
         string status;
         if (alarmEvent.OldLevel != null && alarmEvent.Status != MonitoringAlarmStatus.Active)
@@ -23,10 +23,10 @@ public class EmailBuilder : IEmailBuilder
             status = alarmEvent.Status.AlarmStatusToString();
         }
 
-        return $"Alarm ID {alarmEvent.MonitoringAlarmId} | {status} | Port {portPath.ToTitle()}";
+        return $"Alarm ID {alarmEvent.MonitoringAlarmId} | {status} | Port {portPath}";
     }
 
-    public string BuildAlarmHtmlBody(OtauPortPath portPath, MonitoringAlarm alarm)
+    public string BuildAlarmHtmlBody(string portPath, MonitoringAlarm alarm)
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var bodyBuilder = scope.ServiceProvider.GetRequiredService<IEmailBodyBuilder>();
@@ -35,10 +35,10 @@ public class EmailBuilder : IEmailBuilder
     }
 
     public List<Tuple<string, byte[]>> BuildAlarmAttachments(
-        OtauPortPath portPath,
+        string portPath,
         MonitoringAlarmEvent monitoringAlarmEvent,byte[] measurement, byte[] baseline)
     {
-        var port = $"Port {portPath.ToTitle("-")}";
+        var port = $"Port {portPath}";
         var measurementFilename = $"Alarm ID {monitoringAlarmEvent.MonitoringAlarmId} - {port}.sor";
         var baselineFilename = $"Baseline - {port}.sor";
         return new List<Tuple<string, byte[]>> { new(measurementFilename, measurement), new(baselineFilename, baseline)};

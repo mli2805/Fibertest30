@@ -4,110 +4,9 @@
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
 import { SystemEventLevel } from "./data.core";
-import { MonitoringAlarmLevel } from "./data.monitoring";
-import { MonitoringAlarmEvent } from "./data.monitoring";
 import { SystemEvent } from "./data.core";
 import { Rtu } from "./rtu_tree";
-import { TimeSettings } from "./data.core";
-import { PortLabel } from "./port_labeling";
-import { NetworkSettings } from "./data.core";
-import { AppTimeZone } from "./data.core";
-import { MonitoringAlarm } from "./data.monitoring";
 import { NotificationSettings } from "./data.core";
-import { MonitoringTimeSlot } from "./data.core";
-import { MonitoringPort } from "./data.core";
-import { OtdrMeasurementParameterSet } from "./data.otdr";
-import { Timestamp } from "./google/protobuf/timestamp";
-/**
- * @generated from protobuf message fibertest30.core.OtauPort
- */
-export interface OtauPort {
-    /**
-     * @generated from protobuf field: int32 id = 1;
-     */
-    id: number;
-    /**
-     * @generated from protobuf field: int32 portIndex = 2;
-     */
-    portIndex: number;
-    /**
-     * @generated from protobuf field: bool unavailable = 3;
-     */
-    unavailable: boolean;
-    /**
-     * @generated from protobuf field: int32 monitoringPortId = 4;
-     */
-    monitoringPortId: number;
-    /**
-     * @generated from protobuf field: int32 otauId = 5;
-     */
-    otauId: number;
-}
-/**
- * @generated from protobuf message fibertest30.core.Otau
- */
-export interface Otau {
-    /**
-     * @generated from protobuf field: int32 id = 1;
-     */
-    id: number;
-    /**
-     * @generated from protobuf field: string type = 2;
-     */
-    type: string;
-    /**
-     * @generated from protobuf field: int32 ocmPortIndex = 3;
-     */
-    ocmPortIndex: number;
-    /**
-     * @generated from protobuf field: int32 portCount = 4;
-     */
-    portCount: number;
-    /**
-     * @generated from protobuf field: string serialNumber = 5;
-     */
-    serialNumber: string;
-    /**
-     * @generated from protobuf field: string name = 6;
-     */
-    name: string;
-    /**
-     * @generated from protobuf field: string location = 7;
-     */
-    location: string;
-    /**
-     * @generated from protobuf field: string rack = 8;
-     */
-    rack: string;
-    /**
-     * @generated from protobuf field: string shelf = 9;
-     */
-    shelf: string;
-    /**
-     * @generated from protobuf field: string note = 10;
-     */
-    note: string;
-    /**
-     * @generated from protobuf field: string jsonParameters = 11;
-     */
-    jsonParameters: string;
-    /**
-     * @generated from protobuf field: bool isConnected = 12;
-     */
-    isConnected: boolean;
-    /**
-     * @generated from protobuf field: google.protobuf.Timestamp onlineAt = 13;
-     */
-    onlineAt?: Timestamp;
-    /**
-     * @generated from protobuf field: google.protobuf.Timestamp offlineAt = 14;
-     */
-    offlineAt?: Timestamp;
-    /**
-     * @generated from protobuf field: repeated fibertest30.core.OtauPort ports = 15;
-     */
-    ports: OtauPort[];
-}
 // GetDeviceInfo
 
 /**
@@ -120,57 +19,13 @@ export interface DeviceInfoRequest {
  */
 export interface DeviceInfoResponse {
     /**
-     * @generated from protobuf field: string serialNumber = 1;
-     */
-    serialNumber: string;
-    /**
-     * @generated from protobuf field: fibertest30.data.otdr.OtdrMeasurementParameterSet supportedMeasurementParameters = 2;
-     */
-    supportedMeasurementParameters?: OtdrMeasurementParameterSet;
-    /**
-     * @generated from protobuf field: repeated fibertest30.core.Otau otaus = 3;
-     */
-    otaus: Otau[];
-    /**
-     * @generated from protobuf field: repeated fibertest30.data.core.MonitoringPort monitoringPorts = 4;
-     */
-    monitoringPorts: MonitoringPort[];
-    /**
-     * @generated from protobuf field: repeated fibertest30.data.core.MonitoringTimeSlot monitoringTimeSlots = 5;
-     */
-    monitoringTimeSlots: MonitoringTimeSlot[];
-    /**
      * @generated from protobuf field: fibertest30.data.core.NotificationSettings notificationSettings = 7;
      */
     notificationSettings?: NotificationSettings;
     /**
-     * @generated from protobuf field: string ipV4Address = 8;
-     */
-    ipV4Address: string;
-    /**
-     * @generated from protobuf field: repeated fibertest30.data.monitoring.MonitoringAlarm activeAlarms = 9;
-     */
-    activeAlarms: MonitoringAlarm[];
-    /**
-     * @generated from protobuf field: fibertest30.data.core.AppTimeZone timezone = 10;
-     */
-    timezone?: AppTimeZone;
-    /**
      * @generated from protobuf field: string apiVersion = 11;
      */
     apiVersion: string;
-    /**
-     * @generated from protobuf field: fibertest30.data.core.NetworkSettings networkSettings = 12;
-     */
-    networkSettings?: NetworkSettings;
-    /**
-     * @generated from protobuf field: repeated fibertest30.port_labeling.PortLabel portLabels = 13;
-     */
-    portLabels: PortLabel[];
-    /**
-     * @generated from protobuf field: fibertest30.data.core.TimeSettings timeSettings = 14;
-     */
-    timeSettings?: TimeSettings;
     /**
      * @generated from protobuf field: repeated fibertest30.rtu_tree.Rtu rtus = 15;
      */
@@ -192,66 +47,6 @@ export interface InAppSystemNotification {
      * @generated from protobuf field: bool inApp = 3;
      */
     inApp: boolean;
-}
-/**
- *  GetUserAlarmNotifications
- *
- * @generated from protobuf message fibertest30.core.GetUserAlarmNotificationsRequest
- */
-export interface GetUserAlarmNotificationsRequest {
-}
-/**
- * @generated from protobuf message fibertest30.core.GetUserAlarmNotificationsResponse
- */
-export interface GetUserAlarmNotificationsResponse {
-    /**
-     * @generated from protobuf field: repeated fibertest30.data.monitoring.MonitoringAlarmEvent alarmEvents = 1;
-     */
-    alarmEvents: MonitoringAlarmEvent[];
-}
-// DismissUserAlarmNotification
-
-/**
- * @generated from protobuf message fibertest30.core.DismissUserAlarmNotificationRequest
- */
-export interface DismissUserAlarmNotificationRequest {
-    /**
-     * @generated from protobuf field: int32 alarmEventId = 1;
-     */
-    alarmEventId: number;
-}
-/**
- * @generated from protobuf message fibertest30.core.DismissUserAlarmNotificationResponse
- */
-export interface DismissUserAlarmNotificationResponse {
-}
-/**
- * DismissUserAlarmNotificationsByLevel
- *
- * @generated from protobuf message fibertest30.core.DismissUserAlarmNotificationsByLevelRequest
- */
-export interface DismissUserAlarmNotificationsByLevelRequest {
-    /**
-     * @generated from protobuf field: fibertest30.data.monitoring.MonitoringAlarmLevel alarmLevel = 1;
-     */
-    alarmLevel: MonitoringAlarmLevel;
-}
-/**
- * @generated from protobuf message fibertest30.core.DismissUserAlarmNotificationsByLevelResponse
- */
-export interface DismissUserAlarmNotificationsByLevelResponse {
-}
-/**
- * DismissAllUserAlarmNotifications
- *
- * @generated from protobuf message fibertest30.core.DismissAllUserAlarmNotificationsRequest
- */
-export interface DismissAllUserAlarmNotificationsRequest {
-}
-/**
- * @generated from protobuf message fibertest30.core.DismissAllUserAlarmNotificationsResponse
- */
-export interface DismissAllUserAlarmNotificationsResponse {
 }
 /**
  *  GetUserSystemNotifications
@@ -334,57 +129,9 @@ export interface GetSystemMessageStreamResponse {
          */
         systemNotification: InAppSystemNotification;
     } | {
-        oneofKind: "alarmNotification";
-        /**
-         * @generated from protobuf field: fibertest30.data.monitoring.MonitoringAlarmEvent alarmNotification = 2;
-         */
-        alarmNotification: MonitoringAlarmEvent;
-    } | {
         oneofKind: undefined;
     };
 }
-// @generated message type with reflection information, may provide speed optimized methods
-class OtauPort$Type extends MessageType<OtauPort> {
-    constructor() {
-        super("fibertest30.core.OtauPort", [
-            { no: 1, name: "id", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "portIndex", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 3, name: "unavailable", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 4, name: "monitoringPortId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 5, name: "otauId", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.core.OtauPort
- */
-export const OtauPort = new OtauPort$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class Otau$Type extends MessageType<Otau> {
-    constructor() {
-        super("fibertest30.core.Otau", [
-            { no: 1, name: "id", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "type", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "ocmPortIndex", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 4, name: "portCount", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 5, name: "serialNumber", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 7, name: "location", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 8, name: "rack", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 9, name: "shelf", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 10, name: "note", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 11, name: "jsonParameters", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 12, name: "isConnected", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 13, name: "onlineAt", kind: "message", T: () => Timestamp },
-            { no: 14, name: "offlineAt", kind: "message", T: () => Timestamp },
-            { no: 15, name: "ports", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => OtauPort }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.core.Otau
- */
-export const Otau = new Otau$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class DeviceInfoRequest$Type extends MessageType<DeviceInfoRequest> {
     constructor() {
@@ -399,19 +146,8 @@ export const DeviceInfoRequest = new DeviceInfoRequest$Type();
 class DeviceInfoResponse$Type extends MessageType<DeviceInfoResponse> {
     constructor() {
         super("fibertest30.core.DeviceInfoResponse", [
-            { no: 1, name: "serialNumber", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "supportedMeasurementParameters", kind: "message", T: () => OtdrMeasurementParameterSet },
-            { no: 3, name: "otaus", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Otau },
-            { no: 4, name: "monitoringPorts", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => MonitoringPort },
-            { no: 5, name: "monitoringTimeSlots", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => MonitoringTimeSlot },
             { no: 7, name: "notificationSettings", kind: "message", T: () => NotificationSettings },
-            { no: 8, name: "ipV4Address", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 9, name: "activeAlarms", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => MonitoringAlarm },
-            { no: 10, name: "timezone", kind: "message", T: () => AppTimeZone },
             { no: 11, name: "apiVersion", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 12, name: "networkSettings", kind: "message", T: () => NetworkSettings },
-            { no: 13, name: "portLabels", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => PortLabel },
-            { no: 14, name: "timeSettings", kind: "message", T: () => TimeSettings },
             { no: 15, name: "rtus", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Rtu }
         ]);
     }
@@ -434,92 +170,6 @@ class InAppSystemNotification$Type extends MessageType<InAppSystemNotification> 
  * @generated MessageType for protobuf message fibertest30.core.InAppSystemNotification
  */
 export const InAppSystemNotification = new InAppSystemNotification$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetUserAlarmNotificationsRequest$Type extends MessageType<GetUserAlarmNotificationsRequest> {
-    constructor() {
-        super("fibertest30.core.GetUserAlarmNotificationsRequest", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.core.GetUserAlarmNotificationsRequest
- */
-export const GetUserAlarmNotificationsRequest = new GetUserAlarmNotificationsRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetUserAlarmNotificationsResponse$Type extends MessageType<GetUserAlarmNotificationsResponse> {
-    constructor() {
-        super("fibertest30.core.GetUserAlarmNotificationsResponse", [
-            { no: 1, name: "alarmEvents", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => MonitoringAlarmEvent }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.core.GetUserAlarmNotificationsResponse
- */
-export const GetUserAlarmNotificationsResponse = new GetUserAlarmNotificationsResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class DismissUserAlarmNotificationRequest$Type extends MessageType<DismissUserAlarmNotificationRequest> {
-    constructor() {
-        super("fibertest30.core.DismissUserAlarmNotificationRequest", [
-            { no: 1, name: "alarmEventId", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.core.DismissUserAlarmNotificationRequest
- */
-export const DismissUserAlarmNotificationRequest = new DismissUserAlarmNotificationRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class DismissUserAlarmNotificationResponse$Type extends MessageType<DismissUserAlarmNotificationResponse> {
-    constructor() {
-        super("fibertest30.core.DismissUserAlarmNotificationResponse", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.core.DismissUserAlarmNotificationResponse
- */
-export const DismissUserAlarmNotificationResponse = new DismissUserAlarmNotificationResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class DismissUserAlarmNotificationsByLevelRequest$Type extends MessageType<DismissUserAlarmNotificationsByLevelRequest> {
-    constructor() {
-        super("fibertest30.core.DismissUserAlarmNotificationsByLevelRequest", [
-            { no: 1, name: "alarmLevel", kind: "enum", T: () => ["fibertest30.data.monitoring.MonitoringAlarmLevel", MonitoringAlarmLevel] }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.core.DismissUserAlarmNotificationsByLevelRequest
- */
-export const DismissUserAlarmNotificationsByLevelRequest = new DismissUserAlarmNotificationsByLevelRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class DismissUserAlarmNotificationsByLevelResponse$Type extends MessageType<DismissUserAlarmNotificationsByLevelResponse> {
-    constructor() {
-        super("fibertest30.core.DismissUserAlarmNotificationsByLevelResponse", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.core.DismissUserAlarmNotificationsByLevelResponse
- */
-export const DismissUserAlarmNotificationsByLevelResponse = new DismissUserAlarmNotificationsByLevelResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class DismissAllUserAlarmNotificationsRequest$Type extends MessageType<DismissAllUserAlarmNotificationsRequest> {
-    constructor() {
-        super("fibertest30.core.DismissAllUserAlarmNotificationsRequest", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.core.DismissAllUserAlarmNotificationsRequest
- */
-export const DismissAllUserAlarmNotificationsRequest = new DismissAllUserAlarmNotificationsRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class DismissAllUserAlarmNotificationsResponse$Type extends MessageType<DismissAllUserAlarmNotificationsResponse> {
-    constructor() {
-        super("fibertest30.core.DismissAllUserAlarmNotificationsResponse", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.core.DismissAllUserAlarmNotificationsResponse
- */
-export const DismissAllUserAlarmNotificationsResponse = new DismissAllUserAlarmNotificationsResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GetUserSystemNotificationsRequest$Type extends MessageType<GetUserSystemNotificationsRequest> {
     constructor() {
@@ -620,8 +270,7 @@ export const GetSystemMessageStreamRequest = new GetSystemMessageStreamRequest$T
 class GetSystemMessageStreamResponse$Type extends MessageType<GetSystemMessageStreamResponse> {
     constructor() {
         super("fibertest30.core.GetSystemMessageStreamResponse", [
-            { no: 1, name: "systemNotification", kind: "message", oneof: "message", T: () => InAppSystemNotification },
-            { no: 2, name: "alarmNotification", kind: "message", oneof: "message", T: () => MonitoringAlarmEvent }
+            { no: 1, name: "systemNotification", kind: "message", oneof: "message", T: () => InAppSystemNotification }
         ]);
     }
 }
@@ -635,10 +284,6 @@ export const GetSystemMessageStreamResponse = new GetSystemMessageStreamResponse
 export const Core = new ServiceType("fibertest30.core.Core", [
     { name: "GetDeviceInfo", options: {}, I: DeviceInfoRequest, O: DeviceInfoResponse },
     { name: "GetSystemMessageStream", serverStreaming: true, options: {}, I: GetSystemMessageStreamRequest, O: GetSystemMessageStreamResponse },
-    { name: "GetUserAlarmNotifications", options: {}, I: GetUserAlarmNotificationsRequest, O: GetUserAlarmNotificationsResponse },
-    { name: "DismissUserAlarmNotification", options: {}, I: DismissUserAlarmNotificationRequest, O: DismissUserAlarmNotificationResponse },
-    { name: "DismissUserAlarmNotificationsByLevel", options: {}, I: DismissUserAlarmNotificationsByLevelRequest, O: DismissUserAlarmNotificationsByLevelResponse },
-    { name: "DismissAllUserAlarmNotifications", options: {}, I: DismissAllUserAlarmNotificationsRequest, O: DismissAllUserAlarmNotificationsResponse },
     { name: "GetUserSystemNotifications", options: {}, I: GetUserSystemNotificationsRequest, O: GetUserSystemNotificationsResponse },
     { name: "DismissUserSystemNotification", options: {}, I: DismissUserSystemNotificationRequest, O: DismissUserSystemNotificationResponse },
     { name: "DismissUserSystemNotificationsByLevel", options: {}, I: DismissUserSystemNotificationsByLevelRequest, O: DismissUserSystemNotificationsByLevelResponse },

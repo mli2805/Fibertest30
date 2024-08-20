@@ -9,7 +9,6 @@ import {
   AuthSelectors,
   SystemNotificationSelectors,
   GlobalUiActions,
-  AlarmNotificationSelectors,
   User,
   RolesSelectors
 } from 'src/app/core';
@@ -71,7 +70,6 @@ export class StartPageHeaderComponent {
   routeData$ = this.store.select(RouterSelectors.selectRouterData);
 
   totalCountSystemNotifications$ = this.store.select(SystemNotificationSelectors.selectTotalCount);
-  totalCountAlarmNotifications$ = this.store.select(AlarmNotificationSelectors.selectTotalCount);
 
   openUserMenu = false;
 

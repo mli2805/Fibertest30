@@ -68,11 +68,7 @@ public class ExceptionInterceptor : Interceptor
         }
 
     
-        if (ex is BaselineAlreadyStartedException)
-        {
-            statusCode = StatusCode.FailedPrecondition;
-            message = "BaselineAlreadyStarted";
-        }
+      
 
         if (ex is FailedToConnectEmailServerException)
         {

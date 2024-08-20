@@ -4,7 +4,7 @@ public interface IEmailBuilder
 {
     string GetTestHtmlBody();
 
-    string BuildAlarmSubject(OtauPortPath portPath, MonitoringAlarmEvent alarmEvent);
-    public string BuildAlarmHtmlBody(OtauPortPath portPath, MonitoringAlarm alarm);
-    List<Tuple<string, byte[]>> BuildAlarmAttachments(OtauPortPath portPath, MonitoringAlarmEvent alarmEvent, byte[] measurement, byte[] baseline);
+    string BuildAlarmSubject(string portPath, MonitoringAlarmEvent alarmEvent);
+    public string BuildAlarmHtmlBody(string portPath, MonitoringAlarm alarm);
+    List<Tuple<string, byte[]>> BuildAlarmAttachments(string portPath, MonitoringAlarmEvent alarmEvent, byte[] measurement, byte[] baseline);
 }

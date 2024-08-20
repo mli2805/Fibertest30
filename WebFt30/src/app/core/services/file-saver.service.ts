@@ -3,8 +3,6 @@ import * as saveAs from 'file-saver';
 import { AppState } from '../core.state';
 import { Store } from '@ngrx/store';
 import { CoreUtils } from '../core.utils';
-import { OtauPortPath } from '../store/models';
-import { OtausSelectors, TimeSettingsSelectors } from 'src/app/core';
 
 @Injectable({ providedIn: 'root' })
 export class FileSaverService {
@@ -26,25 +24,8 @@ export class FileSaverService {
     return `${year}-${month}-${day} ${hour}-${minute}-${second}`;
   }
 
-  static getPortPathStringForFileName(portPath: OtauPortPath): string {
-    if (portPath.cascadePort == null) {
-      return portPath.ocmPort.portIndex.toString();
-    }
-    return `${portPath.ocmPort.portIndex}-${portPath.cascadePort.portIndex}`;
-  }
-
   getSorFileName(prefix: string, monitoringPortId: number, at: Date, extension = 'sor'): string {
-    const port = CoreUtils.getCurrentState(
-      this.store,
-      OtausSelectors.selectOtauPathByMonitoringPortId(monitoringPortId)
-    );
-
-    const timezone = CoreUtils.getCurrentState(this.store, TimeSettingsSelectors.selectTimeZone);
-
-    const atStr = FileSaverService.getDateTimeStringForFileName(at, timezone.ianaId);
-    const portPathStr = port == null ? '' : FileSaverService.getPortPathStringForFileName(port!);
-
-    return `${prefix}-[${portPathStr}]-[${atStr}].${extension}`;
+    return `${prefix}-[${monitoringPortId}]-[${at}].${extension}`;
   }
 
   saveAs(data: Uint8Array, filename: string): void {

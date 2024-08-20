@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Persistence\Migrations\**" />
+    <EmbeddedResource Remove="Persistence\Migrations\**" />
+    <None Remove="Persistence\Migrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Fibertest30.Application\Fibertest30.Application.csproj" />
-    <ProjectReference Include="..\Fibertest30.Infrastructure.Device\Fibertest30.Infrastructure.Device.csproj" />
-    <ProjectReference Include="..\Fibertest30.Infrastructure.Emulator\Fibertest30.Infrastructure.Emulator.csproj" />
     <ProjectReference Include="..\Iit\Iit.Fibertest.StringResources\Iit.Fibertest.StringResources.csproj" />
   </ItemGroup>
 
@@ -30,7 +34,6 @@
 
   <ItemGroup>
     <Folder Include="MySql\Repositories\" />
-    <Folder Include="Persistence\Migrations\" />
   </ItemGroup>
 
 </Project>

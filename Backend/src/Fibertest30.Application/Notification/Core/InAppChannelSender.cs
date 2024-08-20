@@ -33,7 +33,6 @@ public class InAppChannelSender : IInAppChannelSender
         var users = await usersRepository.GetAllUsers();
         foreach (var user in users)
         {
-            await notificationRepository.AddInAppAlarmNotification(alarmEvent.Id, user.User.Id);
             SendNotification(user.User.Id, alarmEvent);
         }
     }

@@ -29,23 +29,11 @@ import { LoadingCenteredBigSpinnerComponent } from './components/loading-spinner
 
 import {
   DefaultSystemEventViewerComponent,
-  BaselineCompletedSystemEventViewerComponent,
-  BaselineFailedSystemEventViewerComponent,
   UserChangedSystemEventViewerComponent,
   UserCreatedSystemEventViewerComponent,
   UserDeletedSystemEventViewerComponent,
   SystemEventViewerComponent,
-  OtauConnectionStatusChangedSystemEventViewerComponent,
-  OtauChangedSystemEventViewerComponent,
-  OtauRemovedEventViewerComponent,
-  OtauAddedEventViewerComponent,
-  OtauInformationChangedSystemEventViewerComponent,
-  OtauTitleComponent,
-  OtauPortPathTitleComponent,
-  MonitoringPortStatusChangedSystemEventViewerComponent,
-  MonitoringPortScheduleChangedSystemEventViewerComponent,
-  NotificationSettingsUpdatedSystemEventViewerComponent,
-  UnsupportedOsmModuleEventViewerComponent
+  NotificationSettingsUpdatedSystemEventViewerComponent
 } from './system-events/system-event-viewers';
 import { DoubleRangeSliderComponent } from './components/double-range-slider/double-range-slider.component';
 import { SystemEventLevelDirective } from './system-events/colorize-by-system-event-level/colorize-by-system-event-level.directive';
@@ -55,30 +43,16 @@ import { CheckmarkOrCircleComponent } from './components/overlays/password-valid
 import { RelativeTimeRefreshComponent } from './components/relative-time-refresh/relative-time-refresh.component';
 import { LabelWithDiffComponent } from './components/label-with-diff/label-with-diff.component';
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
-import { OtauPortIndexComponent } from './system-events/system-event-viewers/otau-viewers/otau-title/otau-port-index.component';
-import { MonitoringPortStatusComponent } from './components/monitoring/monitoring-port-status/monitoring-port-status.component';
-import { ScheduleModeLineComponent } from './components/schedule-mode-line/schedule-mode-line.component';
-import { ScheduleModeIconComponent } from './components/schedule-mode-icon/schedule-mode-icon.component';
 import { EofThresholdHelpComponent } from './components/context-help/components/eof-threshold-help/eof-threshold-help.component';
 import { TestPortHelpComponent } from './components/context-help/components/test-port-help/test-port-help.component';
 import { HelpTooltipComponent } from './components/context-help/help-tooltip.component';
 import { ContextTooltipDirective } from './components/context-help/context-tooltip.directive';
 import { HeaderMessageHelpComponent } from './components/context-help/components/header-message-help/header-message-help.component';
 import { BluePointComponent } from './components/context-help/components/blue-point/blue-point.component';
-import { TaskStatusComponent } from './common/task-status/task-status.component';
-import { BaselineStatusComponent } from './common/task-status/baseline-status/baseline-status.component';
 import { NavigateButtonComponent } from './components/svg-buttons/navigate-button.component';
 import { SaveButtonComponent } from './components/svg-buttons/save-button.component';
 import { CloseButtonComponent } from './components/svg-buttons/close-button.component';
-import { AlarmLevelDirective } from './domain-components/alarm-events/colorize-by-alarm-level/colorize-by-alarm-level.directive';
-import { AlarmEventViewerComponent } from './domain-components/alarm-events/alarm-event-viewer/alarm-event-viewer.component';
-import { OtdrTaskStatusComponent } from './common/task-status/otdr-task-simple-status/otdr-task-simple-status.component';
-import { MonitoringChangeStatusComponent } from './components/monitoring-change-status/monitoirng-change-status.component';
 import { SignedNumberPipe } from './pipes/signed-number.pipe';
-import { QuickAnalysisChartComponent } from './quick-analysis/chart/quick-analysis-chart.component';
-import { QuickAnalysisFilterComponent } from './quick-analysis/filter/quick-analysis-filter.component';
-import { PortAlarmStatusComponent } from './common/port-alarm-status/port-alarm-status.component';
-import { MonitoringChangeDistancesComponent } from './domain-components/monitoring-change-distances/monitoring-change-distances.component';
 import { OrderButtonComponent } from './components/svg-buttons/order-button.component';
 import { ExpandBranchComponent } from './components/svg-buttons/expand-branch.component';
 import { CollapseBranchComponent } from './components/svg-buttons/collapse-branch.component';
@@ -105,7 +79,6 @@ import { TrianglePictogramComponent } from './components/svg-buttons/triangle-pi
     SelectLabelDirective,
     SelectItemDirective,
     SystemEventLevelDirective,
-    AlarmLevelDirective,
     DialogHeaderComponent,
     RtuDateTimePipe,
     RtuDateToDayOfWeekPipe,
@@ -118,38 +91,20 @@ import { TrianglePictogramComponent } from './components/svg-buttons/triangle-pi
     UserCardComponent,
     SingeErrorPopupComponent,
     DoubleRangeSliderComponent,
-    TaskStatusComponent,
-    OtdrTaskStatusComponent,
-    BaselineStatusComponent,
     UserAvatarComponent,
     RelativeTimeRefreshComponent,
 
     SystemEventViewerComponent,
     DefaultSystemEventViewerComponent,
-    BaselineCompletedSystemEventViewerComponent,
-    BaselineFailedSystemEventViewerComponent,
     UserChangedSystemEventViewerComponent,
     UserCreatedSystemEventViewerComponent,
     UserDeletedSystemEventViewerComponent,
-    OtauConnectionStatusChangedSystemEventViewerComponent,
-    OtauChangedSystemEventViewerComponent,
-    OtauRemovedEventViewerComponent,
-    OtauAddedEventViewerComponent,
-    OtauInformationChangedSystemEventViewerComponent,
-    UnsupportedOsmModuleEventViewerComponent,
-    MonitoringPortStatusChangedSystemEventViewerComponent,
-    MonitoringPortScheduleChangedSystemEventViewerComponent,
+
     NotificationSettingsUpdatedSystemEventViewerComponent,
-    OtauTitleComponent,
-    OtauPortIndexComponent,
-    OtauPortPathTitleComponent,
-    MonitoringPortStatusComponent,
     PasswordValidationComponent,
     CheckmarkOrCircleComponent,
     LabelWithDiffComponent,
     ConfirmationComponent,
-    ScheduleModeLineComponent,
-    ScheduleModeIconComponent,
     NavigateButtonComponent,
     CollapseBranchComponent,
     ExpandBranchComponent,
@@ -159,19 +114,13 @@ import { TrianglePictogramComponent } from './components/svg-buttons/triangle-pi
     SquarePictogramComponent,
     TrianglePictogramComponent,
     IitLogoComponent,
-    QuickAnalysisFilterComponent,
-    QuickAnalysisChartComponent,
 
     HelpTooltipComponent,
     EofThresholdHelpComponent,
     TestPortHelpComponent,
     HeaderMessageHelpComponent,
     ContextTooltipDirective,
-    BluePointComponent,
-    AlarmEventViewerComponent,
-    MonitoringChangeStatusComponent,
-    PortAlarmStatusComponent,
-    MonitoringChangeDistancesComponent
+    BluePointComponent
   ],
   exports: [
     CommonModule,
@@ -187,7 +136,6 @@ import { TrianglePictogramComponent } from './components/svg-buttons/triangle-pi
     SelectLabelDirective,
     SelectItemDirective,
     SystemEventLevelDirective,
-    AlarmLevelDirective,
     DialogHeaderComponent,
     RtuDateTimePipe,
     RtuDateToDayOfWeekPipe,
@@ -200,30 +148,16 @@ import { TrianglePictogramComponent } from './components/svg-buttons/triangle-pi
     UserCardComponent,
     SingeErrorPopupComponent,
     DoubleRangeSliderComponent,
-    TaskStatusComponent,
-    OtdrTaskStatusComponent,
-    BaselineStatusComponent,
     UserAvatarComponent,
     RelativeTimeRefreshComponent,
 
     SystemEventViewerComponent,
     DefaultSystemEventViewerComponent,
-    BaselineCompletedSystemEventViewerComponent,
-    BaselineFailedSystemEventViewerComponent,
     UserChangedSystemEventViewerComponent,
     UserCreatedSystemEventViewerComponent,
     UserDeletedSystemEventViewerComponent,
     PasswordValidationComponent,
-    OtauInformationChangedSystemEventViewerComponent,
-    MonitoringPortStatusChangedSystemEventViewerComponent,
-    MonitoringPortScheduleChangedSystemEventViewerComponent,
     NotificationSettingsUpdatedSystemEventViewerComponent,
-    OtauTitleComponent,
-    OtauPortIndexComponent,
-    OtauPortPathTitleComponent,
-    MonitoringPortStatusComponent,
-    ScheduleModeLineComponent,
-    ScheduleModeIconComponent,
     NavigateButtonComponent,
     CollapseBranchComponent,
     ExpandBranchComponent,
@@ -233,18 +167,12 @@ import { TrianglePictogramComponent } from './components/svg-buttons/triangle-pi
     SquarePictogramComponent,
     TrianglePictogramComponent,
     IitLogoComponent,
-    QuickAnalysisFilterComponent,
-    QuickAnalysisChartComponent,
 
     HelpTooltipComponent,
     EofThresholdHelpComponent,
     TestPortHelpComponent,
     HeaderMessageHelpComponent,
-    ContextTooltipDirective,
-    AlarmEventViewerComponent,
-    MonitoringChangeStatusComponent,
-    PortAlarmStatusComponent,
-    MonitoringChangeDistancesComponent
+    ContextTooltipDirective
   ],
   providers: [RtuDateToDayOfWeekPipe]
 })

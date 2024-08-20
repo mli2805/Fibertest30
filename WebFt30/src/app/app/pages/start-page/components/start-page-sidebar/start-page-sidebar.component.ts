@@ -13,8 +13,6 @@ export class StartPageSidebarComponent implements OnInit, OnDestroy {
   public currentDate: any;
   private clockInterval: any;
 
-  serialNumber$ = this.store.select(DeviceSelectors.selectSerialNumber);
-  hasOnDemandPermission$ = this.store.select(AuthSelectors.selectHasOnDemandPermission);
   theme$ = this.store.select(SettingsSelectors.selectTheme);
 
   constructor(private store: Store<AppState>) {}

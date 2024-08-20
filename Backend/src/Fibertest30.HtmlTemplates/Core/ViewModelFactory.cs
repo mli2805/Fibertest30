@@ -4,8 +4,7 @@ namespace Fibertest30.HtmlTemplates;
 
 public class ViewModelFactory 
 {
-    public MonitoringAlarmViewModel CreateAlarmViewModel(TimeZoneInfo timeZone, 
-        MonitoringAlarm alarm)
+    public MonitoringAlarmViewModel CreateAlarmViewModel(MonitoringAlarm alarm)
     {
         var orderedEvents = alarm.Events!
             .OrderByDescending(x => x.At)
@@ -22,7 +21,7 @@ public class ViewModelFactory
             Status = alarm.Status.AlarmStatusToString(),
             Events = orderedEvents.Select((alarmEvent, index) => new MonitoringAlarmEventViewModel
             {
-                At = alarmEvent.At.DateTimeToStringWithTimeZone(timeZone),
+                At = alarmEvent.At.ToLongDateString(),
                 OldLevel = alarmEvent.OldLevel?.AlarmLevelToString() ?? null,
                 OldLevelValue = alarmEvent.OldLevel?.ToLevelValue() ?? null,
                 Level =  alarmEvent.Level.AlarmLevelToString(),

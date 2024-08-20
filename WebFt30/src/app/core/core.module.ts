@@ -28,20 +28,7 @@ import { UsersEffects } from './store/users/users.effects';
 import { SystemEventsEffects } from './store/system-events/system-events.effects';
 import { SystemNotificationEffects } from './store/system-notification/system-notification.effects';
 import { RolesEffects } from './store/roles/roles.effects';
-import { OtausEffects } from './store/otaus/otaus.effects';
-import { MonitoringPortEffects } from './store/monitoring/monitoring-port.effects';
-import { MonitoringHistoryEffects } from './store/monitoring-history/monitoring-history.effects';
-import { BaselineSetupEffects } from './store/baseline/baseline-setup.effects';
-import { AlarmNotificationEffects } from './store/alarm-notification/alarm-notification.effects';
 import { NotificationSettingsEffects } from './store/notification-settings/notification-settings.effects';
-import { ActiveAlarmsEffects } from './store/active-alarms/active-alarms.effects';
-import { QuickAnalysisEffects } from './store/quick-analysis/quick-analysis.effects';
-import { AlarmEventsEffects } from './store/alarm-events/alarm-events.effects';
-import { AllAlarmsEffects } from './store/all-alarms/all-alarms.effects';
-import { BaselineHistoryEffects } from './store/baseline-history/baseline-history.effects';
-import { NetworkSettingsEffects } from './store/network-settings/network-settings.effects';
-import { PortLabelsEffects } from './store/port-labels/port-labs.effects';
-import { TimeSettingsEffects } from './store/time-settings/time-settings.effects';
 import { RtuTreeEffects } from './store/rtu-tree/rtu-tree.effects';
 import { RtuMgmtEffects } from './store/rtu-mgmt/rtu-mgmt.effects';
 
@@ -81,25 +68,12 @@ import { RtuMgmtEffects } from './store/rtu-mgmt/rtu-mgmt.effects';
       AuthEffects,
       SettingsEffects,
       DeviceEffects,
-      AlarmNotificationEffects,
-      ActiveAlarmsEffects,
-      AllAlarmsEffects,
       SystemNotificationEffects,
-      MonitoringHistoryEffects,
       UsersEffects,
       RolesEffects,
-      OtausEffects,
-      MonitoringPortEffects,
-      BaselineSetupEffects,
       GlobalUiEffects,
       SystemEventsEffects,
-      AlarmEventsEffects,
       NotificationSettingsEffects,
-      QuickAnalysisEffects,
-      BaselineHistoryEffects,
-      NetworkSettingsEffects,
-      TimeSettingsEffects,
-      PortLabelsEffects,
 
       RtuTreeEffects,
       RtuMgmtEffects

@@ -18,8 +18,4 @@
     <PackageReference Include="coverlet.collector" Version="3.2.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Fibertest30.Infrastructure.Device\Fibertest30.Infrastructure.Device.csproj" />
-  </ItemGroup>
-
 </Project>

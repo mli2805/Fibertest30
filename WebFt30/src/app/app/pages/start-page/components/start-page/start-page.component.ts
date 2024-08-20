@@ -6,17 +6,9 @@ import {
   AppState,
   AuthActions,
   AuthSelectors,
-  BaselineSetupActions,
-  BaselineSetupSelectors,
   SystemNotificationActions,
   GlobalUiActions,
   GlobalUiSelectors,
-  MonitoringPortActions,
-  OtausActions,
-  AlarmNotificationActions,
-  OtdrTaskProgress,
-  TestQueueSelectors,
-  TestQueueActions,
   RtuTreeActions
 } from 'src/app/core';
 import { AuthUtils } from 'src/app/core/auth/auth.utils';
@@ -24,25 +16,15 @@ import { CoreUtils } from 'src/app/core/core.utils';
 import { CoreService } from 'src/app/core/grpc/services/core.service';
 import { MapUtils } from 'src/app/core/map.utils';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
-import { InAppSystemNotification, MonitoringAlarmEvent, SystemEvent } from 'src/grpc-generated';
+import { InAppSystemNotification, SystemEvent } from 'src/grpc-generated';
 import { UsersActions } from 'src/app/core/store/users/users.actions';
 import {
-  MonitoringPortStatusChangedData,
-  MonitoringPortScheduleChangedData,
-  OtauAddedData,
-  OtauChangedData,
-  OtauConnectionStatusChangedData,
-  OtauInformationChangedData,
-  OtauRemovedData,
   UserChangedData,
   UserCreatedData,
   UserDeletedData,
-  NotificationSettingsUpdatedData,
-  OtdrTaskProgressData
+  NotificationSettingsUpdatedData
 } from 'src/app/shared/system-events/system-event-data';
 import { NotificationSettingsActions } from 'src/app/core/store/notification-settings/notification-settings.action';
-import { NetworkSettingsActions } from 'src/app/core/store/network-settings/network-settings.action';
-import { TimeSettingsActions } from 'src/app/core/store/time-settings/time-settings.action';
 import { RtuConnectionCheckedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/rtu-connection-checked-data';
 import { RtuInitializedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/rtu-initialized-data';
 import { MeasurementClientDoneData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/measurement-client-done-data';
@@ -83,7 +65,6 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
 
   async ngOnInit() {
     await this.refreshTokenAtOnceAndRefreshPeriodically();
-    await this.getUserAlarmNotifications();
     await this.getUserSystemNotifications();
     this.subscribeToSystemMessages();
   }
@@ -146,16 +127,6 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
     return expireFromNowMs * 0.75;
   }
 
-  private async getUserAlarmNotifications() {
-    await CoreUtils.dispatchAndWaitPromise(
-      this.store,
-      this.actions$,
-      AlarmNotificationActions.getNotifications(),
-      AlarmNotificationActions.getNotificationsSuccess,
-      AlarmNotificationActions.getNotificationsFailure
-    );
-  }
-
   private async getUserSystemNotifications() {
     await CoreUtils.dispatchAndWaitPromise(
       this.store,
@@ -171,21 +142,10 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       .getSystemMessageStream()
       .pipe(takeUntil(this.ngDestroyed$))
       .subscribe((x) => {
-        if (x.message.oneofKind === 'alarmNotification') {
-          this.processAlarmNotification(x.message.alarmNotification);
-        }
         if (x.message.oneofKind === 'systemNotification') {
           this.processSystemNotification(x.message.systemNotification);
         }
       });
-  }
-
-  processAlarmNotification(alarmNotification: MonitoringAlarmEvent) {
-    this.store.dispatch(
-      AlarmNotificationActions.addNotification({
-        alarmNotification: MapUtils.toAlarmNotification(alarmNotification)
-      })
-    );
   }
 
   processSystemNotification(systemNotification: InAppSystemNotification) {
@@ -225,10 +185,6 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
 
   inAppInternal(systemEvent: SystemEvent) {
     switch (systemEvent.type) {
-      case 'OtdrTaskProgress': {
-        this.processOtdrTaskProgress(systemEvent);
-        return;
-      }
       case 'UserChanged': {
         const data = <UserChangedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(UsersActions.updateUserSuccess({ userId: data.UserId }));
@@ -245,51 +201,12 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         return;
       }
 
-      case 'OtauConnectionStatusChanged': {
-        const data = <OtauConnectionStatusChangedData>JSON.parse(systemEvent.jsonData);
-        this.store.dispatch(
-          OtausActions.otauConnectionStatusChanged({
-            otauId: data.OtauId,
-            isConnected: data.IsConnected,
-            onlineAt: data.OnlineAt == null ? null : new Date(data.OnlineAt),
-            offlineAt: data.OfflineAt == null ? null : new Date(data.OfflineAt)
-          })
-        );
-        return;
-      }
-
-      case 'MonitoringPortStatusChanged': {
-        const data = <MonitoringPortStatusChangedData>JSON.parse(systemEvent.jsonData);
-        this.store.dispatch(
-          MonitoringPortActions.setPortStatusSuccess({
-            monitoringPortId: data.MonitoringPortId
-          })
-        );
-        return;
-      }
-      case 'MonitoringPortScheduleChanged': {
-        const data = <MonitoringPortScheduleChangedData>JSON.parse(systemEvent.jsonData);
-        this.store.dispatch(
-          MonitoringPortActions.setPortScheduleSuccess({
-            monitoringPortId: data.MonitoringPortId
-          })
-        );
-        return;
-      }
       case 'NotificationSettingsUpdated': {
         const data = <NotificationSettingsUpdatedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(NotificationSettingsActions.updateNotificationSettingsSuccess());
         return;
       }
-      case 'NetworkSettingsUpdated': {
-        this.store.dispatch(NetworkSettingsActions.updateNetworkSettingsSuccess());
-        return;
-      }
 
-      case 'TimeSettingsUpdated': {
-        this.store.dispatch(TimeSettingsActions.updateTimeSettingsSuccess());
-        return;
-      }
       case 'RtuConnectionChecked': {
         const data = <RtuConnectionCheckedData>JSON.parse(systemEvent.jsonData);
         return;
@@ -305,66 +222,6 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
           RtuMgmtActions.measurementClientDone({ measurementClientId: data.MeasurementClientId })
         );
         return;
-      }
-    }
-  }
-
-  private processOtdrTaskProgress(systemEvent: SystemEvent) {
-    const data = <OtdrTaskProgressData>JSON.parse(systemEvent.jsonData);
-    const progress = MapUtils.toOtdrTaskProgress(data);
-
-    this.processTestQueueMonitor(progress);
-
-    if (progress.taskType === 'ondemand') {
-      const currentUser = CoreUtils.getCurrentState(this.store, AuthSelectors.selectUser);
-    }
-  }
-
-  private processBaselineProgress(progress: OtdrTaskProgress) {
-    const monitoringPortId = +progress.otdrTaskId; // monitoringPortId is used as taskId for baseline tasks
-
-    const otdrTask = CoreUtils.getCurrentState(
-      this.store,
-      BaselineSetupSelectors.selectOtdrTaskById(monitoringPortId)
-    );
-
-    if (otdrTask == null || otdrTask?.starting || otdrTask?.finished) {
-      this.store.dispatch(
-        BaselineSetupActions.startBaselineSuccess({
-          monitoringPortId: monitoringPortId
-        })
-      );
-    }
-
-    this.store.dispatch(
-      BaselineSetupActions.baselineProgress({
-        monitoringPortId,
-        progress
-      })
-    );
-
-    if (
-      progress.status == 'completed' ||
-      progress.status == 'failed' ||
-      progress.status == 'cancelled'
-    ) {
-      this.store.dispatch(
-        BaselineSetupActions.baselineFinished({
-          progress,
-          monitoringPortId: monitoringPortId
-        })
-      );
-    }
-  }
-
-  processTestQueueMonitor(progress: OtdrTaskProgress) {
-    const current = CoreUtils.getCurrentState(this.store, TestQueueSelectors.selectCurrent);
-    if (progress.status === 'running') {
-      this.store.dispatch(TestQueueActions.setCurrent({ current: progress }));
-    } else {
-      if (progress.otdrTaskId == current?.otdrTaskId) {
-        this.store.dispatch(TestQueueActions.setCurrent({ current: null }));
-        this.store.dispatch(TestQueueActions.setLast({ last: progress }));
       }
     }
   }

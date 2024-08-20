@@ -30,54 +30,7 @@ public class NotificationRepository : INotificationRepository
         await _rtuContext.SaveChangesAsync();
     }
 
-    public async Task AddInAppAlarmNotification(int alarmEventId, string userId)
-    {
-        var alarmNotification = new UserAlarmNotificationEf()
-        {
-            UserId = userId, AlarmEventId = alarmEventId
-        };
-
-        _rtuContext.UserAlarmNotifications.Add(alarmNotification);
-        await _rtuContext.SaveChangesAsync();
-    }
-    
-    public async Task<List<MonitoringAlarmEvent>> GetUserAlarmNotifications(string userId)
-    {
-        return await _rtuContext.UserAlarmNotifications
-            .Where(x => x.UserId == userId)
-            .Include(x => x.AlarmEvent)
-            .Select(x => x.AlarmEvent.FromEf())
-            .ToListAsync();
-    }
-    
-    public async Task DismissUserAlarmNotification(string userId, int alarmEventId)
-    {
-        var notification = new UserAlarmNotificationEf
-        {
-            UserId = userId,
-            AlarmEventId = alarmEventId
-        };
-
-        _rtuContext.UserAlarmNotifications.Attach(notification);
-        _rtuContext.UserAlarmNotifications.Remove(notification);
-
-        await _rtuContext.SaveChangesAsync();
-    }
-    
-    public async Task DismissAllAlarmNotificationsByLevel(string userId, MonitoringAlarmLevel alarmLevel)
-    {
-        await _rtuContext.UserAlarmNotifications
-            .Where(x => x.UserId == userId && x.AlarmEvent.Level == alarmLevel)
-            .ExecuteDeleteAsync();
-    }
-    
-    public async Task  DismissAllUserAlarmNotifications(string userId)
-    {
-        await _rtuContext.UserAlarmNotifications
-            .Where(x => x.UserId == userId)
-            .ExecuteDeleteAsync();
-    }
-
+  
     public async Task<List<SystemEvent>> GetUserSystemNotifications(string userId)
     {
         return await _rtuContext.UserSystemNotifications

@@ -30,19 +30,8 @@ public class CoreService : Core.CoreBase
 
         var response = new DeviceInfoResponse
         {
-            SerialNumber = deviceInfo.SerialNumber,
-            IpV4Address = deviceInfo.IpV4Address,
-            Timezone = deviceInfo.Timezone.ToProto(),
             ApiVersion = deviceInfo.ApiVersion,
-            SupportedMeasurementParameters = deviceInfo.SupportedMeasurementParameters.ToProto(),
-            Otaus = {  deviceInfo.Otaus.Select(x => x.ToProto())  },
-            MonitoringPorts = { deviceInfo.MonitoringPorts.Select(x => x.ToProto()) },
-            MonitoringTimeSlots = { deviceInfo.MonitoringTimeSlots.Select(x => x.ToProto()) },
             NotificationSettings = deviceInfo.NotificationSettings.ToProto(),
-            ActiveAlarms = { deviceInfo.ActiveAlarms.Select(x => x.ToProto()) },
-            NetworkSettings = deviceInfo.NetworkSettings.ToProto(),
-            TimeSettings = deviceInfo.TimeSettings.ToProto(),
-            PortLabels = { deviceInfo.PortLabels.Select(x => x.ToProto()) },
 
             Rtus = { deviceInfo.RtuTree.Select(r=>r.ToProto())},
         };
@@ -51,51 +40,47 @@ public class CoreService : Core.CoreBase
     }
     
     
-    public override async Task<GetUserAlarmNotificationsResponse> GetUserAlarmNotifications(GetUserAlarmNotificationsRequest request, ServerCallContext context)
+
+    public override async Task GetSystemMessageStream(GetSystemMessageStreamRequest request, 
+        IServerStreamWriter<GetSystemMessageStreamResponse> responseStream,
+        ServerCallContext context)
     {
-        var alarmEvents = await _mediator.Send(
-            new GetUserAlarmNotificationsQuery(),
+        using var notificationsDisposableObservable = await _mediator.Send(
+            new ObserveNotificationsQuery(),
             context.CancellationToken);
 
-        var response = new GetUserAlarmNotificationsResponse()
+        var notificationsResponseObservable = notificationsDisposableObservable.Observable
+            .Select(x =>
+            {
+                var response = new GetSystemMessageStreamResponse();
+                
+                if (x is InAppSystemEventNotification inAppSystemEventNotification)
+                {
+                    response.SystemNotification = inAppSystemEventNotification.ToProto();
+                }
+               
+                else
+                {
+                    throw new NotSupportedException($"Unsupported notification type: {x.GetType()}");
+                }
+
+                return Observable.FromAsync(() =>
+                    responseStream.WriteAsync(response, context.CancellationToken));
+            })
+
+            .Concat();
+
+        // NOTE: DefaultIfEmpty() prevents ToTask to throw "Sequence contains no elements" exception
+        // when the observable completes without any values 
+        try
         {
-            AlarmEvents = { alarmEvents.Select(x => x.ToProto()) }
-        };
-        
-        return response;
+            await notificationsResponseObservable.DefaultIfEmpty().ToTask(context.CancellationToken);
+        }
+        catch (TaskCanceledException)
+        {
+            // client disconnected, no big deal
+        }
     }
-    
-    public override async Task<DismissUserAlarmNotificationResponse> DismissUserAlarmNotification(DismissUserAlarmNotificationRequest request, ServerCallContext context)
-    {
-        await _mediator.Send(
-            new DismissUserAlarmNotificationCommand(request.AlarmEventId),
-            context.CancellationToken);
-
-        var response = new DismissUserAlarmNotificationResponse();
-        return response;
-    }
-    
-    public override async Task<DismissUserAlarmNotificationsByLevelResponse> DismissUserAlarmNotificationsByLevel(DismissUserAlarmNotificationsByLevelRequest request, ServerCallContext context)
-    {
-        await _mediator.Send(
-            new DismissUserAlarmNotificationsByLevelCommand(request.AlarmLevel.FromProto()),
-            context.CancellationToken);
-
-        var response = new DismissUserAlarmNotificationsByLevelResponse();
-        return response;
-    }
-    
-    public override async Task<DismissAllUserAlarmNotificationsResponse> DismissAllUserAlarmNotifications(DismissAllUserAlarmNotificationsRequest request, ServerCallContext context)
-    {
-        await _mediator.Send(
-            new DismissAllUserAlarmNotificationsCommand(),
-            context.CancellationToken);
-
-        var response = new DismissAllUserAlarmNotificationsResponse();
-        return response;
-    }
-    
-    
 
     public override async Task<GetUserSystemNotificationsResponse> GetUserSystemNotifications(GetUserSystemNotificationsRequest request, ServerCallContext context)
     {
@@ -121,16 +106,6 @@ public class CoreService : Core.CoreBase
         return response;
     }
 
-    public override async Task<DismissUserSystemNotificationsByLevelResponse> DismissUserSystemNotificationsByLevel(DismissUserSystemNotificationsByLevelRequest request, ServerCallContext context)
-    {
-        await _mediator.Send(
-            new DismissUserSystemNotificationsByLevelCommand(request.SystemEventLevel.FromProto()),
-            context.CancellationToken);
-
-        var response = new DismissUserSystemNotificationsByLevelResponse();
-        return response;
-    }
-
     public override async Task<DismissAllUserSystemNotificationsResponse> DismissAllUserSystemNotifications(DismissAllUserSystemNotificationsRequest request, ServerCallContext context)
     {
         await _mediator.Send(
@@ -141,80 +116,4 @@ public class CoreService : Core.CoreBase
         return response;
     }
 
-    public override async Task GetSystemMessageStream(GetSystemMessageStreamRequest request, 
-        IServerStreamWriter<GetSystemMessageStreamResponse> responseStream,
-        ServerCallContext context)
-    {
-        using var notificationsDisposableObservable = await _mediator.Send(
-            new ObserveNotificationsQuery(),
-            context.CancellationToken);
-
-        // send current on demand progress at once
-        await SendAllBaselineProgress(responseStream, context);
-
-        var notificationsResponseObservable = notificationsDisposableObservable.Observable
-            .Select(x =>
-            {
-                var response = new GetSystemMessageStreamResponse();
-                
-                if (x is InAppSystemEventNotification inAppSystemEventNotification)
-                {
-                    response.SystemNotification = inAppSystemEventNotification.ToProto();
-                }
-                else if (x is Fibertest30.Application.MonitoringAlarmEvent monitoringAlarmEvent)
-                {
-                    response.AlarmNotification = monitoringAlarmEvent.ToProto();
-                }
-                else
-                {
-                    throw new NotSupportedException($"Unsupported notification type: {x.GetType()}");
-                }
-
-                return Observable.FromAsync(() =>
-                    responseStream.WriteAsync(response, context.CancellationToken));
-            })
-
-            .Concat();
-
-        // NOTE: DefaultIfEmpty() prevents ToTask to throw "Sequence contains no elements" exception
-        // when the observable completes without any values 
-        try
-        {
-            await notificationsResponseObservable.DefaultIfEmpty().ToTask(context.CancellationToken);
-        }
-        catch (TaskCanceledException)
-        {
-            // client disconnected, no big deal
-        }
-    }
-
-  
-    
-    public async Task SendAllBaselineProgress(IServerStreamWriter<GetSystemMessageStreamResponse> responseStream, ServerCallContext context)
-    {
-        var progresses = await _mediator.Send(new GetAllBaselineProgressQuery(),
-            context.CancellationToken);
-
-        foreach (var progress in progresses)
-        {
-            var systemEvent =
-                SystemEventFactory.OtdrTaskProgress(_currentUserService.UserId!, progress);
-            systemEvent.At = _dateTime.UtcNow;
-            
-            var notification = new Fibertest30.Application.InAppSystemEventNotification()
-            {
-                InAppInternal = true,
-                InApp = false,
-                SystemEvent = systemEvent
-            };
-            
-            var response = new GetSystemMessageStreamResponse()
-                { SystemNotification = notification.ToProto() };
-
-            await responseStream.WriteAsync(response, context.CancellationToken);
-        }
-    }
-
-
- 
 }

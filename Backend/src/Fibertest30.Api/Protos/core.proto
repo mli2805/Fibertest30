@@ -1,8 +1,5 @@
 syntax = "proto3";
-import "data.otdr.proto";
-import "data.monitoring.proto";
 import "data.core.proto";
-import "port_labeling.proto";
 import "rtu_tree.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -13,43 +10,10 @@ service Core {
   rpc GetDeviceInfo (DeviceInfoRequest) returns (DeviceInfoResponse);
   rpc GetSystemMessageStream(GetSystemMessageStreamRequest) returns (stream GetSystemMessageStreamResponse);
 
-  rpc GetUserAlarmNotifications(GetUserAlarmNotificationsRequest) returns (GetUserAlarmNotificationsResponse);
-  rpc DismissUserAlarmNotification(DismissUserAlarmNotificationRequest) returns (DismissUserAlarmNotificationResponse);
-  rpc DismissUserAlarmNotificationsByLevel(DismissUserAlarmNotificationsByLevelRequest) returns (DismissUserAlarmNotificationsByLevelResponse);
-  rpc DismissAllUserAlarmNotifications(DismissAllUserAlarmNotificationsRequest) returns (DismissAllUserAlarmNotificationsResponse);
-  
   rpc GetUserSystemNotifications(GetUserSystemNotificationsRequest) returns (GetUserSystemNotificationsResponse);
   rpc DismissUserSystemNotification(DismissUserSystemNotificationRequest) returns (DismissUserSystemNotificationResponse);
-  rpc DismissUserSystemNotificationsByLevel(DismissUserSystemNotificationsByLevelRequest) returns (DismissUserSystemNotificationsByLevelResponse);
   rpc DismissAllUserSystemNotifications(DismissAllUserSystemNotificationsRequest) returns (DismissAllUserSystemNotificationsResponse);
 }
-
-message OtauPort {
-  int32 id = 1;
-  int32 portIndex = 2;
-  bool unavailable = 3;
-  int32 monitoringPortId = 4;
-  int32 otauId = 5;
-}
-
-message Otau {
-  int32 id = 1;
-  string type = 2;
-  int32 ocmPortIndex = 3;
-  int32 portCount = 4;
-  string serialNumber = 5;
-  string name = 6;
-  string location = 7;
-  string rack = 8;
-  string shelf = 9;
-  string note = 10;
-  string jsonParameters = 11;
-  bool isConnected = 12;
-  google.protobuf.Timestamp onlineAt = 13;
-  google.protobuf.Timestamp offlineAt = 14;
-  repeated OtauPort ports = 15;
-}
-
 
 // GetDeviceInfo
 
@@ -58,20 +22,8 @@ message DeviceInfoRequest {
 }
 
 message DeviceInfoResponse {
-  string serialNumber = 1;
-  data.otdr.OtdrMeasurementParameterSet supportedMeasurementParameters = 2;
-  repeated Otau otaus = 3;
-  repeated data.core.MonitoringPort monitoringPorts = 4;
-  repeated data.core.MonitoringTimeSlot monitoringTimeSlots = 5;
   data.core.NotificationSettings notificationSettings = 7;
-  string ipV4Address = 8;
-  repeated data.monitoring.MonitoringAlarm activeAlarms = 9;
-  data.core.AppTimeZone timezone = 10;
   string apiVersion = 11;
-  data.core.NetworkSettings networkSettings = 12;
-  repeated port_labeling.PortLabel portLabels = 13;
-  data.core.TimeSettings timeSettings = 14;
-
   repeated rtu_tree.Rtu rtus = 15;
 }
 
@@ -80,43 +32,6 @@ message InAppSystemNotification {
   bool inAppInternal = 2;
   bool inApp = 3;
 }
-
-
-//  GetUserAlarmNotifications
-message GetUserAlarmNotificationsRequest {
-}
-
-message GetUserAlarmNotificationsResponse {
-  repeated data.monitoring.MonitoringAlarmEvent alarmEvents = 1;
-}
-
-// DismissUserAlarmNotification
-
-message DismissUserAlarmNotificationRequest {
-  int32 alarmEventId = 1;
-}
-
-message DismissUserAlarmNotificationResponse {
-}
-
-// DismissUserAlarmNotificationsByLevel
-message DismissUserAlarmNotificationsByLevelRequest {
-  data.monitoring.MonitoringAlarmLevel alarmLevel = 1;
-}
-
-message DismissUserAlarmNotificationsByLevelResponse {
-
-}
-
-// DismissAllUserAlarmNotifications
-message DismissAllUserAlarmNotificationsRequest {
-}
-
-message DismissAllUserAlarmNotificationsResponse {
-}
-
-
-
 
 //  GetUserSystemNotifications
 message GetUserSystemNotificationsRequest {
@@ -159,7 +74,6 @@ message GetSystemMessageStreamRequest {
 message GetSystemMessageStreamResponse {
   oneof message {
       InAppSystemNotification systemNotification = 1;
-      data.monitoring.MonitoringAlarmEvent alarmNotification = 2;
   }  
 }
 

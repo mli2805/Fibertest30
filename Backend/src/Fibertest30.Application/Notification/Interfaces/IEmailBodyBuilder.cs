@@ -2,5 +2,5 @@
 
 public interface IEmailBodyBuilder
 {
-    string BuildEmailBody(OtauPortPath portPath, MonitoringAlarm monitoringAlarm);
+    string BuildEmailBody(string portPath, MonitoringAlarm monitoringAlarm);
 }

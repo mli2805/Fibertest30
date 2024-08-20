@@ -50,17 +50,10 @@ export class TestUtils {
 
   private static getDeviceInfoResponse(): grpc.DeviceInfoResponse {
     return {
-      serialNumber: '1234567890',
-      ipV4Address: '127.0.0.1',
-      timezone: new AppTimezone(),
       apiVersion: '1.0.0',
       supportedMeasurementParameters: {
         laserUnits: []
       },
-      otaus: [],
-      monitoringPorts: [],
-      monitoringTimeSlots: [],
-      activeAlarms: [],
       notificationSettings: {
         id: 1,
         emailServer: {
@@ -94,21 +87,7 @@ export class TestUtils {
           trapReceiverPort: 162
         }
       },
-      networkSettings: {
-        networkMode: '',
-        localIpAddress: '192.168.96.222',
-        localSubnetMask: '255.255.255.128',
-        localGatewayIp: '192.168.96.3',
-        primaryDnsServer: '8.8.8.8'
-      },
-      timeSettings: {
-        appTimeZone: new AppTimezone(),
-        ntpSettings: {
-          primaryNtpServer: '0.debian.pool.ntp.org',
-          secondaryNtpServer: '71.52.196.112'
-        }
-      },
-      portLabels: [],
+
       rtus: []
     };
   }

@@ -21,10 +21,7 @@ public class MonitoringAlarmTests
     
     private static readonly DateTime _baseDateTime = new(2024, 3, 12, 11, 10, 20);
 
-    private readonly OtauPortPath _portPath = new()
-    {
-        OcmOtauPort = new OtauPort { PortIndex = 3 }, CascadeOtauPort = new OtauPort { PortIndex = 8 }
-    };
+    private readonly string _portPath = "31-12";
     
     private readonly MonitoringAlarm _activeAlarm = new()
     {
