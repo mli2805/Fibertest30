@@ -27,7 +27,7 @@ const routes: Routes = [
       {
         path: 'rfts-setup',
         loadChildren: () =>
-          import('../../../features/rfts-setup/rfts-setup.module').then((m) => m.RftsSetupModule)
+          import('../../../features/ft-settings/ft-settings.module').then((m) => m.RftsSetupModule)
       },
 
       {

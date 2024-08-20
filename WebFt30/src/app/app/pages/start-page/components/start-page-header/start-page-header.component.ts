@@ -16,8 +16,8 @@ import { RouterSelectors } from 'src/app/core/router/router.selectors';
 import { RouterStateUrl } from 'src/app/core/router/router.state';
 import { StartPageHeaderTitle } from './titles/page-header-title';
 import { CoreUtils } from 'src/app/core/core.utils';
-import { UserEditDialogComponent } from 'src/app/features/rfts-setup/components/platform-management/user-accounts/components/user-edit-dialog/user-edit-dialog.component';
 import { RolesResolver } from '../guards';
+import { UserEditDialogComponent } from 'src/app/features/ft-settings/components/user-accounts/components/user-edit-dialog/user-edit-dialog.component';
 
 @Component({
   selector: 'rtu-start-page-header',
@@ -30,7 +30,6 @@ export class StartPageHeaderComponent {
     [/^\/rtus\/initialization\/.*$/, { titleId: 'i18n.ft.network-settings' }],
     [/^\/rtus\/measurement-client\/.*$/, { titleId: 'i18n.ft.measurement-client' }],
     [/^\/rfts-setup$/, { titleId: 'i18n.start-page.rfts-setup' }],
-    [/^\/rfts-setup\/platform-management$/, { titleId: 'i18n.page-title.platform-management' }],
     [
       /^\/rfts-setup\/monitoring\/monitoring-profiles$/,
       { titleId: 'i18n.monitoring.monitoring-profiles' }

@@ -12,25 +12,11 @@
           [emailServer]="set.emailServer"
           [hasPermission]="(hasChangeNotificationSettingsPermission$ | async)!"
         ></rtu-email-notification-settings>
-        <rtu-relay-notification-settings
-          *ngIf="false"
-          [relaySettings]="set.relay"
-          [hasPermission]="(hasChangeNotificationSettingsPermission$ | async)!"
-        ></rtu-relay-notification-settings>
+
         <rtu-snmp-notification-settings
           [trapReceiver]="set.trapReceiver"
           [hasPermission]="(hasChangeNotificationSettingsPermission$ | async)!"
         ></rtu-snmp-notification-settings>
-        <rtu-syslog-notification-settings
-          *ngIf="false"
-          [syslogSettings]="set.syslog"
-          [hasPermission]="(hasChangeNotificationSettingsPermission$ | async)!"
-        ></rtu-syslog-notification-settings>
-        <rtu-push-notification-settings
-          *ngIf="false"
-          [pushSettings]="set.push"
-          [hasPermission]="(hasChangeNotificationSettingsPermission$ | async)!"
-        ></rtu-push-notification-settings>
       </div>
     </fieldset>
   </div>

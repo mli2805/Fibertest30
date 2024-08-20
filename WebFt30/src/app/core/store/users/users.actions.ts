@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ApplicationUserPatch } from 'src/app/features/rfts-setup/components/platform-management/user-accounts/components/user-edit-dialog/application-user-patch';
+import { ApplicationUserPatch } from 'src/app/features/ft-settings/components/user-accounts/components/user-edit-dialog/application-user-patch';
 import { User } from '../models';
 
 const getUsers = createAction('[Users] Get Users');

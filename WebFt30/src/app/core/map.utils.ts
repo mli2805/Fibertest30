@@ -17,7 +17,7 @@ import { PbLong } from '@protobuf-ts/runtime';
 import { TimezoneUtils } from 'src/app/core/timezone.utils';
 
 import { Timestamp } from 'src/grpc-generated/google/protobuf/timestamp';
-import { ApplicationUserPatch } from '../features/rfts-setup/components/platform-management/user-accounts/components/user-edit-dialog/application-user-patch';
+import { ApplicationUserPatch } from '../features/ft-settings/components/user-accounts/components/user-edit-dialog/application-user-patch';
 import {
   EmailServer,
   NotificationSettings,

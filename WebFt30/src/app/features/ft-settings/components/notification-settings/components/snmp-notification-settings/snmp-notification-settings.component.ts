@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewChild, inject } from '@angular/core';
 import {
   NotificationSettings,
   TrapReceiver
-} from '../../../../../../../core/store/models/notification-settings';
+} from '../../../../../../core/store/models/notification-settings';
 import {
   AbstractControl,
   FormControl,

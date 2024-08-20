@@ -3,7 +3,7 @@ import { Component, ElementRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { UserSettingsDialogComponent } from 'src/app/app/dialogs/user-settings-dialog/user-settings-dialog.component';
 import { AppState, AuthActions, AuthSelectors, RolesSelectors, User } from 'src/app/core';
-import { UserEditDialogComponent } from 'src/app/features/rfts-setup/components/platform-management/user-accounts/components/user-edit-dialog/user-edit-dialog.component';
+import { UserEditDialogComponent } from 'src/app/features/ft-settings/components/user-accounts/components/user-edit-dialog/user-edit-dialog.component';
 import { OverlayBase } from 'src/app/shared/components/overlays/overlay-base';
 import { firstValueFrom } from 'rxjs';
 import { RolesResolver } from 'src/app/app/pages/start-page/components/guards';
