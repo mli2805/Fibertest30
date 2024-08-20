@@ -24,13 +24,13 @@
       <button class="context-menu-line" (click)="onStatisticsClicked()">{{ 'i18n.ft.statistics' | translate }}</button>
       <button class="context-menu-line" (click)="onLandmarksClicked()">{{ 'i18n.ft.landmarks' | translate }}</button>
       <hr class="my-2" />
-      <button class="context-menu-line" (click)="onClicked()">{{ 'i18n.ft.detach-trace' | translate }}</button>
+      <button class="context-menu-line" (click)="onDetachTraceClicked()">{{ 'i18n.ft.detach-trace' | translate }}</button>
       <hr class="my-2" />
-      <button class="context-menu-line" (click)="onClicked()">{{ 'i18n.ft.assign-base-refs' | translate }}</button>
+      <button class="context-menu-line" (click)="onAssignBaseRefClicked()">{{ 'i18n.ft.assign-base-refs' | translate }}</button>
       <button class="context-menu-line" (click)="onAutomaticBaseRefsClicked()">{{ 'i18n.ft.automatic-base-refs' | translate }}</button>
       <hr class="my-2" />
-      <button class="context-menu-line" (click)="onClicked()">{{ 'i18n.ft.precise-out-of-order' | translate }}</button>
-      <button class="context-menu-line" (click)="onMeasurementClientClicked()" [disabled]="">{{ 'i18n.ft.measurement-client' | translate }}</button>
+      <button class="context-menu-line" (click)="onPreciseOutOfTurnClicked()" [disabled]="!canPreciseOutOfTurn()">{{ 'i18n.ft.precise-out-of-order' | translate }}</button>
+      <button class="context-menu-line" (click)="onMeasurementClientClicked()" [disabled]="!canMeasurementClient()">{{ 'i18n.ft.measurement-client' | translate }}</button>
     </div>
   </div>
 </ng-template>

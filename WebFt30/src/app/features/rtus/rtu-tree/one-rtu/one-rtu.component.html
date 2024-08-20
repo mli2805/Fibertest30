@@ -47,6 +47,7 @@
         <rtu-attached-trace
           [trace]="child.payload"
           [rtuMonitoringMode]="rtu.monitoringMode"
+          [isRtuAvailableNow]="rtu.isRtuAvailableNow()"
           [i]="ic"
         ></rtu-attached-trace>
       </ng-container>

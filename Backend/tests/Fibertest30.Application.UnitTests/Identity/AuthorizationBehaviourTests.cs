@@ -13,16 +13,16 @@ public class AuthorizationBehaviourTests
     private record AllowAnonymousAttributedRequest : IRequest<Unit>;
     
     [AllowCurrentUserChangingHimself]
-    [HasPermission(ApplicationPermission.ConfigureOtau)]
+    [HasPermission(ApplicationPermission.InitializeRtu)]
     private record UserChangingHimself_Ivalid_Request : IRequest<Unit>;
     
    
     [AllowCurrentUserChangingHimself]
-    [HasPermission(ApplicationPermission.ConfigureOtau)]
+    [HasPermission(ApplicationPermission.InitializeRtu)]
     private record UserChangingHimselfRequest(string UserId) : IRequest<Unit>;
     
 
-    [HasPermission(ApplicationPermission.ConfigureOtau)]
+    [HasPermission(ApplicationPermission.InitializeRtu)]
     private record HasPermissionAttributedRequest : IRequest<Unit>;
 
     Mock<IUserRolePermissionProvider> _mockNoFoundPermissionProvider = new();

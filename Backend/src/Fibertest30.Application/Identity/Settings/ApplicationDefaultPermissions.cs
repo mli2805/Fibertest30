@@ -13,26 +13,18 @@ public static class ApplicationDefaultPermissions
         // Add all possible roles to the map
         // Don't specify the Administrator (it will be done automatically)
 
-        AddPermission(P.ChangeRtuSettings);
-
-
-
-        AddPermission(P.ConfigureOtau);
         AddPermission(P.SetupMonitoringThresholds, R.Operator);
         AddPermission(P.HandleAlarm, R.Operator);
         AddPermission(P.ViewDataLog, R.Operator, R.Supervisor);
-        AddPermission(P.ChangeMonitoringPortSettings, R.Operator);
-        AddPermission(P.ViewMonitoringPortSettings, R.Operator, R.Supervisor);
         AddPermission(P.ReceiveOpticalNotifications, R.Operator, R.Supervisor, R.NotificationReceiver);
         AddPermission(P.ReceiveSystemNotifications);
         AddPermission(P.EditUsers);
         AddPermission(P.ChangeNotificationSettings);
-        AddPermission(P.ChangeNetworkSettings);
-        AddPermission(P.ChangeTimeSettings);
-        AddPermission(P.EditPortLabels, R.Operator);
 
         AddPermission(P.CheckRtuConnection, R.Operator, R.Supervisor);
         AddPermission(P.InitializeRtu, R.Operator);
+        AddPermission(P.AssignBaseRef, R.Operator);
+        AddPermission(P.DoPreciseMonitoringOutOfOrder, R.Operator);
         AddPermission(P.DoMeasurementClient, R.Operator);
     }
 

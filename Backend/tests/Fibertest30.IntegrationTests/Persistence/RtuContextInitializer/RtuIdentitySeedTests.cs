@@ -59,7 +59,7 @@ public class RtuIdentitySeedTests : SqliteTestBase
     public async Task CustomRole_RevokedPermissionRemoved_PreservedPermissionKept_AfterSeeding()
     {
         var preservedPermission = ApplicationPermission.HandleAlarm;
-        var revokedPermission = ApplicationPermission.ConfigureOtau;
+        var revokedPermission = ApplicationPermission.InitializeRtu;
 
         await _roleManager.CreateAsync(new IdentityRole("CustomRole"));
         var customRole = _roleManager.Roles.Single(x => x.Name == "CustomRole");

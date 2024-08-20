@@ -32,4 +32,10 @@ export class Rtu {
   traces!: Trace[];
 
   acceptableParams!: TreeOfAcceptableMeasurementParameters;
+
+  public isRtuAvailableNow(): boolean {
+    return (
+      this.mainChannelState === RtuPartState.Ok || this.reserveChannelState === RtuPartState.Ok
+    );
+  }
 }

@@ -10,5 +10,6 @@ export class AttachedTraceComponent {
   @Input() trace!: Trace;
 
   @Input() rtuMonitoringMode!: MonitoringState;
+  @Input() isRtuAvailableNow!: boolean;
   @Input() i!: number;
 }

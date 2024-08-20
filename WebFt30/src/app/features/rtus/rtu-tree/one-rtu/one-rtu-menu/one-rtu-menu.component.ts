@@ -1,5 +1,16 @@
-import { ChangeDetectorRef, Component, ElementRef, HostListener, Input } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  Input
+} from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState, AuthSelectors, User } from 'src/app/core';
+import { CoreUtils } from 'src/app/core/core.utils';
+import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 
 @Component({
@@ -14,6 +25,9 @@ import { Rtu } from 'src/app/core/store/models/ft30/rtu';
   ]
 })
 export class OneRtuMenuComponent {
+  store: Store<AppState> = inject(Store<AppState>);
+  currentUser: User | null;
+
   @Input() rtu!: Rtu;
 
   public open = false;
@@ -22,7 +36,13 @@ export class OneRtuMenuComponent {
     private elementRef: ElementRef,
     private router: Router,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+    this.currentUser = CoreUtils.getCurrentState(this.store, AuthSelectors.selectUser);
+  }
+
+  hasPermission(permission: ApplicationPermission): boolean {
+    return this.currentUser ? this.currentUser.permissions.includes(permission) : false;
+  }
 
   onRtuNameClicked() {
     if (this.open === false) {
@@ -45,6 +65,10 @@ export class OneRtuMenuComponent {
 
   onInformationClicked() {
     //
+  }
+
+  canInitialize(): boolean {
+    return this.hasPermission(ApplicationPermission.InitializeRtu);
   }
 
   onNetworkSettignsClicked() {

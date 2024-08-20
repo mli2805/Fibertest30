@@ -1,5 +1,9 @@
-import { Component, ElementRef, HostListener, Input } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState, AuthSelectors, User } from 'src/app/core';
+import { CoreUtils } from 'src/app/core/core.utils';
+import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
 
 @Component({
@@ -14,6 +18,9 @@ import { Trace } from 'src/app/core/store/models/ft30/trace';
   ]
 })
 export class AttachedTraceMenuComponent {
+  store: Store<AppState> = inject(Store<AppState>);
+  currentUser: User | null;
+
   lineContent!: string;
   private _trace!: Trace;
   @Input() set trace(value: Trace) {
@@ -23,10 +30,17 @@ export class AttachedTraceMenuComponent {
   get trace() {
     return this._trace;
   }
+  @Input() isRtuAvailableNow!: boolean;
 
   public open = false;
 
-  constructor(private elementRef: ElementRef, private router: Router) {}
+  constructor(private elementRef: ElementRef, private router: Router) {
+    this.currentUser = CoreUtils.getCurrentState(this.store, AuthSelectors.selectUser);
+  }
+
+  hasPermission(permission: ApplicationPermission): boolean {
+    return this.currentUser ? this.currentUser.permissions.includes(permission) : false;
+  }
 
   onTraceNameClicked() {
     if (this.open === false) {
@@ -63,8 +77,31 @@ export class AttachedTraceMenuComponent {
     //
   }
 
+  onDetachTraceClicked() {
+    //
+  }
+  onAssignBaseRefClicked() {
+    //
+  }
+
   onAutomaticBaseRefsClicked() {
     //
+  }
+
+  canPreciseOutOfTurn() {
+    return (
+      this.hasPermission(ApplicationPermission.DoPreciseMonitoringOutOfOrder) &&
+      this.trace.hasEnoughBaseRefsToPerformMonitoring &&
+      this.isRtuAvailableNow
+    );
+  }
+
+  onPreciseOutOfTurnClicked() {
+    //
+  }
+
+  canMeasurementClient() {
+    return this.hasPermission(ApplicationPermission.DoMeasurementClient) && this.isRtuAvailableNow;
   }
 
   onMeasurementClientClicked() {
@@ -75,9 +112,5 @@ export class AttachedTraceMenuComponent {
       portName = `${this.trace.port!.mainCharonPort}-${this.trace.port!.opticalPort}`;
     }
     this.router.navigate([`rtus/measurement-client/`, this._trace.rtuId, portName]);
-  }
-
-  onClicked() {
-    //
   }
 }
