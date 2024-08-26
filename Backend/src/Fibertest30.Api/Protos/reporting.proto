@@ -1,7 +1,6 @@
 syntax = "proto3";
 import "data.core.proto";
 import "data.reporting.proto";
-import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Fibertest30.Api";
 package fibertest30.reporting;
