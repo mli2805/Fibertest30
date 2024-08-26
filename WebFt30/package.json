@@ -1,5 +1,5 @@
 {
-  "name": "rfts400",
+  "name": "fibertest30",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "analyze": "ng build --stats-json && webpack-bundle-analyzer dist/rfts400/stats.json"
+    "analyze": "ng build --stats-json && webpack-bundle-analyzer dist/fibertest30/stats.json"
   },
   "private": true,
   "dependencies": {
