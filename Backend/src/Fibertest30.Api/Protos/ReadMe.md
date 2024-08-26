@@ -1,4 +1,3 @@
-
 After adding a new proto file:
 
 - Edit the .csproj file to generate the gRpc code for the server: 
