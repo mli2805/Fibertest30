@@ -10,6 +10,12 @@
 	  <NoWarn>$(NoWarn);SYSLIB0011</NoWarn>
 	  <!-- Warning: Setting the following switch is *NOT* recommended in web apps. -->
 	  <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+
+	  <Title>Fibertest 3.0 Server</Title>
+	  <Company>IIT</Company>
+	  <Product>Fibertest 3.0</Product>
+	  <Copyright>Copyright © IIT Minsk 2017-2024</Copyright>
+	  <Authors>Leanid Marholin</Authors>
   </PropertyGroup>
 
   <ItemGroup>
