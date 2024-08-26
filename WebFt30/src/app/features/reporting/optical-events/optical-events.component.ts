@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState, OpticalEventsActions, OpticalEventsSelectors } from 'src/app/core';
 import { EventStatus, FiberState } from 'src/app/core/store/models/ft30/ft-enums';
-import { OpticalEventsEffects } from 'src/app/core/store/optical-events/optical-events.effects';
 
 @Component({
   selector: 'rtu-optical-events',
@@ -25,6 +24,11 @@ export class OpticalEventsComponent {
 
   constructor() {
     this.refresh();
+  }
+
+  checked = false;
+  onToggle() {
+    //
   }
 
   refresh() {
