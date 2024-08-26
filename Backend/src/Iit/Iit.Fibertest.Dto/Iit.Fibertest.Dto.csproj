@@ -5,11 +5,13 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
-		<Title>Dto library</Title>
+		<RootNamespace>Iit.Fibertest.Dto</RootNamespace>
 		<Company>IIT</Company>
 		<Product>Fibertest 3.0</Product>
 		<Copyright>Copyright © IIT Minsk 2017-2024</Copyright>
 		<Authors>Leanid Marholin</Authors>
+		<AssemblyName>Iit.Fibertest.Dto</AssemblyName>
+
 	</PropertyGroup>
 
 	<ItemGroup>

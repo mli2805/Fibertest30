@@ -4,6 +4,13 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+
+	  <RootNamespace>Iit.Fibertest.StringResources</RootNamespace>
+	  <Version>1.0.0.0</Version>
+	  <Company>IIT</Company>
+	  <Copyright>Copyright © IIT Minsk 2017-2024</Copyright>
+	  <Authors>Leanid Marholin</Authors>
+	  <AssemblyName>Iit.Fibertest.StringResources</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
