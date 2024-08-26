@@ -3,6 +3,7 @@
 // tslint:disable
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
+import { OpticalEvent } from "./data.reporting";
 import { SystemEvent } from "./data.core";
 // GetSystemEvents
 
@@ -19,6 +20,22 @@ export interface GetSystemEventsResponse {
      * @generated from protobuf field: repeated fibertest30.data.core.SystemEvent systemEvents = 1;
      */
     systemEvents: SystemEvent[];
+}
+// GetOpticalEvents
+
+/**
+ * @generated from protobuf message fibertest30.reporting.GetOpticalEventsRequest
+ */
+export interface GetOpticalEventsRequest {
+}
+/**
+ * @generated from protobuf message fibertest30.reporting.GetOpticalEventsResponse
+ */
+export interface GetOpticalEventsResponse {
+    /**
+     * @generated from protobuf field: repeated fibertest30.data.reporting.OpticalEvent opticalEvents = 1;
+     */
+    opticalEvents: OpticalEvent[];
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class GetSystemEventsRequest$Type extends MessageType<GetSystemEventsRequest> {
@@ -42,9 +59,32 @@ class GetSystemEventsResponse$Type extends MessageType<GetSystemEventsResponse> 
  * @generated MessageType for protobuf message fibertest30.reporting.GetSystemEventsResponse
  */
 export const GetSystemEventsResponse = new GetSystemEventsResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetOpticalEventsRequest$Type extends MessageType<GetOpticalEventsRequest> {
+    constructor() {
+        super("fibertest30.reporting.GetOpticalEventsRequest", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.reporting.GetOpticalEventsRequest
+ */
+export const GetOpticalEventsRequest = new GetOpticalEventsRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetOpticalEventsResponse$Type extends MessageType<GetOpticalEventsResponse> {
+    constructor() {
+        super("fibertest30.reporting.GetOpticalEventsResponse", [
+            { no: 1, name: "opticalEvents", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => OpticalEvent }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.reporting.GetOpticalEventsResponse
+ */
+export const GetOpticalEventsResponse = new GetOpticalEventsResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.reporting.Reporting
  */
 export const Reporting = new ServiceType("fibertest30.reporting.Reporting", [
-    { name: "GetSystemEvents", options: {}, I: GetSystemEventsRequest, O: GetSystemEventsResponse }
+    { name: "GetSystemEvents", options: {}, I: GetSystemEventsRequest, O: GetSystemEventsResponse },
+    { name: "GetOpticalEvents", options: {}, I: GetOpticalEventsRequest, O: GetOpticalEventsResponse }
 ]);

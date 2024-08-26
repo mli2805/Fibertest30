@@ -34,14 +34,16 @@ export class SettingsEffects {
         ofType(
           SettingsActions.changeTheme,
           SettingsActions.changeLanguage,
-          SettingsActions.changeDateTimeFormat
+          SettingsActions.changeDateTimeFormat,
+          SettingsActions.changeTimeZone
         ),
         withLatestFrom(this.store.pipe(select(SettingsSelectors.selectSettings))),
         tap(([action, settings]) => {
           this.localStorageService.setSettings({
             theme: settings.theme,
             language: settings.language,
-            dateTimeFormat: settings.dateTimeFormat
+            dateTimeFormat: settings.dateTimeFormat,
+            timeZone: settings.timeZone
           });
         })
       ),
@@ -69,7 +71,8 @@ export class SettingsEffects {
       ofType(
         SettingsActions.changeTheme,
         SettingsActions.changeLanguage,
-        SettingsActions.changeDateTimeFormat
+        SettingsActions.changeDateTimeFormat,
+        SettingsActions.changeTimeZone
       ),
       withLatestFrom(
         this.store.pipe(select(SettingsSelectors.selectSettings)),

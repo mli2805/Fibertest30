@@ -24,6 +24,10 @@ export * from './store/system-events/system-events.actions';
 export * from './store/system-events/system-events.selectors';
 export * from './store/system-events/system-events.state';
 
+export * from './store/optical-events/optical-events.actions';
+export * from './store/optical-events/optical-events.selectors';
+export * from './store/optical-events/optical-events.state';
+
 export * from './store/system-notification/system-notification.actions';
 export * from './store/system-notification/system-notification.selectors';
 export * from './store/system-notification/system-notification.state';

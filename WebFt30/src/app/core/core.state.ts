@@ -26,6 +26,8 @@ import { RtuTreeState } from './store/rtu-tree/rtu-tree.state';
 import { rtuTreeReducer } from './store/rtu-tree/rtu-tree.reducer';
 import { RtuMgmtState } from './store/rtu-mgmt/rtu-mgmt.state';
 import { rtuMgmtReducer } from './store/rtu-mgmt/rtu-mgmt.reducer';
+import { OpticalEventsState } from './store/optical-events/optical-events.state';
+import { opticalEventsReducer } from './store/optical-events/optical-events.reducer';
 
 export interface AppState {
   auth: AuthState;
@@ -35,6 +37,7 @@ export interface AppState {
   roles: RolesState;
   globalUi: GlobalUiState;
   systemEvents: SystemEventsState;
+  opticalEvents: OpticalEventsState;
   eventNotification: SystemNotificationState;
   notificationSettings: NotificationSettingsState;
   router: RouterReducerState<RouterStateUrl>;
@@ -51,6 +54,7 @@ export const reducers: ActionReducerMap<AppState> = {
   roles: rolesReducer,
   globalUi: globalUiReducer,
   systemEvents: systemEventsReducer,
+  opticalEvents: opticalEventsReducer,
   eventNotification: systemNotificationReducer,
   notificationSettings: notificationSettingsReducer,
   router: routerReducer,
@@ -72,6 +76,7 @@ export const selectUsersState = (state: AppState) => state.users;
 export const selectRolesState = (state: AppState) => state.roles;
 export const selectGlobalUiState = (state: AppState) => state.globalUi;
 export const selectSystemEventsState = (state: AppState) => state.systemEvents;
+export const selectOpticalEventsState = (state: AppState) => state.opticalEvents;
 export const selectSystemNotificationState = (state: AppState) => state.eventNotification;
 export const selectNotificationSettingsState = (state: AppState) => state.notificationSettings;
 export const selectRtuTreeState = (state: AppState) => state.rtuTree;

@@ -12,6 +12,7 @@ service Core {
 
   rpc GetUserSystemNotifications(GetUserSystemNotificationsRequest) returns (GetUserSystemNotificationsResponse);
   rpc DismissUserSystemNotification(DismissUserSystemNotificationRequest) returns (DismissUserSystemNotificationResponse);
+  rpc DismissUserSystemNotificationsByLevel(DismissUserSystemNotificationsByLevelRequest) returns (DismissUserSystemNotificationsByLevelResponse);
   rpc DismissAllUserSystemNotifications(DismissAllUserSystemNotificationsRequest) returns (DismissAllUserSystemNotificationsResponse);
 }
 

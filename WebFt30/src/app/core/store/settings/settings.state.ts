@@ -1,3 +1,5 @@
+import { AppTimezone } from '../models';
+
 export const AppThemes = ['dark', 'light'] as const;
 export type AppTheme = (typeof AppThemes)[number];
 
@@ -12,6 +14,7 @@ export type AppDateTimeLanguageFormat = (typeof AppDateTimeLanguageFormats)[numb
 
 export interface SettingsState {
   theme: AppTheme;
+  timeZone: AppTimezone;
   language: AppLanguage;
   dateTimeFormat: AppDateTimeLanguageFormat;
   saveUserSettingsError: string | null;

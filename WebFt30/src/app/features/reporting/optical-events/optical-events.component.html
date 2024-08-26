@@ -1,0 +1,53 @@
+<rtu-single-error-popup
+  [errorMessageId$]="errorMessageId$"
+  [resetErrorAction]="opticalEventsActions.resetError()"
+></rtu-single-error-popup>
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
+
+<div class="h-full w-full p-5">
+  <div class="relative">
+    <rtu-relative-time-refresh
+      [loadedTime]="loadedTime$ | async"
+      (refresh)="refresh()"
+    ></rtu-relative-time-refresh>
+    <table class="min-w-full text-sm">
+      <thead class="text-center text-gray-600 dark:text-zinc-400">
+        <tr class="">
+          <th class="w-16 font-thin">{{ 'i18n.ft.event-id' | translate }}</th>
+          <th class="w-36 font-thin">{{ 'i18n.ft.measurement-terminated-at' | translate }}</th>
+          <th class="w-36 font-thin">{{ 'i18n.ft.event-registered-at' | translate }}</th>
+          <th class="font-thin">{{ 'RTU' }}</th>
+          <th class="font-thin">{{ 'i18n.ft.trace' | translate }}</th>
+          <th class="w-36 font-thin">{{ 'i18n.ft.trace-state' | translate }}</th>
+          <th class="w-36 font-thin">{{ 'i18n.ft.event-status' | translate }}</th>
+          <th class="w-36 font-thin">{{ 'i18n.ft.status-changed-at' | translate }}</th>
+          <th class="w-40 font-thin">{{ 'i18n.ft.status-changed-by' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="opticalEvents$ | async as opticalEvents">
+        <tr
+          *ngFor="let opticalEvent of opticalEvents"
+          class="rounded-sm odd:bg-rtu-second-bg dark:odd:bg-rtu-dark-second-bg"
+        >
+          <td class="py-1 pl-2">{{ opticalEvent.eventId }}</td>
+          <td class="pl-2">{{ opticalEvent.measuredAt | rtuDateTime : 'medium' }}</td>
+          <td class="pl-2">{{ opticalEvent.registeredAt | rtuDateTime : 'medium' }}</td>
+          <td class="text-center">{{ opticalEvent.rtuTitle }}</td>
+          <td class="text-center">{{ opticalEvent.traceTitle }}</td>
+          <td class="py-0.5 text-center">
+            <div [rtuColorizeBgByFiberState]="opticalEvent.traceState" class="py-0.5">
+              {{ opticalEvent.traceState | fiberStatePipe | translate }}
+            </div>
+          </td>
+          <td class="py-0.5 text-center">
+            <div [rtuColorizeBgByEventStatus]="opticalEvent.eventStatus" class="py-0.5">
+              {{ opticalEvent.eventStatus | eventStatusPipe | translate }}
+            </div>
+          </td>
+          <td class="pl-2">{{ opticalEvent.statusChangedAt | rtuDateTime : 'medium' }}</td>
+          <td class="text-center">{{ opticalEvent.statusChangedByUser }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

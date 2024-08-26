@@ -31,6 +31,7 @@ import { RolesEffects } from './store/roles/roles.effects';
 import { NotificationSettingsEffects } from './store/notification-settings/notification-settings.effects';
 import { RtuTreeEffects } from './store/rtu-tree/rtu-tree.effects';
 import { RtuMgmtEffects } from './store/rtu-mgmt/rtu-mgmt.effects';
+import { OpticalEventsEffects } from './store/optical-events/optical-events.effects';
 
 @NgModule({
   imports: [
@@ -73,6 +74,7 @@ import { RtuMgmtEffects } from './store/rtu-mgmt/rtu-mgmt.effects';
       RolesEffects,
       GlobalUiEffects,
       SystemEventsEffects,
+      OpticalEventsEffects,
       NotificationSettingsEffects,
 
       RtuTreeEffects,

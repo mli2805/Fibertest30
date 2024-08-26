@@ -1,4 +1,5 @@
 syntax = "proto3";
+import "ft.enums.proto";
 
 option csharp_namespace = "Fibertest30.Api";
 package fibertest30.rtu_tree;
@@ -8,51 +9,6 @@ service RtuTree {
     rpc GetRtu (GetRtuRequest) returns (GetRtuResponse);
 }
 
-enum RtuMaker {
-    Iit = 0;
-    Veex = 1;
-}
-
-enum RtuPartState { 
-    NotSetYet = 0;
-    RtuPartState_Ok = 1; // can't be just Ok
-	Broken = -1; 
-}
-
-enum MonitoringState {
-    MonitoringState_Unknown = 0; // can't be just Unknown
-    Off = 1;
-    On = 2;
-}
-
-enum FiberState {
-    //
-    NotInTrace = 0x0;
-    NotJoined = 0x1;
-    //
-    FiberState_Unknown = 0x2; // can't be just Unknown
-    NotInZone = 0x3;
-    //
-    FiberState_Ok = 0x4; // can't be just Ok
-    Suspicion = 0x5;
-    Minor = 0x6;
-    Major = 0x7;
-    Critical = 0x8;
-    User = 0x9;
-    FiberBreak = 0xA;
-    NoFiber = 0xB;
-    //
-    HighLighted = 0xE;
-    DistanceMeasurement = 0xF;
-    //
-    Nothing = -1;
-}
-
-enum TceLinkState {
-  NoLink = 0;
-  SnmpTrapOff = 1;
-  SnmpTrapOn = 2;
-}
 
 message NetAddress {
     string ip4Address = 1;
@@ -113,10 +69,10 @@ message Trace {
 	string title = 3;
     optional PortOfOtau port = 4; // there is no PortOfOtau if trace is detached
 	bool isAttached = 5;
-    FiberState state = 6;
+    ft.enums.FiberState state = 6;
     bool hasEnoughBaseRefsToPerformMonitoring = 7;
     bool isIncludedInMonitoringCycle = 8;
-    TceLinkState tceLinkState = 9;
+    ft.enums.TceLinkState tceLinkState = 9;
 }
 
 message Bop {
@@ -133,7 +89,7 @@ message Bop {
 
 message Rtu {
 	string rtuId = 1;
-    RtuMaker rtuMaker = 2;
+    ft.enums.RtuMaker rtuMaker = 2;
 	string title = 3;
 
     optional string mfid = 4;
@@ -146,13 +102,13 @@ message Rtu {
     int32 fullPortCount = 10;
 
     NetAddress mainChannel = 11;
-	RtuPartState mainChannelState = 12;
+	ft.enums.RtuPartState mainChannelState = 12;
     NetAddress reserveChannel = 13;
-	RtuPartState reserveChannelState = 14;
+	ft.enums.RtuPartState reserveChannelState = 14;
     bool isReserveChannelSet = 15;
 
     NetAddress otdrNetAddress = 16;
-	MonitoringState monitoringMode = 17;
+	ft.enums.MonitoringState monitoringMode = 17;
     
     optional string version = 18;
     optional string version2 = 19;

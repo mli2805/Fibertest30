@@ -106,6 +106,16 @@ public class CoreService : Core.CoreBase
         return response;
     }
 
+    public override async Task<DismissUserSystemNotificationsByLevelResponse> DismissUserSystemNotificationsByLevel(DismissUserSystemNotificationsByLevelRequest request, ServerCallContext context)
+    {
+        await _mediator.Send(
+            new DismissUserSystemNotificationsByLevelCommand(request.SystemEventLevel.FromProto()),
+            context.CancellationToken);
+
+        var response = new DismissUserSystemNotificationsByLevelResponse();
+        return response;
+    }
+
     public override async Task<DismissAllUserSystemNotificationsResponse> DismissAllUserSystemNotifications(DismissAllUserSystemNotificationsRequest request, ServerCallContext context)
     {
         await _mediator.Send(

@@ -2,6 +2,9 @@
 // @generated from protobuf file "data.reporting.proto" (package "fibertest30.data.reporting", syntax proto3)
 // tslint:disable
 import { MessageType } from "@protobuf-ts/runtime";
+import { EventStatus } from "./ft.enums";
+import { FiberState } from "./ft.enums";
+import { BaseRefType } from "./ft.enums";
 import { Duration } from "./google/protobuf/duration";
 import { Timestamp } from "./google/protobuf/timestamp";
 /**
@@ -38,6 +41,63 @@ export interface DateTimeFilter {
      */
     orderDescending: boolean;
 }
+/**
+ * @generated from protobuf message fibertest30.data.reporting.OpticalEvent
+ */
+export interface OpticalEvent {
+    /**
+     * @generated from protobuf field: int32 eventId = 1;
+     */
+    eventId: number;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp measuredAt = 2;
+     */
+    measuredAt?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp registeredAt = 3;
+     */
+    registeredAt?: Timestamp;
+    /**
+     * @generated from protobuf field: string RtuTitle = 4 [json_name = "RtuTitle"];
+     */
+    rtuTitle: string;
+    /**
+     * @generated from protobuf field: string RtuId = 5 [json_name = "RtuId"];
+     */
+    rtuId: string;
+    /**
+     * @generated from protobuf field: string TraceTitle = 6 [json_name = "TraceTitle"];
+     */
+    traceTitle: string;
+    /**
+     * @generated from protobuf field: string TraceId = 7 [json_name = "TraceId"];
+     */
+    traceId: string;
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.BaseRefType BaseRefType = 8 [json_name = "BaseRefType"];
+     */
+    baseRefType: BaseRefType;
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.FiberState TraceState = 9 [json_name = "TraceState"];
+     */
+    traceState: FiberState;
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.EventStatus EventStatus = 10 [json_name = "EventStatus"];
+     */
+    eventStatus: EventStatus;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp statusChangedAt = 11;
+     */
+    statusChangedAt?: Timestamp;
+    /**
+     * @generated from protobuf field: string statusChangedByUser = 12;
+     */
+    statusChangedByUser: string;
+    /**
+     * @generated from protobuf field: string comment = 13;
+     */
+    comment: string;
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class DateTimeRange$Type extends MessageType<DateTimeRange> {
     constructor() {
@@ -66,3 +126,27 @@ class DateTimeFilter$Type extends MessageType<DateTimeFilter> {
  * @generated MessageType for protobuf message fibertest30.data.reporting.DateTimeFilter
  */
 export const DateTimeFilter = new DateTimeFilter$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class OpticalEvent$Type extends MessageType<OpticalEvent> {
+    constructor() {
+        super("fibertest30.data.reporting.OpticalEvent", [
+            { no: 1, name: "eventId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "measuredAt", kind: "message", T: () => Timestamp },
+            { no: 3, name: "registeredAt", kind: "message", T: () => Timestamp },
+            { no: 4, name: "RtuTitle", kind: "scalar", jsonName: "RtuTitle", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "RtuId", kind: "scalar", jsonName: "RtuId", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "TraceTitle", kind: "scalar", jsonName: "TraceTitle", T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "TraceId", kind: "scalar", jsonName: "TraceId", T: 9 /*ScalarType.STRING*/ },
+            { no: 8, name: "BaseRefType", kind: "enum", jsonName: "BaseRefType", T: () => ["fibertest30.ft.enums.BaseRefType", BaseRefType] },
+            { no: 9, name: "TraceState", kind: "enum", jsonName: "TraceState", T: () => ["fibertest30.ft.enums.FiberState", FiberState] },
+            { no: 10, name: "EventStatus", kind: "enum", jsonName: "EventStatus", T: () => ["fibertest30.ft.enums.EventStatus", EventStatus] },
+            { no: 11, name: "statusChangedAt", kind: "message", T: () => Timestamp },
+            { no: 12, name: "statusChangedByUser", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 13, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.data.reporting.OpticalEvent
+ */
+export const OpticalEvent = new OpticalEvent$Type();

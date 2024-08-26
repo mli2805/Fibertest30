@@ -190,10 +190,6 @@ void SetCurrentDirectoryAndCreateDataDirectory(WebApplicationBuilder builder)
 
 void MapGrpcServices(WebApplication app, bool startGrpcReflectionService)
 {
-    app.MapGrpcService<GreeterService>()
-        .EnableGrpcWeb()
-        .RequireCors("AllowAll");
-
     app.MapGrpcService<CoreService>()
         .EnableGrpcWeb()
         .RequireCors("AllowAll");

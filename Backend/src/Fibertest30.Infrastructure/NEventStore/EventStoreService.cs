@@ -131,6 +131,7 @@ public class EventStoreService : IEventStoreService
         var clientIp = (string)msg.Headers[@"ClientIp"];
         var timestamp = (DateTime)msg.Headers[@"Timestamp"];
         var line = _eventToLogLineParser.ParseEventBody(msg.Body);
+        if (line == null) return;
 
         _eventLogComposer.AddEventToLog(username, clientIp, timestamp, line);
 

@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Graph
             _measurements = new Dictionary<int, MeasurementAdded>();
         }
 
-        public LogLine ParseEventBody(object body)
+        public LogLine? ParseEventBody(object body)
         {
             switch (body)
             {
@@ -256,7 +256,7 @@ namespace Iit.Fibertest.Graph
             };
         }
 
-        private LogLine Parse(MeasurementAdded e)
+        private LogLine? Parse(MeasurementAdded e)
         {
             if (_measurements.ContainsKey(e.SorFileId))
                 _logger.LogInformation($"Event to log parse MeasurementAdded error. SorFileId = {e.SorFileId} already exists");
@@ -265,9 +265,11 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        private LogLine Parse(MeasurementUpdated e)
+        private LogLine? Parse(MeasurementUpdated e)
         {
-            var meas = _measurements[e.SorFileId];
+            // появились после добавления эмулятором файковых измерений
+            if (!_measurements.TryGetValue(e.SorFileId, out MeasurementAdded? meas))
+                return null;
             return new LogLine()
             {
                 OperationCode = LogOperationCode.MeasurementUpdated,

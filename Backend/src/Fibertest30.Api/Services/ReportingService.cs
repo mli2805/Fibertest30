@@ -1,4 +1,3 @@
-using Google.Protobuf;
 using Grpc.Core;
 using MediatR;
 
@@ -23,7 +22,17 @@ public class ReportingService : Reporting.ReportingBase
         {
             SystemEvents = { systemEvents.Select(x => x.ToProto()) }
         };
-        
+
+        return response;
+    }
+
+    public override async Task<GetOpticalEventsResponse> GetOpticalEvents(GetOpticalEventsRequest request,
+        ServerCallContext context)
+    {
+        var opticalEvents = await _mediator.Send(new GetOpticalEventsQuery(), context.CancellationToken);
+
+        var response = new GetOpticalEventsResponse() { OpticalEvents = { opticalEvents.Select(x => x.ToProto()) } };
+
         return response;
     }
 

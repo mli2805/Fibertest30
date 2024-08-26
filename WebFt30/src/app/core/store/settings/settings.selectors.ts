@@ -14,6 +14,10 @@ const selectDateTimeFormat = createSelector(
   (state: SettingsState) => state.dateTimeFormat
 );
 
+const selectTimeZone = createSelector(selectSettings, (state: SettingsState) => {
+  return { dateTimeFormat: state.dateTimeFormat, timeZone: state.timeZone };
+});
+
 const selectSaveUserSettingsError = createSelector(
   selectSettings,
   (state: SettingsState) => state.saveUserSettingsError
@@ -24,5 +28,6 @@ export const SettingsSelectors = {
   selectTheme,
   selectLanguage,
   selectDateTimeFormat,
+  selectTimeZone,
   selectSaveUserSettingsError
 };

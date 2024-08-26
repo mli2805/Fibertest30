@@ -1,5 +1,7 @@
 import * as grpc from 'src/grpc-generated';
 import {
+  BaseRefType,
+  EventStatus,
   FiberState,
   MonitoringState,
   RtuMaker,
@@ -72,6 +74,34 @@ export class FtEnumsMapping {
       case grpc.TceLinkState.SnmpTrapOn: return TceLinkState.SnmpTrapOn;
       default:
         throw new Error(`Unknown grpc.TceLinkState: ${grpcTceLinkState}`);
+    }
+  }
+
+  static fromGrpcBaseRefType(grpcType: grpc.BaseRefType): BaseRefType {
+    // prettier-ignore
+    switch(grpcType) {
+      case grpc.BaseRefType.None: return BaseRefType.None;
+      case grpc.BaseRefType.Precise: return BaseRefType.Precise;
+      case grpc.BaseRefType.Fast: return BaseRefType.Fast;
+      case grpc.BaseRefType.Additional: return BaseRefType.Additional;
+      default:
+        throw new Error(`Unknown grpc.BaseRefType: ${grpcType}`); 
+    }
+  }
+
+  static fromGrpcEventStatus(grpcStatus: grpc.EventStatus): EventStatus {
+    // prettier-ignore
+    switch(grpcStatus) {
+      case grpc.EventStatus.JustMeasurementNotAnEvent: return EventStatus.JustMeasurementNotAnEvent;
+      case grpc.EventStatus.EventButNotAnAccident: return EventStatus.EventButNotAnAccident;
+      case grpc.EventStatus.Unprocessed: return EventStatus.Unprocessed;
+      case grpc.EventStatus.NotImportant: return EventStatus.NotImportant;
+      case grpc.EventStatus.Planned: return EventStatus.Planned;
+      case grpc.EventStatus.NotConfirmed: return EventStatus.NotConfirmed;
+      case grpc.EventStatus.Suspended: return EventStatus.Suspended;
+      case grpc.EventStatus.Confirmed: return EventStatus.Confirmed;
+      default:
+        throw new Error(`Unknown grpc.EventStatus: ${grpcStatus}`);
     }
   }
 }

@@ -24,6 +24,8 @@ import {
   TrapReceiver
 } from './store/models/notification-settings';
 import { TreeMapping } from './store/mapping/tree-mapping';
+import { OpticalEvent } from './store/models/ft30/optical-event';
+import { FtEnumsMapping } from './store/mapping/ft-enums-mapping';
 
 export class MapUtils {
   static toGrpcNotificationSettings(settings: NotificationSettings): grpc.NotificationSettings {
@@ -258,6 +260,34 @@ export class MapUtils {
     systemEvent.source.userId = grpcSystemEvent.source?.userId ?? null;
     systemEvent.source.source = grpcSystemEvent.source?.source ?? null;
     return systemEvent;
+  }
+
+  static toOpticalEvents(grpcOpticalEvents: grpc.OpticalEvent[]): OpticalEvent[] {
+    const opticalEvents = grpcOpticalEvents.map((item) => MapUtils.toOpticalEvent(item));
+    return opticalEvents;
+  }
+
+  static toOpticalEvent(grpcOpticalEvent: grpc.OpticalEvent): OpticalEvent {
+    const opticalEvent = new OpticalEvent();
+    opticalEvent.eventId = grpcOpticalEvent.eventId;
+    opticalEvent.measuredAt = Timestamp.toDate(grpcOpticalEvent.measuredAt!);
+    opticalEvent.registeredAt = Timestamp.toDate(grpcOpticalEvent.registeredAt!);
+
+    opticalEvent.rtuTitle = grpcOpticalEvent.rtuTitle;
+    opticalEvent.rtuId = grpcOpticalEvent.rtuId;
+    opticalEvent.traceTitle = grpcOpticalEvent.traceTitle;
+    opticalEvent.traceId = grpcOpticalEvent.traceId;
+
+    opticalEvent.baseRefType = grpcOpticalEvent.baseRefType;
+    opticalEvent.traceState = FtEnumsMapping.fromGrpcFiberState(grpcOpticalEvent.traceState);
+
+    opticalEvent.eventStatus = grpcOpticalEvent.eventStatus;
+    opticalEvent.statusChangedAt = Timestamp.toDate(grpcOpticalEvent.statusChangedAt!);
+    opticalEvent.statusChangedByUser = grpcOpticalEvent.statusChangedByUser;
+
+    opticalEvent.comment = grpcOpticalEvent.comment;
+
+    return opticalEvent;
   }
 
   static toSystemNotification(

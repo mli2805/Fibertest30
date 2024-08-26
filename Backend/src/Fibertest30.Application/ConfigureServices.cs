@@ -28,6 +28,7 @@ public static class ConfigureServices
         services.AddSingleton<INotificationDispatcher>(provider => provider.GetRequiredService<NotificationDispatcher>());
         services.AddSingleton<INotificationSender>(provider => provider.GetRequiredService<NotificationDispatcher>());
 
+
         services.AddSingleton<IEmailChannelSender, EmailChannelSender>();
         services.AddSingleton<ISnmpChannelSender, SnmpChannelSender>();
         services.AddSingleton<IInAppChannelSender, InAppChannelSender>();
@@ -36,6 +37,7 @@ public static class ConfigureServices
         services.AddSingleton<IPrometheusQueryStringBuilder, PrometheusQueryStringBuilder>();
         services.AddScoped<IUserRolePermissionProvider, UserRolePermissionProvider>();
 
+        services.AddSingleton<TableProvider>();
         services.AddSingleton<Model>();
         
         return services;

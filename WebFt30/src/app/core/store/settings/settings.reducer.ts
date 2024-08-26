@@ -9,11 +9,13 @@ import {
 } from './settings.state';
 import { SettingsActions } from './settings.actions';
 import { AuthActions } from '../../auth/auth.actions';
+import { AppTimezone } from '../models';
 
 export const initialState: SettingsState = {
   theme: 'light', // the very first theme is based on 'prefers-color-scheme' media query (see loadInitialSettingsState)
   language: 'en', // user navigator's language will be used if supported (see loadInitialSettingsState)
   dateTimeFormat: 'en',
+  timeZone: AppTimezone.GetUtcTimeZone(), // т.е. показываем время как оно есть на сервере, возможно когда-нибудь будем хранить на сервере в UTC, тогда надо будет здесь реальная зона
   saveUserSettingsError: null
 };
 

@@ -43,3 +43,22 @@ export enum TceLinkState {
   SnmpTrapOff = 1,
   SnmpTrapOn = 2
 }
+
+export enum BaseRefType {
+  None = 0,
+  Precise = 1,
+  Fast = 2,
+  Additional = 3
+}
+
+export enum EventStatus {
+  JustMeasurementNotAnEvent = -99, // only for trace statistics
+  EventButNotAnAccident = -9, // Ok or Suspicion (made by Fast)
+
+  NotImportant = -3,
+  Planned = -2,
+  NotConfirmed = -1,
+  Unprocessed = 0,
+  Suspended = 1,
+  Confirmed = 2
+}

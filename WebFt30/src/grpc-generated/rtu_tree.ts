@@ -3,6 +3,11 @@
 // tslint:disable
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
+import { MonitoringState } from "./ft.enums";
+import { RtuPartState } from "./ft.enums";
+import { RtuMaker } from "./ft.enums";
+import { TceLinkState } from "./ft.enums";
+import { FiberState } from "./ft.enums";
 /**
  * @generated from protobuf message fibertest30.rtu_tree.NetAddress
  */
@@ -180,7 +185,7 @@ export interface Trace {
      */
     isAttached: boolean;
     /**
-     * @generated from protobuf field: fibertest30.rtu_tree.FiberState state = 6;
+     * @generated from protobuf field: fibertest30.ft.enums.FiberState state = 6;
      */
     state: FiberState;
     /**
@@ -192,7 +197,7 @@ export interface Trace {
      */
     isIncludedInMonitoringCycle: boolean;
     /**
-     * @generated from protobuf field: fibertest30.rtu_tree.TceLinkState tceLinkState = 9;
+     * @generated from protobuf field: fibertest30.ft.enums.TceLinkState tceLinkState = 9;
      */
     tceLinkState: TceLinkState;
 }
@@ -242,7 +247,7 @@ export interface Rtu {
      */
     rtuId: string;
     /**
-     * @generated from protobuf field: fibertest30.rtu_tree.RtuMaker rtuMaker = 2;
+     * @generated from protobuf field: fibertest30.ft.enums.RtuMaker rtuMaker = 2;
      */
     rtuMaker: RtuMaker;
     /**
@@ -282,7 +287,7 @@ export interface Rtu {
      */
     mainChannel?: NetAddress;
     /**
-     * @generated from protobuf field: fibertest30.rtu_tree.RtuPartState mainChannelState = 12;
+     * @generated from protobuf field: fibertest30.ft.enums.RtuPartState mainChannelState = 12;
      */
     mainChannelState: RtuPartState;
     /**
@@ -290,7 +295,7 @@ export interface Rtu {
      */
     reserveChannel?: NetAddress;
     /**
-     * @generated from protobuf field: fibertest30.rtu_tree.RtuPartState reserveChannelState = 14;
+     * @generated from protobuf field: fibertest30.ft.enums.RtuPartState reserveChannelState = 14;
      */
     reserveChannelState: RtuPartState;
     /**
@@ -302,7 +307,7 @@ export interface Rtu {
      */
     otdrNetAddress?: NetAddress;
     /**
-     * @generated from protobuf field: fibertest30.rtu_tree.MonitoringState monitoringMode = 17;
+     * @generated from protobuf field: fibertest30.ft.enums.MonitoringState monitoringMode = 17;
      */
     monitoringMode: MonitoringState;
     /**
@@ -357,143 +362,6 @@ export interface GetRtuResponse {
      * @generated from protobuf field: fibertest30.rtu_tree.Rtu rtu = 1;
      */
     rtu?: Rtu;
-}
-/**
- * @generated from protobuf enum fibertest30.rtu_tree.RtuMaker
- */
-export enum RtuMaker {
-    /**
-     * @generated from protobuf enum value: Iit = 0;
-     */
-    Iit = 0,
-    /**
-     * @generated from protobuf enum value: Veex = 1;
-     */
-    Veex = 1
-}
-/**
- * @generated from protobuf enum fibertest30.rtu_tree.RtuPartState
- */
-export enum RtuPartState {
-    /**
-     * @generated from protobuf enum value: NotSetYet = 0;
-     */
-    NotSetYet = 0,
-    /**
-     * can't be just Ok
-     *
-     * @generated from protobuf enum value: RtuPartState_Ok = 1;
-     */
-    RtuPartState_Ok = 1,
-    /**
-     * @generated from protobuf enum value: Broken = -1;
-     */
-    Broken = -1
-}
-/**
- * @generated from protobuf enum fibertest30.rtu_tree.MonitoringState
- */
-export enum MonitoringState {
-    /**
-     * can't be just Unknown
-     *
-     * @generated from protobuf enum value: MonitoringState_Unknown = 0;
-     */
-    MonitoringState_Unknown = 0,
-    /**
-     * @generated from protobuf enum value: Off = 1;
-     */
-    Off = 1,
-    /**
-     * @generated from protobuf enum value: On = 2;
-     */
-    On = 2
-}
-/**
- * @generated from protobuf enum fibertest30.rtu_tree.FiberState
- */
-export enum FiberState {
-    /**
-     * @generated from protobuf enum value: NotInTrace = 0;
-     */
-    NotInTrace = 0,
-    /**
-     * @generated from protobuf enum value: NotJoined = 1;
-     */
-    NotJoined = 1,
-    /**
-     * can't be just Unknown
-     *
-     * @generated from protobuf enum value: FiberState_Unknown = 2;
-     */
-    FiberState_Unknown = 2,
-    /**
-     * @generated from protobuf enum value: NotInZone = 3;
-     */
-    NotInZone = 3,
-    /**
-     * can't be just Ok
-     *
-     * @generated from protobuf enum value: FiberState_Ok = 4;
-     */
-    FiberState_Ok = 4,
-    /**
-     * @generated from protobuf enum value: Suspicion = 5;
-     */
-    Suspicion = 5,
-    /**
-     * @generated from protobuf enum value: Minor = 6;
-     */
-    Minor = 6,
-    /**
-     * @generated from protobuf enum value: Major = 7;
-     */
-    Major = 7,
-    /**
-     * @generated from protobuf enum value: Critical = 8;
-     */
-    Critical = 8,
-    /**
-     * @generated from protobuf enum value: User = 9;
-     */
-    User = 9,
-    /**
-     * @generated from protobuf enum value: FiberBreak = 10;
-     */
-    FiberBreak = 10,
-    /**
-     * @generated from protobuf enum value: NoFiber = 11;
-     */
-    NoFiber = 11,
-    /**
-     * @generated from protobuf enum value: HighLighted = 14;
-     */
-    HighLighted = 14,
-    /**
-     * @generated from protobuf enum value: DistanceMeasurement = 15;
-     */
-    DistanceMeasurement = 15,
-    /**
-     * @generated from protobuf enum value: Nothing = -1;
-     */
-    Nothing = -1
-}
-/**
- * @generated from protobuf enum fibertest30.rtu_tree.TceLinkState
- */
-export enum TceLinkState {
-    /**
-     * @generated from protobuf enum value: NoLink = 0;
-     */
-    NoLink = 0,
-    /**
-     * @generated from protobuf enum value: SnmpTrapOff = 1;
-     */
-    SnmpTrapOff = 1,
-    /**
-     * @generated from protobuf enum value: SnmpTrapOn = 2;
-     */
-    SnmpTrapOn = 2
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class NetAddress$Type extends MessageType<NetAddress> {
@@ -620,10 +488,10 @@ class Trace$Type extends MessageType<Trace> {
             { no: 3, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "port", kind: "message", T: () => PortOfOtau },
             { no: 5, name: "isAttached", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 6, name: "state", kind: "enum", T: () => ["fibertest30.rtu_tree.FiberState", FiberState] },
+            { no: 6, name: "state", kind: "enum", T: () => ["fibertest30.ft.enums.FiberState", FiberState] },
             { no: 7, name: "hasEnoughBaseRefsToPerformMonitoring", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 8, name: "isIncludedInMonitoringCycle", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 9, name: "tceLinkState", kind: "enum", T: () => ["fibertest30.rtu_tree.TceLinkState", TceLinkState] }
+            { no: 9, name: "tceLinkState", kind: "enum", T: () => ["fibertest30.ft.enums.TceLinkState", TceLinkState] }
         ]);
     }
 }
@@ -655,7 +523,7 @@ class Rtu$Type extends MessageType<Rtu> {
     constructor() {
         super("fibertest30.rtu_tree.Rtu", [
             { no: 1, name: "rtuId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "rtuMaker", kind: "enum", T: () => ["fibertest30.rtu_tree.RtuMaker", RtuMaker] },
+            { no: 2, name: "rtuMaker", kind: "enum", T: () => ["fibertest30.ft.enums.RtuMaker", RtuMaker] },
             { no: 3, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "mfid", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "mfsn", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
@@ -665,12 +533,12 @@ class Rtu$Type extends MessageType<Rtu> {
             { no: 9, name: "ownPortCount", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 10, name: "fullPortCount", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 11, name: "mainChannel", kind: "message", T: () => NetAddress },
-            { no: 12, name: "mainChannelState", kind: "enum", T: () => ["fibertest30.rtu_tree.RtuPartState", RtuPartState] },
+            { no: 12, name: "mainChannelState", kind: "enum", T: () => ["fibertest30.ft.enums.RtuPartState", RtuPartState] },
             { no: 13, name: "reserveChannel", kind: "message", T: () => NetAddress },
-            { no: 14, name: "reserveChannelState", kind: "enum", T: () => ["fibertest30.rtu_tree.RtuPartState", RtuPartState] },
+            { no: 14, name: "reserveChannelState", kind: "enum", T: () => ["fibertest30.ft.enums.RtuPartState", RtuPartState] },
             { no: 15, name: "isReserveChannelSet", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 16, name: "otdrNetAddress", kind: "message", T: () => NetAddress },
-            { no: 17, name: "monitoringMode", kind: "enum", T: () => ["fibertest30.rtu_tree.MonitoringState", MonitoringState] },
+            { no: 17, name: "monitoringMode", kind: "enum", T: () => ["fibertest30.ft.enums.MonitoringState", MonitoringState] },
             { no: 18, name: "version", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 19, name: "version2", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 20, name: "bops", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Bop },

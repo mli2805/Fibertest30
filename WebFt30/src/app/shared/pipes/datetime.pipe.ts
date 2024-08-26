@@ -14,13 +14,22 @@ import { AppTimezone } from 'src/app/core/store/models';
   name: 'rtuDateTime',
   pure: false
 })
-export class RtuDateTimePipe implements PipeTransform {
+export class RtuDateTimePipe implements PipeTransform, OnDestroy {
+  private formatAndZoneSubscription: Subscription;
+
   private dateTimeLanguageFormat!: AppDateTimeLanguageFormat;
   private timezone!: AppTimezone;
 
   private static cache: Map<string, Intl.DateTimeFormat> = new Map();
 
-  constructor(private store: Store<AppState>, private cdRef: ChangeDetectorRef) {}
+  constructor(private store: Store<AppState>, private cdRef: ChangeDetectorRef) {
+    this.formatAndZoneSubscription = this.store
+      .select(SettingsSelectors.selectTimeZone)
+      .subscribe(({ dateTimeFormat, timeZone }) => {
+        this.dateTimeLanguageFormat = dateTimeFormat;
+        this.timezone = timeZone;
+      });
+  }
 
   transform(
     value: Date,
@@ -73,5 +82,9 @@ export class RtuDateTimePipe implements PipeTransform {
 
     const formatter = this.cache.get(cacheKey)!;
     return formatter.format(value);
+  }
+
+  ngOnDestroy() {
+    this.formatAndZoneSubscription.unsubscribe();
   }
 }

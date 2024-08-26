@@ -10,4 +10,12 @@ export class AppTimezone {
   serverIanaId: string | null = null;
   serverDisplayName: string | null = null;
   serverDisplayBaseUtcOffset: string | null = null;
+
+  static GetUtcTimeZone() {
+    const utc = new AppTimezone();
+    utc.ianaId = 'Etc/GMT';
+    utc.displayName = '(UTC) Coordinated Universal Time';
+    utc.displayBaseUtcOffset = 'UTC+00:00';
+    return utc;
+  }
 }

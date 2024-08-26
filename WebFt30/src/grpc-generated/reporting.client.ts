@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { Reporting } from "./reporting";
+import type { GetOpticalEventsResponse } from "./reporting";
+import type { GetOpticalEventsRequest } from "./reporting";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
 import type { GetSystemEventsResponse } from "./reporting";
 import type { GetSystemEventsRequest } from "./reporting";
@@ -17,6 +19,10 @@ export interface IReportingClient {
      * @generated from protobuf rpc: GetSystemEvents(fibertest30.reporting.GetSystemEventsRequest) returns (fibertest30.reporting.GetSystemEventsResponse);
      */
     getSystemEvents(input: GetSystemEventsRequest, options?: RpcOptions): UnaryCall<GetSystemEventsRequest, GetSystemEventsResponse>;
+    /**
+     * @generated from protobuf rpc: GetOpticalEvents(fibertest30.reporting.GetOpticalEventsRequest) returns (fibertest30.reporting.GetOpticalEventsResponse);
+     */
+    getOpticalEvents(input: GetOpticalEventsRequest, options?: RpcOptions): UnaryCall<GetOpticalEventsRequest, GetOpticalEventsResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.reporting.Reporting
@@ -33,5 +39,12 @@ export class ReportingClient implements IReportingClient, ServiceInfo {
     getSystemEvents(input: GetSystemEventsRequest, options?: RpcOptions): UnaryCall<GetSystemEventsRequest, GetSystemEventsResponse> {
         const method = this.methods[0], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetSystemEventsRequest, GetSystemEventsResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetOpticalEvents(fibertest30.reporting.GetOpticalEventsRequest) returns (fibertest30.reporting.GetOpticalEventsResponse);
+     */
+    getOpticalEvents(input: GetOpticalEventsRequest, options?: RpcOptions): UnaryCall<GetOpticalEventsRequest, GetOpticalEventsResponse> {
+        const method = this.methods[1], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetOpticalEventsRequest, GetOpticalEventsResponse>("unary", this._transport, method, opt, input);
     }
 }

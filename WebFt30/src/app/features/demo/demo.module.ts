@@ -4,12 +4,9 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
-import { DemoGreeterComponent } from './greeter/components/demo-greeter.component';
 import { DemoComponent } from './demo/demo.component';
 import { DemoRoutingModule } from './demo-routing.module';
 import { SharedModule } from '../../shared/shared.module';
-import { FEATURE_NAME, reducers } from './demo.state';
-import { GreeterEffects } from './greeter/greeter.effects';
 import { DemoComponentsComponent } from './demo-components/demo-components.component';
 import { DemoEffects } from './demo.effects';
 import { RtuTranslateLoader } from 'src/app/shared/utils/rtu-translate-loader';
@@ -21,8 +18,7 @@ import { DemoSorViewerComponent } from './sor-viewer/sor-viewer.component';
     SharedModule,
     FiberizerCoreModule,
     DemoRoutingModule,
-    StoreModule.forFeature(FEATURE_NAME, reducers),
-    EffectsModule.forFeature([DemoEffects, GreeterEffects]),
+    EffectsModule.forFeature([DemoEffects]),
     TranslateModule.forChild({
       defaultLanguage: 'en',
       loader: {
@@ -34,12 +30,7 @@ import { DemoSorViewerComponent } from './sor-viewer/sor-viewer.component';
     })
   ],
   exports: [],
-  declarations: [
-    DemoComponent,
-    DemoGreeterComponent,
-    DemoComponentsComponent,
-    DemoSorViewerComponent
-  ],
+  declarations: [DemoComponent, DemoComponentsComponent, DemoSorViewerComponent],
   providers: []
 })
 export class DemoModule {}

@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { DemoComponent } from './demo/demo.component';
 import { DemoComponentsComponent } from './demo-components/demo-components.component';
-import { DemoGreeterComponent } from './greeter/components/demo-greeter.component';
 import { DemoSorViewerComponent } from './sor-viewer/sor-viewer.component';
 
 const routes: Routes = [
@@ -19,10 +18,6 @@ const routes: Routes = [
       {
         path: 'components',
         component: DemoComponentsComponent
-      },
-      {
-        path: 'greeter',
-        component: DemoGreeterComponent
       },
       {
         path: 'sor-viewer',

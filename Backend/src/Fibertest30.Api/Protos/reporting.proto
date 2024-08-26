@@ -8,7 +8,7 @@ package fibertest30.reporting;
 
 service Reporting {
   rpc GetSystemEvents (GetSystemEventsRequest) returns (GetSystemEventsResponse);
-  
+  rpc GetOpticalEvents (GetOpticalEventsRequest) returns (GetOpticalEventsResponse);
 }
 
 
@@ -19,6 +19,13 @@ message GetSystemEventsRequest {
 
 message GetSystemEventsResponse {
     repeated data.core.SystemEvent systemEvents = 1;
+}
+
+// GetOpticalEvents
+
+message GetOpticalEventsRequest {}
+message GetOpticalEventsResponse {
+    repeated data.reporting.OpticalEvent opticalEvents = 1;
 }
 
 

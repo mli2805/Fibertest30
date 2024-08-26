@@ -17,9 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="Protos\ft.enums.proto" ProtoRoot="Protos" GrpcServices="Server" />
     <Protobuf Include="Protos\data.core.proto" ProtoRoot="Protos" GrpcServices="Server" />
     <Protobuf Include="Protos\data.reporting.proto" ProtoRoot="Protos" GrpcServices="Server" />
-    <Protobuf Include="Protos\greet.proto" ProtoRoot="Protos" GrpcServices="Server" />
     <Protobuf Include="Protos\core.proto" ProtoRoot="Protos" GrpcServices="Server" />
     <Protobuf Include="Protos\identity.proto" ProtoRoot="Protos" GrpcServices="Server" />
     <Protobuf Include="Protos\platform.proto" ProtoRoot="Protos" GrpcServices="Server" />
