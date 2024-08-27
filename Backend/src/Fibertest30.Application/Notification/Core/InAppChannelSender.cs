@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reactive.Subjects;
@@ -8,16 +7,13 @@ namespace Fibertest30.Application;
 
 public class InAppChannelSender : IInAppChannelSender
 {
-    private readonly ILogger<InAppChannelSender> _logger;
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ConcurrentDictionary<string, ConcurrentDictionary<IObserver<INotificationEvent>, byte>> 
         _observers = new();
     
     public InAppChannelSender(
-        ILogger<InAppChannelSender> logger,
         IServiceScopeFactory serviceScopeFactory)
     {
-        _logger = logger;
         _serviceScopeFactory = serviceScopeFactory;
     }
 
@@ -26,7 +22,7 @@ public class InAppChannelSender : IInAppChannelSender
         using var scope = _serviceScopeFactory.CreateScope();
         var usersRepository = scope.ServiceProvider.GetRequiredService<IUsersRepository>();
 
-        var notificationRepository = scope.ServiceProvider.GetRequiredService<INotificationRepository>();
+        // var notificationRepository = scope.ServiceProvider.GetRequiredService<INotificationRepository>();
         
         // currently all users are notified for monitoring alarms
         // TODO: use notification profile to get the list of users to notify

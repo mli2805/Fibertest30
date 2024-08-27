@@ -1,17 +1,14 @@
 using Fiberizer.Common;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace Fibertest30.Application;
 
 public class EmailChannelSender : IEmailChannelSender
 {
-    private readonly ILogger<EmailChannelSender> _logger;
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public EmailChannelSender(ILogger<EmailChannelSender> logger, IServiceScopeFactory serviceScopeFactory)
+    public EmailChannelSender( IServiceScopeFactory serviceScopeFactory)
     {
-        _logger = logger;
         _serviceScopeFactory = serviceScopeFactory;
     }
 
@@ -30,7 +27,7 @@ public class EmailChannelSender : IEmailChannelSender
         var portPath = "42-231";
 
         var emailBuilder = scope.ServiceProvider.GetRequiredService<IEmailBuilder>();
-        // TODO
+        // TODO вычищал то что относится к rfts400, надо будет сделать для fibertest
         var sors = new List<byte[]>();
         var emailAttachments = emailBuilder.BuildAlarmAttachments(portPath, alarmEvent, sors[0], sors[1]);
 

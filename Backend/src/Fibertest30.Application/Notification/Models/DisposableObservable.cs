@@ -13,6 +13,6 @@ public class DisposableObservable<T> : IDisposable
 
     public void Dispose()
     {
-        _disposer?.Invoke();
+        _disposer.Invoke();
     }
 }

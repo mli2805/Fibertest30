@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Threading.Channels;
@@ -8,18 +7,16 @@ namespace Fibertest30.Application;
 public class NotificationDispatcher : INotificationDispatcher, INotificationSender
 {
     private readonly ILogger _logger;
-    private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IInAppChannelSender _inAppChannelSender;
     private readonly IEmailChannelSender _emailChannelSender;
     private readonly ISnmpChannelSender _snmpChannelSender;
     private readonly Channel<INotificationEvent> _channel = Channel.CreateUnbounded<INotificationEvent>();
 
     public NotificationDispatcher(ILogger<NotificationDispatcher> logger,
-        IServiceScopeFactory serviceScopeFactory, IInAppChannelSender inAppChannelSender, 
+         IInAppChannelSender inAppChannelSender, 
         IEmailChannelSender emailChannelSender, ISnmpChannelSender snmpChannelSender)
     {
         _logger = logger;
-        _serviceScopeFactory = serviceScopeFactory;
         _inAppChannelSender = inAppChannelSender;
         _emailChannelSender = emailChannelSender;
         _snmpChannelSender = snmpChannelSender;

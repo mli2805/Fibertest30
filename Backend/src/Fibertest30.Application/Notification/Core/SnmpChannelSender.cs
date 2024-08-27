@@ -1,16 +1,13 @@
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace Fibertest30.Application;
 
 public class SnmpChannelSender : ISnmpChannelSender
 {
-    private readonly ILogger<SnmpChannelSender> _logger;
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public SnmpChannelSender(ILogger<SnmpChannelSender> logger, IServiceScopeFactory serviceScopeFactory)
+    public SnmpChannelSender( IServiceScopeFactory serviceScopeFactory)
     {
-        _logger = logger;
         _serviceScopeFactory = serviceScopeFactory;
     }
 

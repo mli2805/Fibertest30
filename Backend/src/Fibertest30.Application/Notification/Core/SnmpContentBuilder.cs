@@ -3,10 +3,6 @@
 public class SnmpContentBuilder : ISnmpContentBuilder
 {
 
-    public SnmpContentBuilder()
-    {
-    }
-
     public Dictionary<int, string> BuildSnmpPayload(string portPath, MonitoringAlarmEvent alarmEvent)
     {
 
