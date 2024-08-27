@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace GMap.NET
+namespace GMap.NET.Core
 {
     /// <summary>
     ///     the point of coordinates
@@ -75,7 +75,7 @@ namespace GMap.NET
 
         public static bool operator ==(PointLatLng left, PointLatLng right)
         {
-            return left.Lng == right.Lng && left.Lat == right.Lat;
+            return left.Lng.Equals(right.Lng) && left.Lat.Equals(right.Lat);
         }
 
         public static bool operator !=(PointLatLng left, PointLatLng right)
@@ -93,7 +93,7 @@ namespace GMap.NET
             return new PointLatLng(pt.Lat + sz.HeightLat, pt.Lng - sz.WidthLng);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (!(obj is PointLatLng))
             {
@@ -101,7 +101,7 @@ namespace GMap.NET
             }
 
             var tf = (PointLatLng)obj;
-            return tf.Lng == Lng && tf.Lat == Lat && tf.GetType().Equals(GetType());
+            return tf.Lng.Equals(Lng) && tf.Lat.Equals(Lat) && tf.GetType().Equals(GetType());
         }
 
         public void Offset(PointLatLng pos)

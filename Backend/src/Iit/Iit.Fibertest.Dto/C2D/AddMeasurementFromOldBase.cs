@@ -17,6 +17,6 @@ namespace Iit.Fibertest.Dto
         public DateTime MeasurementTimestamp { get; set; }
 
         [DataMember]
-        public byte[] SorBytes { get; set; }
+        public byte[]? SorBytes { get; set; }
     }
 }

@@ -8,12 +8,10 @@ namespace Fibertest30.Api;
 
 public class MeasurementService : Measurement.MeasurementBase
 {
-    private readonly ILogger<MeasurementService> _logger;
     private readonly ISender _mediator;
 
-    public MeasurementService(ILogger<MeasurementService> logger, ISender mediator)
+    public MeasurementService( ISender mediator)
     {
-        _logger = logger;
         _mediator = mediator;
     }
 

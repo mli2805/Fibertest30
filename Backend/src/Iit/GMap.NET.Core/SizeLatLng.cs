@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace GMap.NET
+namespace GMap.NET.Core
 {
     /// <summary>
     ///     the size of coordinates
@@ -39,7 +39,7 @@ namespace GMap.NET
 
         public static bool operator ==(SizeLatLng sz1, SizeLatLng sz2)
         {
-            return sz1.WidthLng == sz2.WidthLng && sz1.HeightLat == sz2.HeightLat;
+            return sz1.WidthLng.Equals(sz2.WidthLng) && sz1.HeightLat.Equals(sz2.HeightLat);
         }
 
         public static bool operator !=(SizeLatLng sz1, SizeLatLng sz2)
@@ -82,7 +82,7 @@ namespace GMap.NET
             return new SizeLatLng(sz1.HeightLat - sz2.HeightLat, sz1.WidthLng - sz2.WidthLng);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (!(obj is SizeLatLng))
             {
@@ -90,7 +90,7 @@ namespace GMap.NET
             }
 
             var ef = (SizeLatLng)obj;
-            return ef.WidthLng == WidthLng && ef.HeightLat == HeightLat &&
+            return ef.WidthLng.Equals(WidthLng) && ef.HeightLat.Equals(HeightLat) &&
                    ef.GetType().Equals(GetType());
         }
 

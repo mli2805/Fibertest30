@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using GMap.NET;
+using GMap.NET.Core;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph

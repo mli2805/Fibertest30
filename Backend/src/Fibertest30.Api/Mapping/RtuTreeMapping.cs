@@ -55,7 +55,6 @@ public static class RtuTreeMapping
     {
         var result = new BranchOfAcceptableMeasParams()
         {
-            Distances = { },
             BackscatterCoeff = branch.BackscatteredCoefficient,
             RefractiveIndex = branch.RefractiveIndex,
         };
@@ -73,7 +72,7 @@ public static class RtuTreeMapping
 
     private static TreeOfAcceptableMeasParams ToProto(this Iit.Fibertest.Dto.TreeOfAcceptableMeasParams tree)
     {
-        var result = new TreeOfAcceptableMeasParams() { Units = { } };
+        var result = new TreeOfAcceptableMeasParams();
         foreach (string unitsKey in tree.Units.Keys)
         {
             result.Units.Add(new UnitMeasParam()

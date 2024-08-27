@@ -1,5 +1,4 @@
 using Grpc.Core;
-using Iit.Fibertest.Dto;
 using MediatR;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
@@ -9,17 +8,10 @@ namespace Fibertest30.Api;
 public class CoreService : Core.CoreBase
 {
     private readonly ISender _mediator;
-    private readonly ICurrentUserService _currentUserService;
-    private readonly IDateTime _dateTime;
 
-    public CoreService(
-        ISender mediator, 
-        ICurrentUserService currentUserService,
-        IDateTime dateTime)
+    public CoreService(ISender mediator)
     {
         _mediator = mediator;
-        _currentUserService = currentUserService;
-        _dateTime = dateTime;
     }
     
     public override async Task<DeviceInfoResponse> GetDeviceInfo(DeviceInfoRequest request, ServerCallContext context)

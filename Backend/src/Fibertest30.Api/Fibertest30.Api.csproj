@@ -28,7 +28,6 @@
     <Protobuf Include="Protos\data.reporting.proto" ProtoRoot="Protos" GrpcServices="Server" />
     <Protobuf Include="Protos\core.proto" ProtoRoot="Protos" GrpcServices="Server" />
     <Protobuf Include="Protos\identity.proto" ProtoRoot="Protos" GrpcServices="Server" />
-    <Protobuf Include="Protos\platform.proto" ProtoRoot="Protos" GrpcServices="Server" />
     <Protobuf Include="Protos\measurement.proto" ProtoRoot="Protos" GrpcServices="Server" />
     <Protobuf Include="Protos\reporting.proto" ProtoRoot="Protos" GrpcServices="Server" />
     <Protobuf Include="Protos\prometheus.proto" ProtoRoot="Protos" GrpcServices="Server" />

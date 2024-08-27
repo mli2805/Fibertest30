@@ -1,4 +1,4 @@
-﻿using GMap.NET;
+﻿using GMap.NET.Core;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Optixsoft.SorExaminer.OtdrDataFormat;
