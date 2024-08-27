@@ -35,7 +35,7 @@ namespace Iit.Fibertest.UtilsLib
                 if (level.IsEnabled)
                 {
                     var rftsLevelDto = CreateLevel(sorData,
-                        rftsEventsBlocks.FirstOrDefault(b => b.LevelName == level.LevelName), level);
+                        rftsEventsBlocks.FirstOrDefault(b => b.LevelName == level.LevelName)!, level);
 
                     yield return rftsLevelDto;
                 }
@@ -44,8 +44,11 @@ namespace Iit.Fibertest.UtilsLib
 
         private static RftsLevelDto CreateLevel(OtdrDataKnownBlocks sorData, RftsEventsBlock eventBlock, RftsLevel level)
         {
-            var rftsLevelDto = new RftsLevelDto() { Title = level.LevelName.ToSid() };
-            rftsLevelDto.EventArray = CreateEventArray(sorData, eventBlock, level).ToArray();
+            var rftsLevelDto = new RftsLevelDto
+            {
+                Title = level.LevelName.ToSid(), 
+                EventArray = CreateEventArray(sorData, eventBlock, level).ToArray()
+            };
             var firstFailedEvent = rftsLevelDto.EventArray.FirstOrDefault(e => e.IsNew || e.IsFailed);
             if (firstFailedEvent != null)
             {

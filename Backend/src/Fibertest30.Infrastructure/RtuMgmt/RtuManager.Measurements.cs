@@ -8,7 +8,7 @@ public partial class RtuManager
         // проверить не занят ли
         if (!_rtuOccupationService.TrySetOccupation(dto.RtuId, RtuOccupation.MeasurementClient,
                 _currentUserService.UserName,
-                out RtuOccupationState? currentState))
+                out RtuOccupationState? _))
             throw new RtuIsBusyException("");
 
         var rtuDoubleAddress = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);

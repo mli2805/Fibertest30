@@ -7,7 +7,6 @@ namespace Iit.Fibertest.Graph
     {
         public static string GetHashString(this string inputString)
         {
-            if (inputString == null) return null;
             StringBuilder sb = new StringBuilder();
             foreach (byte b in GetHash(inputString))
                 sb.Append(b.ToString(@"X2"));
@@ -17,9 +16,8 @@ namespace Iit.Fibertest.Graph
 
         private static byte[] GetHash(this string inputString)
         {
-            if (inputString == null) return null;
-            using (HashAlgorithm algorithm = SHA256.Create())
-                return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
+            using HashAlgorithm algorithm = SHA256.Create();
+            return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
         }
     }
 }

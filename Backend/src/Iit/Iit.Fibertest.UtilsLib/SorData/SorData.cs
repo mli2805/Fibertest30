@@ -8,34 +8,30 @@ namespace Iit.Fibertest.UtilsLib
 {
     public static class SorData
     {
-        public static string TryGetFromBytes(byte[] buffer, out OtdrDataKnownBlocks otdrDataKnownBlocks)
+        public static string TryGetFromBytes(byte[] buffer, out OtdrDataKnownBlocks? otdrDataKnownBlocks)
         {
-            using (var stream = new MemoryStream(buffer))
+            using var stream = new MemoryStream(buffer);
+            try
             {
-                try
-                {
-                    otdrDataKnownBlocks = new OtdrDataKnownBlocks(new OtdrReader(stream).Data);
-                    return "";
-                }
-                catch (Exception e)
-                {
-                    otdrDataKnownBlocks = null;
-                    return e.Message;
-                }
+                otdrDataKnownBlocks = new OtdrDataKnownBlocks(new OtdrReader(stream).Data);
+                return "";
+            }
+            catch (Exception e)
+            {
+                otdrDataKnownBlocks = null;
+                return e.Message;
             }
         }
 
         public static OtdrDataKnownBlocks FromBytes(byte[] buffer)
         {
-            using (var stream = new MemoryStream(buffer))
-            {
-                return new OtdrDataKnownBlocks(new OtdrReader(stream).Data);
-            }
+            using var stream = new MemoryStream(buffer);
+            return new OtdrDataKnownBlocks(new OtdrReader(stream).Data);
         }
 
-        public static byte[] GetRidOfBase(byte[] sorbytes)
+        public static byte[] GetRidOfBase(byte[] sorBytes)
         {
-            var otdrDataKnownBlocks = FromBytes(sorbytes);
+            var otdrDataKnownBlocks = FromBytes(sorBytes);
             var blocks = otdrDataKnownBlocks.EmbeddedData.EmbeddedDataBlocks.Where(block => block.Description != @"SOR").ToArray();
             otdrDataKnownBlocks.EmbeddedData.EmbeddedDataBlocks = blocks;
             return otdrDataKnownBlocks.ToBytes();
@@ -43,11 +39,9 @@ namespace Iit.Fibertest.UtilsLib
 
         public static byte[] ToBytes(this OtdrDataKnownBlocks sorData)
         {
-            using (var stream = new MemoryStream())
-            {
-                sorData.Save(stream);
-                return stream.ToArray();
-            }
+            using var stream = new MemoryStream();
+            sorData.Save(stream);
+            return stream.ToArray();
         }
 
         public static void Save(this OtdrDataKnownBlocks sorData, string filename)
@@ -57,10 +51,8 @@ namespace Iit.Fibertest.UtilsLib
             var folder = Path.GetDirectoryName(filename);
             if (folder != null && !Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
-            using (FileStream fs = File.Create(filename))
-            {
-                sorData.Save(fs);
-            }
+            using FileStream fs = File.Create(filename);
+            sorData.Save(fs);
         }
 
         private const double LightSpeed = 0.000299792458; // km/ns
@@ -110,7 +102,7 @@ namespace Iit.Fibertest.UtilsLib
             return (int)(distance / sorData.GetOwtToMmCoeff());
         }
 
-        public static OtdrDataKnownBlocks GetBase(this OtdrDataKnownBlocks sorData)
+        public static OtdrDataKnownBlocks? GetBase(this OtdrDataKnownBlocks sorData)
         {
             var baseBuffer = sorData.EmbeddedData.EmbeddedDataBlocks.FirstOrDefault(b => b.Description == @"SOR");
             return baseBuffer == null ? null : FromBytes(baseBuffer.Data);

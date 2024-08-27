@@ -10,7 +10,7 @@
         public bool IsAccidentInOldEvent { get; set; }
         public double AccidentToRtuOpticalDistanceKm { get; set; }
 
-        public string EventCode { get; set; }
+        public string EventCode { get; set; } = string.Empty;
         public double DeltaLen { get; set; }
 
         public override string ToString()

@@ -38,7 +38,7 @@ public partial class RtuManager : IRtuManager
 
         // проверить не занят ли
         if (!_rtuOccupationService.TrySetOccupation(dto.RtuId, RtuOccupation.Initialization, _currentUserService.UserName,
-                out RtuOccupationState? currentState))
+                out RtuOccupationState? _))
             throw new RtuIsBusyException("");
 
         // отправить

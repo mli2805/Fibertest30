@@ -18,8 +18,8 @@ namespace Iit.Fibertest.Graph
 
         public NetAddress MainChannel { get; set; }
         public RtuPartState MainChannelState { get; set; }
-        public bool IsReserveChannelSet { get; set; } = false;
-        public NetAddress ReserveChannel { get; set; }
+        public bool IsReserveChannelSet { get; set; }
+        public NetAddress? ReserveChannel { get; set; }
         public RtuPartState ReserveChannelState { get; set; }
         public NetAddress OtauNetAddress { get; set; } // IP the same as Otdr, Charon
         public string Serial { get; set; }

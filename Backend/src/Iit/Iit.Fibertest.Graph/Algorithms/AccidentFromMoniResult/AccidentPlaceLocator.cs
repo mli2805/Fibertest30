@@ -19,7 +19,8 @@ namespace Iit.Fibertest.Graph
         {
             var trace = _model.Traces.First(t => t.TraceId == traceId);
 
-            var distances = GetGpsDistancesOfSegmentsBetweenLandmarks(accident, trace, out Node leftNodeVm, out Node rightNodeVm);
+            var distances = GetGpsDistancesOfSegmentsBetweenLandmarks(accident, trace, out Node? leftNodeVm, out Node? rightNodeVm);
+            if (distances == null) return;
             GetCableReserves(accident, traceId, out double leftReserveM, out double rightReserveM);
             var distanceBetweenTwoNodesOnGraphM = distances.Sum();
 
@@ -30,13 +31,13 @@ namespace Iit.Fibertest.Graph
 
             if (distanceToAccidentOnGraphM <= leftReserveM)
             {
-                accident.AccidentCoors = leftNodeVm.Position;
+                accident.AccidentCoors = leftNodeVm!.Position;
                 return;
             }
 
             if (distanceToAccidentOnGraphM > leftReserveM + distanceBetweenTwoNodesOnGraphM)
             {
-                accident.AccidentCoors = rightNodeVm.Position;
+                accident.AccidentCoors = rightNodeVm!.Position;
                 return;
             }
 
@@ -50,7 +51,7 @@ namespace Iit.Fibertest.Graph
 
             accident.AccidentCoors = GetPointOnBrokenSegment(trace,
                 (distances[segmentIndex] - (distancesSum - distanceToAccidentOnGraphM)) / distances[segmentIndex],
-                trace.NodeIds.IndexOf(leftNodeVm.NodeId) + segmentIndex);
+                trace.NodeIds.IndexOf(leftNodeVm!.NodeId) + segmentIndex);
         }
 
         private PointLatLng GetPointOnBrokenSegment(Trace trace, double procentOfSegmentUptoAccident, int leftNodeIndex)
@@ -81,7 +82,8 @@ namespace Iit.Fibertest.Graph
             return isLeftLandmark ? equipment.CableReserveRight : equipment.CableReserveLeft;
         }
 
-        private List<double> GetGpsDistancesOfSegmentsBetweenLandmarks(AccidentOnTraceV2 accident, Trace trace, out Node leftNode, out Node rightNode)
+        private List<double>? GetGpsDistancesOfSegmentsBetweenLandmarks(
+            AccidentOnTraceV2 accident, Trace trace, out Node? leftNode, out Node? rightNode)
         {
             var withoutPoints = _model.GetTraceNodesExcludingAdjustmentPoints(trace.TraceId).ToList();
             leftNode = _model.Nodes.FirstOrDefault(n => n.NodeId == withoutPoints[accident.Left.LandmarkIndex]);

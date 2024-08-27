@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Graph
                     RtuMaker = rtu.RtuMaker,
                     OtdrId = rtu.OtdrId,
                     TraceId = trace.TraceId,
-                    OtauPortDto = trace.OtauPort,
+                    OtauPortDto = trace.OtauPort!,
                     BaseRefDtos = new List<BaseRefDto>(),
                 };
                 foreach (var baseRef in model.BaseRefs.Where(b => b.TraceId == trace.TraceId))
