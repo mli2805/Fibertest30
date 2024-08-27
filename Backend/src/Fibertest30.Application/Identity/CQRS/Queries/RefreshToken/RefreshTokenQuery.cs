@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Fibertest30.Application;
 
-public record RefreshTokenQuery() : IRequest<string>;
+public record RefreshTokenQuery : IRequest<string>;
 
 public class RefreshTokenQueryHandler : IRequestHandler<RefreshTokenQuery, string>
 {

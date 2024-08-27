@@ -2,7 +2,7 @@ using MediatR;
 
 namespace Fibertest30.Application;
 
-public record GetAllRolesQuery() : IRequest<List<ApplicationRole>>;
+public record GetAllRolesQuery : IRequest<List<ApplicationRole>>;
 
 public class GetAllRolesQueryHandler : IRequestHandler<GetAllRolesQuery, List<ApplicationRole>>
 {

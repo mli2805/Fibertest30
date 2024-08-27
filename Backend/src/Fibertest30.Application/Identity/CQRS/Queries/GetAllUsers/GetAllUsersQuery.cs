@@ -2,7 +2,7 @@
 
 namespace Fibertest30.Application;
 
-public record GetAllUsersQuery() : IRequest<List<AuthenticatedUser>>;
+public record GetAllUsersQuery : IRequest<List<AuthenticatedUser>>;
 
 public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, List<AuthenticatedUser>>
 {

@@ -40,8 +40,8 @@ public class LoginHandler : IRequestHandler<LoginQuery, AuthenticationResult>
 
         var token = await _tokenGenerator.GenerateToken(user);
         var role = await _permissionProvider.GetUserSingleRole(user);
-        var permissions = (await _permissionProvider.GetUserPermissions(user))
-            .Select(x => x.ToString()).ToList();
+        // var permissions = (await _permissionProvider.GetUserPermissions(user))
+        //     .Select(x => x.ToString()).ToList();
         
         var userSettings = await _userSettingsRepository.GetUserSettings(user.Id);
         return new AuthenticationResult(true, token, new AuthenticatedUser(role, user), userSettings);

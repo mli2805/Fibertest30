@@ -1,4 +1,4 @@
-﻿using GMap.NET.Core;
+﻿using GMap.NET;
 using Iit.Fibertest.Dto;
 using Microsoft.Extensions.Logging;
 

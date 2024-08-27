@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace GMap.NET.Core
+namespace GMap.NET
 {
     /// <summary>
     ///     the size of coordinates

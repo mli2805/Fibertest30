@@ -5,12 +5,10 @@ namespace Fibertest30.Api;
 
 public class RtuTreeService : RtuTree.RtuTreeBase
 {
-    private readonly ILogger<RtuTreeService> _logger;
     private readonly ISender _mediator;
 
-    public RtuTreeService(ILogger<RtuTreeService> logger, ISender mediator)
+    public RtuTreeService( ISender mediator)
     {
-        _logger = logger;
         _mediator = mediator;
     }
 

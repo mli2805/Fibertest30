@@ -1,4 +1,4 @@
-﻿using GMap.NET.Core;
+﻿using GMap.NET;
 
 namespace Iit.Fibertest.Graph
 {

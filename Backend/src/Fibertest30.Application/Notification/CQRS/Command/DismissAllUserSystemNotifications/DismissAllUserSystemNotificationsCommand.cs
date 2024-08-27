@@ -2,7 +2,7 @@ using MediatR;
 
 namespace Fibertest30.Application;
 
-public record DismissAllUserSystemNotificationsCommand() : IRequest<Unit>;
+public record DismissAllUserSystemNotificationsCommand : IRequest<Unit>;
 
 public class DismissAllUserSystemNotificationsCommandHandler
     : IRequestHandler<DismissAllUserSystemNotificationsCommand, Unit>

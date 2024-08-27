@@ -2,7 +2,7 @@ using MediatR;
 
 namespace Fibertest30.Application;
 
-public record GetUserSystemNotificationsQuery() : IRequest<List<SystemEvent>>;
+public record GetUserSystemNotificationsQuery : IRequest<List<SystemEvent>>;
 
 public class GetUserSystemNotificationsQueryHandler : IRequestHandler<GetUserSystemNotificationsQuery, List<SystemEvent>>
 {

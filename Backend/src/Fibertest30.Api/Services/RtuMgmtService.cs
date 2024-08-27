@@ -5,12 +5,10 @@ namespace Fibertest30.Api;
 
 public class RtuMgmtService : RtuMgmt.RtuMgmtBase
 {
-    private readonly ILogger<RtuMgmtService> _logger;
     private readonly ISender _mediator;
 
-    public RtuMgmtService(ILogger<RtuMgmtService> logger, ISender mediator)
+    public RtuMgmtService(ISender mediator)
     {
-        _logger = logger;
         _mediator = mediator;
     }
 
@@ -36,10 +34,10 @@ public class RtuMgmtService : RtuMgmt.RtuMgmtBase
     public override async Task<DoMeasurementClientResponse> DoMeasurementClient(DoMeasurementClientRequest request,
         ServerCallContext context)
     {
-        var dto = await _mediator.Send(new DoMeasurementClientCommand(request.Dto.FromProto()),
+        var _ = await _mediator.Send(new DoMeasurementClientCommand(request.Dto.FromProto()),
             context.CancellationToken);
 
-        return new DoMeasurementClientResponse() { };
+        return new DoMeasurementClientResponse();
     }
 
     public override async Task<GetMeasurementClientSorResponse> GetMeasurementClientSor(

@@ -33,7 +33,7 @@ public class WarmupService
     private async Task DoExecute()
     {
         // get all users (fill users cache)
-        var users = await _usersRepository.GetAllUsers();
+        var _ = await _usersRepository.GetAllUsers();
         
        
     }

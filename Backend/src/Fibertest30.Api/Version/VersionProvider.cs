@@ -5,7 +5,7 @@ namespace Fibertest30.Api;
 
 public class VersionProvider : IVersionProvider
 {
-    private string? _productVersion = null;
+    private string? _productVersion;
     
     public string GetApiVersion()
     {

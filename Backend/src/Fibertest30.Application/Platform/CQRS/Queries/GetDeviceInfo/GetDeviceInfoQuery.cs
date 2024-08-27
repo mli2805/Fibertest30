@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Fibertest30.Application;
 
-public record GetDeviceInfoQuery() : IRequest<DeviceInfo>;
+public record GetDeviceInfoQuery : IRequest<DeviceInfo>;
 
 public class GetDeviceInfoQueryHandler : IRequestHandler<GetDeviceInfoQuery, DeviceInfo>
 {

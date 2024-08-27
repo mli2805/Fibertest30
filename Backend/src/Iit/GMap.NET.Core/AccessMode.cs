@@ -1,4 +1,4 @@
-﻿namespace GMap.NET.Core
+﻿namespace GMap.NET
 {
     /// <summary>
     /// tile access mode

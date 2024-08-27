@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Fibertest30.Application;
 
-public record GetCurrentUserQuery() : IRequest<CurrentUser>;
+public record GetCurrentUserQuery : IRequest<CurrentUser>;
 
 public class GetCurrentUserQueryHandler : IRequestHandler<GetCurrentUserQuery, CurrentUser>
 {

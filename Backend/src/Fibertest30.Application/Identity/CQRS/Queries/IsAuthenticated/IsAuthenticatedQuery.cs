@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 namespace Fibertest30.Application;
 
 [AllowAnonymous]
-public record IsAuthenticatedQuery() : IRequest<bool>;
+public record IsAuthenticatedQuery : IRequest<bool>;
 
 public class IsAuthenticatedQueryHandler : IRequestHandler<IsAuthenticatedQuery, bool>
 {

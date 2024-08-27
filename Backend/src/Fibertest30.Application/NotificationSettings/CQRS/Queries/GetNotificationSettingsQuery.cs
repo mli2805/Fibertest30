@@ -2,7 +2,7 @@
 
 namespace Fibertest30.Application;
 
-public record GetNotificationSettingsQuery() : IRequest<NotificationSettings>;
+public record GetNotificationSettingsQuery : IRequest<NotificationSettings>;
 
 public class GetNotificationSettingsQueryHandler : IRequestHandler<GetNotificationSettingsQuery, NotificationSettings>
 {

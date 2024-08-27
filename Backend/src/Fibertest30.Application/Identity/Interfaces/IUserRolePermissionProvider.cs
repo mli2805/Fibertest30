@@ -65,7 +65,7 @@ public class UserRolePermissionProvider : IUserRolePermissionProvider
         var userRole = await _roleManager.FindByNameAsync(roleName);
         if (userRole is null) { throw new Exception($"Can't find role={roleName}"); }
 
-        var roleClaims = await _roleManager.GetClaimsAsync(userRole!);
+        var roleClaims = await _roleManager.GetClaimsAsync(userRole);
         return roleClaims.Where(x => x.Type == ApplicationClaims.Permissions)
             .Select(x => x.Value.ToApplicationPermission()).ToList();
     }

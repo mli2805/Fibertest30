@@ -2,7 +2,7 @@ using MediatR;
 
 namespace Fibertest30.Application;
 
-public record ObserveNotificationsQuery() : IRequest<DisposableObservable<INotificationEvent>>;
+public record ObserveNotificationsQuery : IRequest<DisposableObservable<INotificationEvent>>;
 
 public class ObserveNotificationsQueryHandler : IRequestHandler<ObserveNotificationsQuery, DisposableObservable<INotificationEvent>>
 {
