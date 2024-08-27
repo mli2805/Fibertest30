@@ -1,4 +1,4 @@
-namespace Fibertest30.Application;
+namespace Fibertest30.Infrastructure;
 
 public class SystemEventEf
 {

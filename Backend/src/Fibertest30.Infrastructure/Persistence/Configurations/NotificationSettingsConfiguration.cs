@@ -1,5 +1,4 @@
-﻿using Fibertest30.Infrastructure.Persistence.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Fibertest30.Infrastructure;

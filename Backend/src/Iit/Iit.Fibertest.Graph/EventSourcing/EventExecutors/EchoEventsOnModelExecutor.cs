@@ -5,7 +5,7 @@ namespace Iit.Fibertest.Graph
     public static class EchoEventsOnModelExecutor
     {
        
-        public static string AssignBaseRef(this Model model, BaseRefAssigned e)
+        public static string? AssignBaseRef(this Model model, BaseRefAssigned e)
         {
             var trace = model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)
@@ -55,7 +55,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string InitializeRtu(this Model model, RtuInitialized e)
+        public static string? InitializeRtu(this Model model, RtuInitialized e)
         {
             var rtu = model.Rtus.FirstOrDefault(r => r.Id == e.Id);
             if (rtu == null)
@@ -190,7 +190,7 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        public static string ChangeMonitoringSettings(this Model model, MonitoringSettingsChanged e)
+        public static string? ChangeMonitoringSettings(this Model model, MonitoringSettingsChanged e)
         {
             var rtu = model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
@@ -209,7 +209,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string StartMonitoring(this Model model, MonitoringStarted e)
+        public static string? StartMonitoring(this Model model, MonitoringStarted e)
         {
             var rtu = model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
@@ -220,7 +220,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string StopMonitoring(this Model model, MonitoringStopped e)
+        public static string? StopMonitoring(this Model model, MonitoringStopped e)
         {
             var rtu = model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)

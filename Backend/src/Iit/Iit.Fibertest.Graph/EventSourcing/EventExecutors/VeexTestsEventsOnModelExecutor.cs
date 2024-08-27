@@ -7,7 +7,7 @@ namespace Iit.Fibertest.Graph
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
-        public static string AddVeexTest(this Model model, VeexTestAdded e)
+        public static string? AddVeexTest(this Model model, VeexTestAdded e)
         {
             var oldTestsForThisTrace = model.VeexTests.Where(t => t.TraceId == e.TraceId && t.BasRefType == e.BasRefType).ToList();
             foreach (var veexTest in model.VeexTests)
@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string RemoveVeexTest(this Model model, VeexTestRemoved e)
+        public static string? RemoveVeexTest(this Model model, VeexTestRemoved e)
         {
             var test = model.VeexTests.FirstOrDefault(t => t.TestId == e.TestId);
             if (test != null)

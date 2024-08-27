@@ -6,9 +6,9 @@ namespace Iit.Fibertest.Dto
     public class LandmarksCorrectionDto
     {
         [DataMember]
-        public string ClientIp { get; set; }
+        public string ClientIp { get; set; } = null!;
         [DataMember]
-        public string ConnectionId { get; set; }
+        public string ConnectionId { get; set; } = null!;
         
         [DataMember]
         public Guid BatchId { get; set; }

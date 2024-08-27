@@ -6,7 +6,7 @@ namespace Iit.Fibertest.Dto
     public class DetachTraceDto
     {
         [DataMember] 
-        public string ConnectionId { get; set; } = string.Empty;
+        public string ConnectionId { get; set; } = null!;
         [DataMember]
         public Guid TraceId { get; set; }
     }

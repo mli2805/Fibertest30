@@ -5,8 +5,7 @@ namespace Iit.Fibertest.Dto
     [DataContract]
     public class DbOptimizationProgressDto
     {
-        [DataMember]
-        public string Username { get; set; }
+        [DataMember] public string Username { get; set; } = null!;
 
         [DataMember]
         public DbOptimizationStage Stage { get; set; }

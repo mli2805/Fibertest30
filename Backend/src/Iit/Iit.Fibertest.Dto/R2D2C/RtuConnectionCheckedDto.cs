@@ -6,7 +6,7 @@ namespace Iit.Fibertest.Dto
     public class RtuConnectionCheckedDto
     {
         [DataMember]
-        public string ClientIp { get; set; }
+        public string ClientIp { get; set; } = null!;
 
         [DataMember]
         public Guid RtuId { get; set; }

@@ -9,9 +9,9 @@ namespace Iit.Fibertest.Dto
         public int Revision { get; set; }
 
         [DataMember]
-        public string ConnectionId { get; set; } = string.Empty;
+        public string ConnectionId { get; set; } = null!;
 
         [DataMember]
-        public string ClientIp { get; set; } = string.Empty;
+        public string ClientIp { get; set; } = null!;
     }
 }

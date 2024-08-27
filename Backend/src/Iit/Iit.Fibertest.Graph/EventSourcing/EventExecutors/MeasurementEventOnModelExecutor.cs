@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Graph
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
-        public static string AddMeasurement(this Model model, MeasurementAdded e)
+        public static string? AddMeasurement(this Model model, MeasurementAdded e)
         {
             var meas = Mapper.Map<Measurement>(e);
             model.Measurements.Add(meas);
@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string UpdateMeasurement(this Model model, MeasurementUpdated e)
+        public static string? UpdateMeasurement(this Model model, MeasurementUpdated e)
         {
             var destination = model.Measurements.First(f => f.SorFileId == e.SorFileId);
             if (destination.EventStatus == e.EventStatus)
@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string AddNetworkEvent(this Model model, NetworkEventAdded e)
+        public static string? AddNetworkEvent(this Model model, NetworkEventAdded e)
         {
             var networkEvent = Mapper.Map<NetworkEvent>(e);
             var rtu = model.Rtus.First(r => r.Id == e.RtuId);
@@ -74,7 +74,7 @@ namespace Iit.Fibertest.Graph
         }
 
 
-        public static string AddBopNetworkEvent(this Model model, BopNetworkEventAdded e)
+        public static string? AddBopNetworkEvent(this Model model, BopNetworkEventAdded e)
         {
             model.BopNetworkEvents.Add(Mapper.Map<BopNetworkEvent>(e));
             // if BOP has 2 OTAU - both should change their state
@@ -88,7 +88,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string RemoveEventsAndSors(this Model model, EventsAndSorsRemoved e)
+        public static string? RemoveEventsAndSors(this Model model, EventsAndSorsRemoved e)
         {
             var measurementsForDeletion = model.GetMeasurementsForDeletion(e.UpTo, e.IsMeasurementsNotEvents, e.IsOpticalEvents);
             model.Measurements.RemoveAll(m => measurementsForDeletion.Contains(m));

@@ -1,7 +1,6 @@
-using Fibertest30.Infrastructure.Persistence.Entities;
 using System.Text.Json;
 
-namespace Fibertest30.Application;
+namespace Fibertest30.Infrastructure;
 
 public static class EfMapper
 {

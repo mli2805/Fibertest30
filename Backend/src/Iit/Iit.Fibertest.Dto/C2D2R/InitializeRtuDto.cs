@@ -6,9 +6,9 @@ namespace Iit.Fibertest.Dto
     public class InitializeRtuDto
     {
         [DataMember]
-        public string ClientIp { get; set; }
+        public string ClientIp { get; set; } = null!;
         [DataMember]
-        public string ConnectionId { get; set; }
+        public string ConnectionId { get; set; } = null!;
 
         [DataMember]
         public RtuMaker RtuMaker { get; set; }
@@ -19,9 +19,9 @@ namespace Iit.Fibertest.Dto
         public VeexOtau MainVeexOtau { get; set; } = new VeexOtau(); // in Veex RTU it is a separate unit
 
         [DataMember]
-        public DoubleAddress ServerAddresses { get; set; }
+        public DoubleAddress ServerAddresses { get; set; } = null!;
         [DataMember]
-        public DoubleAddress RtuAddresses { get; set; }
+        public DoubleAddress RtuAddresses { get; set; } = null!;
 
         [DataMember]
         public bool IsFirstInitialization { get; set; }
@@ -31,12 +31,12 @@ namespace Iit.Fibertest.Dto
 
         // RTU properties after previous initialization
         [DataMember]
-        public string Serial { get; set; }
+        public string? Serial { get; set; }
 
         [DataMember]
         public int OwnPortCount { get; set; }
 
-         [DataMember]
-        public Dictionary<int, OtauDto> Children { get; set; }
+        [DataMember]
+        public Dictionary<int, OtauDto>? Children { get; set; }
     }
 }

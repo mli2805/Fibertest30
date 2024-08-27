@@ -6,8 +6,8 @@ namespace Iit.Fibertest.Dto
     public class CheckServerConnectionDto
     {
         [DataMember]
-        public string ClientIp { get; set; } = string.Empty;
+        public string ClientIp { get; set; } = null!;
         [DataMember]
-        public string ConnectionId { get; set; } = string.Empty;
+        public string ConnectionId { get; set; } = null!;
     }
 }

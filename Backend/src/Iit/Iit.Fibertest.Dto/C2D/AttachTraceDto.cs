@@ -6,13 +6,13 @@ namespace Iit.Fibertest.Dto
     public class AttachTraceDto
     {
         [DataMember]
-        public string ClientIp { get; set; } = string.Empty;
+        public string ClientIp { get; set; } = null!;
 
         [DataMember]
-        public string ConnectionId { get; set; } = string.Empty;
+        public string ConnectionId { get; set; } = null!;
 
         [DataMember]
-        public string Username { get; set; } = string.Empty;
+        public string Username { get; set; } = null!;
 
         [DataMember]
         public RtuMaker RtuMaker { get; set; }

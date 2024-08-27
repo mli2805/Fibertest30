@@ -1,4 +1,4 @@
-﻿namespace Fibertest30.Infrastructure.Persistence.Entities;
+﻿namespace Fibertest30.Infrastructure;
 public class NotificationSettingsEf
 {
     public int Id { get; init; }

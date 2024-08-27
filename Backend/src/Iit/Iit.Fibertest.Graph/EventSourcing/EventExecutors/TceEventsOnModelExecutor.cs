@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Graph
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
 
-        public static string AddOrUpdateTceWithRelations(this Model model, TceWithRelationsAddedOrUpdated e)
+        public static string? AddOrUpdateTceWithRelations(this Model model, TceWithRelationsAddedOrUpdated e)
         {
             var tce = model.TcesNew.FirstOrDefault(o => o.Id == e.Id);
             if (tce == null)
@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string RemoveTce(this Model model, TceRemoved e)
+        public static string? RemoveTce(this Model model, TceRemoved e)
         {
             var relations = model.GponPortRelations.Where(r => r.TceId == e.Id).ToList();
             e.ExcludedTraceIds = relations.Select(r => r.TraceId).ToList();
@@ -78,7 +78,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string ReSeedTceTypes(this Model model, TceTypeStructListReSeeded e)
+        public static string? ReSeedTceTypes(this Model model, TceTypeStructListReSeeded e)
         {
             model.TceTypeStructs = e.TceTypes;
             return null;

@@ -2,7 +2,7 @@
 {
     public static class EventsOnModelExecutor
     {
-        public static string Apply(this Model model, object e)
+        public static string? Apply(this Model model, object e)
         {
             try
             {

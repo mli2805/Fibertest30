@@ -62,7 +62,7 @@ public class RtuLinuxPollster : IRtuLinuxPollster
             {
                 await PollRtu(makLinuxRtu);
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 // no log! every second all rtus
@@ -91,7 +91,7 @@ public class RtuLinuxPollster : IRtuLinuxPollster
         {
             state = await makLinuxRtuTransmitter.GetRtuCurrentState(requestDto);
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return;
         }

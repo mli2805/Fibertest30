@@ -9,9 +9,9 @@ namespace Iit.Fibertest.Dto
         public Guid Id { get; set; }
 
         [DataMember]
-        public string ConnectionId { get; set; }
+        public string ConnectionId { get; set; } = null!;
         [DataMember]
-        public string ClientIp { get; set; }
+        public string ClientIp { get; set; } = null!;
 
         [DataMember]
         public Guid RtuId { get; set; }
@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Dto
         public RtuMaker RtuMaker { get; set; }
 
         [DataMember]
-        public PortWithTraceDto PortWithTraceDto { get; set; }
+        public PortWithTraceDto PortWithTraceDto { get; set; } = null!;
 
         [DataMember]
         public bool IsTrapCaused { get; set; } // false means user's measurement

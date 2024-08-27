@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Graph
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
-        public static string AddRtuAtGpsLocation(this Model model, RtuAtGpsLocationAdded e)
+        public static string? AddRtuAtGpsLocation(this Model model, RtuAtGpsLocationAdded e)
         {
             Node node = new Node()
             {
@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string UpdateRtu(this Model model, RtuUpdated e)
+        public static string? UpdateRtu(this Model model, RtuUpdated e)
         {
             var rtu = model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
@@ -40,7 +40,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string RemoveRtu(this Model model, RtuRemoved e)
+        public static string? RemoveRtu(this Model model, RtuRemoved e)
         {
             var rtu = model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
@@ -64,7 +64,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string AttachOtau(this Model model, OtauAttached e)
+        public static string? AttachOtau(this Model model, OtauAttached e)
         {
             Otau otau = Mapper.Map<Otau>(e);
             model.Otaus.Add(otau);
@@ -84,7 +84,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string DetachOtau(this Model model, OtauDetached e)
+        public static string? DetachOtau(this Model model, OtauDetached e)
         {
             var otau = model.Otaus.FirstOrDefault(o => o.Id == e.Id);
             if (otau == null)
@@ -128,7 +128,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string DetachAllTraces(this Model model, AllTracesDetached e)
+        public static string? DetachAllTraces(this Model model, AllTracesDetached e)
         {
             foreach (var trace in model.Traces.Where(t => t.RtuId == e.RtuId))
             {

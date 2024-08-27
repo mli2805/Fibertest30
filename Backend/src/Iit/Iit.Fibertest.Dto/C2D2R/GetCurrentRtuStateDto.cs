@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Dto
         // When data-center polling RTU - polling thread fills RtuDoubleAddress from WriteModel
 
         [DataMember]
-        public DoubleAddress RtuDoubleAddress { get; set; }
+        public DoubleAddress RtuDoubleAddress { get; set; } = null!;
 
 
         // Server says RTU that last fetched measurement has this timestamp

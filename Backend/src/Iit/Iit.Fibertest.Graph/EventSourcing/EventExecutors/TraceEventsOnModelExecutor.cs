@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Graph
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
 
-        public static string AddTrace(this Model model, TraceAdded e)
+        public static string? AddTrace(this Model model, TraceAdded e)
         {
             Trace trace = Mapper.Map<Trace>(e);
             trace.ZoneIds.Add(model.Zones.First(z => z.IsDefaultZone).ZoneId);
@@ -20,21 +20,21 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string UpdateTrace(this Model model, TraceUpdated source)
+        public static string? UpdateTrace(this Model model, TraceUpdated source)
         {
             var destination = model.Traces.First(t => t.TraceId == source.Id);
             Mapper.Map(source, destination);
             return null;
         }
 
-        public static string UpdateTracePort(this Model model, TracePortUpdated e)
+        public static string? UpdateTracePort(this Model model, TracePortUpdated e)
         {
             var trace = model.Traces.First(t => t.TraceId == e.Id);
             trace.OtauPort.Serial = e.Serial;
             return null;
         }
 
-        public static string CleanTrace(this Model model, TraceCleaned e)
+        public static string? CleanTrace(this Model model, TraceCleaned e)
         {
             var trace = model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)
@@ -84,7 +84,7 @@ namespace Iit.Fibertest.Graph
             model.RtuAccidents.RemoveAll(a => a.TraceId == trace.TraceId);
         }
 
-        public static string RemoveTrace(this Model model, TraceRemoved e)
+        public static string? RemoveTrace(this Model model, TraceRemoved e)
         {
             var trace = model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)
@@ -132,7 +132,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string AttachTrace(this Model model, TraceAttached e)
+        public static string? AttachTrace(this Model model, TraceAttached e)
         {
             var trace = model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)
@@ -174,7 +174,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string DetachTrace(this Model model, TraceDetached e)
+        public static string? DetachTrace(this Model model, TraceDetached e)
         {
             var trace = model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)

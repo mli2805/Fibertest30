@@ -1,5 +1,5 @@
 ﻿
-namespace Fibertest30.Infrastructure;
+namespace Fibertest30.Infrastructure.Services;
 public class DelayService : IDelayService
 {
     public void Sleep(int milliseconds)

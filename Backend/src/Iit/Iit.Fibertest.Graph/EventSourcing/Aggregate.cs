@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Graph
             _eventsQueue = eventsQueue;
         }
 
-        public string Validate(object cmd)
+        public string? Validate(object cmd)
         {
             switch (cmd)
             {

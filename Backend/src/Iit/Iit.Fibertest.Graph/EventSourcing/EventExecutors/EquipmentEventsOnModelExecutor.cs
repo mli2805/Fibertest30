@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Graph
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         
-        public static string AddEquipmentIntoNode(this Model model, EquipmentIntoNodeAdded e)
+        public static string? AddEquipmentIntoNode(this Model model, EquipmentIntoNodeAdded e)
         {
             var node = model.Nodes.First(n => n.NodeId == e.NodeId);
             node.TypeOfLastAddedEquipment = e.Type;
@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string AddEquipmentAtGpsLocation(this Model model, EquipmentAtGpsLocationAdded e)
+        public static string? AddEquipmentAtGpsLocation(this Model model, EquipmentAtGpsLocationAdded e)
         {
             Node node = new Node()
             {
@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string AddEquipmentAtGpsLocationWithNodeTitle(this Model model, EquipmentAtGpsLocationWithNodeTitleAdded e)
+        public static string? AddEquipmentAtGpsLocationWithNodeTitle(this Model model, EquipmentAtGpsLocationWithNodeTitleAdded e)
         {
             if (model.Nodes.Any(i => i.NodeId == e.NodeId)) // kadastr loader
                 return @"node with the same id found";
@@ -66,7 +66,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string UpdateEquipment(this Model model, EquipmentUpdated e)
+        public static string? UpdateEquipment(this Model model, EquipmentUpdated e)
         {
             var equipment = model.Equipments.FirstOrDefault(eq => eq.EquipmentId == e.EquipmentId);
             if (equipment == null)
@@ -83,7 +83,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string RemoveEquipment(this Model model, EquipmentRemoved e)
+        public static string? RemoveEquipment(this Model model, EquipmentRemoved e)
         {
             var equipment = model.Equipments.FirstOrDefault(eq => eq.EquipmentId == e.EquipmentId);
             if (equipment == null)
@@ -119,14 +119,14 @@ namespace Iit.Fibertest.Graph
         }
 
         // could be used to replace one piece of equipment with another
-        public static string IncludeEquipmentIntoTrace(this Model model, EquipmentIntoTraceIncluded e)
+        public static string? IncludeEquipmentIntoTrace(this Model model, EquipmentIntoTraceIncluded e)
         {
             var trace = model.Traces.First(t => t.TraceId == e.TraceId);
             trace.EquipmentIds[e.IndexInTrace] = e.EquipmentId;
             return null;
         }
 
-        public static string ExcludeEquipmentFromTrace(this Model model, EquipmentFromTraceExcluded e)
+        public static string? ExcludeEquipmentFromTrace(this Model model, EquipmentFromTraceExcluded e)
         {
             var trace = model.Traces.First(t => t.TraceId == e.TraceId);
             var nodeId = trace.NodeIds[e.IndexInTrace];

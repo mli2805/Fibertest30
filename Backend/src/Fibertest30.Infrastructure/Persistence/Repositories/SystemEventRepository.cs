@@ -5,12 +5,10 @@ namespace Fibertest30.Infrastructure;
 public class SystemEventRepository : ISystemEventRepository
 {
     private readonly RtuContext _rtuContext;
-    private readonly IDateTime _dateTime;
 
-    public SystemEventRepository(RtuContext rtuContext, IDateTime dateTime)
+    public SystemEventRepository(RtuContext rtuContext)
     {
         _rtuContext = rtuContext;
-        _dateTime = dateTime;
     }
     
     public async Task<int> Add(SystemEvent systemEvent, CancellationToken ct)

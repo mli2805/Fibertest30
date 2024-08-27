@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Graph
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
 
-        public static string AddNodeIntoFiber(this Model model, NodeIntoFiberAdded e)
+        public static string? AddNodeIntoFiber(this Model model, NodeIntoFiberAdded e)
         {
             var oldFiber = model.Fibers.FirstOrDefault(f => f.FiberId == e.FiberId);
             if (oldFiber == null)
@@ -91,7 +91,7 @@ namespace Iit.Fibertest.Graph
             model.Fibers.Add(fiber2);
         }
 
-        public static string UpdateNode(this Model model, NodeUpdated source)
+        public static string? UpdateNode(this Model model, NodeUpdated source)
         {
             Node destination = model.Nodes.FirstOrDefault(n => n.NodeId == source.NodeId);
             if (destination == null)
@@ -102,7 +102,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string UpdateAndMoveNode(this Model model, NodeUpdatedAndMoved source)
+        public static string? UpdateAndMoveNode(this Model model, NodeUpdatedAndMoved source)
         {
             Node destination = model.Nodes.FirstOrDefault(n => n.NodeId == source.NodeId);
             if (destination == null)
@@ -113,7 +113,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string MoveNode(this Model model, NodeMoved newLocation)
+        public static string? MoveNode(this Model model, NodeMoved newLocation)
         {
             Node node = model.Nodes.FirstOrDefault(n => n.NodeId == newLocation.NodeId);
             if (node == null)
@@ -124,7 +124,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string RemoveUnused(this Model model)
+        public static string? RemoveUnused(this Model model)
         {
             var allTracesNodes = new HashSet<Guid>();
             var allTracesFibers = new HashSet<Guid>();
@@ -158,7 +158,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string RemoveNode(this Model model, NodeRemoved e)
+        public static string? RemoveNode(this Model model, NodeRemoved e)
         {
             foreach (var trace in model.Traces.Where(t => t.NodeIds.Contains(e.NodeId)))
             {

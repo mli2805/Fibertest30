@@ -5,11 +5,10 @@ namespace Iit.Fibertest.Dto
     [DataContract]
     public class UnRegisterClientDto
     {
+        [DataMember] public string Username { get; set; } = null!;
         [DataMember]
-        public string Username { get; set; }
+        public string ConnectionId { get; set; } = null!;
         [DataMember]
-        public string ConnectionId { get; set; }
-        [DataMember]
-        public string ClientIp { get; set; }
+        public string ClientIp { get; set; } = null!;
     }
 }

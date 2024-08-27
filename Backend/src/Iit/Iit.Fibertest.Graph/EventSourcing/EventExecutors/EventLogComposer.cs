@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Graph
                 var user = _model.Users.FirstOrDefault(u => u.Title == username);
 
                 // event should be parsed even before check in order to update internal dictionaries
-                if (line == null || user == null
+                if (user == null
                                  || user.Role < Role.Developer && line.OperationCode != LogOperationCode.EventsAndSorsRemoved)
                     return;
 

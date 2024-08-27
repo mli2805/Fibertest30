@@ -8,20 +8,20 @@ namespace Iit.Fibertest.Graph
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         
-        public static string AddZone(this Model model, ZoneAdded e)
+        public static string? AddZone(this Model model, ZoneAdded e)
         {
             model.Zones.Add(Mapper.Map<Zone>(e));
             return null;
         }
 
-        public static string UpdateZone(this Model model, ZoneUpdated source)
+        public static string? UpdateZone(this Model model, ZoneUpdated source)
         {
             var destination =  model.Zones.First(f => f.ZoneId == source.ZoneId);
             Mapper.Map(source, destination);
             return null;
         }
 
-        public static string RemoveZone(this Model model, ZoneRemoved e)
+        public static string? RemoveZone(this Model model, ZoneRemoved e)
         {
             foreach (var trace in model.Traces)
             {

@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Graph
             _writeModel = writeModel;
         }
 
-        public string Add(object e)
+        public string? Add(object e)
         {
             var result = _writeModel.Apply(e);
             if (result == null)

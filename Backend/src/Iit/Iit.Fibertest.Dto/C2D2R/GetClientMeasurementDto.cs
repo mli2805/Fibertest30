@@ -6,14 +6,14 @@ namespace Iit.Fibertest.Dto
     public class GetClientMeasurementDto
     {
         [DataMember]
-        public string ConnectionId { get; set; }
+        public string ConnectionId { get; set; } = null!;
         [DataMember]
-        public string ClientIp { get; set; }
+        public string ClientIp { get; set; } = null!;
 
         [DataMember]
         public Guid RtuId { get; set; }
 
         [DataMember]
-        public string VeexMeasurementId { get; set; }
+        public string? VeexMeasurementId { get; set; }
     }
 }

@@ -8,13 +8,13 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public bool ToAll { get; set; }
         [DataMember]
-        public string ConnectionId { get; set; }
+        public string ConnectionId { get; set; } = null!;
         [DataMember]
         public UnRegisterReason Reason { get; set; }
 
         // if user pushed out by new session
         [DataMember]
-        public string NewAddress { get; set; }
+        public string? NewAddress { get; set; }
         [DataMember]
         public bool IsNewUserWeb { get; set; }
     }

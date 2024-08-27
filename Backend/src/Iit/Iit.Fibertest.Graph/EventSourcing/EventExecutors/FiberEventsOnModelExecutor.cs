@@ -8,13 +8,13 @@ namespace Iit.Fibertest.Graph
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
-        public static string AddFiber(this Model model, FiberAdded e)
+        public static string? AddFiber(this Model model, FiberAdded e)
         {
             model.Fibers.Add(Mapper.Map<Fiber>(e));
             return null;
         }
 
-        public static string UpdateFiber(this Model model, FiberUpdated source)
+        public static string? UpdateFiber(this Model model, FiberUpdated source)
         {
             foreach (var fiberPartId in model.GetAllParts(source.Id))
             {
@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static IEnumerable<Guid> GetAllParts(this Model model, Guid fiberPartId)
+        private static IEnumerable<Guid> GetAllParts(this Model model, Guid fiberPartId)
         {
             var selectedPart = model.Fibers.FirstOrDefault(f => f.FiberId == fiberPartId);
             if (selectedPart == null) yield break;
@@ -58,7 +58,7 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        public static string RemoveFiber(this Model model, FiberRemoved e)
+        public static string? RemoveFiber(this Model model, FiberRemoved e)
         {
             var fiber = model.Fibers.FirstOrDefault(f => f.FiberId == e.FiberId);
             if (fiber == null)

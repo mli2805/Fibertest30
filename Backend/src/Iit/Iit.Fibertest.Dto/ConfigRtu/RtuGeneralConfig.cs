@@ -2,7 +2,7 @@
 {
     public class RtuGeneralConfig
     {
-        public string Version { get; set; }
+        public string Version { get; set; } = null!;
         public Guid RtuId { get; set; }
         public int PreviousOwnPortCount { get; set; } = -1;
         public string OtdrIp { get; set; } = "192.168.88.101";
