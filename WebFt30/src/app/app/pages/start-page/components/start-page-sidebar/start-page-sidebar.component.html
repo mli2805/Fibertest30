@@ -1,7 +1,7 @@
 <div class="flex h-full w-max flex-col">
   <div class="m-2 flex flex-col items-center">
     <div class="mb-4 leading-[0] text-rtu-text dark:text-rtu-dark-text">
-      <div class="ml-6">
+      <div class="ml-2">
         <div *ngIf="(theme$ | async) !== 'dark'">
           <rtu-iit-logo></rtu-iit-logo>
         </div>
@@ -10,10 +10,9 @@
         </div>
       </div>
 
-      <div *ngIf="version$ | async as version">
-        <div class="mt-2 text-sm italic">
-          Fibertest <span>{{ version }}</span>
-        </div>
+      <div *ngIf="version$ | async as version" class="mt-1">
+        <div class="text-base italic">Fibertest 3.0</div>
+        <div class="ml-3 mt-0 items-center text-sm italic">({{ version }})</div>
       </div>
     </div>
   </div>

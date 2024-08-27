@@ -1,4 +1,6 @@
 {
+  "i18n.ft.available-actions": "Доступные действия",
+
   "i18n.ft.assign-base-refs": "Задать базовые",
   "i18n.ft.attach-optical-switch": "Подключить переключатель",
   "i18n.ft.attach-trace": "Подключить трассу",
