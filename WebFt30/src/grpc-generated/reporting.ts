@@ -27,6 +27,10 @@ export interface GetSystemEventsResponse {
  * @generated from protobuf message fibertest30.reporting.GetOpticalEventsRequest
  */
 export interface GetOpticalEventsRequest {
+    /**
+     * @generated from protobuf field: bool currentEvents = 1;
+     */
+    currentEvents: boolean;
 }
 /**
  * @generated from protobuf message fibertest30.reporting.GetOpticalEventsResponse
@@ -62,7 +66,9 @@ export const GetSystemEventsResponse = new GetSystemEventsResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GetOpticalEventsRequest$Type extends MessageType<GetOpticalEventsRequest> {
     constructor() {
-        super("fibertest30.reporting.GetOpticalEventsRequest", []);
+        super("fibertest30.reporting.GetOpticalEventsRequest", [
+            { no: 1, name: "currentEvents", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+        ]);
     }
 }
 /**

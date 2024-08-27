@@ -25,8 +25,8 @@ export class ReportingService {
     return GrpcUtils.unaryToObservable(this.client.getSystemEvents.bind(this.client), request, {});
   }
 
-  getOpticalEvents(): Observable<gprc.GetOpticalEventsResponse> {
-    const request: gprc.GetOpticalEventsRequest = {};
+  getOpticalEvents(currentEvents: boolean): Observable<gprc.GetOpticalEventsResponse> {
+    const request: gprc.GetOpticalEventsRequest = { currentEvents };
     return GrpcUtils.unaryToObservable(this.client.getOpticalEvents.bind(this.client), request, {});
   }
 }

@@ -26,12 +26,13 @@ export class OpticalEventsComponent {
     this.refresh();
   }
 
-  checked = false;
+  checked = true;
   onToggle() {
-    //
+    this.checked = !this.checked;
+    this.refresh();
   }
 
   refresh() {
-    this.store.dispatch(OpticalEventsActions.getOpticalEvents());
+    this.store.dispatch(OpticalEventsActions.getOpticalEvents({ currentEvents: this.checked }));
   }
 }

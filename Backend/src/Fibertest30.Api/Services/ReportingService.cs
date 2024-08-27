@@ -29,7 +29,8 @@ public class ReportingService : Reporting.ReportingBase
     public override async Task<GetOpticalEventsResponse> GetOpticalEvents(GetOpticalEventsRequest request,
         ServerCallContext context)
     {
-        var opticalEvents = await _mediator.Send(new GetOpticalEventsQuery(), context.CancellationToken);
+        var opticalEvents = 
+            await _mediator.Send(new GetOpticalEventsQuery(request.CurrentEvents), context.CancellationToken);
 
         var response = new GetOpticalEventsResponse() { OpticalEvents = { opticalEvents.Select(x => x.ToProto()) } };
 

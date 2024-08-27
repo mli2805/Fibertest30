@@ -13,8 +13,8 @@ export class OpticalEventsEffects {
   getOpticalEvents = createEffect(() =>
     this.actions$.pipe(
       ofType(OpticalEventsActions.getOpticalEvents),
-      switchMap(() =>
-        this.reportingService.getOpticalEvents().pipe(
+      switchMap(({ currentEvents }) =>
+        this.reportingService.getOpticalEvents(currentEvents).pipe(
           map((response) => {
             return OpticalEventsActions.getOpticalEventsSuccess({
               opticalEvents: MapUtils.toOpticalEvents(response.opticalEvents)

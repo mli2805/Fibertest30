@@ -22,7 +22,9 @@ message GetSystemEventsResponse {
 
 // GetOpticalEvents
 
-message GetOpticalEventsRequest {}
+message GetOpticalEventsRequest {
+    bool currentEvents = 1;
+}
 message GetOpticalEventsResponse {
     repeated data.reporting.OpticalEvent opticalEvents = 1;
 }

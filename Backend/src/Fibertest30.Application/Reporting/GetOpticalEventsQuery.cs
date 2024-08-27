@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Fibertest30.Application;
 
-public record GetOpticalEventsQuery() : IRequest<List<OpticalEventDto>>;
+public record GetOpticalEventsQuery(bool Current) : IRequest<List<OpticalEventDto>>;
 
 public class GetOpticalEventsQueryHandler : IRequestHandler<GetOpticalEventsQuery, List<OpticalEventDto>>
 {
@@ -23,7 +23,7 @@ public class GetOpticalEventsQueryHandler : IRequestHandler<GetOpticalEventsQuer
     public Task<List<OpticalEventDto>> Handle(GetOpticalEventsQuery request, CancellationToken cancellationToken)
     {
         var userId = _currentUserService.UserId;
-        var portion = _tableProvider.GetOpticalEvents(Guid.Parse(userId!));
+        var portion = _tableProvider.GetOpticalEvents(Guid.Parse(userId!), request.Current);
         return Task.FromResult(portion);
     }
 }
