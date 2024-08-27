@@ -16,9 +16,9 @@ public class RtuContext : IdentityDbContext<ApplicationUser>
     
   
 
-    protected override void OnModelCreating(ModelBuilder bulider)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        bulider.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        base.OnModelCreating(bulider);
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        base.OnModelCreating(builder);
     }
 }

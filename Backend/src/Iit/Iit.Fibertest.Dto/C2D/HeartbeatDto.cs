@@ -6,9 +6,8 @@ namespace Iit.Fibertest.Dto
     public class HeartbeatDto
     {
         [DataMember]
-        public string ConnectionId { get; set; }
+        public string ConnectionId { get; set; } = string.Empty;
 
-        [DataMember]
-        public string ClientIp { get; set; }
+        [DataMember] public string ClientIp { get; set; } = string.Empty;
     }
 }

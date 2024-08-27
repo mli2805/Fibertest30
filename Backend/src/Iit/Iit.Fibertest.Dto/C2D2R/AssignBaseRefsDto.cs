@@ -6,12 +6,12 @@ namespace Iit.Fibertest.Dto
     public class AssignBaseRefsDto
     {
         [DataMember]
-        public string Username { get; set; }
+        public string Username { get; set; } = null!;
         [DataMember]
-        public string ClientIp { get; set; }
+        public string ClientIp { get; set; } = null!;
 
         [DataMember]
-        public string ConnectionId { get; set; }
+        public string ConnectionId { get; set; } = null!;
 
         [DataMember]
         public Guid RtuId { get; set; } 
@@ -19,21 +19,21 @@ namespace Iit.Fibertest.Dto
         public RtuMaker RtuMaker { get; set; }
 
         [DataMember]
-        public string OtdrId { get; set; } //  in VeEX RTU main OTDR has its own ID
+        public string? OtdrId { get; set; } //  in VeEX RTU main OTDR has its own ID
         
         [DataMember]
         public Guid TraceId { get; set; }
 
         [DataMember]
-        public OtauPortDto OtauPortDto { get; set; } // could be null if trace isn't attached to port yet
+        public OtauPortDto? OtauPortDto { get; set; } // could be null if trace isn't attached to port yet
 
         [DataMember]
-        public OtauPortDto MainOtauPortDto { get; set; } // optional, filled in if trace attached to the child otau
+        public OtauPortDto? MainOtauPortDto { get; set; } // optional, filled in if trace attached to the child otau
 
         [DataMember]
-        public List<BaseRefDto> BaseRefs { get; set; }
+        public List<BaseRefDto> BaseRefs { get; set; } = null!;
 
         [DataMember]
-        public List<int> DeleteOldSorFileIds { get; set; } = new List<int>();
+        public List<int> DeleteOldSorFileIds { get; set; } = new();
     }
 }

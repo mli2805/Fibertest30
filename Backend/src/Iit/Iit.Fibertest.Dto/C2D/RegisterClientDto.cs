@@ -6,23 +6,23 @@ namespace Iit.Fibertest.Dto
     public class RegisterClientDto
     {
         [DataMember]
-        public string ClientIp { get; set; }
+        public string ClientIp { get; set; } = null!;
 
         [DataMember]
-        public DoubleAddress Addresses { get; set; }
+        public DoubleAddress Addresses { get; set; } = null!;
 
         [DataMember]
-        public string ConnectionId { get; set; }
+        public string ConnectionId { get; set; } = null!;
 
         [DataMember]
-        public string UserName { get; set; }
+        public string UserName { get; set; } = null!;
         [DataMember]
-        public string Password { get; set; }
+        public string Password { get; set; } = null!;
 
         [DataMember]
-        public string MachineKey { get; set; }
+        public string MachineKey { get; set; } = null!;
         [DataMember]
-        public string SecurityAdminPassword { get; set; } // Hashed
+        public string SecurityAdminPassword { get; set; } = null!; // Hashed
 
         [DataMember]
         public bool IsUnderSuperClient { get; set; }

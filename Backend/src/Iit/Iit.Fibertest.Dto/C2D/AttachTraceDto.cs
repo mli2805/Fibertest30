@@ -6,13 +6,13 @@ namespace Iit.Fibertest.Dto
     public class AttachTraceDto
     {
         [DataMember]
-        public string ClientIp { get; set; }
+        public string ClientIp { get; set; } = string.Empty;
 
         [DataMember]
-        public string ConnectionId { get; set; }
+        public string ConnectionId { get; set; } = string.Empty;
 
         [DataMember]
-        public string Username { get; set; }
+        public string Username { get; set; } = string.Empty;
 
         [DataMember]
         public RtuMaker RtuMaker { get; set; }
@@ -20,11 +20,11 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public Guid TraceId { get; set; }
 
-        [DataMember]
-        public OtauPortDto OtauPortDto { get; set; } // if trace attached to main otau use only this property
+        [DataMember] 
+        public OtauPortDto OtauPortDto { get; set; } = null!; // if trace attached to main otau use only this property
 
         [DataMember]
-        public OtauPortDto MainOtauPortDto { get; set; } // veex cannot measure bop without this, use it if trace attached to bop
+        public OtauPortDto? MainOtauPortDto { get; set; } // veex cannot measure bop without this, use it if trace attached to bop
 
     }
 }

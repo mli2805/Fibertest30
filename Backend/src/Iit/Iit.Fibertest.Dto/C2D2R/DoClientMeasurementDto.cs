@@ -6,25 +6,25 @@ namespace Iit.Fibertest.Dto
     public class DoClientMeasurementDto
     {
         [DataMember]
-        public string ConnectionId { get; set; }
+        public string ConnectionId { get; set; } = null!;
         [DataMember]
-        public string ClientIp { get; set; }
+        public string ClientIp { get; set; } = null!;
 
         [DataMember]
         public Guid RtuId { get; set; }
 
         [DataMember]
-        public List<MeasParamByPosition> SelectedMeasParams { get; set; }
+        public List<MeasParamByPosition> SelectedMeasParams { get; set; } = null!;
         [DataMember]
         public VeexMeasOtdrParameters? VeexMeasOtdrParameters { get; set; }
         [DataMember]
-        public AnalysisParameters AnalysisParameters { get; set; }
+        public AnalysisParameters? AnalysisParameters { get; set; }
 
         [DataMember]
-        public List<OtauPortDto> OtauPortDto { get; set; }
+        public List<OtauPortDto> OtauPortDto { get; set; } = null!;
 
         [DataMember]
-        public string OtdrId { get; set; }
+        public string OtdrId { get; set; } = null!;
 
         // true - apply semi-analysis (only start/end and one section between them (for auto base ref mode)
         // false - apply full auto analysis (usual client measurement)

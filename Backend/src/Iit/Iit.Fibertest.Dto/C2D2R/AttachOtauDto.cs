@@ -6,10 +6,10 @@ namespace Iit.Fibertest.Dto
     public class AttachOtauDto
     {
         [DataMember]
-        public string ClientIp { get; set; }
+        public string ClientIp { get; set; } = null!;
 
         [DataMember]
-        public string ConnectionId { get; set; }
+        public string ConnectionId { get; set; } = null!;
 
         [DataMember]
         public Guid RtuId { get; set; }
@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Dto
         public Guid OtauId { get; set; }
 
         [DataMember]
-        public NetAddress NetAddress { get; set; }
+        public NetAddress NetAddress { get; set; } = null!;
 
         [DataMember]
         public int OpticalPort { get; set; }
