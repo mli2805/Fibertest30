@@ -30,7 +30,6 @@
     <Protobuf Include="Protos\identity.proto" ProtoRoot="Protos" GrpcServices="Server" />
     <Protobuf Include="Protos\measurement.proto" ProtoRoot="Protos" GrpcServices="Server" />
     <Protobuf Include="Protos\reporting.proto" ProtoRoot="Protos" GrpcServices="Server" />
-    <Protobuf Include="Protos\prometheus.proto" ProtoRoot="Protos" GrpcServices="Server" />
     <Protobuf Include="Protos\rtu_tree.proto" ProtoRoot="Protos" GrpcServices="Server" />
     <Protobuf Include="Protos\rtu_mgmt.proto" ProtoRoot="Protos" GrpcServices="Server" />
   </ItemGroup>

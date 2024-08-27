@@ -206,11 +206,7 @@ void MapGrpcServices(WebApplication app, bool startGrpcReflectionService)
         .EnableGrpcWeb()
         .RequireCors("AllowAll");
 
-    app.MapGrpcService<PrometheusService>()
-        .EnableGrpcWeb()
-        .RequireCors("AllowAll");
-
-  
+ 
     app.MapGrpcService<RtuTreeService>()
           .EnableGrpcWeb()
           .RequireCors("AllowAll");

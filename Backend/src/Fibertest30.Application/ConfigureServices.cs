@@ -2,7 +2,6 @@
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Fibertest30.Applications;
 using Iit.Fibertest.Graph;
 using System.Reflection;
 
@@ -33,8 +32,6 @@ public static class ConfigureServices
         services.AddSingleton<ISnmpChannelSender, SnmpChannelSender>();
         services.AddSingleton<IInAppChannelSender, InAppChannelSender>();
         
-        services.AddSingleton<IPrometheusPushService, PrometheusPushService>();
-        services.AddSingleton<IPrometheusQueryStringBuilder, PrometheusQueryStringBuilder>();
         services.AddScoped<IUserRolePermissionProvider, UserRolePermissionProvider>();
 
         services.AddSingleton<TableProvider>();

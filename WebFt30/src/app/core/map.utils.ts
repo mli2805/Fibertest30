@@ -230,20 +230,6 @@ export class MapUtils {
     return result;
   }
 
-  static toDataPoints(grpcDataPoints: grpc.DataPoint[]): DataPoint[] {
-    const result = grpcDataPoints.map((item) => {
-      // borrowed from the Timestamp.toDate(...), we spare a single call of new Date(...)
-      const timestamp =
-        PbLong.from(item.x!.seconds).toNumber() * 1000 + Math.ceil(item.x!.nanos / 1000000);
-
-      return {
-        x: timestamp,
-        y: item.y
-      };
-    });
-    return result;
-  }
-
   static toSystemEvents(grpcSystemEvents: grpc.SystemEvent[]): SystemEvent[] {
     const systemEvents = grpcSystemEvents.map((item) => MapUtils.toSystemEvent(item));
     return systemEvents;
