@@ -1,11 +1,11 @@
 syntax = "proto3";
 import "data.core.proto";
-import "data.reporting.proto";
+import "events.data.proto";
 
 option csharp_namespace = "Fibertest30.Api";
-package fibertest30.reporting;
+package fibertest30.event_tables;
 
-service Reporting {
+service EventTables {
   rpc GetSystemEvents (GetSystemEventsRequest) returns (GetSystemEventsResponse);
   rpc GetOpticalEvents (GetOpticalEventsRequest) returns (GetOpticalEventsResponse);
 }
@@ -26,7 +26,7 @@ message GetOpticalEventsRequest {
     bool currentEvents = 1;
 }
 message GetOpticalEventsResponse {
-    repeated data.reporting.OpticalEvent opticalEvents = 1;
+    repeated events.data.OpticalEvent opticalEvents = 1;
 }
 
 

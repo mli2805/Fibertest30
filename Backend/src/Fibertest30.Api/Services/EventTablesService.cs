@@ -3,11 +3,11 @@ using MediatR;
 
 namespace Fibertest30.Api;
 
-public class ReportingService : Reporting.ReportingBase
+public class EventTablesService : EventTables.EventTablesBase
 {
     private readonly ISender _mediator;
 
-    public ReportingService(ISender mediator)
+    public EventTablesService(ISender mediator)
     {
         _mediator = mediator;
     }

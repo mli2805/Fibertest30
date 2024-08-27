@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
-import { ReportingComponent } from './reporting/reporting.component';
-import { ReportingRoutingModule } from './reporting-routing';
+import { EventTablesComponent } from './event-tables.component';
+import { EventTablesRoutingModule } from './event-tables-routing';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SystemEventsComponent } from './system-events/system-events.component';
 import { FiberizerCoreModule } from '../fiberizer-core/fiberizer-core.module';
@@ -16,7 +16,7 @@ import { RtuStatusEventsComponent } from './rtu-status-events/rtu-status-events.
 
 @NgModule({
   imports: [
-    ReportingRoutingModule,
+    EventTablesRoutingModule,
     SharedModule,
     FiberizerCoreModule,
     ScrollingModule,
@@ -24,7 +24,7 @@ import { RtuStatusEventsComponent } from './rtu-status-events/rtu-status-events.
   ],
   exports: [],
   declarations: [
-    ReportingComponent,
+    EventTablesComponent,
     SystemEventsComponent,
     NoDataOrLoadMoreComponent,
     InverseCdkScrollOffsetDirective,
@@ -35,4 +35,4 @@ import { RtuStatusEventsComponent } from './rtu-status-events/rtu-status-events.
   ],
   providers: []
 })
-export class ReportingModule {}
+export class EventTablesModule {}

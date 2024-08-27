@@ -59,10 +59,10 @@ import { CollapseBranchComponent } from './components/svg-buttons/collapse-branc
 import { SquarePictogramComponent } from './components/svg-buttons/square-pictogram.component';
 import { IitLogoComponent } from './components/svg-buttons/iit-logo.component';
 import { TrianglePictogramComponent } from './components/svg-buttons/triangle-pictogram.component';
-import { FiberStateBgDirective } from '../features/reporting/optical-events/colorize-bg-by-fiberstate.directive';
+import { FiberStateBgDirective } from '../features/event-tables/optical-events/colorize-bg-by-fiberstate.directive';
 import { FiberStatePipe } from './pipes/fiberstate.pipe';
 import { EventStatusPipe } from './pipes/event-status.pipe';
-import { EventStatusBgDirective } from '../features/reporting/optical-events/colorize-bg-by-eventstatus.directive';
+import { EventStatusBgDirective } from '../features/event-tables/optical-events/colorize-bg-by-eventstatus.directive';
 
 @NgModule({
   imports: [

@@ -25,15 +25,16 @@ const routes: Routes = [
         loadChildren: () => import('../../../features/rtus/rtus.module').then((m) => m.RtusModule)
       },
       {
+        path: 'event-tables',
+        loadChildren: () =>
+          import('../../../features/event-tables/event-tables.module').then(
+            (m) => m.EventTablesModule
+          )
+      },
+      {
         path: 'rfts-setup',
         loadChildren: () =>
           import('../../../features/ft-settings/ft-settings.module').then((m) => m.RftsSetupModule)
-      },
-
-      {
-        path: 'reporting',
-        loadChildren: () =>
-          import('../../../features/reporting/reporting.module').then((m) => m.ReportingModule)
       },
       {
         path: 'gis',

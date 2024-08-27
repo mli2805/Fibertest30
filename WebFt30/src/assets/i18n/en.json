@@ -252,7 +252,10 @@
   "i18n.notification-settings.verify-smtp-server-certificate": "Verify SMTP server certificate",
   "i18n.ntp-settings.primary-ntp-server": "Primary NTP server",
   "i18n.ntp-settings.secondary-ntp-server": "Secondary NTP server",
+
   "i18n.ft.available-actions": "Available actions",
+  "i18n.ft.events": "Events",
+
   "i18n.ft.auto-mode": "Auto mode",
   "i18n.ft.averaging": "Averaging",
   "i18n.ft.averaging-time": "Averaging time",
@@ -331,13 +334,6 @@
   "i18n.quick-analysis.cant-load-quick-analysis": "Can't load Quick Analysis",
   "i18n.quick-analysis.test-port": "Test port",
   "i18n.quick-analysis.time-range": "Time range",
-  "i18n.reporting.alarm-events": "Alarm events",
-  "i18n.reporting.alarms": "Alarms",
-  "i18n.reporting.all-alarms": "All alarms",
-  "i18n.reporting.baseline-history": "Baseline history",
-  "i18n.reporting.group-history": "Group history",
-  "i18n.reporting.monitoring-history": "Monitoring history",
-  "i18n.reporting.system-events": "System events",
   "i18n.start-page.alarms": "Alarms",
   "i18n.start-page.dashboard": "Dashboard",
 
@@ -385,6 +381,7 @@
   "i18n.ft.network-events": "RTU network events ",
   "i18n.ft.bop-network-events": "BOP network events",
   "i18n.ft.rtu-status-events": "RTU status events",
+  "i18n.ft.system-events": "System events",
 
   "i18n.ft.event-id": "Event ID",
   "i18n.ft.measurement-terminated-at": "Measurement terminated at",
@@ -421,7 +418,6 @@
 
   "i18n.start-page.gis": "Gis",
   "i18n.start-page.notifications": "Notifications",
-  "i18n.start-page.reporting": "Reporting",
   "i18n.start-page.rfts-setup": "RFTS setup",
   "i18n.system-events-viewer.affected-properties": "Affected properties",
   "i18n.system-events-viewer.baseline-completed": "Baseline completed",

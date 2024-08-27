@@ -8,8 +8,8 @@
       class="available-action"
       [routerLink]="['./optical-events']"
       routerLinkActive
-      #rlaAlarms="routerLinkActive"
-      [ngClass]="rlaAlarms.isActive ? 'action-active' : 'action-non-active'"
+      #rlaOpticalEvents="routerLinkActive"
+      [ngClass]="rlaOpticalEvents.isActive ? 'action-active' : 'action-non-active'"
     >
       <!-- prettier-ignore -->
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41.733 40" class="h-8 w-8">
@@ -65,8 +65,8 @@
       class="available-action"
       [routerLink]="['./network-events']"
       routerLinkActive
-      #rlaBaselineHistory="routerLinkActive"
-      [ngClass]="rlaBaselineHistory.isActive ? 'action-active' : 'action-non-active'"
+      #rlaNetworkEvents="routerLinkActive"
+      [ngClass]="rlaNetworkEvents.isActive ? 'action-active' : 'action-non-active'"
     >
       <!-- prettier-ignore -->
       <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 35.857 40.75">
@@ -129,8 +129,8 @@
       class="available-action"
       [routerLink]="['./bop-network-events']"
       routerLinkActive
-      #rlaMonitoringHistory="routerLinkActive"
-      [ngClass]="rlaMonitoringHistory.isActive ? 'action-active' : 'action-non-active'"
+      #rlaBopNetworkEvents="routerLinkActive"
+      [ngClass]="rlaBopNetworkEvents.isActive ? 'action-active' : 'action-non-active'"
     >
       <!-- prettier-ignore -->
       <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 35.857 40.75">
@@ -193,8 +193,8 @@
       class="available-action"
       [routerLink]="['./rtu-status-events']"
       routerLinkActive
-      #rlaMonitoringHistory="routerLinkActive"
-      [ngClass]="rlaMonitoringHistory.isActive ? 'action-active' : 'action-non-active'"
+      #rlaRtuStatusEvents="routerLinkActive"
+      [ngClass]="rlaRtuStatusEvents.isActive ? 'action-active' : 'action-non-active'"
     >
       <!-- prettier-ignore -->
       <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 35.857 40.75">
@@ -348,7 +348,7 @@
     </svg>
 
       <div class="my-auto text-center text-xs">
-        {{ 'i18n.reporting.system-events' | translate }}
+        {{ 'i18n.ft.system-events' | translate }}
       </div>
     </div>
   </div>

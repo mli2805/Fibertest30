@@ -202,7 +202,7 @@ void MapGrpcServices(WebApplication app, bool startGrpcReflectionService)
         .EnableGrpcWeb()
         .RequireCors("AllowAll");
 
-    app.MapGrpcService<ReportingService>()
+    app.MapGrpcService<EventTablesService>()
         .EnableGrpcWeb()
         .RequireCors("AllowAll");
 

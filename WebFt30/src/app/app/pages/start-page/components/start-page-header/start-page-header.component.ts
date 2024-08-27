@@ -34,12 +34,12 @@ export class StartPageHeaderComponent {
       /^\/rfts-setup\/monitoring\/monitoring-profiles$/,
       { titleId: 'i18n.monitoring.monitoring-profiles' }
     ],
-    [/^\/reporting$/, { titleId: 'i18n.start-page.reporting' }],
-    [/^\/reporting\/system-events$/, { titleId: 'i18n.page-title.system-events' }],
-    [/^\/reporting\/monitoring-history$/, { titleId: 'i18n.page-title.monitoring-history' }],
-    [/^\/reporting\/baseline-history$/, { titleId: 'i18n.page-title.baseline-history' }],
-    [/^\/reporting\/alarm-view$/, { titleId: 'i18n.page-title.alarm-view' }],
-    [/^\/reporting\/alarms$/, { titleId: 'i18n.reporting.alarms' }],
+    [/^\/event-tables$/, { titleId: 'i18n.ft.events' }],
+    [/^\/event-tables\/system-events$/, { titleId: 'i18n.ft.system-events' }],
+    [/^\/event-tables\/optical-events$/, { titleId: 'i18n.ft.optical-events' }],
+    [/^\/event-tables\/network-events$/, { titleId: 'i18n.ft.network-events' }],
+    [/^\/event-tables\/bop-network-events$/, { titleId: 'i18n.ft.bop-network-events' }],
+    [/^\/event-tables\/rtu-status-events$/, { titleId: 'i18n.ft.rtu-status-events' }],
     [/^\/gis$/, { titleId: 'i18n.start-page.gis' }],
     [
       /^\/rfts-setup\/monitoring\/ports\/\d+\/dashboard\/\d+$/,

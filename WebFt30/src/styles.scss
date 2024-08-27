@@ -257,7 +257,7 @@
     @apply sticky top-0 z-10 bg-rtu-primary-bg dark:bg-rtu-dark-primary-bg;
   }
 
-  .reporting-table {
+  .events-table {
     @apply min-w-full text-sm;
 
     & thead {
@@ -281,7 +281,7 @@
     }
 
     & td {
-      @apply py-3;
+      @apply py-2;
     }
   }
 

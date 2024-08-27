@@ -34,15 +34,11 @@ export class HighlightNavigationService {
         // this.alarmsAlarmEventId = null;
 
         if (
-          prev.startsWith('/reporting/monitoring-history/') &&
-          curr === '/reporting/monitoring-history'
+          prev.startsWith('/event-tables/optical-events/') &&
+          curr === '/event-tables/optical-events'
         ) {
           this.monitoringHistoryMonitoringId = +this.getIdFromUrl(prev);
         }
-
-        // if (prev.startsWith('/reporting/alarms/') && curr === '/reporting/alarms') {
-        //   this.alarmsAlarmEventId = +this.getIdFromUrl(prev);
-        // }
       });
   }
 

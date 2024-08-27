@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ReportingComponent } from './reporting/reporting.component';
+import { EventTablesComponent } from './event-tables.component';
 import { SystemEventsComponent } from './system-events/system-events.component';
 import { OpticalEventsComponent } from './optical-events/optical-events.component';
 import { NewtorkEventsComponent } from './newtork-events/newtork-events.component';
@@ -11,7 +11,7 @@ import { RtuStatusEventsComponent } from './rtu-status-events/rtu-status-events.
 export const routes: Routes = [
   {
     path: '',
-    component: ReportingComponent,
+    component: EventTablesComponent,
     children: [
       {
         path: '',
@@ -35,4 +35,4 @@ export const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ReportingRoutingModule {}
+export class EventTablesRoutingModule {}

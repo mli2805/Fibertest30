@@ -1,6 +1,6 @@
 ﻿namespace Fibertest30.Api;
 
-public static class ReportingMapping
+public static class EventTablesMapping
 {
     public static OpticalEvent ToProto(this Iit.Fibertest.Dto.OpticalEventDto dto)
     {

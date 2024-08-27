@@ -2,7 +2,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
-import { ReportingService } from '../../grpc';
+import { EventTablesService } from '../../grpc';
 import { MapUtils } from '../../map.utils';
 import { of } from 'rxjs';
 import { OpticalEventsActions } from './optical-events.actions';
@@ -14,7 +14,7 @@ export class OpticalEventsEffects {
     this.actions$.pipe(
       ofType(OpticalEventsActions.getOpticalEvents),
       switchMap(({ currentEvents }) =>
-        this.reportingService.getOpticalEvents(currentEvents).pipe(
+        this.eventTablesService.getOpticalEvents(currentEvents).pipe(
           map((response) => {
             return OpticalEventsActions.getOpticalEventsSuccess({
               opticalEvents: MapUtils.toOpticalEvents(response.opticalEvents)
@@ -32,5 +32,5 @@ export class OpticalEventsEffects {
     )
   );
 
-  constructor(private actions$: Actions, private reportingService: ReportingService) {}
+  constructor(private actions$: Actions, private eventTablesService: EventTablesService) {}
 }

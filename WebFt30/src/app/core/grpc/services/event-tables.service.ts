@@ -9,15 +9,15 @@ import * as gprc from 'src/grpc-generated';
 @Injectable({
   providedIn: 'root'
 })
-export class ReportingService {
+export class EventTablesService {
   private authInterceptor = inject(AuthInterceptor);
-  private client: gprc.ReportingClient;
+  private client: gprc.EventTablesClient;
 
   constructor() {
     const interceptors = [this.authInterceptor.toRpcInterceptor()];
     const options = GrpcUtils.getGrpcOptions(GrpcUtils.getApiUrl(), interceptors);
     const transport = new GrpcWebFetchTransport(options);
-    this.client = new gprc.ReportingClient(transport);
+    this.client = new gprc.EventTablesClient(transport);
   }
 
   getSystemEvents(): Observable<gprc.GetSystemEventsResponse> {

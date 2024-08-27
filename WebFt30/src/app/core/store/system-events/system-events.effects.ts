@@ -2,7 +2,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
-import { ReportingService } from '../../grpc';
+import { EventTablesService } from '../../grpc';
 import { MapUtils } from '../../map.utils';
 import { of } from 'rxjs';
 import { SystemEventsActions } from './system-events.actions';
@@ -14,7 +14,7 @@ export class SystemEventsEffects {
     this.actions$.pipe(
       ofType(SystemEventsActions.getSystemEvents),
       switchMap(() =>
-        this.reportingService.getSystemEvents().pipe(
+        this.eventTablesService.getSystemEvents().pipe(
           map((response) => {
             return SystemEventsActions.getSystemEventsSuccess({
               systemEvents: MapUtils.toSystemEvents(response.systemEvents)
@@ -30,5 +30,5 @@ export class SystemEventsEffects {
     )
   );
 
-  constructor(private actions$: Actions, private reportingService: ReportingService) {}
+  constructor(private actions$: Actions, private eventTablesService: EventTablesService) {}
 }

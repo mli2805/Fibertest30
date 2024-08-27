@@ -1,5 +1,6 @@
 {
   "i18n.ft.available-actions": "Доступные действия",
+  "i18n.ft.events": "События",
 
   "i18n.ft.assign-base-refs": "Задать базовые",
   "i18n.ft.attach-optical-switch": "Подключить переключатель",
@@ -55,6 +56,7 @@
   "i18n.ft.network-events": "Сетевые события RTU",
   "i18n.ft.bop-network-events": "Сетевые события БОП",
   "i18n.ft.rtu-status-events": "События состояния RTU",
+  "i18n.ft.system-events": "Системные события",
 
   "i18n.ft.event-id": "ID события",
   "i18n.ft.measurement-terminated-at": "Время завершения измерения",
