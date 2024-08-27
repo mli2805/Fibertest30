@@ -19,7 +19,7 @@ namespace Fibertest30.Infrastructure
         {
             try
             {
-                var sorFile = new SorFile() { SorBytes = sorBytes };
+                var sorFile = new SorFile { SorBytes = sorBytes };
                 _ftDbContext.SorFiles.Add(sorFile);
                 await _ftDbContext.SaveChangesAsync();
 
@@ -36,7 +36,7 @@ namespace Fibertest30.Infrastructure
         {
             try
             {
-                var sorFiles = sors.Select(s => new SorFile() { SorBytes = s }).ToList();
+                var sorFiles = sors.Select(s => new SorFile { SorBytes = s }).ToList();
                 _ftDbContext.SorFiles.AddRange(sorFiles);
                 await _ftDbContext.SaveChangesAsync();
 

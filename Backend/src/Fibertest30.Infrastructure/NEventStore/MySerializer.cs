@@ -22,7 +22,7 @@ public class MySerializer : ISerialize
             using var sw = new StreamWriter(stream);
             using var jsonTextWriter = new JsonTextWriter(sw);
          
-            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings() {TypeNameHandling = TypeNameHandling.None});
+            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.None});
             serializer.Serialize(jsonTextWriter, ev);
         }
         catch (Exception e)
@@ -38,7 +38,7 @@ public class MySerializer : ISerialize
             using var sr = new StreamReader(stream);
             using var jsonTextReader = new JsonTextReader(sr);
 
-            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings() {TypeNameHandling = TypeNameHandling.All});
+            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All});
             var o = serializer.Deserialize<T>(jsonTextReader);
             return o == null ? default :  o;
         }

@@ -2,6 +2,7 @@
 using Lextm.SharpSnmpLib.Messaging;
 using Lextm.SharpSnmpLib.Security;
 using System.Net;
+
 #pragma warning disable CS0618
 
 namespace Fibertest30.Infrastructure;

@@ -1,5 +1,4 @@
 ﻿using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using MediatR;
 
 namespace Fibertest30.Application;
@@ -11,16 +10,11 @@ public class DoClientMeasurementCommandHandler : IRequestHandler<DoMeasurementCl
 {
     private readonly ICurrentUserService _currentUserService;
     private readonly IRtuManager _rtuManager;
-    private readonly ISystemEventSender _systemEventSender;
-    private readonly Model _writeModel;
 
-    public DoClientMeasurementCommandHandler(ICurrentUserService currentUserService, IRtuManager rtuManager,
-        ISystemEventSender systemEventSender, Model writeModel)
+    public DoClientMeasurementCommandHandler(ICurrentUserService currentUserService, IRtuManager rtuManager)
     {
         _currentUserService = currentUserService;
         _rtuManager = rtuManager;
-        _systemEventSender = systemEventSender;
-        _writeModel = writeModel;
     }
 
     public async Task<Unit> Handle(DoMeasurementClientCommand command, CancellationToken cancellationToken)

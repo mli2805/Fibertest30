@@ -78,7 +78,7 @@ public class RtuLinuxPollster : IRtuLinuxPollster
         var station = await rtuStationsRepository.GetRtuStation(rtu.Id);
         if (station == null) return;
 
-        var requestDto = new GetCurrentRtuStateDto()
+        var requestDto = new GetCurrentRtuStateDto
         {
             RtuId = station.RtuGuid,
             RtuDoubleAddress = station.GetRtuDoubleAddress(),
@@ -168,7 +168,7 @@ public class RtuLinuxPollster : IRtuLinuxPollster
                 .OrderBy(r => r.TimeStamp).Last().TimeStamp
             : DateTime.MinValue;
 
-        var heartbeatDto = new RtuChecksChannelDto()
+        var heartbeatDto = new RtuChecksChannelDto
         {
             RtuId = rtu.Id,
             Version = state.LastInitializationResult?.Result.Version ?? "",

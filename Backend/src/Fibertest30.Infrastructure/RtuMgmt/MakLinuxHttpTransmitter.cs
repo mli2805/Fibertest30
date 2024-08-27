@@ -21,7 +21,7 @@ public class MakLinuxHttpTransmitter : IRtuTransmitter
     public async Task<RtuConnectionCheckedDto> CheckRtuConnection(NetAddress netAddress, CancellationToken cancellationToken)
     {
         if (netAddress.Port == -1) netAddress.Port = (int)TcpPorts.RtuListenToHttp;
-        var result = new RtuConnectionCheckedDto()
+        var result = new RtuConnectionCheckedDto
         {
             NetAddress = netAddress.Clone(),
         };
@@ -79,11 +79,11 @@ public class MakLinuxHttpTransmitter : IRtuTransmitter
         {
             var response = await _httpClient.SendAsync(request);
             if (!response.IsSuccessStatusCode)
-                throw new FailedToConnectRtuException($"StatusCode: {{response.StatusCode}}; \" + response.ReasonPhrase");
+                throw new FailedToConnectRtuException("StatusCode: {response.StatusCode}; \" + response.ReasonPhrase");
 
             var responseJson = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<TResult>(responseJson);
-            if (result == null) return new TResult() { ReturnCode = ReturnCode.DeserializationError };
+            if (result == null) return new TResult { ReturnCode = ReturnCode.DeserializationError };
             return result;
         }
         catch (Exception e)

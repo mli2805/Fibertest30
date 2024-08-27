@@ -1,5 +1,6 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
+using MimeKit.Text;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 
@@ -93,9 +94,9 @@ public class EmailService : IEmailService
         if (attachments != null)
             foreach (var pair in attachments)
             {
-                var attachment = new MimePart()
+                var attachment = new MimePart
                 {
-                    Content = new MimeContent(new MemoryStream(pair.Item2), ContentEncoding.Default),
+                    Content = new MimeContent(new MemoryStream(pair.Item2)),
                     ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
                     ContentTransferEncoding = ContentEncoding.Base64,
                     FileName = pair.Item1,
@@ -152,7 +153,7 @@ public class EmailService : IEmailService
         }
         emailMessage.Subject = subject;
 
-        emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+        emailMessage.Body = new TextPart(TextFormat.Html)
         {
             Text = htmlMessage
         };

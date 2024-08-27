@@ -22,7 +22,7 @@ public class SystemEventSource
         
     }
     
-    public string? UserId { get; init; } = null;
-    public string? Source { get; init; } = null;
+    public string? UserId { get; init; }
+    public string? Source { get; init; }
     
 }

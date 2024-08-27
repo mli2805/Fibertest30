@@ -97,7 +97,7 @@ public partial class RtuManager : IRtuManager
 
     private RtuStation CreateRtuStation(RtuInitializedDto dto)
     {
-        var rtuStation = new RtuStation()
+        var rtuStation = new RtuStation
         {
             RtuGuid = dto.RtuId,
             Version = dto.Version,
@@ -122,7 +122,7 @@ public partial class RtuManager : IRtuManager
         await Task.Delay(20000);
 
         var count = 16; // 20 +  16 * 5 sec = 100 sec limit
-        var requestDto = new GetCurrentRtuStateDto() { RtuId = rtuId, RtuDoubleAddress = rtuDoubleAddress };
+        var requestDto = new GetCurrentRtuStateDto { RtuId = rtuId, RtuDoubleAddress = rtuDoubleAddress };
         while (--count >= 0)
         {
             await Task.Delay(5000);

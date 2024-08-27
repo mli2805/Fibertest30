@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Iit.Fibertest.Graph;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Iit.Fibertest.Graph;
 
 namespace Fibertest30.Infrastructure;
 
@@ -34,7 +34,7 @@ public static class ConfigureServices
             }
         });
 
-        services.AddIdentityCore<ApplicationUser>(options => { /*options.SignIn.RequireConfirmedAccount = true;*/ })
+        services.AddIdentityCore<ApplicationUser>(_ => { /*options.SignIn.RequireConfirmedAccount = true;*/ })
              .AddRoles<IdentityRole>()
              .AddEntityFrameworkStores<RtuContext>()
             //.AddDefaultTokenProviders()
@@ -96,7 +96,7 @@ public static class ConfigureServices
 
 public static class SqliteSharedConnection
 {
-    private static SqliteConnection? _connection = null;
+    private static SqliteConnection? _connection;
 
     public static SqliteConnection Get(string connectionString)
     {

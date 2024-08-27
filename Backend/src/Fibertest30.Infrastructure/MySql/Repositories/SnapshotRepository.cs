@@ -26,7 +26,7 @@ public class SnapshotRepository
             for (int i = 0; i <= data.Length / portion; i++)
             {
                 var payload = data.Skip(i * portion).Take(portion).ToArray();
-                var snapshot = new Snapshot()
+                var snapshot = new Snapshot
                 {
                     StreamIdOriginal = graphDbVersionId,
                     LastEventNumber = lastEventNumber,

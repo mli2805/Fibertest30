@@ -2,7 +2,7 @@ namespace Fibertest30.Application;
 
 public class SystemEvent : INotificationEvent
 {
-    public int Id { get; set; } = 0!;
+    public int Id { get; set; }
     public SystemEventType Type { get; init; }
     public SystemEventLevel Level { get; init; } 
     public ISystemEventData? Data { get; init; }  // null if event has no data

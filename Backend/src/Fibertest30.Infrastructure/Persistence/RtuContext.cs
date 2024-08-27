@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Fibertest30.Infrastructure.Persistence.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Fibertest30.Infrastructure.Persistence.Entities;
 using System.Reflection;
 
 namespace Fibertest30.Infrastructure;

@@ -191,7 +191,7 @@ public class RtuContextInitializer
     {
         if (await _context.NotificationSettings.AnyAsync()) return;
 
-        var emailServer = new EmailServer()
+        var emailServer = new EmailServer
         {
             Enabled = false,
             ServerAddress = "",
@@ -206,7 +206,7 @@ public class RtuContextInitializer
             SmsOverSmtp = false,
         };
 
-        var trapReceiver = new TrapReceiver()
+        var trapReceiver = new TrapReceiver
         {
             Enabled = false,
             SnmpVersion = "v1",
@@ -225,7 +225,7 @@ public class RtuContextInitializer
             TrapReceiverPort = 162
         };
 
-        var settings = new NotificationSettings() { EmailServer = emailServer, TrapReceiver = trapReceiver, };
+        var settings = new NotificationSettings { EmailServer = emailServer, TrapReceiver = trapReceiver, };
 
         _context.NotificationSettings.Add(settings.ToEf());
     }

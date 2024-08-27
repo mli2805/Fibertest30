@@ -28,7 +28,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         
         var userSingleRole = await _userRolePermissionProvider.GetUserSingleRole(user);
 
-        var tokenClaims = new List<Claim>()
+        var tokenClaims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),

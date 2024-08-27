@@ -30,7 +30,7 @@ public partial class RtuManager
                 foreach (var trace in _writeModel.Traces
                              .Where(t => t.RtuId == dto.RtuId && t.OtauPort != null && t.OtauPort.IsPortOnMainCharon))
                 {
-                    commandList.Add(new UpdateTracePort() { Id = trace.TraceId, Serial = result.Serial });
+                    commandList.Add(new UpdateTracePort { Id = trace.TraceId, Serial = result.Serial });
                 }
             }
 
@@ -42,7 +42,7 @@ public partial class RtuManager
                     t.RtuId == result.RtuId && t.Port >= result.OwnPortCount && t.OtauPort.Serial == originalRtu.Serial);
                 foreach (var trace in traces)
                 {
-                    var cmd = new DetachTrace() { TraceId = trace.TraceId };
+                    var cmd = new DetachTrace { TraceId = trace.TraceId };
                     commandList.Add(cmd);
                 }
             }
@@ -51,7 +51,7 @@ public partial class RtuManager
             if (!dto.IsFirstInitialization &&
                 originalRtu.MainVeexOtau.connected != result.MainVeexOtau.connected)
             {
-                commandList.Add(new AddBopNetworkEvent()
+                commandList.Add(new AddBopNetworkEvent
                 {
                     EventTimestamp = DateTime.Now,
                     RtuId = result.RtuId,
@@ -76,7 +76,7 @@ public partial class RtuManager
                         continue;
                     }
                     if (bop.IsOk != keyValuePair.Value.IsOk)
-                        commandList.Add(new AddBopNetworkEvent()
+                        commandList.Add(new AddBopNetworkEvent
                         {
                             EventTimestamp = DateTime.Now,
                             RtuId = result.RtuId,
@@ -93,7 +93,7 @@ public partial class RtuManager
 
         private AddRtuAccident CreateClearingAccidentCommand(InitializeRtuDto dto, RtuAccident accident, bool serialChanged)
         {
-            return new AddRtuAccident()
+            return new AddRtuAccident
             {
                 IsMeasurementProblem = true,
                 ReturnCode = serialChanged ? ReturnCode.MeasurementErrorCleared : ReturnCode.MeasurementErrorClearedByInit,

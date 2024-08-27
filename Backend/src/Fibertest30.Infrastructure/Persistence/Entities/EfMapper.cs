@@ -39,7 +39,7 @@ public static class EfMapper
 
     public static NotificationSettingsEf ToEf(this NotificationSettings notificationSettings)
     {
-        return new NotificationSettingsEf()
+        return new NotificationSettingsEf
         {
             Id = notificationSettings.Id,
             EmailServer = notificationSettings.EmailServer!.ToJsonData(),
@@ -49,7 +49,7 @@ public static class EfMapper
 
     public static NotificationSettings FromEf(this NotificationSettingsEf notificationSettingsEf)
     {
-        var settings = new NotificationSettings()
+        var settings = new NotificationSettings
         {
             Id = notificationSettingsEf.Id,
 

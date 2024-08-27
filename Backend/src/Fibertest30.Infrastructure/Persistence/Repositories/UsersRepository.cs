@@ -233,7 +233,7 @@ public class UsersRepository : IUsersRepository
 
     private ApplicationUser PatchToUser(ApplicationUserPatch patch)
     {
-        return new ApplicationUser()
+        return new ApplicationUser
         {
             Id = Guid.NewGuid().ToString(),
             UserName = patch.UserName!.ToLower(),

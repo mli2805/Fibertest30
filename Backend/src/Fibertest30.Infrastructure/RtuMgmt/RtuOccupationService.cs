@@ -54,9 +54,9 @@ public class RtuOccupationService : IRtuOccupationService
 
             if (!RtuStates.TryGetValue(rtuId, out RtuOccupationState? currentState)) 
             { ////////// NEW OCCUPATION /////////////////
-                state = new RtuOccupationState() { RtuOccupation = RtuOccupation.None };
+                state = new RtuOccupationState { RtuOccupation = RtuOccupation.None };
                 if (RtuStates.TryAdd(rtuId,
-                        new RtuOccupationState()
+                        new RtuOccupationState
                         {
                             // RtuId = rtuId,
                             RtuOccupation = newRtuOccupation,
@@ -76,7 +76,7 @@ public class RtuOccupationService : IRtuOccupationService
             if ((userName != ServerNameForTraps && currentState.UserName == userName)
                 || currentState.Expired < DateTime.Now)
             {  /////////  REFRESH   //////////////////
-                if (RtuStates.TryUpdate(rtuId, new RtuOccupationState()
+                if (RtuStates.TryUpdate(rtuId, new RtuOccupationState
                     {
                         // RtuId = rtuId,
                         RtuOccupation = newRtuOccupation,
