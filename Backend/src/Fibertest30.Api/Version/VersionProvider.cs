@@ -13,7 +13,7 @@ public class VersionProvider : IVersionProvider
         {
             var assembly = Assembly.GetExecutingAssembly();
             var fileInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-            _productVersion = fileInfo.ProductVersion ?? string.Empty;
+            _productVersion = fileInfo.FileVersion ?? string.Empty;
         }
 
         return _productVersion;

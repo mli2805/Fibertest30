@@ -10,7 +10,11 @@
         </div>
       </div>
 
-      <div class="text-xl font-black italic">Fibertest 3.0</div>
+      <div *ngIf="version$ | async as version">
+        <div class="mt-2 text-sm italic">
+          Fibertest <span>{{ version }}</span>
+        </div>
+      </div>
     </div>
   </div>
 

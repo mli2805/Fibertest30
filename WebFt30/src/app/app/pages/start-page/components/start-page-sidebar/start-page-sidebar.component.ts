@@ -14,6 +14,7 @@ export class StartPageSidebarComponent implements OnInit, OnDestroy {
   private clockInterval: any;
 
   theme$ = this.store.select(SettingsSelectors.selectTheme);
+  version$ = this.store.select(DeviceSelectors.selectApiVersion);
 
   constructor(private store: Store<AppState>) {}
 
