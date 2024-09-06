@@ -33,7 +33,7 @@ public class SnapshotRepository
                     LastEventDate = lastEventDate,
                     Payload = payload
                 };
-                _ftDbContext.Snapshots.Add(snapshot);
+                _ftDbContext.snapshots.Add(snapshot);
                 var result = await _ftDbContext.SaveChangesAsync();
                 if (result == 1)
                     _logger.LogInformation($"{i+1} portion,   {payload.Length} size");
@@ -54,7 +54,7 @@ public class SnapshotRepository
         {
 
             _logger.LogInformation("Snapshot reading...");
-            var portions = await _ftDbContext.Snapshots
+            var portions = await _ftDbContext.snapshots
                 .Where(l => l.StreamIdOriginal == graphDbVersionId)
                 .ToListAsync();
             if (!portions.Any())
@@ -90,9 +90,9 @@ public class SnapshotRepository
         {
             {
                 _logger.LogInformation("Snapshots removing...");
-                var maxLastEventNumber = _ftDbContext.Snapshots.Max(f => f.LastEventNumber); 
-                var oldSnapshotPortions = _ftDbContext.Snapshots.Where(f=>f.LastEventNumber != maxLastEventNumber).ToList();
-                _ftDbContext.Snapshots.RemoveRange(oldSnapshotPortions);
+                var maxLastEventNumber = _ftDbContext.snapshots.Max(f => f.LastEventNumber); 
+                var oldSnapshotPortions = _ftDbContext.snapshots.Where(f=>f.LastEventNumber != maxLastEventNumber).ToList();
+                _ftDbContext.snapshots.RemoveRange(oldSnapshotPortions);
                 return await _ftDbContext.SaveChangesAsync();
             }
         }

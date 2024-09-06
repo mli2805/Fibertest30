@@ -20,7 +20,7 @@ namespace Fibertest30.Infrastructure
             try
             {
                 var sorFile = new SorFile { SorBytes = sorBytes };
-                _ftDbContext.SorFiles.Add(sorFile);
+                _ftDbContext.sorFiles.Add(sorFile);
                 await _ftDbContext.SaveChangesAsync();
 
                 return sorFile.Id;
@@ -37,7 +37,7 @@ namespace Fibertest30.Infrastructure
             try
             {
                 var sorFiles = sors.Select(s => new SorFile { SorBytes = s }).ToList();
-                _ftDbContext.SorFiles.AddRange(sorFiles);
+                _ftDbContext.sorFiles.AddRange(sorFiles);
                 await _ftDbContext.SaveChangesAsync();
 
                 return sorFiles.Select(s => s.Id).ToList();
@@ -53,7 +53,7 @@ namespace Fibertest30.Infrastructure
         {
             try
             {
-                var record = await _ftDbContext.SorFiles.Where(s => s.Id == sorFileId).FirstOrDefaultAsync();
+                var record = await _ftDbContext.sorFiles.Where(s => s.Id == sorFileId).FirstOrDefaultAsync();
                 if (record == null) return -1;
                 record.SorBytes = sorBytes;
                 return await _ftDbContext.SaveChangesAsync();
@@ -69,7 +69,7 @@ namespace Fibertest30.Infrastructure
         {
             try
             {
-                var result = await _ftDbContext.SorFiles.Where(s => s.Id == sorFileId).FirstOrDefaultAsync();
+                var result = await _ftDbContext.sorFiles.Where(s => s.Id == sorFileId).FirstOrDefaultAsync();
                 return result?.SorBytes;
             }
             catch (Exception e)
@@ -83,9 +83,9 @@ namespace Fibertest30.Infrastructure
         {
             try
             {
-                var result = await _ftDbContext.SorFiles.Where(s => s.Id == sorFileId).FirstOrDefaultAsync();
+                var result = await _ftDbContext.sorFiles.Where(s => s.Id == sorFileId).FirstOrDefaultAsync();
                 if (result == null) return -1;
-                _ftDbContext.SorFiles.Remove(result);
+                _ftDbContext.sorFiles.Remove(result);
                 return await _ftDbContext.SaveChangesAsync();
             }
             catch (Exception e)
@@ -99,8 +99,8 @@ namespace Fibertest30.Infrastructure
         {
             try
             {
-                var sors = _ftDbContext.SorFiles.Where(s => sorIds.Contains(s.Id)).ToList();
-                _ftDbContext.SorFiles.RemoveRange(sors);
+                var sors = _ftDbContext.sorFiles.Where(s => sorIds.Contains(s.Id)).ToList();
+                _ftDbContext.sorFiles.RemoveRange(sors);
                 var recordsAffected = await _ftDbContext.SaveChangesAsync();
                 return recordsAffected;
             }

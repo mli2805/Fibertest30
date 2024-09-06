@@ -1,5 +1,6 @@
 ﻿using Iit.Fibertest.Dto;
 using Microsoft.EntityFrameworkCore;
+// ReSharper disable InconsistentNaming
 
 namespace Fibertest30.Infrastructure;
 public class FtDbContext : DbContext
@@ -8,7 +9,8 @@ public class FtDbContext : DbContext
     public FtDbContext(DbContextOptions<FtDbContext> options) : base(options) { }
 
 
-    public DbSet<RtuStation> RtuStations { get; set; }
-    public DbSet<SorFile> SorFiles { get; set; }
-    public DbSet<Snapshot> Snapshots { get; set; }
+    public DbSet<RtuStation> rtustations { get; set; }
+    public DbSet<SorFile> sorFiles { get; set; }
+    public DbSet<Snapshot> snapshots { get; set; }
+
 }

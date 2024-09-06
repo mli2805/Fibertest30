@@ -77,7 +77,7 @@ public class EventStoreInitializer
         {
             MySqlConnection connection = new MySqlConnection(EventSourcingConnectionString);
             MySqlCommand command = new MySqlCommand(
-                $"SELECT StreamIdOriginal FROM {EventSourcingScheme}.Commits", connection);
+                $"SELECT StreamIdOriginal FROM {EventSourcingScheme}.commits", connection);
             connection.Open();
             var result = (string)(command.ExecuteScalar() ?? 0);
             connection.Close();
