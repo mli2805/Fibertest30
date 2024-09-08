@@ -89,5 +89,9 @@
   "i18n.ft.not-confirmed": "Не подтверждено",
   "i18n.ft.unporcessed": "Не обработано",
   "i18n.ft.suspended": "Отложено",
-  "i18n.ft.confirmed": "Подтверждено"
+  "i18n.ft.confirmed": "Подтверждено",
+
+  "i18n.ft.username": "Имя пользователя",
+  "i18n.ft.password": "Пароль",
+  "i18n.ft.sign-in": "Войти"
 }

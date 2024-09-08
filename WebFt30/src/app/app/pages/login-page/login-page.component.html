@@ -4,19 +4,19 @@
     <div class="p-5">
       <div class="flex justify-between">
         <div>
-          <img
-            *ngIf="(theme$ | async) === 'dark'"
-            class="h-14"
-            src="./assets/img/VeEX_logo_dark.png"
-          />
-          <img *ngIf="(theme$ | async) !== 'dark'" class="h-14" src="./assets/img/VeEX_logo.png" />
+          <div *ngIf="(theme$ | async) !== 'dark'">
+            <rtu-iit-logo></rtu-iit-logo>
+          </div>
+          <div *ngIf="(theme$ | async) === 'dark'">
+            <rtu-iit-logo [fillColor]="'#D0D1D3'"></rtu-iit-logo>
+          </div>
         </div>
-        <div class="text-2xl">RFTS Manager</div>
+        <div class="text-2xl">Fibertest 3.0</div>
       </div>
       <!-- username -->
       <div class="relative mt-5">
         <div class="input-2-label pr-8">
-          <label for="rtu-username-id">{{ 'i18n.common.username' | translate }}</label>
+          <label for="rtu-username-id">{{ 'i18n.ft.username' | translate }}</label>
           <input
             autocomplete="off"
             type="text"
@@ -35,7 +35,7 @@
       <!-- password -->
       <div class="relative mt-5">
         <div class="input-2-label pr-8">
-          <label for="rtu-password-id">{{ 'i18n.common.password' | translate }}</label>
+          <label for="rtu-password-id">{{ 'i18n.ft.password' | translate }}</label>
           <input
             autocomplete="off"
             [type]="passwordInputType"
@@ -63,7 +63,7 @@
       </div>
       <div class="mt-5 flex justify-end">
         <button class="button-ok min-h-[3rem] min-w-36 select-none" (click)="signIn()">
-          {{ 'i18n.login-page.sign-in' | translate }}
+          {{ 'i18n.ft.sign-in' | translate }}
         </button>
       </div>
       <!-- error -->
@@ -75,7 +75,7 @@
     </div>
     <hr class="border-gray-300 dark:border-gray-600" />
     <div class="mt-1 text-center text-xs text-gray-600 dark:text-gray-300">
-      Copyright © VeEX {{ currentYear }}
+      Copyright © IIT {{ currentYear }}
     </div>
   </div>
 </div>
