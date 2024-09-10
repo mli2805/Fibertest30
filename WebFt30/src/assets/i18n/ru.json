@@ -93,5 +93,8 @@
 
   "i18n.ft.username": "Имя пользователя",
   "i18n.ft.password": "Пароль",
-  "i18n.ft.sign-in": "Войти"
+  "i18n.ft.sign-in": "Войти",
+
+  "i18n.first-start.complete-profile1": "Пожалуйста, смените пароль по умолчанию",
+  "i18n.first-start.complete-profile2": "и заполните профиль пользователя"
 }

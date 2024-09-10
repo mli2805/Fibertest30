@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fibertest30.Application\Fibertest30.Application.csproj" />
-    <ProjectReference Include="..\Iit\Iit.Fibertest.StringResources\Iit.Fibertest.StringResources.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +39,12 @@
 
   <ItemGroup>
     <Folder Include="MySql\Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Optixsoft.OtdrDataFormat">
+      <HintPath>..\..\libs\fiberizer\Optixsoft.OtdrDataFormat.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -13,6 +13,7 @@ public class RtuLinuxPollster : IRtuLinuxPollster
     private readonly IRtuOccupationService _rtuOccupationService;
     private readonly ISystemEventSender _systemEventSender;
     private readonly IServiceScopeFactory _serviceScopeFactory;
+    private readonly PollsterResultProcessor _pollsterResultProcessor;
     public TaskCompletionSource<bool> ServiceStopped { get; } = new();
     private readonly CancellationTokenSource _cts = new();
 
@@ -23,7 +24,8 @@ public class RtuLinuxPollster : IRtuLinuxPollster
 
     public RtuLinuxPollster(ILogger<RtuLinuxPollster> logger, Model writeModel,
         IRtuOccupationService rtuOccupationService,
-        ISystemEventSender systemEventSender, IServiceScopeFactory serviceScopeFactory
+        ISystemEventSender systemEventSender, IServiceScopeFactory serviceScopeFactory,
+        PollsterResultProcessor pollsterResultProcessor
     )
     {
         _logger = logger;
@@ -31,6 +33,7 @@ public class RtuLinuxPollster : IRtuLinuxPollster
         _rtuOccupationService = rtuOccupationService;
         _systemEventSender = systemEventSender;
         _serviceScopeFactory = serviceScopeFactory;
+        _pollsterResultProcessor = pollsterResultProcessor;
     }
 
     public async Task PollRtus(CancellationToken ct)
@@ -116,8 +119,7 @@ public class RtuLinuxPollster : IRtuLinuxPollster
 
         foreach (var dto in dtos)
         {
-            await Task.Delay(0);
-            //TODO обработать результат мониторинга, то что раньше делал msmqProcessor
+            await _pollsterResultProcessor.ProcessMonitoringResult(dto);
         }
 
     }
@@ -156,8 +158,7 @@ public class RtuLinuxPollster : IRtuLinuxPollster
         foreach (var dto in dtos)
         {
             _logger.LogInformation($"Transmit bop event {dto.OtauIp}:{dto.TcpPort}");
-            await Task.Delay(0);
-            //TODO обработать события БОП, то что раньше делал msmqProcessor
+            await _pollsterResultProcessor.ProcessBopStateChanges(dto);
         }
     }
 

@@ -87,6 +87,10 @@ public static class ConfigureServices
         services.AddScoped<IRtuManager, RtuManager>();
 
         services.AddSingleton<IRtuOccupationService, RtuOccupationService>();
+        services.AddSingleton<AccidentPlaceLocator>();
+        services.AddSingleton<AccidentsFromSorExtractor>();
+        services.AddSingleton<PollsterResultsDtoFactory>();
+        services.AddSingleton<PollsterResultProcessor>();
         services.AddSingleton<IRtuLinuxPollster, RtuLinuxPollster>();
 
         return services;

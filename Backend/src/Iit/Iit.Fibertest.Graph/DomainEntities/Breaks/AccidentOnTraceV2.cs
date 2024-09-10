@@ -28,8 +28,8 @@ namespace Iit.Fibertest.Graph
         public string EventCode { get; set; }
         public double DeltaLen { get; set; }
 
-        public AccidentNeighbour Left { get; set; }
-        public AccidentNeighbour Right { get; set; }
+        public AccidentNeighbour? Left { get; set; }
+        public AccidentNeighbour? Right { get; set; }
 
         public bool IsTheSame(AccidentOnTraceV2 other)
         {

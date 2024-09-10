@@ -1,8 +1,9 @@
 ﻿using GMap.NET;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Microsoft.Extensions.Logging;
 
-namespace Iit.Fibertest.Graph
+namespace Fibertest30.Infrastructure
 {
     public class AccidentPlaceLocator
     {

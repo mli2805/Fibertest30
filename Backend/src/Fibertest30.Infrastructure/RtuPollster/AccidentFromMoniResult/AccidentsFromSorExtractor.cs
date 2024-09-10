@@ -1,35 +1,33 @@
 ﻿using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Microsoft.Extensions.Logging;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
-namespace Iit.Fibertest.Graph
+namespace Fibertest30.Infrastructure
 {
-
     public class AccidentsFromSorExtractor
     {
         private readonly ILogger<AccidentsFromSorExtractor> _logger;
-        private readonly SorDataParsingReporter _sorDataParsingReporter;
         private readonly Model _writeModel;
         private readonly AccidentPlaceLocator _accidentPlaceLocator;
-        private OtdrDataKnownBlocks _sorData;
+        private OtdrDataKnownBlocks _sorData = null!;
 
-        private Guid _traceId;
-        private List<Node> _nodesExcludingAdjustmentPoints;
-        private Rtu _rtu;
-        private List<Equipment> _equipmentsWithoutPointsAndRtu;
+        private Guid _traceId = Guid.Empty;
+        private List<Node> _nodesExcludingAdjustmentPoints = null!;
+        private Rtu _rtu = null!;
+        private List<Equipment> _equipmentsWithoutPointsAndRtu = null!;
 
         public AccidentsFromSorExtractor(ILogger<AccidentsFromSorExtractor> logger, Model writeModel,
-            AccidentPlaceLocator accidentPlaceLocator, SorDataParsingReporter sorDataParsingReporter)
+            AccidentPlaceLocator accidentPlaceLocator)
         {
             _logger = logger;
-            _sorDataParsingReporter = sorDataParsingReporter;
             _writeModel = writeModel;
             _accidentPlaceLocator = accidentPlaceLocator;
         }
 
-        public List<AccidentOnTraceV2> GetAccidents(OtdrDataKnownBlocks sorData, Guid traceId, bool isForDebug)
+        public List<AccidentOnTraceV2> GetAccidents(OtdrDataKnownBlocks sorData, Guid traceId)
         {
             _sorData = sorData;
             _traceId = traceId;
@@ -37,7 +35,7 @@ namespace Iit.Fibertest.Graph
             {
                 _writeModel.GetTraceForAccidentDefine(traceId,
                     out _rtu, out _nodesExcludingAdjustmentPoints, out _equipmentsWithoutPointsAndRtu);
-                return GetAccidents(isForDebug);
+                return GetAccidents();
             }
             catch (Exception e)
             {
@@ -46,11 +44,8 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        private List<AccidentOnTraceV2> GetAccidents(bool isForDebug)
+        private List<AccidentOnTraceV2> GetAccidents()
         {
-            if (isForDebug)
-                _sorDataParsingReporter.DoReport(_sorData);
-
             var levels = new List<RftsLevelType>() { RftsLevelType.Critical, RftsLevelType.Major, RftsLevelType.Minor };
             var result = new List<AccidentOnTraceV2>();
             var rftsEventsBlocks = _sorData.GetRftsEventsBlockForEveryLevel().ToList();
@@ -88,7 +83,7 @@ namespace Iit.Fibertest.Graph
                 return true;
 
             if (accident.OpticalTypeOfAccident == OpticalAccidentType.TotalLoss &&
-                alreadyFound.Any(a=> a.OpticalTypeOfAccident == OpticalAccidentType.TotalLoss))
+                alreadyFound.Any(a => a.OpticalTypeOfAccident == OpticalAccidentType.TotalLoss))
                 return true;
 
             return false;
@@ -124,7 +119,7 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        private AccidentOnTraceV2 BuildAccidentInOldEvent(RftsEvent rftsEvent, 
+        private AccidentOnTraceV2 BuildAccidentInOldEvent(RftsEvent rftsEvent,
             OpticalAccidentType opticalAccidentTypeInRftsEvent, int keyEventIndex, RftsLevelType level)
         {
             var brokenLandmarkIndex = _sorData.GetLandmarkIndexForKeyEventIndex(keyEventIndex);
