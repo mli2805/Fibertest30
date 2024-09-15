@@ -4,20 +4,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace Fibertest30.Infrastructure;
-public class PollsterResultProcessor
+public class RtuDataProcessor
 {
     private readonly Model _writeModel;
-    private readonly ILogger<PollsterResultProcessor> _logger;
+    private readonly ILogger<RtuDataProcessor> _logger;
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly PollsterResultsDtoFactory _pollsterResultsDtoFactory;
+    private readonly ProcessedResultsDtoFactory _processedResultsDtoFactory;
 
-    public PollsterResultProcessor(Model writeModel, ILogger<PollsterResultProcessor> logger,
-        IServiceScopeFactory serviceScopeFactory, PollsterResultsDtoFactory pollsterResultsDtoFactory)
+    public RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger,
+        IServiceScopeFactory serviceScopeFactory, ProcessedResultsDtoFactory processedResultsDtoFactory)
     {
         _writeModel = writeModel;
         _logger = logger;
         _serviceScopeFactory = serviceScopeFactory;
-        _pollsterResultsDtoFactory = pollsterResultsDtoFactory;
+        _processedResultsDtoFactory = processedResultsDtoFactory;
     }
 
     public async Task ProcessBopStateChanges(BopStateChangedDto dto)
@@ -28,7 +28,7 @@ public class PollsterResultProcessor
             await CheckAndSendBopNetworkEventIfNeeded(dto);
     }
 
-    public async Task ProcessMonitoringResult(MonitoringResultDto dto)
+    public async Task ProcessMonitoringResult(MonitoringResultDto dto, CancellationToken ct)
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var rtuStationsRepository = scope.ServiceProvider.GetRequiredService<RtuStationsRepository>();
@@ -66,7 +66,7 @@ public class PollsterResultProcessor
             && (lastAccident == null || lastAccident.IsGoodAccident))
             return null;
 
-        var addRtuAccident = _pollsterResultsDtoFactory.CreateRtuAccidentCommand(dto);
+        var addRtuAccident = _processedResultsDtoFactory.CreateRtuAccidentCommand(dto);
 
         using var scope = _serviceScopeFactory.CreateScope();
         var eventStoreService = scope.ServiceProvider.GetRequiredService<IEventStoreService>();
@@ -85,7 +85,7 @@ public class PollsterResultProcessor
 
     private async Task SaveEventFromDto(MonitoringResultDto dto, int sorId)
     {
-        var addMeasurement = _pollsterResultsDtoFactory.CreateCommand(dto, sorId);
+        var addMeasurement = _processedResultsDtoFactory.CreateCommand(dto, sorId);
         _logger.LogInformation($"AddMeasurement with state {addMeasurement.TraceState.ToLocalizedString()} for trace {addMeasurement.TraceId}");
         using var scope = _serviceScopeFactory.CreateScope();
         var eventStoreService = scope.ServiceProvider.GetRequiredService<IEventStoreService>();

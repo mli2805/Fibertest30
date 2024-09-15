@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Dto
 
     [Serializable]
     [DataContract]
-    public class MonitoringResultDto
+    public class MonitoringResultDto : IDataFromRtu
     {
         [DataMember]
         public ReturnCode ReturnCode { get; set; }

@@ -13,7 +13,8 @@ public class RtuLinuxPollster : IRtuLinuxPollster
     private readonly IRtuOccupationService _rtuOccupationService;
     private readonly ISystemEventSender _systemEventSender;
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly PollsterResultProcessor _pollsterResultProcessor;
+    private readonly IRtuDataDispatcher _rtuDataDispatcher;
+    private readonly RtuDataProcessor _rtuDataProcessor;
     public TaskCompletionSource<bool> ServiceStopped { get; } = new();
     private readonly CancellationTokenSource _cts = new();
 
@@ -25,7 +26,8 @@ public class RtuLinuxPollster : IRtuLinuxPollster
     public RtuLinuxPollster(ILogger<RtuLinuxPollster> logger, Model writeModel,
         IRtuOccupationService rtuOccupationService,
         ISystemEventSender systemEventSender, IServiceScopeFactory serviceScopeFactory,
-        PollsterResultProcessor pollsterResultProcessor
+        IRtuDataDispatcher rtuDataDispatcher,
+        RtuDataProcessor rtuDataProcessor
     )
     {
         _logger = logger;
@@ -33,53 +35,63 @@ public class RtuLinuxPollster : IRtuLinuxPollster
         _rtuOccupationService = rtuOccupationService;
         _systemEventSender = systemEventSender;
         _serviceScopeFactory = serviceScopeFactory;
-        _pollsterResultProcessor = pollsterResultProcessor;
+        _rtuDataDispatcher = rtuDataDispatcher;
+        _rtuDataProcessor = rtuDataProcessor;
     }
 
     public async Task PollRtus(CancellationToken ct)
     {
-        using var cts = CancellationTokenSource.CreateLinkedTokenSource(ct, _cts.Token);
         while (!ct.IsCancellationRequested)
         {
-            try
+            // на каждом круге выбираем заново, список может измениться
+            var makLinuxRtus = _writeModel.Rtus
+                .Where(r => r.MainChannel.Port == (int)TcpPorts.RtuListenToHttp && r.IsInitialized).ToList();
+            if (!makLinuxRtus.Any()) await Task.Delay(2000, ct);
+
+            foreach (var makLinuxRtu in makLinuxRtus)
             {
-                await AllRtusCycle();
-                Thread.Sleep(1_000); // возможно не нужен
-            }
-            catch (Exception e)
-            {
-                _logger.LogError("PollRtus failed: {Exception}", e);
+                try
+                {
+                    await PollRtu(makLinuxRtu, ct);
+                }
+                catch (Exception e)
+                {
+                    // логируем если первый раз или прошлый раз был успешный
+                    if (!_makLinuxRtuAccess.TryGetValue(makLinuxRtu.Id, out bool previous) || previous)
+                    {
+                        _logger.LogError($"Failed while polling RTU {makLinuxRtu.Title}: {e}");
+                    }
+                }
             }
         }
 
         ServiceStopped.SetResult(true);
     }
 
-    private async Task AllRtusCycle()
+    private async Task PollRtu(Rtu rtu, CancellationToken ct)
     {
-        var makLinuxRtus = _writeModel.Rtus
-            .Where(r => r.MainChannel.Port == (int)TcpPorts.RtuListenToHttp && r.IsInitialized).ToList();
-        foreach (var makLinuxRtu in makLinuxRtus)
-        {
-            try
-            {
-                await PollRtu(makLinuxRtu);
-            }
-            catch (Exception)
-            {
+        var state = await FetchState(rtu);
+        if (state == null
+            || !SaveConnectionResult(state, rtu)
+            || state.LastInitializationResult?.Result == null) return;
 
-                // no log! every second all rtus
-            }
-        }
+        // просто кладем в Channel
+        await ApplyMonitoringResults(state.MonitoringResultDtos, ct);
+        await ApplyBopEvents(state.BopStateChangedDtos, ct);
+
+        // обрабатываем прямо отсюда, вся обработка в том чтобы ждать пока клиент заберет, как-нибудь потом
+        _ = Task.Factory.StartNew(() => ProcessMeasurementClientResults(state.ClientMeasurementResultDtos, rtu), ct);
+
+        // await NotifyUserCurrentMonitoringStep(state.CurrentStepDto);
     }
 
-    private async Task PollRtu(Rtu rtu)
+    private async Task<RtuCurrentStateDto?> FetchState(Rtu rtu)
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var rtuStationsRepository = scope.ServiceProvider.GetRequiredService<RtuStationsRepository>();
 
         var station = await rtuStationsRepository.GetRtuStation(rtu.Id);
-        if (station == null) return;
+        if (station == null) return null;
 
         var requestDto = new GetCurrentRtuStateDto
         {
@@ -89,39 +101,33 @@ public class RtuLinuxPollster : IRtuLinuxPollster
         };
 
         var makLinuxRtuTransmitter = scope.ServiceProvider.GetRequiredService<IRtuTransmitter>();
-        RtuCurrentStateDto state;
-        try
-        {
-            state = await makLinuxRtuTransmitter.GetRtuCurrentState(requestDto);
-        }
-        catch (Exception)
-        {
-            return;
-        }
-        if (!SaveConnectionResult(state, rtu)) return;
-        if (state.LastInitializationResult?.Result == null) return;
+        // прокинет кастомный exception
+        var state = await makLinuxRtuTransmitter.GetRtuCurrentState(requestDto);
 
         await UpdateRtuStation(rtuStationsRepository, rtu, state);
 
-        _ = Task.Factory.StartNew(() => ProcessMonitoringResults(state.MonitoringResultDtos));
-
-        _ = Task.Factory.StartNew(() => ProcessMeasurementClientResults(state.ClientMeasurementResultDtos, rtu));
-
-        _ = Task.Factory.StartNew(() => ProcessBopEvents(state.BopStateChangedDtos));
-
-        // await NotifyUserCurrentMonitoringStep(state.CurrentStepDto);
+        return state;
     }
 
-    private async Task ProcessMonitoringResults(List<MonitoringResultDto> dtos)
+    private async Task ApplyMonitoringResults(List<MonitoringResultDto> dtos, CancellationToken ct)
     {
         if (dtos.Count > 0)
             _logger.LogInformation($"{dtos.Count} monitoring results received");
 
         foreach (var dto in dtos)
         {
-            await _pollsterResultProcessor.ProcessMonitoringResult(dto);
+            await _rtuDataDispatcher.Send(dto, ct);
         }
+    }
+    private async Task ApplyBopEvents(List<BopStateChangedDto> dtos, CancellationToken ct)
+    {
+        if (dtos.Count > 0)
+            _logger.LogInformation($"{dtos.Count} bop evetns received");
 
+        foreach (var dto in dtos)
+        {
+            await _rtuDataDispatcher.Send(dto, ct);
+        }
     }
 
     private async Task ProcessMeasurementClientResults(List<ClientMeasurementResultDto> dtos, Rtu rtu)
@@ -131,14 +137,17 @@ public class RtuLinuxPollster : IRtuLinuxPollster
 
         foreach (var dto in dtos)
         {
-            _logger.LogInformation($"Process measurement(Client) {dto.ClientMeasurementId.First6()} for user {dto.ConnectionId.Substring(0, 6)}");
-            _clientMeasurements.TryAdd(dto.ClientMeasurementId, dto);
-            await _systemEventSender.Send(
-                SystemEventFactory.MeasurementClientDone(dto.ConnectionId, dto.ClientMeasurementId));
-
             using var scope = _serviceScopeFactory.CreateScope();
             var userRepository = scope.ServiceProvider.GetRequiredService<IUsersRepository>();
             var user = await userRepository.GetUser(dto.ConnectionId);
+            
+            _logger.LogInformation($"Process measurement(Client) {dto.ClientMeasurementId.First6()} for user {user.User.UserName}");
+       
+            _clientMeasurements.TryAdd(dto.ClientMeasurementId, dto);
+
+            await _systemEventSender.Send(
+                SystemEventFactory.MeasurementClientDone(dto.ConnectionId, dto.ClientMeasurementId));
+           
             // освободить рту
             _rtuOccupationService.TrySetOccupation(rtu.Id, RtuOccupation.None, user.User.UserName,
                 out RtuOccupationState? _);
@@ -148,18 +157,6 @@ public class RtuLinuxPollster : IRtuLinuxPollster
     public byte[]? GetMeasurementClientSor(Guid measurementClientId)
     {
         return _clientMeasurements.TryGetValue(measurementClientId, out ClientMeasurementResultDto? dto) ? dto.SorBytes : null;
-    }
-
-    private async Task ProcessBopEvents(List<BopStateChangedDto> dtos)
-    {
-        if (dtos.Count > 0)
-            _logger.LogInformation($"{dtos.Count} bop evetns received");
-
-        foreach (var dto in dtos)
-        {
-            _logger.LogInformation($"Transmit bop event {dto.OtauIp}:{dto.TcpPort}");
-            await _pollsterResultProcessor.ProcessBopStateChanges(dto);
-        }
     }
 
     private async Task UpdateRtuStation(RtuStationsRepository rtuStationsRepository, Rtu rtu, RtuCurrentStateDto state)

@@ -3,7 +3,7 @@
 namespace Iit.Fibertest.Dto
 {
     [DataContract]
-    public class InitializationResult
+    public class InitializationResult : IDataFromRtu
     {
         [DataMember]
         public DateTime FinishedAt { get; set; }

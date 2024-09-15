@@ -12,6 +12,7 @@ public class RtuPollsterBackgroundService : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        // опрашивает модули и кладет в Channel диспетчера результаты
         await _rtuLinuxPollster.PollRtus(stoppingToken);
     }
 }

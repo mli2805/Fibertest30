@@ -3,7 +3,7 @@
 namespace Iit.Fibertest.Dto
 {
     [DataContract]
-    public class ClientMeasurementResultDto
+    public class ClientMeasurementResultDto : IDataFromRtu
     {
         [DataMember]
         public string ClientIp { get; set; } = null!;

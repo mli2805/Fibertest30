@@ -4,7 +4,7 @@ namespace Iit.Fibertest.Dto
 {
     [DataContract]
     [Serializable]
-    public class BopStateChangedDto
+    public class BopStateChangedDto : IDataFromRtu
     {
         [DataMember]
         public Guid RtuId { get; set; }

@@ -3,7 +3,7 @@
 namespace Iit.Fibertest.Dto
 {
     [DataContract]
-    public class CurrentMonitoringStepDto
+    public class CurrentMonitoringStepDto : IDataFromRtu
     {
         [DataMember]
         public Guid RtuId { get; set; }

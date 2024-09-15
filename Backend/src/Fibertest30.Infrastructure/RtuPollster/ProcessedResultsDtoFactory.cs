@@ -5,13 +5,13 @@ using Microsoft.Extensions.Logging;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Fibertest30.Infrastructure;
-public class PollsterResultsDtoFactory
+public class ProcessedResultsDtoFactory
 {
-    private readonly ILogger<PollsterResultsDtoFactory> _logger;
+    private readonly ILogger<ProcessedResultsDtoFactory> _logger;
     private readonly Model _writeModel;
     private readonly AccidentsFromSorExtractor _accidentsFromSorExtractor;
 
-    public PollsterResultsDtoFactory(ILogger<PollsterResultsDtoFactory> logger, Model writeModel, 
+    public ProcessedResultsDtoFactory(ILogger<ProcessedResultsDtoFactory> logger, Model writeModel, 
         AccidentsFromSorExtractor accidentsFromSorExtractor)
     {
         _logger = logger;
