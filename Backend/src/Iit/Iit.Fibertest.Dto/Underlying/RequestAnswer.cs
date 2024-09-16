@@ -8,11 +8,11 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public ReturnCode ReturnCode { get; set; }
         [DataMember]
-        public string ErrorMessage { get; set; }
+        public string? ErrorMessage { get; set; }
         [DataMember]
-        public RtuOccupationState RtuOccupationState { get; set; }
+        public RtuOccupationState? RtuOccupationState { get; set; }
         [DataMember]
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         public RequestAnswer()
         {

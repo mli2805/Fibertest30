@@ -73,7 +73,7 @@ public static class RtuMgmtMapping
         return new RequestAnswer()
         {
             ReturnCode = (int)requestAnswer.ReturnCode,
-            ErrorMessage = requestAnswer.ErrorMessage,
+            ErrorMessage = requestAnswer.ErrorMessage ?? "",
         };
     }
 }
