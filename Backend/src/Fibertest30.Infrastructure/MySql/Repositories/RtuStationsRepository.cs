@@ -104,6 +104,7 @@ public class RtuStationsRepository
                     rtu.LastConnectionByMainAddressTimestamp = DateTime.Now;
                 else
                     rtu.LastConnectionByReserveAddressTimestamp = DateTime.Now;
+                rtu.LastMeasurementTimestamp = dto.LastMeasurementTimestamp; // при следующем опросе RTU потребует результаты новее этого
                 rtu.Version = dto.Version;
             }
             return await _ftDbContext.SaveChangesAsync();

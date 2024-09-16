@@ -16,8 +16,7 @@ public class RtuDataDispatcher : IRtuDataDispatcher
     private readonly RtuDataProcessor _rtuDataProcessor;
     private readonly Channel<IDataFromRtu> _channel = Channel.CreateUnbounded<IDataFromRtu>();
 
-    public RtuDataDispatcher(ILogger<RtuDataDispatcher> logger,  RtuDataProcessor rtuDataProcessor
-        )
+    public RtuDataDispatcher(ILogger<RtuDataDispatcher> logger,  RtuDataProcessor rtuDataProcessor)
     {
         _logger = logger;
         _rtuDataProcessor = rtuDataProcessor;
