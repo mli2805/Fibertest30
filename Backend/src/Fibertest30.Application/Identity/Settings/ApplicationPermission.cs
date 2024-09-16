@@ -13,6 +13,7 @@ public enum ApplicationPermission
     CheckRtuConnection,
     InitializeRtu,
     AssignBaseRef,
+    ChangeMonitoringSettings,
     DoPreciseMonitoringOutOfOrder,
     DoMeasurementClient,
 }

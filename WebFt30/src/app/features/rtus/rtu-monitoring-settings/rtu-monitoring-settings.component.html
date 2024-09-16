@@ -1,1 +1,64 @@
-<p>rtu-monitoring-settings works!</p>
+<div class="grouped-border w-96">
+  <div class="flex flex-col" [formGroup]="form">
+    <fieldset [disabled]="isDisabled()">
+      <div class="grid-container mx-2 mb-4 gap-x-6 gap-y-2 text-sm">
+        <label
+          style="grid-area: versionLabel"
+          class="my-auto"
+          [ngClass]="{ 'disabled-label': isDisabled() }"
+          >{{ 'i18n.ft.precise-monitoring' | translate }}</label
+        >
+
+        <rtu-select
+          style="grid-area: versionValue"
+          formControlName="preciseMeas"
+          [items]="frequencies"
+        >
+          <ng-template rtuSelectLabel let-selectedItem>
+            <rtu-description-label
+              [description]="'i18n.ft.measurement-frequency' | translate"
+              [label]="selectedItem | frequencyPipe | translate"
+            ></rtu-description-label>
+          </ng-template>
+          <ng-template rtuSelectItem let-item>
+            {{ item | frequencyPipe | translate }}
+          </ng-template>
+        </rtu-select>
+
+        <rtu-select
+          style="grid-area: useVeexOidValue"
+          formControlName="preciseSave"
+          [items]="frequencies"
+        >
+          <ng-template rtuSelectLabel let-selectedItem>
+            <rtu-description-label
+              [description]="'i18n.ft.storage-frequency' | translate"
+              [label]="selectedItem | frequencyPipe | translate"
+            ></rtu-description-label>
+          </ng-template>
+          <ng-template rtuSelectItem let-item>
+            {{ item | frequencyPipe | translate }}
+          </ng-template>
+        </rtu-select>
+
+        <rtu-select
+          style="grid-area: communityValue"
+          formControlName="fastSave"
+          [items]="frequencies"
+        >
+          <ng-template rtuSelectLabel let-selectedItem>
+            <rtu-description-label
+              [description]="'i18n.ft.storage-frequency' | translate"
+              [label]="selectedItem | frequencyPipe | translate"
+            ></rtu-description-label>
+          </ng-template>
+          <ng-template rtuSelectItem let-item>
+            {{ item | frequencyPipe | translate }}
+          </ng-template>
+        </rtu-select>
+      </div>
+    </fieldset>
+
+    <button class="button-ok" (click)="onApplyClicked()">Apply</button>
+  </div>
+</div>

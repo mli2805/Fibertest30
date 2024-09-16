@@ -28,6 +28,7 @@ export class StartPageHeaderComponent {
   private readonly titleMap = new Map<RegExp, StartPageHeaderTitle>([
     [/^\/rtus$/, { titleId: 'i18n.ft.rtus' }],
     [/^\/rtus\/initialization\/.*$/, { titleId: 'i18n.ft.network-settings' }],
+    [/^\/rtus\/monitoring-settings\/.*$/, { titleId: 'i18n.ft.monitoring-settings' }],
     [/^\/rtus\/measurement-client\/.*$/, { titleId: 'i18n.ft.measurement-client' }],
     [/^\/rfts-setup$/, { titleId: 'i18n.start-page.rfts-setup' }],
     [

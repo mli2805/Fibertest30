@@ -24,6 +24,7 @@ public static class ApplicationDefaultPermissions
         AddPermission(P.CheckRtuConnection, R.Operator, R.Supervisor);
         AddPermission(P.InitializeRtu, R.Operator);
         AddPermission(P.AssignBaseRef, R.Operator);
+        AddPermission(P.ChangeMonitoringSettings, R.Operator);
         AddPermission(P.DoPreciseMonitoringOutOfOrder, R.Operator);
         AddPermission(P.DoMeasurementClient, R.Operator);
     }

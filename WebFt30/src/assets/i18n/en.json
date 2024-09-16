@@ -278,6 +278,7 @@
   "i18n.ft.sampling-resolution-m": "Sampling resolution [m]",
   "i18n.ft.splitter": "Splitter",
   "i18n.ft.use-auto-mode": "Use auto mode",
+
   "i18n.available-lasers": "Available lasers",
   "i18n.create-report": "Create report",
   "i18n.minutes-seconds": "minutes:seconds",
@@ -419,6 +420,21 @@
   "i18n.ft.username": "Username",
   "i18n.ft.password": "Password",
   "i18n.ft.sign-in": "Sign-in",
+
+  "i18n.ft.do-not": "Never",
+  "i18n.ft.every-hour": "Every hour",
+  "i18n.ft.every-6-hours": "Every 6 hours",
+  "i18n.ft.every-12-hours": "Every 12 hours",
+  "i18n.ft.every-day": "Every day",
+  "i18n.ft.every-2-days": "Every 2 days",
+  "i18n.ft.every-7-days": "Every 7 days",
+  "i18n.ft.every-30-days": "Every 30 days",
+  "i18n.ft.permanently": "Permanently",
+
+  "i18n.ft.storage-frequency": "Storage frequency",
+  "i18n.ft.measurement-frequency": "Measurement frequency",
+  "i18n.ft.precise-monitoring": "Precise monitoring",
+  "i18n.ft.fast-monitoring": "Fast monitoring",
 
   "i18n.start-page.gis": "Gis",
   "i18n.start-page.notifications": "Notifications",

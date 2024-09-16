@@ -96,5 +96,20 @@
   "i18n.ft.sign-in": "Войти",
 
   "i18n.first-start.complete-profile1": "Пожалуйста, смените пароль по умолчанию",
-  "i18n.first-start.complete-profile2": "и заполните профиль пользователя"
+  "i18n.first-start.complete-profile2": "и заполните профиль пользователя",
+
+  "i18n.ft.do-not": "Никогда",
+  "i18n.ft.every-hour": "Каждый час",
+  "i18n.ft.every-6-hours": "Каждые 6 часов",
+  "i18n.ft.every-12-hours": "Каждые 12 часов",
+  "i18n.ft.every-day": "Каждый день",
+  "i18n.ft.every-2-days": "Каждые 2 дня",
+  "i18n.ft.every-7-days": "Каждые 7 дней",
+  "i18n.ft.every-30-days": "Каждые 30 дней",
+  "i18n.ft.permanently": "Постоянно",
+
+  "i18n.ft.storage-frequency": "Частота сохранения",
+  "i18n.ft.measurement-frequency": "Частота измерений",
+  "i18n.ft.precise-monitoring": "Точный мониторинг",
+  "i18n.ft.fast-monitoring": "Быстрый мониторинг"
 }

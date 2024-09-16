@@ -11,6 +11,7 @@ export enum ApplicationPermission {
   CheckRtuConnection = 'CheckRtuConnection',
   InitializeRtu = 'InitializeRtu',
   AssignBaseRef = 'AssignBaseRef',
+  ChangeMonitoringSettings = 'ChangeMonitoringSettings',
   DoPreciseMonitoringOutOfOrder = 'DoPreciseMonitoringOutOfOrder',
   DoMeasurementClient = 'DoMeasurementClient'
 }

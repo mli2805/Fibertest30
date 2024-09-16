@@ -63,6 +63,7 @@ import { FiberStateBgDirective } from '../features/event-tables/optical-events/c
 import { FiberStatePipe } from './pipes/fiberstate.pipe';
 import { EventStatusPipe } from './pipes/event-status.pipe';
 import { EventStatusBgDirective } from '../features/event-tables/optical-events/colorize-bg-by-eventstatus.directive';
+import { FrequencyPipe } from './pipes/frequency.pipe';
 
 @NgModule({
   imports: [
@@ -90,6 +91,7 @@ import { EventStatusBgDirective } from '../features/event-tables/optical-events/
     RtuDateToDayOfWeekPipe,
     SignedNumberPipe,
     FiberStatePipe,
+    FrequencyPipe,
     EventStatusPipe,
     SimpleErrorComponent,
     DescriptionLabelComponent,
@@ -151,6 +153,7 @@ import { EventStatusBgDirective } from '../features/event-tables/optical-events/
     RtuDateToDayOfWeekPipe,
     SignedNumberPipe,
     FiberStatePipe,
+    FrequencyPipe,
     EventStatusPipe,
     SimpleErrorComponent,
     DescriptionLabelComponent,
@@ -186,6 +189,6 @@ import { EventStatusBgDirective } from '../features/event-tables/optical-events/
     HeaderMessageHelpComponent,
     ContextTooltipDirective
   ],
-  providers: [RtuDateToDayOfWeekPipe]
+  providers: [RtuDateToDayOfWeekPipe, FrequencyPipe]
 })
 export class SharedModule {}

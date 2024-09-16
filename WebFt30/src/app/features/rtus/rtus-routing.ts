@@ -6,6 +6,7 @@ import { RtuInformationComponent } from './rtu-information/rtu-information.compo
 import { RtuInitializationComponent } from './rtu-initialization/rtu-initialization.component';
 import { RtusComponent } from './rtus/rtus.component';
 import { MeasurementClientComponent } from './measurement-client/measurement-client.component';
+import { RtuMonitoringSettingsComponent } from './rtu-monitoring-settings/rtu-monitoring-settings.component';
 
 export const routes: Routes = [
   {
@@ -31,6 +32,12 @@ export const routes: Routes = [
         path: 'initialization/:id',
         pathMatch: 'full',
         component: RtuInitializationComponent,
+        data: { navigateToParent: 2 }
+      },
+      {
+        path: 'monitoring-settings/:id',
+        pathMatch: 'full',
+        component: RtuMonitoringSettingsComponent,
         data: { navigateToParent: 2 }
       },
       {
