@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { RtuMgmt } from "./rtu_mgmt";
+import type { RequestAnswer } from "./rtu_mgmt";
+import type { ApplyMonitoringSettingsRequest } from "./rtu_mgmt";
 import type { EmptyResponse } from "./rtu_mgmt";
 import type { StopMonitoringRequest } from "./rtu_mgmt";
 import type { GetMeasurementClientSorResponse } from "./rtu_mgmt";
@@ -41,6 +43,10 @@ export interface IRtuMgmtClient {
      * @generated from protobuf rpc: StopMonitoring(fibertest30.rtu_mgmt.StopMonitoringRequest) returns (fibertest30.rtu_mgmt.EmptyResponse);
      */
     stopMonitoring(input: StopMonitoringRequest, options?: RpcOptions): UnaryCall<StopMonitoringRequest, EmptyResponse>;
+    /**
+     * @generated from protobuf rpc: ApplyMonitoringSettings(fibertest30.rtu_mgmt.ApplyMonitoringSettingsRequest) returns (fibertest30.rtu_mgmt.RequestAnswer);
+     */
+    applyMonitoringSettings(input: ApplyMonitoringSettingsRequest, options?: RpcOptions): UnaryCall<ApplyMonitoringSettingsRequest, RequestAnswer>;
 }
 /**
  * @generated from protobuf service fibertest30.rtu_mgmt.RtuMgmt
@@ -85,5 +91,12 @@ export class RtuMgmtClient implements IRtuMgmtClient, ServiceInfo {
     stopMonitoring(input: StopMonitoringRequest, options?: RpcOptions): UnaryCall<StopMonitoringRequest, EmptyResponse> {
         const method = this.methods[4], opt = this._transport.mergeOptions(options);
         return stackIntercept<StopMonitoringRequest, EmptyResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: ApplyMonitoringSettings(fibertest30.rtu_mgmt.ApplyMonitoringSettingsRequest) returns (fibertest30.rtu_mgmt.RequestAnswer);
+     */
+    applyMonitoringSettings(input: ApplyMonitoringSettingsRequest, options?: RpcOptions): UnaryCall<ApplyMonitoringSettingsRequest, RequestAnswer> {
+        const method = this.methods[5], opt = this._transport.mergeOptions(options);
+        return stackIntercept<ApplyMonitoringSettingsRequest, RequestAnswer>("unary", this._transport, method, opt, input);
     }
 }

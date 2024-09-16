@@ -14,6 +14,13 @@ public static class FtEnumsMapping
         };
     }
 
+    public static Iit.Fibertest.Dto.RtuMaker FromProto(this RtuMaker rtuMaker)
+    {
+        int code = (int)rtuMaker;
+        return (Iit.Fibertest.Dto.RtuMaker)code;
+    }
+
+
     public static RtuPartState ToProto(this Iit.Fibertest.Dto.RtuPartState state)
     {
         return state switch
@@ -57,6 +64,12 @@ public static class FtEnumsMapping
             Iit.Fibertest.Dto.FiberState.Nothing => FiberState.Nothing,
             _ => throw new ArgumentOutOfRangeException()
         };
+    }
+
+    public static Iit.Fibertest.Dto.FiberState FromProto(this FiberState state)
+    {
+        int code = (int)state;
+        return (Iit.Fibertest.Dto.FiberState)code;
     }
 
     public static TceLinkState ToProto(this TraceToTceLinkState state)

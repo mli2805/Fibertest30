@@ -97,9 +97,6 @@ const reducer = createReducer(
     rtuOperationInProgress: false,
     rtuOperationSuccess: false,
     errorMessageId: errorMessageId
-  })),
-  on(RtuMgmtActions.applyStopMonitoringSuccess, (state, { dto }) => ({
-    ...state
   }))
 );
 

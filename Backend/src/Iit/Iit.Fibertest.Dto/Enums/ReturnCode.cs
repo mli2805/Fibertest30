@@ -9,8 +9,6 @@
         NotFound = 4,
         WrongDataCenter = 5, // not the same server that has initialized this RTU earlier
 
-        ClientCleanedAsDead = 10,
-
         RtuInitializationError = 1000,
         RtuInitializedSuccessfully = 1001,
         OtdrInitializationCannotLoadDll = 1002,
@@ -59,7 +57,7 @@
         D2RWcfConnectionError = 2011,
         D2RWcfOperationError = 2012,
         C2RWcfConnectionError = 2021,
-        C2RWcfOperationError  = 2022,
+        C2RWcfOperationError = 2022,
 
         D2RHttpError = 2100,
 
@@ -101,20 +99,21 @@
         NoSuchRtu = 9004,
         ClientsCountExceeded = 9005,
         ClientsCountLicenseExpired = 9006,
-        WebClientsCountExceeded,
-        WebClientsCountLicenseExpired,
-        SuperClientsCountExceeded,
-        SuperClientsCountLicenseExpired,
-        UserHasNoRightsToStartClient,
-        UserHasNoRightsToStartSuperClient,
-        UserHasNoRightsToStartWebClient,
-        VersionsDoNotMatch,
+        WebClientsCountExceeded = 9007,
+        WebClientsCountLicenseExpired = 9008,
+        SuperClientsCountExceeded = 9009,
+        SuperClientsCountLicenseExpired = 9010,
+        UserHasNoRightsToStartClient = 9011,
+        UserHasNoRightsToStartSuperClient = 9012,
+        UserHasNoRightsToStartWebClient = 9013,
+        VersionsDoNotMatch = 9014,
         WrongMachineKey = 9051,
         WrongSecurityAdminPassword = 9052,
-        EmptyMachineKey,
-        SaveUsersMachineKey,
+        EmptyMachineKey = 9053,
+        SaveUsersMachineKey = 9054,
         NoLicenseHasBeenAppliedYet = 9099,
-        NoSuchVeexTest,
+
+        NoSuchVeexTest = 9201,
 
         BaseRefAssignmentFailed = 9401,
         BaseRefAssignmentParamNotAcceptable = 9402,
@@ -123,8 +122,8 @@
         BaseRefAssignmentEdgeLandmarksWrong = 9405,
 
         FirstLicenseKeyMustNotBeIncremental = 9501,
-        LicenseCouldNotBeAppliedRepeatedly,
-        LicenseCouldNotBeApplied,
+        LicenseCouldNotBeAppliedRepeatedly = 9502,
+        LicenseCouldNotBeApplied = 9503,
 
         MeasurementClientStartedSuccessfully = 9601,
         FetchMeasurementFromRtu4000Failed = 9632,

@@ -63,4 +63,13 @@ public class RtuMgmtService : RtuMgmt.RtuMgmtBase
         // проблемы во время исполнения должны дать кастомный exception, который пославший клиент покажет как сообщение об ошибке
         return new EmptyResponse();
     }
+
+    public override async Task<RequestAnswer> ApplyMonitoringSettings(ApplyMonitoringSettingsRequest request,
+        ServerCallContext context)
+    {
+        var command = request.Dto.FromProto();
+        var result = await _mediator.Send(new ApplyMonitoringSettingsCommand(command), context.CancellationToken);
+
+        return result.ToProto();
+    }
 }

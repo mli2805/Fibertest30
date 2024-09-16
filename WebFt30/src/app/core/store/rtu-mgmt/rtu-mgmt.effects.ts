@@ -5,6 +5,7 @@ import { RtuMgmtActions } from './rtu-mgmt.actions';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { CoreUtils } from '../../core.utils';
 import { GrpcUtils } from '../../grpc/grpc.utils';
+import { FtBaseMapping } from '../mapping/ft-base-mapping';
 
 @Injectable()
 export class RtuMgmtEffects {
@@ -59,6 +60,26 @@ export class RtuMgmtEffects {
             const errorMessageId =
               CoreUtils.serverErrorToMessageId(serverError) ?? 'i18n.error.unknown-error';
             return of(RtuMgmtActions.startMeasurementClientFailure({ errorMessageId }));
+          })
+        );
+      })
+    )
+  );
+
+  applyMonitoringSettings = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RtuMgmtActions.applyMonitoringSettings),
+      switchMap(({ dto }) => {
+        return this.rtuMgmtService.applyMonitoringSettings(dto).pipe(
+          map((response) => {
+            const answer = FtBaseMapping.fromGrpcRequestAnswer(response);
+            return RtuMgmtActions.applyMonitoringSettingsSuccess({ dto: answer });
+          }),
+          catchError((error) => {
+            const serverError = GrpcUtils.toServerError(error);
+            const errorMessageId =
+              CoreUtils.serverErrorToMessageId(serverError) ?? 'i18n.error.unknown-error';
+            return of(RtuMgmtActions.applyMonitoringSettingsFailure({ errorMessageId }));
           })
         );
       })

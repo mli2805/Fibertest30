@@ -7,6 +7,7 @@ public interface IRtuManager
     Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto);
     Task<ClientMeasurementStartedDto> StartClientMeasurement(DoClientMeasurementDto dto);
 
+    Task<RequestAnswer> ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto);
     Task<RequestAnswer> StopMonitoring(Guid rtuId);
 
 }

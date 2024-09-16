@@ -2,6 +2,8 @@ import * as grpc from 'src/grpc-generated';
 import { NetAddress } from '../models/ft30/net-address';
 import { PortOfOtau } from '../models/ft30/port-of-otau';
 import { MeasParamByPosition } from '../models/ft30/ft-measurement-settings';
+import { RequestAnswer } from '../models/ft30/request-answer';
+import { FtEnumsMapping } from './ft-enums-mapping';
 
 export class FtBaseMapping {
   static fromGrpcNetAddress(grpcNetAddress: grpc.NetAddress): NetAddress {
@@ -50,5 +52,12 @@ export class FtBaseMapping {
       param: measParam.param,
       position: measParam.position
     };
+  }
+
+  static fromGrpcRequestAnswer(grpcRequestAnswer: grpc.RequestAnswer): RequestAnswer {
+    const answer = new RequestAnswer();
+    answer.returnCode = grpcRequestAnswer.returnCode;
+    answer.errorMessage = grpcRequestAnswer.errorMessage;
+    return answer;
   }
 }

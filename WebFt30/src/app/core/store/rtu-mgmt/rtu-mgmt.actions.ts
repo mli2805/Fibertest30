@@ -4,6 +4,8 @@ import { InitializeRtuDto } from '../models/ft30/initialize-rtu-dto';
 import { RtuInitializedDto } from '../models/ft30/rtu-initialized-dto';
 import { DoMeasurementClientDto } from '../models/ft30/do-measurement-client-dto';
 import { MonitoringStoppedDto } from '../models/ft30/monitoring-stopped-dto';
+import { ApplyMonitoringSettingsDto } from '../models/ft30/apply-monitorig-settings-dto';
+import { RequestAnswer } from '../models/ft30/request-answer';
 
 const testRtuConnection = createAction(
   '[RtuMgmt] Test Rtu Connection',
@@ -53,9 +55,17 @@ const stopMonitoringFailure = createAction(
   props<{ errorMessageId: string }>()
 );
 
-const applyStopMonitoringSuccess = createAction(
-  '[RtuMgmt] Apply Stop Monitoring Success',
-  props<{ dto: MonitoringStoppedDto }>()
+const applyMonitoringSettings = createAction(
+  '[RtuMgmt] Apply Monitoring Settings',
+  props<{ dto: ApplyMonitoringSettingsDto }>()
+);
+const applyMonitoringSettingsSuccess = createAction(
+  '[RtuMgmt] Apply Monitoring Settings Success',
+  props<{ dto: RequestAnswer }>()
+);
+const applyMonitoringSettingsFailure = createAction(
+  '[RtuMgmt] Apply Monitoring Settings Failure',
+  props<{ errorMessageId: string }>()
 );
 
 export const RtuMgmtActions = {
@@ -77,5 +87,8 @@ export const RtuMgmtActions = {
   stopMonitoring,
   stopMonitoringSuccess,
   stopMonitoringFailure,
-  applyStopMonitoringSuccess
+
+  applyMonitoringSettings,
+  applyMonitoringSettingsSuccess,
+  applyMonitoringSettingsFailure
 };

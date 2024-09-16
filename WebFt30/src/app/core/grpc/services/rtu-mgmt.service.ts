@@ -9,6 +9,7 @@ import { FtBaseMapping } from '../../store/mapping/ft-base-mapping';
 import { InitializeRtuDto } from '../../store/models/ft30/initialize-rtu-dto';
 import { DoMeasurementClientDto } from '../../store/models/ft30/do-measurement-client-dto';
 import { RtuMgmtMapping } from '../../store/mapping/rtu-mgmt-mapping';
+import { ApplyMonitoringSettingsDto } from '../../store/models/ft30/apply-monitorig-settings-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -60,6 +61,17 @@ export class RtuMgmtService {
     };
     return GrpcUtils.unaryToObservable(
       this.client.getMeasurementClientSor.bind(this.client),
+      request,
+      {}
+    );
+  }
+
+  applyMonitoringSettings(dto: ApplyMonitoringSettingsDto): Observable<grpc.RequestAnswer> {
+    const request: grpc.ApplyMonitoringSettingsRequest = {
+      dto: RtuMgmtMapping.toGrpcApplyMonitoringSettingsDto(dto)
+    };
+    return GrpcUtils.unaryToObservable(
+      this.client.applyMonitoringSettings.bind(this.client),
       request,
       {}
     );

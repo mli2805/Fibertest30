@@ -8,6 +8,7 @@ import {
   RtuPartState,
   TceLinkState
 } from '../models/ft30/ft-enums';
+import { ReturnCode } from '../models/ft30/return-code';
 
 export class FtEnumsMapping {
   static fromGrpcRtuMaker(grpcRtuMaker: grpc.RtuMaker): RtuMaker {
@@ -43,6 +44,39 @@ export class FtEnumsMapping {
         throw new Error(`Unknown grpc.FiberState: ${grpcFiberState}`);
     }
   }
+
+  static toGrpcFiberState(state: FiberState): grpc.FiberState {
+    const enumCode = this.getFiberStateNumericKey(state);
+    return enumCode;
+  }
+
+  // static toGrpcReturnCode(returnCode: ReturnCode): grpc.ReturnCode {
+  //   const enumCode = this.getReturnCodeNumericKey(returnCode);
+  //   return enumCode;
+  // }
+
+  static getFiberStateNumericKey(enumValue: FiberState): number {
+    return +Object.keys(ReturnCode)
+      .filter((k) => !isNaN(Number(k)))
+      .find((g) => FiberState[+g] === FiberState[enumValue])!;
+  }
+
+  static getReturnCodeNumericKey(enumValue: ReturnCode): number {
+    return +Object.keys(ReturnCode)
+      .filter((k) => !isNaN(Number(k)))
+      .find((g) => ReturnCode[+g] === ReturnCode[enumValue])!;
+  }
+
+  // static getGrpcReturnCodeNumericKey(enumValue: grpc.ReturnCode): number {
+  //   return +Object.keys(grpc.ReturnCode)
+  //     .filter((k) => !isNaN(Number(k)))
+  //     .find((g) => grpc.ReturnCode[+g] === grpc.ReturnCode[enumValue])!;
+  // }
+
+  // static fromGrpcReturnCode(grpcReturnCode: grpc.ReturnCode): ReturnCode {
+  //   const enumCode = this.getReturnCodeNumericKey(grpcReturnCode);
+  //   return enumCode;
+  // }
 
   static fromGrpcMonitoringState(grpcMonitoringState: grpc.MonitoringState): MonitoringState {
     // prettier-ignore

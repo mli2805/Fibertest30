@@ -3,6 +3,8 @@
 // tslint:disable
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
+import { RtuMaker } from "./ft.enums";
+import { FiberState } from "./ft.enums";
 import { PortOfOtau } from "./rtu_tree";
 import { NetAddress } from "./rtu_tree";
 /**
@@ -73,6 +75,73 @@ export interface DoMeasurementClientDto {
      * @generated from protobuf field: repeated fibertest30.rtu_mgmt.MeasParamByPosition measParamsByPosition = 3;
      */
     measParamsByPosition: MeasParamByPosition[];
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.PortWithTraceDto
+ */
+export interface PortWithTraceDto {
+    /**
+     * @generated from protobuf field: string traceId = 1;
+     */
+    traceId: string;
+    /**
+     * @generated from protobuf field: fibertest30.rtu_tree.PortOfOtau portOfOtau = 2;
+     */
+    portOfOtau?: PortOfOtau;
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.FiberState lastTraceState = 3;
+     */
+    lastTraceState: FiberState;
+    /**
+     * @generated from protobuf field: int32 lastRtuAccidentOnTrace = 4;
+     */
+    lastRtuAccidentOnTrace: number; // from ReturnCode
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.ApplyMonitoringSettingsDto
+ */
+export interface ApplyMonitoringSettingsDto {
+    /**
+     * @generated from protobuf field: string rtuId = 1;
+     */
+    rtuId: string;
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.RtuMaker rtuMaker = 2;
+     */
+    rtuMaker: RtuMaker;
+    /**
+     * @generated from protobuf field: bool isMonitoringOn = 3;
+     */
+    isMonitoringOn: boolean;
+    /**
+     * @generated from protobuf field: int32 preciseMeas = 4;
+     */
+    preciseMeas: number; // in hours, 0 - permanently, 9999 never
+    /**
+     * @generated from protobuf field: int32 preciseSave = 5;
+     */
+    preciseSave: number;
+    /**
+     * @generated from protobuf field: int32 fastSave = 6;
+     */
+    fastSave: number;
+    /**
+     * @generated from protobuf field: repeated fibertest30.rtu_mgmt.PortWithTraceDto ports = 7;
+     */
+    ports: PortWithTraceDto[];
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.RequestAnswer
+ */
+export interface RequestAnswer {
+    /**
+     * @generated from protobuf field: int32 returnCode = 1;
+     */
+    returnCode: number;
+    /**
+     * @generated from protobuf field: string errorMessage = 2;
+     */
+    errorMessage: string;
 }
 // ------------------------------------------------------------
 
@@ -172,6 +241,15 @@ export interface StopMonitoringRequest {
  */
 export interface EmptyResponse {
 }
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.ApplyMonitoringSettingsRequest
+ */
+export interface ApplyMonitoringSettingsRequest {
+    /**
+     * @generated from protobuf field: fibertest30.rtu_mgmt.ApplyMonitoringSettingsDto dto = 1;
+     */
+    dto?: ApplyMonitoringSettingsDto;
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class DoubleAddress$Type extends MessageType<DoubleAddress> {
     constructor() {
@@ -238,6 +316,52 @@ class DoMeasurementClientDto$Type extends MessageType<DoMeasurementClientDto> {
  * @generated MessageType for protobuf message fibertest30.rtu_mgmt.DoMeasurementClientDto
  */
 export const DoMeasurementClientDto = new DoMeasurementClientDto$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class PortWithTraceDto$Type extends MessageType<PortWithTraceDto> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.PortWithTraceDto", [
+            { no: 1, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "portOfOtau", kind: "message", T: () => PortOfOtau },
+            { no: 3, name: "lastTraceState", kind: "enum", T: () => ["fibertest30.ft.enums.FiberState", FiberState] },
+            { no: 4, name: "lastRtuAccidentOnTrace", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.PortWithTraceDto
+ */
+export const PortWithTraceDto = new PortWithTraceDto$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ApplyMonitoringSettingsDto$Type extends MessageType<ApplyMonitoringSettingsDto> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.ApplyMonitoringSettingsDto", [
+            { no: 1, name: "rtuId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "rtuMaker", kind: "enum", T: () => ["fibertest30.ft.enums.RtuMaker", RtuMaker] },
+            { no: 3, name: "isMonitoringOn", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 4, name: "preciseMeas", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 5, name: "preciseSave", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 6, name: "fastSave", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 7, name: "ports", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => PortWithTraceDto }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.ApplyMonitoringSettingsDto
+ */
+export const ApplyMonitoringSettingsDto = new ApplyMonitoringSettingsDto$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class RequestAnswer$Type extends MessageType<RequestAnswer> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.RequestAnswer", [
+            { no: 1, name: "returnCode", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "errorMessage", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.RequestAnswer
+ */
+export const RequestAnswer = new RequestAnswer$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class TestRtuConnectionRequest$Type extends MessageType<TestRtuConnectionRequest> {
     constructor() {
@@ -358,6 +482,18 @@ class EmptyResponse$Type extends MessageType<EmptyResponse> {
  * @generated MessageType for protobuf message fibertest30.rtu_mgmt.EmptyResponse
  */
 export const EmptyResponse = new EmptyResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ApplyMonitoringSettingsRequest$Type extends MessageType<ApplyMonitoringSettingsRequest> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.ApplyMonitoringSettingsRequest", [
+            { no: 1, name: "dto", kind: "message", T: () => ApplyMonitoringSettingsDto }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.ApplyMonitoringSettingsRequest
+ */
+export const ApplyMonitoringSettingsRequest = new ApplyMonitoringSettingsRequest$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.rtu_mgmt.RtuMgmt
  */
@@ -366,5 +502,6 @@ export const RtuMgmt = new ServiceType("fibertest30.rtu_mgmt.RtuMgmt", [
     { name: "InitializeRtu", options: {}, I: InitializeRtuRequest, O: InitializeRtuResponse },
     { name: "DoMeasurementClient", options: {}, I: DoMeasurementClientRequest, O: DoMeasurementClientResponse },
     { name: "GetMeasurementClientSor", options: {}, I: GetMeasurementClientSorRequest, O: GetMeasurementClientSorResponse },
-    { name: "StopMonitoring", options: {}, I: StopMonitoringRequest, O: EmptyResponse }
+    { name: "StopMonitoring", options: {}, I: StopMonitoringRequest, O: EmptyResponse },
+    { name: "ApplyMonitoringSettings", options: {}, I: ApplyMonitoringSettingsRequest, O: RequestAnswer }
 ]);

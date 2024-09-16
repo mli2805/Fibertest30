@@ -1,4 +1,5 @@
 syntax = "proto3";
+import "ft.enums.proto";
 import "rtu_tree.proto";
 
 option csharp_namespace = "Fibertest30.Api";
@@ -11,6 +12,7 @@ service RtuMgmt {
 	rpc GetMeasurementClientSor(GetMeasurementClientSorRequest) returns (GetMeasurementClientSorResponse);
 
 	rpc StopMonitoring(StopMonitoringRequest) returns (EmptyResponse);
+	rpc ApplyMonitoringSettings(ApplyMonitoringSettingsRequest) returns (RequestAnswer);
 }
 
 message DoubleAddress {
@@ -37,6 +39,30 @@ message DoMeasurementClientDto {
 	string rtuId = 1;
 	repeated rtu_tree.PortOfOtau portOfOtau = 2;
 	repeated MeasParamByPosition measParamsByPosition = 3;
+}
+
+message PortWithTraceDto {
+	string traceId = 1;
+	rtu_tree.PortOfOtau portOfOtau = 2;
+	ft.enums.FiberState lastTraceState = 3;
+	int32 lastRtuAccidentOnTrace = 4; // from ReturnCode
+}
+
+message ApplyMonitoringSettingsDto {
+	string rtuId = 1;
+	ft.enums.RtuMaker rtuMaker = 2;
+	bool isMonitoringOn = 3;
+
+	int32 preciseMeas = 4; // in hours, 0 - permanently, 9999 never
+	int32 preciseSave = 5;
+	int32 fastSave = 6;
+
+	repeated PortWithTraceDto ports = 7;
+}
+
+message RequestAnswer {
+	int32 returnCode = 1;
+	string errorMessage = 2;
 }
 
 
@@ -82,4 +108,8 @@ message StopMonitoringRequest {
 }
 
 message EmptyResponse {
+}
+
+message ApplyMonitoringSettingsRequest {
+	ApplyMonitoringSettingsDto dto = 1;
 }
