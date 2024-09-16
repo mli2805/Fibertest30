@@ -65,5 +65,21 @@ export class RtuMgmtEffects {
     )
   );
 
+  stopMonitoring = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RtuMgmtActions.stopMonitoring),
+      switchMap(({ rtuId }) => {
+        return this.rtuMgmtService.stopMonitoring(rtuId).pipe(
+          map((response) => {
+            return RtuMgmtActions.stopMonitoringSuccess();
+          }),
+          catchError((error) => {
+            return of(RtuMgmtActions.stopMonitoringFailure({ errorMessageId: error }));
+          })
+        );
+      })
+    )
+  );
+
   constructor(private actions$: Actions, private rtuMgmtService: RtuMgmtService) {}
 }

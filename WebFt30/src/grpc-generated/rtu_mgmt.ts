@@ -158,6 +158,20 @@ export interface GetMeasurementClientSorResponse {
      */
     sor: Uint8Array;
 }
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.StopMonitoringRequest
+ */
+export interface StopMonitoringRequest {
+    /**
+     * @generated from protobuf field: string rtuId = 1;
+     */
+    rtuId: string;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.EmptyResponse
+ */
+export interface EmptyResponse {
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class DoubleAddress$Type extends MessageType<DoubleAddress> {
     constructor() {
@@ -322,6 +336,28 @@ class GetMeasurementClientSorResponse$Type extends MessageType<GetMeasurementCli
  * @generated MessageType for protobuf message fibertest30.rtu_mgmt.GetMeasurementClientSorResponse
  */
 export const GetMeasurementClientSorResponse = new GetMeasurementClientSorResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class StopMonitoringRequest$Type extends MessageType<StopMonitoringRequest> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.StopMonitoringRequest", [
+            { no: 1, name: "rtuId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.StopMonitoringRequest
+ */
+export const StopMonitoringRequest = new StopMonitoringRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class EmptyResponse$Type extends MessageType<EmptyResponse> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.EmptyResponse", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.EmptyResponse
+ */
+export const EmptyResponse = new EmptyResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.rtu_mgmt.RtuMgmt
  */
@@ -329,5 +365,6 @@ export const RtuMgmt = new ServiceType("fibertest30.rtu_mgmt.RtuMgmt", [
     { name: "TestRtuConnection", options: {}, I: TestRtuConnectionRequest, O: TestRtuConnectionResponse },
     { name: "InitializeRtu", options: {}, I: InitializeRtuRequest, O: InitializeRtuResponse },
     { name: "DoMeasurementClient", options: {}, I: DoMeasurementClientRequest, O: DoMeasurementClientResponse },
-    { name: "GetMeasurementClientSor", options: {}, I: GetMeasurementClientSorRequest, O: GetMeasurementClientSorResponse }
+    { name: "GetMeasurementClientSor", options: {}, I: GetMeasurementClientSorRequest, O: GetMeasurementClientSorResponse },
+    { name: "StopMonitoring", options: {}, I: StopMonitoringRequest, O: EmptyResponse }
 ]);

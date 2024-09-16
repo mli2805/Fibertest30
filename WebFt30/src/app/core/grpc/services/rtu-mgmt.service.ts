@@ -64,4 +64,9 @@ export class RtuMgmtService {
       {}
     );
   }
+
+  stopMonitoring(rtuId: string): Observable<grpc.EmptyResponse> {
+    const request: grpc.StopMonitoringRequest = { rtuId };
+    return GrpcUtils.unaryToObservable(this.client.stopMonitoring.bind(this.client), request, {});
+  }
 }

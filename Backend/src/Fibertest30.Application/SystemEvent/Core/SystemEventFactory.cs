@@ -6,8 +6,8 @@ namespace Fibertest30.Application;
 // is to create SystemEvent objects with the correct data & level
 public static class SystemEventFactory
 {
-   
-  public static SystemEvent UserChanged(string userId, string changedUserId, List<string> changedProperties)
+
+    public static SystemEvent UserChanged(string userId, string changedUserId, List<string> changedProperties)
     {
         return new SystemEvent(SystemEventType.UserChanged,
             SystemEventLevel.Info,
@@ -31,7 +31,7 @@ public static class SystemEventFactory
             SystemEventSource.FromUser(userId));
     }
 
-  
+
     public static SystemEvent NotificationSettingsUpdated(string userId, string part)
     {
         return new SystemEvent(SystemEventType.NotificationSettingsUpdated, SystemEventLevel.Info,
@@ -52,7 +52,15 @@ public static class SystemEventFactory
 
     public static SystemEvent MeasurementClientDone(string userId, Guid measurementClientId)
     {
-        return new SystemEvent(SystemEventType.MeasurementClientDone, SystemEventLevel.Internal, 
+        return new SystemEvent(SystemEventType.MeasurementClientDone, SystemEventLevel.Internal,
             new MeasurementClientDoneData(measurementClientId), SystemEventSource.FromUser(userId));
     }
+
+    public static SystemEvent MonitoringStopped(string userId, Guid rtuId, bool isSuccess)
+    {
+        return new SystemEvent(SystemEventType.MonitoringStopped, SystemEventLevel.Internal,
+            new MonitoringStoppedData(rtuId.ToString(), isSuccess), SystemEventSource.FromUser(userId));
+    }
+
+
 }

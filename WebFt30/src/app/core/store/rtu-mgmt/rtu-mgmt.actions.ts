@@ -3,6 +3,7 @@ import { NetAddress } from '../models/ft30/net-address';
 import { InitializeRtuDto } from '../models/ft30/initialize-rtu-dto';
 import { RtuInitializedDto } from '../models/ft30/rtu-initialized-dto';
 import { DoMeasurementClientDto } from '../models/ft30/do-measurement-client-dto';
+import { MonitoringStoppedDto } from '../models/ft30/monitoring-stopped-dto';
 
 const testRtuConnection = createAction(
   '[RtuMgmt] Test Rtu Connection',
@@ -45,6 +46,18 @@ const measurementClientDone = createAction(
 );
 const getMeasurementClientSorSuccess = createAction('[RtuMgmt] Get Measurement Client Success');
 
+const stopMonitoring = createAction('[RtuMgmt] Stop Monitoring', props<{ rtuId: string }>());
+const stopMonitoringSuccess = createAction('[RtuMgmt] Stop Monitoring Success');
+const stopMonitoringFailure = createAction(
+  '[RtuMgmt] Stop Monitoring Failure',
+  props<{ errorMessageId: string }>()
+);
+
+const applyStopMonitoringSuccess = createAction(
+  '[RtuMgmt] Apply Stop Monitoring Success',
+  props<{ dto: MonitoringStoppedDto }>()
+);
+
 export const RtuMgmtActions = {
   testRtuConnection,
   testRtuConnectionSuccess,
@@ -59,5 +72,10 @@ export const RtuMgmtActions = {
   startMeasurementClientFailure,
 
   measurementClientDone,
-  getMeasurementClientSorSuccess
+  getMeasurementClientSorSuccess,
+
+  stopMonitoring,
+  stopMonitoringSuccess,
+  stopMonitoringFailure,
+  applyStopMonitoringSuccess
 };

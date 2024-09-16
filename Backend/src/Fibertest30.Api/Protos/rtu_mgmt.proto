@@ -9,6 +9,8 @@ service RtuMgmt {
 	rpc InitializeRtu (InitializeRtuRequest) returns (InitializeRtuResponse);
 	rpc DoMeasurementClient(DoMeasurementClientRequest) returns (DoMeasurementClientResponse);
 	rpc GetMeasurementClientSor(GetMeasurementClientSorRequest) returns (GetMeasurementClientSorResponse);
+
+	rpc StopMonitoring(StopMonitoringRequest) returns (EmptyResponse);
 }
 
 message DoubleAddress {
@@ -36,6 +38,7 @@ message DoMeasurementClientDto {
 	repeated rtu_tree.PortOfOtau portOfOtau = 2;
 	repeated MeasParamByPosition measParamsByPosition = 3;
 }
+
 
 //------------------------------------------------------------
 
@@ -72,4 +75,11 @@ message GetMeasurementClientSorRequest {
 
 message GetMeasurementClientSorResponse {
 	bytes sor = 1;
+}
+
+message StopMonitoringRequest {
+	string rtuId = 1;
+}
+
+message EmptyResponse {
 }

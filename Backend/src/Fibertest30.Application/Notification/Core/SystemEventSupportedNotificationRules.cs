@@ -132,6 +132,10 @@ public static class SystemEventSupportedNotificationRules
         {
             SystemEventType.MeasurementClientDone,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.Me))
+        },
+        {
+            SystemEventType.MonitoringStopped,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         }
     };
 

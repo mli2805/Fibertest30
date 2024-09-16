@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using Iit.Fibertest.Dto;
 using MediatR;
 
 namespace Fibertest30.Api;
@@ -19,7 +20,7 @@ public class RtuMgmtService : RtuMgmt.RtuMgmtBase
             .Send(new TestRtuConnectionCommand(request.NetAddress.FromProto()), context.CancellationToken);
         return new TestRtuConnectionResponse()
         {
-            NetAddress = rtuConnectionCheckedDto.NetAddress.ToProto(), 
+            NetAddress = rtuConnectionCheckedDto.NetAddress.ToProto(),
             IsConnectionSuccessful = rtuConnectionCheckedDto.IsConnectionSuccessfull
         };
     }
@@ -52,4 +53,14 @@ public class RtuMgmtService : RtuMgmt.RtuMgmtBase
         };
     }
 
+    public override async Task<EmptyResponse> StopMonitoring(StopMonitoringRequest request,
+        ServerCallContext context)
+    {
+        var guid = Guid.Parse(request.RtuId);
+        await _mediator.Send(new StopMonitoringCommand(guid), context.CancellationToken);
+
+        // успешный результат придет в системном событии, чтобы все клиенты обработали его одинаково
+        // проблемы во время исполнения должны дать кастомный exception, который пославший клиент покажет как сообщение об ошибке
+        return new EmptyResponse();
+    }
 }

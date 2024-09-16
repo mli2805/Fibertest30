@@ -12,6 +12,7 @@ import { AppState, AuthSelectors, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
+import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 
 @Component({
   selector: 'rtu-one-rtu-menu',
@@ -93,7 +94,7 @@ export class OneRtuMenuComponent {
   }
 
   onManualModeClicked() {
-    //
+    this.store.dispatch(RtuMgmtActions.stopMonitoring({ rtuId: this.rtu.rtuId }));
   }
 
   onClicked() {

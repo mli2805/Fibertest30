@@ -15,6 +15,7 @@ public static class SystemEventDataFactory
             SystemEventType.RtuConnectionChecked => Deserialize<RtuConnectionCheckedData>(jsonData),
             SystemEventType.RtuInitialized => Deserialize<RtuInitializedData>(jsonData),
             SystemEventType.MeasurementClientDone => Deserialize<MeasurementClientDoneData>(jsonData),
+            SystemEventType.MonitoringStopped => Deserialize<MonitoringStoppedData>(jsonData),
 
             _ => throw new ArgumentException(@"SystemEventDataFactory: Invalid SystemEventType", nameof(type))
         };

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Fibertest30.Application;
 
-public record InitializeRtuCommand(InitializeRtuDto dto) : IRequest<RtuInitializedDto>;
+public record InitializeRtuCommand(InitializeRtuDto Dto) : IRequest<RtuInitializedDto>;
 
 public class InitializeRtuCommandHandler : IRequestHandler<InitializeRtuCommand, RtuInitializedDto>
 {
@@ -24,7 +24,7 @@ public class InitializeRtuCommandHandler : IRequestHandler<InitializeRtuCommand,
 
     public async Task<RtuInitializedDto> Handle(InitializeRtuCommand request, CancellationToken cancellationToken)
     {
-        var rtuInitializedDto = await _rtuManager.InitializeRtuAsync(request.dto);
+        var rtuInitializedDto = await _rtuManager.InitializeRtuAsync(request.Dto);
 
         var rtu = _writeModel.Rtus.First(r => r.Id == rtuInitializedDto.RtuId);
         SystemEvent systemEvent = SystemEventFactory.RtuInitialized(_currentUserService.UserId!, rtuInitializedDto, rtu.Title);

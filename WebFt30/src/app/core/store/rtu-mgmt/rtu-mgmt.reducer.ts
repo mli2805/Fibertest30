@@ -79,6 +79,27 @@ const reducer = createReducer(
   on(RtuMgmtActions.getMeasurementClientSorSuccess, (state) => ({
     ...state,
     rtuOperationInProgress: false
+  })),
+
+  on(RtuMgmtActions.stopMonitoring, (state, { rtuId }) => ({
+    ...state,
+    rtuOperationInProgress: true,
+    rtuOperationSuccess: null,
+    errorMessageId: null
+  })),
+  on(RtuMgmtActions.stopMonitoringSuccess, (state) => ({
+    ...state,
+    rtuOperationInProgress: false,
+    rtuOperationSuccess: true
+  })),
+  on(RtuMgmtActions.stopMonitoringFailure, (state, { errorMessageId }) => ({
+    ...state,
+    rtuOperationInProgress: false,
+    rtuOperationSuccess: false,
+    errorMessageId: errorMessageId
+  })),
+  on(RtuMgmtActions.applyStopMonitoringSuccess, (state, { dto }) => ({
+    ...state
   }))
 );
 
