@@ -11,4 +11,7 @@ export class Trace {
   hasEnoughBaseRefsToPerformMonitoring!: boolean;
   isIncludedInMonitoringCycle!: boolean;
   tceLinkState!: TceLinkState;
+  fastDuration!: number;
+  preciseDuration!: number;
+  additionalDuration!: number;
 }

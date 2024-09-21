@@ -73,6 +73,9 @@ message Trace {
     bool hasEnoughBaseRefsToPerformMonitoring = 7;
     bool isIncludedInMonitoringCycle = 8;
     ft.enums.TceLinkState tceLinkState = 9;
+    int32 fastDuration = 10;
+    int32 preciseDuration = 11;
+    int32 additionalDuration = 12;
 }
 
 message Bop {

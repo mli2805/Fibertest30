@@ -1,0 +1,54 @@
+<div class="grouped-border mt-2">
+  <table class="min-w-full text-sm">
+    <thead class="text-center text-gray-600 dark:text-zinc-400">
+      <tr>
+        <th class="w-8"></th>
+        <th class="w-12 font-thin">{{ 'i18n.ft.port' | translate }}</th>
+        <th class="font-thin">{{ 'i18n.ft.trace' | translate }}</th>
+        <th class="w-40 font-thin">{{ 'i18n.ft.fast-precise' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        class="my-1"
+        *ngFor="let trace of _traces; index as i"
+        class="odd:bg-rtu-second-bg dark:odd:bg-rtu-dark-second-bg"
+      >
+        <ng-container *ngIf="trace">
+          <td>
+            <label
+              class="toggle ml-1 mt-1"
+              [ngClass]="{ 'inaccessible-slider': !trace.hasEnoughBaseRefsToPerformMonitoring }"
+            >
+              <input
+                type="checkbox"
+                [checked]="trace.isIncludedInMonitoringCycle"
+                (change)="onPortCheckBoxClicked(i)"
+                [disabled]="!trace.hasEnoughBaseRefsToPerformMonitoring"
+              />
+              <div class="slider"></div>
+            </label>
+          </td>
+          <td class="text-center">{{ trace.port!.opticalPort }}</td>
+          <td class="text-center">{{ trace.title }}</td>
+          <td class="text-center">
+            <span class="mr-1">{{ trace.fastDuration }}</span
+            >/<span class="mx-1">{{ trace.preciseDuration }}</span
+            >{{ 'i18n.ft.sec' | translate }}
+          </td>
+        </ng-container>
+        <ng-container *ngIf="!trace">
+          <td>
+            <label class="toggle ml-1 mt-1" [ngClass]="{ 'inaccessible-slider': true }">
+              <input type="checkbox" [disabled]="true" />
+              <div class="slider"></div>
+            </label>
+          </td>
+          <td class="text-center">{{ i + 1 }}</td>
+          <td></td>
+          <td></td>
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
+</div>

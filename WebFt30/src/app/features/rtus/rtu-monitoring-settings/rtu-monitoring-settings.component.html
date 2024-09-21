@@ -1,51 +1,43 @@
-<div class="grouped-border w-96">
-  <div class="flex flex-col" [formGroup]="form">
+<div class="flex h-full">
+  <div class="mx-2 flex w-full flex-col">
+    <ng-container *ngIf="traces$ | async as traces">
+      <rtu-select
+        [items]="otaus"
+        [selectedItem]="selectedOtau"
+        (selectedItemChange)="selectedOtauChanged($event)"
+      >
+        <ng-template rtuSelectLabel let-selectedItem>{{ selectedItem.title }} </ng-template>
+        <ng-template rtuSelectItem let-item>{{ item.title }} </ng-template>
+      </rtu-select>
+
+      <rtu-otau-monitoring-settings
+        [traces]="traces"
+        (portChecked)="onPortChecked($event)"
+      ></rtu-otau-monitoring-settings>
+    </ng-container>
+  </div>
+  <div class="mx-2 flex w-72 flex-col" [formGroup]="form">
     <fieldset [disabled]="isDisabled()">
-      <div class="grid-container mx-2 mb-4 gap-x-6 gap-y-2 text-sm">
-        <label
-          style="grid-area: versionLabel"
-          class="my-auto"
-          [ngClass]="{ 'disabled-label': isDisabled() }"
-          >{{ 'i18n.ft.precise-monitoring' | translate }}</label
-        >
+      <div class="mb-6 w-64 text-sm">
+        <label class="ml-2 text-xs" [ngClass]="{ 'disabled-label': isDisabled() }">{{
+          'i18n.ft.precise-monitoring' | translate
+        }}</label>
 
-        <rtu-select
-          style="grid-area: versionValue"
-          formControlName="preciseMeas"
-          [items]="frequencies"
-        >
-          <ng-template rtuSelectLabel let-selectedItem>
-            <rtu-description-label
-              [description]="'i18n.ft.measurement-frequency' | translate"
-              [label]="selectedItem | frequencyPipe | translate"
-            ></rtu-description-label>
-          </ng-template>
-          <ng-template rtuSelectItem let-item>
-            {{ item | frequencyPipe | translate }}
-          </ng-template>
-        </rtu-select>
+        <div class="mb-2 mt-1">
+          <rtu-select formControlName="preciseMeas" [items]="frequencies">
+            <ng-template rtuSelectLabel let-selectedItem>
+              <rtu-description-label
+                [description]="'i18n.ft.measurement-frequency' | translate"
+                [label]="selectedItem | frequencyPipe | translate"
+              ></rtu-description-label>
+            </ng-template>
+            <ng-template rtuSelectItem let-item>
+              {{ item | frequencyPipe | translate }}
+            </ng-template>
+          </rtu-select>
+        </div>
 
-        <rtu-select
-          style="grid-area: useVeexOidValue"
-          formControlName="preciseSave"
-          [items]="frequencies"
-        >
-          <ng-template rtuSelectLabel let-selectedItem>
-            <rtu-description-label
-              [description]="'i18n.ft.storage-frequency' | translate"
-              [label]="selectedItem | frequencyPipe | translate"
-            ></rtu-description-label>
-          </ng-template>
-          <ng-template rtuSelectItem let-item>
-            {{ item | frequencyPipe | translate }}
-          </ng-template>
-        </rtu-select>
-
-        <rtu-select
-          style="grid-area: communityValue"
-          formControlName="fastSave"
-          [items]="frequencies"
-        >
+        <rtu-select formControlName="preciseSave" [items]="frequencies">
           <ng-template rtuSelectLabel let-selectedItem>
             <rtu-description-label
               [description]="'i18n.ft.storage-frequency' | translate"
@@ -57,8 +49,57 @@
           </ng-template>
         </rtu-select>
       </div>
-    </fieldset>
+      <div class="mb-6 w-64 text-sm">
+        <label class="ml-2 text-xs" [ngClass]="{ 'disabled-label': isDisabled() }">{{
+          'i18n.ft.fast-monitoring' | translate
+        }}</label>
 
-    <button class="button-ok" (click)="onApplyClicked()">Apply</button>
+        <div class="mb-2 mt-1">
+          <rtu-select formControlName="fastMeas" [items]="onlyPerm">
+            <ng-template rtuSelectLabel let-selectedItem>
+              <rtu-description-label
+                [description]="'i18n.ft.measurement-frequency' | translate"
+                [label]="selectedItem | translate"
+              ></rtu-description-label>
+            </ng-template>
+            <ng-template rtuSelectItem let-item>
+              {{ item | translate }}
+            </ng-template>
+          </rtu-select>
+        </div>
+
+        <rtu-select formControlName="fastSave" [items]="frequencies">
+          <ng-template rtuSelectLabel let-selectedItem>
+            <rtu-description-label
+              [description]="'i18n.ft.storage-frequency' | translate"
+              [label]="selectedItem | frequencyPipe | translate"
+            ></rtu-description-label>
+          </ng-template>
+          <ng-template rtuSelectItem let-item>
+            {{ item | frequencyPipe | translate }}
+          </ng-template>
+        </rtu-select>
+      </div>
+
+      <div class="mb-6 w-64">
+        <label class="ml-2 text-xs" [ngClass]="{ 'disabled-label': isDisabled() }">{{
+          'i18n.ft.cycle-full-time' | translate
+        }}</label>
+        <div class="ml-2 text-sm">{{ cycleFullTime }}</div>
+      </div>
+
+      <div class="mb-6 ml-2 w-64">
+        <div class="flex">
+          <label class="toggle">
+            <input type="checkbox" formControlName="isMonitoringOn" />
+            <div class="slider"></div>
+          </label>
+          <label class="ml-3 text-sm" [ngClass]="{ 'disabled-label': isDisabled() }">{{
+            'i18n.ft.automatic-mode' | translate
+          }}</label>
+        </div>
+      </div>
+    </fieldset>
+    <button class="button-ok mt-4 w-64" (click)="onApplyClicked()">Apply</button>
   </div>
 </div>

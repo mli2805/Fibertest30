@@ -19,6 +19,9 @@ export class TreeMapping {
     trace.hasEnoughBaseRefsToPerformMonitoring = grpcTrace.hasEnoughBaseRefsToPerformMonitoring;
     trace.isIncludedInMonitoringCycle = grpcTrace.isIncludedInMonitoringCycle;
     trace.tceLinkState = FtEnumsMapping.fromGrpcTceLinkState(grpcTrace.tceLinkState);
+    trace.fastDuration = grpcTrace.fastDuration;
+    trace.preciseDuration = grpcTrace.preciseDuration;
+    trace.additionalDuration = grpcTrace.additionalDuration;
     return trace;
   }
 

@@ -163,6 +163,9 @@ namespace Iit.Fibertest.Graph
                 Port = t.Port,
                 State = t.State,
                 HasEnoughBaseRefsToPerformMonitoring = t.HasEnoughBaseRefsToPerformMonitoring,
+                FastDuration = t.FastDuration,
+                PreciseDuration = t.PreciseDuration,
+                AdditionalDuration = t.AdditionalDuration,
                 IsIncludedInMonitoringCycle = t.IsIncludedInMonitoringCycle,
                 TceLinkState = t.TraceToTceLinkState
             };

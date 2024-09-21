@@ -5,8 +5,8 @@ import { Frequency } from 'src/app/core/store/models/ft30/ft-enums';
 export class FrequencyPipe implements PipeTransform {
   transform(value: Frequency) {
     switch (value) {
-      case Frequency.DoNot:
-        return 'i18n.ft.do-not';
+      case Frequency.Permanently:
+        return 'i18n.ft.permanently';
       case Frequency.EveryHour:
         return 'i18n.ft.every-hour';
       case Frequency.Every6Hours:
@@ -21,6 +21,8 @@ export class FrequencyPipe implements PipeTransform {
         return 'i18n.ft.every-7-days';
       case Frequency.Every30Days:
         return 'i18n.ft.every-30-days';
+      case Frequency.DoNot:
+        return 'i18n.ft.do-not';
     }
   }
 }

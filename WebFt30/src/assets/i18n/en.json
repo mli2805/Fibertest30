@@ -435,6 +435,12 @@
   "i18n.ft.measurement-frequency": "Measurement frequency",
   "i18n.ft.precise-monitoring": "Precise monitoring",
   "i18n.ft.fast-monitoring": "Fast monitoring",
+  "i18n.ft.cycle-full-time": "Cycle full time",
+  "i18n.ft.automatic": "Automatic",
+  "i18n.ft.manual": "Manual",
+  "i18n.ft.fast-precise": "Fast / Precise",
+
+  "i18n.ft.sec": "sec",
 
   "i18n.start-page.gis": "Gis",
   "i18n.start-page.notifications": "Notifications",

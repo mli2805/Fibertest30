@@ -145,6 +145,9 @@ public static class RtuTreeMapping
             HasEnoughBaseRefsToPerformMonitoring = trace.HasEnoughBaseRefsToPerformMonitoring,
             IsIncludedInMonitoringCycle = trace.IsIncludedInMonitoringCycle,
             TceLinkState = trace.TceLinkState.ToProto(),
+            FastDuration = (int)trace.FastDuration.TotalSeconds,
+            PreciseDuration = (int)trace.PreciseDuration.TotalSeconds,
+            AdditionalDuration = (int)trace.AdditionalDuration.TotalSeconds,
         };
         if (trace.OtauPort != null) // only for attached trace
         {

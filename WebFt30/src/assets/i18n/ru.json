@@ -111,5 +111,12 @@
   "i18n.ft.storage-frequency": "Частота сохранения",
   "i18n.ft.measurement-frequency": "Частота измерений",
   "i18n.ft.precise-monitoring": "Точный мониторинг",
-  "i18n.ft.fast-monitoring": "Быстрый мониторинг"
+  "i18n.ft.fast-monitoring": "Быстрый мониторинг",
+
+  "i18n.ft.cycle-full-time": "Полное время цикла",
+  "i18n.ft.automatic": "Автоматический",
+  "i18n.ft.manual": "Ручной",
+  "i18n.ft.fast-precise": "Быстрый / Точный",
+
+  "i18n.ft.sec": "сек"
 }

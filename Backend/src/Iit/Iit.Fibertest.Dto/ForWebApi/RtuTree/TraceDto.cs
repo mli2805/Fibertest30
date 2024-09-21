@@ -15,6 +15,9 @@ namespace Iit.Fibertest.Dto
 
         [DataMember] public bool HasEnoughBaseRefsToPerformMonitoring;
         [DataMember] public bool IsIncludedInMonitoringCycle;
+        [DataMember] public TimeSpan FastDuration;
+        [DataMember] public TimeSpan PreciseDuration;
+        [DataMember] public TimeSpan AdditionalDuration;
         [DataMember] public TraceToTceLinkState TceLinkState = TraceToTceLinkState.NoLink;
 
         public TraceDto(ChildType childType) : base(childType)
