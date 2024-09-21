@@ -101,11 +101,19 @@ public class RtuLinuxPollster : IRtuLinuxPollster
         };
 
         var makLinuxRtuTransmitter = scope.ServiceProvider.GetRequiredService<IRtuTransmitter>();
-        // прокинет кастомный exception
         var state = await makLinuxRtuTransmitter.GetRtuCurrentState(requestDto);
+        if (state.ReturnCode != ReturnCode.Ok)
+        {
+            if (!_makLinuxRtuAccess.ContainsKey(rtu.Id) || _makLinuxRtuAccess[rtu.Id])
+            {
+                _logger.LogError($"Failed to get {rtu.Title} current state.  " + state.ReturnCode);
+                _makLinuxRtuAccess.TryAdd(rtu.Id, false);
+            }
+            return null;
+
+        }
 
         await UpdateRtuStation(rtuStationsRepository, rtu, state);
-
         return state;
     }
 
@@ -122,7 +130,7 @@ public class RtuLinuxPollster : IRtuLinuxPollster
     private async Task ApplyBopEvents(List<BopStateChangedDto> dtos, CancellationToken ct)
     {
         if (dtos.Count > 0)
-            _logger.LogInformation($"{dtos.Count} bop evetns received");
+            _logger.LogInformation($"{dtos.Count} bop events received");
 
         foreach (var dto in dtos)
         {
@@ -140,14 +148,14 @@ public class RtuLinuxPollster : IRtuLinuxPollster
             using var scope = _serviceScopeFactory.CreateScope();
             var userRepository = scope.ServiceProvider.GetRequiredService<IUsersRepository>();
             var user = await userRepository.GetUser(dto.ConnectionId);
-            
+
             _logger.LogInformation($"Process measurement(Client) {dto.ClientMeasurementId.First6()} for user {user.User.UserName}");
-       
+
             _clientMeasurements.TryAdd(dto.ClientMeasurementId, dto);
 
             await _systemEventSender.Send(
                 SystemEventFactory.MeasurementClientDone(dto.ConnectionId, dto.ClientMeasurementId));
-           
+
             // освободить рту
             _rtuOccupationService.TrySetOccupation(rtu.Id, RtuOccupation.None, user.User.UserName,
                 out RtuOccupationState? _);
@@ -188,7 +196,7 @@ public class RtuLinuxPollster : IRtuLinuxPollster
         else if (_makLinuxRtuAccess[makLinuxRtu.Id] != success)
         {
             var w = success ? "Successfully" : "Failed to";
-            _logger.LogInformation($"{w} GetRtuCurrentState {makLinuxRtu.MainChannel.ToStringA()}");
+            _logger.LogInformation($"{w} get {makLinuxRtu.Title} current state. {makLinuxRtu.MainChannel.ToStringA()}");
             _makLinuxRtuAccess[makLinuxRtu.Id] = success;
         }
 

@@ -43,6 +43,7 @@ public class MakLinuxHttpTransmitter : IRtuTransmitter
         return result;
     }
 
+    // не надо здесь кидать exception, идет поллинг кучи рту каждую секунду в логе будет мусор
     public async Task<RtuCurrentStateDto> GetRtuCurrentState(GetCurrentRtuStateDto dto)
     {
         var uri = $"http://{dto.RtuDoubleAddress.Main.ToStringA()}/rtu/current-state";
@@ -53,20 +54,20 @@ public class MakLinuxHttpTransmitter : IRtuTransmitter
             var response = await _httpClient.SendAsync(request);
             if (!response.IsSuccessStatusCode)
             {
-                throw new FailedToConnectRtuException(response.ReasonPhrase ?? "");
+                return new RtuCurrentStateDto(ReturnCode.D2RHttpError);
             }
 
             var responseJson = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<RtuCurrentStateDto>(responseJson, _jsonSerializerSettings);
             if (result == null)
             {
-                throw new DeserializationException("RtuCurrentStateDto");
+                return new RtuCurrentStateDto(ReturnCode.DeserializationError);
             }
             return result;
         }
         catch (Exception e)
         {
-            throw new FailedToConnectRtuException(e.Message);
+            return new RtuCurrentStateDto(ReturnCode.D2RHttpError);
         }
     }
 
