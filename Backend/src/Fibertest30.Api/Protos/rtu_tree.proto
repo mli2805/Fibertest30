@@ -112,14 +112,17 @@ message Rtu {
 
     NetAddress otdrNetAddress = 16;
 	ft.enums.MonitoringState monitoringMode = 17;
+    int32 preciseMeas = 18;
+    int32 preciseSave = 19;
+    int32 fastSave = 20;
     
-    optional string version = 18;
-    optional string version2 = 19;
+    optional string version = 21;
+    optional string version2 = 22;
 
-	repeated Bop bops = 20;
-	repeated Trace traces = 21;
+	repeated Bop bops = 23;
+	repeated Trace traces = 24;
 
-    optional TreeOfAcceptableMeasParams treeOfAcceptableMeasParams = 22;
+    optional TreeOfAcceptableMeasParams treeOfAcceptableMeasParams = 25;
 }
 
 message GetRtuTreeRequest {}

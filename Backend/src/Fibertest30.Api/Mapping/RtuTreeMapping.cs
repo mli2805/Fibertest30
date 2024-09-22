@@ -175,6 +175,9 @@ public static class RtuTreeMapping
 
             OtdrNetAddress = rtu.OtdrNetAddress.ToProto(),
             MonitoringMode = rtu.MonitoringMode.ToProto(),
+            PreciseMeas = (int)rtu.PreciseMeas,
+            PreciseSave = (int)rtu.PreciseSave,
+            FastSave = (int)rtu.FastSave,
 
             Traces = { rtu.Children.Where(c => c is TraceDto).Cast<TraceDto>().Select(t => t.ToProto()) },
             Bops = { rtu.Children.Where(c => c is OtauWebDto).Cast<OtauWebDto>().Select(o => o.ToProto()) }

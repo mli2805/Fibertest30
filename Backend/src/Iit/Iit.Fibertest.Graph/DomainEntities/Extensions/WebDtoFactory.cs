@@ -87,6 +87,10 @@ namespace Iit.Fibertest.Graph
                 BopState = r.BopState,
 
                 MonitoringMode = r.MonitoringState,
+                PreciseMeas = r.PreciseMeas,
+                PreciseSave = r.PreciseSave,
+                FastSave = r.FastSave,
+
                 Version = r.Version,
                 Version2 = r.Version2,
 

@@ -323,23 +323,35 @@ export interface Rtu {
      */
     monitoringMode: MonitoringState;
     /**
-     * @generated from protobuf field: optional string version = 18;
+     * @generated from protobuf field: int32 preciseMeas = 18;
+     */
+    preciseMeas: number;
+    /**
+     * @generated from protobuf field: int32 preciseSave = 19;
+     */
+    preciseSave: number;
+    /**
+     * @generated from protobuf field: int32 fastSave = 20;
+     */
+    fastSave: number;
+    /**
+     * @generated from protobuf field: optional string version = 21;
      */
     version?: string;
     /**
-     * @generated from protobuf field: optional string version2 = 19;
+     * @generated from protobuf field: optional string version2 = 22;
      */
     version2?: string;
     /**
-     * @generated from protobuf field: repeated fibertest30.rtu_tree.Bop bops = 20;
+     * @generated from protobuf field: repeated fibertest30.rtu_tree.Bop bops = 23;
      */
     bops: Bop[];
     /**
-     * @generated from protobuf field: repeated fibertest30.rtu_tree.Trace traces = 21;
+     * @generated from protobuf field: repeated fibertest30.rtu_tree.Trace traces = 24;
      */
     traces: Trace[];
     /**
-     * @generated from protobuf field: optional fibertest30.rtu_tree.TreeOfAcceptableMeasParams treeOfAcceptableMeasParams = 22;
+     * @generated from protobuf field: optional fibertest30.rtu_tree.TreeOfAcceptableMeasParams treeOfAcceptableMeasParams = 25;
      */
     treeOfAcceptableMeasParams?: TreeOfAcceptableMeasParams;
 }
@@ -554,11 +566,14 @@ class Rtu$Type extends MessageType<Rtu> {
             { no: 15, name: "isReserveChannelSet", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 16, name: "otdrNetAddress", kind: "message", T: () => NetAddress },
             { no: 17, name: "monitoringMode", kind: "enum", T: () => ["fibertest30.ft.enums.MonitoringState", MonitoringState] },
-            { no: 18, name: "version", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 19, name: "version2", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 20, name: "bops", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Bop },
-            { no: 21, name: "traces", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Trace },
-            { no: 22, name: "treeOfAcceptableMeasParams", kind: "message", T: () => TreeOfAcceptableMeasParams }
+            { no: 18, name: "preciseMeas", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 19, name: "preciseSave", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 20, name: "fastSave", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 21, name: "version", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 22, name: "version2", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 23, name: "bops", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Bop },
+            { no: 24, name: "traces", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Trace },
+            { no: 25, name: "treeOfAcceptableMeasParams", kind: "message", T: () => TreeOfAcceptableMeasParams }
         ]);
     }
 }

@@ -31,6 +31,9 @@ namespace Iit.Fibertest.Dto
         [DataMember] public RtuPartState BopState;
 
         [DataMember] public MonitoringState MonitoringMode;
+        [DataMember] public Frequency PreciseMeas;
+        [DataMember] public Frequency PreciseSave;
+        [DataMember] public Frequency FastSave;
 
         [DataMember] public string? Version;
         [DataMember] public string? Version2;

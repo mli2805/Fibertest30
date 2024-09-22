@@ -193,13 +193,13 @@ class DoubleValue$Type extends MessageType<DoubleValue> {
     /**
      * Encode `DoubleValue` to JSON number.
      */
-    override override override override override override override override override override override override override override internalJsonWrite(message: DoubleValue, options: JsonWriteOptions): JsonValue {
+    override override override override override override override override override override override override override override override override override internalJsonWrite(message: DoubleValue, options: JsonWriteOptions): JsonValue {
         return this.refJsonWriter.scalar(2, message.value, "value", false, true);
     }
     /**
      * Decode `DoubleValue` from JSON number.
      */
-    override override override override override override override override override override override override override override internalJsonRead(json: JsonValue, options: JsonReadOptions, target?: DoubleValue): DoubleValue {
+    override override override override override override override override override override override override override override override override override internalJsonRead(json: JsonValue, options: JsonReadOptions, target?: DoubleValue): DoubleValue {
         if (!target)
             target = this.create();
         target.value = this.refJsonReader.scalar(json, 1, undefined, "value") as number;
@@ -220,13 +220,13 @@ class FloatValue$Type extends MessageType<FloatValue> {
     /**
      * Encode `FloatValue` to JSON number.
      */
-    override override override override override override override override override override override override override override internalJsonWrite(message: FloatValue, options: JsonWriteOptions): JsonValue {
+    override override override override override override override override override override override override override override override override override internalJsonWrite(message: FloatValue, options: JsonWriteOptions): JsonValue {
         return this.refJsonWriter.scalar(1, message.value, "value", false, true);
     }
     /**
      * Decode `FloatValue` from JSON number.
      */
-    override override override override override override override override override override override override override override internalJsonRead(json: JsonValue, options: JsonReadOptions, target?: FloatValue): FloatValue {
+    override override override override override override override override override override override override override override override override override internalJsonRead(json: JsonValue, options: JsonReadOptions, target?: FloatValue): FloatValue {
         if (!target)
             target = this.create();
         target.value = this.refJsonReader.scalar(json, 1, undefined, "value") as number;
@@ -247,13 +247,13 @@ class Int64Value$Type extends MessageType<Int64Value> {
     /**
      * Encode `Int64Value` to JSON string.
      */
-    override override override override override override override override override override override override override override internalJsonWrite(message: Int64Value, options: JsonWriteOptions): JsonValue {
+    override override override override override override override override override override override override override override override override override internalJsonWrite(message: Int64Value, options: JsonWriteOptions): JsonValue {
         return this.refJsonWriter.scalar(ScalarType.INT64, message.value, "value", false, true);
     }
     /**
      * Decode `Int64Value` from JSON string.
      */
-    override override override override override override override override override override override override override override internalJsonRead(json: JsonValue, options: JsonReadOptions, target?: Int64Value): Int64Value {
+    override override override override override override override override override override override override override override override override override internalJsonRead(json: JsonValue, options: JsonReadOptions, target?: Int64Value): Int64Value {
         if (!target)
             target = this.create();
         target.value = this.refJsonReader.scalar(json, ScalarType.INT64, LongType.STRING, "value") as any;
@@ -274,13 +274,13 @@ class UInt64Value$Type extends MessageType<UInt64Value> {
     /**
      * Encode `UInt64Value` to JSON string.
      */
-    override override override override override override override override override override override override override override internalJsonWrite(message: UInt64Value, options: JsonWriteOptions): JsonValue {
+    override override override override override override override override override override override override override override override override override internalJsonWrite(message: UInt64Value, options: JsonWriteOptions): JsonValue {
         return this.refJsonWriter.scalar(ScalarType.UINT64, message.value, "value", false, true);
     }
     /**
      * Decode `UInt64Value` from JSON string.
      */
-    override override override override override override override override override override override override override override internalJsonRead(json: JsonValue, options: JsonReadOptions, target?: UInt64Value): UInt64Value {
+    override override override override override override override override override override override override override override override override override internalJsonRead(json: JsonValue, options: JsonReadOptions, target?: UInt64Value): UInt64Value {
         if (!target)
             target = this.create();
         target.value = this.refJsonReader.scalar(json, ScalarType.UINT64, LongType.STRING, "value") as any;
@@ -301,13 +301,13 @@ class Int32Value$Type extends MessageType<Int32Value> {
     /**
      * Encode `Int32Value` to JSON string.
      */
-    override override override override override override override override override override override override override override internalJsonWrite(message: Int32Value, options: JsonWriteOptions): JsonValue {
+    override override override override override override override override override override override override override override override override override internalJsonWrite(message: Int32Value, options: JsonWriteOptions): JsonValue {
         return this.refJsonWriter.scalar(5, message.value, "value", false, true);
     }
     /**
      * Decode `Int32Value` from JSON string.
      */
-    override override override override override override override override override override override override override override internalJsonRead(json: JsonValue, options: JsonReadOptions, target?: Int32Value): Int32Value {
+    override override override override override override override override override override override override override override override override override internalJsonRead(json: JsonValue, options: JsonReadOptions, target?: Int32Value): Int32Value {
         if (!target)
             target = this.create();
         target.value = this.refJsonReader.scalar(json, 5, undefined, "value") as number;
@@ -328,13 +328,13 @@ class UInt32Value$Type extends MessageType<UInt32Value> {
     /**
      * Encode `UInt32Value` to JSON string.
      */
-    override override override override override override override override override override override override override override internalJsonWrite(message: UInt32Value, options: JsonWriteOptions): JsonValue {
+    override override override override override override override override override override override override override override override override override internalJsonWrite(message: UInt32Value, options: JsonWriteOptions): JsonValue {
         return this.refJsonWriter.scalar(13, message.value, "value", false, true);
     }
     /**
      * Decode `UInt32Value` from JSON string.
      */
-    override override override override override override override override override override override override override override internalJsonRead(json: JsonValue, options: JsonReadOptions, target?: UInt32Value): UInt32Value {
+    override override override override override override override override override override override override override override override override override internalJsonRead(json: JsonValue, options: JsonReadOptions, target?: UInt32Value): UInt32Value {
         if (!target)
             target = this.create();
         target.value = this.refJsonReader.scalar(json, 13, undefined, "value") as number;
@@ -355,13 +355,13 @@ class BoolValue$Type extends MessageType<BoolValue> {
     /**
      * Encode `BoolValue` to JSON bool.
      */
-    override override override override override override override override override override override override override override internalJsonWrite(message: BoolValue, options: JsonWriteOptions): JsonValue {
+    override override override override override override override override override override override override override override override override override internalJsonWrite(message: BoolValue, options: JsonWriteOptions): JsonValue {
         return message.value;
     }
     /**
      * Decode `BoolValue` from JSON bool.
      */
-    override override override override override override override override override override override override override override internalJsonRead(json: JsonValue, options: JsonReadOptions, target?: BoolValue): BoolValue {
+    override override override override override override override override override override override override override override override override override internalJsonRead(json: JsonValue, options: JsonReadOptions, target?: BoolValue): BoolValue {
         if (!target)
             target = this.create();
         target.value = this.refJsonReader.scalar(json, 8, undefined, "value") as boolean;
@@ -382,13 +382,13 @@ class StringValue$Type extends MessageType<StringValue> {
     /**
      * Encode `StringValue` to JSON string.
      */
-    override override override override override override override override override override override override override override internalJsonWrite(message: StringValue, options: JsonWriteOptions): JsonValue {
+    override override override override override override override override override override override override override override override override override internalJsonWrite(message: StringValue, options: JsonWriteOptions): JsonValue {
         return message.value;
     }
     /**
      * Decode `StringValue` from JSON string.
      */
-    override override override override override override override override override override override override override override internalJsonRead(json: JsonValue, options: JsonReadOptions, target?: StringValue): StringValue {
+    override override override override override override override override override override override override override override override override override internalJsonRead(json: JsonValue, options: JsonReadOptions, target?: StringValue): StringValue {
         if (!target)
             target = this.create();
         target.value = this.refJsonReader.scalar(json, 9, undefined, "value") as string;
@@ -409,13 +409,13 @@ class BytesValue$Type extends MessageType<BytesValue> {
     /**
      * Encode `BytesValue` to JSON string.
      */
-    override override override override override override override override override override override override override override internalJsonWrite(message: BytesValue, options: JsonWriteOptions): JsonValue {
+    override override override override override override override override override override override override override override override override override internalJsonWrite(message: BytesValue, options: JsonWriteOptions): JsonValue {
         return this.refJsonWriter.scalar(12, message.value, "value", false, true);
     }
     /**
      * Decode `BytesValue` from JSON string.
      */
-    override override override override override override override override override override override override override override internalJsonRead(json: JsonValue, options: JsonReadOptions, target?: BytesValue): BytesValue {
+    override override override override override override override override override override override override override override override override override internalJsonRead(json: JsonValue, options: JsonReadOptions, target?: BytesValue): BytesValue {
         if (!target)
             target = this.create();
         target.value = this.refJsonReader.scalar(json, 12, undefined, "value") as Uint8Array;
