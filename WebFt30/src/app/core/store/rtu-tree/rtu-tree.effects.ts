@@ -35,7 +35,6 @@ export class RtuTreeEffects {
         return this.rtuTreeService.getOneRtu(rtuId).pipe(
           map((response) => {
             const rtu = TreeMapping.fromGrpcRtu(response.rtu!);
-            console.log(rtu);
             return RtuTreeActions.getOneRtuSuccess({ rtu });
           }),
           catchError((error) => {

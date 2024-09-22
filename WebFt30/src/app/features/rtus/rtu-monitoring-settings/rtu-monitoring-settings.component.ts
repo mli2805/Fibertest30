@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AppState, RtuTreeSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { ApplyMonitoringSettingsDto } from 'src/app/core/store/models/ft30/apply-monitorig-settings-dto';
-import { FiberState, Frequency } from 'src/app/core/store/models/ft30/ft-enums';
+import { FiberState, Frequency, MonitoringState } from 'src/app/core/store/models/ft30/ft-enums';
 import { PortWithTraceDto } from 'src/app/core/store/models/ft30/port-with-trace-dto';
 import { ReturnCode } from 'src/app/core/store/models/ft30/return-code';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
@@ -47,39 +47,31 @@ export class RtuMonitoringSettingsComponent implements OnInit {
   cycleFullTime = '0:00';
   cycleFullTimeSec = 0;
 
-  oldSettings!: ApplyMonitoringSettingsDto;
-  // rtuTracesCopy!: Trace[];
-
-  constructor(private route: ActivatedRoute) {
-    this.oldSettings = new ApplyMonitoringSettingsDto();
-
-    this.oldSettings.preciseMeas = Frequency.Every2Days;
-    this.oldSettings.preciseSave = Frequency.Every6Hours;
-    this.oldSettings.fastSave = Frequency.DoNot;
-
-    this.oldSettings.isMonitoringOn = false;
-  }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.rtuId = this.route.snapshot.paramMap.get('id')!;
     this.rtu = CoreUtils.getCurrentState(this.store, RtuTreeSelectors.selectRtu(this.rtuId))!;
-    // this.rtuTracesCopy = JSON.parse(JSON.stringify(this.rtu.traces));
 
     this.collectOtausWithTraces();
     this.selectedOtauChanged(this.otaus[0]);
 
-    this.cycleFullTimeSec = this.rtu.traces
-      .filter((t) => t.isIncludedInMonitoringCycle)
-      .map((d) => d.fastDuration)
-      .reduce((a, b) => a + b);
+    for (let i = 0; i < this.otaus.length; i++) {
+      this.cycleFullTimeSec =
+        this.cycleFullTimeSec +
+        this.otaus[i].traces
+          .filter((t) => t && t.isIncludedInMonitoringCycle)
+          .map((d) => d!.fastDuration)
+          .reduce((a, b) => a + b);
+    }
     this.cycleFullTime = SecUtil.secToString(this.cycleFullTimeSec);
 
     this.form = new FormGroup({
-      preciseMeas: new FormControl(this.oldSettings.preciseMeas),
-      preciseSave: new FormControl(this.oldSettings.preciseSave),
+      preciseMeas: new FormControl(this.rtu.preciseMeas),
+      preciseSave: new FormControl(this.rtu.preciseSave),
       fastMeas: new FormControl(this.onlyPermSele),
-      fastSave: new FormControl(this.oldSettings.fastSave),
-      isMonitoringOn: new FormControl(this.oldSettings.isMonitoringOn)
+      fastSave: new FormControl(this.rtu.fastSave),
+      isMonitoringOn: new FormControl(this.rtu.monitoringMode === MonitoringState.On)
     });
   }
 
@@ -118,25 +110,38 @@ export class RtuMonitoringSettingsComponent implements OnInit {
   }
 
   onApplyClicked() {
+    const dto = this.collectDto();
+
+    this.store.dispatch(RtuMgmtActions.applyMonitoringSettings({ dto }));
+  }
+
+  collectDto(): ApplyMonitoringSettingsDto {
     const dto = new ApplyMonitoringSettingsDto();
     dto.rtuId = this.rtu.rtuId;
     dto.rtuMaker = this.rtu.rtuMaker;
-    dto.isMonitoringOn = true;
+    dto.isMonitoringOn = this.form.controls['isMonitoringOn'].value;
 
-    dto.preciseMeas = Frequency.EveryHour;
-    dto.preciseSave = Frequency.EveryDay;
-    dto.fastSave = Frequency.DoNot;
+    dto.preciseMeas = this.form.controls['preciseMeas'].value;
+    dto.preciseSave = this.form.controls['preciseSave'].value;
+    dto.fastSave = this.form.controls['fastSave'].value;
 
     dto.ports = [];
-    const trace = this.rtu.traces[0];
-    const port1 = new PortWithTraceDto();
-    port1.traceId = trace.traceId;
-    port1.portOfOtau = trace.port!;
-    port1.lastTraceState = FiberState.Unknown;
-    port1.lastRtuAccidentOnTrace = ReturnCode.MeasurementEndedNormally;
-    dto.ports.push(port1);
+    for (let i = 0; i < this.otaus.length; i++) {
+      this.otaus[i].traces
+        .filter((t) => t && t.isIncludedInMonitoringCycle)
+        .forEach((a) => dto.ports.push(this.toPortWithTraceDto(a!)));
+    }
 
-    this.store.dispatch(RtuMgmtActions.applyMonitoringSettings({ dto }));
+    return dto;
+  }
+
+  toPortWithTraceDto(trace: Trace): PortWithTraceDto {
+    const port = new PortWithTraceDto();
+    port.traceId = trace.traceId;
+    port.portOfOtau = trace.port!;
+    port.lastTraceState = trace.state;
+    port.lastRtuAccidentOnTrace = ReturnCode.MeasurementEndedNormally;
+    return port;
   }
 
   // если только посмотреть
