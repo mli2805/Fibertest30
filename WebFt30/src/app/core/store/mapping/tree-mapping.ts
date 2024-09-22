@@ -62,6 +62,9 @@ export class TreeMapping {
     rtu.isReserveChannelSet = grpcRtu.isReserveChannelSet;
     rtu.otdrNetAddress = FtBaseMapping.fromGrpcNetAddress(grpcRtu.otdrNetAddress!);
     rtu.monitoringMode = FtEnumsMapping.fromGrpcMonitoringState(grpcRtu.monitoringMode);
+    rtu.preciseMeas = grpcRtu.preciseMeas;
+    rtu.preciseSave = grpcRtu.preciseSave;
+    rtu.fastSave = grpcRtu.fastSave;
 
     rtu.bops = grpcRtu.bops.map((b) => this.fromGrpcBop(b));
     rtu.traces = grpcRtu.traces.map((t) => this.fromGrpcTrace(t));

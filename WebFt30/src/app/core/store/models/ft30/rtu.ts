@@ -1,6 +1,6 @@
 import { TreeOfAcceptableMeasurementParameters } from './acceptable-measurement-parameters';
 import { Bop } from './bop';
-import { RtuPartState, MonitoringState, RtuMaker } from './ft-enums';
+import { RtuPartState, MonitoringState, RtuMaker, Frequency } from './ft-enums';
 import { NetAddress } from './net-address';
 import { Trace } from './trace';
 
@@ -27,6 +27,9 @@ export class Rtu {
   isReserveChannelSet!: boolean;
   otdrNetAddress!: NetAddress;
   monitoringMode!: MonitoringState;
+  preciseMeas!: Frequency;
+  preciseSave!: Frequency;
+  fastSave!: Frequency;
 
   bops!: Bop[];
   traces!: Trace[];
