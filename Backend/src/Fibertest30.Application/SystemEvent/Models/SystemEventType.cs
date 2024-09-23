@@ -38,4 +38,5 @@ public enum SystemEventType
     RtuInitialized,
     MeasurementClientDone,
     MonitoringStopped,
+    MonitoringSettingsApplied,
 }

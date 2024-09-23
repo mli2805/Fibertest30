@@ -68,6 +68,8 @@ const applyMonitoringSettingsFailure = createAction(
   props<{ errorMessageId: string }>()
 );
 
+const resetError = createAction('[RtuMgmt] Reset Error');
+
 export const RtuMgmtActions = {
   testRtuConnection,
   testRtuConnectionSuccess,
@@ -90,5 +92,7 @@ export const RtuMgmtActions = {
 
   applyMonitoringSettings,
   applyMonitoringSettingsSuccess,
-  applyMonitoringSettingsFailure
+  applyMonitoringSettingsFailure,
+
+  resetError
 };

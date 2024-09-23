@@ -136,6 +136,10 @@ public static class SystemEventSupportedNotificationRules
         {
             SystemEventType.MonitoringStopped,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },
+        {
+            SystemEventType.MonitoringSettingsApplied,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         }
     };
 

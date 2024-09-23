@@ -13,6 +13,7 @@ import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
 import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 import { SecUtil } from './sec-util';
+import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors';
 
 interface IOtau {
   title: string;
@@ -25,6 +26,8 @@ interface IOtau {
   styles: [':host { overflow-y: auto; width: 100%; height: 100%; }']
 })
 export class RtuMonitoringSettingsComponent implements OnInit {
+  rtuMgmtActions = RtuMgmtActions;
+
   rtuId!: string;
   rtu!: Rtu;
 
@@ -47,12 +50,14 @@ export class RtuMonitoringSettingsComponent implements OnInit {
   cycleFullTime = '0:00';
   cycleFullTimeSec = 0;
 
+  errorMessageId$ = this.store.select(RtuMgmtSelectors.selectErrorMessageId);
+
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.rtuId = this.route.snapshot.paramMap.get('id')!;
     this.rtu = CoreUtils.getCurrentState(this.store, RtuTreeSelectors.selectRtu(this.rtuId))!;
-
+    console.log(this.rtu);
     this.collectOtausWithTraces();
     this.selectedOtauChanged(this.otaus[0]);
 
@@ -125,12 +130,11 @@ export class RtuMonitoringSettingsComponent implements OnInit {
     dto.preciseSave = this.form.controls['preciseSave'].value;
     dto.fastSave = this.form.controls['fastSave'].value;
 
-    dto.ports = [];
-    for (let i = 0; i < this.otaus.length; i++) {
-      this.otaus[i].traces
-        .filter((t) => t && t.isIncludedInMonitoringCycle)
-        .forEach((a) => dto.ports.push(this.toPortWithTraceDto(a!)));
-    }
+    dto.ports = this.otaus
+      .map((o) => o.traces)
+      .flat()
+      .filter((t) => t && t.isIncludedInMonitoringCycle)
+      .map((a) => this.toPortWithTraceDto(a!));
 
     return dto;
   }

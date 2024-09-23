@@ -56,7 +56,7 @@ export class FtEnumsMapping {
   // }
 
   static getFiberStateNumericKey(enumValue: FiberState): number {
-    return +Object.keys(ReturnCode)
+    return +Object.keys(FiberState)
       .filter((k) => !isNaN(Number(k)))
       .find((g) => FiberState[+g] === FiberState[enumValue])!;
   }

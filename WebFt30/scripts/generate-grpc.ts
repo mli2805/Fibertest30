@@ -77,7 +77,7 @@ async function main() {
 
   await fix4114Issue(path.join(__dirname, '../src/grpc-generated/google/protobuf/timestamp.ts'));
   await fix4114Issue(path.join(__dirname, '../src/grpc-generated/google/protobuf/duration.ts'));
-  await fix4114Issue(path.join(__dirname, '../src/grpc-generated/google/protobuf/wrappers.ts'));
+  // await fix4114Issue(path.join(__dirname, '../src/grpc-generated/google/protobuf/wrappers.ts'));
 }
 
 // npx ts-node ./scripts/generate-grpc.ts

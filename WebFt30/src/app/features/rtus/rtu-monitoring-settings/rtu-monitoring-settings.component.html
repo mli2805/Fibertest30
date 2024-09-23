@@ -1,3 +1,8 @@
+<rtu-single-error-popup
+  [errorMessageId$]="errorMessageId$"
+  [resetErrorAction]="rtuMgmtActions.resetError()"
+></rtu-single-error-popup>
+
 <div class="flex h-full">
   <div class="mx-2 flex w-full flex-col">
     <ng-container *ngIf="traces$ | async as traces">

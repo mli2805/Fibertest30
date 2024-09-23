@@ -18,6 +18,11 @@ export const initialState: RtuMgmtState = {
 const reducer = createReducer(
   initialState,
 
+  on(RtuMgmtActions.resetError, (state) => ({
+    ...state,
+    error: null
+  })),
+
   on(RtuMgmtActions.testRtuConnection, (state, { netAddress }) => ({
     ...state,
     rtuOperationInProgress: true,
@@ -93,6 +98,13 @@ const reducer = createReducer(
     rtuOperationSuccess: true
   })),
   on(RtuMgmtActions.stopMonitoringFailure, (state, { errorMessageId }) => ({
+    ...state,
+    rtuOperationInProgress: false,
+    rtuOperationSuccess: false,
+    errorMessageId: errorMessageId
+  })),
+
+  on(RtuMgmtActions.applyMonitoringSettingsFailure, (state, { errorMessageId }) => ({
     ...state,
     rtuOperationInProgress: false,
     rtuOperationSuccess: false,
