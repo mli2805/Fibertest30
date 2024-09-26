@@ -158,7 +158,7 @@ export class CoreUtils {
       }
 
       if (error.message === 'FailedToConnectRtu') {
-        return 'i18n.error.failed-to-connect-rtu';
+        return 'i18n.ft.failed-to-connect-rtu';
       }
       if (error.message === 'RtuIsBusy') {
         return 'i18n.error.rtu-is-busy';

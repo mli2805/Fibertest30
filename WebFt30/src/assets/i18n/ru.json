@@ -14,7 +14,6 @@
   "i18n.ft.define-trace": "Определить трассу",
   "i18n.ft.detach-all-traces": "Отключить все трассы",
   "i18n.ft.detach-trace": "Отключить трассу",
-  "i18n.ft.failed": "Failed!",
   "i18n.ft.failed-to-connect": "Не удалось подключиться!",
   "i18n.ft.information": "Информация",
   "i18n.ft.initialize": "Инициализировать",
@@ -39,6 +38,7 @@
   "i18n.ft.state": "Состояние",
   "i18n.ft.statistics": "Статистика",
   "i18n.ft.success": "Успешно!",
+  "i18n.ft.failed": "Не удалось!",
   "i18n.ft.test": "Тест",
   "i18n.ft.testing": "тестирование...",
 
@@ -120,5 +120,7 @@
 
   "i18n.ft.sec": "сек",
   "i18n.ft.apply": "Применить",
-  "i18n.ft.in-progress": "Идет операция..."
+  "i18n.ft.in-progress": "Идет операция...",
+
+  "i18n.ft.failed-to-connect-rtu": "Ошибка обращения к RTU"
 }

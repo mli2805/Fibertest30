@@ -444,6 +444,8 @@
   "i18n.ft.apply": "Apply",
   "i18n.ft.in-progress": "In progress...",
 
+  "i18n.ft.failed-to-connect-rtu": "Failed to connect RTU",
+
   "i18n.start-page.gis": "Gis",
   "i18n.start-page.notifications": "Notifications",
   "i18n.start-page.rfts-setup": "RFTS setup",
