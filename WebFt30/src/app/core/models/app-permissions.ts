@@ -10,8 +10,17 @@ export enum ApplicationPermission {
 
   CheckRtuConnection = 'CheckRtuConnection',
   InitializeRtu = 'InitializeRtu',
+  EditLandmarks = 'EditLandmarks',
   AssignBaseRef = 'AssignBaseRef',
+  DefineTrace = 'DefineTrace',
+  AttachTrace = 'AttachTrace',
+  DetachTrace = 'DetachTrace',
+  AttachBop = 'AttachBop',
+  RemoveBop = 'RemoveBop',
   ChangeMonitoringSettings = 'ChangeMonitoringSettings',
   DoPreciseMonitoringOutOfOrder = 'DoPreciseMonitoringOutOfOrder',
-  DoMeasurementClient = 'DoMeasurementClient'
+  DoMeasurementClient = 'DoMeasurementClient',
+  RemoveRtu = 'RemoveRtu',
+  CleanTrace = 'CleanTrace',
+  RemoveTrace = 'RemoveTrace'
 }

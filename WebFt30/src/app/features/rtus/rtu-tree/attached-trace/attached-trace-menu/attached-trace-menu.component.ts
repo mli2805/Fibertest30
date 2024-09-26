@@ -31,6 +31,7 @@ export class AttachedTraceMenuComponent {
     return this._trace;
   }
   @Input() isRtuAvailableNow!: boolean;
+  @Input() isMonitoringOn!: boolean;
 
   public open = false;
 
@@ -77,11 +78,35 @@ export class AttachedTraceMenuComponent {
     //
   }
 
+  canDetachTrace() {
+    return (
+      this.hasPermission(ApplicationPermission.AssignBaseRef) &&
+      (!this.isMonitoringOn || !this.trace.isIncludedInMonitoringCycle)
+    );
+  }
+
   onDetachTraceClicked() {
     //
   }
-  onAssignBaseRefClicked() {
+
+  canAssignBaseRefs() {
+    return (
+      this.hasPermission(ApplicationPermission.AssignBaseRef) &&
+      this.isRtuAvailableNow &&
+      (!this.isMonitoringOn || !this.trace.isIncludedInMonitoringCycle)
+    );
+  }
+
+  onAssignBaseRefsClicked() {
     //
+  }
+
+  canAutomaticBaseRefs() {
+    return (
+      this.hasPermission(ApplicationPermission.AssignBaseRef) &&
+      this.isRtuAvailableNow &&
+      (!this.isMonitoringOn || !this.trace.isIncludedInMonitoringCycle)
+    );
   }
 
   onAutomaticBaseRefsClicked() {

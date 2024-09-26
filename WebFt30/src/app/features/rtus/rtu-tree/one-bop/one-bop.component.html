@@ -22,7 +22,11 @@
   </div>
   <rtu-rtu-part-state-pictogram [state]="bopState"></rtu-rtu-part-state-pictogram>
 
-  <rtu-one-bop-menu [bop]="bop"></rtu-one-bop-menu>
+  <rtu-one-bop-menu
+    [bop]="bop"
+    [isRtuAvailableNow]="isRtuAvailableNow"
+    [isMonitoringOn]="isMonitoringOn()"
+  ></rtu-one-bop-menu>
   <div></div>
 </div>
 
@@ -34,11 +38,16 @@
         <rtu-attached-trace
           [trace]="child.payload"
           [rtuMonitoringMode]="rtuMonitoringMode"
+          [isRtuAvailableNow]="isRtuAvailableNow"
           [i]="ib"
         ></rtu-attached-trace>
       </ng-container>
       <ng-container *ngIf="child.type === 'free-port'">
-        <rtu-free-port [portOfOtau]="child.payload" [i]="ib"></rtu-free-port>
+        <rtu-free-port
+          [portOfOtau]="child.payload"
+          [isRtuAvailableNow]="isRtuAvailableNow"
+          [i]="ib"
+        ></rtu-free-port>
       </ng-container>
     </ng-container>
   </div>

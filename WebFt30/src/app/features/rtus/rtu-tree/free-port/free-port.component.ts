@@ -8,4 +8,5 @@ import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
 export class FreePortComponent {
   @Input() portOfOtau!: PortOfOtau;
   @Input() i!: number;
+  @Input() isRtuAvailableNow!: boolean;
 }

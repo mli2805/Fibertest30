@@ -1,5 +1,10 @@
-import { Component, ElementRef, HostListener, Input } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, Input } from '@angular/core';
+import { disableDebugTools } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState, AuthSelectors, User } from 'src/app/core';
+import { CoreUtils } from 'src/app/core/core.utils';
+import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
 
 @Component({
@@ -14,11 +19,21 @@ import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
   ]
 })
 export class FreePortMenuComponent {
+  store: Store<AppState> = inject(Store<AppState>);
+  currentUser: User | null;
+
   @Input() portOfOtau!: PortOfOtau;
+  @Input() isRtuAvailableNow!: boolean;
 
   public open = false;
 
-  constructor(private elementRef: ElementRef, private router: Router) {}
+  constructor(private elementRef: ElementRef, private router: Router) {
+    this.currentUser = CoreUtils.getCurrentState(this.store, AuthSelectors.selectUser);
+  }
+
+  hasPermission(permission: ApplicationPermission): boolean {
+    return this.currentUser ? this.currentUser.permissions.includes(permission) : false;
+  }
 
   onFreePortNameClicked() {
     if (this.open === false) {
@@ -39,8 +54,24 @@ export class FreePortMenuComponent {
     }
   }
 
-  onClicked() {
+  canAttachTrace() {
+    return this.hasPermission(ApplicationPermission.AttachTrace);
+  }
+
+  onAttachTraceClicked() {
     //
+  }
+
+  canAttachBop() {
+    return this.hasPermission(ApplicationPermission.AttachBop);
+  }
+
+  onAttachBopClicked() {
+    //
+  }
+
+  canMeasurementClient() {
+    return this.hasPermission(ApplicationPermission.DoMeasurementClient) && this.isRtuAvailableNow;
   }
 
   onMeasurementClientClicked() {

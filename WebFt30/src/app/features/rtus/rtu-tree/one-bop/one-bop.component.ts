@@ -27,7 +27,12 @@ export class OneBopComponent {
     return this._i;
   }
 
+  @Input() isRtuAvailableNow!: boolean;
   @Input() rtuMonitoringMode!: MonitoringState;
+
+  isMonitoringOn() {
+    return this.rtuMonitoringMode === MonitoringState.On;
+  }
 
   isExpanded = false;
   flipExpanded() {

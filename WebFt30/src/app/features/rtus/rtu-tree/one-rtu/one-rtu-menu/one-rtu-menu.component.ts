@@ -78,15 +78,6 @@ export class OneRtuMenuComponent {
     this.router.navigate([path]);
   }
 
-  canChangeMonitoringSettings(): boolean {
-    return this.hasPermission(ApplicationPermission.ChangeMonitoringSettings);
-  }
-
-  onMonitoringSettingsClicked() {
-    const path = `rtus/monitoring-settings/${this.rtu.rtuId}`;
-    this.router.navigate([path]);
-  }
-
   onStateClicked() {
     //
   }
@@ -95,15 +86,69 @@ export class OneRtuMenuComponent {
     //
   }
 
+  canAutomaticBaseRefs() {
+    return this.hasPermission(ApplicationPermission.AssignBaseRef) && this.rtu.isRtuAvailableNow();
+  }
+
   onAutomaticBaseRefsClicked() {
     //
+  }
+
+  canMonitoringSettings(): boolean {
+    return (
+      this.hasPermission(ApplicationPermission.ChangeMonitoringSettings) &&
+      this.rtu.isRtuAvailableNow()
+    );
+  }
+
+  onMonitoringSettingsClicked() {
+    const path = `rtus/monitoring-settings/${this.rtu.rtuId}`;
+    this.router.navigate([path]);
+  }
+
+  canManualMode() {
+    return (
+      this.hasPermission(ApplicationPermission.ChangeMonitoringSettings) &&
+      this.rtu.isRtuAvailableNow()
+    );
   }
 
   onManualModeClicked() {
     this.store.dispatch(RtuMgmtActions.stopMonitoring({ rtuId: this.rtu.rtuId }));
   }
 
-  onClicked() {
+  canAutomaticMode() {
+    return (
+      this.hasPermission(ApplicationPermission.ChangeMonitoringSettings) &&
+      this.rtu.isRtuAvailableNow()
+    );
+  }
+
+  onAutomaticModeClicked() {
+    //
+  }
+
+  canDetachAllTraces() {
+    return this.hasPermission(ApplicationPermission.DetachTrace) && this.rtu.isRtuAvailableNow();
+  }
+
+  onDetachAllTracesClicked() {
+    //
+  }
+
+  canRemove() {
+    return this.hasPermission(ApplicationPermission.RemoveRtu);
+  }
+
+  onRemoveClicked() {
+    //
+  }
+
+  canDefineTrace() {
+    return this.hasPermission(ApplicationPermission.DefineTrace);
+  }
+
+  onDefineTraceClicked() {
     //
   }
 }

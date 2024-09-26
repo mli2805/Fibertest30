@@ -12,8 +12,17 @@ public enum ApplicationPermission
 
     CheckRtuConnection,
     InitializeRtu,
+    EditLandmarks,
     AssignBaseRef,
+    DefineTrace,
+    AttachTrace,
+    DetachTrace,
+    AttachBop,
+    RemoveBop,
     ChangeMonitoringSettings,
     DoPreciseMonitoringOutOfOrder,
     DoMeasurementClient,
+    RemoveRtu,
+    CleanTrace,
+    RemoveTrace,
 }

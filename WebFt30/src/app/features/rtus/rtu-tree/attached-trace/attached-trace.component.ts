@@ -12,4 +12,8 @@ export class AttachedTraceComponent {
   @Input() rtuMonitoringMode!: MonitoringState;
   @Input() isRtuAvailableNow!: boolean;
   @Input() i!: number;
+
+  isMonitoringOn() {
+    return this.rtuMonitoringMode === MonitoringState.On;
+  }
 }

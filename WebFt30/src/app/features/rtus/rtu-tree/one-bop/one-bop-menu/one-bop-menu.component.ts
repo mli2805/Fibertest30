@@ -1,5 +1,9 @@
-import { Component, ElementRef, HostListener, Input } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState, AuthSelectors, User } from 'src/app/core';
+import { CoreUtils } from 'src/app/core/core.utils';
+import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Bop } from 'src/app/core/store/models/ft30/bop';
 
 @Component({
@@ -14,6 +18,9 @@ import { Bop } from 'src/app/core/store/models/ft30/bop';
   ]
 })
 export class OneBopMenuComponent {
+  store: Store<AppState> = inject(Store<AppState>);
+  currentUser: User | null;
+
   private _bop!: Bop;
   @Input() set bop(value: Bop) {
     this._bop = value;
@@ -26,8 +33,16 @@ export class OneBopMenuComponent {
 
   public open = false;
 
-  constructor(private elementRef: ElementRef, private router: Router) {}
+  @Input() isRtuAvailableNow!: boolean;
+  @Input() isMonitoringOn!: boolean;
 
+  constructor(private elementRef: ElementRef, private router: Router) {
+    this.currentUser = CoreUtils.getCurrentState(this.store, AuthSelectors.selectUser);
+  }
+
+  hasPermission(permission: ApplicationPermission): boolean {
+    return this.currentUser ? this.currentUser.permissions.includes(permission) : false;
+  }
   onBopNameClicked() {
     if (this.open === false) {
       this.open = true;
@@ -45,6 +60,14 @@ export class OneBopMenuComponent {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.open = false;
     }
+  }
+
+  canRemove() {
+    return (
+      this.hasPermission(ApplicationPermission.RemoveBop) &&
+      this.isRtuAvailableNow &&
+      !this.isMonitoringOn
+    );
   }
 
   onRemoveClicked() {

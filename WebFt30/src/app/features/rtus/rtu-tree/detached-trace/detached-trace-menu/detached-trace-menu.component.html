@@ -5,7 +5,7 @@
   type="button"
   (click)="onTraceNameClicked()"
 >
-  <span class="ml-2">{{ trace.title }}</span>
+  <span class="ml-2 text-blue-500 dark:text-blue-400">{{ trace.title }}</span>
 </button>
 
 <ng-template
@@ -24,7 +24,10 @@
       <button class="context-menu-line" (click)="onStatisticsClicked()">{{ 'i18n.ft.statistics' | translate }}</button>
       <button class="context-menu-line" (click)="onLandmarksClicked()">{{ 'i18n.ft.landmarks' | translate }}</button>
       <hr class="my-2" />
-      <button class="context-menu-line" (click)="onClicked()">{{ 'i18n.ft.assign-base-refs' | translate }}</button>
+      <button class="context-menu-line" (click)="onCleanClicked()" [disabled]="!canClean()">{{ 'i18n.ft.clean' | translate }}</button>
+      <button class="context-menu-line" (click)="onRemoveClicked()" [disabled]="!canRemove()">{{ 'i18n.ft.remove' | translate }}</button>
+      <hr class="my-2" />
+      <button class="context-menu-line" (click)="onAssignBaseRefsClicked()" [disabled]="!canAssignBaseRefs()">{{ 'i18n.ft.assign-base-refs' | translate }}</button>
     </div>
   </div>
 </ng-template>

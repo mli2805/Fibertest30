@@ -19,7 +19,7 @@
   >
     <!-- prettier-ignore -->
     <div class="flex flex-col">
-      <button class="context-menu-line" (click)="onRemoveClicked()">{{ 'i18n.ft.remove' | translate }}</button>
+      <button class="context-menu-line" (click)="onRemoveClicked()" [disabled]="!canRemove()">{{ 'i18n.ft.remove' | translate }}</button>
     
     </div>
   </div>

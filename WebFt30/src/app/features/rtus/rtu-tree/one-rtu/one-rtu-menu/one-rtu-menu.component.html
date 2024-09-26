@@ -23,16 +23,16 @@
       <button class="context-menu-line" (click)="onStateClicked()">{{ 'i18n.ft.state' | translate }}</button>
       <button class="context-menu-line" (click)="onLandmarksClicked()">{{ 'i18n.ft.landmarks' | translate }}</button>
       <hr class="my-2" />
-      <button class="context-menu-line" (click)="onAutomaticBaseRefsClicked()">{{ 'i18n.ft.automatic-base-refs' | translate }}</button>
+      <button class="context-menu-line" (click)="onAutomaticBaseRefsClicked()" [disabled]="!canAutomaticBaseRefs()">{{ 'i18n.ft.automatic-base-refs' | translate }}</button>
       <hr class="my-2" />
-      <button class="context-menu-line" (click)="onMonitoringSettingsClicked()">{{ 'i18n.ft.monitoring-settings' | translate }}</button>
-      <button class="context-menu-line" (click)="onManualModeClicked()">{{ 'i18n.ft.manual-mode' | translate }}</button>
-      <button class="context-menu-line" (click)="onClicked()">{{ 'i18n.ft.automatic-mode' | translate }}</button>
+      <button class="context-menu-line" (click)="onMonitoringSettingsClicked()" [disabled]="!canMonitoringSettings()">{{ 'i18n.ft.monitoring-settings' | translate }}</button>
+      <button class="context-menu-line" (click)="onManualModeClicked()" [disabled]="!canManualMode()">{{ 'i18n.ft.manual-mode' | translate }}</button>
+      <button class="context-menu-line" (click)="onAutomaticModeClicked()" [disabled]="!canAutomaticMode()">{{ 'i18n.ft.automatic-mode' | translate }}</button>
       <hr class="my-2" />
-      <button class="context-menu-line" (click)="onClicked()">{{ 'i18n.ft.detach-all-traces' | translate }}</button>
-      <button class="context-menu-line" (click)="onClicked()">{{ 'i18n.ft.remove' | translate }}</button>
+      <button class="context-menu-line" (click)="onDetachAllTracesClicked()" [disabled]="!canDetachAllTraces()">{{ 'i18n.ft.detach-all-traces' | translate }}</button>
+      <button class="context-menu-line" (click)="onRemoveClicked()" [disabled]="!canRemove()">{{ 'i18n.ft.remove' | translate }}</button>
       <hr class="my-2" />
-      <button class="context-menu-line" (click)="onClicked()">{{ 'i18n.ft.define-trace' | translate }}</button>
+      <button class="context-menu-line" (click)="onDefineTraceClicked()" [disabled]="!canDefineTrace()">{{ 'i18n.ft.define-trace' | translate }}</button>
     </div>
   </div>
 </ng-template>

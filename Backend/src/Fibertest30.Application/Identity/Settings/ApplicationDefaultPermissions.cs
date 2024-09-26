@@ -23,10 +23,19 @@ public static class ApplicationDefaultPermissions
 
         AddPermission(P.CheckRtuConnection, R.Operator, R.Supervisor);
         AddPermission(P.InitializeRtu, R.Operator);
+        AddPermission(P.EditLandmarks, R.Operator);
         AddPermission(P.AssignBaseRef, R.Operator);
+        AddPermission(P.DefineTrace);
+        AddPermission(P.AttachTrace, R.Operator);
+        AddPermission(P.DetachTrace, R.Operator);
+        AddPermission(P.AttachBop);
+        AddPermission(P.RemoveBop);
         AddPermission(P.ChangeMonitoringSettings, R.Operator);
         AddPermission(P.DoPreciseMonitoringOutOfOrder, R.Operator);
         AddPermission(P.DoMeasurementClient, R.Operator);
+        AddPermission(P.RemoveRtu);
+        AddPermission(P.CleanTrace);
+        AddPermission(P.RemoveTrace);
     }
 
     private static void AddPermission(ApplicationPermission permission, params ApplicationDefaultRole[] roles)

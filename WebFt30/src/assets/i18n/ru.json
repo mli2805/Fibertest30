@@ -30,6 +30,7 @@
   "i18n.ft.port": "Порт",
   "i18n.ft.ports-available": "Доступно портов",
   "i18n.ft.precise-out-of-order": "Точный мониторинг вне очереди",
+  "i18n.ft.clean": "Очистить",
   "i18n.ft.remove": "Удалить",
   "i18n.ft.reserve": "Резервный",
   "i18n.ft.rtu-manager-version": "RTU Manager version",
