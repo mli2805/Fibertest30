@@ -40,9 +40,7 @@ export class RtuMgmtService {
     return GrpcUtils.unaryToObservable(this.client.initializeRtu.bind(this.client), request, {});
   }
 
-  startMeasurementClient(
-    dto: DoMeasurementClientDto
-  ): Observable<grpc.DoMeasurementClientResponse> {
+  startMeasurementClient(dto: DoMeasurementClientDto): Observable<grpc.EmptyResponse> {
     const grpcDto = RtuMgmtMapping.toGrpcDoClientMeasurementDto(dto);
     const request: grpc.DoMeasurementClientRequest = { dto: grpcDto };
     return GrpcUtils.unaryToObservable(
@@ -66,7 +64,9 @@ export class RtuMgmtService {
     );
   }
 
-  applyMonitoringSettings(dto: ApplyMonitoringSettingsDto): Observable<grpc.RequestAnswer> {
+  applyMonitoringSettings(
+    dto: ApplyMonitoringSettingsDto
+  ): Observable<grpc.ApplyMonitoringSettingsResponse> {
     const request: grpc.ApplyMonitoringSettingsRequest = {
       dto: RtuMgmtMapping.toGrpcApplyMonitoringSettingsDto(dto)
     };

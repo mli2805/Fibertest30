@@ -5,27 +5,6 @@ using Microsoft.Extensions.Logging;
 namespace Fibertest30.Infrastructure;
 public partial class RtuManager
 {
-    public async Task<RequestAnswer> ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto)
-    {
-        // проверить не занят ли
-        if (!_rtuOccupationService.TrySetOccupation(dto.RtuId, RtuOccupation.MonitoringSettings,
-                _currentUserService.UserName,
-                out RtuOccupationState? _))
-            throw new RtuIsBusyException("");
-
-        var rtuDoubleAddress = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
-        if (rtuDoubleAddress == null)
-            throw new NoSuchRtuException("");
-
-        RequestAnswer requestAnswer = 
-            await _rtuTransmitter.SendCommand<ApplyMonitoringSettingsDto, RequestAnswer>(dto, rtuDoubleAddress);
-
-            // эта команда возвращает ошибку или сбросит флаг InitializationResult и вернет InProgress
-            // дальше поллинг должен обнаружить что рту проиничено
-
-        return requestAnswer;
-    }
-
     public async Task<RequestAnswer> StopMonitoring(Guid rtuId)
     {
         // проверить не занят ли

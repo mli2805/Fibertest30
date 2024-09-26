@@ -118,5 +118,7 @@
   "i18n.ft.manual": "Ручной",
   "i18n.ft.fast-precise": "Быстрый / Точный",
 
-  "i18n.ft.sec": "сек"
+  "i18n.ft.sec": "сек",
+  "i18n.ft.apply": "Применить",
+  "i18n.ft.in-progress": "Идет операция..."
 }

@@ -32,13 +32,13 @@ public class RtuMgmtService : RtuMgmt.RtuMgmtBase
         return new InitializeRtuResponse() { Dto = dto.ToProto() };
     }
 
-    public override async Task<DoMeasurementClientResponse> DoMeasurementClient(DoMeasurementClientRequest request,
+    public override async Task<EmptyResponse> DoMeasurementClient(DoMeasurementClientRequest request,
         ServerCallContext context)
     {
-        var _ = await _mediator.Send(new DoMeasurementClientCommand(request.Dto.FromProto()),
-            context.CancellationToken);
+        await _mediator.Send(new DoMeasurementClientCommand(request.Dto.FromProto()),
+           context.CancellationToken);
 
-        return new DoMeasurementClientResponse();
+        return new EmptyResponse();
     }
 
     public override async Task<GetMeasurementClientSorResponse> GetMeasurementClientSor(
@@ -64,12 +64,13 @@ public class RtuMgmtService : RtuMgmt.RtuMgmtBase
         return new EmptyResponse();
     }
 
-    public override async Task<RequestAnswer> ApplyMonitoringSettings(ApplyMonitoringSettingsRequest request,
+    // это как бы старт применения настроек
+    public override async Task<ApplyMonitoringSettingsResponse> ApplyMonitoringSettings(ApplyMonitoringSettingsRequest request,
         ServerCallContext context)
     {
         var command = request.Dto.FromProto();
-        var result = await _mediator.Send(new ApplyMonitoringSettingsCommand(command), context.CancellationToken);
+        var answer = await _mediator.Send(new ApplyMonitoringSettingsCommand(command), context.CancellationToken);
 
-        return result.ToProto();
+        return new ApplyMonitoringSettingsResponse() { Dto = answer.ToProto() };
     }
 }

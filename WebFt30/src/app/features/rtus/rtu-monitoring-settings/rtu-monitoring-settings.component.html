@@ -5,22 +5,26 @@
 
 <div class="flex h-full">
   <div class="mx-2 flex w-full flex-col">
-    <ng-container *ngIf="traces$ | async as traces">
-      <rtu-select
-        [items]="otaus"
-        [selectedItem]="selectedOtau"
-        (selectedItemChange)="selectedOtauChanged($event)"
-      >
-        <ng-template rtuSelectLabel let-selectedItem>{{ selectedItem.title }} </ng-template>
-        <ng-template rtuSelectItem let-item>{{ item.title }} </ng-template>
-      </rtu-select>
+    <ng-container *ngIf="rtu$ | async as rtu">
+      <ng-container *ngIf="traces$ | async as traces">
+        <rtu-select
+          [items]="otaus"
+          [selectedItem]="selectedOtau"
+          (selectedItemChange)="selectedOtauChanged($event)"
+        >
+          <ng-template rtuSelectLabel let-selectedItem>{{ selectedItem.title }} </ng-template>
+          <ng-template rtuSelectItem let-item>{{ item.title }} </ng-template>
+        </rtu-select>
 
-      <rtu-otau-monitoring-settings
-        [traces]="traces"
-        (portChecked)="onPortChecked($event)"
-      ></rtu-otau-monitoring-settings>
+        <rtu-otau-monitoring-settings
+          [traces]="traces"
+          (portChecked)="onPortChecked($event)"
+        ></rtu-otau-monitoring-settings>
+      </ng-container>
     </ng-container>
   </div>
+
+  <!-- right panel -->
   <div class="mx-2 flex w-72 flex-col" [formGroup]="form">
     <fieldset [disabled]="isDisabled()">
       <div class="mb-6 w-64 text-sm">
@@ -105,6 +109,24 @@
         </div>
       </div>
     </fieldset>
-    <button class="button-ok mt-4 w-64" (click)="onApplyClicked()">Apply</button>
+
+    <div class="flex flex-col items-center">
+      <button class="button-ok mt-4 w-64" (click)="onApplyClicked()">
+        {{ 'i18n.ft.apply' | translate }}
+      </button>
+
+      <div class="mt-4">
+        <div *ngIf="inProgress$ | async" class="flex items-center">
+          <rtu-loading-spinner class="ml-2 h-4 w-4"></rtu-loading-spinner>
+          <span class="text-data-highlight ml-3">{{ 'i18n.ft.in-progress' | translate }}</span>
+        </div>
+        <div *ngIf="(operationSuccess$ | async) === true">
+          <span class="ml-3 text-green-600">{{ 'i18n.ft.success' | translate }}</span>
+        </div>
+        <div *ngIf="(operationSuccess$ | async) === false">
+          <span class="ml-3 text-red-600">{{ 'i18n.ft.failed' | translate }}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

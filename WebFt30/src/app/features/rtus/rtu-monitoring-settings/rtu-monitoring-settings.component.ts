@@ -2,11 +2,10 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, takeUntil } from 'rxjs';
 import { AppState, RtuTreeSelectors } from 'src/app/core';
-import { CoreUtils } from 'src/app/core/core.utils';
 import { ApplyMonitoringSettingsDto } from 'src/app/core/store/models/ft30/apply-monitorig-settings-dto';
-import { FiberState, Frequency, MonitoringState } from 'src/app/core/store/models/ft30/ft-enums';
+import { Frequency, MonitoringState } from 'src/app/core/store/models/ft30/ft-enums';
 import { PortWithTraceDto } from 'src/app/core/store/models/ft30/port-with-trace-dto';
 import { ReturnCode } from 'src/app/core/store/models/ft30/return-code';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
@@ -14,6 +13,7 @@ import { Trace } from 'src/app/core/store/models/ft30/trace';
 import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 import { SecUtil } from './sec-util';
 import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors';
+import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
 
 interface IOtau {
   title: string;
@@ -25,11 +25,8 @@ interface IOtau {
   templateUrl: './rtu-monitoring-settings.component.html',
   styles: [':host { overflow-y: auto; width: 100%; height: 100%; }']
 })
-export class RtuMonitoringSettingsComponent implements OnInit {
+export class RtuMonitoringSettingsComponent extends OnDestroyBase implements OnInit {
   rtuMgmtActions = RtuMgmtActions;
-
-  rtuId!: string;
-  rtu!: Rtu;
 
   otaus: IOtau[] = [];
   selectedOtau!: IOtau;
@@ -50,14 +47,36 @@ export class RtuMonitoringSettingsComponent implements OnInit {
   cycleFullTime = '0:00';
   cycleFullTimeSec = 0;
 
+  inProgress$ = this.store.select(RtuMgmtSelectors.selectRtuOperationInProgress);
+  operationSuccess$ = this.store.select(RtuMgmtSelectors.selectRtuOperationSuccess);
   errorMessageId$ = this.store.select(RtuMgmtSelectors.selectErrorMessageId);
 
-  constructor(private route: ActivatedRoute) {}
+  rtu!: Rtu;
+  rtu$;
+
+  constructor(private route: ActivatedRoute) {
+    super();
+
+    const rtuId = this.route.snapshot.paramMap.get('id')!;
+    // подписка на рту. если подписаться пока rtuId не определен ничего не получишь
+    this.rtu$ = this.store.select(RtuTreeSelectors.selectRtu(rtuId));
+  }
+
+  tr2$!: Observable<(Trace | null)[]>;
 
   ngOnInit(): void {
-    this.rtuId = this.route.snapshot.paramMap.get('id')!;
-    this.rtu = CoreUtils.getCurrentState(this.store, RtuTreeSelectors.selectRtu(this.rtuId))!;
-    console.log(this.rtu);
+    // еще одна подписка на рту, так я могу запустить свою функции, когда поменялся рту (при старте и при перечитывании)
+    // в данном случае нужно обновить переменные для темплейта (которые не rtu.XXX, а трассы переключателей)
+    this.rtu$.pipe(takeUntil(this.ngDestroyed$)).subscribe((rtu) => this.updateView(rtu));
+  }
+
+  updateView(rtu: Rtu | null) {
+    if (!rtu) return;
+    this.rtu = rtu;
+    this.initializeControls();
+  }
+
+  initializeControls() {
     this.collectOtausWithTraces();
     this.selectedOtauChanged(this.otaus[0]);
 
@@ -83,6 +102,7 @@ export class RtuMonitoringSettingsComponent implements OnInit {
   collectOtausWithTraces() {
     // главный OTAU с трассами
     const traces = Array(this.rtu.ownPortCount).fill(null);
+    this.otaus = []; // clean every time
     for (let i = 0; i < this.rtu.traces.length; i++) {
       const trace = this.rtu.traces[i];
       if (trace.isAttached && trace.port!.isPortOnMainCharon) {

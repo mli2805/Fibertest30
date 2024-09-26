@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { RtuMgmtState } from './rtu-mgmt.state';
 import { RtuMgmtActions } from './rtu-mgmt.actions';
+import { ReturnCode } from '../models/ft30/return-code';
 
 export const initialState: RtuMgmtState = {
   rtuOperationInProgress: false,
@@ -104,6 +105,18 @@ const reducer = createReducer(
     errorMessageId: errorMessageId
   })),
 
+  on(RtuMgmtActions.applyMonitoringSettings, (state, { dto }) => ({
+    ...state,
+    rtuOperationInProgress: true,
+    rtuOperationSuccess: null,
+    errorMessageId: null
+  })),
+  on(RtuMgmtActions.applyMonitoringSettingsSuccess, (state, { dto }) => ({
+    ...state,
+    rtuOperationInProgress: false,
+    rtuOperationSuccess:
+      dto?.returnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully ?? false
+  })),
   on(RtuMgmtActions.applyMonitoringSettingsFailure, (state, { errorMessageId }) => ({
     ...state,
     rtuOperationInProgress: false,

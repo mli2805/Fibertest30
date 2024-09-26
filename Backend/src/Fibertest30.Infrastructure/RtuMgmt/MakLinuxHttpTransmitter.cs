@@ -84,7 +84,8 @@ public class MakLinuxHttpTransmitter : IRtuTransmitter
 
             var responseJson = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<TResult>(responseJson);
-            if (result == null) return new TResult { ReturnCode = ReturnCode.DeserializationError };
+            if (result == null)
+                throw new DeserializationException(responseJson);
             return result;
         }
         catch (Exception e)

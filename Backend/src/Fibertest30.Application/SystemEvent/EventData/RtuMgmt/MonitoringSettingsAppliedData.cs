@@ -7,13 +7,10 @@ public class MonitoringSettingsAppliedData : ISystemEventData
     public string RtuId { get; init; }
     public string Title { get; init; }
 
-    public bool IsMonitoringOn { get; init; }
-
-    public MonitoringSettingsAppliedData(string rtuId, string title, bool isMonitoringOn)
+    public MonitoringSettingsAppliedData(string rtuId, string title)
     {
         RtuId = rtuId;
         Title = title;
-        IsMonitoringOn = isMonitoringOn;
     }
 
     public string ToJsonData()

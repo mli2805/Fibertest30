@@ -61,7 +61,7 @@ const applyMonitoringSettings = createAction(
 );
 const applyMonitoringSettingsSuccess = createAction(
   '[RtuMgmt] Apply Monitoring Settings Success',
-  props<{ dto: RequestAnswer }>()
+  props<{ dto: RequestAnswer | undefined }>()
 );
 const applyMonitoringSettingsFailure = createAction(
   '[RtuMgmt] Apply Monitoring Settings Failure',

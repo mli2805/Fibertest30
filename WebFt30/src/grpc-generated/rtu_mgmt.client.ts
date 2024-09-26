@@ -4,13 +4,12 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { RtuMgmt } from "./rtu_mgmt";
-import type { RequestAnswer } from "./rtu_mgmt";
+import type { ApplyMonitoringSettingsResponse } from "./rtu_mgmt";
 import type { ApplyMonitoringSettingsRequest } from "./rtu_mgmt";
-import type { EmptyResponse } from "./rtu_mgmt";
 import type { StopMonitoringRequest } from "./rtu_mgmt";
 import type { GetMeasurementClientSorResponse } from "./rtu_mgmt";
 import type { GetMeasurementClientSorRequest } from "./rtu_mgmt";
-import type { DoMeasurementClientResponse } from "./rtu_mgmt";
+import type { EmptyResponse } from "./rtu_mgmt";
 import type { DoMeasurementClientRequest } from "./rtu_mgmt";
 import type { InitializeRtuResponse } from "./rtu_mgmt";
 import type { InitializeRtuRequest } from "./rtu_mgmt";
@@ -32,9 +31,9 @@ export interface IRtuMgmtClient {
      */
     initializeRtu(input: InitializeRtuRequest, options?: RpcOptions): UnaryCall<InitializeRtuRequest, InitializeRtuResponse>;
     /**
-     * @generated from protobuf rpc: DoMeasurementClient(fibertest30.rtu_mgmt.DoMeasurementClientRequest) returns (fibertest30.rtu_mgmt.DoMeasurementClientResponse);
+     * @generated from protobuf rpc: DoMeasurementClient(fibertest30.rtu_mgmt.DoMeasurementClientRequest) returns (fibertest30.rtu_mgmt.EmptyResponse);
      */
-    doMeasurementClient(input: DoMeasurementClientRequest, options?: RpcOptions): UnaryCall<DoMeasurementClientRequest, DoMeasurementClientResponse>;
+    doMeasurementClient(input: DoMeasurementClientRequest, options?: RpcOptions): UnaryCall<DoMeasurementClientRequest, EmptyResponse>;
     /**
      * @generated from protobuf rpc: GetMeasurementClientSor(fibertest30.rtu_mgmt.GetMeasurementClientSorRequest) returns (fibertest30.rtu_mgmt.GetMeasurementClientSorResponse);
      */
@@ -44,9 +43,9 @@ export interface IRtuMgmtClient {
      */
     stopMonitoring(input: StopMonitoringRequest, options?: RpcOptions): UnaryCall<StopMonitoringRequest, EmptyResponse>;
     /**
-     * @generated from protobuf rpc: ApplyMonitoringSettings(fibertest30.rtu_mgmt.ApplyMonitoringSettingsRequest) returns (fibertest30.rtu_mgmt.RequestAnswer);
+     * @generated from protobuf rpc: ApplyMonitoringSettings(fibertest30.rtu_mgmt.ApplyMonitoringSettingsRequest) returns (fibertest30.rtu_mgmt.ApplyMonitoringSettingsResponse);
      */
-    applyMonitoringSettings(input: ApplyMonitoringSettingsRequest, options?: RpcOptions): UnaryCall<ApplyMonitoringSettingsRequest, RequestAnswer>;
+    applyMonitoringSettings(input: ApplyMonitoringSettingsRequest, options?: RpcOptions): UnaryCall<ApplyMonitoringSettingsRequest, ApplyMonitoringSettingsResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.rtu_mgmt.RtuMgmt
@@ -72,11 +71,11 @@ export class RtuMgmtClient implements IRtuMgmtClient, ServiceInfo {
         return stackIntercept<InitializeRtuRequest, InitializeRtuResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: DoMeasurementClient(fibertest30.rtu_mgmt.DoMeasurementClientRequest) returns (fibertest30.rtu_mgmt.DoMeasurementClientResponse);
+     * @generated from protobuf rpc: DoMeasurementClient(fibertest30.rtu_mgmt.DoMeasurementClientRequest) returns (fibertest30.rtu_mgmt.EmptyResponse);
      */
-    doMeasurementClient(input: DoMeasurementClientRequest, options?: RpcOptions): UnaryCall<DoMeasurementClientRequest, DoMeasurementClientResponse> {
+    doMeasurementClient(input: DoMeasurementClientRequest, options?: RpcOptions): UnaryCall<DoMeasurementClientRequest, EmptyResponse> {
         const method = this.methods[2], opt = this._transport.mergeOptions(options);
-        return stackIntercept<DoMeasurementClientRequest, DoMeasurementClientResponse>("unary", this._transport, method, opt, input);
+        return stackIntercept<DoMeasurementClientRequest, EmptyResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetMeasurementClientSor(fibertest30.rtu_mgmt.GetMeasurementClientSorRequest) returns (fibertest30.rtu_mgmt.GetMeasurementClientSorResponse);
@@ -93,10 +92,10 @@ export class RtuMgmtClient implements IRtuMgmtClient, ServiceInfo {
         return stackIntercept<StopMonitoringRequest, EmptyResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: ApplyMonitoringSettings(fibertest30.rtu_mgmt.ApplyMonitoringSettingsRequest) returns (fibertest30.rtu_mgmt.RequestAnswer);
+     * @generated from protobuf rpc: ApplyMonitoringSettings(fibertest30.rtu_mgmt.ApplyMonitoringSettingsRequest) returns (fibertest30.rtu_mgmt.ApplyMonitoringSettingsResponse);
      */
-    applyMonitoringSettings(input: ApplyMonitoringSettingsRequest, options?: RpcOptions): UnaryCall<ApplyMonitoringSettingsRequest, RequestAnswer> {
+    applyMonitoringSettings(input: ApplyMonitoringSettingsRequest, options?: RpcOptions): UnaryCall<ApplyMonitoringSettingsRequest, ApplyMonitoringSettingsResponse> {
         const method = this.methods[5], opt = this._transport.mergeOptions(options);
-        return stackIntercept<ApplyMonitoringSettingsRequest, RequestAnswer>("unary", this._transport, method, opt, input);
+        return stackIntercept<ApplyMonitoringSettingsRequest, ApplyMonitoringSettingsResponse>("unary", this._transport, method, opt, input);
     }
 }

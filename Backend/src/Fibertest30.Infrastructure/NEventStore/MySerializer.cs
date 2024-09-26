@@ -22,7 +22,10 @@ public class MySerializer : ISerialize
             using var sw = new StreamWriter(stream);
             using var jsonTextWriter = new JsonTextWriter(sw);
          
-            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.None});
+            // F3.0 надо All чтобы свичи потом понимали тип команды
+            // F2.0 все равно не может прочитать если None (не понимает тип команды)
+            //   а если All - крэшится потому что неизвестные типы из Core либок (не Graph а обвязка EventMessage) 
+            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All});
             serializer.Serialize(jsonTextWriter, ev);
         }
         catch (Exception e)

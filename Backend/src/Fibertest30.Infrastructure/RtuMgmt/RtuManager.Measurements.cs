@@ -1,9 +1,10 @@
 ﻿using Iit.Fibertest.Dto;
+using Org.BouncyCastle.Ocsp;
 
 namespace Fibertest30.Infrastructure;
 public partial class RtuManager
 {
-    public async Task<ClientMeasurementStartedDto> StartClientMeasurement(DoClientMeasurementDto dto)
+    public async Task<RequestAnswer> StartClientMeasurement(DoClientMeasurementDto dto)
     {
         // проверить не занят ли
         if (!_rtuOccupationService.TrySetOccupation(dto.RtuId, RtuOccupation.MeasurementClient,

@@ -1,142 +1,109 @@
 ﻿using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
-using Microsoft.Extensions.Logging;
 
 namespace Fibertest30.Infrastructure;
 public partial class RtuManager
 {
-    private List<object> DtoToCommandList(InitializeRtuDto dto, RtuInitializedDto result)
+    public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
     {
-        var commandList = new List<object>();
-        var originalRtu = _writeModel.Rtus.First(r => r.Id == result.RtuId);
+        // дозаполнить
+        dto = CompleteDto(dto);
 
+        // проверить не занят ли
+        if (!_rtuOccupationService.TrySetOccupation(dto.RtuId, RtuOccupation.Initialization, _currentUserService.UserName,
+                out RtuOccupationState? _))
+            throw new RtuIsBusyException("");
+
+        // отправить
+        var rtuInitializedDto = await _rtuTransmitter.SendCommand<InitializeRtuDto, RtuInitializedDto>(dto, dto.RtuAddresses);
+        if (rtuInitializedDto.ReturnCode == ReturnCode.InProgress)
         {
-            foreach (var trace in _writeModel.Traces.Where(t => t.RtuId == dto.RtuId))
-            {
-                // after RTU initialization  active RTU state events should be turned off by mock OK events
-                var lastAccident = _writeModel.RtuAccidents
-                    .LastOrDefault(a => a.TraceId == trace.TraceId && a.IsMeasurementProblem);
-                if (lastAccident != null && !lastAccident.IsGoodAccident)
-                {
-                    commandList.Add(CreateClearingAccidentCommand(dto, lastAccident, dto.Serial != result.Serial));
-                }
-            }
+            // дождаться результата или таймаута
+            rtuInitializedDto = await PollMakLinuxForInitializationResult(dto.RtuId, dto.RtuAddresses);
         }
 
-        // change Charon Serial for traces on main charon ports
-        if (dto.Serial != result.Serial)
+        // получили результат инициализации или вышли по таймауту
+
+        // освободить рту
+        _rtuOccupationService.TrySetOccupation(dto.RtuId, RtuOccupation.None, _currentUserService.UserName,
+            out RtuOccupationState? _);
+
+        rtuInitializedDto.RtuAddresses = dto.RtuAddresses;
+        if (rtuInitializedDto.IsInitialized)
         {
-            // OtauPort is null until Trace attached
-            foreach (var trace in _writeModel.Traces
-                         .Where(t => t.RtuId == dto.RtuId && t.OtauPort != null && t.OtauPort.IsPortOnMainCharon))
-            {
-                commandList.Add(new UpdateTracePort { Id = trace.TraceId, Serial = result.Serial });
-            }
+            // пометить в БД время последнего конекта с рту
+            await RefreshRtuConnectionTime(rtuInitializedDto);
+
+            // сохранить результат инициализации в EventStore
+            await _eventStoreService.SendCommands(
+                DtoToCommandList(dto, rtuInitializedDto), _currentUserService.UserName, dto.ClientIp);
         }
 
-
-        // Own port count changed
-        if (originalRtu.OwnPortCount > result.OwnPortCount)
-        {
-            var traces = _writeModel.Traces.Where(t =>
-                t.RtuId == result.RtuId && t.OtauPort != null && t.Port >= result.OwnPortCount && t.OtauPort.Serial == originalRtu.Serial);
-            foreach (var trace in traces)
-            {
-                var cmd = new DetachTrace { TraceId = trace.TraceId };
-                commandList.Add(cmd);
-            }
-        }
-
-        // main veex otau state changed
-        if (!dto.IsFirstInitialization &&
-            originalRtu.MainVeexOtau.connected != result.MainVeexOtau.connected)
-        {
-            commandList.Add(new AddBopNetworkEvent
-            {
-                EventTimestamp = DateTime.Now,
-                RtuId = result.RtuId,
-                Serial = originalRtu.Serial,
-                OtauIp = originalRtu.OtdrNetAddress.Ip4Address,
-                TcpPort = originalRtu.OtdrNetAddress.Port,
-                IsOk = result.MainVeexOtau.connected,
-            });
-        }
-
-        // BOP state changed
-        foreach (var keyValuePair in result.Children)
-        {
-            var bop = _writeModel.Otaus.FirstOrDefault(o => o.NetAddress.Equals(keyValuePair.Value.NetAddress));
-            if (bop == null)
-            {
-                // This happens when Khazanov writes into RTU's ini file while RTU works
-                // should not happen in real life but anyway
-                result.Children.Remove(keyValuePair.Key);
-                _logger.LogError($"There is no bop with address {keyValuePair.Value.NetAddress.ToStringA()} in graph");
-                continue;
-            }
-            if (bop.IsOk != keyValuePair.Value.IsOk)
-                commandList.Add(new AddBopNetworkEvent
-                {
-                    EventTimestamp = DateTime.Now,
-                    RtuId = result.RtuId,
-                    Serial = keyValuePair.Value.Serial,
-                    OtauIp = keyValuePair.Value.NetAddress.Ip4Address,
-                    TcpPort = keyValuePair.Value.NetAddress.Port,
-                    IsOk = keyValuePair.Value.IsOk,
-                });
-        }
-
-        commandList.Add(GetInitializeRtuCommand(dto, result));
-        return commandList;
+        return rtuInitializedDto;
     }
 
-    private AddRtuAccident CreateClearingAccidentCommand(InitializeRtuDto dto, RtuAccident accident, bool serialChanged)
+    private InitializeRtuDto CompleteDto(InitializeRtuDto dto)
     {
-        return new AddRtuAccident
-        {
-            IsMeasurementProblem = true,
-            ReturnCode = serialChanged ? ReturnCode.MeasurementErrorCleared : ReturnCode.MeasurementErrorClearedByInit,
-
-            EventRegistrationTimestamp = DateTime.Now,
-            RtuId = dto.RtuId,
-            TraceId = accident.TraceId,
-            BaseRefType = accident.BaseRefType,
-
-            ClearedAccidentWithId = accident.Id,
-
-            Comment = "",
-        };
+        var rtu = _writeModel.Rtus.First(r => r.Id == dto.RtuId);
+        dto.RtuMaker = rtu.RtuMaker;
+        dto.ServerAddresses = new DoubleAddress(); // в случае MakLinux вообще не нужен, все идет от сервера к рту
+        dto.IsFirstInitialization = !rtu.IsInitialized;
+        dto.Serial = rtu.Serial;
+        dto.OwnPortCount = rtu.OwnPortCount;
+        dto.Children = rtu.Children;
+        return dto;
     }
 
-    private InitializeRtu GetInitializeRtuCommand(InitializeRtuDto dto, RtuInitializedDto result)
+    private async Task RefreshRtuConnectionTime(RtuInitializedDto rtuInitializedDto)
     {
-        var cmd = new InitializeRtu
+        try
         {
-            Id = result.RtuId,
-            Maker = result.Maker,
-            OtdrId = result.OtdrId,
-            MainVeexOtau = result.MainVeexOtau,
-            Mfid = result.Mfid,
-            Mfsn = result.Mfsn,
-            Omid = result.Omid,
-            Omsn = result.Omsn,
-            MainChannel = dto.RtuAddresses.Main,
-            MainChannelState = RtuPartState.Ok,
-            IsReserveChannelSet = dto.RtuAddresses.HasReserveAddress,
-            ReserveChannel = dto.RtuAddresses.HasReserveAddress
-                ? dto.RtuAddresses.Reserve
-                : null,
-            ReserveChannelState = dto.RtuAddresses.HasReserveAddress ? RtuPartState.Ok : RtuPartState.NotSetYet,
-            OtauNetAddress = result.OtdrAddress,
-            OwnPortCount = result.OwnPortCount,
-            FullPortCount = result.FullPortCount,
-            Serial = result.Serial,
-            Version = result.Version,
-            Version2 = result.Version2,
-            IsMonitoringOn = result.IsMonitoringOn,
-            Children = result.Children,
-            AcceptableMeasParams = result.AcceptableMeasParams,
+            var rtuStation = CreateRtuStation(rtuInitializedDto);
+            await _rtuStationsRepository.RegisterRtuInitializationResultAsync(rtuStation);
+        }
+        catch (Exception e)
+        {
+            rtuInitializedDto.ReturnCode = ReturnCode.Error;
+            rtuInitializedDto.ErrorMessage = $"Failed to save RTU in DB: {e.Message}";
+        }
+    }
+
+    private RtuStation CreateRtuStation(RtuInitializedDto dto)
+    {
+        var rtuStation = new RtuStation
+        {
+            RtuGuid = dto.RtuId,
+            Version = dto.Version,
+            MainAddress = dto.RtuAddresses.Main.GetAddress(),
+            MainAddressPort = dto.RtuAddresses.Main.Port,
+            LastConnectionByMainAddressTimestamp = DateTime.Now,
+            IsMainAddressOkDuePreviousCheck = true,
+            IsReserveAddressSet = dto.RtuAddresses.HasReserveAddress,
+            LastMeasurementTimestamp = DateTime.Now,
         };
-        return cmd;
+        if (dto.RtuAddresses.HasReserveAddress)
+        {
+            rtuStation.ReserveAddress = dto.RtuAddresses.Reserve.GetAddress();
+            rtuStation.ReserveAddressPort = dto.RtuAddresses.Reserve.Port;
+            rtuStation.LastConnectionByReserveAddressTimestamp = DateTime.Now;
+        }
+        return rtuStation;
+    }
+
+
+    private async Task<RtuInitializedDto> PollMakLinuxForInitializationResult(Guid rtuId, DoubleAddress rtuDoubleAddress)
+    {
+        await Task.Delay(20000);
+
+        var count = 16; // 20 +  16 * 5 sec = 100 sec limit
+        var requestDto = new GetCurrentRtuStateDto { RtuId = rtuId, RtuDoubleAddress = rtuDoubleAddress };
+        while (--count >= 0)
+        {
+            await Task.Delay(5000);
+            var state = await _rtuTransmitter.GetRtuCurrentState(requestDto);
+            if (state.LastInitializationResult != null)
+                return state.LastInitializationResult.Result;
+        }
+
+        return new RtuInitializedDto(ReturnCode.TimeOutExpired);
     }
 }

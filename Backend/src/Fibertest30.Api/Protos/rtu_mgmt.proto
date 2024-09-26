@@ -8,11 +8,11 @@ package fibertest30.rtu_mgmt;
 service RtuMgmt {
 	rpc TestRtuConnection (TestRtuConnectionRequest) returns (TestRtuConnectionResponse);
 	rpc InitializeRtu (InitializeRtuRequest) returns (InitializeRtuResponse);
-	rpc DoMeasurementClient(DoMeasurementClientRequest) returns (DoMeasurementClientResponse);
+	rpc DoMeasurementClient(DoMeasurementClientRequest) returns (EmptyResponse);
 	rpc GetMeasurementClientSor(GetMeasurementClientSorRequest) returns (GetMeasurementClientSorResponse);
 
 	rpc StopMonitoring(StopMonitoringRequest) returns (EmptyResponse);
-	rpc ApplyMonitoringSettings(ApplyMonitoringSettingsRequest) returns (RequestAnswer);
+	rpc ApplyMonitoringSettings(ApplyMonitoringSettingsRequest) returns (ApplyMonitoringSettingsResponse);
 }
 
 message DoubleAddress {
@@ -90,10 +90,6 @@ message DoMeasurementClientRequest{
 	DoMeasurementClientDto dto = 1;
 }
 
-message DoMeasurementClientResponse{
-	string measurementClientId = 1;
-}
-
 message GetMeasurementClientSorRequest {
 	string measurementClientId = 1;
 	bool vxsorFormat = 2;
@@ -112,4 +108,8 @@ message EmptyResponse {
 
 message ApplyMonitoringSettingsRequest {
 	ApplyMonitoringSettingsDto dto = 1;
+}
+
+message ApplyMonitoringSettingsResponse {
+	RequestAnswer dto = 1;
 }

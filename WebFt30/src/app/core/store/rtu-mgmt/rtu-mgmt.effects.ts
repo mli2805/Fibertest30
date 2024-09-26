@@ -72,8 +72,8 @@ export class RtuMgmtEffects {
       switchMap(({ dto }) => {
         return this.rtuMgmtService.applyMonitoringSettings(dto).pipe(
           map((response) => {
-            const answer = FtBaseMapping.fromGrpcRequestAnswer(response);
-            return RtuMgmtActions.applyMonitoringSettingsSuccess({ dto: answer });
+            console.log(response);
+            return RtuMgmtActions.applyMonitoringSettingsSuccess({ dto: response.dto });
           }),
           catchError((error) => {
             const serverError = GrpcUtils.toServerError(error);

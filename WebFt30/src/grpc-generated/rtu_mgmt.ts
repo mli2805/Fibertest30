@@ -197,15 +197,6 @@ export interface DoMeasurementClientRequest {
     dto?: DoMeasurementClientDto;
 }
 /**
- * @generated from protobuf message fibertest30.rtu_mgmt.DoMeasurementClientResponse
- */
-export interface DoMeasurementClientResponse {
-    /**
-     * @generated from protobuf field: string measurementClientId = 1;
-     */
-    measurementClientId: string;
-}
-/**
  * @generated from protobuf message fibertest30.rtu_mgmt.GetMeasurementClientSorRequest
  */
 export interface GetMeasurementClientSorRequest {
@@ -249,6 +240,15 @@ export interface ApplyMonitoringSettingsRequest {
      * @generated from protobuf field: fibertest30.rtu_mgmt.ApplyMonitoringSettingsDto dto = 1;
      */
     dto?: ApplyMonitoringSettingsDto;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.ApplyMonitoringSettingsResponse
+ */
+export interface ApplyMonitoringSettingsResponse {
+    /**
+     * @generated from protobuf field: fibertest30.rtu_mgmt.RequestAnswer dto = 1;
+     */
+    dto?: RequestAnswer;
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class DoubleAddress$Type extends MessageType<DoubleAddress> {
@@ -424,18 +424,6 @@ class DoMeasurementClientRequest$Type extends MessageType<DoMeasurementClientReq
  */
 export const DoMeasurementClientRequest = new DoMeasurementClientRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class DoMeasurementClientResponse$Type extends MessageType<DoMeasurementClientResponse> {
-    constructor() {
-        super("fibertest30.rtu_mgmt.DoMeasurementClientResponse", [
-            { no: 1, name: "measurementClientId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.rtu_mgmt.DoMeasurementClientResponse
- */
-export const DoMeasurementClientResponse = new DoMeasurementClientResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
 class GetMeasurementClientSorRequest$Type extends MessageType<GetMeasurementClientSorRequest> {
     constructor() {
         super("fibertest30.rtu_mgmt.GetMeasurementClientSorRequest", [
@@ -494,14 +482,26 @@ class ApplyMonitoringSettingsRequest$Type extends MessageType<ApplyMonitoringSet
  * @generated MessageType for protobuf message fibertest30.rtu_mgmt.ApplyMonitoringSettingsRequest
  */
 export const ApplyMonitoringSettingsRequest = new ApplyMonitoringSettingsRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ApplyMonitoringSettingsResponse$Type extends MessageType<ApplyMonitoringSettingsResponse> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.ApplyMonitoringSettingsResponse", [
+            { no: 1, name: "dto", kind: "message", T: () => RequestAnswer }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.ApplyMonitoringSettingsResponse
+ */
+export const ApplyMonitoringSettingsResponse = new ApplyMonitoringSettingsResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.rtu_mgmt.RtuMgmt
  */
 export const RtuMgmt = new ServiceType("fibertest30.rtu_mgmt.RtuMgmt", [
     { name: "TestRtuConnection", options: {}, I: TestRtuConnectionRequest, O: TestRtuConnectionResponse },
     { name: "InitializeRtu", options: {}, I: InitializeRtuRequest, O: InitializeRtuResponse },
-    { name: "DoMeasurementClient", options: {}, I: DoMeasurementClientRequest, O: DoMeasurementClientResponse },
+    { name: "DoMeasurementClient", options: {}, I: DoMeasurementClientRequest, O: EmptyResponse },
     { name: "GetMeasurementClientSor", options: {}, I: GetMeasurementClientSorRequest, O: GetMeasurementClientSorResponse },
     { name: "StopMonitoring", options: {}, I: StopMonitoringRequest, O: EmptyResponse },
-    { name: "ApplyMonitoringSettings", options: {}, I: ApplyMonitoringSettingsRequest, O: RequestAnswer }
+    { name: "ApplyMonitoringSettings", options: {}, I: ApplyMonitoringSettingsRequest, O: ApplyMonitoringSettingsResponse }
 ]);

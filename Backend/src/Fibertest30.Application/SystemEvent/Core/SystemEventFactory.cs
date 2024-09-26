@@ -62,10 +62,10 @@ public static class SystemEventFactory
             new MonitoringStoppedData(rtuId.ToString(), isSuccess), SystemEventSource.FromUser(userId));
     }
 
-    public static SystemEvent MonitoringSettingsApplied(string userId, Guid rtuId, string rtuTitle, bool isMonitoringOn)
+    public static SystemEvent MonitoringSettingsApplied(string userId, Guid rtuId, string rtuTitle)
     {
         return new SystemEvent(SystemEventType.MonitoringSettingsApplied, SystemEventLevel.Internal,
-            new MonitoringSettingsAppliedData(rtuId.ToString(), rtuTitle, isMonitoringOn),
+            new MonitoringSettingsAppliedData(rtuId.ToString(), rtuTitle),
             SystemEventSource.FromUser(userId));
     }
 
