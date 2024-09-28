@@ -62,8 +62,6 @@ export class RtuMonitoringSettingsComponent extends OnDestroyBase implements OnI
     this.rtu$ = this.store.select(RtuTreeSelectors.selectRtu(rtuId));
   }
 
-  tr2$!: Observable<(Trace | null)[]>;
-
   ngOnInit(): void {
     // еще одна подписка на рту, так я могу запустить свою функции, когда поменялся рту (при старте и при перечитывании)
     // в данном случае нужно обновить переменные для темплейта (которые не rtu.XXX, а трассы переключателей)

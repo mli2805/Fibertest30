@@ -85,6 +85,6 @@ export class DetachedTraceMenuComponent {
     return this.hasPermission(ApplicationPermission.AssignBaseRef);
   }
   onAssignBaseRefsClicked() {
-    //
+    this.router.navigate([`rtus/assign-base/`, this.trace.rtuId, this.trace.traceId]);
   }
 }

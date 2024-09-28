@@ -98,7 +98,7 @@ export class AttachedTraceMenuComponent {
   }
 
   onAssignBaseRefsClicked() {
-    //
+    this.router.navigate([`rtus/assign-base/`, this._trace.rtuId, this._trace.traceId]);
   }
 
   canAutomaticBaseRefs() {

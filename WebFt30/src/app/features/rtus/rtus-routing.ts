@@ -7,6 +7,7 @@ import { RtuInitializationComponent } from './rtu-initialization/rtu-initializat
 import { RtusComponent } from './rtus/rtus.component';
 import { MeasurementClientComponent } from './measurement-client/measurement-client.component';
 import { RtuMonitoringSettingsComponent } from './rtu-monitoring-settings/rtu-monitoring-settings.component';
+import { TraceAssignBaseComponent } from './trace-assign-base/trace-assign-base.component';
 
 export const routes: Routes = [
   {
@@ -44,6 +45,12 @@ export const routes: Routes = [
         path: 'measurement-client/:rtuId/:portName',
         pathMatch: 'full',
         component: MeasurementClientComponent,
+        data: { navigateToParent: 3 }
+      },
+      {
+        path: 'assign-base/:rtuId/:traceId',
+        pathMatch: 'full',
+        component: TraceAssignBaseComponent,
         data: { navigateToParent: 3 }
       }
     ]

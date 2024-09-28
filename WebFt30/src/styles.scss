@@ -422,3 +422,10 @@
      dark:text-zinc-400;
   }
 }
+
+/* https://stackoverflow.com/questions/24980459/safari-input-file-doesnt-work */
+.hidden-input-fix-safari-bug {
+  width: 0px;
+  height: 0px;
+  overflow: hidden;
+}

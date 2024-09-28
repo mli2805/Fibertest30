@@ -123,5 +123,10 @@
   "i18n.ft.apply": "Применить",
   "i18n.ft.in-progress": "Идет операция...",
 
-  "i18n.ft.failed-to-connect-rtu": "Ошибка обращения к RTU"
+  "i18n.ft.failed-to-connect-rtu": "Ошибка обращения к RTU",
+  "i18n.ft.not-attached": "не подключена",
+  "i18n.ft.precise-base": "Точная базовая",
+  "i18n.ft.fast-base": "Быстрая базовая",
+  "i18n.ft.additional-base": "Дополнительная базовая",
+  "i18n.ft.saved-in-db": "Сохранена в БД"
 }

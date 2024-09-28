@@ -1,0 +1,10 @@
+.grid-container {
+  display: grid;
+
+  grid-template-columns: auto_minmax(0, 1fr);
+
+  grid-template-areas:
+    'traceLabel traceValue'
+    'rtuLabel rtuValue'
+    'portLabel portValue';
+}

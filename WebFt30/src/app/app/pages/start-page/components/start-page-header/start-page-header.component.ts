@@ -30,6 +30,7 @@ export class StartPageHeaderComponent {
     [/^\/rtus\/initialization\/.*$/, { titleId: 'i18n.ft.network-settings' }],
     [/^\/rtus\/monitoring-settings\/.*$/, { titleId: 'i18n.ft.monitoring-settings' }],
     [/^\/rtus\/measurement-client\/.*$/, { titleId: 'i18n.ft.measurement-client' }],
+    [/^\/rtus\/assign-base\/.*$/, { titleId: 'i18n.ft.assign-base-refs' }],
     [/^\/rfts-setup$/, { titleId: 'i18n.start-page.rfts-setup' }],
     [
       /^\/rfts-setup\/monitoring\/monitoring-profiles$/,
@@ -41,28 +42,7 @@ export class StartPageHeaderComponent {
     [/^\/event-tables\/network-events$/, { titleId: 'i18n.ft.network-events' }],
     [/^\/event-tables\/bop-network-events$/, { titleId: 'i18n.ft.bop-network-events' }],
     [/^\/event-tables\/rtu-status-events$/, { titleId: 'i18n.ft.rtu-status-events' }],
-    [/^\/gis$/, { titleId: 'i18n.start-page.gis' }],
-    [
-      /^\/rfts-setup\/monitoring\/ports\/\d+\/dashboard\/\d+$/,
-      {
-        customHeader: 'routerBaselineTitle',
-        titleId: 'i18n.common.port-dashboard'
-      }
-    ],
-    [
-      /^\/rfts-setup\/monitoring\/ports\/.*$/,
-      {
-        customHeader: 'routerOtauTitle',
-        titleId: 'i18n.monitoring.ports'
-      }
-    ],
-    [
-      /^\/rfts-setup\/monitoring\/otau-dashboard\/.*$/,
-      {
-        customHeader: 'routerOtauTitle',
-        titleId: 'i18n.monitoring.otau-dashboard'
-      }
-    ]
+    [/^\/gis$/, { titleId: 'i18n.start-page.gis' }]
   ]);
 
   currentUser$ = this.store.select(AuthSelectors.selectUser);
