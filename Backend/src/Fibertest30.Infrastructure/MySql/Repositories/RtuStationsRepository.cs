@@ -19,10 +19,10 @@ public class RtuStationsRepository
     {
         try
         {
-            var previousRtuStationRow = await _ftDbContext.rtustations.FirstOrDefaultAsync(r => r.RtuGuid == rtuStation.RtuGuid);
+            var previousRtuStationRow = await _ftDbContext.RtuStations.FirstOrDefaultAsync(r => r.RtuGuid == rtuStation.RtuGuid);
             if (previousRtuStationRow == null)
             {
-                _ftDbContext.rtustations.Add(rtuStation);
+                _ftDbContext.RtuStations.Add(rtuStation);
                 _logger.LogInformation( 
                     $"RtuStation {rtuStation.RtuGuid.First6()} successfully registered with main address {rtuStation.MainAddress}.");
             }
@@ -51,10 +51,10 @@ public class RtuStationsRepository
     {
         try
         {
-            var rtu = _ftDbContext.rtustations.FirstOrDefault(r => r.RtuGuid == rtuId);
+            var rtu = _ftDbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == rtuId);
             if (rtu != null)
             {
-                _ftDbContext.rtustations.Remove(rtu);
+                _ftDbContext.RtuStations.Remove(rtu);
                 await _ftDbContext.SaveChangesAsync();
                 _logger.LogInformation( "RTU removed.");
                 return null;
@@ -75,7 +75,7 @@ public class RtuStationsRepository
     {
         try
         {
-            var rtu = await _ftDbContext.rtustations.FirstOrDefaultAsync(r => r.RtuGuid == rtuId);
+            var rtu = await _ftDbContext.RtuStations.FirstOrDefaultAsync(r => r.RtuGuid == rtuId);
             if (rtu != null)
                 return rtu.GetRtuDoubleAddress();
 
@@ -93,7 +93,7 @@ public class RtuStationsRepository
     {
         try
         {
-            var rtu = _ftDbContext.rtustations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
+            var rtu = _ftDbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
             if (rtu == null)
             {
                 _logger.LogInformation( $"Unknown RTU's {dto.RtuId.First6()} heartbeat.");
@@ -120,7 +120,7 @@ public class RtuStationsRepository
     {
         try
         {
-                var rtu = await _ftDbContext.rtustations.FirstOrDefaultAsync(r => r.RtuGuid == rtuId);
+                var rtu = await _ftDbContext.RtuStations.FirstOrDefaultAsync(r => r.RtuGuid == rtuId);
                 if (rtu != null) return true;
                 _logger.LogInformation( $"Unknown RTU {rtuId.First6()}");
                 return false;
@@ -136,7 +136,7 @@ public class RtuStationsRepository
     {
         try
         {
-            return await _ftDbContext.rtustations.ToListAsync();
+            return await _ftDbContext.RtuStations.ToListAsync();
         }
         catch (Exception e)
         {
@@ -149,7 +149,7 @@ public class RtuStationsRepository
     {
         try
         {
-                return await _ftDbContext.rtustations.FirstOrDefaultAsync(r => r.RtuGuid == rtuId);
+                return await _ftDbContext.RtuStations.FirstOrDefaultAsync(r => r.RtuGuid == rtuId);
         }
         catch (Exception e)
         {
@@ -164,7 +164,7 @@ public class RtuStationsRepository
         {
             foreach (var changedStation in changedStations)
             {
-                var rtuStation = _ftDbContext.rtustations.First(r => r.RtuGuid == changedStation.RtuGuid);
+                var rtuStation = _ftDbContext.RtuStations.First(r => r.RtuGuid == changedStation.RtuGuid);
                 Cop(changedStation, rtuStation);
             }
             return await _ftDbContext.SaveChangesAsync();
