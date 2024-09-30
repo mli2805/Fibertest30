@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Graph
             //detached traces
             foreach (var trace in writeModel.Traces.Where(t => t.RtuId == rtu.Id && t.Port == -1))
             {
-                rtuDto.Children.Add(trace.CreateTraceDto(rtu, null));
+                rtuDto.Children.Add(writeModel.CreateTraceDto(trace, rtu, null));
             }
             return rtuDto;
         }
@@ -119,7 +119,7 @@ namespace Iit.Fibertest.Graph
                                                     && t.OtauPort.OpticalPort == j
                                                     && t.ZoneIds.Contains(user.ZoneId));
                     otauWebDto.Children.Add(traceOnOtau != null
-                        ? traceOnOtau.CreateTraceDto(rtu, otauWebDto)
+                        ? writeModel.CreateTraceDto(traceOnOtau, rtu, otauWebDto)
                         : new ChildDto(ChildType.FreePort) { Port = j });
                 }
                 return otauWebDto;
@@ -131,11 +131,11 @@ namespace Iit.Fibertest.Graph
                                                               && t.Port == port
                                                               && t.ZoneIds.Contains(user.ZoneId));
             return trace != null
-                ? trace.CreateTraceDto(rtu, null)
+                ? writeModel.CreateTraceDto(trace, rtu, null)
                 : new ChildDto(ChildType.FreePort) { Port = port };
         }
 
-        private static TraceDto CreateTraceDto(this Trace t, Rtu rtu, OtauWebDto? otauWebDto)
+        private static TraceDto CreateTraceDto(this Model writeModel, Trace t, Rtu rtu, OtauWebDto? otauWebDto)
         {
             OtauPortDto? otauPortDto = null;
             if (t.OtauPort != null) // trace attached
@@ -171,7 +171,10 @@ namespace Iit.Fibertest.Graph
                 PreciseDuration = t.PreciseDuration,
                 AdditionalDuration = t.AdditionalDuration,
                 IsIncludedInMonitoringCycle = t.IsIncludedInMonitoringCycle,
-                TceLinkState = t.TraceToTceLinkState
+                TceLinkState = t.TraceToTceLinkState,
+                PreciseSorId = t.PreciseId != Guid.Empty ? writeModel.BaseRefs.First(b=>b.Id == t.PreciseId).SorFileId : -1,
+                FastSorId = t.FastId != Guid.Empty ? writeModel.BaseRefs.First(b=>b.Id == t.FastId).SorFileId : -1,
+                AdditionalSorId = t.AdditionalId != Guid.Empty ? writeModel.BaseRefs.First(b=>b.Id == t.AdditionalId).SorFileId : -1,
             };
         }
 

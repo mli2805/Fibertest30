@@ -1,10 +1,37 @@
-import { AfterViewInit, Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  EMPTY,
+  firstValueFrom,
+  forkJoin,
+  Observable,
+  of,
+  ReplaySubject,
+  Subscription,
+  takeUntil,
+  tap
+} from 'rxjs';
 import { AppState, RtuTreeSelectors } from 'src/app/core';
+import { RtuMgmtService } from 'src/app/core/grpc';
+import { ApplyMonitoringSettingsDto } from 'src/app/core/store/models/ft30/apply-monitorig-settings-dto';
+import {
+  AssignBaseRefsDto,
+  BaseRefFile
+} from 'src/app/core/store/models/ft30/assign-base-refs-dto';
+import { BaseRefType } from 'src/app/core/store/models/ft30/ft-enums';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
 import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
@@ -24,6 +51,8 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
   operationSuccess$ = this.store.select(RtuMgmtSelectors.selectRtuOperationSuccess);
   errorMessageId$ = this.store.select(RtuMgmtSelectors.selectErrorMessageId);
 
+  inProgress = false;
+
   rtu!: Rtu;
   rtu$;
   traceId!: string;
@@ -33,12 +62,20 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
   preciseFileInitialValue!: string;
   fastFileInitialValue!: string;
   additionalFileInitialValue!: string;
+  preciseFile: File | null = null;
+  fastFile: File | null = null;
+  additionalFile: File | null = null;
 
   @ViewChild('preciseFileBox') preciseFileBox!: ElementRef;
   @ViewChild('fastFileBox') fastFileBox!: ElementRef;
   @ViewChild('additionalFileBox') additionalFileBox!: ElementRef;
 
-  constructor(private route: ActivatedRoute, private ts: TranslateService) {
+  constructor(
+    private route: ActivatedRoute,
+    private ts: TranslateService,
+    private cdr: ChangeDetectorRef,
+    private rtuMgmtService: RtuMgmtService
+  ) {
     super();
 
     const rtuId = this.route.snapshot.paramMap.get('rtuId')!;
@@ -97,33 +134,130 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
   }
 
   onPreciseFileSelected(event: any) {
-    const files: FileList = event.target.files;
-    this.preciseFileBox.nativeElement.value = files[0].name;
+    this.preciseFile = event.target.files[0];
+    this.preciseFileBox.nativeElement.value = this.preciseFile!.name;
   }
 
   onPreciseRemoveClicked() {
     this.preciseFileBox.nativeElement.value = '';
+    this.preciseFile = null;
   }
 
   onFastFileSelected(event: any) {
-    const files: FileList = event.target.files;
-    this.fastFileBox.nativeElement.value = files[0].name;
+    this.fastFile = event.target.files[0];
+    this.fastFileBox.nativeElement.value = this.fastFile!.name;
   }
 
   onFastRemoveClicked() {
     this.fastFileBox.nativeElement.value = '';
+    this.fastFile = null;
   }
 
   onAdditionalFileSelected(event: any) {
-    const files: FileList = event.target.files;
-    this.additionalFileBox.nativeElement.value = files[0].name;
+    this.additionalFile = event.target.files[0];
+    this.additionalFileBox.nativeElement.value = this.additionalFile!.name;
   }
 
   onAdditionalRemoveClicked() {
     this.additionalFileBox.nativeElement.value = '';
+    this.additionalFile = null;
   }
 
-  onApplyClicked() {
-    //
+  subscription!: Subscription;
+
+  composeDto() {
+    const dto = new AssignBaseRefsDto();
+    dto.rtuId = this.rtu.rtuId;
+    dto.rtuMaker = this.rtu.rtuMaker;
+    dto.traceId = this.trace.traceId;
+    dto.portOfOtau = this.trace.port;
+
+    dto.baseFiles = [];
+    dto.deleteSors = this.composeDeleted();
+    return dto;
+  }
+
+  composeDeleted() {
+    const deleteSors = [];
+    if (this.preciseFileBox.nativeElement.value === '' && this.preciseFileInitialValue !== '') {
+      deleteSors.push(this.trace.preciseSorId);
+    }
+    if (this.fastFileBox.nativeElement.value === '' && this.fastFileInitialValue !== '') {
+      deleteSors.push(this.trace.fastSorId);
+    }
+    if (
+      this.additionalFileBox.nativeElement.value === '' &&
+      this.additionalFileInitialValue !== ''
+    ) {
+      deleteSors.push(this.trace.additionalSorId);
+    }
+    return deleteSors;
+  }
+
+  readFileAsObservable(file: File | null): Observable<Uint8Array | null> {
+    const subj = new ReplaySubject<Uint8Array | null>();
+
+    if (file === null) {
+      subj.next(null);
+      subj.complete();
+    } else {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const bytes = new Uint8Array(<ArrayBuffer>reader.result);
+        subj.next(bytes);
+        subj.complete();
+      };
+      reader.onerror = (er: any) => {
+        console.log(`can't load file: ${er}`);
+        subj.next(null);
+        subj.complete();
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    return subj.asObservable();
+  }
+
+  async onApplyClicked() {
+    const dto = this.composeDto();
+
+    forkJoin({
+      file1: this.readFileAsObservable(this.preciseFile),
+      file2: this.readFileAsObservable(this.fastFile),
+      file3: this.readFileAsObservable(this.additionalFile)
+    })
+      .pipe(takeUntil(this.ngDestroyed$))
+      .subscribe(async (files) => {
+        this.composeBaseFiles(files, dto);
+        this.inProgress = true;
+        this.cdr.markForCheck();
+        const resp = await firstValueFrom(this.rtuMgmtService.assignBaseRefs(dto));
+        // вот здесь разбор ответа и если ошибка, то показ ошибки, иначе просто покинуть форму и вернуться к дереву
+        this.inProgress = false;
+        this.cdr.markForCheck();
+      });
+  }
+
+  composeBaseFiles(files: any, dto: AssignBaseRefsDto) {
+    if (files.file1) {
+      const bf = new BaseRefFile();
+      bf.baseRefType = BaseRefType.Precise;
+      bf.fileContent = files.file1;
+      dto.baseFiles.push(bf);
+    }
+
+    if (files.file2) {
+      const bf = new BaseRefFile();
+      bf.baseRefType = BaseRefType.Fast;
+      bf.fileContent = files.file2;
+      dto.baseFiles.push(bf);
+    }
+
+    if (files.file3) {
+      const bf = new BaseRefFile();
+      bf.baseRefType = BaseRefType.Additional;
+      bf.fileContent = files.file3;
+      dto.baseFiles.push(bf);
+    }
   }
 }

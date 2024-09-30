@@ -148,6 +148,9 @@ public static class RtuTreeMapping
             FastDuration = (int)trace.FastDuration.TotalSeconds,
             PreciseDuration = (int)trace.PreciseDuration.TotalSeconds,
             AdditionalDuration = (int)trace.AdditionalDuration.TotalSeconds,
+            PreciseSorId = trace.PreciseSorId,
+            FastSorId = trace.FastSorId,
+            AdditionalSorId = trace.AdditionalSorId,
         };
         if (trace.OtauPort != null) // only for attached trace
         {

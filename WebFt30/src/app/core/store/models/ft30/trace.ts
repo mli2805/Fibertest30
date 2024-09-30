@@ -14,4 +14,7 @@ export class Trace {
   fastDuration!: number;
   preciseDuration!: number;
   additionalDuration!: number;
+  preciseSorId!: number;
+  fastSorId!: number;
+  additionalSorId!: number;
 }

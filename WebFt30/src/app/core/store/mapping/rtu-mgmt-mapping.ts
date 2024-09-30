@@ -5,6 +5,7 @@ import { FtBaseMapping } from './ft-base-mapping';
 import { ApplyMonitoringSettingsDto } from '../models/ft30/apply-monitorig-settings-dto';
 import { PortWithTraceDto } from '../models/ft30/port-with-trace-dto';
 import { FtEnumsMapping } from './ft-enums-mapping';
+import { AssignBaseRefsDto, BaseRefFile } from '../models/ft30/assign-base-refs-dto';
 
 export class RtuMgmtMapping {
   static fromGrpcRtuInitializedDto(grpcDto: grpc.RtuInitializedDto): RtuInitializedDto {
@@ -41,6 +42,24 @@ export class RtuMgmtMapping {
       preciseSave: dto.preciseSave,
       fastSave: dto.fastSave,
       ports: dto.ports.map((l) => this.toGrpcPortWithTraceDto(l))
+    };
+  }
+
+  static toGrpcBaseRefFile(dto: BaseRefFile): grpc.BaseRefFile {
+    return {
+      baseRefType: dto.baseRefType,
+      fileBytes: dto.fileContent
+    };
+  }
+
+  static toGrpcAssingBaseRefsDto(dto: AssignBaseRefsDto): grpc.AssignBaseRefsDto {
+    return {
+      rtuId: dto.rtuId,
+      rtuMaker: dto.rtuMaker,
+      traceId: dto.traceId,
+      portOfOtau: dto.portOfOtau ? FtBaseMapping.toGrpcPortOfOtau(dto.portOfOtau!) : undefined,
+      baseRefFiles: dto.baseFiles.map((f) => this.toGrpcBaseRefFile(f)),
+      deleteSors: dto.deleteSors
     };
   }
 }

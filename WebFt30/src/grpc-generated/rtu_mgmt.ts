@@ -3,6 +3,7 @@
 // tslint:disable
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
+import { BaseRefType } from "./ft.enums";
 import { RtuMaker } from "./ft.enums";
 import { FiberState } from "./ft.enums";
 import { PortOfOtau } from "./rtu_tree";
@@ -131,6 +132,48 @@ export interface ApplyMonitoringSettingsDto {
     ports: PortWithTraceDto[];
 }
 /**
+ * @generated from protobuf message fibertest30.rtu_mgmt.BaseRefFile
+ */
+export interface BaseRefFile {
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.BaseRefType baseRefType = 1;
+     */
+    baseRefType: BaseRefType;
+    /**
+     * @generated from protobuf field: bytes fileBytes = 2;
+     */
+    fileBytes: Uint8Array;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.AssignBaseRefsDto
+ */
+export interface AssignBaseRefsDto {
+    /**
+     * @generated from protobuf field: string rtuId = 1;
+     */
+    rtuId: string;
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.RtuMaker rtuMaker = 2;
+     */
+    rtuMaker: RtuMaker;
+    /**
+     * @generated from protobuf field: string traceId = 3;
+     */
+    traceId: string;
+    /**
+     * @generated from protobuf field: optional fibertest30.rtu_tree.PortOfOtau portOfOtau = 4;
+     */
+    portOfOtau?: PortOfOtau;
+    /**
+     * @generated from protobuf field: repeated fibertest30.rtu_mgmt.BaseRefFile baseRefFiles = 5;
+     */
+    baseRefFiles: BaseRefFile[];
+    /**
+     * @generated from protobuf field: repeated int32 deleteSors = 6;
+     */
+    deleteSors: number[];
+}
+/**
  * @generated from protobuf message fibertest30.rtu_mgmt.RequestAnswer
  */
 export interface RequestAnswer {
@@ -250,6 +293,24 @@ export interface ApplyMonitoringSettingsResponse {
      */
     dto?: RequestAnswer;
 }
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.AssignBaseRefsRequest
+ */
+export interface AssignBaseRefsRequest {
+    /**
+     * @generated from protobuf field: fibertest30.rtu_mgmt.AssignBaseRefsDto dto = 1;
+     */
+    dto?: AssignBaseRefsDto;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.AssignBaseRefsResponse
+ */
+export interface AssignBaseRefsResponse {
+    /**
+     * @generated from protobuf field: fibertest30.rtu_mgmt.RequestAnswer dto = 1;
+     */
+    dto?: RequestAnswer;
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class DoubleAddress$Type extends MessageType<DoubleAddress> {
     constructor() {
@@ -349,6 +410,36 @@ class ApplyMonitoringSettingsDto$Type extends MessageType<ApplyMonitoringSetting
  * @generated MessageType for protobuf message fibertest30.rtu_mgmt.ApplyMonitoringSettingsDto
  */
 export const ApplyMonitoringSettingsDto = new ApplyMonitoringSettingsDto$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class BaseRefFile$Type extends MessageType<BaseRefFile> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.BaseRefFile", [
+            { no: 1, name: "baseRefType", kind: "enum", T: () => ["fibertest30.ft.enums.BaseRefType", BaseRefType] },
+            { no: 2, name: "fileBytes", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.BaseRefFile
+ */
+export const BaseRefFile = new BaseRefFile$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AssignBaseRefsDto$Type extends MessageType<AssignBaseRefsDto> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.AssignBaseRefsDto", [
+            { no: 1, name: "rtuId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "rtuMaker", kind: "enum", T: () => ["fibertest30.ft.enums.RtuMaker", RtuMaker] },
+            { no: 3, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "portOfOtau", kind: "message", T: () => PortOfOtau },
+            { no: 5, name: "baseRefFiles", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => BaseRefFile },
+            { no: 6, name: "deleteSors", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.AssignBaseRefsDto
+ */
+export const AssignBaseRefsDto = new AssignBaseRefsDto$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class RequestAnswer$Type extends MessageType<RequestAnswer> {
     constructor() {
@@ -494,6 +585,30 @@ class ApplyMonitoringSettingsResponse$Type extends MessageType<ApplyMonitoringSe
  * @generated MessageType for protobuf message fibertest30.rtu_mgmt.ApplyMonitoringSettingsResponse
  */
 export const ApplyMonitoringSettingsResponse = new ApplyMonitoringSettingsResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AssignBaseRefsRequest$Type extends MessageType<AssignBaseRefsRequest> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.AssignBaseRefsRequest", [
+            { no: 1, name: "dto", kind: "message", T: () => AssignBaseRefsDto }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.AssignBaseRefsRequest
+ */
+export const AssignBaseRefsRequest = new AssignBaseRefsRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AssignBaseRefsResponse$Type extends MessageType<AssignBaseRefsResponse> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.AssignBaseRefsResponse", [
+            { no: 1, name: "dto", kind: "message", T: () => RequestAnswer }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.AssignBaseRefsResponse
+ */
+export const AssignBaseRefsResponse = new AssignBaseRefsResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.rtu_mgmt.RtuMgmt
  */
@@ -503,5 +618,6 @@ export const RtuMgmt = new ServiceType("fibertest30.rtu_mgmt.RtuMgmt", [
     { name: "DoMeasurementClient", options: {}, I: DoMeasurementClientRequest, O: EmptyResponse },
     { name: "GetMeasurementClientSor", options: {}, I: GetMeasurementClientSorRequest, O: GetMeasurementClientSorResponse },
     { name: "StopMonitoring", options: {}, I: StopMonitoringRequest, O: EmptyResponse },
-    { name: "ApplyMonitoringSettings", options: {}, I: ApplyMonitoringSettingsRequest, O: ApplyMonitoringSettingsResponse }
+    { name: "ApplyMonitoringSettings", options: {}, I: ApplyMonitoringSettingsRequest, O: ApplyMonitoringSettingsResponse },
+    { name: "AssignBaseRefs", options: {}, I: AssignBaseRefsRequest, O: AssignBaseRefsResponse }
 ]);

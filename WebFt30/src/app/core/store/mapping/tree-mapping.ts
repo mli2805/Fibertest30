@@ -22,6 +22,9 @@ export class TreeMapping {
     trace.fastDuration = grpcTrace.fastDuration;
     trace.preciseDuration = grpcTrace.preciseDuration;
     trace.additionalDuration = grpcTrace.additionalDuration;
+    trace.preciseSorId = grpcTrace.preciseSorId;
+    trace.fastSorId = grpcTrace.fastSorId;
+    trace.additionalSorId = grpcTrace.additionalSorId;
     return trace;
   }
 

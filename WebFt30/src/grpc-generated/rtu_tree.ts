@@ -212,6 +212,18 @@ export interface Trace {
      * @generated from protobuf field: int32 additionalDuration = 12;
      */
     additionalDuration: number;
+    /**
+     * @generated from protobuf field: int32 preciseSorId = 13;
+     */
+    preciseSorId: number;
+    /**
+     * @generated from protobuf field: int32 fastSorId = 14;
+     */
+    fastSorId: number;
+    /**
+     * @generated from protobuf field: int32 additionalSorId = 15;
+     */
+    additionalSorId: number;
 }
 /**
  * @generated from protobuf message fibertest30.rtu_tree.Bop
@@ -518,7 +530,10 @@ class Trace$Type extends MessageType<Trace> {
             { no: 9, name: "tceLinkState", kind: "enum", T: () => ["fibertest30.ft.enums.TceLinkState", TceLinkState] },
             { no: 10, name: "fastDuration", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 11, name: "preciseDuration", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 12, name: "additionalDuration", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+            { no: 12, name: "additionalDuration", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 13, name: "preciseSorId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 14, name: "fastSorId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 15, name: "additionalSorId", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
 }

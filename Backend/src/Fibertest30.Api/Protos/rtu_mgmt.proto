@@ -13,6 +13,7 @@ service RtuMgmt {
 
 	rpc StopMonitoring(StopMonitoringRequest) returns (EmptyResponse);
 	rpc ApplyMonitoringSettings(ApplyMonitoringSettingsRequest) returns (ApplyMonitoringSettingsResponse);
+	rpc AssignBaseRefs(AssignBaseRefsRequest) returns (AssignBaseRefsResponse);
 }
 
 message DoubleAddress {
@@ -58,6 +59,22 @@ message ApplyMonitoringSettingsDto {
 	int32 fastSave = 6;
 
 	repeated PortWithTraceDto ports = 7;
+}
+
+message BaseRefFile {
+	ft.enums.BaseRefType baseRefType = 1;
+    bytes fileBytes = 2; 
+}
+
+message AssignBaseRefsDto {
+	string rtuId = 1;
+	ft.enums.RtuMaker rtuMaker = 2;
+
+	string traceId = 3;
+	optional rtu_tree.PortOfOtau portOfOtau = 4;
+
+	repeated BaseRefFile baseRefFiles = 5;
+	repeated int32 deleteSors = 6;
 }
 
 message RequestAnswer {
@@ -111,5 +128,13 @@ message ApplyMonitoringSettingsRequest {
 }
 
 message ApplyMonitoringSettingsResponse {
+	RequestAnswer dto = 1;
+}
+
+message AssignBaseRefsRequest{
+	AssignBaseRefsDto dto = 1;
+}
+
+message AssignBaseRefsResponse{
 	RequestAnswer dto = 1;
 }

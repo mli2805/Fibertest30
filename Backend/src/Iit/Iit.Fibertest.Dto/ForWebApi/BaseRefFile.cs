@@ -1,8 +1,9 @@
-﻿namespace Iit.Fibertest.Dto
+﻿
+namespace Iit.Fibertest.Dto
 {
     public class BaseRefFile
     {
         public BaseRefType Type { get; set; }
-        public object File { get; set; }
+        public byte[] File { get; set; }
     }
 }

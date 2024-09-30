@@ -73,4 +73,12 @@ public class RtuMgmtService : RtuMgmt.RtuMgmtBase
 
         return new ApplyMonitoringSettingsResponse() { Dto = answer.ToProto() };
     }
+
+    public override async Task<AssignBaseRefsResponse> AssignBaseRefs(AssignBaseRefsRequest request, ServerCallContext context)
+    {
+        var dto = request.Dto.FromProto();
+        await File.WriteAllBytesAsync(@"c:\temp\sor\aaa.sor", dto.BaseRefs[0].SorBytes);
+        await Task.Delay(5000);
+        return new AssignBaseRefsResponse();
+    }
 }

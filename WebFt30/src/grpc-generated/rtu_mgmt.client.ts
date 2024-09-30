@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { RtuMgmt } from "./rtu_mgmt";
+import type { AssignBaseRefsResponse } from "./rtu_mgmt";
+import type { AssignBaseRefsRequest } from "./rtu_mgmt";
 import type { ApplyMonitoringSettingsResponse } from "./rtu_mgmt";
 import type { ApplyMonitoringSettingsRequest } from "./rtu_mgmt";
 import type { StopMonitoringRequest } from "./rtu_mgmt";
@@ -46,6 +48,10 @@ export interface IRtuMgmtClient {
      * @generated from protobuf rpc: ApplyMonitoringSettings(fibertest30.rtu_mgmt.ApplyMonitoringSettingsRequest) returns (fibertest30.rtu_mgmt.ApplyMonitoringSettingsResponse);
      */
     applyMonitoringSettings(input: ApplyMonitoringSettingsRequest, options?: RpcOptions): UnaryCall<ApplyMonitoringSettingsRequest, ApplyMonitoringSettingsResponse>;
+    /**
+     * @generated from protobuf rpc: AssignBaseRefs(fibertest30.rtu_mgmt.AssignBaseRefsRequest) returns (fibertest30.rtu_mgmt.AssignBaseRefsResponse);
+     */
+    assignBaseRefs(input: AssignBaseRefsRequest, options?: RpcOptions): UnaryCall<AssignBaseRefsRequest, AssignBaseRefsResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.rtu_mgmt.RtuMgmt
@@ -97,5 +103,12 @@ export class RtuMgmtClient implements IRtuMgmtClient, ServiceInfo {
     applyMonitoringSettings(input: ApplyMonitoringSettingsRequest, options?: RpcOptions): UnaryCall<ApplyMonitoringSettingsRequest, ApplyMonitoringSettingsResponse> {
         const method = this.methods[5], opt = this._transport.mergeOptions(options);
         return stackIntercept<ApplyMonitoringSettingsRequest, ApplyMonitoringSettingsResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: AssignBaseRefs(fibertest30.rtu_mgmt.AssignBaseRefsRequest) returns (fibertest30.rtu_mgmt.AssignBaseRefsResponse);
+     */
+    assignBaseRefs(input: AssignBaseRefsRequest, options?: RpcOptions): UnaryCall<AssignBaseRefsRequest, AssignBaseRefsResponse> {
+        const method = this.methods[6], opt = this._transport.mergeOptions(options);
+        return stackIntercept<AssignBaseRefsRequest, AssignBaseRefsResponse>("unary", this._transport, method, opt, input);
     }
 }

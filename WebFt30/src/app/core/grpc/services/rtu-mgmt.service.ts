@@ -10,6 +10,7 @@ import { InitializeRtuDto } from '../../store/models/ft30/initialize-rtu-dto';
 import { DoMeasurementClientDto } from '../../store/models/ft30/do-measurement-client-dto';
 import { RtuMgmtMapping } from '../../store/mapping/rtu-mgmt-mapping';
 import { ApplyMonitoringSettingsDto } from '../../store/models/ft30/apply-monitorig-settings-dto';
+import { AssignBaseRefsDto } from '../../store/models/ft30/assign-base-refs-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -75,6 +76,14 @@ export class RtuMgmtService {
       request,
       {}
     );
+  }
+
+  assignBaseRefs(dto: AssignBaseRefsDto): Observable<grpc.AssignBaseRefsResponse> {
+    const request: grpc.AssignBaseRefsRequest = {
+      dto: RtuMgmtMapping.toGrpcAssingBaseRefsDto(dto)
+    };
+    console.log(request);
+    return GrpcUtils.unaryToObservable(this.client.assignBaseRefs.bind(this.client), request, {});
   }
 
   stopMonitoring(rtuId: string): Observable<grpc.EmptyResponse> {

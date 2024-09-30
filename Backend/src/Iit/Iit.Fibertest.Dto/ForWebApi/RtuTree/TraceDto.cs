@@ -19,6 +19,9 @@ namespace Iit.Fibertest.Dto
         [DataMember] public TimeSpan PreciseDuration;
         [DataMember] public TimeSpan AdditionalDuration;
         [DataMember] public TraceToTceLinkState TceLinkState = TraceToTceLinkState.NoLink;
+        [DataMember] public int PreciseSorId;
+        [DataMember] public int FastSorId;
+        [DataMember] public int AdditionalSorId;
 
         public TraceDto(ChildType childType) : base(childType)
         {

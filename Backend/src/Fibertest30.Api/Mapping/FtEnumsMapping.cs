@@ -95,6 +95,12 @@ public static class FtEnumsMapping
         };
     }
 
+    public static Iit.Fibertest.Dto.BaseRefType FromProto(this BaseRefType type)
+    {
+        int code = (int)type;
+        return (Iit.Fibertest.Dto.BaseRefType)code;
+    }
+
     public static EventStatus ToProto(this Iit.Fibertest.Dto.EventStatus status)
     {
         return status switch

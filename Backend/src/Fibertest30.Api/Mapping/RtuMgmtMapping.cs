@@ -76,4 +76,29 @@ public static class RtuMgmtMapping
             ErrorMessage = requestAnswer.ErrorMessage ?? "",
         };
     }
+
+    public static Iit.Fibertest.Dto.AssignBaseRefsDto FromProto(this AssignBaseRefsDto dto)
+    {
+        var result = new Iit.Fibertest.Dto.AssignBaseRefsDto()
+        {
+            RtuId = Guid.Parse(dto.RtuId),
+            RtuMaker = dto.RtuMaker.FromProto(),
+
+            TraceId = Guid.Parse(dto.TraceId),
+            OtauPortDto = dto.PortOfOtau.FromProto(),
+
+            BaseRefs = dto.BaseRefFiles.Select(f=> f.FromProto()).ToList(),
+            DeleteOldSorFileIds = dto.DeleteSors.ToList()
+        };
+        return result;
+    }
+
+    private static BaseRefDto FromProto(this BaseRefFile dto)
+    {
+        return new BaseRefDto()
+        {
+            BaseRefType = dto.BaseRefType.FromProto(), 
+            SorBytes = dto.FileBytes.ToByteArray()
+        };
+    }
 }
