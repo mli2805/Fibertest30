@@ -24,26 +24,26 @@ namespace Iit.Fibertest.Graph
                 var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
                 if (rtu == null) return assignmentFailed;
 
-                foreach (var baseRefDto in baseRefsDto)
+                foreach (var baseRefDto in baseRefsDto.Where(b=>b.SorBytes != null))
                 {
-                    if (baseRefDto.Id == Guid.Empty) continue; //
+                    if (baseRefDto.Id == Guid.Empty) continue; // это вроды был признак удаления, не помню
 
                     assignmentFailed.BaseRefType = baseRefDto.BaseRefType;
-                    var message = SorData.TryGetFromBytes(baseRefDto.SorBytes, out var otdrKnownBlocks);
+                    var message = SorData.TryGetFromBytes(baseRefDto.SorBytes!, out var otdrKnownBlocks);
                     if (message != "")
                     {
                         assignmentFailed.ErrorMessage = message;
                         return assignmentFailed;
                     }
 
-                    var checkParamsResult = CheckMeasParams(otdrKnownBlocks, rtu.AcceptableMeasParams);
+                    var checkParamsResult = CheckMeasParams(otdrKnownBlocks!, rtu.AcceptableMeasParams);
                     if (checkParamsResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                     {
                         checkParamsResult.BaseRefType = baseRefDto.BaseRefType;
                         return checkParamsResult;
                     }
 
-                    if (otdrKnownBlocks.RftsParameters.LevelsCount == 0)
+                    if (otdrKnownBlocks!.RftsParameters.LevelsCount == 0)
                         return new BaseRefAssignedDto()
                         {
                             BaseRefType = baseRefDto.BaseRefType,

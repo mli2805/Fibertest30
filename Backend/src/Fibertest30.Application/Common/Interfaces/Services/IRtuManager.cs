@@ -8,6 +8,7 @@ public interface IRtuManager
     Task<RequestAnswer> StartClientMeasurement(DoClientMeasurementDto dto);
 
     Task<RequestAnswer> ApplyMonitoringSettings(ApplyMonitoringSettingsDto dto);
+    Task<BaseRefAssignedDto> AssignBaseRefs(AssignBaseRefsDto dto);
     Task<RequestAnswer> StopMonitoring(Guid rtuId);
 
 }

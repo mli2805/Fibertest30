@@ -33,6 +33,8 @@ public static class ConfigureServices
         services.AddSingleton<IInAppChannelSender, InAppChannelSender>();
         
         services.AddScoped<IUserRolePermissionProvider, UserRolePermissionProvider>();
+        services.AddScoped<BaseRefLandmarksTool>();
+        services.AddScoped<BaseRefsCheckerOnServer>();
 
         services.AddSingleton<TableProvider>();
         services.AddSingleton<Model>();

@@ -13,6 +13,13 @@ export class AssignBaseRefsDto {
 }
 
 export class BaseRefFile {
-  baseRefType!: BaseRefType;
-  fileContent!: Uint8Array;
+  baseRefType: BaseRefType;
+  fileContent: Uint8Array | null;
+  isForDelete: boolean;
+
+  constructor(baseRefType: BaseRefType, fileContent: Uint8Array, isForDelete: boolean) {
+    this.baseRefType = baseRefType;
+    this.fileContent = fileContent;
+    this.isForDelete = isForDelete;
+  }
 }

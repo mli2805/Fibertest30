@@ -140,9 +140,13 @@ export interface BaseRefFile {
      */
     baseRefType: BaseRefType;
     /**
-     * @generated from protobuf field: bytes fileBytes = 2;
+     * @generated from protobuf field: optional bytes fileBytes = 2;
      */
-    fileBytes: Uint8Array;
+    fileBytes?: Uint8Array;
+    /**
+     * @generated from protobuf field: bool isForDelete = 3;
+     */
+    isForDelete: boolean;
 }
 /**
  * @generated from protobuf message fibertest30.rtu_mgmt.AssignBaseRefsDto
@@ -172,6 +176,35 @@ export interface AssignBaseRefsDto {
      * @generated from protobuf field: repeated int32 deleteSors = 6;
      */
     deleteSors: number[];
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.BaseRefsAssignedDto
+ */
+export interface BaseRefsAssignedDto {
+    /**
+     * @generated from protobuf field: int32 returnCode = 1;
+     */
+    returnCode: number;
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.BaseRefType baseRefType = 2;
+     */
+    baseRefType: BaseRefType;
+    /**
+     * @generated from protobuf field: int32 nodes = 3;
+     */
+    nodes: number;
+    /**
+     * @generated from protobuf field: int32 equipments = 4;
+     */
+    equipments: number;
+    /**
+     * @generated from protobuf field: int32 landmarks = 5;
+     */
+    landmarks: number;
+    /**
+     * @generated from protobuf field: optional string waveLength = 6;
+     */
+    waveLength?: string;
 }
 /**
  * @generated from protobuf message fibertest30.rtu_mgmt.RequestAnswer
@@ -307,9 +340,9 @@ export interface AssignBaseRefsRequest {
  */
 export interface AssignBaseRefsResponse {
     /**
-     * @generated from protobuf field: fibertest30.rtu_mgmt.RequestAnswer dto = 1;
+     * @generated from protobuf field: fibertest30.rtu_mgmt.BaseRefsAssignedDto dto = 1;
      */
-    dto?: RequestAnswer;
+    dto?: BaseRefsAssignedDto;
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class DoubleAddress$Type extends MessageType<DoubleAddress> {
@@ -415,7 +448,8 @@ class BaseRefFile$Type extends MessageType<BaseRefFile> {
     constructor() {
         super("fibertest30.rtu_mgmt.BaseRefFile", [
             { no: 1, name: "baseRefType", kind: "enum", T: () => ["fibertest30.ft.enums.BaseRefType", BaseRefType] },
-            { no: 2, name: "fileBytes", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
+            { no: 2, name: "fileBytes", kind: "scalar", opt: true, T: 12 /*ScalarType.BYTES*/ },
+            { no: 3, name: "isForDelete", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
 }
@@ -440,6 +474,23 @@ class AssignBaseRefsDto$Type extends MessageType<AssignBaseRefsDto> {
  * @generated MessageType for protobuf message fibertest30.rtu_mgmt.AssignBaseRefsDto
  */
 export const AssignBaseRefsDto = new AssignBaseRefsDto$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class BaseRefsAssignedDto$Type extends MessageType<BaseRefsAssignedDto> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.BaseRefsAssignedDto", [
+            { no: 1, name: "returnCode", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "baseRefType", kind: "enum", T: () => ["fibertest30.ft.enums.BaseRefType", BaseRefType] },
+            { no: 3, name: "nodes", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 4, name: "equipments", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 5, name: "landmarks", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 6, name: "waveLength", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.BaseRefsAssignedDto
+ */
+export const BaseRefsAssignedDto = new BaseRefsAssignedDto$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class RequestAnswer$Type extends MessageType<RequestAnswer> {
     constructor() {
@@ -601,7 +652,7 @@ export const AssignBaseRefsRequest = new AssignBaseRefsRequest$Type();
 class AssignBaseRefsResponse$Type extends MessageType<AssignBaseRefsResponse> {
     constructor() {
         super("fibertest30.rtu_mgmt.AssignBaseRefsResponse", [
-            { no: 1, name: "dto", kind: "message", T: () => RequestAnswer }
+            { no: 1, name: "dto", kind: "message", T: () => BaseRefsAssignedDto }
         ]);
     }
 }

@@ -39,4 +39,5 @@ public enum SystemEventType
     MeasurementClientDone,
     MonitoringStopped,
     MonitoringSettingsApplied,
+     BaseRefsAssigned,
 }

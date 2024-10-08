@@ -12,10 +12,13 @@ public partial class RtuManager : IRtuManager
     private readonly RtuStationsRepository _rtuStationsRepository;
     private readonly IRtuOccupationService _rtuOccupationService;
     private readonly ICurrentUserService _currentUserService;
+    private readonly BaseRefsCheckerOnServer _baseRefsCheckerOnServer;
+    private readonly SorFileRepository _sorFileRepository;
 
     public RtuManager(ILogger<RtuManager> logger, Model writeModel, 
         IRtuTransmitter rtuTransmitter, IEventStoreService eventStoreService, RtuStationsRepository rtuStationsRepository,
-        IRtuOccupationService rtuOccupationService, ICurrentUserService currentUserService)
+        IRtuOccupationService rtuOccupationService, ICurrentUserService currentUserService,
+        BaseRefsCheckerOnServer baseRefsCheckerOnServer, SorFileRepository sorFileRepository)
     {
         _logger = logger;
         _rtuTransmitter = rtuTransmitter;
@@ -24,6 +27,8 @@ public partial class RtuManager : IRtuManager
         _rtuStationsRepository = rtuStationsRepository;
         _rtuOccupationService = rtuOccupationService;
         _currentUserService = currentUserService;
+        _baseRefsCheckerOnServer = baseRefsCheckerOnServer;
+        _sorFileRepository = sorFileRepository;
     }
 
     public Task<RtuConnectionCheckedDto> CheckRtuConnection(NetAddress netAddress, CancellationToken cancellationToken)

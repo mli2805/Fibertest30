@@ -128,5 +128,11 @@
   "i18n.ft.precise-base": "Точная базовая",
   "i18n.ft.fast-base": "Быстрая базовая",
   "i18n.ft.additional-base": "Дополнительная базовая",
-  "i18n.ft.saved-in-db": "Сохранена в БД"
+  "i18n.ft.saved-in-db": "Сохранена в БД",
+
+  "i18n.ft.failed-to-assign-base-refs": "Не удалось задать базовые",
+  "i18n.ft.parameters-not-acceptable": "Недопустимые параметры",
+  "i18n.ft.no-thresholds-set": "Пороги не заданы",
+  "i18n.ft.wrong-landmarks-count": "Неверное количество ориентиров",
+  "i18n.ft.wrong-edge-landmarks": "Неверные крайние ориентиры"
 }

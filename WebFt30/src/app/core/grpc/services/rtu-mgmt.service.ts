@@ -82,7 +82,6 @@ export class RtuMgmtService {
     const request: grpc.AssignBaseRefsRequest = {
       dto: RtuMgmtMapping.toGrpcAssingBaseRefsDto(dto)
     };
-    console.log(request);
     return GrpcUtils.unaryToObservable(this.client.assignBaseRefs.bind(this.client), request, {});
   }
 

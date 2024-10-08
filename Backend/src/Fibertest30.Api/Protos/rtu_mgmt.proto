@@ -63,7 +63,8 @@ message ApplyMonitoringSettingsDto {
 
 message BaseRefFile {
 	ft.enums.BaseRefType baseRefType = 1;
-    bytes fileBytes = 2; 
+    optional bytes fileBytes = 2; 
+	bool isForDelete = 3;
 }
 
 message AssignBaseRefsDto {
@@ -75,6 +76,16 @@ message AssignBaseRefsDto {
 
 	repeated BaseRefFile baseRefFiles = 5;
 	repeated int32 deleteSors = 6;
+}
+
+message BaseRefsAssignedDto {
+	int32 returnCode = 1;
+	
+	ft.enums.BaseRefType baseRefType = 2;
+	int32 nodes = 3;
+	int32 equipments = 4;
+	int32 landmarks = 5;
+	optional string waveLength = 6;
 }
 
 message RequestAnswer {
@@ -136,5 +147,5 @@ message AssignBaseRefsRequest{
 }
 
 message AssignBaseRefsResponse{
-	RequestAnswer dto = 1;
+	BaseRefsAssignedDto dto = 1;
 }

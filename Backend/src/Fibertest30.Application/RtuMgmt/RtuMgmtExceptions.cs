@@ -21,6 +21,13 @@ public class NoSuchRtuException : Exception
     }
 }
 
+public class NoSuchTraceException : Exception
+{
+    public NoSuchTraceException(string? message) : base(message)
+    {
+    }
+}
+
 public class DeserializationException : Exception
 {
     public DeserializationException(string? message) : base(message)

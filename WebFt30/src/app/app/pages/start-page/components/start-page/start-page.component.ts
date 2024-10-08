@@ -31,6 +31,7 @@ import { MeasurementClientDoneData } from 'src/app/shared/system-events/system-e
 import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 import { MonitoringStoppedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/monitoring-stopped-data';
 import { MonitoringSettingsAppliedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/monitoring-settings-applied-data';
+import { BaseRefsAssignedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/base-refs-assigned-data';
 
 @Component({
   selector: 'rtu-start-page',
@@ -234,6 +235,12 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       case 'MonitoringSettingsApplied': {
         const data = <MonitoringSettingsAppliedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
+        return;
+      }
+      case 'BaseRefsAssigned': {
+        const data = <BaseRefsAssignedData>JSON.parse(systemEvent.jsonData);
+        this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
+        return;
       }
     }
   }

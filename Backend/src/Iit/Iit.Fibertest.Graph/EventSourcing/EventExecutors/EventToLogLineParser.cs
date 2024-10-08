@@ -100,7 +100,8 @@ namespace Iit.Fibertest.Graph
 
         private LogLine Parse(RtuInitialized e)
         {
-            return new LogLine { OperationCode = LogOperationCode.RtuInitialized, RtuTitle = _rtuTitles[e.Id] };
+            _rtuTitles.TryGetValue(e.Id, out string? rtuTitle);
+            return new LogLine { OperationCode = LogOperationCode.RtuInitialized, RtuTitle = rtuTitle ?? "" };
         }
 
         private LogLine Parse(RtuRemoved e)
@@ -111,44 +112,67 @@ namespace Iit.Fibertest.Graph
         private LogLine Parse(TraceAdded e)
         {
             _traces.Add(e.TraceId, new Tuple<string, Guid>(e.Title, e.RtuId));
+
+            // все эти TryGetValue появились из-за подкладывания базы 2.0 в 3.0
+            _rtuTitles.TryGetValue(e.RtuId, out string? rtuTitle);
+
             return new LogLine()
             {
                 OperationCode = LogOperationCode.TraceAdded,
-                RtuTitle = _rtuTitles[e.RtuId],
+                RtuTitle = rtuTitle ?? "",
                 TraceTitle = e.Title
             };
         }
 
         private LogLine Parse(TraceUpdated e)
         {
-            var rtuId = _traces[e.Id].Item2;
-            _traces[e.Id] = new Tuple<string, Guid>(e.Title, rtuId);
+            // все эти TryGetValue появились из-за подкладывания базы 2.0 в 3.0
+            _traces.TryGetValue(e.Id, out Tuple<string, Guid>? traceTuple);
+
+            if (traceTuple != null)
+            {
+                var rtuId = traceTuple.Item2;
+                _traces[e.Id] = new Tuple<string, Guid>(e.Title, rtuId);
+            }
+           
             return new LogLine
             {
                 OperationCode = LogOperationCode.TraceUpdated,
-                RtuTitle = _rtuTitles[_traces[e.Id].Item2],
+                RtuTitle = traceTuple != null ? _rtuTitles[traceTuple.Item2] : "",
                 TraceTitle = e.Title,
             };
         }
 
         private LogLine Parse(TraceAttached e)
         {
+            // все эти TryGetValue появились из-за подкладывания базы 2.0 в 3.0
+            _traces.TryGetValue(e.TraceId, out Tuple<string, Guid>? traceTuple);
+            string? rtuTitle = "";
+            if (traceTuple != null)
+                _rtuTitles.TryGetValue(traceTuple.Item2, out rtuTitle);
+           
             return new LogLine
             {
                 OperationCode = LogOperationCode.TraceAttached,
-                RtuTitle = _rtuTitles[_traces[e.TraceId].Item2],
-                TraceTitle = _traces[e.TraceId].Item1,
+                RtuTitle = rtuTitle ?? "",
+                TraceTitle = traceTuple?.Item1 ?? "",
                 OperationParams = $@"port {e.OtauPortDto.OpticalPort}",
             };
         }
 
         private LogLine Parse(TraceDetached e)
         {
+            // все эти TryGetValue появились из-за подкладывания базы 2.0 в 3.0
+            _traces.TryGetValue(e.TraceId, out Tuple<string, Guid>? traceTuple);
+            string? rtuTitle = "";
+            if (traceTuple != null)
+                _rtuTitles.TryGetValue(traceTuple.Item2, out rtuTitle);
+
             return new LogLine
             {
                 OperationCode = LogOperationCode.TraceDetached,
-                RtuTitle = _rtuTitles[_traces[e.TraceId].Item2],
-                TraceTitle = _traces[e.TraceId].Item1,
+                RtuTitle = rtuTitle ?? "",
+                TraceTitle = traceTuple?.Item1 ?? "",
             };
         }
 
@@ -180,11 +204,17 @@ namespace Iit.Fibertest.Graph
                 additionalInfo = additionalInfo + baseRef.BaseRefType.GetLocalizedFemaleString() + @"; ";
             }
 
+            // все эти TryGetValue появились из-за подкладывания базы 2.0 в 3.0
+            _traces.TryGetValue(e.TraceId, out Tuple<string, Guid>? traceTuple);
+            string? rtuTitle = "";
+            if (traceTuple != null)
+                _rtuTitles.TryGetValue(traceTuple.Item2, out rtuTitle);
+
             return new LogLine()
             {
                 OperationCode = LogOperationCode.BaseRefAssigned,
-                RtuTitle = _rtuTitles[_traces[e.TraceId].Item2],
-                TraceTitle = _traces[e.TraceId].Item1,
+                RtuTitle = rtuTitle ?? "",
+                TraceTitle = traceTuple?.Item1 ?? "",
                 OperationParams = additionalInfo,
             };
         }

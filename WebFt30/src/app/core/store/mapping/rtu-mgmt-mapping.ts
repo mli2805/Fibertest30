@@ -6,6 +6,7 @@ import { ApplyMonitoringSettingsDto } from '../models/ft30/apply-monitorig-setti
 import { PortWithTraceDto } from '../models/ft30/port-with-trace-dto';
 import { FtEnumsMapping } from './ft-enums-mapping';
 import { AssignBaseRefsDto, BaseRefFile } from '../models/ft30/assign-base-refs-dto';
+import { BaseRefsAssignedDto } from '../models/ft30/base-refs-assigned-dto';
 
 export class RtuMgmtMapping {
   static fromGrpcRtuInitializedDto(grpcDto: grpc.RtuInitializedDto): RtuInitializedDto {
@@ -48,7 +49,8 @@ export class RtuMgmtMapping {
   static toGrpcBaseRefFile(dto: BaseRefFile): grpc.BaseRefFile {
     return {
       baseRefType: dto.baseRefType,
-      fileBytes: dto.fileContent
+      fileBytes: dto.fileContent !== null ? dto.fileContent : undefined,
+      isForDelete: dto.isForDelete
     };
   }
 
@@ -61,5 +63,17 @@ export class RtuMgmtMapping {
       baseRefFiles: dto.baseFiles.map((f) => this.toGrpcBaseRefFile(f)),
       deleteSors: dto.deleteSors
     };
+  }
+
+  static fromGrpcBaseRefsAssignedDto(grpcDto: grpc.BaseRefsAssignedDto): BaseRefsAssignedDto {
+    const result = new BaseRefsAssignedDto();
+    result.returnCode = grpcDto.returnCode;
+    result.baseRefType = grpcDto.baseRefType;
+    result.nodes = grpcDto.nodes;
+    result.equipments = grpcDto.equipments;
+    result.landmarks = grpcDto.landmarks;
+    if (grpcDto.waveLength) result.waveLength = grpcDto.waveLength;
+    else result.waveLength = null;
+    return result;
   }
 }

@@ -452,6 +452,12 @@
   "i18n.ft.additional-base": "Additional base",
   "i18n.ft.saved-in-db": "Saved in DB",
 
+  "i18n.ft.failed-to-assign-base-refs": "Failed to assign base refs",
+  "i18n.ft.parameters-not-acceptable": "Parameters are not acceptable",
+  "i18n.ft.no-thresholds-set": "No thresholds set",
+  "i18n.ft.wrong-landmarks-count": "Wrong landmarks count",
+  "i18n.ft.wrong-edge-landmarks": "Wrong edge landmarks",
+
   "i18n.start-page.gis": "Gis",
   "i18n.start-page.notifications": "Notifications",
   "i18n.start-page.rfts-setup": "RFTS setup",

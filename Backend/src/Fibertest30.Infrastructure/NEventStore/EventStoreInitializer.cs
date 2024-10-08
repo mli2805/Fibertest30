@@ -13,12 +13,11 @@ public class EventStoreInitializer
     private readonly IConfiguration _configuration;
     private readonly MySerializer _mySerializer;
     private string EventSourcingScheme => "ft20graph";
-    public string EventSourcingConnectionString =>
-        $"server=localhost;port=3306;user id=root;password=root;database={EventSourcingScheme}";
+    private string MyTablesScheme => "ft20efcore";
+    public string EventSourcingConnectionString { get; init; }
 
     // такая же строка ещё используется для конфигурации доступа ко 2й части бд, см ConfigureServices
-    private string FtConnectionString =>
-        "server=localhost;port=3306;user id=root;password=root;database=ft20efcore";
+    private string FtConnectionString { get; init; }
 
     public Guid StreamIdOriginal { get; set; } = Guid.Empty;
     public IStoreEvents? StoreEvents { get; set; }
@@ -29,6 +28,11 @@ public class EventStoreInitializer
         _logger = logger;
         _configuration = configuration;
         _mySerializer = mySerializer;
+
+        var conStrTemplate = _configuration["MySqlConnectionString"] 
+                             ?? "server=localhost;port=3306;user id=root;password=root;database={0}";
+        EventSourcingConnectionString = string.Format(conStrTemplate, EventSourcingScheme);
+        FtConnectionString = string.Format(conStrTemplate, MyTablesScheme);
     }
 
     public void Init()

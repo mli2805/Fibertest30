@@ -68,6 +68,12 @@ public static class SystemEventFactory
             new MonitoringSettingsAppliedData(rtuId.ToString(), rtuTitle),
             SystemEventSource.FromUser(userId));
     }
+  public static SystemEvent BaseRefsAssigned(string userId, Guid rtuId, string traceTitle)
+    {
+        return new SystemEvent(SystemEventType.BaseRefsAssigned, SystemEventLevel.Internal,
+            new BaseRefsAssignedData(rtuId.ToString(), traceTitle),
+            SystemEventSource.FromUser(userId));
+    }
 
 
 }

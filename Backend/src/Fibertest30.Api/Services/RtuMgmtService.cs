@@ -77,8 +77,8 @@ public class RtuMgmtService : RtuMgmt.RtuMgmtBase
     public override async Task<AssignBaseRefsResponse> AssignBaseRefs(AssignBaseRefsRequest request, ServerCallContext context)
     {
         var dto = request.Dto.FromProto();
-        await File.WriteAllBytesAsync(@"c:\temp\sor\aaa.sor", dto.BaseRefs[0].SorBytes);
-        await Task.Delay(5000);
-        return new AssignBaseRefsResponse();
+        var answer = await _mediator.Send(new AssignBaseRefsCommand(dto), context.CancellationToken);
+
+        return new AssignBaseRefsResponse() { Dto = answer.ToProto() };
     }
 }

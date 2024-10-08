@@ -8,7 +8,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import {
@@ -26,12 +26,16 @@ import {
 } from 'rxjs';
 import { AppState, RtuTreeSelectors } from 'src/app/core';
 import { RtuMgmtService } from 'src/app/core/grpc';
+import { MapUtils } from 'src/app/core/map.utils';
+import { RtuMgmtMapping } from 'src/app/core/store/mapping/rtu-mgmt-mapping';
 import { ApplyMonitoringSettingsDto } from 'src/app/core/store/models/ft30/apply-monitorig-settings-dto';
 import {
   AssignBaseRefsDto,
   BaseRefFile
 } from 'src/app/core/store/models/ft30/assign-base-refs-dto';
+import { BaseRefsAssignedDto } from 'src/app/core/store/models/ft30/base-refs-assigned-dto';
 import { BaseRefType } from 'src/app/core/store/models/ft30/ft-enums';
+import { ReturnCode } from 'src/app/core/store/models/ft30/return-code';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
 import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
@@ -73,6 +77,7 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
   constructor(
     private route: ActivatedRoute,
     private ts: TranslateService,
+    private router: Router,
     private cdr: ChangeDetectorRef,
     private rtuMgmtService: RtuMgmtService
   ) {
@@ -219,6 +224,10 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
   }
 
   async onApplyClicked() {
+    this.errorLine1 = '';
+    this.errorLine2 = '';
+    this.cdr.markForCheck;
+
     const dto = this.composeDto();
 
     forkJoin({
@@ -231,33 +240,60 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
         this.composeBaseFiles(files, dto);
         this.inProgress = true;
         this.cdr.markForCheck();
+        console.log(dto);
         const resp = await firstValueFrom(this.rtuMgmtService.assignBaseRefs(dto));
-        // вот здесь разбор ответа и если ошибка, то показ ошибки, иначе просто покинуть форму и вернуться к дереву
+        const answer = RtuMgmtMapping.fromGrpcBaseRefsAssignedDto(resp.dto!);
+        console.log(answer);
         this.inProgress = false;
         this.cdr.markForCheck();
+
+        if (answer.returnCode === ReturnCode.BaseRefAssignedSuccessfully) {
+          // подать команду перечитать весь RTU ? ждать здесь или
+          // выити в дерево ?
+          this.router.navigate(['/rtus/rtu-tree']);
+        } else {
+          // написать что неправильно
+          this.composeErrorLines(answer);
+        }
       });
   }
 
+  errorLine1 = '';
+  errorLine2 = '';
+
+  // prettier-ignore
+  composeErrorLines(answer: BaseRefsAssignedDto){
+    switch (answer.baseRefType) {
+      case BaseRefType.Precise: this.errorLine1 = "i18n.ft.precise-base"; break;
+      case BaseRefType.Fast: this.errorLine1 = "i18n.ft.fast-base"; break;
+      case BaseRefType.Additional: this.errorLine1 = "i18n.ft.additional-base"; break;
+    }
+
+    switch (answer.returnCode) {
+      case ReturnCode.BaseRefAssignmentFailed: this.errorLine2 =  "i18n.ft.failed-to-assign-base-refs"; break;
+      case ReturnCode.BaseRefAssignmentParamNotAcceptable: this.errorLine2 =  "i18n.ft.parameters-not-acceptable"; break;
+      case ReturnCode.BaseRefAssignmentNoThresholds: this.errorLine2 =  "i18n.ft.no-thresholds-set"; break;
+      case ReturnCode.BaseRefAssignmentLandmarkCountWrong: this.errorLine2 =  "i18n.ft.wrong-landmarks-count"; break;
+      case ReturnCode.BaseRefAssignmentEdgeLandmarksWrong: this.errorLine2 =  "i18n.ft.wrong-edge-landmarks"; break;
+      default: this.errorLine2 = "i18n.ft.failed"; break;
+    }
+    this.cdr.markForCheck();
+  }
+
   composeBaseFiles(files: any, dto: AssignBaseRefsDto) {
-    if (files.file1) {
-      const bf = new BaseRefFile();
-      bf.baseRefType = BaseRefType.Precise;
-      bf.fileContent = files.file1;
-      dto.baseFiles.push(bf);
-    }
+    const deletePrecise =
+      this.preciseFileBox.nativeElement.value === '' && this.preciseFileInitialValue !== '';
+    const bf1 = new BaseRefFile(BaseRefType.Precise, files.file1, deletePrecise);
+    dto.baseFiles.push(bf1);
 
-    if (files.file2) {
-      const bf = new BaseRefFile();
-      bf.baseRefType = BaseRefType.Fast;
-      bf.fileContent = files.file2;
-      dto.baseFiles.push(bf);
-    }
+    const deleteFast =
+      this.fastFileBox.nativeElement.value === '' && this.fastFileInitialValue !== '';
+    const bf2 = new BaseRefFile(BaseRefType.Fast, files.file2, deleteFast);
+    dto.baseFiles.push(bf2);
 
-    if (files.file3) {
-      const bf = new BaseRefFile();
-      bf.baseRefType = BaseRefType.Additional;
-      bf.fileContent = files.file3;
-      dto.baseFiles.push(bf);
-    }
+    const deleteAdditional =
+      this.additionalFileBox.nativeElement.value === '' && this.additionalFileInitialValue !== '';
+    const bf3 = new BaseRefFile(BaseRefType.Additional, files.file3, deleteAdditional);
+    dto.baseFiles.push(bf3);
   }
 }

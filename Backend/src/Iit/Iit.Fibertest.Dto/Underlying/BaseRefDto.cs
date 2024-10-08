@@ -23,6 +23,6 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public int SorFileId { get; set; }
         [DataMember]
-        public byte[] SorBytes { get; set; }
+        public byte[]? SorBytes { get; set; }
     }
 }

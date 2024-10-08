@@ -1,18 +1,41 @@
 ﻿using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using MediatR;
 
 namespace Fibertest30.Application;
 
-public record AssignBaseRefsCommand(AssignBaseRefDtoWithFiles dto) : IRequest<RequestAnswer>;
+public record AssignBaseRefsCommand(AssignBaseRefsDto Dto) : IRequest<BaseRefAssignedDto>;
 
-public class AssignBaseRefsCommandHandler : IRequestHandler<AssignBaseRefsCommand, RequestAnswer>
+public class AssignBaseRefsCommandHandler : IRequestHandler<AssignBaseRefsCommand, BaseRefAssignedDto>
 {
+    private readonly ICurrentUserService _currentUserService;
+    private readonly IRtuManager _rtuManager;
+    private readonly ISystemEventSender _systemEventSender;
+    private readonly Model _writeModel;
 
-    public async Task<RequestAnswer> Handle(AssignBaseRefsCommand request, CancellationToken cancellationToken)
+    public AssignBaseRefsCommandHandler(ICurrentUserService currentUserService,
+        IRtuManager rtuManager, ISystemEventSender systemEventSender, Model writeModel)
     {
-        File.WriteAllBytes(@"c:\temp\test.sor", request.dto.BaseRefs[0].File);
+        _currentUserService = currentUserService;
+        _rtuManager = rtuManager;
+        _systemEventSender = systemEventSender;
+        _writeModel = writeModel;
+    }
 
-        return new RequestAnswer();
+    public async Task<BaseRefAssignedDto> Handle(AssignBaseRefsCommand request, CancellationToken cancellationToken)
+    {
+        var result = await _rtuManager.AssignBaseRefs(request.Dto);
+
+        // SystemEvent идет всем пользователям и в историю
+        // нет смысла сохранять и рассылать всем неудачные попытки
+        if (result.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully)
+        {
+            var trace = _writeModel.Traces.First(t => t.TraceId == request.Dto.TraceId);
+            var systemEvent = SystemEventFactory.BaseRefsAssigned(_currentUserService.UserId!, request.Dto.RtuId, trace.Title);
+            await _systemEventSender.Send(systemEvent);
+        }
+
+        return result;
     }
 }
 

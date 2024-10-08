@@ -87,18 +87,41 @@ public static class RtuMgmtMapping
             TraceId = Guid.Parse(dto.TraceId),
             OtauPortDto = dto.PortOfOtau.FromProto(),
 
-            BaseRefs = dto.BaseRefFiles.Select(f=> f.FromProto()).ToList(),
+            BaseRefs = dto.BaseRefFiles.Where(b=> b.HasFileBytes || b.IsForDelete).Select(f=> f.FromProto()).ToList(),
             DeleteOldSorFileIds = dto.DeleteSors.ToList()
         };
         return result;
     }
 
+    public static BaseRefsAssignedDto ToProto(this Iit.Fibertest.Dto.BaseRefAssignedDto dto)
+    {
+        var result = new BaseRefsAssignedDto()
+        {
+            ReturnCode = (int)dto.ReturnCode,
+          
+            BaseRefType = dto.BaseRefType.ToProto(),
+            Nodes = dto.Nodes,
+            Equipments = dto.Equipments,
+            Landmarks = dto.Landmarks,
+        };
+        if (dto.WaveLength != null)
+            result.WaveLength = dto.WaveLength;
+        return result;
+    }
+
     private static BaseRefDto FromProto(this BaseRefFile dto)
     {
-        return new BaseRefDto()
+        BaseRefDto baseRefDto = new BaseRefDto()
         {
             BaseRefType = dto.BaseRefType.FromProto(), 
-            SorBytes = dto.FileBytes.ToByteArray()
         };
+        if (dto.HasFileBytes)
+        {
+            baseRefDto.SorBytes = dto.FileBytes.ToByteArray();
+        }
+
+        baseRefDto.Id = dto.IsForDelete ? Guid.Empty : Guid.NewGuid();
+
+        return baseRefDto;
     }
 }

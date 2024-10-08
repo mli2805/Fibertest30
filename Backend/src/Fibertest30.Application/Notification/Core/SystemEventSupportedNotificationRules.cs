@@ -140,6 +140,10 @@ public static class SystemEventSupportedNotificationRules
         {
             SystemEventType.MonitoringSettingsApplied,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },
+        {
+            SystemEventType.BaseRefsAssigned,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         }
     };
 
