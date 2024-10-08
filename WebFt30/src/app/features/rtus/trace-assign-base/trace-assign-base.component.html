@@ -145,4 +145,6 @@
   </div>
 </ng-container>
 
-<rtu-loading-centered-big-spinner *ngIf="inProgress"></rtu-loading-centered-big-spinner>
+<rtu-loading-centered-big-spinner
+  *ngIf="(inProgress$ | async) === true"
+></rtu-loading-centered-big-spinner>

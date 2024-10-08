@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState, AuthSelectors, User } from 'src/app/core';
+import { AppState, AuthSelectors, RtuTreeActions, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
@@ -102,6 +102,7 @@ export class OneRtuMenuComponent {
   }
 
   onMonitoringSettingsClicked() {
+    this.store.dispatch(RtuMgmtActions.reset());
     const path = `rtus/monitoring-settings/${this.rtu.rtuId}`;
     this.router.navigate([path]);
   }
@@ -113,6 +114,7 @@ export class OneRtuMenuComponent {
   }
 
   onManualModeClicked() {
+    this.store.dispatch(RtuMgmtActions.setSpinner({ value: true }));
     this.store.dispatch(RtuMgmtActions.stopMonitoring({ rtuId: this.rtu.rtuId }));
   }
 

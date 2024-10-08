@@ -1,6 +1,6 @@
 <rtu-single-error-popup
   [errorMessageId$]="errorMessageId$"
-  [resetErrorAction]="rtuMgmtActions.resetError()"
+  [resetErrorAction]="rtuMgmtActions.reset()"
 ></rtu-single-error-popup>
 
 <div class="flex h-full">
@@ -120,12 +120,14 @@
           <rtu-loading-spinner class="ml-2 h-4 w-4"></rtu-loading-spinner>
           <span class="text-data-highlight ml-3">{{ 'i18n.ft.in-progress' | translate }}</span>
         </div>
-        <div *ngIf="(operationSuccess$ | async) === true">
-          <span class="ml-3 text-green-600">{{ 'i18n.ft.success' | translate }}</span>
-        </div>
-        <div *ngIf="(operationSuccess$ | async) === false">
-          <span class="ml-3 text-red-600">{{ 'i18n.ft.failed' | translate }}</span>
-        </div>
+        <ng-container *ngIf="operationSuccess$ | async as opSuccess">
+          <div *ngIf="opSuccess">
+            <span class="ml-3 text-green-600">{{ 'i18n.ft.success' | translate }}</span>
+          </div>
+          <div *ngIf="!opSuccess">
+            <span class="ml-3 text-red-600">{{ 'i18n.ft.failed' | translate }}</span>
+          </div>
+        </ng-container>
       </div>
     </div>
   </div>

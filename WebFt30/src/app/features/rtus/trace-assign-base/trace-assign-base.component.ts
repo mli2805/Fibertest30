@@ -51,11 +51,9 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
   rtuMgmtActions = RtuMgmtActions;
   store: Store<AppState> = inject(Store<AppState>);
 
-  inProgress$ = this.store.select(RtuMgmtSelectors.selectRtuOperationInProgress);
   operationSuccess$ = this.store.select(RtuMgmtSelectors.selectRtuOperationSuccess);
   errorMessageId$ = this.store.select(RtuMgmtSelectors.selectErrorMessageId);
-
-  inProgress = false;
+  inProgress$ = this.store.select(RtuMgmtSelectors.selectRtuOperationInProgress);
 
   rtu!: Rtu;
   rtu$;
@@ -230,6 +228,8 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
 
     const dto = this.composeDto();
 
+    this.store.dispatch(RtuMgmtActions.setSpinner({ value: true }));
+
     forkJoin({
       file1: this.readFileAsObservable(this.preciseFile),
       file2: this.readFileAsObservable(this.fastFile),
@@ -238,19 +238,13 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
       .pipe(takeUntil(this.ngDestroyed$))
       .subscribe(async (files) => {
         this.composeBaseFiles(files, dto);
-        this.inProgress = true;
-        this.cdr.markForCheck();
-        console.log(dto);
         const resp = await firstValueFrom(this.rtuMgmtService.assignBaseRefs(dto));
         const answer = RtuMgmtMapping.fromGrpcBaseRefsAssignedDto(resp.dto!);
-        console.log(answer);
-        this.inProgress = false;
-        this.cdr.markForCheck();
+        this.store.dispatch(RtuMgmtActions.setSpinner({ value: false }));
 
         if (answer.returnCode === ReturnCode.BaseRefAssignedSuccessfully) {
-          // подать команду перечитать весь RTU ? ждать здесь или
-          // выити в дерево ?
           this.router.navigate(['/rtus/rtu-tree']);
+          // еще придет событие BaseRefsAssigned по которому будет пречитан RTU
         } else {
           // написать что неправильно
           this.composeErrorLines(answer);

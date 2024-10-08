@@ -68,7 +68,8 @@ const applyMonitoringSettingsFailure = createAction(
   props<{ errorMessageId: string }>()
 );
 
-const resetError = createAction('[RtuMgmt] Reset Error');
+const reset = createAction('[RtuMgmt] Reset');
+const setSpinner = createAction('[RtuMgmt] Set Spinner', props<{ value: boolean }>());
 
 export const RtuMgmtActions = {
   testRtuConnection,
@@ -94,5 +95,6 @@ export const RtuMgmtActions = {
   applyMonitoringSettingsSuccess,
   applyMonitoringSettingsFailure,
 
-  resetError
+  reset,
+  setSpinner
 };
