@@ -36,6 +36,7 @@ export class DetachedTraceMenuComponent {
     if (this.open === false) {
       this.open = true;
     }
+    return false; // prevent browser menu
   }
 
   onOverlayClick(event: MouseEvent) {

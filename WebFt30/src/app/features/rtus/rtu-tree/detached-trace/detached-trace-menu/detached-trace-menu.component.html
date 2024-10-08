@@ -4,6 +4,7 @@
   #selectButton="cdkOverlayOrigin"
   type="button"
   (click)="onTraceNameClicked()"
+  (contextmenu)="onTraceNameClicked()"
 >
   <span class="ml-2 text-blue-500 dark:text-blue-400">{{ trace.title }}</span>
 </button>

@@ -50,6 +50,7 @@ export class OneRtuMenuComponent {
     if (this.open === false) {
       this.open = true;
     }
+    return false; // prevent browser menu
   }
 
   onOverlayClick(event: MouseEvent) {
