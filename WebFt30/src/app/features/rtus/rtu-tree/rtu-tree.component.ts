@@ -16,6 +16,8 @@ export class RtuTreeComponent {
   rtus!: Rtu[] | null;
   collectionOfChildren!: any[];
 
+  rtus$ = this.store.select(RtuTreeSelectors.selectRtuArray);
+
   constructor(private store: Store<AppState>, private rtuTreeService: RtuTreeService) {
     this.rtus = CoreUtils.getCurrentState(store, RtuTreeSelectors.selectRtuArray);
     if (!this.rtus) this.loadRtus();

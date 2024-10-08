@@ -21,11 +21,13 @@ export class RtuTreeService {
 
   refreshRtuTree(): Observable<grpc.GetRtuTreeResponse> {
     const request: grpc.GetRtuTreeRequest = {};
+    console.log(`sends RefreshTree`);
     return GrpcUtils.unaryToObservable(this.client.getRtuTree.bind(this.client), request, {});
   }
 
   getOneRtu(rtuId: string): Observable<grpc.GetRtuResponse> {
     const request: grpc.GetRtuRequest = { rtuId: rtuId };
+    console.log(`sends GetRtu`);
     return GrpcUtils.unaryToObservable(this.client.getRtu.bind(this.client), request, {});
   }
 }
