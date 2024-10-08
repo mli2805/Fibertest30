@@ -38,10 +38,5 @@ export class Rtu {
 
   // initialized during mapping
   isRtuAvailable!: boolean;
-
-  // public isRtuAvailableNow(): boolean {
-  //   return (
-  //     this.mainChannelState === RtuPartState.Ok || this.reserveChannelState === RtuPartState.Ok
-  //   );
-  // }
+  bopsState!: RtuPartState;
 }

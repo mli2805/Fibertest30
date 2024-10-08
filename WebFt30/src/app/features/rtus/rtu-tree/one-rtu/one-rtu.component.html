@@ -1,36 +1,38 @@
 <!-- rtu line itself -->
-<div
-  class="flex items-center text-left"
-  [ngClass]="{
+<ng-container *ngIf="rtu$ | async as rtu">
+  <div
+    class="flex items-center text-left"
+    [ngClass]="{
   'bg-rtu-second-bg dark:bg-rtu-dark-second-bg': i % 2 === 0,
 }"
->
-  <div *ngIf="rtu.ownPortCount === 0">
-    <div class="ml-8"></div>
-  </div>
-  <div *ngIf="rtu.ownPortCount !== 0" class="mt-1">
-    <rtu-expand-branch
-      *ngIf="!isExpanded"
-      class="ml-2 h-6 w-6"
-      (click)="flipExpanded()"
-    ></rtu-expand-branch>
-    <rtu-collapse-branch
-      *ngIf="isExpanded"
-      class="ml-2 h-6 w-6"
-      (click)="flipExpanded()"
-    ></rtu-collapse-branch>
-  </div>
+  >
+    <div *ngIf="rtu.ownPortCount === 0">
+      <div class="ml-8"></div>
+    </div>
+    <div *ngIf="rtu.ownPortCount !== 0" class="mt-1">
+      <rtu-expand-branch
+        *ngIf="!isExpanded"
+        class="ml-2 h-6 w-6"
+        (click)="flipExpanded()"
+      ></rtu-expand-branch>
+      <rtu-collapse-branch
+        *ngIf="isExpanded"
+        class="ml-2 h-6 w-6"
+        (click)="flipExpanded()"
+      ></rtu-collapse-branch>
+    </div>
 
-  <rtu-monitoring-mode-pictogram [mode]="rtu.monitoringMode"></rtu-monitoring-mode-pictogram>
-  <rtu-rtu-part-state-pictogram [state]="bopState"></rtu-rtu-part-state-pictogram>
-  <rtu-rtu-part-state-pictogram [state]="rtu.mainChannelState"></rtu-rtu-part-state-pictogram>
-  <rtu-rtu-part-state-pictogram [state]="rtu.reserveChannelState"></rtu-rtu-part-state-pictogram>
+    <rtu-monitoring-mode-pictogram [mode]="rtu.monitoringMode"></rtu-monitoring-mode-pictogram>
+    <rtu-rtu-part-state-pictogram [state]="rtu.bopsState"></rtu-rtu-part-state-pictogram>
+    <rtu-rtu-part-state-pictogram [state]="rtu.mainChannelState"></rtu-rtu-part-state-pictogram>
+    <rtu-rtu-part-state-pictogram [state]="rtu.reserveChannelState"></rtu-rtu-part-state-pictogram>
 
-  <div class="w-0 min-w-36 whitespace-nowrap px-3 py-1 text-left">
-    <rtu-one-rtu-menu [rtu]="rtu" [children]="children"></rtu-one-rtu-menu>
+    <div class="w-0 min-w-36 whitespace-nowrap px-3 py-1 text-left">
+      <rtu-one-rtu-menu [rtu]="rtu" [children]="children"></rtu-one-rtu-menu>
+    </div>
+    <div></div>
   </div>
-  <div></div>
-</div>
+</ng-container>
 
 <!-- children -->
 <ng-container *ngIf="isExpanded" class="rounded-sm">

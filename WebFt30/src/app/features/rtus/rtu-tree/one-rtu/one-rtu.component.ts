@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { EMPTY, Observable } from 'rxjs';
+import { AppState, RtuTreeSelectors } from 'src/app/core';
 import { Bop } from 'src/app/core/store/models/ft30/bop';
-import { RtuPartState } from 'src/app/core/store/models/ft30/ft-enums';
 import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 
@@ -9,10 +11,15 @@ import { Rtu } from 'src/app/core/store/models/ft30/rtu';
   templateUrl: './one-rtu.component.html'
 })
 export class OneRtuComponent {
+  public rtu$: Observable<Rtu | null> = EMPTY;
+  @Input() set rtuId(value: string) {
+    this.rtu$ = this.store.select(RtuTreeSelectors.selectRtu(value));
+  }
+
   private _rtu!: Rtu;
   @Input() set rtu(value: Rtu) {
     this._rtu = value;
-    this.setBopsStateAndChildren();
+    this.arrangeAllBopsChildren();
   }
   get rtu() {
     return this._rtu;
@@ -21,18 +28,11 @@ export class OneRtuComponent {
   @Input() children!: any[];
   @Input() i!: number;
 
-  // aggregate state of all bops of this rtu
-  bopState!: RtuPartState;
+  constructor(private store: Store<AppState>) {}
 
-  setBopsStateAndChildren() {
-    this.bopState = RtuPartState.NotSetYet;
+  arrangeAllBopsChildren() {
     this.collectionOfChildren = [];
     for (const bop of this._rtu.bops) {
-      if (bop.isOk) this.bopState = RtuPartState.Ok;
-      else {
-        this.bopState = RtuPartState.Broken;
-        return;
-      }
       this.arrangeBopChildren(this._rtu, bop);
     }
   }

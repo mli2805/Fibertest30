@@ -77,9 +77,23 @@ export class TreeMapping {
       grpcRtu.treeOfAcceptableMeasParams!
     );
 
+    // calculated properties
     rtu.isRtuAvailable =
       rtu.mainChannelState === RtuPartState.Ok || rtu.reserveChannelState === RtuPartState.Ok;
+    rtu.bopsState = this.evaluateBopsState(rtu);
 
     return rtu;
+  }
+
+  private static evaluateBopsState(rtu: Rtu): RtuPartState {
+    let bopState = RtuPartState.NotSetYet;
+    for (const bop of rtu.bops) {
+      if (bop.isOk) bopState = RtuPartState.Ok;
+      else {
+        bopState = RtuPartState.Broken;
+        return bopState;
+      }
+    }
+    return bopState;
   }
 }
