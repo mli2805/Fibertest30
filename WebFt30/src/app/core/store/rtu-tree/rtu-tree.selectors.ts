@@ -20,10 +20,22 @@ const selectRtu = (rtuId: string) =>
     return rtus?.find((r) => r.rtuId === rtuId) || null;
   });
 
+const selectBop = (bopId: string) =>
+  createSelector(selectRtuArray, (rtus: Rtu[] | null) => {
+    if (rtus === null) return null;
+    for (const rtu of rtus) {
+      for (const bop of rtu.bops) {
+        if (bop.bopId === bopId) return bop;
+      }
+    }
+    return null;
+  });
+
 export const RtuTreeSelectors = {
   selectRtuArray,
   selectLoading,
   selectErrorMessageId,
 
-  selectRtu
+  selectRtu,
+  selectBop
 };

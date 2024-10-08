@@ -1,12 +1,7 @@
 <div class="min-w-full text-sm text-gray-700 dark:text-zinc-300">
   <ng-container *ngIf="rtus$ | async as rtuArray">
     <ng-container *ngFor="let rtu of rtuArray; let i = index">
-      <rtu-one-rtu
-        [rtuId]="rtu.rtuId"
-        [rtu]="rtu"
-        [children]="collectionOfChildren[i]"
-        [i]="i"
-      ></rtu-one-rtu>
+      <rtu-one-rtu [rtuId]="rtu.rtuId" [i]="i"></rtu-one-rtu>
     </ng-container>
   </ng-container>
 </div>

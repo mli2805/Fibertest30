@@ -38,5 +38,8 @@ export class Rtu {
 
   // initialized during mapping
   isRtuAvailable!: boolean;
+  isMonitoringOn!: boolean;
   bopsState!: RtuPartState;
+
+  children!: any[];
 }
