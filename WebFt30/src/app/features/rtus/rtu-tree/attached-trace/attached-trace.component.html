@@ -1,21 +1,24 @@
-<div
-  class="flex items-center"
-  [ngClass]="{
+<ng-container *ngIf="rtu$ | async as rtu">
+  <ng-container *ngIf="trace$ | async as trace">
+    <div
+      class="flex items-center"
+      [ngClass]="{
   'bg-rtu-second-bg dark:bg-rtu-dark-second-bg': i % 2 === 0,
   'border-t-rtu-second-bg dark:border-t-rtu-dark-second-bg': i % 2 !== 0,
   'border-t-rtu-primary-bg dark:border-t-rtu-dark-primary-bg': i % 2 === 0,
 }"
->
-  <rtu-trace-monitoring-mode-pictogram
-    [trace]="trace"
-    [rtuMonitoringMode]="rtuMonitoringMode"
-  ></rtu-trace-monitoring-mode-pictogram>
-  <rtu-tce-link-pictogram [state]="trace.tceLinkState"></rtu-tce-link-pictogram>
-  <rtu-fiber-state-pictogram [state]="trace.state"></rtu-fiber-state-pictogram>
-  <!-- <div class="ml-2 text-left">{{ lineContent }}</div> -->
-  <rtu-attached-trace-menu
-    [trace]="trace"
-    [isRtuAvailableNow]="isRtuAvailableNow"
-    [isMonitoringOn]="isMonitoringOn()"
-  ></rtu-attached-trace-menu>
-</div>
+    >
+      <rtu-trace-monitoring-mode-pictogram
+        [trace]="trace"
+        [rtuMonitoringMode]="rtu.monitoringMode"
+      ></rtu-trace-monitoring-mode-pictogram>
+      <rtu-tce-link-pictogram [state]="trace.tceLinkState"></rtu-tce-link-pictogram>
+      <rtu-fiber-state-pictogram [state]="trace.state"></rtu-fiber-state-pictogram>
+      <rtu-attached-trace-menu
+        [trace]="trace"
+        [isRtuAvailableNow]="rtu.isRtuAvailable"
+        [isMonitoringOn]="rtu.isMonitoringOn"
+      ></rtu-attached-trace-menu>
+    </div>
+  </ng-container>
+</ng-container>

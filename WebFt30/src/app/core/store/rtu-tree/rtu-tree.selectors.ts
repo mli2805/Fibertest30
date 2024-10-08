@@ -31,11 +31,23 @@ const selectBop = (bopId: string) =>
     return null;
   });
 
+const selectTrace = (traceId: string) =>
+  createSelector(selectRtuArray, (rtus: Rtu[] | null) => {
+    if (rtus === null) return null;
+    for (const rtu of rtus) {
+      for (const trace of rtu.traces) {
+        if (trace.traceId === traceId) return trace;
+      }
+    }
+    return null;
+  });
+
 export const RtuTreeSelectors = {
   selectRtuArray,
   selectLoading,
   selectErrorMessageId,
 
   selectRtu,
-  selectBop
+  selectBop,
+  selectTrace
 };

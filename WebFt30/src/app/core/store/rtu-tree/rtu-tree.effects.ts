@@ -13,6 +13,7 @@ export class RtuTreeEffects {
       switchMap(() => {
         return this.rtuTreeService.refreshRtuTree().pipe(
           map((response) => {
+            console.log(response.rtus);
             const rtus = response.rtus.map((r) => TreeMapping.fromGrpcRtu(r));
             return RtuTreeActions.refreshRtuTreeSuccess({ rtus });
           }),

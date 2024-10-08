@@ -21,7 +21,6 @@ export class DeviceEffects {
         this.coreService.getDeviceInfo().pipe(
           map((grpcDeviceInfo) => {
             const deviceInfo = MapUtils.toDeviceInfo(grpcDeviceInfo);
-
             return DeviceActions.loadDeviceInfoSuccess({
               deviceInfo
             });

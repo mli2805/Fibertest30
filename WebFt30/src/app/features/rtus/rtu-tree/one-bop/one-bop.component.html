@@ -39,9 +39,8 @@
         <ng-container *ngFor="let child of bop.children; let ib = index">
           <ng-container *ngIf="child.type === 'attached-trace'">
             <rtu-attached-trace
-              [trace]="child.payload"
-              [rtuMonitoringMode]="rtu.monitoringMode"
-              [isRtuAvailableNow]="rtu.isRtuAvailable"
+              [rtuId]="rtu.rtuId"
+              [traceId]="child.payload.traceId"
               [i]="ib"
             ></rtu-attached-trace>
           </ng-container>
