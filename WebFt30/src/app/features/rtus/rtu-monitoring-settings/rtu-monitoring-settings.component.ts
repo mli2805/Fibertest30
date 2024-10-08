@@ -78,14 +78,23 @@ export class RtuMonitoringSettingsComponent extends OnDestroyBase implements OnI
     this.collectOtausWithTraces();
     this.selectedOtauChanged(this.otaus[0]);
 
+    // for (let i = 0; i < this.otaus.length; i++) {
+    //   this.cycleFullTimeSec =
+    //     this.cycleFullTimeSec +
+    //     this.otaus[i].traces
+    //       .filter((t) => t && t.isIncludedInMonitoringCycle)
+    //       .map((d) => d!.fastDuration)
+    //       .reduce((a, b) => a + b);
+    // }
+
+    this.cycleFullTimeSec = 0;
     for (let i = 0; i < this.otaus.length; i++) {
-      this.cycleFullTimeSec =
-        this.cycleFullTimeSec +
-        this.otaus[i].traces
-          .filter((t) => t && t.isIncludedInMonitoringCycle)
-          .map((d) => d!.fastDuration)
-          .reduce((a, b) => a + b);
+      for (const trace of this.otaus[i].traces) {
+        if (trace !== null && trace.isIncludedInMonitoringCycle)
+          this.cycleFullTimeSec = this.cycleFullTimeSec + trace.fastDuration;
+      }
     }
+
     this.cycleFullTime = SecUtil.secToString(this.cycleFullTimeSec);
 
     this.form = new FormGroup({

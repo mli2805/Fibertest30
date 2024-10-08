@@ -5,6 +5,7 @@ import { FtEnumsMapping } from './ft-enums-mapping';
 import { Bop } from '../models/ft30/bop';
 import { Rtu } from '../models/ft30/rtu';
 import { AcceptableParamsMapping } from './acceptable-params-mapping';
+import { RtuPartState } from '../models/ft30/ft-enums';
 
 export class TreeMapping {
   static fromGrpcTrace(grpcTrace: grpc.Trace): Trace {
@@ -75,6 +76,10 @@ export class TreeMapping {
     rtu.acceptableParams = AcceptableParamsMapping.fromGrpcAcceptableParams(
       grpcRtu.treeOfAcceptableMeasParams!
     );
+
+    rtu.isRtuAvailable =
+      rtu.mainChannelState === RtuPartState.Ok || rtu.reserveChannelState === RtuPartState.Ok;
+
     return rtu;
   }
 }

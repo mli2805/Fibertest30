@@ -36,9 +36,12 @@ export class Rtu {
 
   acceptableParams!: TreeOfAcceptableMeasurementParameters;
 
-  public isRtuAvailableNow(): boolean {
-    return (
-      this.mainChannelState === RtuPartState.Ok || this.reserveChannelState === RtuPartState.Ok
-    );
-  }
+  // initialized during mapping
+  isRtuAvailable!: boolean;
+
+  // public isRtuAvailableNow(): boolean {
+  //   return (
+  //     this.mainChannelState === RtuPartState.Ok || this.reserveChannelState === RtuPartState.Ok
+  //   );
+  // }
 }

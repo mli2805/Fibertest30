@@ -87,7 +87,7 @@ export class OneRtuMenuComponent {
   }
 
   canAutomaticBaseRefs() {
-    return this.hasPermission(ApplicationPermission.AssignBaseRef) && this.rtu.isRtuAvailableNow();
+    return this.hasPermission(ApplicationPermission.AssignBaseRef) && this.rtu.isRtuAvailable;
   }
 
   onAutomaticBaseRefsClicked() {
@@ -96,8 +96,7 @@ export class OneRtuMenuComponent {
 
   canMonitoringSettings(): boolean {
     return (
-      this.hasPermission(ApplicationPermission.ChangeMonitoringSettings) &&
-      this.rtu.isRtuAvailableNow()
+      this.hasPermission(ApplicationPermission.ChangeMonitoringSettings) && this.rtu.isRtuAvailable
     );
   }
 
@@ -108,8 +107,7 @@ export class OneRtuMenuComponent {
 
   canManualMode() {
     return (
-      this.hasPermission(ApplicationPermission.ChangeMonitoringSettings) &&
-      this.rtu.isRtuAvailableNow()
+      this.hasPermission(ApplicationPermission.ChangeMonitoringSettings) && this.rtu.isRtuAvailable
     );
   }
 
@@ -119,8 +117,7 @@ export class OneRtuMenuComponent {
 
   canAutomaticMode() {
     return (
-      this.hasPermission(ApplicationPermission.ChangeMonitoringSettings) &&
-      this.rtu.isRtuAvailableNow()
+      this.hasPermission(ApplicationPermission.ChangeMonitoringSettings) && this.rtu.isRtuAvailable
     );
   }
 
@@ -129,7 +126,7 @@ export class OneRtuMenuComponent {
   }
 
   canDetachAllTraces() {
-    return this.hasPermission(ApplicationPermission.DetachTrace) && this.rtu.isRtuAvailableNow();
+    return this.hasPermission(ApplicationPermission.DetachTrace) && this.rtu.isRtuAvailable;
   }
 
   onDetachAllTracesClicked() {

@@ -40,7 +40,7 @@
         <rtu-one-bop
           [bop]="child.payload"
           [children]="collectionOfChildren[ic]"
-          [isRtuAvailableNow]="rtu.isRtuAvailableNow()"
+          [isRtuAvailableNow]="rtu.isRtuAvailable"
           [rtuMonitoringMode]="rtu.monitoringMode"
           [i]="ic"
         ></rtu-one-bop>
@@ -49,14 +49,14 @@
         <rtu-attached-trace
           [trace]="child.payload"
           [rtuMonitoringMode]="rtu.monitoringMode"
-          [isRtuAvailableNow]="rtu.isRtuAvailableNow()"
+          [isRtuAvailableNow]="rtu.isRtuAvailable"
           [i]="ic"
         ></rtu-attached-trace>
       </ng-container>
       <ng-container *ngIf="child.type === 'free-port'">
         <rtu-free-port
           [portOfOtau]="child.payload"
-          [isRtuAvailableNow]="rtu.isRtuAvailableNow()"
+          [isRtuAvailableNow]="rtu.isRtuAvailable"
           [i]="ic"
         ></rtu-free-port>
       </ng-container>
