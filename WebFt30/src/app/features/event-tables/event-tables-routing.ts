@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { EventTablesComponent } from './event-tables.component';
 import { SystemEventsComponent } from './system-events/system-events.component';
 import { NewtorkEventsComponent } from '../net-evnts/newtork-events/newtork-events.component';
-import { BopNetworkEventsComponent } from './bop-network-events/bop-network-events.component';
+import { BopNetworkEventsComponent } from '../net-evnts-bop/bop-network-events/bop-network-events.component';
 import { RtuStatusEventsComponent } from './rtu-status-events/rtu-status-events.component';
 
 export const routes: Routes = [

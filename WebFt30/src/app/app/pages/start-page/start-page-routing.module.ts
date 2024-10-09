@@ -36,6 +36,13 @@ const routes: Routes = [
           import('../../../features/net-evnts/net-evnts.module').then((m) => m.NetEvntsModule)
       },
       {
+        path: 'bop-net-evnts',
+        loadChildren: () =>
+          import('../../../features/net-evnts-bop/net-evnts-bop.module').then(
+            (m) => m.NetEvntsBopModule
+          )
+      },
+      {
         path: 'event-tables',
         loadChildren: () =>
           import('../../../features/event-tables/event-tables.module').then(
