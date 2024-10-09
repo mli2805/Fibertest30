@@ -33,6 +33,7 @@ import { MeasurementClientComponent } from './measurement-client/measurement-cli
 import { ContextMenuLineComponent } from './shared/context-menu-line/context-menu-line.component';
 import { OtauMonitoringSettingsComponent } from './rtu-monitoring-settings/otau-monitoring-settings/otau-monitoring-settings.component';
 import { TraceAssignBaseComponent } from './trace-assign-base/trace-assign-base.component';
+import { TraceStateComponent } from './trace-state/trace-state.component';
 
 @NgModule({
   imports: [
@@ -70,7 +71,8 @@ import { TraceAssignBaseComponent } from './trace-assign-base/trace-assign-base.
     MeasurementClientComponent,
     ContextMenuLineComponent,
     OtauMonitoringSettingsComponent,
-    TraceAssignBaseComponent
+    TraceAssignBaseComponent,
+    TraceStateComponent
   ],
   providers: []
 })

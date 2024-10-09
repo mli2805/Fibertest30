@@ -1,4 +1,4 @@
-<div class="flex h-full w-max flex-col">
+<div class="flex h-full w-32 flex-col">
   <div class="m-2 flex flex-col items-center">
     <div class="mb-4 leading-[0] text-rtu-text dark:text-rtu-dark-text">
       <div class="ml-2">
@@ -36,19 +36,226 @@
 
   <div
     class="hover-link m-2 flex cursor-pointer flex-col items-center text-sm"
-    [routerLink]="['./event-tables']"
+    [routerLink]="['./op-evnts']"
     routerLinkActive
-    #rlaEventTables="routerLinkActive"
-    [ngClass]="rlaEventTables.isActive ? 'action-active font-bold' : 'action-non-active'"
+    #rlaOpticalEvents="routerLinkActive"
+    [ngClass]="rlaOpticalEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
   >
     <!-- prettier-ignore -->
-    <svg class="h-14 w-14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 90 90" enable-background="new 0 0 90 90" xml:space="preserve">
-    <path fill="currentColor" d="M87.776,52.447H73v-0.112c-0.002-2.389-2.096-4.332-4.668-4.332L21.667,48        c-2.572,0.002-4.666,1.947-4.667,4.336v0.11H2.223C0.998,52.447,0,53.393,0,54.557v4.445v6.665v6.667v6.664V79v4.443        c0,1.164,0.996,2.109,2.225,2.109L17,85.555v0.111C17,88.056,19.094,90,21.666,90h46.667C70.907,89.999,73,88.055,73,85.667v-0.111        l14.779-0.002c1.225,0,2.221-0.946,2.221-2.109V79c0-0.001,0-0.002,0-0.002v-6.664v-6.667v-6.665v-4.445        c0-0.574-0.25-1.129-0.686-1.525C88.899,52.655,88.352,52.447,87.776,52.447z M17,83.389v0.166L2.221,83.553        C2.079,83.553,2,83.471,2,83.444V81.1c0.073,0.007,0.147,0.01,0.223,0.01L17,81.112V83.389z M17,75.824v3.288L2.223,79.11        C2.078,79.11,2,79.026,2,78.997v-4.563c0.073,0.008,0.147,0.011,0.223,0.011L17,74.446V75.824z M17,69L17,72.446L2.224,72.445        C2.078,72.445,2,72.363,2,72.334v-6.667c0-0.028,0.077-0.11,0.222-0.11L17,65.555V69z M17,63.555L2.219,63.557        c-0.074,0-0.146,0.003-0.219,0.01v-4.564c0-0.084,0.141-0.111,0.224-0.111L17,58.889V63.555z M17,56.889L2.222,56.891        c-0.075,0-0.148,0.003-0.222,0.01v-2.344c0-0.083,0.141-0.11,0.224-0.11H17V56.889z M71,52.447v4.442v2v6.666v20.111        C71,86.952,69.803,88,68.333,88H21.666C20.196,88,19,86.954,19,85.667V85.53L19,81.112v-1.146v-0.854L19,75.174L19,69v-3.445        v-6.666v-2v-4.442v-0.11c0.001-1.287,1.198-2.335,2.668-2.336l46.666,0.002c1.469,0,2.664,1.047,2.666,2.332V52.447z M88,83.444        c0,0.027-0.078,0.109-0.225,0.109L73,83.555v-2.443l14.777-0.002c0.074,0,0.148-0.003,0.223-0.01V83.444z M88,78.997        c0,0.029-0.078,0.113-0.223,0.113L73,79.112v-4.666l14.777-0.001c0.074,0,0.148-0.003,0.223-0.011V78.997z M88,72.334        c0,0.028-0.078,0.11-0.223,0.11L73,72.446v-6.891l14.781,0.002c0.141,0,0.219,0.082,0.219,0.11V72.334z M88,63.567        c-0.074-0.007-0.146-0.01-0.223-0.01L73,63.555v-4.666l14.777,0.002c0.145,0,0.223,0.083,0.223,0.111V63.567z M88,56.901        c-0.074-0.007-0.148-0.01-0.225-0.01L73,56.889v-2.442h14.777c0.143,0,0.223,0.083,0.223,0.11V56.901z" />
-    <path fill="currentColor" d="M60.204,22.262L43.665,36.84c-0.821,0.73-0.856,1.967-0.078,2.745l2.83,2.826        c0.777,0.778,2.012,0.743,2.744-0.077l14.598-16.523c0.734-0.819,0.695-2.127-0.082-2.903l-0.563-0.563        C62.333,21.568,61.024,21.529,60.204,22.262z" />
-    <path fill="currentColor" d="M3,45h9v-3H3.12c0.585-8.238,3.544-15.829,8.212-22.08l5.647,4.104l1.176-1.619l-5.588-4.059        C17.705,12.105,24.604,7.367,32.498,4.9l2.163,6.658l1.904-0.619l-2.143-6.588C37.803,3.471,41.348,3,45,3        c4.703,0,9.225,0.789,13.449,2.222l-2.156,6.646l1.902,0.619l2.135-6.577c7.656,3.014,14.219,8.211,18.918,14.825l-5.637,4.098        l1.176,1.618l5.582-4.058c3.682,5.739,6.002,12.424,6.512,19.606H78v3h9h2h1C90,20.147,69.852,0,45,0C20.148,0,0,20.147,0,45h1H3z" />
-  </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41.733 40" class="h-12 w-12">
+      <g transform="translate(-4492.809 -969.551)">
+        <g transform="translate(4518.848 983.91)">
+          <path d="M4633.931,1054.51h-1.2v-7.344h6.766v1.2h-5.568Z" transform="translate(-4632.732 -1047.166)" fill="currentColor" />
+        </g>
+        <g transform="translate(4508.522 983.91)">
+          <path d="M4578.443,1054.51h-1.2v-7.344h6.766v1.2h-5.568Z" transform="translate(-4577.245 -1047.166)" fill="currentColor" />
+        </g>
+        <g transform="translate(4508.522 992.836)">
+          <path d="M4578.443,1102.759h-1.2v-7.344h6.766v1.2h-5.568Z" transform="translate(-4577.245 -1095.415)" fill="currentColor" />
+        </g>
+        <g transform="translate(4499.158 983.91)">
+          <path d="M4522.957,1054.51h-1.2v-7.344h6.766v1.2h-5.567Z" transform="translate(-4521.758 -1047.166)" fill="currentColor" />
+        </g>
+        <g transform="translate(4499.158 992.836)">
+          <path d="M4522.957,1102.759h-1.2v-7.344h6.766v1.2h-5.567Z" transform="translate(-4521.758 -1095.415)" fill="currentColor" />
+        </g>
+        <g transform="translate(4492.809 973.12)">
+          <path d="M4521.352,1014.923h-23.993c-2.509,0-4.549-1.55-4.549-3.456V987.9c0-1.906,2.041-3.456,4.549-3.456h6.071v.91h-6.071c-1.848,0-3.351,1.142-3.351,2.546v23.569c0,1.4,1.5,2.546,3.351,2.546h23.993Z" transform="translate(-4492.809 -984.442)" fill="currentColor" />
+        </g>
+        <g transform="translate(4519.961 973.12)">
+          <path d="M4658.912,1007.588h-1.2v-18.6a3.355,3.355,0,0,0-3.352-3.351H4648.1v-1.2h6.263a4.555,4.555,0,0,1,4.55,4.55Z" transform="translate(-4648.099 -984.442)" fill="currentColor" />
+        </g>
+        <g transform="translate(4502.941 969.551)">
+          <rect width="1.198" height="7.95" transform="translate(0 0)" fill="currentColor" />
+        </g>
+        <g transform="translate(4519.672 969.551)">
+          <rect width="1.198" height="7.95" transform="translate(0 0)" fill="currentColor" />
+        </g>
+        <g transform="translate(4504.258 972.927)">
+          <rect  width="15.538" height="1.198" transform="translate(0 0)" fill="currentColor" />
+        </g>
+        <g transform="translate(4496.66 979.084)">
+          <rect  width="36.291" height="1.198" transform="translate(0)" fill="currentColor" />
+        </g>
+        <g transform="translate(4519.844 1005.073)">
+          <path d="M4652.086,1162.5a4.483,4.483,0,0,1-4.478-4.478h1.2a3.279,3.279,0,0,0,6.559,0h1.2A4.483,4.483,0,0,1,4652.086,1162.5Z" transform="translate(-4647.609 -1158.026)" fill="currentColor" />
+        </g>
+        <g transform="translate(4513.378 987.467)">
+          <path d="M4640.246,1101.078h-18.069a1.546,1.546,0,0,1-1.094-2.64l3.512-3.512a.8.8,0,0,0,.235-.568v-3.418a6.381,6.381,0,0,1,12.761,0v3.418a.8.8,0,0,0,.235.568l3.512,3.512a1.546,1.546,0,0,1-1.093,2.64Zm-9.035-15.321a5.188,5.188,0,0,0-5.182,5.182v3.418a1.987,1.987,0,0,1-.586,1.415l-3.512,3.512a.348.348,0,0,0,.247.595h18.069a.348.348,0,0,0,.246-.595l-3.512-3.512a1.987,1.987,0,0,1-.586-1.415v-3.418A5.188,5.188,0,0,0,4631.211,1085.757Z" transform="translate(-4620.629 -1084.559)" fill="currentColor" />
+        </g>
+      </g>
+    </svg>
 
-    <div>{{ 'i18n.ft.events' | translate }}</div>
+    <div>{{ 'i18n.ft.optical-events1' | translate }}</div>
+    <div>{{ 'i18n.ft.optical-events2' | translate }}</div>
+  </div>
+
+  <div
+    class="hover-link m-2 flex cursor-pointer flex-col items-center text-sm"
+    [routerLink]="['./net-evnts']"
+    routerLinkActive
+    #rlaNetworkEvents="routerLinkActive"
+    [ngClass]="rlaNetworkEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
+  >
+    <!-- prettier-ignore -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41.733 40" class="h-12 w-12">
+      <g transform="translate(-4492.809 -969.551)">
+        <g transform="translate(4518.848 983.91)">
+          <path d="M4633.931,1054.51h-1.2v-7.344h6.766v1.2h-5.568Z" transform="translate(-4632.732 -1047.166)" fill="currentColor" />
+        </g>
+        <g transform="translate(4508.522 983.91)">
+          <path d="M4578.443,1054.51h-1.2v-7.344h6.766v1.2h-5.568Z" transform="translate(-4577.245 -1047.166)" fill="currentColor" />
+        </g>
+        <g transform="translate(4508.522 992.836)">
+          <path d="M4578.443,1102.759h-1.2v-7.344h6.766v1.2h-5.568Z" transform="translate(-4577.245 -1095.415)" fill="currentColor" />
+        </g>
+        <g transform="translate(4499.158 983.91)">
+          <path d="M4522.957,1054.51h-1.2v-7.344h6.766v1.2h-5.567Z" transform="translate(-4521.758 -1047.166)" fill="currentColor" />
+        </g>
+        <g transform="translate(4499.158 992.836)">
+          <path d="M4522.957,1102.759h-1.2v-7.344h6.766v1.2h-5.567Z" transform="translate(-4521.758 -1095.415)" fill="currentColor" />
+        </g>
+        <g transform="translate(4492.809 973.12)">
+          <path d="M4521.352,1014.923h-23.993c-2.509,0-4.549-1.55-4.549-3.456V987.9c0-1.906,2.041-3.456,4.549-3.456h6.071v.91h-6.071c-1.848,0-3.351,1.142-3.351,2.546v23.569c0,1.4,1.5,2.546,3.351,2.546h23.993Z" transform="translate(-4492.809 -984.442)" fill="currentColor" />
+        </g>
+        <g transform="translate(4519.961 973.12)">
+          <path d="M4658.912,1007.588h-1.2v-18.6a3.355,3.355,0,0,0-3.352-3.351H4648.1v-1.2h6.263a4.555,4.555,0,0,1,4.55,4.55Z" transform="translate(-4648.099 -984.442)" fill="currentColor" />
+        </g>
+        <g transform="translate(4502.941 969.551)">
+          <rect width="1.198" height="7.95" transform="translate(0 0)" fill="currentColor" />
+        </g>
+        <g transform="translate(4519.672 969.551)">
+          <rect width="1.198" height="7.95" transform="translate(0 0)" fill="currentColor" />
+        </g>
+        <g transform="translate(4504.258 972.927)">
+          <rect  width="15.538" height="1.198" transform="translate(0 0)" fill="currentColor" />
+        </g>
+        <g transform="translate(4496.66 979.084)">
+          <rect  width="36.291" height="1.198" transform="translate(0)" fill="currentColor" />
+        </g>
+        <g transform="translate(4519.844 1005.073)">
+          <path d="M4652.086,1162.5a4.483,4.483,0,0,1-4.478-4.478h1.2a3.279,3.279,0,0,0,6.559,0h1.2A4.483,4.483,0,0,1,4652.086,1162.5Z" transform="translate(-4647.609 -1158.026)" fill="currentColor" />
+        </g>
+        <g transform="translate(4513.378 987.467)">
+          <path d="M4640.246,1101.078h-18.069a1.546,1.546,0,0,1-1.094-2.64l3.512-3.512a.8.8,0,0,0,.235-.568v-3.418a6.381,6.381,0,0,1,12.761,0v3.418a.8.8,0,0,0,.235.568l3.512,3.512a1.546,1.546,0,0,1-1.093,2.64Zm-9.035-15.321a5.188,5.188,0,0,0-5.182,5.182v3.418a1.987,1.987,0,0,1-.586,1.415l-3.512,3.512a.348.348,0,0,0,.247.595h18.069a.348.348,0,0,0,.246-.595l-3.512-3.512a1.987,1.987,0,0,1-.586-1.415v-3.418A5.188,5.188,0,0,0,4631.211,1085.757Z" transform="translate(-4620.629 -1084.559)" fill="currentColor" />
+        </g>
+      </g>
+    </svg>
+
+    <div>{{ 'i18n.ft.rtu-network-events1' | translate }}</div>
+    <div>{{ 'i18n.ft.rtu-network-events2' | translate }}</div>
+  </div>
+
+  <div
+    class="hover-link m-2 flex cursor-pointer flex-col items-center text-sm"
+    [routerLink]="['./bop-network-events']"
+    routerLinkActive
+    #rlaBopNetworkEvents="routerLinkActive"
+    [ngClass]="rlaBopNetworkEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
+  >
+    <!-- prettier-ignore -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41.733 40" class="h-12 w-12">
+      <g transform="translate(-4492.809 -969.551)">
+        <g transform="translate(4518.848 983.91)">
+          <path d="M4633.931,1054.51h-1.2v-7.344h6.766v1.2h-5.568Z" transform="translate(-4632.732 -1047.166)" fill="currentColor" />
+        </g>
+        <g transform="translate(4508.522 983.91)">
+          <path d="M4578.443,1054.51h-1.2v-7.344h6.766v1.2h-5.568Z" transform="translate(-4577.245 -1047.166)" fill="currentColor" />
+        </g>
+        <g transform="translate(4508.522 992.836)">
+          <path d="M4578.443,1102.759h-1.2v-7.344h6.766v1.2h-5.568Z" transform="translate(-4577.245 -1095.415)" fill="currentColor" />
+        </g>
+        <g transform="translate(4499.158 983.91)">
+          <path d="M4522.957,1054.51h-1.2v-7.344h6.766v1.2h-5.567Z" transform="translate(-4521.758 -1047.166)" fill="currentColor" />
+        </g>
+        <g transform="translate(4499.158 992.836)">
+          <path d="M4522.957,1102.759h-1.2v-7.344h6.766v1.2h-5.567Z" transform="translate(-4521.758 -1095.415)" fill="currentColor" />
+        </g>
+        <g transform="translate(4492.809 973.12)">
+          <path d="M4521.352,1014.923h-23.993c-2.509,0-4.549-1.55-4.549-3.456V987.9c0-1.906,2.041-3.456,4.549-3.456h6.071v.91h-6.071c-1.848,0-3.351,1.142-3.351,2.546v23.569c0,1.4,1.5,2.546,3.351,2.546h23.993Z" transform="translate(-4492.809 -984.442)" fill="currentColor" />
+        </g>
+        <g transform="translate(4519.961 973.12)">
+          <path d="M4658.912,1007.588h-1.2v-18.6a3.355,3.355,0,0,0-3.352-3.351H4648.1v-1.2h6.263a4.555,4.555,0,0,1,4.55,4.55Z" transform="translate(-4648.099 -984.442)" fill="currentColor" />
+        </g>
+        <g transform="translate(4502.941 969.551)">
+          <rect width="1.198" height="7.95" transform="translate(0 0)" fill="currentColor" />
+        </g>
+        <g transform="translate(4519.672 969.551)">
+          <rect width="1.198" height="7.95" transform="translate(0 0)" fill="currentColor" />
+        </g>
+        <g transform="translate(4504.258 972.927)">
+          <rect  width="15.538" height="1.198" transform="translate(0 0)" fill="currentColor" />
+        </g>
+        <g transform="translate(4496.66 979.084)">
+          <rect  width="36.291" height="1.198" transform="translate(0)" fill="currentColor" />
+        </g>
+        <g transform="translate(4519.844 1005.073)">
+          <path d="M4652.086,1162.5a4.483,4.483,0,0,1-4.478-4.478h1.2a3.279,3.279,0,0,0,6.559,0h1.2A4.483,4.483,0,0,1,4652.086,1162.5Z" transform="translate(-4647.609 -1158.026)" fill="currentColor" />
+        </g>
+        <g transform="translate(4513.378 987.467)">
+          <path d="M4640.246,1101.078h-18.069a1.546,1.546,0,0,1-1.094-2.64l3.512-3.512a.8.8,0,0,0,.235-.568v-3.418a6.381,6.381,0,0,1,12.761,0v3.418a.8.8,0,0,0,.235.568l3.512,3.512a1.546,1.546,0,0,1-1.093,2.64Zm-9.035-15.321a5.188,5.188,0,0,0-5.182,5.182v3.418a1.987,1.987,0,0,1-.586,1.415l-3.512,3.512a.348.348,0,0,0,.247.595h18.069a.348.348,0,0,0,.246-.595l-3.512-3.512a1.987,1.987,0,0,1-.586-1.415v-3.418A5.188,5.188,0,0,0,4631.211,1085.757Z" transform="translate(-4620.629 -1084.559)" fill="currentColor" />
+        </g>
+      </g>
+    </svg>
+
+    <div>{{ 'i18n.ft.bop-network-events1' | translate }}</div>
+    <div>{{ 'i18n.ft.bop-network-events2' | translate }}</div>
+  </div>
+
+  <div
+    class="hover-link m-2 flex cursor-pointer flex-col items-center text-sm"
+    [routerLink]="['./rtu-status-events']"
+    routerLinkActive
+    #rlaRtuStatusEvents="routerLinkActive"
+    [ngClass]="rlaRtuStatusEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
+  >
+    <!-- prettier-ignore -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41.733 40" class="h-12 w-12">
+      <g transform="translate(-4492.809 -969.551)">
+        <g transform="translate(4518.848 983.91)">
+          <path d="M4633.931,1054.51h-1.2v-7.344h6.766v1.2h-5.568Z" transform="translate(-4632.732 -1047.166)" fill="currentColor" />
+        </g>
+        <g transform="translate(4508.522 983.91)">
+          <path d="M4578.443,1054.51h-1.2v-7.344h6.766v1.2h-5.568Z" transform="translate(-4577.245 -1047.166)" fill="currentColor" />
+        </g>
+        <g transform="translate(4508.522 992.836)">
+          <path d="M4578.443,1102.759h-1.2v-7.344h6.766v1.2h-5.568Z" transform="translate(-4577.245 -1095.415)" fill="currentColor" />
+        </g>
+        <g transform="translate(4499.158 983.91)">
+          <path d="M4522.957,1054.51h-1.2v-7.344h6.766v1.2h-5.567Z" transform="translate(-4521.758 -1047.166)" fill="currentColor" />
+        </g>
+        <g transform="translate(4499.158 992.836)">
+          <path d="M4522.957,1102.759h-1.2v-7.344h6.766v1.2h-5.567Z" transform="translate(-4521.758 -1095.415)" fill="currentColor" />
+        </g>
+        <g transform="translate(4492.809 973.12)">
+          <path d="M4521.352,1014.923h-23.993c-2.509,0-4.549-1.55-4.549-3.456V987.9c0-1.906,2.041-3.456,4.549-3.456h6.071v.91h-6.071c-1.848,0-3.351,1.142-3.351,2.546v23.569c0,1.4,1.5,2.546,3.351,2.546h23.993Z" transform="translate(-4492.809 -984.442)" fill="currentColor" />
+        </g>
+        <g transform="translate(4519.961 973.12)">
+          <path d="M4658.912,1007.588h-1.2v-18.6a3.355,3.355,0,0,0-3.352-3.351H4648.1v-1.2h6.263a4.555,4.555,0,0,1,4.55,4.55Z" transform="translate(-4648.099 -984.442)" fill="currentColor" />
+        </g>
+        <g transform="translate(4502.941 969.551)">
+          <rect width="1.198" height="7.95" transform="translate(0 0)" fill="currentColor" />
+        </g>
+        <g transform="translate(4519.672 969.551)">
+          <rect width="1.198" height="7.95" transform="translate(0 0)" fill="currentColor" />
+        </g>
+        <g transform="translate(4504.258 972.927)">
+          <rect  width="15.538" height="1.198" transform="translate(0 0)" fill="currentColor" />
+        </g>
+        <g transform="translate(4496.66 979.084)">
+          <rect  width="36.291" height="1.198" transform="translate(0)" fill="currentColor" />
+        </g>
+        <g transform="translate(4519.844 1005.073)">
+          <path d="M4652.086,1162.5a4.483,4.483,0,0,1-4.478-4.478h1.2a3.279,3.279,0,0,0,6.559,0h1.2A4.483,4.483,0,0,1,4652.086,1162.5Z" transform="translate(-4647.609 -1158.026)" fill="currentColor" />
+        </g>
+        <g transform="translate(4513.378 987.467)">
+          <path d="M4640.246,1101.078h-18.069a1.546,1.546,0,0,1-1.094-2.64l3.512-3.512a.8.8,0,0,0,.235-.568v-3.418a6.381,6.381,0,0,1,12.761,0v3.418a.8.8,0,0,0,.235.568l3.512,3.512a1.546,1.546,0,0,1-1.093,2.64Zm-9.035-15.321a5.188,5.188,0,0,0-5.182,5.182v3.418a1.987,1.987,0,0,1-.586,1.415l-3.512,3.512a.348.348,0,0,0,.247.595h18.069a.348.348,0,0,0,.246-.595l-3.512-3.512a1.987,1.987,0,0,1-.586-1.415v-3.418A5.188,5.188,0,0,0,4631.211,1085.757Z" transform="translate(-4620.629 -1084.559)" fill="currentColor" />
+        </g>
+      </g>
+    </svg>
+
+    <div>{{ 'i18n.ft.rtu-status-events1' | translate }}</div>
+    <div>{{ 'i18n.ft.rtu-status-events2' | translate }}</div>
   </div>
 
   <div

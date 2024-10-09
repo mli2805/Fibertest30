@@ -24,6 +24,17 @@ const routes: Routes = [
         path: 'rtus',
         loadChildren: () => import('../../../features/rtus/rtus.module').then((m) => m.RtusModule)
       },
+
+      {
+        path: 'op-evnts',
+        loadChildren: () =>
+          import('../../../features/op-evnts/op-evnts.module').then((m) => m.OpEvntsModule)
+      },
+      {
+        path: 'net-evnts',
+        loadChildren: () =>
+          import('../../../features/net-evnts/net-evnts.module').then((m) => m.NetEvntsModule)
+      },
       {
         path: 'event-tables',
         loadChildren: () =>

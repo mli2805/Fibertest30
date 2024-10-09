@@ -20,6 +20,7 @@
       <table class="events-table min-w-full text-sm">
         <thead class="text-center text-gray-600 dark:text-zinc-400">
           <tr class="">
+            <th class="w-0"></th>
             <th class="w-16 font-thin">{{ 'i18n.ft.event-id' | translate }}</th>
             <th class="w-40 font-thin">{{ 'i18n.ft.measurement-terminated-at' | translate }}</th>
             <th class="w-40 font-thin">{{ 'i18n.ft.event-registered-at' | translate }}</th>
@@ -36,6 +37,12 @@
             *ngFor="let opticalEvent of opticalEvents"
             class="odd:bg-rtu-second-bg dark:odd:bg-rtu-dark-second-bg"
           >
+            <td class="w-0 py-3 pr-3">
+              <rtu-navigate-button
+                class="ml-2 h-6 w-6 text-blue-500"
+                [routerLink]="['./', opticalEvent.eventId]"
+              />
+            </td>
             <td class="pl-2">{{ opticalEvent.eventId }}</td>
             <td class="text-center">{{ opticalEvent.measuredAt | rtuDateTime : 'medium' }}</td>
             <td class="text-center">{{ opticalEvent.registeredAt | rtuDateTime : 'medium' }}</td>
