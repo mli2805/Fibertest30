@@ -67,6 +67,8 @@
   "i18n.ft.rtu-status-events2": "состояния RTU",
   "i18n.ft.settings": "Настройки",
   "i18n.ft.gis": "ГИС",
+  "i18n.ft.reports": "Отчеты",
+  "i18n.ft.system-events": "Системные события",
 
   "i18n.ft.event-id": "ID события",
   "i18n.ft.measurement-terminated-at": "Время завершения измерения",

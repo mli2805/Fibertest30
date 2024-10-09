@@ -393,6 +393,8 @@
   "i18n.ft.rtu-status-events2": "events",
   "i18n.ft.settings": "Settings",
   "i18n.ft.gis": "GIS",
+  "i18n.ft.reports": "Reports",
+  "i18n.ft.system-events": "System events",
 
   "i18n.ft.event-id": "Event ID",
   "i18n.ft.measurement-terminated-at": "Measurement terminated at",

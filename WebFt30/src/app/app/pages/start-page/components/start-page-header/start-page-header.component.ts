@@ -31,7 +31,7 @@ export class StartPageHeaderComponent {
     [/^\/rtus\/monitoring-settings\/.*$/, { titleId: 'i18n.ft.monitoring-settings' }],
     [/^\/rtus\/measurement-client\/.*$/, { titleId: 'i18n.ft.measurement-client' }],
     [/^\/rtus\/assign-base\/.*$/, { titleId: 'i18n.ft.assign-base-refs' }],
-    [/^\/rfts-setup$/, { titleId: 'i18n.start-page.rfts-setup' }],
+    [/^\/rfts-setup$/, { titleId: 'i18n.ft.settings' }],
     [
       /^\/rfts-setup\/monitoring\/monitoring-profiles$/,
       { titleId: 'i18n.monitoring.monitoring-profiles' }
@@ -42,7 +42,8 @@ export class StartPageHeaderComponent {
     [/^\/net-evnts\/network-events$/, { titleId: 'i18n.ft.network-events' }],
     [/^\/bop-net-evnts\/network-events-bop$/, { titleId: 'i18n.ft.bop-network-events' }],
     [/^\/sts-evnts\/status-events$/, { titleId: 'i18n.ft.rtu-status-events' }],
-    [/^\/gis$/, { titleId: 'i18n.start-page.gis' }]
+    [/^\/gis$/, { titleId: 'i18n.ft.gis' }],
+    [/^\/reports\/system-events$/, { titleId: 'i18n.ft.system-events' }]
   ]);
 
   currentUser$ = this.store.select(AuthSelectors.selectUser);

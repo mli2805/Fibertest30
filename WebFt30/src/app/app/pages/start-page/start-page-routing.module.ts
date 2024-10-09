@@ -55,6 +55,11 @@ const routes: Routes = [
       {
         path: 'gis',
         loadChildren: () => import('../../../features/gis/gis.module').then((m) => m.GisModule)
+      },
+      {
+        path: 'reports',
+        loadChildren: () =>
+          import('../../../features/reporting/reportings.module').then((m) => m.Reporting)
       }
     ]
   }
