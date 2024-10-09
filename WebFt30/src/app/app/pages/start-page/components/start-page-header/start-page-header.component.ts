@@ -38,10 +38,10 @@ export class StartPageHeaderComponent {
     ],
     [/^\/event-tables$/, { titleId: 'i18n.ft.events' }],
     [/^\/event-tables\/system-events$/, { titleId: 'i18n.ft.system-events' }],
-    [/^\/event-tables\/optical-events$/, { titleId: 'i18n.ft.optical-events' }],
-    [/^\/event-tables\/network-events$/, { titleId: 'i18n.ft.network-events' }],
-    [/^\/event-tables\/bop-network-events$/, { titleId: 'i18n.ft.bop-network-events' }],
-    [/^\/event-tables\/rtu-status-events$/, { titleId: 'i18n.ft.rtu-status-events' }],
+    [/^\/op-evnts\/optical-events$/, { titleId: 'i18n.ft.optical-events' }],
+    [/^\/net-evnts\/network-events$/, { titleId: 'i18n.ft.network-events' }],
+    [/^\/bop-net-evnts\/network-events-bop$/, { titleId: 'i18n.ft.bop-network-events' }],
+    [/^\/sts-evnts\/status-events$/, { titleId: 'i18n.ft.rtu-status-events' }],
     [/^\/gis$/, { titleId: 'i18n.start-page.gis' }]
   ]);
 
