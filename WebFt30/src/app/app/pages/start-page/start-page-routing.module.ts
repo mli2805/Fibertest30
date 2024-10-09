@@ -43,11 +43,9 @@ const routes: Routes = [
           )
       },
       {
-        path: 'event-tables',
+        path: 'sts-evnts',
         loadChildren: () =>
-          import('../../../features/event-tables/event-tables.module').then(
-            (m) => m.EventTablesModule
-          )
+          import('../../../features/sts-evnts/sts-evnts.module').then((m) => m.StsEvntsModule)
       },
       {
         path: 'rfts-setup',

@@ -9,7 +9,6 @@ import { SystemEventsComponent } from './system-events/system-events.component';
 import { FiberizerCoreModule } from '../fiberizer-core/fiberizer-core.module';
 import { NoDataOrLoadMoreComponent } from './shared/no-data-or-load-more/no-data-or-load-more.component';
 import { InverseCdkScrollOffsetDirective } from './shared/inverse-rendered-offset.directive';
-import { RtuStatusEventsComponent } from './rtu-status-events/rtu-status-events.component';
 
 @NgModule({
   imports: [
@@ -24,8 +23,7 @@ import { RtuStatusEventsComponent } from './rtu-status-events/rtu-status-events.
     EventTablesComponent,
     SystemEventsComponent,
     NoDataOrLoadMoreComponent,
-    InverseCdkScrollOffsetDirective,
-    RtuStatusEventsComponent
+    InverseCdkScrollOffsetDirective
   ],
   providers: []
 })

@@ -5,7 +5,6 @@ import { EventTablesComponent } from './event-tables.component';
 import { SystemEventsComponent } from './system-events/system-events.component';
 import { NewtorkEventsComponent } from '../net-evnts/newtork-events/newtork-events.component';
 import { BopNetworkEventsComponent } from '../net-evnts-bop/bop-network-events/bop-network-events.component';
-import { RtuStatusEventsComponent } from './rtu-status-events/rtu-status-events.component';
 
 export const routes: Routes = [
   {
@@ -19,7 +18,6 @@ export const routes: Routes = [
       },
       { path: 'network-events', pathMatch: 'full', component: NewtorkEventsComponent },
       { path: 'bop-network-events', pathMatch: 'full', component: BopNetworkEventsComponent },
-      { path: 'rtu-status-events', pathMatch: 'full', component: RtuStatusEventsComponent },
       {
         path: 'system-events',
         pathMatch: 'full',

@@ -387,6 +387,8 @@
   "i18n.ft.bop-network-events2": "events",
   "i18n.ft.rtu-status-events1": "RTU status",
   "i18n.ft.rtu-status-events2": "events",
+  "i18n.ft.settings": "Settings",
+  "i18n.ft.gis": "GIS",
 
   "i18n.ft.event-id": "Event ID",
   "i18n.ft.measurement-terminated-at": "Measurement terminated at",

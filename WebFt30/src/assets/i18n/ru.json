@@ -61,6 +61,8 @@
   "i18n.ft.bop-network-events2": "события БОП",
   "i18n.ft.rtu-status-events1": "События",
   "i18n.ft.rtu-status-events2": "состояния RTU",
+  "i18n.ft.settings": "Настройки",
+  "i18n.ft.gis": "ГИС",
 
   "i18n.ft.event-id": "ID события",
   "i18n.ft.measurement-terminated-at": "Время завершения измерения",
