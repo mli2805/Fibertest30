@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState, OpticalEventsActions, OpticalEventsSelectors } from 'src/app/core';
+import { UnseenService } from 'src/app/core/services/unseen.service';
 import { EventStatus, FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 
 @Component({
@@ -22,7 +23,7 @@ export class OpticalEventsComponent {
   fiberStates = FiberState;
   eventStatuses = EventStatus;
 
-  constructor() {
+  constructor(private unseenService: UnseenService) {
     this.refresh();
   }
 
@@ -34,5 +35,9 @@ export class OpticalEventsComponent {
 
   refresh() {
     this.store.dispatch(OpticalEventsActions.getOpticalEvents({ currentEvents: this.checked }));
+  }
+
+  unseen(eventId: number): boolean {
+    return this.unseenService.opEvents.find((e) => e === eventId) !== undefined;
   }
 }
