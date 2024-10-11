@@ -144,6 +144,22 @@ public static class SystemEventSupportedNotificationRules
         {
             SystemEventType.BaseRefsAssigned,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },
+        {
+            SystemEventType.MeasurementAdded,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },
+        {
+            SystemEventType.NetworkEventAdded,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },
+        {
+            SystemEventType.BopNetworkEventAdded,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },
+        {
+            SystemEventType.RtuAccidentAdded,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         }
     };
 

@@ -39,5 +39,10 @@ public enum SystemEventType
     MeasurementClientDone,
     MonitoringStopped,
     MonitoringSettingsApplied,
-     BaseRefsAssigned,
+    BaseRefsAssigned,
+
+    MeasurementAdded,
+    NetworkEventAdded,
+    BopNetworkEventAdded,
+    RtuAccidentAdded,
 }

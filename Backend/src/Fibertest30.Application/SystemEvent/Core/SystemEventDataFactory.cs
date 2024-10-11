@@ -18,6 +18,10 @@ public static class SystemEventDataFactory
             SystemEventType.MonitoringStopped => Deserialize<MonitoringStoppedData>(jsonData),
             SystemEventType.MonitoringSettingsApplied => Deserialize<MonitoringSettingsAppliedData>(jsonData),
             SystemEventType.BaseRefsAssigned => Deserialize<BaseRefsAssignedData>(jsonData),
+            SystemEventType.MeasurementAdded => Deserialize<MeasurementAddedData>(jsonData),
+            SystemEventType.NetworkEventAdded => Deserialize<MeasurementAddedData>(jsonData),
+            SystemEventType.BopNetworkEventAdded => Deserialize<BopNetworkEventAddedData>(jsonData),
+            SystemEventType.RtuAccidentAdded => Deserialize<RtuAccidentAddedData>(jsonData),
 
             _ => throw new ArgumentException(@"SystemEventDataFactory: Invalid SystemEventType", nameof(type))
         };

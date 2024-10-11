@@ -10,14 +10,17 @@ public class RtuDataProcessor
     private readonly ILogger<RtuDataProcessor> _logger;
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ProcessedResultsDtoFactory _processedResultsDtoFactory;
+    private readonly ISystemEventSender _systemEventSender;
 
     public RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger,
-        IServiceScopeFactory serviceScopeFactory, ProcessedResultsDtoFactory processedResultsDtoFactory)
+        IServiceScopeFactory serviceScopeFactory, ProcessedResultsDtoFactory processedResultsDtoFactory,
+        ISystemEventSender systemEventSender)
     {
         _writeModel = writeModel;
         _logger = logger;
         _serviceScopeFactory = serviceScopeFactory;
         _processedResultsDtoFactory = processedResultsDtoFactory;
+        _systemEventSender = systemEventSender;
     }
 
     public async Task ProcessBopStateChanges(BopStateChangedDto dto)
@@ -42,8 +45,24 @@ public class RtuDataProcessor
             _logger.LogInformation($"Monitoring result for {rtu?.Title} / {trace?.Title}, measured at {dto.TimeStamp:g}");
             var sorFileRepository = scope.ServiceProvider.GetRequiredService<SorFileRepository>();
             var sorId = await sorFileRepository.AddSorBytesAsync(dto.SorBytes);
-            if (sorId != -1)
-                await SaveEventFromDto(dto, sorId);
+            if (sorId == -1) return;
+
+            AddMeasurement? addMeasurement = await SaveAddMeasurement(dto, sorId);
+
+            if (addMeasurement != null)
+            {
+                await _systemEventSender
+                    .Send(SystemEventFactory.MeasurementAdded(
+                        addMeasurement.SorFileId,
+                        addMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent,
+                        addMeasurement.TraceState == FiberState.Ok));
+
+            }
+
+            BopNetworkEvent? bopNetworkEvent = await CheckAndSendBopNetworkIfNeeded(dto);
+            if (bopNetworkEvent != null)
+                await _systemEventSender.Send(SystemEventFactory.BopNetworkEventAdded(
+                    bopNetworkEvent.Ordinal, bopNetworkEvent.IsOk));
         }
 
         // it is a RtuAccident
@@ -51,9 +70,10 @@ public class RtuDataProcessor
         {
             // if dto.ReturnCode != ReturnCode.MeasurementEndedNormally - it is an accident
             // if dto.ReturnCode == ReturnCode.MeasurementEndedNormally - restored after accident
-            var accident = await SaveRtuAccidentIfNeeded(dto);
-            if (accident == null) return;
-            var unused = Task.Factory.StartNew(() => SendNotificationsAboutRtuStatusEvents(accident));
+            RtuAccident? rtuAccident = await SaveRtuAccidentIfNeeded(dto);
+            if (rtuAccident != null)
+                await _systemEventSender.Send(SystemEventFactory.RtuAccidentAdded(
+                    rtuAccident.Id, rtuAccident.IsGoodAccident));
         }
     }
 
@@ -74,16 +94,10 @@ public class RtuDataProcessor
         if (result != null)
             _logger.LogInformation($"SaveRtuAccidentIfNeeded {result}");
 
-        var accident = _writeModel.RtuAccidents.Last();
-
-        //TODO send system notification "AddAccident"
-
-        //TODO послать сообщения во внешний мир
-
-        return accident;
+        return _writeModel.RtuAccidents.LastOrDefault();
     }
 
-    private async Task SaveEventFromDto(MonitoringResultDto dto, int sorId)
+    private async Task<AddMeasurement?> SaveAddMeasurement(MonitoringResultDto dto, int sorId)
     {
         var addMeasurement = _processedResultsDtoFactory.CreateCommand(dto, sorId);
         _logger.LogInformation($"AddMeasurement with state {addMeasurement.TraceState.ToLocalizedString()} for trace {addMeasurement.TraceId}");
@@ -95,102 +109,64 @@ public class RtuDataProcessor
         {
             var sorFileRepository = scope.ServiceProvider.GetRequiredService<SorFileRepository>();
             await sorFileRepository.RemoveSorBytesAsync(sorId);
-            return;
+            return null;
         }
 
-        //TODO send system notification "AddMeasurement"
-
-        // возможно была авария БОП и тут приходит результат измерения по порту этого БОПа - 
-        await CheckAndSendBopNetworkIfNeeded(dto);
-
-        if (addMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent && dto.BaseRefType != BaseRefType.Fast)
-        {
-            var unused = Task.Factory.StartNew(() =>
-                SendNotificationsAboutTraces(dto, addMeasurement)); // here we do not wait result
-        }
-    }
-
-    private void SendNotificationsAboutTraces(MonitoringResultDto dto, AddMeasurement addMeasurement)
-    {
-        //TODO
-        //_snmpNotifier.SendTraceEvent(addMeasurement);
-        //_smsManager.SendMonitoringResult(dto);
-        //_smtp.SendOpticalEvent(dto, addMeasurement);
-    }
-
-    private void SendNotificationsAboutRtuStatusEvents(RtuAccident accident)
-    {
-        //TODO
-        //_snmpNotifier.SendRtuStatusEvent(accident);
-        //_smsManager.SendRtuStatusEvent(accident);
-        //_smtp.SendRtuStatusEvent(accident);
+        return addMeasurement;
     }
 
 
     // BOP - because MSMQ message about BOP came
-    private async Task CheckAndSendBopNetworkEventIfNeeded(BopStateChangedDto dto)
+    private async Task<BopNetworkEvent?> CheckAndSendBopNetworkEventIfNeeded(BopStateChangedDto dto)
     {
         var otau = _writeModel.Otaus.FirstOrDefault(o =>
             o.NetAddress.Ip4Address == dto.OtauIp && o.NetAddress.Port == dto.TcpPort
         );
-        if (otau != null)
+        if (otau == null) return null;
+
+        _logger.LogInformation($@"RTU {dto.RtuId.First6()} BOP {otau.NetAddress.ToStringA()} state changed to {dto.IsOk} (because MSMQ message about BOP came)");
+        var cmd = new AddBopNetworkEvent()
         {
-            _logger.LogInformation($@"RTU {dto.RtuId.First6()} BOP {otau.NetAddress.ToStringA()} state changed to {dto.IsOk} (because MSMQ message about BOP came)");
-            var cmd = new AddBopNetworkEvent()
-            {
-                EventTimestamp = DateTime.Now,
-                RtuId = dto.RtuId,
-                Serial = dto.Serial,
-                OtauIp = otau.NetAddress.Ip4Address,
-                TcpPort = otau.NetAddress.Port,
-                IsOk = dto.IsOk,
-            };
-            await PersistBopEvent(cmd);
-        }
+            EventTimestamp = DateTime.Now,
+            RtuId = dto.RtuId,
+            Serial = dto.Serial,
+            OtauIp = otau.NetAddress.Ip4Address,
+            TcpPort = otau.NetAddress.Port,
+            IsOk = dto.IsOk,
+        };
+
+        return await PersistBopEvent(cmd);
     }
 
     // BOP - because MSMQ message with monitoring result came
-    private async Task CheckAndSendBopNetworkIfNeeded(MonitoringResultDto dto)
+    private async Task<BopNetworkEvent?> CheckAndSendBopNetworkIfNeeded(MonitoringResultDto dto)
     {
         var otau = _writeModel.Otaus.FirstOrDefault(o =>
             o.Serial == dto.PortWithTrace.OtauPort.Serial
         );
-        if (otau != null && !otau.IsOk)
+        if (otau == null || otau.IsOk) return null;
+
+        _logger.LogInformation($@"RTU {dto.RtuId.First6()} BOP {dto.PortWithTrace.OtauPort.Serial} state changed to OK (because MSMQ message with monitoring result came)");
+        var cmd = new AddBopNetworkEvent()
         {
-            _logger.LogInformation($@"RTU {dto.RtuId.First6()} BOP {dto.PortWithTrace.OtauPort.Serial} state changed to OK (because MSMQ message with monitoring result came)");
-            var cmd = new AddBopNetworkEvent()
-            {
-                EventTimestamp = DateTime.Now,
-                RtuId = dto.RtuId,
-                Serial = dto.PortWithTrace.OtauPort.Serial,
-                OtauIp = otau.NetAddress.Ip4Address,
-                TcpPort = otau.NetAddress.Port,
-                IsOk = true,
-            };
-            await PersistBopEvent(cmd);
-        }
+            EventTimestamp = DateTime.Now,
+            RtuId = dto.RtuId,
+            Serial = dto.PortWithTrace.OtauPort.Serial,
+            OtauIp = otau.NetAddress.Ip4Address,
+            TcpPort = otau.NetAddress.Port,
+            IsOk = true,
+        };
+
+        return await PersistBopEvent(cmd);
     }
 
-    private async Task PersistBopEvent(AddBopNetworkEvent cmd)
+    private async Task<BopNetworkEvent?> PersistBopEvent(AddBopNetworkEvent cmd)
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var eventStoreService = scope.ServiceProvider.GetRequiredService<IEventStoreService>();
         var result = await eventStoreService.SendCommand(cmd, "system", "OnServer");
-        if (string.IsNullOrEmpty(result))
-        {
-            var bopEvent = _writeModel.BopNetworkEvents.LastOrDefault();
-            if (bopEvent == null) return;
+        if (!string.IsNullOrEmpty(result)) return null;
 
-            //TODO send system notification "AddBopEvent"
-
-            var unused = Task.Factory.StartNew(() => SendNotificationsAboutBop(bopEvent));
-        }
-    }
-
-    private void SendNotificationsAboutBop(BopNetworkEvent cmd)
-    {
-        //_smtp.SendBopState(cmd);
-        //_smsManager.SendBopState(cmd);
-        //_snmpNotifier.SendBopNetworkEvent(cmd);
+        return _writeModel.BopNetworkEvents.LastOrDefault();
     }
 }

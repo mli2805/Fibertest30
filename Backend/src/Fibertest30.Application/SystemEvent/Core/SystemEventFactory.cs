@@ -68,11 +68,35 @@ public static class SystemEventFactory
             new MonitoringSettingsAppliedData(rtuId.ToString(), rtuTitle),
             SystemEventSource.FromUser(userId));
     }
-  public static SystemEvent BaseRefsAssigned(string userId, Guid rtuId, string traceTitle)
+    public static SystemEvent BaseRefsAssigned(string userId, Guid rtuId, string traceTitle)
     {
         return new SystemEvent(SystemEventType.BaseRefsAssigned, SystemEventLevel.Internal,
             new BaseRefsAssignedData(rtuId.ToString(), traceTitle),
             SystemEventSource.FromUser(userId));
+    }
+
+    public static SystemEvent MeasurementAdded(int eventId, bool isEvent, bool isOk)
+    {
+        return new SystemEvent(SystemEventType.MeasurementAdded, SystemEventLevel.Critical,
+            new MeasurementAddedData(eventId, isEvent, isOk), SystemEventSource.FromSource("DataCenter"));
+    }
+
+    public static SystemEvent NetworkEventAdded(int eventId, bool isRtuAvailable)
+    {
+        return new SystemEvent(SystemEventType.NetworkEventAdded, SystemEventLevel.Critical,
+            new NetworkEventAddedData(eventId, isRtuAvailable), SystemEventSource.FromSource("DataCenter"));
+    }
+
+    public static SystemEvent BopNetworkEventAdded(int eventId, bool isOk)
+    {
+        return new SystemEvent(SystemEventType.BopNetworkEventAdded, SystemEventLevel.Critical,
+            new BopNetworkEventAddedData(eventId, isOk), SystemEventSource.FromSource("DataCenter"));
+    }
+
+    public static SystemEvent RtuAccidentAdded(int eventId, bool isGoodAccident)
+    {
+        return new SystemEvent(SystemEventType.RtuAccidentAdded, SystemEventLevel.Critical,
+            new RtuAccidentAddedData(eventId, isGoodAccident), SystemEventSource.FromSource("DataCenter"));
     }
 
 
