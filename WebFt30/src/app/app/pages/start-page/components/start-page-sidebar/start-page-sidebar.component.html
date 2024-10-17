@@ -96,9 +96,9 @@
     #rlaOpticalEvents="routerLinkActive"
     [ngClass]="rlaOpticalEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
   >
-    <ng-container *ngIf="hasCurrentOpticalEvents$ | async as hasCurrentOpticalEvents">
+    <ng-container *ngIf="hasCurrent$ | async as hasCurrent">
       <rtu-event-table-icon
-        [ngClass]="{ 'text-red-500': hasCurrentOpticalEvents }"
+        [ngClass]="{ 'text-red-500': hasCurrent.optical }"
       ></rtu-event-table-icon>
     </ng-container>
 
@@ -113,9 +113,9 @@
     #rlaNetworkEvents="routerLinkActive"
     [ngClass]="rlaNetworkEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
   >
-    <ng-container *ngIf="hasCurrentNetworkEvents$ | async as hasCurrentNetworkEvents">
+    <ng-container *ngIf="hasCurrent$ | async as hasCurrent">
       <rtu-event-table-icon
-        [ngClass]="{ 'text-red-500': hasCurrentNetworkEvents }"
+        [ngClass]="{ 'text-red-500': hasCurrent.networkRtu }"
       ></rtu-event-table-icon>
     </ng-container>
 
@@ -130,9 +130,9 @@
     #rlaBopNetworkEvents="routerLinkActive"
     [ngClass]="rlaBopNetworkEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
   >
-    <ng-container *ngIf="hasCurrentBopNetworkEvents$ | async as hasCurrentBopNetworkEvents">
+    <ng-container *ngIf="hasCurrent$ | async as hasCurrent">
       <rtu-event-table-icon
-        [ngClass]="{ 'text-red-500': hasCurrentBopNetworkEvents }"
+        [ngClass]="{ 'text-red-500': hasCurrent.networkBop }"
       ></rtu-event-table-icon>
     </ng-container>
 
@@ -147,9 +147,9 @@
     #rlaRtuStatusEvents="routerLinkActive"
     [ngClass]="rlaRtuStatusEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
   >
-    <ng-container *ngIf="hasCurrentRtuAccidents$ | async as hasCurrentRtuAccidents">
+    <ng-container *ngIf="hasCurrent$ | async as hasCurrent">
       <rtu-event-table-icon
-        [ngClass]="{ 'text-red-500': hasCurrentRtuAccidents }"
+        [ngClass]="{ 'text-red-500': hasCurrent.rtuAccidents }"
       ></rtu-event-table-icon>
     </ng-container>
 

@@ -10,10 +10,10 @@ import { RtuAccident } from '../models/ft30/rtu-accident';
 export class EventTablesMapping {
   static fromGrpcHasCurrentEvents(grpcHas: grpc.HasCurrentEvents): HasCurrentEvents {
     const result = new HasCurrentEvents();
-    result.hasCurrentOpticalEvents = grpcHas.hasCurrentOpticalEvents;
-    result.hasCurrentNetworkEvents = grpcHas.hasCurrentNetworkEvents;
-    result.hasCurrentBopNetworkEvents = grpcHas.hasCurrentBopNetworkEvents;
-    result.hasCurrentRtuAccidents = grpcHas.hasCurrentRtuAccidents;
+    result.optical = grpcHas.hasCurrentOpticalEvents;
+    result.networkRtu = grpcHas.hasCurrentNetworkEvents;
+    result.networkBop = grpcHas.hasCurrentBopNetworkEvents;
+    result.rtuAccidents = grpcHas.hasCurrentRtuAccidents;
     return result;
   }
 

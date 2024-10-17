@@ -33,7 +33,7 @@
             *ngFor="let bopEvent of bopEvents"
             class="odd:bg-rtu-second-bg dark:odd:bg-rtu-dark-second-bg"
           >
-            <td class="pl-2">{{ bopEvent.eventId }}</td>
+            <td class="text-center">{{ bopEvent.eventId }}</td>
             <td class="text-center">{{ bopEvent.registeredAt | rtuDateTime : 'medium' }}</td>
             <td class="text-center">{{ bopEvent.bopAddress }}</td>
             <td class="text-center">{{ bopEvent.rtuTitle }}</td>

@@ -11,10 +11,7 @@ export class StartPageSidebarComponent {
   theme$ = this.store.select(SettingsSelectors.selectTheme);
   version$ = this.store.select(DeviceSelectors.selectApiVersion);
 
-  hasCurrentOpticalEvents$ = this.store.select(DeviceSelectors.selectHasCurrentOpticalEvents);
-  hasCurrentNetworkEvents$ = this.store.select(DeviceSelectors.selectHasCurrentNetworkEvents);
-  hasCurrentBopNetworkEvents$ = this.store.select(DeviceSelectors.selectHasCurrentBopNetworkEvents);
-  hasCurrentRtuAccidents$ = this.store.select(DeviceSelectors.selectHasCurrentRtuAccidents);
+  hasCurrent$ = this.store.select(DeviceSelectors.selectHasCurrent);
 
   constructor(private store: Store<AppState>) {}
 }

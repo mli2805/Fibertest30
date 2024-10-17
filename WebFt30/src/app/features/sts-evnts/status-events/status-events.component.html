@@ -33,7 +33,7 @@
             *ngFor="let rtuAccident of rtuAccidents"
             class="odd:bg-rtu-second-bg dark:odd:bg-rtu-dark-second-bg"
           >
-            <td class="pl-2">{{ rtuAccident.id }}</td>
+            <td class="text-center">{{ rtuAccident.id }}</td>
             <td class="text-center">{{ rtuAccident.registeredAt | rtuDateTime : 'medium' }}</td>
             <td class="text-center">{{ rtuAccident.rtuTitle }}</td>
             <td class="text-center">{{ rtuAccident.traceTitle }}</td>

@@ -17,25 +17,9 @@ const selectLoading = createSelector(
   (device: DeviceState | null) => device?.loading ?? false
 );
 
-const selectHasCurrentOpticalEvents = createSelector(
+const selectHasCurrent = createSelector(
   selectDevice,
-  (device: DeviceState | null) =>
-    device?.deviceInfo?.hasCurrentEvents.hasCurrentOpticalEvents ?? false
-);
-const selectHasCurrentNetworkEvents = createSelector(
-  selectDevice,
-  (device: DeviceState | null) =>
-    device?.deviceInfo?.hasCurrentEvents.hasCurrentNetworkEvents ?? false
-);
-const selectHasCurrentBopNetworkEvents = createSelector(
-  selectDevice,
-  (device: DeviceState | null) =>
-    device?.deviceInfo?.hasCurrentEvents.hasCurrentBopNetworkEvents ?? false
-);
-const selectHasCurrentRtuAccidents = createSelector(
-  selectDevice,
-  (device: DeviceState | null) =>
-    device?.deviceInfo?.hasCurrentEvents.hasCurrentRtuAccidents ?? false
+  (device: DeviceState | null) => device?.deviceInfo?.hasCurrentEvents ?? null
 );
 
 export const DeviceSelectors = {
@@ -44,8 +28,5 @@ export const DeviceSelectors = {
   selectApiVersion,
   selectLoading,
 
-  selectHasCurrentOpticalEvents,
-  selectHasCurrentNetworkEvents,
-  selectHasCurrentBopNetworkEvents,
-  selectHasCurrentRtuAccidents
+  selectHasCurrent
 };

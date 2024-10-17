@@ -1,6 +1,6 @@
 export class HasCurrentEvents {
-  hasCurrentOpticalEvents!: boolean;
-  hasCurrentNetworkEvents!: boolean;
-  hasCurrentBopNetworkEvents!: boolean;
-  hasCurrentRtuAccidents!: boolean;
+  optical!: boolean;
+  networkRtu!: boolean;
+  networkBop!: boolean;
+  rtuAccidents!: boolean;
 }
