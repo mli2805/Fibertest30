@@ -12,20 +12,40 @@ const selectApiVersion = createSelector(
   (info: DeviceInfo | null) => info?.apiVersion ?? null
 );
 
-const selectSupportedMeasurementParameters = createSelector(
-  selectInfo,
-  (info: DeviceInfo | null) => info?.supportedMeasurementParameters || null
-);
-
 const selectLoading = createSelector(
   selectDevice,
   (device: DeviceState | null) => device?.loading ?? false
+);
+
+const selectHasCurrentOpticalEvents = createSelector(
+  selectDevice,
+  (device: DeviceState | null) =>
+    device?.deviceInfo?.hasCurrentEvents.hasCurrentOpticalEvents ?? false
+);
+const selectHasCurrentNetworkEvents = createSelector(
+  selectDevice,
+  (device: DeviceState | null) =>
+    device?.deviceInfo?.hasCurrentEvents.hasCurrentNetworkEvents ?? false
+);
+const selectHasCurrentBopNetworkEvents = createSelector(
+  selectDevice,
+  (device: DeviceState | null) =>
+    device?.deviceInfo?.hasCurrentEvents.hasCurrentBopNetworkEvents ?? false
+);
+const selectHasCurrentRtuAccidents = createSelector(
+  selectDevice,
+  (device: DeviceState | null) =>
+    device?.deviceInfo?.hasCurrentEvents.hasCurrentRtuAccidents ?? false
 );
 
 export const DeviceSelectors = {
   selectDevice,
   selectInfo,
   selectApiVersion,
-  selectSupportedMeasurementParameters,
-  selectLoading
+  selectLoading,
+
+  selectHasCurrentOpticalEvents,
+  selectHasCurrentNetworkEvents,
+  selectHasCurrentBopNetworkEvents,
+  selectHasCurrentRtuAccidents
 };

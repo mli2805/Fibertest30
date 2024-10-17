@@ -2,7 +2,6 @@ import * as grpc from 'src/grpc-generated';
 
 import { AppState, DeviceInfo } from '../core';
 import { ServerError } from '../core/models/server-error';
-import { AppTimezone, MeasurementSettings, OtauPortPath } from '../core/store/models';
 import { MapUtils } from '../core/map.utils';
 
 export class TestUtils {
@@ -51,9 +50,6 @@ export class TestUtils {
   private static getDeviceInfoResponse(): grpc.DeviceInfoResponse {
     return {
       apiVersion: '1.0.0',
-      supportedMeasurementParameters: {
-        laserUnits: []
-      },
       notificationSettings: {
         id: 1,
         emailServer: {
@@ -91,7 +87,4 @@ export class TestUtils {
       rtus: []
     };
   }
-
-  static MonitoringPortId = 0;
-  static MeasurementSettings: MeasurementSettings = new MeasurementSettings();
 }

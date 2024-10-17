@@ -31,7 +31,7 @@ export class FiberStateBgDirective {
       case FiberState.Critical:
       case FiberState.FiberBreak:
       case FiberState.NoFiber:
-        this.renderer.addClass(nativeElement, 'bg-red-600');
+        this.renderer.addClass(nativeElement, 'bg-red-500');
         this.renderer.addClass(nativeElement, 'text-white');
         break;
       case FiberState.User:

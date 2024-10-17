@@ -3,10 +3,10 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 import { EventTablesService } from '../../grpc';
-import { MapUtils } from '../../map.utils';
 import { of } from 'rxjs';
 import { OpticalEventsActions } from './optical-events.actions';
 import { GrpcUtils } from '../../grpc/grpc.utils';
+import { EventTablesMapping } from '../mapping/event-tables-mapping';
 
 @Injectable()
 export class OpticalEventsEffects {
@@ -17,7 +17,7 @@ export class OpticalEventsEffects {
         this.eventTablesService.getOpticalEvents(currentEvents).pipe(
           map((response) => {
             return OpticalEventsActions.getOpticalEventsSuccess({
-              opticalEvents: MapUtils.toOpticalEvents(response.opticalEvents)
+              opticalEvents: EventTablesMapping.toOpticalEvents(response.opticalEvents)
             });
           }),
           catchError((error) =>

@@ -3,10 +3,10 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 import { EventTablesService } from '../../grpc';
-import { MapUtils } from '../../map.utils';
 import { of } from 'rxjs';
 import { NetworkEventsActions } from './network-events.actions';
 import { GrpcUtils } from '../../grpc/grpc.utils';
+import { EventTablesMapping } from '../mapping/event-tables-mapping';
 
 @Injectable()
 export class NetworkEventsEffects {
@@ -17,7 +17,7 @@ export class NetworkEventsEffects {
         this.eventTablesService.getNetworkEvents(currentEvents).pipe(
           map((response) => {
             return NetworkEventsActions.getNetworkEventsSuccess({
-              networkEvents: MapUtils.toNetworkEvents(response.networkEvents)
+              networkEvents: EventTablesMapping.toNetworkEvents(response.networkEvents)
             });
           }),
           catchError((error) =>

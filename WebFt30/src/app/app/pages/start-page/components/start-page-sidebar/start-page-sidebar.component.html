@@ -96,7 +96,11 @@
     #rlaOpticalEvents="routerLinkActive"
     [ngClass]="rlaOpticalEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
   >
-    <rtu-event-table-icon></rtu-event-table-icon>
+    <ng-container *ngIf="hasCurrentOpticalEvents$ | async as hasCurrentOpticalEvents">
+      <rtu-event-table-icon
+        [ngClass]="{ 'text-red-500': hasCurrentOpticalEvents }"
+      ></rtu-event-table-icon>
+    </ng-container>
 
     <div>{{ 'i18n.ft.optical-events1' | translate }}</div>
     <div>{{ 'i18n.ft.optical-events2' | translate }}</div>
@@ -109,7 +113,11 @@
     #rlaNetworkEvents="routerLinkActive"
     [ngClass]="rlaNetworkEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
   >
-    <rtu-event-table-icon></rtu-event-table-icon>
+    <ng-container *ngIf="hasCurrentNetworkEvents$ | async as hasCurrentNetworkEvents">
+      <rtu-event-table-icon
+        [ngClass]="{ 'text-red-500': hasCurrentNetworkEvents }"
+      ></rtu-event-table-icon>
+    </ng-container>
 
     <div>{{ 'i18n.ft.rtu-network-events1' | translate }}</div>
     <div>{{ 'i18n.ft.rtu-network-events2' | translate }}</div>
@@ -122,7 +130,11 @@
     #rlaBopNetworkEvents="routerLinkActive"
     [ngClass]="rlaBopNetworkEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
   >
-    <rtu-event-table-icon></rtu-event-table-icon>
+    <ng-container *ngIf="hasCurrentBopNetworkEvents$ | async as hasCurrentBopNetworkEvents">
+      <rtu-event-table-icon
+        [ngClass]="{ 'text-red-500': hasCurrentBopNetworkEvents }"
+      ></rtu-event-table-icon>
+    </ng-container>
 
     <div>{{ 'i18n.ft.bop-network-events1' | translate }}</div>
     <div>{{ 'i18n.ft.bop-network-events2' | translate }}</div>
@@ -135,7 +147,11 @@
     #rlaRtuStatusEvents="routerLinkActive"
     [ngClass]="rlaRtuStatusEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
   >
-    <rtu-event-table-icon></rtu-event-table-icon>
+    <ng-container *ngIf="hasCurrentRtuAccidents$ | async as hasCurrentRtuAccidents">
+      <rtu-event-table-icon
+        [ngClass]="{ 'text-red-500': hasCurrentRtuAccidents }"
+      ></rtu-event-table-icon>
+    </ng-container>
 
     <div>{{ 'i18n.ft.rtu-status-events1' | translate }}</div>
     <div>{{ 'i18n.ft.rtu-status-events2' | translate }}</div>

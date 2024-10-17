@@ -25,6 +25,7 @@ message DeviceInfoResponse {
   data.core.NotificationSettings notificationSettings = 7;
   string apiVersion = 11;
   repeated rtu_tree.Rtu rtus = 15;
+  data.core.HasCurrentEvents hasCurrentEvents = 16;
 }
 
 message InAppSystemNotification {

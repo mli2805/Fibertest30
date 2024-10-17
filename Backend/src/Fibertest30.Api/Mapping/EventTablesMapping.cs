@@ -2,6 +2,17 @@
 
 public static class EventTablesMapping
 {
+    public static HasCurrentEvents ToProto(this Application.HasCurrentEvents hasCurrentEvents)
+    {
+        return new HasCurrentEvents
+        {
+            HasCurrentOpticalEvents = hasCurrentEvents.HasCurrentOpticalEvents,
+            HasCurrentNetworkEvents = hasCurrentEvents.HasCurrentNetworkEvents,
+            HasCurrentBopNetworkEvents = hasCurrentEvents.HasCurrentBopNetworkEvents,
+            HasCurrentRtuAccidents = hasCurrentEvents.HasCurrentRtuAccidents,
+        };
+    }
+
     public static OpticalEvent ToProto(this Iit.Fibertest.Dto.OpticalEventDto dto)
     {
         return new OpticalEvent

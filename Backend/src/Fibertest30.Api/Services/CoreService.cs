@@ -26,6 +26,7 @@ public class CoreService : Core.CoreBase
             NotificationSettings = deviceInfo.NotificationSettings.ToProto(),
 
             Rtus = { deviceInfo.RtuTree.Select(r=>r.ToProto())},
+            HasCurrentEvents = deviceInfo.HasCurrentEvents.ToProto()
         };
 
         return response;

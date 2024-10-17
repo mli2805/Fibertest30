@@ -1,31 +1,20 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
-import { AppState, AuthSelectors, DeviceSelectors, SettingsSelectors } from 'src/app/core';
+import { AppState, DeviceSelectors, SettingsSelectors } from 'src/app/core';
 
 @Component({
   selector: 'rtu-start-page-sidebar',
   templateUrl: 'start-page-sidebar.component.html'
-  // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StartPageSidebarComponent implements OnInit, OnDestroy {
-  public currentDate: any;
-  private clockInterval: any;
-
+export class StartPageSidebarComponent {
   theme$ = this.store.select(SettingsSelectors.selectTheme);
   version$ = this.store.select(DeviceSelectors.selectApiVersion);
 
+  hasCurrentOpticalEvents$ = this.store.select(DeviceSelectors.selectHasCurrentOpticalEvents);
+  hasCurrentNetworkEvents$ = this.store.select(DeviceSelectors.selectHasCurrentNetworkEvents);
+  hasCurrentBopNetworkEvents$ = this.store.select(DeviceSelectors.selectHasCurrentBopNetworkEvents);
+  hasCurrentRtuAccidents$ = this.store.select(DeviceSelectors.selectHasCurrentRtuAccidents);
+
   constructor(private store: Store<AppState>) {}
-
-  ngOnInit() {
-    // as we don't show seconds in current time, let's not hit too often
-    this.clockInterval = setInterval(() => {
-      this.currentDate = new Date();
-    }, 5000);
-  }
-
-  ngOnDestroy(): void {
-    clearInterval(this.clockInterval);
-  }
 }

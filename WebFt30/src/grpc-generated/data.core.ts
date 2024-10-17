@@ -83,6 +83,27 @@ export interface Threshold {
     critical?: number;
 }
 /**
+ * @generated from protobuf message fibertest30.data.core.HasCurrentEvents
+ */
+export interface HasCurrentEvents {
+    /**
+     * @generated from protobuf field: bool hasCurrentOpticalEvents = 1;
+     */
+    hasCurrentOpticalEvents: boolean;
+    /**
+     * @generated from protobuf field: bool HasCurrentNetworkEvents = 2 [json_name = "HasCurrentNetworkEvents"];
+     */
+    hasCurrentNetworkEvents: boolean;
+    /**
+     * @generated from protobuf field: bool HasCurrentBopNetworkEvents = 3 [json_name = "HasCurrentBopNetworkEvents"];
+     */
+    hasCurrentBopNetworkEvents: boolean;
+    /**
+     * @generated from protobuf field: bool HasCurrentRtuAccidents = 4 [json_name = "HasCurrentRtuAccidents"];
+     */
+    hasCurrentRtuAccidents: boolean;
+}
+/**
  * @generated from protobuf message fibertest30.data.core.EmailServer
  */
 export interface EmailServer {
@@ -333,6 +354,21 @@ class Threshold$Type extends MessageType<Threshold> {
  * @generated MessageType for protobuf message fibertest30.data.core.Threshold
  */
 export const Threshold = new Threshold$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class HasCurrentEvents$Type extends MessageType<HasCurrentEvents> {
+    constructor() {
+        super("fibertest30.data.core.HasCurrentEvents", [
+            { no: 1, name: "hasCurrentOpticalEvents", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 2, name: "HasCurrentNetworkEvents", kind: "scalar", jsonName: "HasCurrentNetworkEvents", T: 8 /*ScalarType.BOOL*/ },
+            { no: 3, name: "HasCurrentBopNetworkEvents", kind: "scalar", jsonName: "HasCurrentBopNetworkEvents", T: 8 /*ScalarType.BOOL*/ },
+            { no: 4, name: "HasCurrentRtuAccidents", kind: "scalar", jsonName: "HasCurrentRtuAccidents", T: 8 /*ScalarType.BOOL*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.data.core.HasCurrentEvents
+ */
+export const HasCurrentEvents = new HasCurrentEvents$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class EmailServer$Type extends MessageType<EmailServer> {
     constructor() {

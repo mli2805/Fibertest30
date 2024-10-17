@@ -3,10 +3,10 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 import { EventTablesService } from '../../grpc';
-import { MapUtils } from '../../map.utils';
 import { of } from 'rxjs';
 import { BopEventsActions } from './bop-events.actions';
 import { GrpcUtils } from '../../grpc/grpc.utils';
+import { EventTablesMapping } from '../mapping/event-tables-mapping';
 
 @Injectable()
 export class BopEventsEffects {
@@ -17,7 +17,7 @@ export class BopEventsEffects {
         this.eventTablesService.getBopEvents(currentEvents).pipe(
           map((response) => {
             return BopEventsActions.getBopEventsSuccess({
-              bopEvents: MapUtils.toBopEvents(response.bopEvents)
+              bopEvents: EventTablesMapping.toBopEvents(response.bopEvents)
             });
           }),
           catchError((error) =>

@@ -46,7 +46,12 @@ message Threshold {
 	optional double critical = 8;
 }
 
-
+message HasCurrentEvents{
+	bool hasCurrentOpticalEvents = 1;
+	bool HasCurrentNetworkEvents = 2;
+	bool HasCurrentBopNetworkEvents = 3;
+	bool HasCurrentRtuAccidents = 4;
+}
 
 message EmailServer {
 	bool enabled = 1;

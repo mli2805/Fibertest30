@@ -29,6 +29,7 @@ import { FtEnumsMapping } from './store/mapping/ft-enums-mapping';
 import { NetworkEvent } from './store/models/ft30/network-event';
 import { BopEvent } from './store/models/ft30/bop-event';
 import { RtuAccident } from './store/models/ft30/rtu-accident';
+import { EventTablesMapping } from './store/mapping/event-tables-mapping';
 
 export class MapUtils {
   static toGrpcNotificationSettings(settings: NotificationSettings): grpc.NotificationSettings {
@@ -208,7 +209,9 @@ export class MapUtils {
     deviceInfo.notificationSettings = this.toNotificationSettings(response.notificationSettings!);
     deviceInfo.apiVersion = response.apiVersion;
     deviceInfo.rtus = response.rtus.map((r) => TreeMapping.fromGrpcRtu(r));
-
+    deviceInfo.hasCurrentEvents = EventTablesMapping.fromGrpcHasCurrentEvents(
+      response.hasCurrentEvents!
+    );
     return deviceInfo;
   }
 
@@ -249,91 +252,6 @@ export class MapUtils {
     systemEvent.source.userId = grpcSystemEvent.source?.userId ?? null;
     systemEvent.source.source = grpcSystemEvent.source?.source ?? null;
     return systemEvent;
-  }
-
-  static toOpticalEvents(grpcOpticalEvents: grpc.OpticalEvent[]): OpticalEvent[] {
-    const opticalEvents = grpcOpticalEvents.map((item) => MapUtils.toOpticalEvent(item));
-    return opticalEvents;
-  }
-
-  static toOpticalEvent(grpcOpticalEvent: grpc.OpticalEvent): OpticalEvent {
-    const opticalEvent = new OpticalEvent();
-    opticalEvent.eventId = grpcOpticalEvent.eventId;
-    opticalEvent.measuredAt = Timestamp.toDate(grpcOpticalEvent.measuredAt!);
-    opticalEvent.registeredAt = Timestamp.toDate(grpcOpticalEvent.registeredAt!);
-
-    opticalEvent.rtuTitle = grpcOpticalEvent.rtuTitle;
-    opticalEvent.rtuId = grpcOpticalEvent.rtuId;
-    opticalEvent.traceTitle = grpcOpticalEvent.traceTitle;
-    opticalEvent.traceId = grpcOpticalEvent.traceId;
-
-    opticalEvent.baseRefType = grpcOpticalEvent.baseRefType;
-    opticalEvent.traceState = FtEnumsMapping.fromGrpcFiberState(grpcOpticalEvent.traceState);
-
-    opticalEvent.eventStatus = grpcOpticalEvent.eventStatus;
-    opticalEvent.statusChangedAt = Timestamp.toDate(grpcOpticalEvent.statusChangedAt!);
-    opticalEvent.statusChangedByUser = grpcOpticalEvent.statusChangedByUser;
-
-    opticalEvent.comment = grpcOpticalEvent.comment;
-
-    return opticalEvent;
-  }
-
-  static toNetworkEvents(grpcNetworkEvents: grpc.NetworkEvent[]): NetworkEvent[] {
-    const networkEvents = grpcNetworkEvents.map((item) => MapUtils.toNetworkEvent(item));
-    return networkEvents;
-  }
-
-  static toNetworkEvent(grpcNetworkEvent: grpc.NetworkEvent): NetworkEvent {
-    const networkEvent = new NetworkEvent();
-    networkEvent.eventId = grpcNetworkEvent.eventId;
-    networkEvent.registeredAt = Timestamp.toDate(grpcNetworkEvent.registeredAt!);
-    networkEvent.rtuTitle = grpcNetworkEvent.rtuTitle;
-    networkEvent.rtuId = grpcNetworkEvent.rtuId;
-    networkEvent.isRtuAvailable = grpcNetworkEvent.isRtuAvailable;
-    networkEvent.onMainChannel = FtEnumsMapping.fromGrpcChannelEvent(
-      grpcNetworkEvent.onMainChannel
-    );
-    networkEvent.onReserveChannel = FtEnumsMapping.fromGrpcChannelEvent(
-      grpcNetworkEvent.onReserveChannel
-    );
-    return networkEvent;
-  }
-
-  static toBopEvents(grpcBopEvents: grpc.BopEvent[]): BopEvent[] {
-    return grpcBopEvents.map((i) => MapUtils.toBopEvent(i));
-  }
-
-  static toBopEvent(grpcBopEvent: grpc.BopEvent): BopEvent {
-    const bopEvent = new BopEvent();
-    bopEvent.eventId = grpcBopEvent.eventId;
-    bopEvent.registeredAt = Timestamp.toDate(grpcBopEvent.registeredAt!);
-    bopEvent.bopAddress = grpcBopEvent.bopAddress;
-    bopEvent.rtuTitle = grpcBopEvent.rtuTitle;
-    bopEvent.rtuId = grpcBopEvent.rtuId;
-    bopEvent.serial = grpcBopEvent.serial;
-    bopEvent.isBopOk = grpcBopEvent.isBopOk;
-    return bopEvent;
-  }
-
-  static toRtuAccidents(grpcRtuAccidents: grpc.RtuAccident[]): RtuAccident[] {
-    return grpcRtuAccidents.map((a) => MapUtils.toRtuAccident(a));
-  }
-
-  static toRtuAccident(grpcRtuAccident: grpc.RtuAccident): RtuAccident {
-    const rtuAccident = new RtuAccident();
-    rtuAccident.id = grpcRtuAccident.id;
-    rtuAccident.isMeasurementProblem = grpcRtuAccident.isMeasurementProblem;
-    rtuAccident.returnCode = FtEnumsMapping.fromGrpcReturnCode(grpcRtuAccident.returnCode);
-    rtuAccident.registeredAt = Timestamp.toDate(grpcRtuAccident.registeredAt!);
-    rtuAccident.rtuTitle = grpcRtuAccident.rtuTitle;
-    rtuAccident.rtuId = grpcRtuAccident.rtuId;
-    rtuAccident.traceTitle = grpcRtuAccident.traceTitle;
-    rtuAccident.traceId = grpcRtuAccident.traceId;
-    rtuAccident.baseRefType = grpcRtuAccident.baseRefType;
-    rtuAccident.comment = grpcRtuAccident.comment;
-
-    return rtuAccident;
   }
 
   static toSystemNotification(

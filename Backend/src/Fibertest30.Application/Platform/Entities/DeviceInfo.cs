@@ -9,4 +9,5 @@ public class DeviceInfo
     
 
     public List<RtuDto> RtuTree { get; set; } = null!;
+    public HasCurrentEvents HasCurrentEvents { get; set; } = null!;
 }

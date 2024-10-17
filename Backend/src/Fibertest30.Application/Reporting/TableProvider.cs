@@ -12,6 +12,28 @@ public class TableProvider
         _writeModel = writeModel;
     }
 
+    public HasCurrentEvents GetHasCurrentEvents(Guid userId)
+    {
+        var hasCurrentEvents = new HasCurrentEvents();
+
+        if (_writeModel.ActiveMeasurements.Any())
+            hasCurrentEvents.HasCurrentOpticalEvents = true;
+
+        if (_writeModel.Rtus.Any(r => !r.IsAllRight))
+            hasCurrentEvents.HasCurrentNetworkEvents = true;
+
+        if (_writeModel.BopNetworkEvents
+            .OrderByDescending(e => e.EventTimestamp)
+            .GroupBy(b => b.Serial)
+            .Select(g => g.Last()).Any(l => !l.IsOk))
+            hasCurrentEvents.HasCurrentBopNetworkEvents = true;
+
+        if (GetCurrentStateAccidents().Any())
+            hasCurrentEvents.HasCurrentRtuAccidents = true;
+
+        return hasCurrentEvents;
+    }
+
     public List<OpticalEventDto> GetOpticalEvents(Guid userId, bool current)
     {
         // var user = _writeModel.Users.First(u => u.UserId == userId);
@@ -30,9 +52,9 @@ public class TableProvider
 
     public List<NetworkEventDto> GetNetworkEvents(Guid userId, bool current)
     {
-        var sift = current 
-            ? _writeModel.Rtus.Where(r=> !r.IsAllRight)
-                .Select(rtu=> _writeModel.NetworkEvents.LastOrDefault(n=>n.RtuId == rtu.Id))
+        var sift = current
+            ? _writeModel.Rtus.Where(r => !r.IsAllRight)
+                .Select(rtu => _writeModel.NetworkEvents.LastOrDefault(n => n.RtuId == rtu.Id))
                 .Where(last => last != null)
                 : _writeModel.NetworkEvents;
 
@@ -43,9 +65,11 @@ public class TableProvider
     public List<BopEventDto> GetBopEvents(Guid userId, bool current)
     {
         var sift = current
-            ? _writeModel.Rtus
-                .Select(rtu => _writeModel.BopNetworkEvents.LastOrDefault(n => n.RtuId == rtu.Id))
-                .Where(lastBopNetworkEvent => lastBopNetworkEvent != null && !lastBopNetworkEvent.IsOk)
+            ? _writeModel.BopNetworkEvents
+                .OrderByDescending(e => e.EventTimestamp)
+                .GroupBy(b => b.Serial)
+                .Select(g => g.Last())
+                .Where(l => !l.IsOk).ToList()
             : _writeModel.BopNetworkEvents;
 
         return sift.OrderByDescending(x => x!.Ordinal)
@@ -59,7 +83,7 @@ public class TableProvider
             .Select(a => a.CreateAccidentDto(_writeModel)).ToList();
     }
 
-    private List<RtuAccident> GetCurrentStateAccidents()
+    private IEnumerable<RtuAccident> GetCurrentStateAccidents()
     {
         var traces = _writeModel.Traces
             .Select(trace => _writeModel.RtuAccidents
@@ -71,6 +95,6 @@ public class TableProvider
                 .LastOrDefault(a => a.RtuId == rtu.Id && !a.IsMeasurementProblem))
             .Where(lastAccident => lastAccident != null && !lastAccident.IsGoodAccident);
 
-        return traces.Union(rtus).ToList()!;
+        return traces.Union(rtus)!;
     }
 }

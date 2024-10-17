@@ -52,6 +52,7 @@
   "i18n.ft.pulse-width-ns": "Длительность зондирующего импульса - Tp [ns]",
   "i18n.ft.refractive-index": "Показатель преломления - n",
   "i18n.ft.sampling-resolution-m": "Разрешение - dL [m]",
+  "i18n.ft.measurement-in-progress": "Идет измерение...",
 
   "i18n.ft.new-events": "Новые события",
   "i18n.ft.optical-events": "Оптические события",

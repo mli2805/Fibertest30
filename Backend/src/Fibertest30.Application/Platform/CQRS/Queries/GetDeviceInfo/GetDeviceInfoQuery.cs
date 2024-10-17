@@ -9,16 +9,18 @@ public class GetDeviceInfoQueryHandler : IRequestHandler<GetDeviceInfoQuery, Dev
 {
     private readonly INotificationSettingsRepository _notificationSettingsRepository;
     private readonly IVersionProvider _versionProvider;
+    private readonly TableProvider _tableProvider;
     private readonly Model _model;
     private readonly ICurrentUserService _currentUserService;
 
     public GetDeviceInfoQueryHandler(
         INotificationSettingsRepository notificationSettingsRepository,
         IVersionProvider versionProvider,
-        Model model, ICurrentUserService currentUserService)
+        TableProvider tableProvider, Model model, ICurrentUserService currentUserService)
     {
         _notificationSettingsRepository = notificationSettingsRepository;
         _versionProvider = versionProvider;
+        _tableProvider = tableProvider;
         _model = model;
         _currentUserService = currentUserService;
     }
@@ -38,6 +40,7 @@ public class GetDeviceInfoQueryHandler : IRequestHandler<GetDeviceInfoQuery, Dev
             NotificationSettings = notificationSettings,
 
             RtuTree = rtuTree,
+            HasCurrentEvents = _tableProvider.GetHasCurrentEvents(user.UserId)
         };
 
         return deviceInfo;

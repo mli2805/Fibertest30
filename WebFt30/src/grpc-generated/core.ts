@@ -5,6 +5,7 @@ import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
 import { SystemEventLevel } from "./data.core";
 import { SystemEvent } from "./data.core";
+import { HasCurrentEvents } from "./data.core";
 import { Rtu } from "./rtu_tree";
 import { NotificationSettings } from "./data.core";
 // GetDeviceInfo
@@ -30,6 +31,10 @@ export interface DeviceInfoResponse {
      * @generated from protobuf field: repeated fibertest30.rtu_tree.Rtu rtus = 15;
      */
     rtus: Rtu[];
+    /**
+     * @generated from protobuf field: fibertest30.data.core.HasCurrentEvents hasCurrentEvents = 16;
+     */
+    hasCurrentEvents?: HasCurrentEvents;
 }
 /**
  * @generated from protobuf message fibertest30.core.InAppSystemNotification
@@ -148,7 +153,8 @@ class DeviceInfoResponse$Type extends MessageType<DeviceInfoResponse> {
         super("fibertest30.core.DeviceInfoResponse", [
             { no: 7, name: "notificationSettings", kind: "message", T: () => NotificationSettings },
             { no: 11, name: "apiVersion", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 15, name: "rtus", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Rtu }
+            { no: 15, name: "rtus", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Rtu },
+            { no: 16, name: "hasCurrentEvents", kind: "message", T: () => HasCurrentEvents }
         ]);
     }
 }
