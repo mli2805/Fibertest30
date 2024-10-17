@@ -1,6 +1,7 @@
 import * as grpc from 'src/grpc-generated';
 import {
   BaseRefType,
+  ChannelEvent,
   EventStatus,
   FiberState,
   MonitoringState,
@@ -20,6 +21,16 @@ export class FtEnumsMapping {
       default:
         throw new Error(`Unknown grpc.RtuMaker: ${grpcRtuMaker}`);
     }
+  }
+
+  static fromGrpcChannelEvent(grpcChannelEvent: grpc.ChannelEvent): ChannelEvent {
+    // prettier-ignore
+    switch(grpcChannelEvent) {
+      case grpc.ChannelEvent.ChannelEvent_Broken: return ChannelEvent.Broken;
+      case grpc.ChannelEvent.ChannelEvent_Nothing: return ChannelEvent.Nothing;
+      case grpc.ChannelEvent.Repaired: return ChannelEvent.Repaired;
+      default:
+        throw new Error(`Unknown grpc.ChannelEvent: ${grpcChannelEvent}`);  }
   }
 
   static fromGrpcFiberState(grpcFiberState: grpc.FiberState): FiberState {
@@ -67,16 +78,16 @@ export class FtEnumsMapping {
       .find((g) => ReturnCode[+g] === ReturnCode[enumValue])!;
   }
 
-  // static getGrpcReturnCodeNumericKey(enumValue: grpc.ReturnCode): number {
-  //   return +Object.keys(grpc.ReturnCode)
-  //     .filter((k) => !isNaN(Number(k)))
-  //     .find((g) => grpc.ReturnCode[+g] === grpc.ReturnCode[enumValue])!;
-  // }
+  static getGrpcReturnCodeNumericKey(enumValue: grpc.ReturnCode): number {
+    return +Object.keys(grpc.ReturnCode)
+      .filter((k) => !isNaN(Number(k)))
+      .find((g) => grpc.ReturnCode[+g] === grpc.ReturnCode[enumValue])!;
+  }
 
-  // static fromGrpcReturnCode(grpcReturnCode: grpc.ReturnCode): ReturnCode {
-  //   const enumCode = this.getReturnCodeNumericKey(grpcReturnCode);
-  //   return enumCode;
-  // }
+  static fromGrpcReturnCode(grpcReturnCode: grpc.ReturnCode): ReturnCode {
+    const enumCode = this.getReturnCodeNumericKey(grpcReturnCode);
+    return enumCode;
+  }
 
   static fromGrpcMonitoringState(grpcMonitoringState: grpc.MonitoringState): MonitoringState {
     // prettier-ignore
@@ -111,17 +122,18 @@ export class FtEnumsMapping {
     }
   }
 
-  static fromGrpcBaseRefType(grpcType: grpc.BaseRefType): BaseRefType {
-    // prettier-ignore
-    switch(grpcType) {
-      case grpc.BaseRefType.None: return BaseRefType.None;
-      case grpc.BaseRefType.Precise: return BaseRefType.Precise;
-      case grpc.BaseRefType.Fast: return BaseRefType.Fast;
-      case grpc.BaseRefType.Additional: return BaseRefType.Additional;
-      default:
-        throw new Error(`Unknown grpc.BaseRefType: ${grpcType}`); 
-    }
-  }
+  // можно присваивать напрямую
+  // static fromGrpcBaseRefType(grpcType: grpc.BaseRefType): BaseRefType {
+  //   // prettier-ignore
+  //   switch(grpcType) {
+  //     case grpc.BaseRefType.None: return BaseRefType.None;
+  //     case grpc.BaseRefType.Precise: return BaseRefType.Precise;
+  //     case grpc.BaseRefType.Fast: return BaseRefType.Fast;
+  //     case grpc.BaseRefType.Additional: return BaseRefType.Additional;
+  //     default:
+  //       throw new Error(`Unknown grpc.BaseRefType: ${grpcType}`);
+  //   }
+  // }
 
   static fromGrpcEventStatus(grpcStatus: grpc.EventStatus): EventStatus {
     // prettier-ignore

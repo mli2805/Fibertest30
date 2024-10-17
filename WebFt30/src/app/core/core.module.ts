@@ -32,6 +32,9 @@ import { NotificationSettingsEffects } from './store/notification-settings/notif
 import { RtuTreeEffects } from './store/rtu-tree/rtu-tree.effects';
 import { RtuMgmtEffects } from './store/rtu-mgmt/rtu-mgmt.effects';
 import { OpticalEventsEffects } from './store/optical-events/optical-events.effects';
+import { NetworkEventsEffects } from './store/network-events/network-events.effects';
+import { BopEventsEffects } from './store/bop-events/bop-events.effects';
+import { RtuAccidentsEffects } from './store/rtu-accidents/rtu-accidents.effects';
 
 @NgModule({
   imports: [
@@ -75,6 +78,9 @@ import { OpticalEventsEffects } from './store/optical-events/optical-events.effe
       GlobalUiEffects,
       SystemEventsEffects,
       OpticalEventsEffects,
+      NetworkEventsEffects,
+      BopEventsEffects,
+      RtuAccidentsEffects,
       NotificationSettingsEffects,
 
       RtuTreeEffects,

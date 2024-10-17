@@ -4,6 +4,12 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { EventTables } from "./event_tables";
+import type { GetRtuAccidentsResponse } from "./event_tables";
+import type { GetRtuAccidentsRequest } from "./event_tables";
+import type { GetBopEventsResponse } from "./event_tables";
+import type { GetBopEventsRequest } from "./event_tables";
+import type { GetNetworkEventsResponse } from "./event_tables";
+import type { GetNetworkEventsRequest } from "./event_tables";
 import type { GetOpticalEventsResponse } from "./event_tables";
 import type { GetOpticalEventsRequest } from "./event_tables";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
@@ -23,6 +29,18 @@ export interface IEventTablesClient {
      * @generated from protobuf rpc: GetOpticalEvents(fibertest30.event_tables.GetOpticalEventsRequest) returns (fibertest30.event_tables.GetOpticalEventsResponse);
      */
     getOpticalEvents(input: GetOpticalEventsRequest, options?: RpcOptions): UnaryCall<GetOpticalEventsRequest, GetOpticalEventsResponse>;
+    /**
+     * @generated from protobuf rpc: GetNetworkEvents(fibertest30.event_tables.GetNetworkEventsRequest) returns (fibertest30.event_tables.GetNetworkEventsResponse);
+     */
+    getNetworkEvents(input: GetNetworkEventsRequest, options?: RpcOptions): UnaryCall<GetNetworkEventsRequest, GetNetworkEventsResponse>;
+    /**
+     * @generated from protobuf rpc: GetBopEvents(fibertest30.event_tables.GetBopEventsRequest) returns (fibertest30.event_tables.GetBopEventsResponse);
+     */
+    getBopEvents(input: GetBopEventsRequest, options?: RpcOptions): UnaryCall<GetBopEventsRequest, GetBopEventsResponse>;
+    /**
+     * @generated from protobuf rpc: GetRtuAccidents(fibertest30.event_tables.GetRtuAccidentsRequest) returns (fibertest30.event_tables.GetRtuAccidentsResponse);
+     */
+    getRtuAccidents(input: GetRtuAccidentsRequest, options?: RpcOptions): UnaryCall<GetRtuAccidentsRequest, GetRtuAccidentsResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.event_tables.EventTables
@@ -46,5 +64,26 @@ export class EventTablesClient implements IEventTablesClient, ServiceInfo {
     getOpticalEvents(input: GetOpticalEventsRequest, options?: RpcOptions): UnaryCall<GetOpticalEventsRequest, GetOpticalEventsResponse> {
         const method = this.methods[1], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetOpticalEventsRequest, GetOpticalEventsResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetNetworkEvents(fibertest30.event_tables.GetNetworkEventsRequest) returns (fibertest30.event_tables.GetNetworkEventsResponse);
+     */
+    getNetworkEvents(input: GetNetworkEventsRequest, options?: RpcOptions): UnaryCall<GetNetworkEventsRequest, GetNetworkEventsResponse> {
+        const method = this.methods[2], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetNetworkEventsRequest, GetNetworkEventsResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetBopEvents(fibertest30.event_tables.GetBopEventsRequest) returns (fibertest30.event_tables.GetBopEventsResponse);
+     */
+    getBopEvents(input: GetBopEventsRequest, options?: RpcOptions): UnaryCall<GetBopEventsRequest, GetBopEventsResponse> {
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetBopEventsRequest, GetBopEventsResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetRtuAccidents(fibertest30.event_tables.GetRtuAccidentsRequest) returns (fibertest30.event_tables.GetRtuAccidentsResponse);
+     */
+    getRtuAccidents(input: GetRtuAccidentsRequest, options?: RpcOptions): UnaryCall<GetRtuAccidentsRequest, GetRtuAccidentsResponse> {
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetRtuAccidentsRequest, GetRtuAccidentsResponse>("unary", this._transport, method, opt, input);
     }
 }

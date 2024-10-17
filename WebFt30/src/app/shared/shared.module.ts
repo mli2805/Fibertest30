@@ -64,6 +64,10 @@ import { FiberStatePipe } from './pipes/fiberstate.pipe';
 import { EventStatusPipe } from './pipes/event-status.pipe';
 import { EventStatusBgDirective } from '../features/op-evnts/optical-events/colorize-bg-by-eventstatus.directive';
 import { FrequencyPipe } from './pipes/frequency.pipe';
+import { ChannelEventPipe } from './pipes/channel-event.pipe';
+import { ChannelEventBgDirective } from '../features/net-evnts/newtork-events/colorize-bg-by-channelevent.directive';
+import { IsAvailableBgDirective } from '../features/net-evnts/newtork-events/colorize-bg-by-isavailable.directive';
+import { BaseRefTypePipe } from './pipes/base-ref-type.pipe';
 
 @NgModule({
   imports: [
@@ -86,6 +90,8 @@ import { FrequencyPipe } from './pipes/frequency.pipe';
     SystemEventLevelDirective,
     FiberStateBgDirective,
     EventStatusBgDirective,
+    ChannelEventBgDirective,
+    IsAvailableBgDirective,
     DialogHeaderComponent,
     RtuDateTimePipe,
     RtuDateToDayOfWeekPipe,
@@ -93,6 +99,8 @@ import { FrequencyPipe } from './pipes/frequency.pipe';
     FiberStatePipe,
     FrequencyPipe,
     EventStatusPipe,
+    ChannelEventPipe,
+    BaseRefTypePipe,
     SimpleErrorComponent,
     DescriptionLabelComponent,
     LoadingSpinnerComponent,
@@ -148,6 +156,8 @@ import { FrequencyPipe } from './pipes/frequency.pipe';
     SystemEventLevelDirective,
     FiberStateBgDirective,
     EventStatusBgDirective,
+    ChannelEventBgDirective,
+    IsAvailableBgDirective,
     DialogHeaderComponent,
     RtuDateTimePipe,
     RtuDateToDayOfWeekPipe,
@@ -155,6 +165,8 @@ import { FrequencyPipe } from './pipes/frequency.pipe';
     FiberStatePipe,
     FrequencyPipe,
     EventStatusPipe,
+    ChannelEventPipe,
+    BaseRefTypePipe,
     SimpleErrorComponent,
     DescriptionLabelComponent,
     LoadingSpinnerComponent,

@@ -32,6 +32,12 @@ export enum RtuPartState {
   Ok = 1
 }
 
+export enum ChannelEvent {
+  Broken = -1,
+  Nothing = 0,
+  Repaired = 1
+}
+
 export enum MonitoringState {
   Unknown = 0,
   Off = 1,

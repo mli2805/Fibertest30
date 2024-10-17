@@ -28,6 +28,12 @@ import { RtuMgmtState } from './store/rtu-mgmt/rtu-mgmt.state';
 import { rtuMgmtReducer } from './store/rtu-mgmt/rtu-mgmt.reducer';
 import { OpticalEventsState } from './store/optical-events/optical-events.state';
 import { opticalEventsReducer } from './store/optical-events/optical-events.reducer';
+import { NetworkEventsState } from './store/network-events/network-events.state';
+import { BopEventsState } from './store/bop-events/bop-events.state';
+import { RtuAccidentsState } from './store/rtu-accidents/rtu-accidents.state';
+import { networkEventsReducer } from './store/network-events/network-events.reducer';
+import { bopEventsReducer } from './store/bop-events/bop-events.reduces';
+import { rtuAccidentsReducer } from './store/rtu-accidents/rtu-accidents.reducer';
 
 export interface AppState {
   auth: AuthState;
@@ -38,6 +44,9 @@ export interface AppState {
   globalUi: GlobalUiState;
   systemEvents: SystemEventsState;
   opticalEvents: OpticalEventsState;
+  networkEvents: NetworkEventsState;
+  bopEvents: BopEventsState;
+  rtuAccidents: RtuAccidentsState;
   eventNotification: SystemNotificationState;
   notificationSettings: NotificationSettingsState;
   router: RouterReducerState<RouterStateUrl>;
@@ -55,6 +64,9 @@ export const reducers: ActionReducerMap<AppState> = {
   globalUi: globalUiReducer,
   systemEvents: systemEventsReducer,
   opticalEvents: opticalEventsReducer,
+  networkEvents: networkEventsReducer,
+  bopEvents: bopEventsReducer,
+  rtuAccidents: rtuAccidentsReducer,
   eventNotification: systemNotificationReducer,
   notificationSettings: notificationSettingsReducer,
   router: routerReducer,
@@ -77,6 +89,9 @@ export const selectRolesState = (state: AppState) => state.roles;
 export const selectGlobalUiState = (state: AppState) => state.globalUi;
 export const selectSystemEventsState = (state: AppState) => state.systemEvents;
 export const selectOpticalEventsState = (state: AppState) => state.opticalEvents;
+export const selectNetworkEventsState = (state: AppState) => state.networkEvents;
+export const selectBopEventsState = (state: AppState) => state.bopEvents;
+export const selectRtuAccidentsState = (state: AppState) => state.rtuAccidents;
 export const selectSystemNotificationState = (state: AppState) => state.eventNotification;
 export const selectNotificationSettingsState = (state: AppState) => state.notificationSettings;
 export const selectRtuTreeState = (state: AppState) => state.rtuTree;

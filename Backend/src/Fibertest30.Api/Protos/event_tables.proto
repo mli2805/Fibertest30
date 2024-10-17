@@ -8,10 +8,10 @@ package fibertest30.event_tables;
 service EventTables {
   rpc GetSystemEvents (GetSystemEventsRequest) returns (GetSystemEventsResponse);
   rpc GetOpticalEvents (GetOpticalEventsRequest) returns (GetOpticalEventsResponse);
+  rpc GetNetworkEvents (GetNetworkEventsRequest) returns (GetNetworkEventsResponse);
+  rpc GetBopEvents (GetBopEventsRequest) returns (GetBopEventsResponse);
+  rpc GetRtuAccidents (GetRtuAccidentsRequest) returns (GetRtuAccidentsResponse);
 }
-
-
-// GetSystemEvents
 
 message GetSystemEventsRequest {
 }
@@ -20,13 +20,36 @@ message GetSystemEventsResponse {
     repeated data.core.SystemEvent systemEvents = 1;
 }
 
-// GetOpticalEvents
 
 message GetOpticalEventsRequest {
     bool currentEvents = 1;
 }
 message GetOpticalEventsResponse {
     repeated events.data.OpticalEvent opticalEvents = 1;
+}
+
+message GetNetworkEventsRequest {
+    bool currentEvents = 1;
+}
+
+message GetNetworkEventsResponse {
+    repeated events.data.NetworkEvent networkEvents = 1;
+}
+
+message GetBopEventsRequest {
+    bool currentEvents = 1;
+}
+
+message GetBopEventsResponse {
+    repeated events.data.BopEvent bopEvents = 1;
+}
+
+message GetRtuAccidentsRequest {
+    bool currentAccidents = 1;
+}
+
+message GetRtuAccidentsResponse {
+    repeated events.data.RtuAccident rtuAccidents = 1;
 }
 
 

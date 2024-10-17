@@ -68,3 +68,9 @@ enum EventStatus {
     Suspended = 1;
     Confirmed = 2;
 }
+
+enum ChannelEvent {
+    ChannelEvent_Nothing = 0;
+    ChannelEvent_Broken = -1;
+    Repaired = 1;
+}

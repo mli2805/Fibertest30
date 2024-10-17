@@ -200,3 +200,20 @@ export enum EventStatus {
      */
     Confirmed = 2
 }
+/**
+ * @generated from protobuf enum fibertest30.ft.enums.ChannelEvent
+ */
+export enum ChannelEvent {
+    /**
+     * @generated from protobuf enum value: ChannelEvent_Nothing = 0;
+     */
+    ChannelEvent_Nothing = 0,
+    /**
+     * @generated from protobuf enum value: ChannelEvent_Broken = -1;
+     */
+    ChannelEvent_Broken = -1,
+    /**
+     * @generated from protobuf enum value: Repaired = 1;
+     */
+    Repaired = 1
+}

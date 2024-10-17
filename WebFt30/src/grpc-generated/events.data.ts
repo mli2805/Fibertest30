@@ -2,6 +2,7 @@
 // @generated from protobuf file "events.data.proto" (package "fibertest30.events.data", syntax proto3)
 // tslint:disable
 import { MessageType } from "@protobuf-ts/runtime";
+import { ChannelEvent } from "./ft.enums";
 import { EventStatus } from "./ft.enums";
 import { FiberState } from "./ft.enums";
 import { BaseRefType } from "./ft.enums";
@@ -58,31 +59,31 @@ export interface OpticalEvent {
      */
     registeredAt?: Timestamp;
     /**
-     * @generated from protobuf field: string RtuTitle = 4 [json_name = "RtuTitle"];
+     * @generated from protobuf field: string rtuTitle = 4;
      */
     rtuTitle: string;
     /**
-     * @generated from protobuf field: string RtuId = 5 [json_name = "RtuId"];
+     * @generated from protobuf field: string rtuId = 5;
      */
     rtuId: string;
     /**
-     * @generated from protobuf field: string TraceTitle = 6 [json_name = "TraceTitle"];
+     * @generated from protobuf field: string traceTitle = 6;
      */
     traceTitle: string;
     /**
-     * @generated from protobuf field: string TraceId = 7 [json_name = "TraceId"];
+     * @generated from protobuf field: string traceId = 7;
      */
     traceId: string;
     /**
-     * @generated from protobuf field: fibertest30.ft.enums.BaseRefType BaseRefType = 8 [json_name = "BaseRefType"];
+     * @generated from protobuf field: fibertest30.ft.enums.BaseRefType baseRefType = 8;
      */
     baseRefType: BaseRefType;
     /**
-     * @generated from protobuf field: fibertest30.ft.enums.FiberState TraceState = 9 [json_name = "TraceState"];
+     * @generated from protobuf field: fibertest30.ft.enums.FiberState traceState = 9;
      */
     traceState: FiberState;
     /**
-     * @generated from protobuf field: fibertest30.ft.enums.EventStatus EventStatus = 10 [json_name = "EventStatus"];
+     * @generated from protobuf field: fibertest30.ft.enums.EventStatus eventStatus = 10;
      */
     eventStatus: EventStatus;
     /**
@@ -95,6 +96,117 @@ export interface OpticalEvent {
     statusChangedByUser: string;
     /**
      * @generated from protobuf field: string comment = 13;
+     */
+    comment: string;
+}
+/**
+ * @generated from protobuf message fibertest30.events.data.NetworkEvent
+ */
+export interface NetworkEvent {
+    /**
+     * @generated from protobuf field: int32 eventId = 1;
+     */
+    eventId: number;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp registeredAt = 2;
+     */
+    registeredAt?: Timestamp;
+    /**
+     * @generated from protobuf field: string rtuId = 3;
+     */
+    rtuId: string;
+    /**
+     * @generated from protobuf field: string rtuTitle = 4;
+     */
+    rtuTitle: string;
+    /**
+     * @generated from protobuf field: bool isRtuAvailable = 5;
+     */
+    isRtuAvailable: boolean;
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.ChannelEvent onMainChannel = 6;
+     */
+    onMainChannel: ChannelEvent;
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.ChannelEvent onReserveChannel = 7;
+     */
+    onReserveChannel: ChannelEvent;
+}
+/**
+ * @generated from protobuf message fibertest30.events.data.BopEvent
+ */
+export interface BopEvent {
+    /**
+     * @generated from protobuf field: int32 eventId = 1;
+     */
+    eventId: number;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp registeredAt = 2;
+     */
+    registeredAt?: Timestamp;
+    /**
+     * @generated from protobuf field: string bopAddress = 3;
+     */
+    bopAddress: string;
+    /**
+     * @generated from protobuf field: string rtuId = 4;
+     */
+    rtuId: string;
+    /**
+     * @generated from protobuf field: string rtuTitle = 5;
+     */
+    rtuTitle: string;
+    /**
+     * @generated from protobuf field: string serial = 6;
+     */
+    serial: string;
+    /**
+     * @generated from protobuf field: bool isBopOk = 7;
+     */
+    isBopOk: boolean;
+}
+/**
+ * @generated from protobuf message fibertest30.events.data.RtuAccident
+ */
+export interface RtuAccident {
+    /**
+     * @generated from protobuf field: int32 id = 1;
+     */
+    id: number;
+    /**
+     * @generated from protobuf field: bool isMeasurementProblem = 2;
+     */
+    isMeasurementProblem: boolean;
+    /**
+     * @generated from protobuf field: int32 returnCode = 3;
+     */
+    returnCode: number;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp registeredAt = 4;
+     */
+    registeredAt?: Timestamp;
+    /**
+     * @generated from protobuf field: string rtuTitle = 5;
+     */
+    rtuTitle: string;
+    /**
+     * @generated from protobuf field: string rtuId = 6;
+     */
+    rtuId: string;
+    /**
+     * @generated from protobuf field: string traceTitle = 7;
+     */
+    traceTitle: string;
+    /**
+     * @generated from protobuf field: string traceId = 8;
+     */
+    traceId: string;
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.BaseRefType baseRefType = 9;
+     */
+    baseRefType: BaseRefType;
+    /**
+     * @generated from protobuf field: string comment = 10;
      */
     comment: string;
 }
@@ -133,13 +245,13 @@ class OpticalEvent$Type extends MessageType<OpticalEvent> {
             { no: 1, name: "eventId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "measuredAt", kind: "message", T: () => Timestamp },
             { no: 3, name: "registeredAt", kind: "message", T: () => Timestamp },
-            { no: 4, name: "RtuTitle", kind: "scalar", jsonName: "RtuTitle", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "RtuId", kind: "scalar", jsonName: "RtuId", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "TraceTitle", kind: "scalar", jsonName: "TraceTitle", T: 9 /*ScalarType.STRING*/ },
-            { no: 7, name: "TraceId", kind: "scalar", jsonName: "TraceId", T: 9 /*ScalarType.STRING*/ },
-            { no: 8, name: "BaseRefType", kind: "enum", jsonName: "BaseRefType", T: () => ["fibertest30.ft.enums.BaseRefType", BaseRefType] },
-            { no: 9, name: "TraceState", kind: "enum", jsonName: "TraceState", T: () => ["fibertest30.ft.enums.FiberState", FiberState] },
-            { no: 10, name: "EventStatus", kind: "enum", jsonName: "EventStatus", T: () => ["fibertest30.ft.enums.EventStatus", EventStatus] },
+            { no: 4, name: "rtuTitle", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "rtuId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "traceTitle", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 8, name: "baseRefType", kind: "enum", T: () => ["fibertest30.ft.enums.BaseRefType", BaseRefType] },
+            { no: 9, name: "traceState", kind: "enum", T: () => ["fibertest30.ft.enums.FiberState", FiberState] },
+            { no: 10, name: "eventStatus", kind: "enum", T: () => ["fibertest30.ft.enums.EventStatus", EventStatus] },
             { no: 11, name: "statusChangedAt", kind: "message", T: () => Timestamp },
             { no: 12, name: "statusChangedByUser", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 13, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
@@ -150,3 +262,60 @@ class OpticalEvent$Type extends MessageType<OpticalEvent> {
  * @generated MessageType for protobuf message fibertest30.events.data.OpticalEvent
  */
 export const OpticalEvent = new OpticalEvent$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class NetworkEvent$Type extends MessageType<NetworkEvent> {
+    constructor() {
+        super("fibertest30.events.data.NetworkEvent", [
+            { no: 1, name: "eventId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "registeredAt", kind: "message", T: () => Timestamp },
+            { no: 3, name: "rtuId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "rtuTitle", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "isRtuAvailable", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 6, name: "onMainChannel", kind: "enum", T: () => ["fibertest30.ft.enums.ChannelEvent", ChannelEvent] },
+            { no: 7, name: "onReserveChannel", kind: "enum", T: () => ["fibertest30.ft.enums.ChannelEvent", ChannelEvent] }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.events.data.NetworkEvent
+ */
+export const NetworkEvent = new NetworkEvent$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class BopEvent$Type extends MessageType<BopEvent> {
+    constructor() {
+        super("fibertest30.events.data.BopEvent", [
+            { no: 1, name: "eventId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "registeredAt", kind: "message", T: () => Timestamp },
+            { no: 3, name: "bopAddress", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "rtuId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "rtuTitle", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "serial", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "isBopOk", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.events.data.BopEvent
+ */
+export const BopEvent = new BopEvent$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class RtuAccident$Type extends MessageType<RtuAccident> {
+    constructor() {
+        super("fibertest30.events.data.RtuAccident", [
+            { no: 1, name: "id", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "isMeasurementProblem", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 3, name: "returnCode", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 4, name: "registeredAt", kind: "message", T: () => Timestamp },
+            { no: 5, name: "rtuTitle", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "rtuId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "traceTitle", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 8, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 9, name: "baseRefType", kind: "enum", T: () => ["fibertest30.ft.enums.BaseRefType", BaseRefType] },
+            { no: 10, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.events.data.RtuAccident
+ */
+export const RtuAccident = new RtuAccident$Type();

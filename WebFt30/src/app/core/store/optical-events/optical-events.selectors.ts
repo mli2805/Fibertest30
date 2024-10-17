@@ -25,7 +25,7 @@ const selectErrorMessageId = createSelector(
       return null;
     }
 
-    return 'i18n.optical-events.cant-load-optical-events';
+    return 'i18n.ft.cant-load-optical-events';
   }
 );
 

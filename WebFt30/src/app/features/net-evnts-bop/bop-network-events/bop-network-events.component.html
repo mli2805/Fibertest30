@@ -1,1 +1,56 @@
-<p>bop-network-events works!</p>
+<rtu-single-error-popup
+  [errorMessageId$]="errorMessageId$"
+  [resetErrorAction]="bopEventsActions.resetError()"
+></rtu-single-error-popup>
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
+
+<div class="relative h-full">
+  <div class="absolute right-4 top-0">
+    <div class="mx-2 flex items-center">
+      <label class="mr-2 text-base">{{ 'i18n.ft.current-accidents' | translate }}</label>
+      <label class="toggle">
+        <input type="checkbox" [checked]="checked" (change)="onToggle()" />
+        <div class="slider"></div>
+      </label>
+    </div>
+  </div>
+
+  <div class="flex h-full w-full flex-col py-4 pt-8">
+    <div #cdkvirtscroll class="h-full w-full" style="overflow-y: scroll">
+      <table class="events-table min-w-full text-sm">
+        <thead class="text-center text-gray-600 dark:text-zinc-400">
+          <tr class="">
+            <th class="w-16 font-thin">{{ 'i18n.ft.event-id' | translate }}</th>
+            <th class="w-40 font-thin">{{ 'i18n.ft.event-registered-at' | translate }}</th>
+            <th class="w-40 font-thin">{{ 'i18n.ft.bop' | translate }}</th>
+            <th class="font-thin">{{ 'RTU' }}</th>
+            <th class="w-36 font-thin">{{ 'i18n.ft.serial' | translate }}</th>
+            <th class="w-40 font-thin">{{ 'i18n.ft.state' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="bopEvents$ | async as bopEvents">
+          <tr
+            *ngFor="let bopEvent of bopEvents"
+            class="odd:bg-rtu-second-bg dark:odd:bg-rtu-dark-second-bg"
+          >
+            <td class="pl-2">{{ bopEvent.eventId }}</td>
+            <td class="text-center">{{ bopEvent.registeredAt | rtuDateTime : 'medium' }}</td>
+            <td class="text-center">{{ bopEvent.bopAddress }}</td>
+            <td class="text-center">{{ bopEvent.rtuTitle }}</td>
+            <td class="text-center">{{ bopEvent.serial }}</td>
+            <td class="text-center">
+              <div [rtuColorizeBgByIsAvailable]="bopEvent.isBopOk" class="py-0.5">
+                <ng-container *ngIf="bopEvent.isBopOk">
+                  <div>{{ 'i18n.ft.available' | translate }}</div>
+                </ng-container>
+                <ng-container *ngIf="!bopEvent.isBopOk">
+                  <div>{{ 'i18n.ft.not-available' | translate }}</div>
+                </ng-container>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

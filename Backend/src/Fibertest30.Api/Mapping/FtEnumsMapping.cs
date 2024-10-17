@@ -83,6 +83,17 @@ public static class FtEnumsMapping
         };
     }
 
+    public static ChannelEvent ToProto(this Iit.Fibertest.Dto.ChannelEvent evnt)
+    {
+        return evnt switch
+        {
+            Iit.Fibertest.Dto.ChannelEvent.Nothing => ChannelEvent.Nothing,
+            Iit.Fibertest.Dto.ChannelEvent.Broken => ChannelEvent.Broken,
+            Iit.Fibertest.Dto.ChannelEvent.Repaired => ChannelEvent.Repaired,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
+
     public static BaseRefType ToProto(this Iit.Fibertest.Dto.BaseRefType type)
     {
         return type switch

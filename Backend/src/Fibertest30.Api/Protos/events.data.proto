@@ -23,19 +23,57 @@ message OpticalEvent {
 	google.protobuf.Timestamp measuredAt = 2;
 	google.protobuf.Timestamp registeredAt = 3;
 
-	string RtuTitle = 4;
-	string RtuId = 5;
-	string TraceTitle = 6;
-	string TraceId = 7;
+	string rtuTitle = 4;
+	string rtuId = 5;
+	string traceTitle = 6;
+	string traceId = 7;
 
-	ft.enums.BaseRefType BaseRefType = 8;
-	ft.enums.FiberState TraceState = 9;
+	ft.enums.BaseRefType baseRefType = 8;
+	ft.enums.FiberState traceState = 9;
 
-	ft.enums.EventStatus EventStatus = 10;
+	ft.enums.EventStatus eventStatus = 10;
 	google.protobuf.Timestamp statusChangedAt = 11;
 	string statusChangedByUser = 12;
 
 	string comment = 13;
+}
+
+message NetworkEvent {
+	int32 eventId = 1;
+	google.protobuf.Timestamp registeredAt = 2;
+
+	string rtuId = 3;
+	string rtuTitle = 4;
+
+	bool isRtuAvailable = 5;
+	ft.enums.ChannelEvent onMainChannel = 6;
+	ft.enums.ChannelEvent onReserveChannel = 7;
+}
+
+message BopEvent {
+	int32 eventId = 1;
+	google.protobuf.Timestamp registeredAt = 2;
+
+	string bopAddress = 3;
+	string rtuId = 4;
+	string rtuTitle = 5;
+	string serial = 6;
+	bool isBopOk = 7;
+}
+
+message RtuAccident {
+	int32 id = 1;
+	bool isMeasurementProblem = 2;
+	int32 returnCode = 3;
+
+	google.protobuf.Timestamp registeredAt = 4;
+	string rtuTitle = 5;
+	string rtuId = 6;
+	string traceTitle = 7;
+	string traceId = 8;
+	ft.enums.BaseRefType baseRefType = 9;
+
+	string comment = 10;
 }
 
 

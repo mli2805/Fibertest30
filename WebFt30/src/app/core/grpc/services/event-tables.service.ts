@@ -29,4 +29,19 @@ export class EventTablesService {
     const request: gprc.GetOpticalEventsRequest = { currentEvents };
     return GrpcUtils.unaryToObservable(this.client.getOpticalEvents.bind(this.client), request, {});
   }
+
+  getNetworkEvents(currentEvents: boolean): Observable<gprc.GetNetworkEventsResponse> {
+    const request: gprc.GetNetworkEventsRequest = { currentEvents };
+    return GrpcUtils.unaryToObservable(this.client.getNetworkEvents.bind(this.client), request, {});
+  }
+
+  getBopEvents(currentEvents: boolean): Observable<gprc.GetBopEventsResponse> {
+    const request: gprc.GetBopEventsRequest = { currentEvents };
+    return GrpcUtils.unaryToObservable(this.client.getBopEvents.bind(this.client), request, {});
+  }
+
+  getRtuAccidents(currentAccidents: boolean): Observable<gprc.GetRtuAccidentsResponse> {
+    const request: gprc.GetRtuAccidentsRequest = { currentAccidents };
+    return GrpcUtils.unaryToObservable(this.client.getRtuAccidents.bind(this.client), request, {});
+  }
 }

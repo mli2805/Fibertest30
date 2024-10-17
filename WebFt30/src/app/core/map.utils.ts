@@ -26,6 +26,9 @@ import {
 import { TreeMapping } from './store/mapping/tree-mapping';
 import { OpticalEvent } from './store/models/ft30/optical-event';
 import { FtEnumsMapping } from './store/mapping/ft-enums-mapping';
+import { NetworkEvent } from './store/models/ft30/network-event';
+import { BopEvent } from './store/models/ft30/bop-event';
+import { RtuAccident } from './store/models/ft30/rtu-accident';
 
 export class MapUtils {
   static toGrpcNotificationSettings(settings: NotificationSettings): grpc.NotificationSettings {
@@ -274,6 +277,63 @@ export class MapUtils {
     opticalEvent.comment = grpcOpticalEvent.comment;
 
     return opticalEvent;
+  }
+
+  static toNetworkEvents(grpcNetworkEvents: grpc.NetworkEvent[]): NetworkEvent[] {
+    const networkEvents = grpcNetworkEvents.map((item) => MapUtils.toNetworkEvent(item));
+    return networkEvents;
+  }
+
+  static toNetworkEvent(grpcNetworkEvent: grpc.NetworkEvent): NetworkEvent {
+    const networkEvent = new NetworkEvent();
+    networkEvent.eventId = grpcNetworkEvent.eventId;
+    networkEvent.registeredAt = Timestamp.toDate(grpcNetworkEvent.registeredAt!);
+    networkEvent.rtuTitle = grpcNetworkEvent.rtuTitle;
+    networkEvent.rtuId = grpcNetworkEvent.rtuId;
+    networkEvent.isRtuAvailable = grpcNetworkEvent.isRtuAvailable;
+    networkEvent.onMainChannel = FtEnumsMapping.fromGrpcChannelEvent(
+      grpcNetworkEvent.onMainChannel
+    );
+    networkEvent.onReserveChannel = FtEnumsMapping.fromGrpcChannelEvent(
+      grpcNetworkEvent.onReserveChannel
+    );
+    return networkEvent;
+  }
+
+  static toBopEvents(grpcBopEvents: grpc.BopEvent[]): BopEvent[] {
+    return grpcBopEvents.map((i) => MapUtils.toBopEvent(i));
+  }
+
+  static toBopEvent(grpcBopEvent: grpc.BopEvent): BopEvent {
+    const bopEvent = new BopEvent();
+    bopEvent.eventId = grpcBopEvent.eventId;
+    bopEvent.registeredAt = Timestamp.toDate(grpcBopEvent.registeredAt!);
+    bopEvent.bopAddress = grpcBopEvent.bopAddress;
+    bopEvent.rtuTitle = grpcBopEvent.rtuTitle;
+    bopEvent.rtuId = grpcBopEvent.rtuId;
+    bopEvent.serial = grpcBopEvent.serial;
+    bopEvent.isBopOk = grpcBopEvent.isBopOk;
+    return bopEvent;
+  }
+
+  static toRtuAccidents(grpcRtuAccidents: grpc.RtuAccident[]): RtuAccident[] {
+    return grpcRtuAccidents.map((a) => MapUtils.toRtuAccident(a));
+  }
+
+  static toRtuAccident(grpcRtuAccident: grpc.RtuAccident): RtuAccident {
+    const rtuAccident = new RtuAccident();
+    rtuAccident.id = grpcRtuAccident.id;
+    rtuAccident.isMeasurementProblem = grpcRtuAccident.isMeasurementProblem;
+    rtuAccident.returnCode = FtEnumsMapping.fromGrpcReturnCode(grpcRtuAccident.returnCode);
+    rtuAccident.registeredAt = Timestamp.toDate(grpcRtuAccident.registeredAt!);
+    rtuAccident.rtuTitle = grpcRtuAccident.rtuTitle;
+    rtuAccident.rtuId = grpcRtuAccident.rtuId;
+    rtuAccident.traceTitle = grpcRtuAccident.traceTitle;
+    rtuAccident.traceId = grpcRtuAccident.traceId;
+    rtuAccident.baseRefType = grpcRtuAccident.baseRefType;
+    rtuAccident.comment = grpcRtuAccident.comment;
+
+    return rtuAccident;
   }
 
   static toSystemNotification(

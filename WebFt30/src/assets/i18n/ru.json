@@ -70,6 +70,11 @@
   "i18n.ft.reports": "Отчеты",
   "i18n.ft.system-events": "Системные события",
 
+  "i18n.ft.cant-load-optical-events": "Не удалось загрузить оптические события",
+  "i18n.ft.cant-load-network-events": "Не удалось загрузить сетевые события RTU",
+  "i18n.ft.cant-load-bop-netowrk-events": "Не удалось загрузить сетевые события БОП",
+  "i18n.ft.cant-load-rtu-accidents": "Не удалось загрузить события состояния RTU",
+
   "i18n.ft.event-id": "ID события",
   "i18n.ft.measurement-terminated-at": "Время завершения измерения",
   "i18n.ft.event-registered-at": "Время регистрации события",
@@ -139,11 +144,35 @@
   "i18n.ft.precise-base": "Точная базовая",
   "i18n.ft.fast-base": "Быстрая базовая",
   "i18n.ft.additional-base": "Дополнительная базовая",
+  "i18n.ft.precise": "Точная",
+  "i18n.ft.fast": "Быстрая",
+  "i18n.ft.additional": "Дополнительная",
   "i18n.ft.saved-in-db": "Сохранена в БД",
 
   "i18n.ft.failed-to-assign-base-refs": "Не удалось задать базовые",
   "i18n.ft.parameters-not-acceptable": "Недопустимые параметры",
   "i18n.ft.no-thresholds-set": "Пороги не заданы",
   "i18n.ft.wrong-landmarks-count": "Неверное количество ориентиров",
-  "i18n.ft.wrong-edge-landmarks": "Неверные крайние ориентиры"
+  "i18n.ft.wrong-edge-landmarks": "Неверные крайние ориентиры",
+
+  "i18n.ft.available": "Доступен",
+  "i18n.ft.not-available": "Не доступен",
+  "i18n.ft.broken": "Авария",
+  "i18n.ft.repaired": "Восстановлен",
+  "i18n.ft.additional-information": "Доп информация",
+
+  "i18n.ft.measurement-ok": "Измерение: OK",
+  "i18n.ft.measurement-failed": "Измерение: Неудачно!",
+  "i18n.ft.rtu-ok": "RTU: OK",
+  "i18n.ft.rtu-attention-required": "RTU: Требуется внимание!",
+  "i18n.ft.service-is-working": "Служба в работе! (RTU Manager)",
+  "i18n.ft.frequent-service-restarts": "Частые перезагрузки службы",
+  "i18n.ft.failed-to-analyze": "Ошибка анализа измеренной рефлектограммы",
+  "i18n.ft.failed-to-compare": "Ошибка сравнения с базовой рефлектограммой",
+  "i18n.ft.measurement-completed-successfully": "Измерение и анализ завершены успешно",
+  "i18n.ft.cleared-id": "Очищено: ID {{ 0 }}",
+  "i18n.ft.status-changed-rtu-substitution-detected": "Состояние изменено, обнаружена замена RTU",
+  "i18n.ft.rtu-re-initialization": "Переинициализация RTU",
+  "i18n.ft.base-not-found": "Базовая не найдена: {{ 0 }}",
+  "i18n.ft.failed-to-set-parameters-from-base": "Не удалось применить параметры из базовой: {{ 0 }}"
 }
