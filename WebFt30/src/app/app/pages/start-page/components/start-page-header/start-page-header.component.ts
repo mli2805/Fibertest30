@@ -38,6 +38,7 @@ export class StartPageHeaderComponent {
     ],
     [/^\/event-tables$/, { titleId: 'i18n.ft.events' }],
     [/^\/event-tables\/system-events$/, { titleId: 'i18n.ft.system-events' }],
+    [/^\/evnts-new$/, { titleId: 'i18n.ft.new-events' }],
     [/^\/op-evnts\/optical-events$/, { titleId: 'i18n.ft.optical-events' }],
     [/^\/net-evnts\/network-events$/, { titleId: 'i18n.ft.network-events' }],
     [/^\/bop-net-evnts\/network-events-bop$/, { titleId: 'i18n.ft.bop-network-events' }],

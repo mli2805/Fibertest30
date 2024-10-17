@@ -26,6 +26,11 @@ const routes: Routes = [
       },
 
       {
+        path: 'evnts-new',
+        loadChildren: () =>
+          import('../../../features/evnts-new/evnts-new.module').then((m) => m.EvntsNewModule)
+      },
+      {
         path: 'op-evnts',
         loadChildren: () =>
           import('../../../features/op-evnts/op-evnts.module').then((m) => m.OpEvntsModule)

@@ -68,6 +68,7 @@ import { ChannelEventPipe } from './pipes/channel-event.pipe';
 import { ChannelEventBgDirective } from '../features/net-evnts/newtork-events/colorize-bg-by-channelevent.directive';
 import { IsAvailableBgDirective } from '../features/net-evnts/newtork-events/colorize-bg-by-isavailable.directive';
 import { BaseRefTypePipe } from './pipes/base-ref-type.pipe';
+import { EventTableIconComponent } from './components/event-table-icon/event-table-icon.component';
 
 @NgModule({
   imports: [
@@ -138,7 +139,8 @@ import { BaseRefTypePipe } from './pipes/base-ref-type.pipe';
     TestPortHelpComponent,
     HeaderMessageHelpComponent,
     ContextTooltipDirective,
-    BluePointComponent
+    BluePointComponent,
+    EventTableIconComponent
   ],
   exports: [
     CommonModule,
@@ -199,7 +201,8 @@ import { BaseRefTypePipe } from './pipes/base-ref-type.pipe';
     EofThresholdHelpComponent,
     TestPortHelpComponent,
     HeaderMessageHelpComponent,
-    ContextTooltipDirective
+    ContextTooltipDirective,
+    EventTableIconComponent
   ],
   providers: [RtuDateToDayOfWeekPipe, FrequencyPipe]
 })
