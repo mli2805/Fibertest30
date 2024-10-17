@@ -40,7 +40,6 @@
             <td class="pr-3">
               <rtu-navigate-button
                 class="ml-2 h-6 w-6 text-blue-500"
-                [ngClass]="unseen(opticalEvent.eventId) ? 'text-red-500' : 'text-blue-500'"
                 [routerLink]="['./', opticalEvent.eventId]"
               />
             </td>

@@ -86,6 +86,8 @@
   "i18n.ft.status-changed-at": "Время изменения статуса",
   "i18n.ft.status-changed-by": "Статус изменен пользователем",
   "i18n.ft.current-accidents": "Текущие аварии",
+  "i18n.ft.event-type": "Тип события",
+  "i18n.ft.obj": "Объект",
 
   "i18n.ft.not-in-trace": "Не в трассе",
   "i18n.ft.not-joined": "",
@@ -175,6 +177,6 @@
   "i18n.ft.cleared-id": "Очищено: ID {{ 0 }}",
   "i18n.ft.status-changed-rtu-substitution-detected": "Состояние изменено, обнаружена замена RTU",
   "i18n.ft.rtu-re-initialization": "Переинициализация RTU",
-  "i18n.ft.base-not-found": "Базовая не найдена: {{ 0 }}",
+  "i18n.ft.base-not-found": "{{ 0 }} базовая не найдена",
   "i18n.ft.failed-to-set-parameters-from-base": "Не удалось применить параметры из базовой: {{ 0 }}"
 }

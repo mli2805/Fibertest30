@@ -72,7 +72,9 @@ export class StatusEventsComponent {
       case ReturnCode.MeasurementErrorClearedByInit:
         return this.ts.instant('i18n.ft.rtu-re-initialization');
       case ReturnCode.MeasurementBaseRefNotFound:
-        return this.ts.instant('i18n.ft.base-not-found');
+        return this.ts.instant('i18n.ft.base-not-found', {
+          0: this.getBaseName(rtuAccident.baseRefType)
+        });
       case ReturnCode.MeasurementFailedToSetParametersFromBase:
         return this.ts.instant('i18n.ft.failed-to-set-parameters-from-base', {
           0: this.getBaseName(rtuAccident.baseRefType)

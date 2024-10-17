@@ -37,12 +37,13 @@ public class RtuDataProcessor
         var rtuStationsRepository = scope.ServiceProvider.GetRequiredService<RtuStationsRepository>();
         if (!await rtuStationsRepository.IsRtuExist(dto.RtuId)) return;
 
+        var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
+        var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId);
+        _logger.LogInformation($"Monitoring result for {rtu?.Title} / {trace?.Title}, measured at {dto.TimeStamp:g}");
+
         // it is not a RtuAccident, it is Measurement
         if ((dto.Reason ^ ReasonToSendMonitoringResult.MeasurementAccidentStatusChanged) != 0)
         {
-            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
-            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId);
-            _logger.LogInformation($"Monitoring result for {rtu?.Title} / {trace?.Title}, measured at {dto.TimeStamp:g}");
             var sorFileRepository = scope.ServiceProvider.GetRequiredService<SorFileRepository>();
             var sorId = await sorFileRepository.AddSorBytesAsync(dto.SorBytes);
             if (sorId == -1) return;
@@ -53,7 +54,7 @@ public class RtuDataProcessor
             {
                 await _systemEventSender
                     .Send(SystemEventFactory.MeasurementAdded(
-                        addMeasurement.SorFileId,
+                        addMeasurement.SorFileId, addMeasurement.EventRegistrationTimestamp, trace!.Title,
                         addMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent,
                         addMeasurement.TraceState == FiberState.Ok));
 
@@ -62,7 +63,7 @@ public class RtuDataProcessor
             BopNetworkEvent? bopNetworkEvent = await CheckAndSendBopNetworkIfNeeded(dto);
             if (bopNetworkEvent != null)
                 await _systemEventSender.Send(SystemEventFactory.BopNetworkEventAdded(
-                    bopNetworkEvent.Ordinal, bopNetworkEvent.IsOk));
+                    bopNetworkEvent.Ordinal, bopNetworkEvent.EventTimestamp, bopNetworkEvent.OtauIp, bopNetworkEvent.IsOk));
         }
 
         // it is a RtuAccident
@@ -72,8 +73,12 @@ public class RtuDataProcessor
             // if dto.ReturnCode == ReturnCode.MeasurementEndedNormally - restored after accident
             RtuAccident? rtuAccident = await SaveRtuAccidentIfNeeded(dto);
             if (rtuAccident != null)
+            {
+                var obj = rtuAccident.IsMeasurementProblem ? trace!.Title : rtu!.Title;
                 await _systemEventSender.Send(SystemEventFactory.RtuAccidentAdded(
-                    rtuAccident.Id, rtuAccident.IsGoodAccident));
+                    rtuAccident.Id, rtuAccident.EventRegistrationTimestamp, obj, rtuAccident.IsGoodAccident));
+
+            }
         }
     }
 

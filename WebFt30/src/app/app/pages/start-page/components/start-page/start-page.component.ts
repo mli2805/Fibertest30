@@ -9,7 +9,9 @@ import {
   SystemNotificationActions,
   GlobalUiActions,
   GlobalUiSelectors,
-  RtuTreeActions
+  RtuTreeActions,
+  AnyTypeEventsActions,
+  RtuAccidentsActions
 } from 'src/app/core';
 import { AuthUtils } from 'src/app/core/auth/auth.utils';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -32,6 +34,8 @@ import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 import { MonitoringStoppedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/monitoring-stopped-data';
 import { MonitoringSettingsAppliedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/monitoring-settings-applied-data';
 import { BaseRefsAssignedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/base-refs-assigned-data';
+import { AnyTypeEvent } from 'src/app/core/store/models/ft30/any-type-event';
+import { RtuAccidentAddedData } from 'src/app/shared/system-events/system-event-data/rtu-events/rtu-accident-added-data';
 
 @Component({
   selector: 'rtu-start-page',
@@ -241,6 +245,17 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         const data = <BaseRefsAssignedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
         return;
+      }
+      case 'RtuAccidentAdded': {
+        const data = <RtuAccidentAddedData>JSON.parse(systemEvent.jsonData);
+        const anyTypeEvent = new AnyTypeEvent();
+        anyTypeEvent.eventId = data.EventId;
+        // если просто присвоить то потом datetime.pipe не может отформатировать - падает
+        anyTypeEvent.registeredAt = new Date(data.At);
+        anyTypeEvent.eventType = data.EventType;
+        anyTypeEvent.obj = data.Obj;
+        this.store.dispatch(AnyTypeEventsActions.addEvent({ newEvent: anyTypeEvent }));
+        this.store.dispatch(RtuAccidentsActions.getRtuAccidents({ currentAccidents: true }));
       }
     }
   }

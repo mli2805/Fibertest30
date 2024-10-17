@@ -28,6 +28,10 @@ export * from './store/optical-events/optical-events.actions';
 export * from './store/optical-events/optical-events.selectors';
 export * from './store/optical-events/optical-events.state';
 
+export * from './store/any-type-events/any-type-events.actions';
+export * from './store/any-type-events/any-type-events.selectors';
+export * from './store/any-type-events/any-type-events.state';
+
 export * from './store/network-events/network-events.actions';
 export * from './store/network-events/network-events.selectors';
 export * from './store/network-events/network-events.state';

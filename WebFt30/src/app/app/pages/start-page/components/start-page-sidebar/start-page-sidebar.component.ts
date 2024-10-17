@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { AppState, DeviceSelectors, SettingsSelectors } from 'src/app/core';
+import { AnyTypeEventsSelectors, AppState, DeviceSelectors, SettingsSelectors } from 'src/app/core';
 
 @Component({
   selector: 'rtu-start-page-sidebar',
@@ -12,6 +12,7 @@ export class StartPageSidebarComponent {
   version$ = this.store.select(DeviceSelectors.selectApiVersion);
 
   hasCurrent$ = this.store.select(DeviceSelectors.selectHasCurrent);
+  hasNew$ = this.store.select(AnyTypeEventsSelectors.selectHasAny);
 
   constructor(private store: Store<AppState>) {}
 }

@@ -1,1 +1,33 @@
-<p>new-events-table works!</p>
+<div class="relative h-full">
+  <div class="flex h-full w-full flex-col py-4 pt-8">
+    <div #cdkvirtscroll class="h-full w-full" style="overflow-y: scroll">
+      <table class="events-table min-w-full text-sm">
+        <thead class="text-center text-gray-600 dark:text-zinc-400">
+          <tr class="">
+            <th class="w-16 font-thin">{{ 'i18n.ft.event-id' | translate }}</th>
+            <th class="w-40 font-thin">{{ 'i18n.ft.event-registered-at' | translate }}</th>
+            <th class="w-32 font-thin">{{ 'i18n.ft.event-type' | translate }}</th>
+            <th class="font-thin">{{ 'i18n.ft.obj' | translate }}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody *ngIf="anyTypeEvents$ | async as anyTypeEvents">
+          <tr
+            *ngFor="let anyTypeEvent of anyTypeEvents"
+            class="odd:bg-rtu-second-bg dark:odd:bg-rtu-dark-second-bg"
+          >
+            <td class="text-center">{{ anyTypeEvent.eventId }}</td>
+            <td class="text-center">{{ anyTypeEvent.registeredAt | rtuDateTime : 'medium' }}</td>
+            <td class="text-center">{{ anyTypeEvent.eventType }}</td>
+            <td class="text-center">{{ anyTypeEvent.obj }}</td>
+            <td class="w-0 py-3 pl-3 pr-1">
+              <div class="flex items-center">
+                <rtu-close-button (click)="dismissEvent(anyTypeEvent)" class="h-4 w-4" />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

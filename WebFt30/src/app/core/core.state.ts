@@ -34,6 +34,8 @@ import { RtuAccidentsState } from './store/rtu-accidents/rtu-accidents.state';
 import { networkEventsReducer } from './store/network-events/network-events.reducer';
 import { bopEventsReducer } from './store/bop-events/bop-events.reduces';
 import { rtuAccidentsReducer } from './store/rtu-accidents/rtu-accidents.reducer';
+import { AnyTypeEventsState } from './store/any-type-events/any-type-events.state';
+import { anyTypeEventsReducer } from './store/any-type-events/any-type-events.reducer';
 
 export interface AppState {
   auth: AuthState;
@@ -43,6 +45,7 @@ export interface AppState {
   roles: RolesState;
   globalUi: GlobalUiState;
   systemEvents: SystemEventsState;
+  anyTypeEvents: AnyTypeEventsState;
   opticalEvents: OpticalEventsState;
   networkEvents: NetworkEventsState;
   bopEvents: BopEventsState;
@@ -63,6 +66,7 @@ export const reducers: ActionReducerMap<AppState> = {
   roles: rolesReducer,
   globalUi: globalUiReducer,
   systemEvents: systemEventsReducer,
+  anyTypeEvents: anyTypeEventsReducer,
   opticalEvents: opticalEventsReducer,
   networkEvents: networkEventsReducer,
   bopEvents: bopEventsReducer,
@@ -88,6 +92,7 @@ export const selectUsersState = (state: AppState) => state.users;
 export const selectRolesState = (state: AppState) => state.roles;
 export const selectGlobalUiState = (state: AppState) => state.globalUi;
 export const selectSystemEventsState = (state: AppState) => state.systemEvents;
+export const selectAnyTypeEventsState = (state: AppState) => state.anyTypeEvents;
 export const selectOpticalEventsState = (state: AppState) => state.opticalEvents;
 export const selectNetworkEventsState = (state: AppState) => state.networkEvents;
 export const selectBopEventsState = (state: AppState) => state.bopEvents;

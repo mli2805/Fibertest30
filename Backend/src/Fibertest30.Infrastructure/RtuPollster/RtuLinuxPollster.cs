@@ -14,7 +14,6 @@ public class RtuLinuxPollster : IRtuLinuxPollster
     private readonly ISystemEventSender _systemEventSender;
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IRtuDataDispatcher _rtuDataDispatcher;
-    private readonly RtuDataProcessor _rtuDataProcessor;
     public TaskCompletionSource<bool> ServiceStopped { get; } = new();
     private readonly CancellationTokenSource _cts = new();
 
@@ -26,8 +25,7 @@ public class RtuLinuxPollster : IRtuLinuxPollster
     public RtuLinuxPollster(ILogger<RtuLinuxPollster> logger, Model writeModel,
         IRtuOccupationService rtuOccupationService,
         ISystemEventSender systemEventSender, IServiceScopeFactory serviceScopeFactory,
-        IRtuDataDispatcher rtuDataDispatcher,
-        RtuDataProcessor rtuDataProcessor
+        IRtuDataDispatcher rtuDataDispatcher
     )
     {
         _logger = logger;
@@ -36,7 +34,6 @@ public class RtuLinuxPollster : IRtuLinuxPollster
         _systemEventSender = systemEventSender;
         _serviceScopeFactory = serviceScopeFactory;
         _rtuDataDispatcher = rtuDataDispatcher;
-        _rtuDataProcessor = rtuDataProcessor;
     }
 
     public async Task PollRtus(CancellationToken ct)

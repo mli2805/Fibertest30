@@ -411,6 +411,8 @@
   "i18n.ft.status-changed-at": "Status changed at",
   "i18n.ft.status-changed-by": "Status changed by",
   "i18n.ft.current-accidents": "Current accidents",
+  "i18n.ft.event-type": "Event type",
+  "i18n.ft.obj": "Object",
 
   "i18n.ft.not-in-trace": "Not in trace",
   "i18n.ft.not-joined": "Not joined",
@@ -497,7 +499,7 @@
   "i18n.ft.cleared-id": "Cleared: ID {{ 0 }}",
   "i18n.ft.status-changed-rtu-substitution-detected": "Status changed, RTU substitution detected",
   "i18n.ft.rtu-re-initialization": "RTU re-initialization",
-  "i18n.ft.base-not-found": "Base not found: {{ 0 }}",
+  "i18n.ft.base-not-found": "{{ 0 }} base not found",
   "i18n.ft.failed-to-set-parameters-from-base": "Failed to set parameters from base: {{ 0 }}",
 
   "i18n.start-page.gis": "Gis",
