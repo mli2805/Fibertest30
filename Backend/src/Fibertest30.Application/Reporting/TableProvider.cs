@@ -30,19 +30,47 @@ public class TableProvider
 
     public List<NetworkEventDto> GetNetworkEvents(Guid userId, bool current)
     {
-        return _writeModel.NetworkEvents.OrderByDescending(x => x.Ordinal)
-            .Select(n => n.CreateNetworkEventDto(_writeModel)).ToList();
+        var sift = current 
+            ? _writeModel.Rtus.Where(r=> !r.IsAllRight)
+                .Select(rtu=> _writeModel.NetworkEvents.LastOrDefault(n=>n.RtuId == rtu.Id))
+                .Where(last => last != null)
+                : _writeModel.NetworkEvents;
+
+        return sift.OrderByDescending(x => x!.Ordinal)
+            .Select(n => n!.CreateNetworkEventDto(_writeModel)).ToList();
     }
 
     public List<BopEventDto> GetBopEvents(Guid userId, bool current)
     {
-        return _writeModel.BopNetworkEvents.OrderByDescending(x => x.Ordinal)
-            .Select(b => b.CreateBopEventDto(_writeModel)).ToList();
+        var sift = current
+            ? _writeModel.Rtus
+                .Select(rtu => _writeModel.BopNetworkEvents.LastOrDefault(n => n.RtuId == rtu.Id))
+                .Where(lastBopNetworkEvent => lastBopNetworkEvent != null && !lastBopNetworkEvent.IsOk)
+            : _writeModel.BopNetworkEvents;
+
+        return sift.OrderByDescending(x => x!.Ordinal)
+            .Select(b => b!.CreateBopEventDto(_writeModel)).ToList();
     }
 
     public List<RtuAccidentDto> GetRtuAccidents(Guid userId, bool current)
     {
-        return _writeModel.RtuAccidents.OrderByDescending(x => x.Id)
+        var sift = current ? GetCurrentStateAccidents() : _writeModel.RtuAccidents;
+        return sift.OrderByDescending(x => x.Id)
             .Select(a => a.CreateAccidentDto(_writeModel)).ToList();
+    }
+
+    private List<RtuAccident> GetCurrentStateAccidents()
+    {
+        var traces = _writeModel.Traces
+            .Select(trace => _writeModel.RtuAccidents
+                .LastOrDefault(a => a.IsMeasurementProblem && a.TraceId == trace.TraceId))
+            .Where(lastAccident => lastAccident != null && !lastAccident.IsGoodAccident);
+
+        var rtus = _writeModel.Rtus
+            .Select(rtu => _writeModel.RtuAccidents
+                .LastOrDefault(a => a.RtuId == rtu.Id && !a.IsMeasurementProblem))
+            .Where(lastAccident => lastAccident != null && !lastAccident.IsGoodAccident);
+
+        return traces.Union(rtus).ToList()!;
     }
 }
