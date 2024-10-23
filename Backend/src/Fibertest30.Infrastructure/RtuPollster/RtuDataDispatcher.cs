@@ -63,6 +63,10 @@ public class RtuDataDispatcher : IRtuDataDispatcher
                 {
                     // пока нет
                 }
+                else if (rtuData is RtuNetworkEvent dto)
+                {
+                    await _rtuDataProcessor.ProcessRtuNetworkEvent(dto);
+                }
             }
             catch (Exception e)
             {

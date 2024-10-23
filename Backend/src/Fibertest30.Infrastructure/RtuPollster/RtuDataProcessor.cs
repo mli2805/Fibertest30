@@ -143,7 +143,7 @@ public class RtuDataProcessor
         return await PersistBopEvent(cmd);
     }
 
-    // BOP - because MSMQ message with monitoring result came
+    // BOP - because monitoring result from bop port came
     private async Task<BopNetworkEvent?> CheckAndSendBopNetworkIfNeeded(MonitoringResultDto dto)
     {
         var otau = _writeModel.Otaus.FirstOrDefault(o =>
@@ -173,5 +173,27 @@ public class RtuDataProcessor
         if (!string.IsNullOrEmpty(result)) return null;
 
         return _writeModel.BopNetworkEvents.LastOrDefault();
+    }
+
+    public async Task ProcessRtuNetworkEvent(RtuNetworkEvent dto)
+    {
+        var cmd = new AddNetworkEvent()
+        {
+            RtuId = dto.RtuId,
+            EventTimestamp = dto.RegisteredAt,
+            OnMainChannel = dto.OnMainChannel,
+            OnReserveChannel = dto.OnReserveChannel
+        };
+
+        using var scope = _serviceScopeFactory.CreateScope();
+        var eventStoreService = scope.ServiceProvider.GetRequiredService<IEventStoreService>();
+        var result = await eventStoreService.SendCommand(cmd, "system", "OnServer");
+        if (!string.IsNullOrEmpty(result)) return;
+
+        var evnt = _writeModel.NetworkEvents.Last();
+        var rtu = _writeModel.Rtus.First(r => r.Id == dto.RtuId);
+
+        await _systemEventSender.Send(SystemEventFactory.NetworkEventAdded(
+            evnt.Ordinal, evnt.EventTimestamp, rtu.Title, dto.OnMainChannel == ChannelEvent.Repaired));
     }
 }

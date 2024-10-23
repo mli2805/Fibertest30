@@ -6,6 +6,7 @@ public class NetworkEventAddedData : ISystemEventData
 {
     public int EventId { get; set; } // get from Ordinal
     public DateTime RegisteredAt { get; }
+    public string At { get; set; }
     public string Obj { get; }
     public string EventType { get; set; }
     public bool IsRtuAvailable { get; set; }
@@ -14,6 +15,7 @@ public class NetworkEventAddedData : ISystemEventData
     {
         EventId = eventId;
         RegisteredAt = registeredAt;
+        At = registeredAt.ToString("R"); // неправильное время, но в таблице datetime.pipe показывает правильно
         Obj = obj;
         EventType = "NetworkEvent";
         IsRtuAvailable = isRtuAvailable;

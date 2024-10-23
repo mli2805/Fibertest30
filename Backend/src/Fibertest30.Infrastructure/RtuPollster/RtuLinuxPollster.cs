@@ -17,8 +17,6 @@ public class RtuLinuxPollster : IRtuLinuxPollster
     public TaskCompletionSource<bool> ServiceStopped { get; } = new();
     private readonly CancellationTokenSource _cts = new();
 
-    private readonly Dictionary<Guid, bool> _makLinuxRtuAccess = new();
-
     // <ClientMeasurementId, dto>
     private readonly ConcurrentDictionary<Guid, ClientMeasurementResultDto> _clientMeasurements = new();
 
@@ -53,11 +51,8 @@ public class RtuLinuxPollster : IRtuLinuxPollster
                 }
                 catch (Exception e)
                 {
-                    // логируем если первый раз или прошлый раз был успешный
-                    if (!_makLinuxRtuAccess.TryGetValue(makLinuxRtu.Id, out bool previous) || previous)
-                    {
-                        _logger.LogError($"Failed while polling RTU {makLinuxRtu.Title}: {e}");
-                    }
+                    // логируем внутри процедуры
+
                 }
             }
         }
@@ -67,9 +62,15 @@ public class RtuLinuxPollster : IRtuLinuxPollster
 
     private async Task PollRtu(Rtu rtu, CancellationToken ct)
     {
-        var state = await FetchState(rtu);
-        if (state == null
-            || !SaveConnectionResult(state, rtu)
+        using var scope = _serviceScopeFactory.CreateScope();
+        var rtuStationsRepository = scope.ServiceProvider.GetRequiredService<RtuStationsRepository>();
+        var station = await rtuStationsRepository.GetRtuStation(rtu.Id);  // при каждом запросе вычитываем из БД
+        if (station == null) return;
+
+        var makLinuxRtuTransmitter = scope.ServiceProvider.GetRequiredService<IRtuTransmitter>();
+        var state = await makLinuxRtuTransmitter.GetRtuCurrentState(BuildRequest(station));
+
+        if (!(await SaveConnectionResult(state, rtu, station, rtuStationsRepository, ct))
             || state.LastInitializationResult?.Result == null) return;
 
         // просто кладем в Channel
@@ -82,38 +83,17 @@ public class RtuLinuxPollster : IRtuLinuxPollster
         // await NotifyUserCurrentMonitoringStep(state.CurrentStepDto);
     }
 
-    private async Task<RtuCurrentStateDto?> FetchState(Rtu rtu)
+    private GetCurrentRtuStateDto BuildRequest(RtuStation station)
     {
-        using var scope = _serviceScopeFactory.CreateScope();
-        var rtuStationsRepository = scope.ServiceProvider.GetRequiredService<RtuStationsRepository>();
-
-        var station = await rtuStationsRepository.GetRtuStation(rtu.Id);
-        if (station == null) return null;
-
-        var requestDto = new GetCurrentRtuStateDto
+        return new GetCurrentRtuStateDto
         {
             RtuId = station.RtuGuid,
             RtuDoubleAddress = station.GetRtuDoubleAddress(),
-            LastMeasurementTimestamp = station.LastMeasurementTimestamp
+            LastMeasurementTimestamp = station.LastMeasurementTimestamp // при каждом запросе вычитываем из БД
         };
-
-        var makLinuxRtuTransmitter = scope.ServiceProvider.GetRequiredService<IRtuTransmitter>();
-        var state = await makLinuxRtuTransmitter.GetRtuCurrentState(requestDto);
-        if (state.ReturnCode != ReturnCode.Ok)
-        {
-            if (!_makLinuxRtuAccess.ContainsKey(rtu.Id) || _makLinuxRtuAccess[rtu.Id])
-            {
-                _logger.LogError($"Failed to get {rtu.Title} current state.  " + state.ReturnCode);
-                _makLinuxRtuAccess.TryAdd(rtu.Id, false);
-            }
-            return null;
-
-        }
-
-        await UpdateRtuStation(rtuStationsRepository, rtu, state);
-        return state;
     }
 
+    #region Применение полученных результатов
     private async Task ApplyMonitoringResults(List<MonitoringResultDto> dtos, CancellationToken ct)
     {
         if (dtos.Count > 0)
@@ -134,7 +114,6 @@ public class RtuLinuxPollster : IRtuLinuxPollster
             await _rtuDataDispatcher.Send(dto, ct);
         }
     }
-
     private async Task ProcessMeasurementClientResults(List<ClientMeasurementResultDto> dtos, Rtu rtu)
     {
         if (dtos.Count > 0)
@@ -158,52 +137,85 @@ public class RtuLinuxPollster : IRtuLinuxPollster
                 out RtuOccupationState? _);
         }
     }
-
     public byte[]? GetMeasurementClientSor(Guid measurementClientId)
     {
         return _clientMeasurements.TryGetValue(measurementClientId, out ClientMeasurementResultDto? dto) ? dto.SorBytes : null;
     }
+    #endregion
 
-    private async Task UpdateRtuStation(RtuStationsRepository rtuStationsRepository, Rtu rtu, RtuCurrentStateDto state)
+
+
+    private async Task<bool> SaveConnectionResult(RtuCurrentStateDto state, Rtu makLinuxRtu,
+        RtuStation station, RtuStationsRepository rtuStationsRepository, CancellationToken ct)
     {
-        var lastMeasurementTimestamp = state.MonitoringResultDtos.Any()
-            ? state.MonitoringResultDtos
-                .OrderBy(r => r.TimeStamp).Last().TimeStamp
-            : DateTime.MinValue;
-
-        var heartbeatDto = new RtuChecksChannelDto
+        var previousState = station.IsMainAddressOkDuePreviousCheck;
+        bool success = state.ReturnCode != ReturnCode.D2RHttpError;
+        if (success != previousState)
         {
-            RtuId = rtu.Id,
-            Version = state.LastInitializationResult?.Result.Version ?? "",
-            IsMainChannel = true,
-            //TODO хрень , получается если в этом запросе не было результатов мониторинга, то сбрасываем timestamp
-            LastMeasurementTimestamp = lastMeasurementTimestamp, //DateTime.MinValue means no results received 
+            var word = success ? "Successfully" : "Failed to";
+            _logger.LogInformation($"{word} get {makLinuxRtu.Title} current state. {makLinuxRtu.MainChannel.ToStringA()}");
+            // Failed будет записан несколько раз пока State не изменится в БД, иначе надо еще хранить флажок для логирования
+        }
+
+        var updateDto = new UpdateRtuStationDto()
+        {
+            RtuGuid = makLinuxRtu.Id,
+            Version = state.LastInitializationResult?.Result.Version ?? station.Version,
+            Success = success,
+            ConnectedAt = success ? DateTime.Now : null
         };
 
-        await rtuStationsRepository.RegisterRtuHeartbeatAsync(heartbeatDto);
-    }
+        if (success)
+        {
+            updateDto.LastMeasurementTimestamp = state.MonitoringResultDtos.Any()
+                ? state.MonitoringResultDtos.OrderByDescending(r => r.TimeStamp).First().TimeStamp
+                : null; // если не выкачали никаких измерений ставим NULL
 
-    private bool SaveConnectionResult(RtuCurrentStateDto state, Rtu makLinuxRtu)
-    {
-        var success = state.ReturnCode != ReturnCode.D2RHttpError;
-        if (!_makLinuxRtuAccess.ContainsKey(makLinuxRtu.Id))
-        {
-            _makLinuxRtuAccess.Add(makLinuxRtu.Id, success);
+            await rtuStationsRepository.Update(updateDto);
+
+            // если починился канал - шлём ивент
+            if (!previousState)
+            {
+                var dto = BuildRtuNetworkEvent(makLinuxRtu, success);
+                await _rtuDataDispatcher.Send(dto, ct);
+            }
+            // состояние канала в бд сохранится ОК и дальше мы апдейтим время соед, измерения, но ивент не шлём
         }
-        else if (_makLinuxRtuAccess[makLinuxRtu.Id] != success)
+        else
         {
-            var w = success ? "Successfully" : "Failed to";
-            _logger.LogInformation($"{w} get {makLinuxRtu.Title} current state. {makLinuxRtu.MainChannel.ToStringA()}");
-            _makLinuxRtuAccess[makLinuxRtu.Id] = success;
+            if (previousState
+             && (DateTime.Now - station.LastConnectionByMainAddressTimestamp).TotalSeconds > 30)
+            {
+                // если сломался канал, ждём 30 сек, 1 раз пишем в бд, 1 раз шлём ивент, больше сюда не попадаем
+                await rtuStationsRepository.Update(updateDto);
+                var dto = BuildRtuNetworkEvent(makLinuxRtu, success);
+                await _rtuDataDispatcher.Send(dto, ct);
+            }
         }
 
         return success;
+    }
+
+    private RtuNetworkEvent BuildRtuNetworkEvent(Rtu makLinuxRtu, bool success)
+    {
+        return new RtuNetworkEvent()
+        {
+            RtuId = makLinuxRtu.Id,
+            RegisteredAt = DateTime.Now,
+            OnMainChannel = success ? ChannelEvent.Repaired : ChannelEvent.Broken
+        };
     }
 
     public void StopService()
     {
         _cts.Cancel();
     }
+}
 
-
+public class RtuNetworkEvent : IDataFromRtu
+{
+    public Guid RtuId { get; set; }
+    public DateTime RegisteredAt { get; set; }
+    public ChannelEvent OnMainChannel { get; set; } = ChannelEvent.Nothing;
+    public ChannelEvent OnReserveChannel { get; set; } = ChannelEvent.Nothing;
 }

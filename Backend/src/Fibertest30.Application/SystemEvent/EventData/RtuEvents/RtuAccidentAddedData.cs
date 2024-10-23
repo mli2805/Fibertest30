@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text.Json;
 
 namespace Fibertest30.Application;
 
@@ -16,6 +17,7 @@ public class RtuAccidentAddedData : ISystemEventData
         EventId = eventId;
         RegisteredAt = registeredAt;
 
+        //_dateTime.UtcNow
         // At = registeredAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss \"GMT\"zzz");
         At = registeredAt.ToString("R"); // неправильное время, но в таблице datetime.pipe показывает правильно
         Obj = obj;

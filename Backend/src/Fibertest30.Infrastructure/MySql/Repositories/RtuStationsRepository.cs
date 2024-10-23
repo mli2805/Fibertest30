@@ -23,7 +23,7 @@ public class RtuStationsRepository
             if (previousRtuStationRow == null)
             {
                 _ftDbContext.RtuStations.Add(rtuStation);
-                _logger.LogInformation( 
+                _logger.LogInformation(
                     $"RtuStation {rtuStation.RtuGuid.First6()} successfully registered with main address {rtuStation.MainAddress}.");
             }
             else
@@ -34,7 +34,7 @@ public class RtuStationsRepository
                 previousRtuStationRow.IsReserveAddressSet = rtuStation.IsReserveAddressSet;
                 previousRtuStationRow.ReserveAddress = rtuStation.ReserveAddress;
                 previousRtuStationRow.ReserveAddressPort = rtuStation.ReserveAddressPort;
-                _logger.LogInformation( 
+                _logger.LogInformation(
                     $"RtuStation {rtuStation.RtuGuid.First6()} successfully updated.");
             }
 
@@ -56,12 +56,12 @@ public class RtuStationsRepository
             {
                 _ftDbContext.RtuStations.Remove(rtu);
                 await _ftDbContext.SaveChangesAsync();
-                _logger.LogInformation( "RTU removed.");
+                _logger.LogInformation("RTU removed.");
                 return null;
             }
 
             var message = $"RTU with id {rtuId.First6()} not found";
-            _logger.LogInformation( message);
+            _logger.LogInformation(message);
             return message;
         }
         catch (Exception e)
@@ -79,7 +79,7 @@ public class RtuStationsRepository
             if (rtu != null)
                 return rtu.GetRtuDoubleAddress();
 
-            _logger.LogInformation( $"RTU with id {rtuId.First6()} not found");
+            _logger.LogInformation($"RTU with id {rtuId.First6()} not found");
             return null;
         }
         catch (Exception e)
@@ -96,7 +96,7 @@ public class RtuStationsRepository
             var rtu = _ftDbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
             if (rtu == null)
             {
-                _logger.LogInformation( $"Unknown RTU's {dto.RtuId.First6()} heartbeat.");
+                _logger.LogInformation($"Unknown RTU's {dto.RtuId.First6()} heartbeat.");
             }
             else
             {
@@ -116,14 +116,45 @@ public class RtuStationsRepository
         }
     }
 
+    public async Task<int> Update(UpdateRtuStationDto dto)
+    {
+        try
+        {
+            var station = _ftDbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuGuid);
+            if (station == null)
+            {
+                _logger.LogInformation($"Unknown RTU's {dto.RtuGuid.First6()}.");
+                return -1;
+            }
+
+            if (dto.Success)
+            {
+                station.LastConnectionByMainAddressTimestamp = (DateTime)dto.ConnectedAt!;
+            }
+            station.Version = dto.Version;
+            if (dto.LastMeasurementTimestamp != null)
+            {
+                station.LastMeasurementTimestamp = (DateTime)dto.LastMeasurementTimestamp;
+            }
+            station.IsMainAddressOkDuePreviousCheck = dto.Success;
+            return await _ftDbContext.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("Update: " + e.Message);
+            return -1;
+        }
+
+    }
+
     public async Task<bool> IsRtuExist(Guid rtuId)
     {
         try
         {
-                var rtu = await _ftDbContext.RtuStations.FirstOrDefaultAsync(r => r.RtuGuid == rtuId);
-                if (rtu != null) return true;
-                _logger.LogInformation( $"Unknown RTU {rtuId.First6()}");
-                return false;
+            var rtu = await _ftDbContext.RtuStations.FirstOrDefaultAsync(r => r.RtuGuid == rtuId);
+            if (rtu != null) return true;
+            _logger.LogInformation($"Unknown RTU {rtuId.First6()}");
+            return false;
         }
         catch (Exception e)
         {
@@ -149,7 +180,7 @@ public class RtuStationsRepository
     {
         try
         {
-                return await _ftDbContext.RtuStations.FirstOrDefaultAsync(r => r.RtuGuid == rtuId);
+            return await _ftDbContext.RtuStations.FirstOrDefaultAsync(r => r.RtuGuid == rtuId);
         }
         catch (Exception e)
         {

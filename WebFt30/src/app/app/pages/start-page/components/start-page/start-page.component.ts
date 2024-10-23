@@ -11,7 +11,10 @@ import {
   GlobalUiSelectors,
   RtuTreeActions,
   AnyTypeEventsActions,
-  RtuAccidentsActions
+  RtuAccidentsActions,
+  OpticalEventsActions,
+  NetworkEventsActions,
+  BopEventsActions
 } from 'src/app/core';
 import { AuthUtils } from 'src/app/core/auth/auth.utils';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -35,7 +38,12 @@ import { MonitoringStoppedData } from 'src/app/shared/system-events/system-event
 import { MonitoringSettingsAppliedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/monitoring-settings-applied-data';
 import { BaseRefsAssignedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/base-refs-assigned-data';
 import { AnyTypeEvent } from 'src/app/core/store/models/ft30/any-type-event';
-import { RtuAccidentAddedData } from 'src/app/shared/system-events/system-event-data/rtu-events/rtu-accident-added-data';
+import {
+  BopNetworkEventAddedData,
+  MeasurementAddedData,
+  NetworkEventAddedData,
+  RtuAccidentAddedData
+} from 'src/app/shared/system-events/system-event-data/rtu-events/rtu-accident-added-data';
 
 @Component({
   selector: 'rtu-start-page',
@@ -256,6 +264,43 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         anyTypeEvent.obj = data.Obj;
         this.store.dispatch(AnyTypeEventsActions.addEvent({ newEvent: anyTypeEvent }));
         this.store.dispatch(RtuAccidentsActions.getRtuAccidents({ currentAccidents: true }));
+        return;
+      }
+      case 'MeasurementAdded': {
+        const data = <MeasurementAddedData>JSON.parse(systemEvent.jsonData);
+        const anyTypeEvent = new AnyTypeEvent();
+        anyTypeEvent.eventId = data.EventId;
+        // если просто присвоить то потом datetime.pipe не может отформатировать - падает
+        anyTypeEvent.registeredAt = new Date(data.At);
+        anyTypeEvent.eventType = data.EventType;
+        anyTypeEvent.obj = data.Obj;
+        this.store.dispatch(AnyTypeEventsActions.addEvent({ newEvent: anyTypeEvent }));
+        this.store.dispatch(OpticalEventsActions.getOpticalEvents({ currentEvents: true }));
+        return;
+      }
+      case 'NetworkEventAdded': {
+        const data = <NetworkEventAddedData>JSON.parse(systemEvent.jsonData);
+        const anyTypeEvent = new AnyTypeEvent();
+        anyTypeEvent.eventId = data.EventId;
+        // если просто присвоить то потом datetime.pipe не может отформатировать - падает
+        anyTypeEvent.registeredAt = new Date(data.At);
+        anyTypeEvent.eventType = data.EventType;
+        anyTypeEvent.obj = data.Obj;
+        this.store.dispatch(AnyTypeEventsActions.addEvent({ newEvent: anyTypeEvent }));
+        this.store.dispatch(NetworkEventsActions.getNetworkEvents({ currentEvents: true }));
+        return;
+      }
+      case 'BopNetworkEventAdded': {
+        const data = <BopNetworkEventAddedData>JSON.parse(systemEvent.jsonData);
+        const anyTypeEvent = new AnyTypeEvent();
+        anyTypeEvent.eventId = data.EventId;
+        // если просто присвоить то потом datetime.pipe не может отформатировать - падает
+        anyTypeEvent.registeredAt = new Date(data.At);
+        anyTypeEvent.eventType = data.EventType;
+        anyTypeEvent.obj = data.Obj;
+        this.store.dispatch(AnyTypeEventsActions.addEvent({ newEvent: anyTypeEvent }));
+        this.store.dispatch(BopEventsActions.getBopEvents({ currentEvents: true }));
+        return;
       }
     }
   }

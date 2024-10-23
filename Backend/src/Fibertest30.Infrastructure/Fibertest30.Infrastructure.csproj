@@ -38,10 +38,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="MySql\Repositories\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="Optixsoft.OtdrDataFormat">
       <HintPath>..\..\libs\fiberizer\Optixsoft.OtdrDataFormat.dll</HintPath>
     </Reference>
