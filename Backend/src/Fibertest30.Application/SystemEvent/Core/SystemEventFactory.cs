@@ -75,28 +75,28 @@ public static class SystemEventFactory
             SystemEventSource.FromUser(userId));
     }
 
-    public static SystemEvent MeasurementAdded(int eventId, DateTime registeredAt, string obj, bool isEvent, bool isOk)
+    public static SystemEvent MeasurementAdded(int eventId, DateTime registeredAt, string obj, string objId, bool isEvent, bool isOk)
     {
         return new SystemEvent(SystemEventType.MeasurementAdded, SystemEventLevel.Critical,
-            new MeasurementAddedData(eventId, registeredAt, obj, isEvent, isOk), SystemEventSource.FromSource("DataCenter"));
+            new MeasurementAddedData(eventId, registeredAt, obj, objId, isEvent, isOk), SystemEventSource.FromSource("DataCenter"));
     }
 
-    public static SystemEvent NetworkEventAdded(int eventId, DateTime registeredAt, string obj, bool isRtuAvailable)
+    public static SystemEvent NetworkEventAdded(int eventId, DateTime registeredAt, string obj, string objId, bool isRtuAvailable)
     {
         return new SystemEvent(SystemEventType.NetworkEventAdded, SystemEventLevel.Critical,
-            new NetworkEventAddedData(eventId, registeredAt, obj, isRtuAvailable), SystemEventSource.FromSource("DataCenter"));
+            new NetworkEventAddedData(eventId, registeredAt, obj, objId,isRtuAvailable), SystemEventSource.FromSource("DataCenter"));
     }
 
-    public static SystemEvent BopNetworkEventAdded(int eventId, DateTime registeredAt, string obj, bool isOk)
+    public static SystemEvent BopNetworkEventAdded(int eventId, DateTime registeredAt, string obj, string objId, bool isOk)
     {
         return new SystemEvent(SystemEventType.BopNetworkEventAdded, SystemEventLevel.Critical,
-            new BopNetworkEventAddedData(eventId, registeredAt, obj, isOk), SystemEventSource.FromSource("DataCenter"));
+            new BopNetworkEventAddedData(eventId, registeredAt, obj, objId, isOk), SystemEventSource.FromSource("DataCenter"));
     }
 
-    public static SystemEvent RtuAccidentAdded(int eventId, DateTime registeredAt, string obj, bool isGoodAccident)
+    public static SystemEvent RtuAccidentAdded(int eventId, DateTime registeredAt, string obj, string objId, bool isGoodAccident)
     {
         return new SystemEvent(SystemEventType.RtuAccidentAdded, SystemEventLevel.Critical,
-            new RtuAccidentAddedData(eventId, registeredAt, obj, isGoodAccident), SystemEventSource.FromSource("DataCenter"));
+            new RtuAccidentAddedData(eventId, registeredAt, obj, objId, isGoodAccident), SystemEventSource.FromSource("DataCenter"));
     }
 
 

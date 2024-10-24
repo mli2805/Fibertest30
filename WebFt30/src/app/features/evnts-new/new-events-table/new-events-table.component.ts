@@ -10,7 +10,11 @@ import { AnyTypeEvent } from 'src/app/core/store/models/ft30/any-type-event';
 export class NewEventsTableComponent {
   private store: Store<AppState> = inject(Store<AppState>);
 
-  anyTypeEvents$ = this.store.select(AnyTypeEventsSelectors.selectAnyTypeEvents);
+  anyTypeEvents$ = this.store.select(AnyTypeEventsSelectors.selectOrderedEvents);
+
+  navigateEvent(evnt: AnyTypeEvent) {
+    this.store.dispatch(AnyTypeEventsActions.removeEvent({ removeEvent: evnt }));
+  }
 
   dismissEvent(evnt: AnyTypeEvent) {
     this.store.dispatch(AnyTypeEventsActions.removeEvent({ removeEvent: evnt }));

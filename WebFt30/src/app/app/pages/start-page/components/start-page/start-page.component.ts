@@ -44,6 +44,7 @@ import {
   NetworkEventAddedData,
   RtuAccidentAddedData
 } from 'src/app/shared/system-events/system-event-data/rtu-events/rtu-accident-added-data';
+import { AudioService } from 'src/app/core/services/audio.service';
 
 @Component({
   selector: 'rtu-start-page',
@@ -73,6 +74,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
   constructor(
     private store: Store<AppState>,
     private actions$: Actions,
+    private audioService: AudioService,
     private coreService: CoreService
   ) {
     super();
@@ -262,8 +264,12 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         anyTypeEvent.registeredAt = new Date(data.At);
         anyTypeEvent.eventType = data.EventType;
         anyTypeEvent.obj = data.Obj;
+        anyTypeEvent.objId = data.ObjId;
+        anyTypeEvent.isOk = data.IsGoodAccident;
         this.store.dispatch(AnyTypeEventsActions.addEvent({ newEvent: anyTypeEvent }));
         this.store.dispatch(RtuAccidentsActions.getRtuAccidents({ currentAccidents: true }));
+
+        this.audioService.play(anyTypeEvent);
         return;
       }
       case 'MeasurementAdded': {
@@ -274,8 +280,12 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         anyTypeEvent.registeredAt = new Date(data.At);
         anyTypeEvent.eventType = data.EventType;
         anyTypeEvent.obj = data.Obj;
+        anyTypeEvent.objId = data.ObjId;
+        anyTypeEvent.isOk = data.IsOk;
         this.store.dispatch(AnyTypeEventsActions.addEvent({ newEvent: anyTypeEvent }));
         this.store.dispatch(OpticalEventsActions.getOpticalEvents({ currentEvents: true }));
+
+        this.audioService.play(anyTypeEvent);
         return;
       }
       case 'NetworkEventAdded': {
@@ -286,8 +296,12 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         anyTypeEvent.registeredAt = new Date(data.At);
         anyTypeEvent.eventType = data.EventType;
         anyTypeEvent.obj = data.Obj;
+        anyTypeEvent.objId = data.ObjId;
+        anyTypeEvent.isOk = data.IsRtuAvailable;
         this.store.dispatch(AnyTypeEventsActions.addEvent({ newEvent: anyTypeEvent }));
         this.store.dispatch(NetworkEventsActions.getNetworkEvents({ currentEvents: true }));
+
+        this.audioService.play(anyTypeEvent);
         return;
       }
       case 'BopNetworkEventAdded': {
@@ -298,8 +312,12 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         anyTypeEvent.registeredAt = new Date(data.At);
         anyTypeEvent.eventType = data.EventType;
         anyTypeEvent.obj = data.Obj;
+        anyTypeEvent.objId = data.ObjId;
+        anyTypeEvent.isOk = data.IsOk;
         this.store.dispatch(AnyTypeEventsActions.addEvent({ newEvent: anyTypeEvent }));
         this.store.dispatch(BopEventsActions.getBopEvents({ currentEvents: true }));
+
+        this.audioService.play(anyTypeEvent);
         return;
       }
     }

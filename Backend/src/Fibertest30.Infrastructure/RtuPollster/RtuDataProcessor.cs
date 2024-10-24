@@ -55,7 +55,7 @@ public class RtuDataProcessor
                 await _systemEventSender
                     .Send(SystemEventFactory.MeasurementAdded(
                         addMeasurement.SorFileId, addMeasurement.EventRegistrationTimestamp, trace!.Title,
-                        addMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent,
+                        trace!.TraceId.ToString(), addMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent,
                         addMeasurement.TraceState == FiberState.Ok));
 
             }
@@ -63,7 +63,8 @@ public class RtuDataProcessor
             BopNetworkEvent? bopNetworkEvent = await CheckAndSendBopNetworkIfNeeded(dto);
             if (bopNetworkEvent != null)
                 await _systemEventSender.Send(SystemEventFactory.BopNetworkEventAdded(
-                    bopNetworkEvent.Ordinal, bopNetworkEvent.EventTimestamp, bopNetworkEvent.OtauIp, bopNetworkEvent.IsOk));
+                    bopNetworkEvent.Ordinal, bopNetworkEvent.EventTimestamp, bopNetworkEvent.OtauIp,
+                    bopNetworkEvent.Serial, bopNetworkEvent.IsOk));
         }
 
         // it is a RtuAccident
@@ -75,8 +76,9 @@ public class RtuDataProcessor
             if (rtuAccident != null)
             {
                 var obj = rtuAccident.IsMeasurementProblem ? trace!.Title : rtu!.Title;
+                var objId = rtuAccident.IsMeasurementProblem ? trace!.TraceId : rtu!.Id;
                 await _systemEventSender.Send(SystemEventFactory.RtuAccidentAdded(
-                    rtuAccident.Id, rtuAccident.EventRegistrationTimestamp, obj, rtuAccident.IsGoodAccident));
+                    rtuAccident.Id, rtuAccident.EventRegistrationTimestamp, obj, obj, rtuAccident.IsGoodAccident));
 
             }
         }
@@ -194,6 +196,7 @@ public class RtuDataProcessor
         var rtu = _writeModel.Rtus.First(r => r.Id == dto.RtuId);
 
         await _systemEventSender.Send(SystemEventFactory.NetworkEventAdded(
-            evnt.Ordinal, evnt.EventTimestamp, rtu.Title, dto.OnMainChannel == ChannelEvent.Repaired));
+            evnt.Ordinal, evnt.EventTimestamp, rtu.Title, rtu.Id.ToString(),
+            dto.OnMainChannel == ChannelEvent.Repaired));
     }
 }

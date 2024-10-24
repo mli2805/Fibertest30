@@ -8,11 +8,12 @@ public class BopNetworkEventAddedData : ISystemEventData
     public DateTime RegisteredAt { get; set; }
     public string At { get; set; }
     public string Obj { get; set; }
+    public string ObjId { get; set; } // BOP serial
     public string EventType { get; set; }
     public bool IsOk { get; set; }
 
 
-    public BopNetworkEventAddedData(int eventId, DateTime registeredAt, string obj, bool isOk)
+    public BopNetworkEventAddedData(int eventId, DateTime registeredAt, string obj, string objId, bool isOk)
     {
         EventId = eventId;
         RegisteredAt = registeredAt;
@@ -20,6 +21,7 @@ public class BopNetworkEventAddedData : ISystemEventData
         IsOk = isOk;
         EventType = "BopNetworkEvent";
         Obj = obj;
+        ObjId = objId;
     }
 
     public string ToJsonData()

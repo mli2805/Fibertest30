@@ -9,10 +9,11 @@ public class RtuAccidentAddedData : ISystemEventData
     public DateTime RegisteredAt { get; }
     public string At { get; set; }
     public string Obj { get; }
+    public string ObjId { get; set; }
     public string EventType { get; set; }
     public bool IsGoodAccident { get; set; }
 
-    public RtuAccidentAddedData(int eventId, DateTime registeredAt, string obj, bool isGoodAccident)
+    public RtuAccidentAddedData(int eventId, DateTime registeredAt, string obj, string objId, bool isGoodAccident)
     {
         EventId = eventId;
         RegisteredAt = registeredAt;
@@ -21,6 +22,7 @@ public class RtuAccidentAddedData : ISystemEventData
         // At = registeredAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss \"GMT\"zzz");
         At = registeredAt.ToString("R"); // неправильное время, но в таблице datetime.pipe показывает правильно
         Obj = obj;
+        ObjId = objId;
         EventType = "RtuAccident";
         IsGoodAccident = isGoodAccident;
     }

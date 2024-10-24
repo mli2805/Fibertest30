@@ -3,4 +3,6 @@ export class AnyTypeEvent {
   registeredAt!: Date;
   eventId!: number;
   obj!: string;
+  objId!: string;
+  isOk!: boolean;
 }

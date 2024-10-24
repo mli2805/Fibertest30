@@ -8,6 +8,8 @@
             <th class="w-40 font-thin">{{ 'i18n.ft.event-registered-at' | translate }}</th>
             <th class="w-32 font-thin">{{ 'i18n.ft.event-type' | translate }}</th>
             <th class="font-thin">{{ 'i18n.ft.obj' | translate }}</th>
+            <th class="w-32 font-thin">{{ 'i18n.ft.state' | translate }}</th>
+            <th></th>
             <th></th>
           </tr>
         </thead>
@@ -20,9 +22,25 @@
             <td class="text-center">{{ anyTypeEvent.registeredAt | rtuDateTime : 'medium' }}</td>
             <td class="text-center">{{ anyTypeEvent.eventType }}</td>
             <td class="text-center">{{ anyTypeEvent.obj }}</td>
+            <td class="text-center">
+              <div *ngIf="anyTypeEvent.isOk" class="text-green-500">
+                {{ 'i18n.ft.ok' | translate }}
+              </div>
+              <div *ngIf="!anyTypeEvent.isOk" class="text-red-500">
+                {{ 'i18n.ft.alarm' | translate }}
+              </div>
+            </td>
             <td class="w-0 py-3 pl-3 pr-1">
               <div class="flex items-center">
-                <rtu-close-button (click)="dismissEvent(anyTypeEvent)" class="h-4 w-4" />
+                <rtu-navigate-button
+                  (click)="navigateEvent(anyTypeEvent)"
+                  class="h-6 w-6 text-blue-500"
+                />
+              </div>
+            </td>
+            <td class="w-0 py-3 pl-3 pr-1">
+              <div class="flex items-center">
+                <rtu-close-button (click)="dismissEvent(anyTypeEvent)" class="h-6 w-6" />
               </div>
             </td>
           </tr>

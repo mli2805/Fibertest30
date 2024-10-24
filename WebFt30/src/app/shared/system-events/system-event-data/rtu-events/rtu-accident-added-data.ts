@@ -4,6 +4,7 @@ export interface RtuAccidentAddedData {
   At: string;
   EventType: string;
   Obj: string;
+  ObjId: string;
   IsGoodAccident: boolean;
 }
 
@@ -13,6 +14,7 @@ export interface NetworkEventAddedData {
   At: string;
   EventType: string;
   Obj: string;
+  ObjId: string;
   IsRtuAvailable: boolean;
 }
 
@@ -22,6 +24,7 @@ export interface BopNetworkEventAddedData {
   At: string;
   EventType: string;
   Obj: string;
+  ObjId: string;
   IsOk: boolean;
 }
 
@@ -31,6 +34,7 @@ export interface MeasurementAddedData {
   At: string;
   EventType: string;
   Obj: string;
+  ObjId: string;
   IsOk: boolean;
   IsEvent: boolean;
 }
