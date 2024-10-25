@@ -6,7 +6,6 @@ public class MeasurementAddedData : ISystemEventData
 {
     public int EventId { get; set; } // get from SorFileId
     public DateTime RegisteredAt { get; set; }
-    public string At { get; set; }
     public string Obj { get; set; }
     public string ObjId { get; set; }
     public string EventType { get; set; }
@@ -17,7 +16,6 @@ public class MeasurementAddedData : ISystemEventData
     {
         EventId = eventId;
         RegisteredAt = registeredAt;
-        At = registeredAt.ToString("R"); // неправильное время, но в таблице datetime.pipe показывает правильно
         Obj = obj;
         ObjId = objId;
         IsEvent = isEvent;

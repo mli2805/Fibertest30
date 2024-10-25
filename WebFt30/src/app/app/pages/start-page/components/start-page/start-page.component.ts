@@ -260,8 +260,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         const data = <RtuAccidentAddedData>JSON.parse(systemEvent.jsonData);
         const anyTypeEvent = new AnyTypeEvent();
         anyTypeEvent.eventId = data.EventId;
-        // если просто присвоить то потом datetime.pipe не может отформатировать - падает
-        anyTypeEvent.registeredAt = new Date(data.At);
+        anyTypeEvent.registeredAt = new Date(data.RegisteredAt);
         anyTypeEvent.eventType = data.EventType;
         anyTypeEvent.obj = data.Obj;
         anyTypeEvent.objId = data.ObjId;
@@ -276,8 +275,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         const data = <MeasurementAddedData>JSON.parse(systemEvent.jsonData);
         const anyTypeEvent = new AnyTypeEvent();
         anyTypeEvent.eventId = data.EventId;
-        // если просто присвоить то потом datetime.pipe не может отформатировать - падает
-        anyTypeEvent.registeredAt = new Date(data.At);
+        anyTypeEvent.registeredAt = new Date(data.RegisteredAt);
         anyTypeEvent.eventType = data.EventType;
         anyTypeEvent.obj = data.Obj;
         anyTypeEvent.objId = data.ObjId;
@@ -292,8 +290,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         const data = <NetworkEventAddedData>JSON.parse(systemEvent.jsonData);
         const anyTypeEvent = new AnyTypeEvent();
         anyTypeEvent.eventId = data.EventId;
-        // если просто присвоить то потом datetime.pipe не может отформатировать - падает
-        anyTypeEvent.registeredAt = new Date(data.At);
+        anyTypeEvent.registeredAt = new Date(data.RegisteredAt);
         anyTypeEvent.eventType = data.EventType;
         anyTypeEvent.obj = data.Obj;
         anyTypeEvent.objId = data.ObjId;
@@ -308,8 +305,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         const data = <BopNetworkEventAddedData>JSON.parse(systemEvent.jsonData);
         const anyTypeEvent = new AnyTypeEvent();
         anyTypeEvent.eventId = data.EventId;
-        // если просто присвоить то потом datetime.pipe не может отформатировать - падает
-        anyTypeEvent.registeredAt = new Date(data.At);
+        anyTypeEvent.registeredAt = new Date(data.RegisteredAt);
         anyTypeEvent.eventType = data.EventType;
         anyTypeEvent.obj = data.Obj;
         anyTypeEvent.objId = data.ObjId;

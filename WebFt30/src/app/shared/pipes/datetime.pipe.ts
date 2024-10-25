@@ -27,8 +27,12 @@ export class RtuDateTimePipe implements PipeTransform, OnDestroy {
       .select(SettingsSelectors.selectTimeZone)
       .subscribe(({ dateTimeFormat, timeZone }) => {
         this.dateTimeLanguageFormat = dateTimeFormat;
-        this.timezone = timeZone;
+        this.timezone = timeZone; // "пустая", я не передаю с сервера
       });
+
+    const tz = new AppTimezone();
+    tz.ianaId = Intl.DateTimeFormat().resolvedOptions().timeZone; // берем таймзону браузера
+    this.timezone = tz;
   }
 
   transform(
