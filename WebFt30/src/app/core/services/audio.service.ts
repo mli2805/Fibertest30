@@ -44,6 +44,13 @@ export class AudioService {
     }
   }
 
+  // нажата кнопка
+  stopAll() {
+    if (this.isPlayingNow) {
+      this.stopAlarm();
+    }
+  }
+
   private playAlarm() {
     if (this.isPlayingNow) return;
     this.alarmAudio.play();

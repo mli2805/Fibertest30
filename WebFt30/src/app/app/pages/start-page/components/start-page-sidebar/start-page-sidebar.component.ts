@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { AnyTypeEventsSelectors, AppState, DeviceSelectors, SettingsSelectors } from 'src/app/core';
+import { AudioService } from 'src/app/core/services/audio.service';
 
 @Component({
   selector: 'rtu-start-page-sidebar',
@@ -14,5 +16,11 @@ export class StartPageSidebarComponent {
   hasCurrent$ = this.store.select(DeviceSelectors.selectHasCurrent);
   hasNew$ = this.store.select(AnyTypeEventsSelectors.selectHasAny);
 
-  constructor(private store: Store<AppState>) {}
+  private router: Router = inject(Router);
+  constructor(private store: Store<AppState>, private audioService: AudioService) {}
+
+  navigateToNewEvents() {
+    this.audioService.stopAll();
+    this.router.navigate(['./evnts-new']);
+  }
 }

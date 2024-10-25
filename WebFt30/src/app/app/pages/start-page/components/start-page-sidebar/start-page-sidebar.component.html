@@ -36,7 +36,7 @@
 
   <div
     class="hover-link m-2 flex cursor-pointer flex-col items-center text-xs"
-    [routerLink]="['./evnts-new']"
+    (click)="navigateToNewEvents()"
     routerLinkActive
     #rlaNewEvents="routerLinkActive"
     [ngClass]="rlaNewEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
