@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AnyTypeEventsActions, AnyTypeEventsSelectors, AppState } from 'src/app/core';
+import { AudioService } from 'src/app/core/services/audio.service';
 import { AnyTypeEvent } from 'src/app/core/store/models/ft30/any-type-event';
 
 @Component({
@@ -12,11 +13,14 @@ export class NewEventsTableComponent {
 
   anyTypeEvents$ = this.store.select(AnyTypeEventsSelectors.selectOrderedEvents);
 
+  constructor(private audioService: AudioService) {}
+
   navigateEvent(evnt: AnyTypeEvent) {
     this.store.dispatch(AnyTypeEventsActions.removeEvent({ removeEvent: evnt }));
   }
 
   dismissEvent(evnt: AnyTypeEvent) {
     this.store.dispatch(AnyTypeEventsActions.removeEvent({ removeEvent: evnt }));
+    if (!evnt.isOk) this.audioService.dismissEvent(evnt);
   }
 }
