@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { EventTables } from "./event_tables";
+import type { GetHasCurrentResponse } from "./event_tables";
+import type { GetHasCurrentRequest } from "./event_tables";
 import type { GetRtuAccidentsResponse } from "./event_tables";
 import type { GetRtuAccidentsRequest } from "./event_tables";
 import type { GetBopEventsResponse } from "./event_tables";
@@ -41,6 +43,10 @@ export interface IEventTablesClient {
      * @generated from protobuf rpc: GetRtuAccidents(fibertest30.event_tables.GetRtuAccidentsRequest) returns (fibertest30.event_tables.GetRtuAccidentsResponse);
      */
     getRtuAccidents(input: GetRtuAccidentsRequest, options?: RpcOptions): UnaryCall<GetRtuAccidentsRequest, GetRtuAccidentsResponse>;
+    /**
+     * @generated from protobuf rpc: GetHasCurrent(fibertest30.event_tables.GetHasCurrentRequest) returns (fibertest30.event_tables.GetHasCurrentResponse);
+     */
+    getHasCurrent(input: GetHasCurrentRequest, options?: RpcOptions): UnaryCall<GetHasCurrentRequest, GetHasCurrentResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.event_tables.EventTables
@@ -85,5 +91,12 @@ export class EventTablesClient implements IEventTablesClient, ServiceInfo {
     getRtuAccidents(input: GetRtuAccidentsRequest, options?: RpcOptions): UnaryCall<GetRtuAccidentsRequest, GetRtuAccidentsResponse> {
         const method = this.methods[4], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetRtuAccidentsRequest, GetRtuAccidentsResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetHasCurrent(fibertest30.event_tables.GetHasCurrentRequest) returns (fibertest30.event_tables.GetHasCurrentResponse);
+     */
+    getHasCurrent(input: GetHasCurrentRequest, options?: RpcOptions): UnaryCall<GetHasCurrentRequest, GetHasCurrentResponse> {
+        const method = this.methods[5], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetHasCurrentRequest, GetHasCurrentResponse>("unary", this._transport, method, opt, input);
     }
 }

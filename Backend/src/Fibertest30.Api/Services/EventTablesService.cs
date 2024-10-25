@@ -67,4 +67,11 @@ public class EventTablesService : EventTables.EventTablesBase
         return response;
     }
 
+    public override async Task<GetHasCurrentResponse> GetHasCurrent(GetHasCurrentRequest request,
+        ServerCallContext context)
+    {
+        var hasCurrent = await _mediator.Send(new GetHasCurrentQuery(), context.CancellationToken);
+        var response = new GetHasCurrentResponse() { HasCurrentEvents = hasCurrent.ToProto() };
+        return response;
+    }
 }

@@ -4,6 +4,7 @@ import { HasCurrentEvents } from '../models/ft30/has-current-events';
 
 export interface DeviceState {
   deviceInfo: DeviceInfo | null;
+  hasCurrentEvents: HasCurrentEvents | null;
   loading: boolean;
 }
 
@@ -11,5 +12,4 @@ export class DeviceInfo {
   apiVersion!: string;
   notificationSettings!: NotificationSettings;
   rtus!: Rtu[];
-  hasCurrentEvents!: HasCurrentEvents;
 }

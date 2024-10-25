@@ -44,4 +44,9 @@ export class EventTablesService {
     const request: gprc.GetRtuAccidentsRequest = { currentAccidents };
     return GrpcUtils.unaryToObservable(this.client.getRtuAccidents.bind(this.client), request, {});
   }
+
+  getHasCurrent(): Observable<gprc.GetHasCurrentResponse> {
+    const request: gprc.GetHasCurrentRequest = {};
+    return GrpcUtils.unaryToObservable(this.client.getHasCurrent.bind(this.client), request, {});
+  }
 }

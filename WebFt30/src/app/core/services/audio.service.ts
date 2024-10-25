@@ -39,7 +39,7 @@ export class AudioService {
       // сыграть ок
       this.okAudio.play();
     } else {
-      // запустить сирена, проверка флага внутри
+      // запустить сирену, проверка флага внутри
       this.playAlarm();
     }
   }

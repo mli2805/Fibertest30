@@ -1,4 +1,4 @@
-import { NetAddress } from 'src/grpc-generated';
+import { NetAddress } from '../models/ft30/net-address';
 
 export interface RtuMgmtState {
   rtuOperationInProgress: boolean;

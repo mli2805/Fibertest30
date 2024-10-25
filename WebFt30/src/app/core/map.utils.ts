@@ -209,9 +209,7 @@ export class MapUtils {
     deviceInfo.notificationSettings = this.toNotificationSettings(response.notificationSettings!);
     deviceInfo.apiVersion = response.apiVersion;
     deviceInfo.rtus = response.rtus.map((r) => TreeMapping.fromGrpcRtu(r));
-    deviceInfo.hasCurrentEvents = EventTablesMapping.fromGrpcHasCurrentEvents(
-      response.hasCurrentEvents!
-    );
+
     return deviceInfo;
   }
 

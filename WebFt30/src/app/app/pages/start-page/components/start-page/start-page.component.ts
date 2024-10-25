@@ -15,7 +15,8 @@ import {
   OpticalEventsActions,
   NetworkEventsActions,
   BopEventsActions,
-  AnyTypeEventsSelectors
+  AnyTypeEventsSelectors,
+  DeviceActions
 } from 'src/app/core';
 import { AuthUtils } from 'src/app/core/auth/auth.utils';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -267,7 +268,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         anyTypeEvent.objId = data.ObjId;
         anyTypeEvent.isOk = data.IsGoodAccident;
         this.addOrReplace(anyTypeEvent);
-        this.updateCorrespondingStore(anyTypeEvent.eventType);
+        this.store.dispatch(DeviceActions.getHasCurrentEvents());
         this.audioService.play(anyTypeEvent);
         return;
       }
@@ -281,7 +282,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         anyTypeEvent.objId = data.ObjId;
         anyTypeEvent.isOk = data.IsOk;
         this.addOrReplace(anyTypeEvent);
-        this.updateCorrespondingStore(anyTypeEvent.eventType);
+        this.store.dispatch(DeviceActions.getHasCurrentEvents());
         this.audioService.play(anyTypeEvent);
         return;
       }
@@ -295,7 +296,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         anyTypeEvent.objId = data.ObjId;
         anyTypeEvent.isOk = data.IsRtuAvailable;
         this.addOrReplace(anyTypeEvent);
-        this.updateCorrespondingStore(anyTypeEvent.eventType);
+        this.store.dispatch(DeviceActions.getHasCurrentEvents());
         this.audioService.play(anyTypeEvent);
         return;
       }
@@ -309,7 +310,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         anyTypeEvent.objId = data.ObjId;
         anyTypeEvent.isOk = data.IsOk;
         this.addOrReplace(anyTypeEvent);
-        this.updateCorrespondingStore(anyTypeEvent.eventType);
+        this.store.dispatch(DeviceActions.getHasCurrentEvents());
         this.audioService.play(anyTypeEvent);
         return;
       }
@@ -331,19 +332,6 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
   }
 
   private updateCorrespondingStore(eventType: string) {
-    switch (eventType) {
-      case 'OpticalEvent':
-        this.store.dispatch(OpticalEventsActions.getOpticalEvents({ currentEvents: true }));
-        return;
-      case 'NetworkEvent':
-        this.store.dispatch(NetworkEventsActions.getNetworkEvents({ currentEvents: true }));
-        return;
-      case 'BopNetworkEvent':
-        this.store.dispatch(BopEventsActions.getBopEvents({ currentEvents: true }));
-        return;
-      case 'RtuAccident':
-        this.store.dispatch(RtuAccidentsActions.getRtuAccidents({ currentAccidents: true }));
-        return;
-    }
+    this.store.dispatch(DeviceActions.getHasCurrentEvents());
   }
 }

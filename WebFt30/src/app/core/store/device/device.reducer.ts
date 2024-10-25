@@ -4,6 +4,7 @@ import { DeviceActions } from './device.actions';
 
 export const initialState: DeviceState = {
   deviceInfo: null, // null means not loaded yet
+  hasCurrentEvents: null,
   loading: false
 };
 
@@ -14,18 +15,25 @@ const reducer = createReducer(
   on(DeviceActions.loadDeviceInfo, (state) => ({
     ...state,
     deviceInfo: null,
+    hasCurrentEvents: null,
     loading: true
   })),
 
-  on(DeviceActions.loadDeviceInfoSuccess, (state, { deviceInfo }) => ({
+  on(DeviceActions.loadDeviceInfoSuccess, (state, { deviceInfo, hasCurrentEvents }) => ({
     ...state,
     deviceInfo,
+    hasCurrentEvents,
+    loading: false
+  })),
+  on(DeviceActions.getHasCurrentEvents, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(DeviceActions.getHasCurrentEventsSuccess, (state, { hasCurrentEvents }) => ({
+    ...state,
+    hasCurrentEvents,
     loading: false
   }))
-
-  // on(DeviceActions.loadDeviceInfoFailure, (state) => ({
-  //   ...state
-  // }))
 );
 
 export function deviceReducer(state: DeviceState | undefined, action: any): DeviceState {

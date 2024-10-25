@@ -3,6 +3,7 @@
 // tslint:disable
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
+import { HasCurrentEvents } from "./data.core";
 import { RtuAccident } from "./events.data";
 import { BopEvent } from "./events.data";
 import { NetworkEvent } from "./events.data";
@@ -93,6 +94,20 @@ export interface GetRtuAccidentsResponse {
      * @generated from protobuf field: repeated fibertest30.events.data.RtuAccident rtuAccidents = 1;
      */
     rtuAccidents: RtuAccident[];
+}
+/**
+ * @generated from protobuf message fibertest30.event_tables.GetHasCurrentRequest
+ */
+export interface GetHasCurrentRequest {
+}
+/**
+ * @generated from protobuf message fibertest30.event_tables.GetHasCurrentResponse
+ */
+export interface GetHasCurrentResponse {
+    /**
+     * @generated from protobuf field: fibertest30.data.core.HasCurrentEvents hasCurrentEvents = 1;
+     */
+    hasCurrentEvents?: HasCurrentEvents;
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class GetSystemEventsRequest$Type extends MessageType<GetSystemEventsRequest> {
@@ -212,6 +227,28 @@ class GetRtuAccidentsResponse$Type extends MessageType<GetRtuAccidentsResponse> 
  * @generated MessageType for protobuf message fibertest30.event_tables.GetRtuAccidentsResponse
  */
 export const GetRtuAccidentsResponse = new GetRtuAccidentsResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetHasCurrentRequest$Type extends MessageType<GetHasCurrentRequest> {
+    constructor() {
+        super("fibertest30.event_tables.GetHasCurrentRequest", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.event_tables.GetHasCurrentRequest
+ */
+export const GetHasCurrentRequest = new GetHasCurrentRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetHasCurrentResponse$Type extends MessageType<GetHasCurrentResponse> {
+    constructor() {
+        super("fibertest30.event_tables.GetHasCurrentResponse", [
+            { no: 1, name: "hasCurrentEvents", kind: "message", T: () => HasCurrentEvents }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.event_tables.GetHasCurrentResponse
+ */
+export const GetHasCurrentResponse = new GetHasCurrentResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.event_tables.EventTables
  */
@@ -220,5 +257,6 @@ export const EventTables = new ServiceType("fibertest30.event_tables.EventTables
     { name: "GetOpticalEvents", options: {}, I: GetOpticalEventsRequest, O: GetOpticalEventsResponse },
     { name: "GetNetworkEvents", options: {}, I: GetNetworkEventsRequest, O: GetNetworkEventsResponse },
     { name: "GetBopEvents", options: {}, I: GetBopEventsRequest, O: GetBopEventsResponse },
-    { name: "GetRtuAccidents", options: {}, I: GetRtuAccidentsRequest, O: GetRtuAccidentsResponse }
+    { name: "GetRtuAccidents", options: {}, I: GetRtuAccidentsRequest, O: GetRtuAccidentsResponse },
+    { name: "GetHasCurrent", options: {}, I: GetHasCurrentRequest, O: GetHasCurrentResponse }
 ]);

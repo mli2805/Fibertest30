@@ -19,7 +19,7 @@ const selectLoading = createSelector(
 
 const selectHasCurrent = createSelector(
   selectDevice,
-  (device: DeviceState | null) => device?.deviceInfo?.hasCurrentEvents ?? null
+  (device: DeviceState | null) => device?.hasCurrentEvents ?? null
 );
 
 export const DeviceSelectors = {
