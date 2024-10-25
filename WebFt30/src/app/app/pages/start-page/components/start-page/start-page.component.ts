@@ -14,7 +14,8 @@ import {
   RtuAccidentsActions,
   OpticalEventsActions,
   NetworkEventsActions,
-  BopEventsActions
+  BopEventsActions,
+  AnyTypeEventsSelectors
 } from 'src/app/core';
 import { AuthUtils } from 'src/app/core/auth/auth.utils';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -265,9 +266,8 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         anyTypeEvent.obj = data.Obj;
         anyTypeEvent.objId = data.ObjId;
         anyTypeEvent.isOk = data.IsGoodAccident;
-        this.store.dispatch(AnyTypeEventsActions.addEvent({ newEvent: anyTypeEvent }));
-        this.store.dispatch(RtuAccidentsActions.getRtuAccidents({ currentAccidents: true }));
-
+        this.addOrReplace(anyTypeEvent);
+        this.updateCorrespondingStore(anyTypeEvent.eventType);
         this.audioService.play(anyTypeEvent);
         return;
       }
@@ -280,9 +280,8 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         anyTypeEvent.obj = data.Obj;
         anyTypeEvent.objId = data.ObjId;
         anyTypeEvent.isOk = data.IsOk;
-        this.store.dispatch(AnyTypeEventsActions.addEvent({ newEvent: anyTypeEvent }));
-        this.store.dispatch(OpticalEventsActions.getOpticalEvents({ currentEvents: true }));
-
+        this.addOrReplace(anyTypeEvent);
+        this.updateCorrespondingStore(anyTypeEvent.eventType);
         this.audioService.play(anyTypeEvent);
         return;
       }
@@ -295,9 +294,8 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         anyTypeEvent.obj = data.Obj;
         anyTypeEvent.objId = data.ObjId;
         anyTypeEvent.isOk = data.IsRtuAvailable;
-        this.store.dispatch(AnyTypeEventsActions.addEvent({ newEvent: anyTypeEvent }));
-        this.store.dispatch(NetworkEventsActions.getNetworkEvents({ currentEvents: true }));
-
+        this.addOrReplace(anyTypeEvent);
+        this.updateCorrespondingStore(anyTypeEvent.eventType);
         this.audioService.play(anyTypeEvent);
         return;
       }
@@ -310,12 +308,42 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         anyTypeEvent.obj = data.Obj;
         anyTypeEvent.objId = data.ObjId;
         anyTypeEvent.isOk = data.IsOk;
-        this.store.dispatch(AnyTypeEventsActions.addEvent({ newEvent: anyTypeEvent }));
-        this.store.dispatch(BopEventsActions.getBopEvents({ currentEvents: true }));
-
+        this.addOrReplace(anyTypeEvent);
+        this.updateCorrespondingStore(anyTypeEvent.eventType);
         this.audioService.play(anyTypeEvent);
         return;
       }
+    }
+  }
+
+  private addOrReplace(newEvent: AnyTypeEvent) {
+    const events = CoreUtils.getCurrentState(
+      this.store,
+      AnyTypeEventsSelectors.selectAnyTypeEvents
+    );
+    const oldEvent = events.find(
+      (e) => e.eventType === newEvent.eventType && e.objId === newEvent.objId
+    );
+    if (oldEvent !== undefined) {
+      this.store.dispatch(AnyTypeEventsActions.removeEvent({ removeEvent: oldEvent }));
+    }
+    this.store.dispatch(AnyTypeEventsActions.addEvent({ newEvent: newEvent }));
+  }
+
+  private updateCorrespondingStore(eventType: string) {
+    switch (eventType) {
+      case 'OpticalEvent':
+        this.store.dispatch(OpticalEventsActions.getOpticalEvents({ currentEvents: true }));
+        return;
+      case 'NetworkEvent':
+        this.store.dispatch(NetworkEventsActions.getNetworkEvents({ currentEvents: true }));
+        return;
+      case 'BopNetworkEvent':
+        this.store.dispatch(BopEventsActions.getBopEvents({ currentEvents: true }));
+        return;
+      case 'RtuAccident':
+        this.store.dispatch(RtuAccidentsActions.getRtuAccidents({ currentAccidents: true }));
+        return;
     }
   }
 }
