@@ -58,8 +58,16 @@
                 {{ opticalEvent.eventStatus | eventStatusPipe | translate }}
               </div>
             </td>
-            <td class="text-center">{{ opticalEvent.statusChangedAt | rtuDateTime : 'medium' }}</td>
-            <td class="text-center">{{ opticalEvent.statusChangedByUser }}</td>
+            <ng-container *ngIf="opticalEvent.statusChangedByUser === 'system'">
+              <td></td>
+              <td></td>
+            </ng-container>
+            <ng-container *ngIf="opticalEvent.statusChangedByUser !== 'system'">
+              <td class="text-center">
+                {{ opticalEvent.statusChangedAt | rtuDateTime : 'medium' }}
+              </td>
+              <td class="text-center">{{ opticalEvent.statusChangedByUser }}</td>
+            </ng-container>
           </tr>
         </tbody>
       </table>
