@@ -40,6 +40,10 @@ public enum SystemEventType
     MonitoringStopped,
     MonitoringSettingsApplied,
     BaseRefsAssigned,
+    TraceAttached,
+    TraceDetached,
+    OtauAttached,
+    OtauDetached,
 
     MeasurementAdded,
     NetworkEventAdded,

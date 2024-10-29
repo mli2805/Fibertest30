@@ -47,6 +47,10 @@ import {
   RtuAccidentAddedData
 } from 'src/app/shared/system-events/system-event-data/rtu-events/rtu-accident-added-data';
 import { AudioService } from 'src/app/core/services/audio.service';
+import {
+  TraceAttachedData,
+  TraceDetachedData
+} from 'src/app/shared/system-events/system-event-data/rtu-tree/trace-attached-data';
 
 @Component({
   selector: 'rtu-start-page',
@@ -255,6 +259,16 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       }
       case 'BaseRefsAssigned': {
         const data = <BaseRefsAssignedData>JSON.parse(systemEvent.jsonData);
+        this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
+        return;
+      }
+      case 'TraceAttached': {
+        const data = <TraceAttachedData>JSON.parse(systemEvent.jsonData);
+        this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
+        return;
+      }
+      case 'TraceDetached': {
+        const data = <TraceDetachedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
         return;
       }

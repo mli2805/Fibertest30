@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Rtu } from '../models/ft30/rtu';
+import { AttachTraceDto } from '../models/ft30/attach-trace-dto';
 
 const refreshRtuTree = createAction('[RtuTree] Refresh Rtu Tree');
 const refreshRtuTreeSuccess = createAction(
@@ -18,6 +19,20 @@ const getOneRtuFailure = createAction(
   props<{ errorMessageId: string }>()
 );
 
+const attachTrace = createAction('[RtuTree] Attach Trace', props<{ dto: AttachTraceDto }>());
+const attachTraceSuccess = createAction('[RtuTree] Attach Trace Success');
+const attachTraceFailure = createAction(
+  '[RtuTree] Attach Trace Failure',
+  props<{ errorMessageId: string }>()
+);
+
+const detachTrace = createAction('[RtuTree] Detach Trace', props<{ traceId: string }>());
+const detachTraceSuccess = createAction('[RtuTree] Detach Trace Success');
+const detachTraceFailure = createAction(
+  '[RtuTree] Detach Trace Failure',
+  props<{ errorMessageId: string }>()
+);
+
 export const RtuTreeActions = {
   refreshRtuTree,
   refreshRtuTreeSuccess,
@@ -25,5 +40,13 @@ export const RtuTreeActions = {
 
   getOneRtu,
   getOneRtuSuccess,
-  getOneRtuFailure
+  getOneRtuFailure,
+
+  attachTrace,
+  attachTraceSuccess,
+  attachTraceFailure,
+
+  detachTrace,
+  detachTraceSuccess,
+  detachTraceFailure
 };

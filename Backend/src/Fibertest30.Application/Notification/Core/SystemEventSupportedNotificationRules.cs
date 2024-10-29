@@ -7,7 +7,7 @@ public static class SystemEventSupportedNotificationRules
     public static IReadOnlyDictionary<SystemEventType, IReadOnlyDictionary<NotificationChannel, NotificationTarget>> Map { get; }
         = new Dictionary<SystemEventType, IReadOnlyDictionary<NotificationChannel, NotificationTarget>>()
     {
-       
+
         {
             SystemEventType.UserChanged,
             Rules(
@@ -68,7 +68,7 @@ public static class SystemEventSupportedNotificationRules
                 Rule(NotificationChannel.InAppInternal, NotificationTarget.All)
                 )
         },
-       
+
         {
             SystemEventType.MonitoringPortNoteChanged,
             Rules(
@@ -87,7 +87,7 @@ public static class SystemEventSupportedNotificationRules
             SystemEventType.OtdrTaskProgress,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         },
-       
+
         {
             SystemEventType.NotificationSettingsUpdated,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
@@ -143,6 +143,14 @@ public static class SystemEventSupportedNotificationRules
         },
         {
             SystemEventType.BaseRefsAssigned,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },
+        {
+            SystemEventType.TraceAttached,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },
+        {
+            SystemEventType.TraceDetached,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         },
         {

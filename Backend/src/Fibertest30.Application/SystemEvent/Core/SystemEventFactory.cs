@@ -75,6 +75,21 @@ public static class SystemEventFactory
             SystemEventSource.FromUser(userId));
     }
 
+    public static SystemEvent TraceAttached(string userId, Guid traceId, string traceTitle, string portPath,
+        Guid rtuId, string rtuTitle)
+    {
+        return new SystemEvent(SystemEventType.TraceAttached, SystemEventLevel.Internal,
+            new TraceAttachedData(traceId.ToString(), traceTitle, portPath, rtuId.ToString(), rtuTitle),
+            SystemEventSource.FromUser(userId));
+    }
+
+    public static SystemEvent TraceDetached(string userId, Guid traceId, string traceTitle, string rtuId)
+    {
+        return new SystemEvent(SystemEventType.TraceDetached, SystemEventLevel.Internal,
+            new TraceDetachedData(traceId.ToString(), traceTitle, rtuId),
+            SystemEventSource.FromUser(userId));
+    }
+
     public static SystemEvent MeasurementAdded(int eventId, DateTime registeredAt, string obj, string objId, bool isEvent, bool isOk)
     {
         return new SystemEvent(SystemEventType.MeasurementAdded, SystemEventLevel.Critical,
@@ -98,6 +113,7 @@ public static class SystemEventFactory
         return new SystemEvent(SystemEventType.RtuAccidentAdded, SystemEventLevel.Critical,
             new RtuAccidentAddedData(eventId, registeredAt, obj, objId, isGoodAccident), SystemEventSource.FromSource("DataCenter"));
     }
+
 
 
 }

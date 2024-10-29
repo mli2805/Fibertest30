@@ -11,4 +11,6 @@ public interface IRtuManager
     Task<BaseRefAssignedDto> AssignBaseRefs(AssignBaseRefsDto dto);
     Task<RequestAnswer> StopMonitoring(Guid rtuId);
 
+    Task<RequestAnswer> AttachTrace(AttachTraceDto dto, string username);
+    Task<RequestAnswer> DetachTrace(Guid traceId, string username);
 }

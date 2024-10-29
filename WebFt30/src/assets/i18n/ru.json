@@ -1,4 +1,7 @@
 {
+  "i18n.ft.attach": "Присоединить",
+  "i18n.ft.cancel": "Отменить",
+
   "i18n.ft.available-actions": "Доступные действия",
   "i18n.ft.events": "События",
 
@@ -180,6 +183,7 @@
   "i18n.ft.rtu-re-initialization": "Переинициализация RTU",
   "i18n.ft.base-not-found": "{{ 0 }} базовая не найдена",
   "i18n.ft.failed-to-set-parameters-from-base": "Не удалось применить параметры из базовой: {{ 0 }}",
+  "i18n.ft.choose-trace-to-attach": "Выберите трассу для присоединения",
 
   "i18n.ft.load-more": "Загрузить ещё..."
 }

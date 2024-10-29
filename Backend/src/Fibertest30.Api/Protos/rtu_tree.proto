@@ -7,6 +7,8 @@ package fibertest30.rtu_tree;
 service RtuTree {
 	rpc GetRtuTree (GetRtuTreeRequest) returns (GetRtuTreeResponse);
     rpc GetRtu (GetRtuRequest) returns (GetRtuResponse);
+    rpc AttachTrace (AttachTraceRequest) returns (AttachTraceResponse);
+    rpc DetachTrace (DetachTraceRequest) returns (DetachTraceResponse);
 }
 
 
@@ -139,3 +141,15 @@ message GetRtuRequest {
 message GetRtuResponse {
 	Rtu rtu = 1;
 }
+
+message AttachTraceRequest {
+    string traceId = 1;
+	repeated rtu_tree.PortOfOtau portOfOtau = 2;
+}
+
+message AttachTraceResponse {}
+
+message DetachTraceRequest {
+    string traceId = 1;
+}
+message DetachTraceResponse {}

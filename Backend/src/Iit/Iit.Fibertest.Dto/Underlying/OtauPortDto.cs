@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Dto
 
         public string ToStringB()
         {
-            return IsPortOnMainCharon ? OpticalPort.ToString() : $"{MainCharonPort}:{OpticalPort}";
+            return IsPortOnMainCharon ? OpticalPort.ToString() : $"{MainCharonPort}/{OpticalPort}";
         }
     }
 }

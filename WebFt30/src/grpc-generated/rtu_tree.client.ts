@@ -4,6 +4,10 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { RtuTree } from "./rtu_tree";
+import type { DetachTraceResponse } from "./rtu_tree";
+import type { DetachTraceRequest } from "./rtu_tree";
+import type { AttachTraceResponse } from "./rtu_tree";
+import type { AttachTraceRequest } from "./rtu_tree";
 import type { GetRtuResponse } from "./rtu_tree";
 import type { GetRtuRequest } from "./rtu_tree";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
@@ -23,6 +27,14 @@ export interface IRtuTreeClient {
      * @generated from protobuf rpc: GetRtu(fibertest30.rtu_tree.GetRtuRequest) returns (fibertest30.rtu_tree.GetRtuResponse);
      */
     getRtu(input: GetRtuRequest, options?: RpcOptions): UnaryCall<GetRtuRequest, GetRtuResponse>;
+    /**
+     * @generated from protobuf rpc: AttachTrace(fibertest30.rtu_tree.AttachTraceRequest) returns (fibertest30.rtu_tree.AttachTraceResponse);
+     */
+    attachTrace(input: AttachTraceRequest, options?: RpcOptions): UnaryCall<AttachTraceRequest, AttachTraceResponse>;
+    /**
+     * @generated from protobuf rpc: DetachTrace(fibertest30.rtu_tree.DetachTraceRequest) returns (fibertest30.rtu_tree.DetachTraceResponse);
+     */
+    detachTrace(input: DetachTraceRequest, options?: RpcOptions): UnaryCall<DetachTraceRequest, DetachTraceResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.rtu_tree.RtuTree
@@ -46,5 +58,19 @@ export class RtuTreeClient implements IRtuTreeClient, ServiceInfo {
     getRtu(input: GetRtuRequest, options?: RpcOptions): UnaryCall<GetRtuRequest, GetRtuResponse> {
         const method = this.methods[1], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetRtuRequest, GetRtuResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: AttachTrace(fibertest30.rtu_tree.AttachTraceRequest) returns (fibertest30.rtu_tree.AttachTraceResponse);
+     */
+    attachTrace(input: AttachTraceRequest, options?: RpcOptions): UnaryCall<AttachTraceRequest, AttachTraceResponse> {
+        const method = this.methods[2], opt = this._transport.mergeOptions(options);
+        return stackIntercept<AttachTraceRequest, AttachTraceResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: DetachTrace(fibertest30.rtu_tree.DetachTraceRequest) returns (fibertest30.rtu_tree.DetachTraceResponse);
+     */
+    detachTrace(input: DetachTraceRequest, options?: RpcOptions): UnaryCall<DetachTraceRequest, DetachTraceResponse> {
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        return stackIntercept<DetachTraceRequest, DetachTraceResponse>("unary", this._transport, method, opt, input);
     }
 }

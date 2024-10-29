@@ -399,6 +399,38 @@ export interface GetRtuResponse {
      */
     rtu?: Rtu;
 }
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.AttachTraceRequest
+ */
+export interface AttachTraceRequest {
+    /**
+     * @generated from protobuf field: string traceId = 1;
+     */
+    traceId: string;
+    /**
+     * @generated from protobuf field: repeated fibertest30.rtu_tree.PortOfOtau portOfOtau = 2;
+     */
+    portOfOtau: PortOfOtau[];
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.AttachTraceResponse
+ */
+export interface AttachTraceResponse {
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.DetachTraceRequest
+ */
+export interface DetachTraceRequest {
+    /**
+     * @generated from protobuf field: string traceId = 1;
+     */
+    traceId: string;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.DetachTraceResponse
+ */
+export interface DetachTraceResponse {
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class NetAddress$Type extends MessageType<NetAddress> {
     constructor() {
@@ -642,10 +674,57 @@ class GetRtuResponse$Type extends MessageType<GetRtuResponse> {
  * @generated MessageType for protobuf message fibertest30.rtu_tree.GetRtuResponse
  */
 export const GetRtuResponse = new GetRtuResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AttachTraceRequest$Type extends MessageType<AttachTraceRequest> {
+    constructor() {
+        super("fibertest30.rtu_tree.AttachTraceRequest", [
+            { no: 1, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "portOfOtau", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => PortOfOtau }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.AttachTraceRequest
+ */
+export const AttachTraceRequest = new AttachTraceRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AttachTraceResponse$Type extends MessageType<AttachTraceResponse> {
+    constructor() {
+        super("fibertest30.rtu_tree.AttachTraceResponse", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.AttachTraceResponse
+ */
+export const AttachTraceResponse = new AttachTraceResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class DetachTraceRequest$Type extends MessageType<DetachTraceRequest> {
+    constructor() {
+        super("fibertest30.rtu_tree.DetachTraceRequest", [
+            { no: 1, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.DetachTraceRequest
+ */
+export const DetachTraceRequest = new DetachTraceRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class DetachTraceResponse$Type extends MessageType<DetachTraceResponse> {
+    constructor() {
+        super("fibertest30.rtu_tree.DetachTraceResponse", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.DetachTraceResponse
+ */
+export const DetachTraceResponse = new DetachTraceResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.rtu_tree.RtuTree
  */
 export const RtuTree = new ServiceType("fibertest30.rtu_tree.RtuTree", [
     { name: "GetRtuTree", options: {}, I: GetRtuTreeRequest, O: GetRtuTreeResponse },
-    { name: "GetRtu", options: {}, I: GetRtuRequest, O: GetRtuResponse }
+    { name: "GetRtu", options: {}, I: GetRtuRequest, O: GetRtuResponse },
+    { name: "AttachTrace", options: {}, I: AttachTraceRequest, O: AttachTraceResponse },
+    { name: "DetachTrace", options: {}, I: DetachTraceRequest, O: DetachTraceResponse }
 ]);

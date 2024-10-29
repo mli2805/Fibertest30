@@ -54,6 +54,34 @@ const reducer = createReducer(
     ...state,
     loading: false,
     errorMessageId
+  })),
+
+  on(RtuTreeActions.attachTrace, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(RtuTreeActions.attachTraceSuccess, (state) => ({
+    ...state,
+    loading: false
+  })),
+  on(RtuTreeActions.attachTraceFailure, (state, { errorMessageId }) => ({
+    ...state,
+    loading: false,
+    errorMessageId
+  })),
+
+  on(RtuTreeActions.detachTrace, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(RtuTreeActions.detachTraceSuccess, (state) => ({
+    ...state,
+    loading: false
+  })),
+  on(RtuTreeActions.detachTraceFailure, (state, { errorMessageId }) => ({
+    ...state,
+    loading: false,
+    errorMessageId
   }))
 );
 

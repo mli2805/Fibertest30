@@ -23,4 +23,8 @@ export class OneRtuComponent {
   flipExpanded() {
     this.isExpanded = !this.isExpanded;
   }
+
+  getDetachedTraces(rtu: Rtu) {
+    return rtu.traces.filter((t) => t.port === null);
+  }
 }

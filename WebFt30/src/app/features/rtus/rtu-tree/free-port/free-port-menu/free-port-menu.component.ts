@@ -1,11 +1,13 @@
+import { Dialog } from '@angular/cdk/dialog';
 import { Component, ElementRef, HostListener, inject, Input } from '@angular/core';
-import { disableDebugTools } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState, AuthSelectors, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
+import { TraceAttachComponent } from '../../../trace-attach/trace-attach.component';
+import { Trace } from 'src/app/core/store/models/ft30/trace';
 
 @Component({
   selector: 'rtu-free-port-menu',
@@ -24,10 +26,11 @@ export class FreePortMenuComponent {
 
   @Input() portOfOtau!: PortOfOtau;
   @Input() isRtuAvailableNow!: boolean;
+  @Input() detachedTraces!: Trace[];
 
   public open = false;
 
-  constructor(private elementRef: ElementRef, private router: Router) {
+  constructor(private elementRef: ElementRef, private router: Router, private dialog: Dialog) {
     this.currentUser = CoreUtils.getCurrentState(this.store, AuthSelectors.selectUser);
   }
 
@@ -56,11 +59,20 @@ export class FreePortMenuComponent {
   }
 
   canAttachTrace() {
-    return this.hasPermission(ApplicationPermission.AttachTrace);
+    return this.hasPermission(ApplicationPermission.AttachTrace) && this.detachedTraces.length > 0;
   }
 
-  onAttachTraceClicked() {
-    //
+  async onAttachTraceClicked() {
+    await this.openAttachTraceDialog();
+  }
+
+  private async openAttachTraceDialog() {
+    this.dialog.open(TraceAttachComponent, {
+      maxHeight: '95vh',
+      maxWidth: '95vw',
+      disableClose: true,
+      data: { traces: this.detachedTraces, portOfOtau: this.portOfOtau }
+    });
   }
 
   canAttachBop() {

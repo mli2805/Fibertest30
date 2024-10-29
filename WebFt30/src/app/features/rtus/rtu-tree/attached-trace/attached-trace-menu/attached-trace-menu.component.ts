@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState, AuthSelectors, User } from 'src/app/core';
+import { AppState, AuthSelectors, RtuTreeActions, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
@@ -81,13 +81,15 @@ export class AttachedTraceMenuComponent {
 
   canDetachTrace() {
     return (
-      this.hasPermission(ApplicationPermission.AssignBaseRef) &&
-      (!this.isMonitoringOn || !this.trace.isIncludedInMonitoringCycle)
+      this.hasPermission(ApplicationPermission.DetachTrace) &&
+      !this.isMonitoringOn &&
+      !this.trace.isIncludedInMonitoringCycle
     );
   }
 
   onDetachTraceClicked() {
-    //
+    console.log('onDetachTraceClicked');
+    this.store.dispatch(RtuTreeActions.detachTrace({ traceId: this._trace.traceId }));
   }
 
   canAssignBaseRefs() {

@@ -51,5 +51,37 @@ export class RtuTreeEffects {
     )
   );
 
+  attachTrace = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RtuTreeActions.attachTrace),
+      switchMap(({ dto }) => {
+        return this.rtuTreeService.attachTrace(dto).pipe(
+          map((response) => {
+            return RtuTreeActions.attachTraceSuccess();
+          }),
+          catchError((error) => {
+            return of(RtuTreeActions.attachTraceFailure({ errorMessageId: error }));
+          })
+        );
+      })
+    )
+  );
+
+  detachTrace = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RtuTreeActions.detachTrace),
+      switchMap(({ traceId }) => {
+        return this.rtuTreeService.detachTrace(traceId).pipe(
+          map((response) => {
+            return RtuTreeActions.detachTraceSuccess();
+          }),
+          catchError((error) => {
+            return of(RtuTreeActions.detachTraceFailure({ errorMessageId: error }));
+          })
+        );
+      })
+    )
+  );
+
   constructor(private actions$: Actions, private rtuTreeService: RtuTreeService) {}
 }

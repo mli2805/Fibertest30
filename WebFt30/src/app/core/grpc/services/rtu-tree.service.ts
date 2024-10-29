@@ -4,6 +4,8 @@ import * as grpc from 'src/grpc-generated';
 import { AuthInterceptor } from '../auth.interceptor';
 import { GrpcUtils } from '../grpc.utils';
 import { Observable } from 'rxjs';
+import { AttachTraceDto } from '../../store/models/ft30/attach-trace-dto';
+import { FtBaseMapping } from '../../store/mapping/ft-base-mapping';
 
 @Injectable({
   providedIn: 'root'
@@ -21,13 +23,24 @@ export class RtuTreeService {
 
   refreshRtuTree(): Observable<grpc.GetRtuTreeResponse> {
     const request: grpc.GetRtuTreeRequest = {};
-    console.log(`sends RefreshTree`);
     return GrpcUtils.unaryToObservable(this.client.getRtuTree.bind(this.client), request, {});
   }
 
   getOneRtu(rtuId: string): Observable<grpc.GetRtuResponse> {
     const request: grpc.GetRtuRequest = { rtuId: rtuId };
-    console.log(`sends GetRtu`);
     return GrpcUtils.unaryToObservable(this.client.getRtu.bind(this.client), request, {});
+  }
+
+  attachTrace(dto: AttachTraceDto): Observable<grpc.AttachTraceResponse> {
+    const request: grpc.AttachTraceRequest = {
+      traceId: dto.traceId,
+      portOfOtau: dto.portOfOtau.map((p) => FtBaseMapping.toGrpcPortOfOtau(p))
+    };
+    return GrpcUtils.unaryToObservable(this.client.attachTrace.bind(this.client), request, {});
+  }
+
+  detachTrace(traceId: string): Observable<grpc.DetachTraceResponse> {
+    const request: grpc.DetachTraceRequest = { traceId };
+    return GrpcUtils.unaryToObservable(this.client.detachTrace.bind(this.client), request, {});
   }
 }
