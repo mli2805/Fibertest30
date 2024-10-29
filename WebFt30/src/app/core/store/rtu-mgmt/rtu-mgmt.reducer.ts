@@ -87,7 +87,8 @@ const reducer = createReducer(
   })),
   on(RtuMgmtActions.measurementClientDone, (state, { measurementClientId }) => ({
     ...state,
-    measurementClientId: measurementClientId
+    measurementClientId: measurementClientId,
+    rtuOperationSuccess: null
   })),
   on(RtuMgmtActions.getMeasurementClientSorSuccess, (state) => ({
     ...state,
