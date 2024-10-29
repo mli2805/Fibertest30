@@ -15,11 +15,17 @@ public static class EventTablesMapping
 
     public static OpticalEvent ToProto(this Iit.Fibertest.Dto.OpticalEventDto dto)
     {
+        // файбертест исторически хранит все даты в локальном времени
+        // перед передачей по grpc переводим сначала время в UTC, а затем в прото формат
+        // вэб морда получает все времена UTC и
+        // DateTimePipe взяв из браузера таймзону клиента показывает время правильно для каждого клиента
+
+
         return new OpticalEvent
         {
             EventId = dto.EventId,
-            MeasuredAt = dto.MeasurementTimestamp.ToTimestamp(),
-            RegisteredAt = dto.EventRegistrationTimestamp.ToTimestamp(),
+            MeasuredAt = dto.MeasurementTimestamp.ToUniversalTime().ToTimestamp(),
+            RegisteredAt = dto.EventRegistrationTimestamp.ToUniversalTime().ToTimestamp(),
 
             RtuTitle = dto.RtuTitle,
             RtuId = dto.RtuId.ToString(),
@@ -30,7 +36,7 @@ public static class EventTablesMapping
             TraceState = dto.TraceState.ToProto(),
 
             EventStatus = dto.EventStatus.ToProto(),
-            StatusChangedAt = dto.StatusChangedTimestamp.ToTimestamp(),
+            StatusChangedAt = dto.StatusChangedTimestamp.ToUniversalTime().ToTimestamp(),
             StatusChangedByUser = dto.StatusChangedByUser,
 
             Comment = dto.Comment
@@ -42,7 +48,7 @@ public static class EventTablesMapping
         return new NetworkEvent
         {
             EventId = dto.EventId,
-            RegisteredAt = dto.EventRegistrationTimestamp.ToTimestamp(),
+            RegisteredAt = dto.EventRegistrationTimestamp.ToUniversalTime().ToTimestamp(),
             RtuId = dto.RtuId.ToString(),
             RtuTitle = dto.RtuTitle,
             IsRtuAvailable = dto.IsRtuAvailable,
@@ -56,7 +62,7 @@ public static class EventTablesMapping
         return new BopEvent
         {
             EventId = dto.EventId, 
-            RegisteredAt = dto.EventRegistrationTimestamp.ToTimestamp(), 
+            RegisteredAt = dto.EventRegistrationTimestamp.ToUniversalTime().ToTimestamp(), 
             BopAddress = dto.BopAddress,
             RtuId = dto.RtuId.ToString(),
             RtuTitle = dto.RtuTitle,
@@ -72,7 +78,7 @@ public static class EventTablesMapping
             Id = dto.Id,
             IsMeasurementProblem = dto.IsMeasurementProblem,
             ReturnCode = (int)dto.ReturnCode,
-            RegisteredAt = dto.EventRegistrationTimestamp.ToTimestamp(),
+            RegisteredAt = dto.EventRegistrationTimestamp.ToUniversalTime().ToTimestamp(),
             RtuTitle = dto.RtuTitle,
             RtuId = dto.RtuId.ToString(),
             TraceTitle = dto.TraceTitle,

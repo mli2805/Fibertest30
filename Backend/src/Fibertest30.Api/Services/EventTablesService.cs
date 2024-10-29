@@ -30,7 +30,8 @@ public class EventTablesService : EventTables.EventTablesBase
         ServerCallContext context)
     {
         var opticalEvents =
-            await _mediator.Send(new GetOpticalEventsQuery(request.CurrentEvents), context.CancellationToken);
+            await _mediator.Send(new GetOpticalEventsQuery(
+                request.CurrentEvents, request.DateTimeFilter.FromProto()), context.CancellationToken);
 
         var response = new GetOpticalEventsResponse() { OpticalEvents = { opticalEvents.Select(x => x.ToProto()) } };
 

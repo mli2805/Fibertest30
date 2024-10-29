@@ -179,5 +179,7 @@
   "i18n.ft.status-changed-rtu-substitution-detected": "Состояние изменено, обнаружена замена RTU",
   "i18n.ft.rtu-re-initialization": "Переинициализация RTU",
   "i18n.ft.base-not-found": "{{ 0 }} базовая не найдена",
-  "i18n.ft.failed-to-set-parameters-from-base": "Не удалось применить параметры из базовой: {{ 0 }}"
+  "i18n.ft.failed-to-set-parameters-from-base": "Не удалось применить параметры из базовой: {{ 0 }}",
+
+  "i18n.ft.load-more": "Загрузить ещё..."
 }

@@ -8,6 +8,7 @@ import { RtuAccident } from "./events.data";
 import { BopEvent } from "./events.data";
 import { NetworkEvent } from "./events.data";
 import { OpticalEvent } from "./events.data";
+import { DateTimeFilter } from "./events.data";
 import { SystemEvent } from "./data.core";
 /**
  * @generated from protobuf message fibertest30.event_tables.GetSystemEventsRequest
@@ -31,6 +32,10 @@ export interface GetOpticalEventsRequest {
      * @generated from protobuf field: bool currentEvents = 1;
      */
     currentEvents: boolean;
+    /**
+     * @generated from protobuf field: fibertest30.events.data.DateTimeFilter dateTimeFilter = 2;
+     */
+    dateTimeFilter?: DateTimeFilter;
 }
 /**
  * @generated from protobuf message fibertest30.event_tables.GetOpticalEventsResponse
@@ -135,7 +140,8 @@ export const GetSystemEventsResponse = new GetSystemEventsResponse$Type();
 class GetOpticalEventsRequest$Type extends MessageType<GetOpticalEventsRequest> {
     constructor() {
         super("fibertest30.event_tables.GetOpticalEventsRequest", [
-            { no: 1, name: "currentEvents", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+            { no: 1, name: "currentEvents", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 2, name: "dateTimeFilter", kind: "message", T: () => DateTimeFilter }
         ]);
     }
 }

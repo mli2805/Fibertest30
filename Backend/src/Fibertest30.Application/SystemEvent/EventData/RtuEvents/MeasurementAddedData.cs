@@ -23,6 +23,8 @@ public class MeasurementAddedData : ISystemEventData
         IsOk = isOk;
     }
 
+    // время сериализуется с указанием таймзоны
+    // клиент возьмет таймзону браузера и покажет правильное время относительно себя
     public string ToJsonData()
     {
         return JsonSerializer.Serialize(this);

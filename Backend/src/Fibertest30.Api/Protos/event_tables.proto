@@ -24,7 +24,9 @@ message GetSystemEventsResponse {
 
 message GetOpticalEventsRequest {
     bool currentEvents = 1;
+    events.data.DateTimeFilter dateTimeFilter = 2;
 }
+
 message GetOpticalEventsResponse {
     repeated events.data.OpticalEvent opticalEvents = 1;
 }

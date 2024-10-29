@@ -20,12 +20,13 @@ public static class DateTimeFilterExtensions
             // to get meaningful error message
             return new Application.DateTimeFilter();
         }
-        
+
         return new Application.DateTimeFilter()
         {
             SearchWindow = dateTimeFilter.SearchWindow?.FromProto(),
             RelativeFromNow = dateTimeFilter.RelativeFromNow?.ToTimeSpan(),
-            LoadSince = dateTimeFilter.LoadSince?.ToDateTime(),
+            // время пришло UTC а файбертесту надо локальное
+            LoadSince = dateTimeFilter.LoadSince?.ToDateTime().ToLocalTime(),
             OrderDescending = dateTimeFilter.OrderDescending
         };
     }

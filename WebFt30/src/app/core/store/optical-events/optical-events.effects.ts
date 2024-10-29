@@ -13,22 +13,48 @@ export class OpticalEventsEffects {
   getOpticalEvents = createEffect(() =>
     this.actions$.pipe(
       ofType(OpticalEventsActions.getOpticalEvents),
-      switchMap(({ currentEvents }) =>
-        this.eventTablesService.getOpticalEvents(currentEvents).pipe(
-          map((response) => {
-            return OpticalEventsActions.getOpticalEventsSuccess({
-              opticalEvents: EventTablesMapping.toOpticalEvents(response.opticalEvents)
-            });
-          }),
-          catchError((error) =>
-            of(
-              OpticalEventsActions.getOpticalEventsFailure({
-                error: GrpcUtils.toServerError(error)
-              })
+      switchMap(({ currentEvents, orderDescending, searchWindow }) => {
+        return this.eventTablesService
+          .getOpticalEvents(currentEvents, searchWindow, null, orderDescending)
+          .pipe(
+            map((response) => {
+              return OpticalEventsActions.loadNextOpticalEventsSuccess({
+                opticalEvents: EventTablesMapping.toOpticalEvents(response.opticalEvents)
+              });
+            }),
+            catchError((error) =>
+              of(
+                OpticalEventsActions.loadNextOpticalEventsFailure({
+                  error: GrpcUtils.toServerError(error)
+                })
+              )
             )
-          )
-        )
-      )
+          );
+      })
+    )
+  );
+
+  loadNextOpticalEvents = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OpticalEventsActions.loadNextOpticalEvents),
+      switchMap(({ currentEvents, orderDescending, lastLoaded, searchWindow }) => {
+        return this.eventTablesService
+          .getOpticalEvents(currentEvents, searchWindow, lastLoaded, orderDescending)
+          .pipe(
+            map((response) => {
+              return OpticalEventsActions.loadNextOpticalEventsSuccess({
+                opticalEvents: EventTablesMapping.toOpticalEvents(response.opticalEvents)
+              });
+            }),
+            catchError((error) =>
+              of(
+                OpticalEventsActions.loadNextOpticalEventsFailure({
+                  error: GrpcUtils.toServerError(error)
+                })
+              )
+            )
+          );
+      })
     )
   );
 

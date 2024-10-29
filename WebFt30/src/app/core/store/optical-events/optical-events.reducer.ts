@@ -32,6 +32,23 @@ const reducer = createReducer(
     ...state,
     loading: false,
     error
+  })),
+
+  on(OpticalEventsActions.loadNextOpticalEvents, (state) => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  on(OpticalEventsActions.loadNextOpticalEventsSuccess, (state, { opticalEvents }) => ({
+    ...state,
+    opticalEvents: state.opticalEvents ? [...state.opticalEvents, ...opticalEvents] : opticalEvents,
+    loading: false,
+    loadedTime: new Date()
+  })),
+  on(OpticalEventsActions.getOpticalEventsFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
   }))
 );
 

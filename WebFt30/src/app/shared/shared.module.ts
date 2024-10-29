@@ -69,6 +69,8 @@ import { ChannelEventBgDirective } from '../features/net-evnts/newtork-events/co
 import { IsAvailableBgDirective } from '../features/net-evnts/newtork-events/colorize-bg-by-isavailable.directive';
 import { BaseRefTypePipe } from './pipes/base-ref-type.pipe';
 import { EventTableIconComponent } from './components/event-table-icon/event-table-icon.component';
+import { OpticalTraceStatePipe } from './pipes/optical-trace-state.pipe';
+import { OpticalTraceStateBgDirective } from '../features/op-evnts/optical-events/colorize-bg-by-opticaltracestate.directive';
 
 @NgModule({
   imports: [
@@ -90,6 +92,7 @@ import { EventTableIconComponent } from './components/event-table-icon/event-tab
     SelectItemDirective,
     SystemEventLevelDirective,
     FiberStateBgDirective,
+    OpticalTraceStateBgDirective,
     EventStatusBgDirective,
     ChannelEventBgDirective,
     IsAvailableBgDirective,
@@ -98,6 +101,7 @@ import { EventTableIconComponent } from './components/event-table-icon/event-tab
     RtuDateToDayOfWeekPipe,
     SignedNumberPipe,
     FiberStatePipe,
+    OpticalTraceStatePipe,
     FrequencyPipe,
     EventStatusPipe,
     ChannelEventPipe,
@@ -157,6 +161,7 @@ import { EventTableIconComponent } from './components/event-table-icon/event-tab
     SelectItemDirective,
     SystemEventLevelDirective,
     FiberStateBgDirective,
+    OpticalTraceStateBgDirective,
     EventStatusBgDirective,
     ChannelEventBgDirective,
     IsAvailableBgDirective,
@@ -165,6 +170,7 @@ import { EventTableIconComponent } from './components/event-table-icon/event-tab
     RtuDateToDayOfWeekPipe,
     SignedNumberPipe,
     FiberStatePipe,
+    OpticalTraceStatePipe,
     FrequencyPipe,
     EventStatusPipe,
     ChannelEventPipe,
