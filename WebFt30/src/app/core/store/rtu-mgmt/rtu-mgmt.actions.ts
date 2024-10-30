@@ -69,6 +69,7 @@ const applyMonitoringSettingsFailure = createAction(
 );
 
 const reset = createAction('[RtuMgmt] Reset');
+const cleanMeasurementClient = createAction('[RtuMgmt] Clean Measurement Client');
 const setSpinner = createAction('[RtuMgmt] Set Spinner', props<{ value: boolean }>());
 
 export const RtuMgmtActions = {
@@ -86,6 +87,7 @@ export const RtuMgmtActions = {
 
   measurementClientDone,
   getMeasurementClientSorSuccess,
+  cleanMeasurementClient,
 
   stopMonitoring,
   stopMonitoringSuccess,

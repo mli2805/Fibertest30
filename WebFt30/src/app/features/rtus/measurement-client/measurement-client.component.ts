@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { SorTrace } from '@veex/sor';
@@ -33,7 +33,7 @@ import { ValidationUtils } from 'src/app/shared/utils/validation-utils';
   templateUrl: './measurement-client.component.html',
   styleUrls: ['./measurement-client.component.css']
 })
-export class MeasurementClientComponent extends OnDestroyBase implements OnInit {
+export class MeasurementClientComponent extends OnDestroyBase implements OnInit, OnDestroy {
   rtu!: Rtu;
   portOfOtau!: PortOfOtau[]; // 2 ports if on bop
   acceptableParameters!: TreeOfAcceptableMeasurementParameters;
@@ -83,6 +83,11 @@ export class MeasurementClientComponent extends OnDestroyBase implements OnInit 
         })
       )
       .subscribe();
+  }
+
+  override ngOnDestroy(): void {
+    console.log('ngOnDestroy');
+    this.store.dispatch(RtuMgmtActions.cleanMeasurementClient());
   }
 
   ngOnInit(): void {

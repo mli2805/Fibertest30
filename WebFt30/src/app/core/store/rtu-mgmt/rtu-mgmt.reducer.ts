@@ -94,6 +94,10 @@ const reducer = createReducer(
     ...state,
     rtuOperationInProgress: false
   })),
+  on(RtuMgmtActions.cleanMeasurementClient, (state) => ({
+    ...state,
+    measurementClientId: null
+  })),
 
   on(RtuMgmtActions.stopMonitoring, (state, { rtuId }) => ({
     ...state,
