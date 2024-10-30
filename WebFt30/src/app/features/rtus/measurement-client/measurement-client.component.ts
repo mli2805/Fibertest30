@@ -246,7 +246,7 @@ export class MeasurementClientComponent extends OnDestroyBase implements OnInit,
 
     const refractiveIndex = new MeasParamByPosition();
     refractiveIndex.param = 10;
-    refractiveIndex.position = Math.round(+this.form.controls['refractiveIndex'].value * 10000);
+    refractiveIndex.position = Math.round(+this.form.controls['refractiveIndex'].value * 100000);
     ms.push(refractiveIndex);
 
     const lmax = new MeasParamByPosition();
