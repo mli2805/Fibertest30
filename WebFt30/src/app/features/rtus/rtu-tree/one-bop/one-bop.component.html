@@ -48,6 +48,7 @@
             <rtu-free-port
               [portOfOtau]="child.payload"
               [isRtuAvailableNow]="rtu.isRtuAvailable"
+              [detachedTraces]="getDetachedTraces(rtu)"
               [i]="ib"
             ></rtu-free-port>
           </ng-container>

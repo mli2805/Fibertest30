@@ -86,7 +86,6 @@ export class MeasurementClientComponent extends OnDestroyBase implements OnInit,
   }
 
   override ngOnDestroy(): void {
-    console.log('ngOnDestroy');
     this.store.dispatch(RtuMgmtActions.cleanMeasurementClient());
   }
 

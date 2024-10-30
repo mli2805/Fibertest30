@@ -38,6 +38,11 @@ const selectTrace = (traceId: string) =>
       for (const trace of rtu.traces) {
         if (trace.traceId === traceId) return trace;
       }
+      for (const bop of rtu.bops) {
+        for (const trace of bop.traces) {
+          if (trace.traceId === traceId) return trace;
+        }
+      }
     }
     return null;
   });
