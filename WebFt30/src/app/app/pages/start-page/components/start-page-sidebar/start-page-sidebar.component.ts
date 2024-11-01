@@ -19,8 +19,7 @@ export class StartPageSidebarComponent {
   private router: Router = inject(Router);
   constructor(private store: Store<AppState>, private audioService: AudioService) {}
 
-  navigateToNewEvents() {
+  onNewEventsClicked() {
     this.audioService.stopAll();
-    this.router.navigate(['./evnts-new']);
   }
 }

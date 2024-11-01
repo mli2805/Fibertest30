@@ -4,7 +4,6 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<UserSecretsId>61ddea6a-2040-4f62-8064-8af72d8d5b0d</UserSecretsId>
 
 		<!-- Disable "BinaryFormatter is obsolete" warnings for entire project -->
 		<NoWarn>$(NoWarn);SYSLIB0011</NoWarn>
@@ -17,6 +16,7 @@
 		<Product>Fibertest 3.0</Product>
 		<Copyright>Copyright © IIT Minsk 2017-2024</Copyright>
 		<Authors>Leanid Marholin</Authors>
+		<UserSecretsId>7088f0c1-50cf-405b-a11d-faed5dde5fb5</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
