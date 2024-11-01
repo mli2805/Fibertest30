@@ -209,6 +209,10 @@ export interface RtuAccident {
      * @generated from protobuf field: string comment = 10;
      */
     comment: string;
+    /**
+     * @generated from protobuf field: int32 clearedAccidentWithId = 11;
+     */
+    clearedAccidentWithId: number;
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class DateTimeRange$Type extends MessageType<DateTimeRange> {
@@ -311,7 +315,8 @@ class RtuAccident$Type extends MessageType<RtuAccident> {
             { no: 7, name: "traceTitle", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 8, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 9, name: "baseRefType", kind: "enum", T: () => ["fibertest30.ft.enums.BaseRefType", BaseRefType] },
-            { no: 10, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 10, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 11, name: "clearedAccidentWithId", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
 }

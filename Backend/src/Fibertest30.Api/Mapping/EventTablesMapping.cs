@@ -85,6 +85,7 @@ public static class EventTablesMapping
             TraceId = dto.TraceId.ToString(),
             BaseRefType = dto.BaseRefType.ToProto(),
             Comment = dto.Comment,
+            ClearedAccidentWithId = dto.ClearedAccidentWithId
         };
     }
 }

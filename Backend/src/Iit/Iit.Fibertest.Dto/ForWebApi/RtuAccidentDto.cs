@@ -14,6 +14,7 @@
         public BaseRefType BaseRefType;
 
         public string Comment;
+        public int ClearedAccidentWithId = -1;
     }
 
     public class RtuAccidentsRequestedDto

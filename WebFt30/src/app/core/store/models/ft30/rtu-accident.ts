@@ -14,4 +14,5 @@ export class RtuAccident {
   baseRefType!: BaseRefType;
 
   comment!: string;
+  clearedAccidentWithId!: number;
 }

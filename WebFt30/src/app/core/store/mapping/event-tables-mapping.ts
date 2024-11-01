@@ -98,6 +98,7 @@ export class EventTablesMapping {
     rtuAccident.traceId = grpcRtuAccident.traceId;
     rtuAccident.baseRefType = grpcRtuAccident.baseRefType;
     rtuAccident.comment = grpcRtuAccident.comment;
+    rtuAccident.clearedAccidentWithId = grpcRtuAccident.clearedAccidentWithId;
 
     return rtuAccident;
   }

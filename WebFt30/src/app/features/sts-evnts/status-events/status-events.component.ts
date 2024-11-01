@@ -48,7 +48,7 @@ export class StatusEventsComponent {
         return this.ts.instant('i18n.ft.measurement-ok');
       case ReturnCode.MeasurementErrorCleared:
       case ReturnCode.MeasurementErrorClearedByInit:
-        return this.ts.instant('i18n.ft.cleared-id');
+        return this.ts.instant('i18n.ft.cleared-id', { 0: rtuAccident.clearedAccidentWithId });
       case ReturnCode.MeasurementBaseRefNotFound:
       case ReturnCode.MeasurementFailedToSetParametersFromBase:
       case ReturnCode.MeasurementAnalysisFailed:

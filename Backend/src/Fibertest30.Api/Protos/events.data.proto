@@ -74,6 +74,7 @@ message RtuAccident {
 	ft.enums.BaseRefType baseRefType = 9;
 
 	string comment = 10;
+	int32 clearedAccidentWithId = 11; 
 }
 
 
