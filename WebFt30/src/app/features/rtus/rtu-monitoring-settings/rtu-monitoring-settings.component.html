@@ -111,7 +111,7 @@
     </fieldset>
 
     <div class="flex flex-col items-center">
-      <button class="button-ok mt-4 w-64" (click)="onApplyClicked()">
+      <button class="button-ok mt-4 w-64" (click)="onApplyClicked()" [disabled]="isApplyDisabled()">
         {{ 'i18n.ft.apply' | translate }}
       </button>
 

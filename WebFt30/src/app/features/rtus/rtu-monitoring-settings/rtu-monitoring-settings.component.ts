@@ -78,15 +78,6 @@ export class RtuMonitoringSettingsComponent extends OnDestroyBase implements OnI
     this.collectOtausWithTraces();
     this.selectedOtauChanged(this.otaus[0]);
 
-    // for (let i = 0; i < this.otaus.length; i++) {
-    //   this.cycleFullTimeSec =
-    //     this.cycleFullTimeSec +
-    //     this.otaus[i].traces
-    //       .filter((t) => t && t.isIncludedInMonitoringCycle)
-    //       .map((d) => d!.fastDuration)
-    //       .reduce((a, b) => a + b);
-    // }
-
     this.cycleFullTimeSec = 0;
     for (let i = 0; i < this.otaus.length; i++) {
       for (const trace of this.otaus[i].traces) {
@@ -139,6 +130,11 @@ export class RtuMonitoringSettingsComponent extends OnDestroyBase implements OnI
   onPortChecked(sec: number) {
     this.cycleFullTimeSec = this.cycleFullTimeSec + sec;
     this.cycleFullTime = SecUtil.secToString(this.cycleFullTimeSec);
+  }
+
+  isApplyDisabled() {
+    const isMonitoringOn = this.form.controls['isMonitoringOn'].value === true;
+    return this.cycleFullTimeSec === 0 && isMonitoringOn;
   }
 
   onApplyClicked() {
