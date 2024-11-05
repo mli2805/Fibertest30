@@ -1,10 +1,11 @@
 import { Component, ElementRef, HostListener, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState, AuthSelectors, User } from 'src/app/core';
+import { AppState, AuthSelectors, RtuTreeActions, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Bop } from 'src/app/core/store/models/ft30/bop';
+import { DetachOtauDto } from 'src/app/core/store/models/ft30/detach-otau-dto';
 
 @Component({
   selector: 'rtu-one-bop-menu',
@@ -72,6 +73,11 @@ export class OneBopMenuComponent {
   }
 
   onRemoveClicked() {
-    //
+    const dto = new DetachOtauDto();
+    dto.rtuId = this._bop.rtuId;
+    dto.otauId = this._bop.bopId;
+    dto.netAddress = this._bop.bopNetAddress;
+    dto.opticalPort = this._bop.masterPort;
+    this.store.dispatch(RtuTreeActions.detachOtau({ dto }));
   }
 }

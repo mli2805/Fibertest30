@@ -205,4 +205,25 @@ public static class RtuTreeMapping
 
         return protoRtu;
     }
+
+    public static AttachOtauDto FromProto(this AttachOtauRequest request)
+    {
+        return new AttachOtauDto()
+        {
+            RtuId = Guid.Parse(request.RtuId), 
+            NetAddress = request.NetAddress.FromProto(),
+            OpticalPort = request.OpticalPort,
+        };
+    }
+
+    public static DetachOtauDto FromProto(this DetachOtauRequest request)
+    {
+        return new DetachOtauDto()
+        {
+            RtuId = Guid.Parse(request.RtuId), 
+            OtauId = Guid.Parse(request.OtauId),
+            NetAddress = request.NetAddress.FromProto(),
+            OpticalPort = request.OpticalPort,
+        };
+    }
 }

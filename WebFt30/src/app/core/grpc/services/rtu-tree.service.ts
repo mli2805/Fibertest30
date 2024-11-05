@@ -6,6 +6,8 @@ import { GrpcUtils } from '../grpc.utils';
 import { Observable } from 'rxjs';
 import { AttachTraceDto } from '../../store/models/ft30/attach-trace-dto';
 import { FtBaseMapping } from '../../store/mapping/ft-base-mapping';
+import { AttachOtauDto } from '../../store/models/ft30/attach-otau-dto';
+import { DetachOtauDto } from '../../store/models/ft30/detach-otau-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -42,5 +44,24 @@ export class RtuTreeService {
   detachTrace(traceId: string): Observable<grpc.DetachTraceResponse> {
     const request: grpc.DetachTraceRequest = { traceId };
     return GrpcUtils.unaryToObservable(this.client.detachTrace.bind(this.client), request, {});
+  }
+
+  attachOtau(dto: AttachOtauDto): Observable<grpc.AttachOtauResponse> {
+    const request: grpc.AttachOtauRequest = {
+      rtuId: dto.rtuId,
+      netAddress: FtBaseMapping.toGrpcNetAddress(dto.netAddress),
+      opticalPort: dto.opticalPort
+    };
+    return GrpcUtils.unaryToObservable(this.client.attachOtau.bind(this.client), request, {});
+  }
+
+  detachOtau(dto: DetachOtauDto): Observable<grpc.DetachOtauResponse> {
+    const request: grpc.DetachOtauRequest = {
+      rtuId: dto.rtuId,
+      otauId: dto.otauId,
+      netAddress: FtBaseMapping.toGrpcNetAddress(dto.netAddress),
+      opticalPort: dto.opticalPort
+    };
+    return GrpcUtils.unaryToObservable(this.client.detachOtau.bind(this.client), request, {});
   }
 }

@@ -43,4 +43,18 @@ public class RtuTreeService : RtuTree.RtuTreeBase
         await _mediator.Send(new DetachTraceCommand(guid), context.CancellationToken);
         return new DetachTraceResponse();
     }
+
+    public override async Task<AttachOtauResponse> AttachOtau(AttachOtauRequest request, ServerCallContext context)
+    {
+        var dto = request.FromProto();
+        await _mediator.Send(new AttachOtauCommand(dto), context.CancellationToken);
+        return new AttachOtauResponse();
+    }
+
+    public override async Task<DetachOtauResponse> DetachOtau(DetachOtauRequest request, ServerCallContext context)
+    {
+        var dto = request.FromProto();
+        await _mediator.Send(new DetachOtauCommand(dto), context.CancellationToken);
+        return new DetachOtauResponse();
+    }
 }

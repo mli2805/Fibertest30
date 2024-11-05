@@ -152,6 +152,14 @@ public static class SystemEventSupportedNotificationRules
         {
             SystemEventType.TraceDetached,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        }, 
+        {
+            SystemEventType.OtauAttached,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },
+        {
+            SystemEventType.OtauDetached,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         },
         {
             SystemEventType.MeasurementAdded,

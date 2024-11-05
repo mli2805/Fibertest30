@@ -24,7 +24,7 @@ public class AttachTraceCommandHandler : IRequestHandler<AttachTraceCommand, Uni
 
     public async Task<Unit> Handle(AttachTraceCommand request, CancellationToken cancellationToken)
     {
-        var result = await _rtuManager.AttachTrace(request.Dto, _currentUserService.UserName!);
+        var result = await _rtuManager.AttachTrace(request.Dto);
 
         if (result.ReturnCode == ReturnCode.Ok)
         {

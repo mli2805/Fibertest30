@@ -1,0 +1,35 @@
+<div class="dialog min-w-144">
+  <div [formGroup]="form">
+    <div>
+      <div class="mb-4 ml-2">{{ 'i18n.ft.enter-optical-switch-address' | translate }}</div>
+    </div>
+
+    <fieldset class="ml-2 mt-2 min-h-48 w-72">
+      <div class="mb-2 flex items-center">
+        <label class="w-20 text-sm">
+          {{ 'i18n.ft.ip' | translate }}
+        </label>
+        <input
+          formControlName="ipAddress"
+          [ngClass]="{ 'invalid-border': !isServerAddressValid() }"
+          type="text"
+          class="input-simple w-full"
+        />
+      </div>
+
+      <div class="flex items-center">
+        <label class="w-20 text-sm">{{ 'i18n.ft.port' | translate }}</label>
+        <div class="text-sm">11834</div>
+      </div>
+    </fieldset>
+
+    <div class="mt-6 flex w-full justify-end">
+      <button class="button-cancel min-w-36" (click)="onCancelClicked()">
+        {{ 'i18n.ft.cancel' | translate }}
+      </button>
+      <button class="button-ok ml-2 min-w-36" (click)="onAttachClicked()">
+        {{ 'i18n.ft.attach' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

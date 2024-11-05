@@ -35,6 +35,7 @@ import { OtauMonitoringSettingsComponent } from './rtu-monitoring-settings/otau-
 import { TraceAssignBaseComponent } from './trace-assign-base/trace-assign-base.component';
 import { TraceStateComponent } from './trace-state/trace-state.component';
 import { TraceAttachComponent } from './trace-attach/trace-attach.component';
+import { BopAttachComponent } from './bop-attach/bop-attach.component';
 
 @NgModule({
   imports: [
@@ -74,7 +75,8 @@ import { TraceAttachComponent } from './trace-attach/trace-attach.component';
     OtauMonitoringSettingsComponent,
     TraceAssignBaseComponent,
     TraceStateComponent,
-    TraceAttachComponent
+    TraceAttachComponent,
+    BopAttachComponent
   ],
   providers: []
 })

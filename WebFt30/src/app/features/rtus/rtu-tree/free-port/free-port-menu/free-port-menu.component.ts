@@ -8,6 +8,7 @@ import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
 import { TraceAttachComponent } from '../../../trace-attach/trace-attach.component';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
+import { BopAttachComponent } from '../../../bop-attach/bop-attach.component';
 
 @Component({
   selector: 'rtu-free-port-menu',
@@ -79,8 +80,17 @@ export class FreePortMenuComponent {
     return this.hasPermission(ApplicationPermission.AttachBop);
   }
 
-  onAttachBopClicked() {
-    //
+  async onAttachBopClicked() {
+    await this.openAttachOtauDialog();
+  }
+
+  private async openAttachOtauDialog() {
+    this.dialog.open(BopAttachComponent, {
+      maxHeight: '95vh',
+      maxWidth: '95vw',
+      disableClose: true,
+      data: { portOfOtau: this.portOfOtau }
+    });
   }
 
   canMeasurementClient() {

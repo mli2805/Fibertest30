@@ -10,6 +10,7 @@ import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors
 export class RtuTreeComponent {
   rtus$ = this.store.select(RtuTreeSelectors.selectRtuArray);
   inProgress$ = this.store.select(RtuMgmtSelectors.selectRtuOperationInProgress);
+  loading$ = this.store.select(RtuTreeSelectors.selectLoading);
 
   constructor(private store: Store<AppState>) {}
 }

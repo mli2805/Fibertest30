@@ -4,6 +4,10 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { RtuTree } from "./rtu_tree";
+import type { DetachOtauResponse } from "./rtu_tree";
+import type { DetachOtauRequest } from "./rtu_tree";
+import type { AttachOtauResponse } from "./rtu_tree";
+import type { AttachOtauRequest } from "./rtu_tree";
 import type { DetachTraceResponse } from "./rtu_tree";
 import type { DetachTraceRequest } from "./rtu_tree";
 import type { AttachTraceResponse } from "./rtu_tree";
@@ -35,6 +39,14 @@ export interface IRtuTreeClient {
      * @generated from protobuf rpc: DetachTrace(fibertest30.rtu_tree.DetachTraceRequest) returns (fibertest30.rtu_tree.DetachTraceResponse);
      */
     detachTrace(input: DetachTraceRequest, options?: RpcOptions): UnaryCall<DetachTraceRequest, DetachTraceResponse>;
+    /**
+     * @generated from protobuf rpc: AttachOtau(fibertest30.rtu_tree.AttachOtauRequest) returns (fibertest30.rtu_tree.AttachOtauResponse);
+     */
+    attachOtau(input: AttachOtauRequest, options?: RpcOptions): UnaryCall<AttachOtauRequest, AttachOtauResponse>;
+    /**
+     * @generated from protobuf rpc: DetachOtau(fibertest30.rtu_tree.DetachOtauRequest) returns (fibertest30.rtu_tree.DetachOtauResponse);
+     */
+    detachOtau(input: DetachOtauRequest, options?: RpcOptions): UnaryCall<DetachOtauRequest, DetachOtauResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.rtu_tree.RtuTree
@@ -72,5 +84,19 @@ export class RtuTreeClient implements IRtuTreeClient, ServiceInfo {
     detachTrace(input: DetachTraceRequest, options?: RpcOptions): UnaryCall<DetachTraceRequest, DetachTraceResponse> {
         const method = this.methods[3], opt = this._transport.mergeOptions(options);
         return stackIntercept<DetachTraceRequest, DetachTraceResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: AttachOtau(fibertest30.rtu_tree.AttachOtauRequest) returns (fibertest30.rtu_tree.AttachOtauResponse);
+     */
+    attachOtau(input: AttachOtauRequest, options?: RpcOptions): UnaryCall<AttachOtauRequest, AttachOtauResponse> {
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        return stackIntercept<AttachOtauRequest, AttachOtauResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: DetachOtau(fibertest30.rtu_tree.DetachOtauRequest) returns (fibertest30.rtu_tree.DetachOtauResponse);
+     */
+    detachOtau(input: DetachOtauRequest, options?: RpcOptions): UnaryCall<DetachOtauRequest, DetachOtauResponse> {
+        const method = this.methods[5], opt = this._transport.mergeOptions(options);
+        return stackIntercept<DetachOtauRequest, DetachOtauResponse>("unary", this._transport, method, opt, input);
     }
 }

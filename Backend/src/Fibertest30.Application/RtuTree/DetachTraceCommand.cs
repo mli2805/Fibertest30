@@ -24,7 +24,7 @@ public class DetachTraceCommandHandler : IRequestHandler<DetachTraceCommand, Uni
 
     public async Task<Unit> Handle(DetachTraceCommand request, CancellationToken cancellationToken)
     {
-        var result = await _rtuManager.DetachTrace(request.TraceId, _currentUserService.UserName!);
+        var result = await _rtuManager.DetachTrace(request.TraceId);
         if (result.ReturnCode != ReturnCode.Ok)
             throw new InvalidOperationException();
 

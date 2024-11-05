@@ -83,5 +83,38 @@ export class RtuTreeEffects {
     )
   );
 
+  attachOtau = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RtuTreeActions.attachOtau),
+      switchMap(({ dto }) => {
+        return this.rtuTreeService.attachOtau(dto).pipe(
+          map((response) => {
+            return RtuTreeActions.attachOtauSuccess();
+          }),
+          catchError((error) => {
+            return of(RtuTreeActions.attachOtauFailure({ errorMessageId: error }));
+          })
+        );
+      })
+    )
+  );
+
+  detachOtau = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RtuTreeActions.detachOtau),
+      switchMap(({ dto }) => {
+        console.log(`eff`);
+        return this.rtuTreeService.detachOtau(dto).pipe(
+          map((response) => {
+            return RtuTreeActions.detachOtauSuccess();
+          }),
+          catchError((error) => {
+            return of(RtuTreeActions.detachOtauFailure({ errorMessageId: error }));
+          })
+        );
+      })
+    )
+  );
+
   constructor(private actions$: Actions, private rtuTreeService: RtuTreeService) {}
 }

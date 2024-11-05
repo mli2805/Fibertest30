@@ -185,5 +185,6 @@
   "i18n.ft.failed-to-set-parameters-from-base": "Не удалось применить параметры из базовой: {{ 0 }}",
   "i18n.ft.choose-trace-to-attach": "Выберите трассу для присоединения",
 
-  "i18n.ft.load-more": "Загрузить ещё..."
+  "i18n.ft.load-more": "Загрузить ещё...",
+  "i18n.ft.enter-optical-switch-address": "Введите адрес оптического переключателя"
 }

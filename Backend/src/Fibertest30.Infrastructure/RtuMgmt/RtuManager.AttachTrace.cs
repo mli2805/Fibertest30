@@ -3,7 +3,7 @@ using Iit.Fibertest.Graph;
 namespace Fibertest30.Infrastructure;
 public partial class RtuManager
 {
-    public async Task<RequestAnswer> AttachTrace(AttachTraceDto dto, string username)
+    public async Task<RequestAnswer> AttachTrace(AttachTraceDto dto)
     {
         var trace = _writeModel.Traces.First(t => t.TraceId == dto.TraceId);
         var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
@@ -25,12 +25,17 @@ public partial class RtuManager
 
             BaseRefAssignedDto transferResult =
                 await _rtuTransmitter.SendCommand<AssignBaseRefsDto, BaseRefAssignedDto>(assignBaseRefsDto, rtuDoubleAddress);
+
+            // освободить рту
+            _rtuOccupationService.TrySetOccupation(trace.RtuId, RtuOccupation.None, _currentUserService.UserName,
+                out RtuOccupationState? _);
+
             if (transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 return transferResult;
         }
 
         var cmd = new AttachTrace() { TraceId = dto.TraceId, OtauPortDto = dto.OtauPortDto };
-        var answer = await _eventStoreService.SendCommand(cmd, username, "");
+        var answer = await _eventStoreService.SendCommand(cmd, _currentUserService.UserName, "");
         return string.IsNullOrEmpty(answer) ? new RequestAnswer(ReturnCode.Ok) : new RequestAnswer(ReturnCode.Error);
 
     }
@@ -66,7 +71,7 @@ public partial class RtuManager
         return dto;
     }
 
-    public async Task<RequestAnswer> DetachTrace(Guid traceId, string username)
+    public async Task<RequestAnswer> DetachTrace(Guid traceId)
     {
         var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
         if (trace == null)
@@ -78,7 +83,7 @@ public partial class RtuManager
         // когда потом пользователь нажмет Автоматический режим - за кадром собираем настройки мониторинга из модели и отправляем
 
         var сmd = new DetachTrace() { TraceId = traceId };
-        var answer = await _eventStoreService.SendCommand(сmd, username, "");
+        var answer = await _eventStoreService.SendCommand(сmd, _currentUserService.UserName, "");
 
         return string.IsNullOrEmpty(answer) ? new RequestAnswer(ReturnCode.Ok) : new RequestAnswer(ReturnCode.Error);
     }

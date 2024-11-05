@@ -20,6 +20,8 @@ public static class SystemEventDataFactory
             SystemEventType.BaseRefsAssigned => Deserialize<BaseRefsAssignedData>(jsonData),
             SystemEventType.TraceAttached => Deserialize<TraceAttachedData>(jsonData),
             SystemEventType.TraceDetached => Deserialize<TraceDetachedData>(jsonData),
+            SystemEventType.OtauAttached => Deserialize<OtauAttachedData>(jsonData),
+            SystemEventType.OtauDetached => Deserialize<OtauDetachedData>(jsonData),
             SystemEventType.MeasurementAdded => Deserialize<MeasurementAddedData>(jsonData),
             SystemEventType.NetworkEventAdded => Deserialize<MeasurementAddedData>(jsonData),
             SystemEventType.BopNetworkEventAdded => Deserialize<BopNetworkEventAddedData>(jsonData),

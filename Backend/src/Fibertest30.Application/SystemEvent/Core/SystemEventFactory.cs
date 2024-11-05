@@ -90,6 +90,20 @@ public static class SystemEventFactory
             SystemEventSource.FromUser(userId));
     }
 
+    public static SystemEvent OtauAttached(string userId, string otauAddress, string serial, int mainCharonPort,
+        Guid rtuId, string rtuTitle)
+    {
+        return new SystemEvent(SystemEventType.OtauAttached, SystemEventLevel.Internal,
+            new OtauAttachedData(otauAddress, serial, mainCharonPort, rtuId.ToString(), rtuTitle),
+            SystemEventSource.FromUser(userId));
+    }
+  public static SystemEvent OtauDetached(string userId, string otauAddress, Guid rtuId)
+    {
+        return new SystemEvent(SystemEventType.OtauAttached, SystemEventLevel.Internal,
+            new OtauDetachedData(otauAddress, rtuId.ToString()),
+            SystemEventSource.FromUser(userId));
+    }
+
     public static SystemEvent MeasurementAdded(int eventId, DateTime registeredAt, string obj, string objId, bool isEvent, bool isOk)
     {
         return new SystemEvent(SystemEventType.MeasurementAdded, SystemEventLevel.Critical,

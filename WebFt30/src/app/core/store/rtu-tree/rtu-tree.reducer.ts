@@ -82,6 +82,34 @@ const reducer = createReducer(
     ...state,
     loading: false,
     errorMessageId
+  })),
+
+  on(RtuTreeActions.attachOtau, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(RtuTreeActions.attachOtauSuccess, (state) => ({
+    ...state,
+    loading: false
+  })),
+  on(RtuTreeActions.attachOtauFailure, (state, { errorMessageId }) => ({
+    ...state,
+    loading: false,
+    errorMessageId
+  })),
+
+  on(RtuTreeActions.detachOtau, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(RtuTreeActions.detachOtauSuccess, (state) => ({
+    ...state,
+    loading: false
+  })),
+  on(RtuTreeActions.detachOtauFailure, (state, { errorMessageId }) => ({
+    ...state,
+    loading: false,
+    errorMessageId
   }))
 );
 
