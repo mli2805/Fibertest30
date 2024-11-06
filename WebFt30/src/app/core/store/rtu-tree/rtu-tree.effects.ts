@@ -103,7 +103,6 @@ export class RtuTreeEffects {
     this.actions$.pipe(
       ofType(RtuTreeActions.detachOtau),
       switchMap(({ dto }) => {
-        console.log(`eff`);
         return this.rtuTreeService.detachOtau(dto).pipe(
           map((response) => {
             return RtuTreeActions.detachOtauSuccess();

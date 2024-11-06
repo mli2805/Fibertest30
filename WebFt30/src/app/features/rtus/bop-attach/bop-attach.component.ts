@@ -61,7 +61,6 @@ export class BopAttachComponent implements OnInit {
     dto.opticalPort = this.portOfOtau.opticalPort;
     dto.netAddress = this.composeInputs();
     dto.rtuId = this.portOfOtau.rtuId!;
-    console.log(dto);
 
     this.store.dispatch(RtuTreeActions.attachOtau({ dto }));
 

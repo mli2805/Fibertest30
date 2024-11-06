@@ -87,7 +87,6 @@ export class AttachedTraceMenuComponent {
   }
 
   onDetachTraceClicked() {
-    console.log('onDetachTraceClicked');
     this.store.dispatch(RtuTreeActions.detachTrace({ traceId: this._trace.traceId }));
   }
 

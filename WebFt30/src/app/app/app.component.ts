@@ -7,7 +7,7 @@ import {
   AppSettingsService,
   AppState,
   GlobalUiSelectors,
-  HighlightNavigationService,
+  TreeNavigationService,
   LocalStorageService,
   WindowRefService
 } from '../core';
@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
     private store: Store<AppState>,
     public router: Router,
     private localStorageService: LocalStorageService,
-    private highlightService: HighlightNavigationService, // keep the service here to initialize it on application start
+    private highlightService: TreeNavigationService, // keep the service here to initialize it on application start
     private appSettingsService: AppSettingsService // keep the service here to initialize it on application start
   ) {}
 
