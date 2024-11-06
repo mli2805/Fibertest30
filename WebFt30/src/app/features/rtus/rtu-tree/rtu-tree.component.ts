@@ -5,7 +5,8 @@ import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors
 
 @Component({
   selector: 'rtu-rtu-tree',
-  templateUrl: './rtu-tree.component.html'
+  templateUrl: './rtu-tree.component.html',
+  styles: [':host { overflow-y: auto; display: flex; width: 100%; height: 100%; }']
 })
 export class RtuTreeComponent {
   rtus$ = this.store.select(RtuTreeSelectors.selectRtuArray);
