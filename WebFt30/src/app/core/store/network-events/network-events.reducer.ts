@@ -15,6 +15,7 @@ const reducer = createReducer(
     ...state,
     error: null
   })),
+
   on(NetworkEventsActions.getNetworkEvents, (state) => ({
     ...state,
     networkEvents: null,
@@ -29,6 +30,23 @@ const reducer = createReducer(
     loadedTime: new Date()
   })),
   on(NetworkEventsActions.getNetworkEventsFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
+  })),
+
+  on(NetworkEventsActions.loadNextNetworkEvents, (state) => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  on(NetworkEventsActions.loadNextNetworkEventsSuccess, (state, { networkEvents }) => ({
+    ...state,
+    networkEvents: state.networkEvents ? [...state.networkEvents, ...networkEvents] : networkEvents,
+    loading: false,
+    loadedTime: new Date()
+  })),
+  on(NetworkEventsActions.loadNextNetworkEventsFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error

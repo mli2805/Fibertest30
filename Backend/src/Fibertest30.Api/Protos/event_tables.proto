@@ -33,6 +33,7 @@ message GetOpticalEventsResponse {
 
 message GetNetworkEventsRequest {
     bool currentEvents = 1;
+    events.data.DateTimeFilter dateTimeFilter = 2;
 }
 
 message GetNetworkEventsResponse {
@@ -41,6 +42,7 @@ message GetNetworkEventsResponse {
 
 message GetBopEventsRequest {
     bool currentEvents = 1;
+    events.data.DateTimeFilter dateTimeFilter = 2;
 }
 
 message GetBopEventsResponse {
@@ -49,6 +51,7 @@ message GetBopEventsResponse {
 
 message GetRtuAccidentsRequest {
     bool currentAccidents = 1;
+    events.data.DateTimeFilter dateTimeFilter = 2;
 }
 
 message GetRtuAccidentsResponse {

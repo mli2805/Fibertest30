@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Fibertest30.Application;
 
-public record GetNetworkEventsQuery(bool Current) : IRequest<List<NetworkEventDto>>;
+public record GetNetworkEventsQuery(bool Current, DateTimeFilter DateTimeFilter) : IRequest<List<NetworkEventDto>>;
 
 public class GetNetworkEventsQueryHandler : IRequestHandler<GetNetworkEventsQuery, List<NetworkEventDto>>
 {
@@ -19,7 +19,7 @@ public class GetNetworkEventsQueryHandler : IRequestHandler<GetNetworkEventsQuer
     public Task<List<NetworkEventDto>> Handle(GetNetworkEventsQuery request, CancellationToken cancellationToken)
     {
         var userId = _currentUserService.UserId;
-        var portion = _tableProvider.GetNetworkEvents(Guid.Parse(userId!), request.Current);
+        var portion = _tableProvider.GetNetworkEvents(Guid.Parse(userId!), request.Current, request.DateTimeFilter);
         return Task.FromResult(portion);
     }
 }

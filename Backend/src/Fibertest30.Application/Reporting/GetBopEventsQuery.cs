@@ -2,7 +2,7 @@
 using MediatR;
 
 namespace Fibertest30.Application;
-public record GetBopEventsQuery(bool Current) : IRequest<List<BopEventDto>>;
+public record GetBopEventsQuery(bool Current, DateTimeFilter DateTimeFilter) : IRequest<List<BopEventDto>>;
 
 public class GetBopEventsQueryHandler : IRequestHandler<GetBopEventsQuery, List<BopEventDto>>
 {
@@ -18,7 +18,7 @@ public class GetBopEventsQueryHandler : IRequestHandler<GetBopEventsQuery, List<
     public Task<List<BopEventDto>> Handle(GetBopEventsQuery request, CancellationToken cancellationToken)
     {
         var userId = _currentUserService.UserId;
-        var portion = _tableProvider.GetBopEvents(Guid.Parse(userId!), request.Current);
+        var portion = _tableProvider.GetBopEvents(Guid.Parse(userId!), request.Current, request.DateTimeFilter);
         return Task.FromResult(portion);
     }
 }

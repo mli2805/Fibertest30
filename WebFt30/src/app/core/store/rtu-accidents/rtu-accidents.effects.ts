@@ -13,21 +13,47 @@ export class RtuAccidentsEffects {
   getRtuAccidents = createEffect(() =>
     this.actions$.pipe(
       ofType(RtuAccidentsActions.getRtuAccidents),
-      switchMap(({ currentAccidents }) =>
-        this.eventTablesService.getRtuAccidents(currentAccidents).pipe(
-          map((response) => {
-            return RtuAccidentsActions.getRtuAccidentsSuccess({
-              rtuAccidents: EventTablesMapping.toRtuAccidents(response.rtuAccidents)
-            });
-          }),
-          catchError((error) =>
-            of(
-              RtuAccidentsActions.getRtuAccidentsFailure({
-                error: GrpcUtils.toServerError(error)
-              })
+      switchMap(({ currentAccidents, orderDescending, searchWindow }) =>
+        this.eventTablesService
+          .getRtuAccidents(currentAccidents, searchWindow, null, orderDescending)
+          .pipe(
+            map((response) => {
+              return RtuAccidentsActions.getRtuAccidentsSuccess({
+                rtuAccidents: EventTablesMapping.toRtuAccidents(response.rtuAccidents)
+              });
+            }),
+            catchError((error) =>
+              of(
+                RtuAccidentsActions.getRtuAccidentsFailure({
+                  error: GrpcUtils.toServerError(error)
+                })
+              )
             )
           )
-        )
+      )
+    )
+  );
+
+  loadNextRtuAccidents = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RtuAccidentsActions.loadNextRtuAccidents),
+      switchMap(({ currentAccidents, orderDescending, lastLoaded, searchWindow }) =>
+        this.eventTablesService
+          .getRtuAccidents(currentAccidents, searchWindow, lastLoaded, orderDescending)
+          .pipe(
+            map((response) => {
+              return RtuAccidentsActions.loadNextRtuAccidentsSuccess({
+                rtuAccidents: EventTablesMapping.toRtuAccidents(response.rtuAccidents)
+              });
+            }),
+            catchError((error) =>
+              of(
+                RtuAccidentsActions.loadNextRtuAccidentsFailure({
+                  error: GrpcUtils.toServerError(error)
+                })
+              )
+            )
+          )
       )
     )
   );

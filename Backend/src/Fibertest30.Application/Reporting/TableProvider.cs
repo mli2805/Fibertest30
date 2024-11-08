@@ -5,6 +5,7 @@ namespace Fibertest30.Application;
 
 public class TableProvider
 {
+    // в случаем изменения - исправить константу в EventTablesService на web стороне
     private readonly int _pageSize = 150;
     private readonly Model _writeModel;
 
@@ -62,37 +63,81 @@ public class TableProvider
         return portion.Select(m => m.CreateOpticalEventDto(_writeModel)).ToList();
     }
 
-    public List<NetworkEventDto> GetNetworkEvents(Guid userId, bool current)
+    public List<NetworkEventDto> GetNetworkEvents(Guid userId, bool current, DateTimeFilter dateTimeFilter)
     {
-        var sift = current
+        var collection = current
             ? _writeModel.Rtus.Where(r => !r.IsAllRight)
                 .Select(rtu => _writeModel.NetworkEvents.LastOrDefault(n => n.RtuId == rtu.Id))
                 .Where(last => last != null)
-                : _writeModel.NetworkEvents;
+            : _writeModel.NetworkEvents;
 
-        return sift.OrderByDescending(x => x!.Ordinal)
-            .Select(n => n!.CreateNetworkEventDto(_writeModel)).ToList();
+        // TODO нужно будет фильтровать по зонам отв для пользователя
+        var filtered = collection; 
+
+        var since = dateTimeFilter.LoadSince != null
+            ? dateTimeFilter.OrderDescending
+                ? filtered.Where(e => e!.EventTimestamp < dateTimeFilter.LoadSince.Value.AddMilliseconds(-100))
+                : filtered.Where(e => e!.EventTimestamp > dateTimeFilter.LoadSince.Value.AddMilliseconds(100))
+            : filtered;
+
+        var ordered = dateTimeFilter.OrderDescending
+            ? since.OrderByDescending(o => o!.EventTimestamp)
+            : since.OrderBy(o => o!.EventTimestamp);
+
+        var portion = ordered.Take(_pageSize);
+
+        return portion.Select(n => n!.CreateNetworkEventDto(_writeModel)).ToList();
     }
 
-    public List<BopEventDto> GetBopEvents(Guid userId, bool current)
+    public List<BopEventDto> GetBopEvents(Guid userId, bool current, DateTimeFilter dateTimeFilter)
     {
-        var sift = current
+        var collection = current
             ? _writeModel.BopNetworkEvents
                 .OrderByDescending(e => e.EventTimestamp)
                 .GroupBy(b => b.Serial)
                 .Select(g => g.Last())
-                .Where(l => !l.IsOk).ToList()
+                .Where(l => !l.IsOk)
             : _writeModel.BopNetworkEvents;
 
-        return sift.OrderByDescending(x => x!.Ordinal)
-            .Select(b => b!.CreateBopEventDto(_writeModel)).ToList();
+        // TODO нужно будет фильтровать по зонам отв для пользователя
+        var filtered = collection; 
+        
+        var since = dateTimeFilter.LoadSince != null
+            ? dateTimeFilter.OrderDescending
+                ? filtered.Where(e => e.EventTimestamp < dateTimeFilter.LoadSince.Value.AddMilliseconds(-100))
+                : filtered.Where(e => e.EventTimestamp > dateTimeFilter.LoadSince.Value.AddMilliseconds(100))
+            : filtered;
+
+        var ordered = dateTimeFilter.OrderDescending
+            ? since.OrderByDescending(o => o!.EventTimestamp)
+            : since.OrderBy(o => o!.EventTimestamp);
+
+        var portion = ordered.Take(_pageSize);
+
+        return portion.Select(b => b.CreateBopEventDto(_writeModel)).ToList();
     }
 
-    public List<RtuAccidentDto> GetRtuAccidents(Guid userId, bool current)
+    public List<RtuAccidentDto> GetRtuAccidents(Guid userId, bool current, DateTimeFilter dateTimeFilter)
     {
-        var sift = current ? GetCurrentStateAccidents() : _writeModel.RtuAccidents;
-        return sift.OrderByDescending(x => x.Id)
-            .Select(a => a.CreateAccidentDto(_writeModel)).ToList();
+        var collection = current ? GetCurrentStateAccidents() : _writeModel.RtuAccidents;
+
+
+        // TODO нужно будет фильтровать по зонам отв для пользователя
+        var filtered = collection; 
+
+        var since = dateTimeFilter.LoadSince != null
+            ? dateTimeFilter.OrderDescending
+                ? filtered.Where(e => e.EventRegistrationTimestamp < dateTimeFilter.LoadSince.Value.AddMilliseconds(-100))
+                : filtered.Where(e => e.EventRegistrationTimestamp > dateTimeFilter.LoadSince.Value.AddMilliseconds(100))
+            : filtered;
+
+        var ordered = dateTimeFilter.OrderDescending
+            ? since.OrderByDescending(o => o.EventRegistrationTimestamp)
+            : since.OrderBy(o => o.EventRegistrationTimestamp);
+
+        var portion = ordered.Take(_pageSize);
+
+        return portion.Select(a => a.CreateAccidentDto(_writeModel)).ToList();
     }
 
     private IEnumerable<RtuAccident> GetCurrentStateAccidents()

@@ -25,6 +25,7 @@
       <table class="events-table text-center">
         <thead>
           <tr>
+            <th class="pr-1"></th>
             <th class="w-16 font-thin">
               {{ 'i18n.ft.event-id' | translate }}
             </th>
@@ -53,11 +54,16 @@
             <th class="w-40 font-thin">
               {{ 'i18n.ft.status-changed-by' | translate }}
             </th>
-            <th class="pr-5"></th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let opticalEvent of opticalEvents">
+            <td class="pr-0">
+              <rtu-navigate-button
+                class="ml-0 h-6 w-6 text-blue-500"
+                [routerLink]="['./', opticalEvent.eventId]"
+              />
+            </td>
             <td class="text-center">{{ opticalEvent.eventId }}</td>
             <td class="text-center">{{ opticalEvent.measuredAt | rtuDateTime : 'medium' }}</td>
             <td class="text-center">{{ opticalEvent.registeredAt | rtuDateTime : 'medium' }}</td>
@@ -83,16 +89,10 @@
               </td>
               <td class="text-center">{{ opticalEvent.statusChangedByUser }}</td>
             </ng-container>
-            <td class="pr-3">
-              <rtu-navigate-button
-                class="ml-2 h-6 w-6 text-blue-500"
-                [routerLink]="['./', opticalEvent.eventId]"
-              />
-            </td>
           </tr>
         </tbody>
       </table>
-      <ng-container *ngIf="opticalEvents.length % 150 === 0">
+      <ng-container *ngIf="opticalEvents.length % portionSize === 0">
         <div
           class="my-2 flex cursor-pointer justify-center"
           (click)="loadNextPage(opticalEvents[opticalEvents.length - 1])"

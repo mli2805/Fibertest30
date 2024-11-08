@@ -42,7 +42,7 @@ public class EventTablesService : EventTables.EventTablesBase
         ServerCallContext context)
     {
         var networkEvents =
-            await _mediator.Send(new GetNetworkEventsQuery(request.CurrentEvents), context.CancellationToken);
+            await _mediator.Send(new GetNetworkEventsQuery(request.CurrentEvents, request.DateTimeFilter.FromProto()), context.CancellationToken);
 
         var response = new GetNetworkEventsResponse() { NetworkEvents = { networkEvents.Select(x => x.ToProto()) } };
         return response;
@@ -52,7 +52,7 @@ public class EventTablesService : EventTables.EventTablesBase
         ServerCallContext context)
     {
         var bopEvents =
-            await _mediator.Send(new GetBopEventsQuery(request.CurrentEvents), context.CancellationToken);
+            await _mediator.Send(new GetBopEventsQuery(request.CurrentEvents, request.DateTimeFilter.FromProto()), context.CancellationToken);
 
         var response = new GetBopEventsResponse() { BopEvents = { bopEvents.Select(x => x.ToProto()) } };
         return response;
@@ -62,7 +62,7 @@ public class EventTablesService : EventTables.EventTablesBase
         ServerCallContext context)
     {
         var rtuAccidents =
-            await _mediator.Send(new GetRtuAccidentsQuery(request.CurrentAccidents), context.CancellationToken);
+            await _mediator.Send(new GetRtuAccidentsQuery(request.CurrentAccidents, request.DateTimeFilter.FromProto()), context.CancellationToken);
 
         var response = new GetRtuAccidentsResponse() { RtuAccidents = { rtuAccidents.Select(x => x.ToProto()) } };
         return response;

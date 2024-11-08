@@ -1,7 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { AppState, RtuAccidentsSelectors, RtuAccidentsActions } from 'src/app/core';
+import { EventTablesService } from 'src/app/core/grpc/services/event-tables.service';
+import { HowShowTablesService } from 'src/app/core/services/how-show-tables.service';
 import { BaseRefType } from 'src/app/core/store/models/ft30/ft-enums';
 import { ReturnCode } from 'src/app/core/store/models/ft30/return-code';
 import { RtuAccident } from 'src/app/core/store/models/ft30/rtu-accident';
@@ -10,7 +12,7 @@ import { RtuAccident } from 'src/app/core/store/models/ft30/rtu-accident';
   selector: 'rtu-status-events',
   templateUrl: './status-events.component.html'
 })
-export class StatusEventsComponent {
+export class StatusEventsComponent implements OnInit {
   rtuAccidentsActions = RtuAccidentsActions;
   private store: Store<AppState> = inject(Store<AppState>);
 
@@ -19,18 +21,59 @@ export class StatusEventsComponent {
   rtuAccidents$ = this.store.select(RtuAccidentsSelectors.selectRtuAccidents);
   errorMessageId$ = this.store.select(RtuAccidentsSelectors.selectErrorMessageId);
 
-  constructor(private ts: TranslateService) {
+  orderDescending!: boolean;
+  portionSize: number;
+
+  constructor(
+    private ts: TranslateService,
+    private ns: HowShowTablesService,
+    private et: EventTablesService
+  ) {
+    this.portionSize = et.portionSize;
+  }
+
+  ngOnInit(): void {
+    this.currentEvents = this.ns.rtuAccidentsShowCurrent;
+    this.orderDescending = this.ns.rtuAccidentsOrderDescending;
     this.refresh();
   }
 
-  checked = true;
-  onToggle() {
-    this.checked = !this.checked;
+  currentEvents!: boolean;
+  onCurrentEventsToggle() {
+    this.currentEvents = !this.currentEvents;
+    this.ns.setOne('RtuAccident', this.currentEvents, this.orderDescending, -1);
+    this.refresh();
+  }
+
+  // function used by `relative-time-refresh` button
+  refreshV2() {
+    this.refresh();
+  }
+
+  loadNextPage(lastLoadedEvent: RtuAccident) {
+    this.store.dispatch(
+      RtuAccidentsActions.loadNextRtuAccidents({
+        currentAccidents: this.currentEvents,
+        orderDescending: this.orderDescending,
+        lastLoaded: lastLoadedEvent.registeredAt,
+        searchWindow: null
+      })
+    );
+  }
+
+  onOrderChanged() {
+    this.orderDescending = !this.orderDescending;
     this.refresh();
   }
 
   refresh() {
-    this.store.dispatch(RtuAccidentsActions.getRtuAccidents({ currentAccidents: this.checked }));
+    this.store.dispatch(
+      RtuAccidentsActions.getRtuAccidents({
+        currentAccidents: this.currentEvents,
+        orderDescending: this.orderDescending,
+        searchWindow: null
+      })
+    );
   }
 
   isGoodAccident(rtuAccident: RtuAccident) {

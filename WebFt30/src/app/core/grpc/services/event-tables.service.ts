@@ -16,6 +16,8 @@ export class EventTablesService {
   private authInterceptor = inject(AuthInterceptor);
   private client: gprc.EventTablesClient;
 
+  portionSize = 150;
+
   constructor() {
     const interceptors = [this.authInterceptor.toRpcInterceptor()];
     const options = GrpcUtils.getGrpcOptions(GrpcUtils.getApiUrl(), interceptors);
@@ -66,18 +68,102 @@ export class EventTablesService {
     return GrpcUtils.unaryToObservable(this.client.getOpticalEvents.bind(this.client), request, {});
   }
 
-  getNetworkEvents(currentEvents: boolean): Observable<gprc.GetNetworkEventsResponse> {
-    const request: gprc.GetNetworkEventsRequest = { currentEvents };
+  getNetworkEvents(
+    currentEvents: boolean,
+    searchWindow: DateTimeRange | null,
+    lastLoaded: Date | null,
+    orderDescending: boolean
+  ): Observable<gprc.GetNetworkEventsResponse> {
+    const tmpRelativeFromNow = Duration.create();
+    tmpRelativeFromNow.seconds = '' + 5 * 365 * 12 * 3600;
+
+    const request: gprc.GetNetworkEventsRequest = {
+      currentEvents,
+      dateTimeFilter: {
+        // TMP comment:
+
+        // either searchWindow or relativeFromNow must be set, but not both
+        // in searchWindow pass Utc datetimes
+
+        // It could be handy to create DateTimeFilter class and pass all related props together,
+        // in a similar way like Backend utilizes it (see Rfts400.Application.DateTimeFilter)
+
+        // Looks like this DateTimeFilter will be reused for all reporting pages
+        // All the hints from backend's DateTimeFilter class (about inclusive, exclusive)
+        // also make sense to duplicate here, in the frontend side.
+
+        searchWindow: searchWindow ? searchWindow : undefined,
+        relativeFromNow: searchWindow ? undefined : tmpRelativeFromNow, // tmp set to make filtering work
+        loadSince: lastLoaded ? Timestamp.fromDate(lastLoaded) : undefined,
+        orderDescending: orderDescending
+      }
+    };
     return GrpcUtils.unaryToObservable(this.client.getNetworkEvents.bind(this.client), request, {});
   }
 
-  getBopEvents(currentEvents: boolean): Observable<gprc.GetBopEventsResponse> {
-    const request: gprc.GetBopEventsRequest = { currentEvents };
+  getBopEvents(
+    currentEvents: boolean,
+    searchWindow: DateTimeRange | null,
+    lastLoaded: Date | null,
+    orderDescending: boolean
+  ): Observable<gprc.GetBopEventsResponse> {
+    const tmpRelativeFromNow = Duration.create();
+    tmpRelativeFromNow.seconds = '' + 5 * 365 * 12 * 3600;
+
+    const request: gprc.GetBopEventsRequest = {
+      currentEvents,
+      dateTimeFilter: {
+        // TMP comment:
+
+        // either searchWindow or relativeFromNow must be set, but not both
+        // in searchWindow pass Utc datetimes
+
+        // It could be handy to create DateTimeFilter class and pass all related props together,
+        // in a similar way like Backend utilizes it (see Rfts400.Application.DateTimeFilter)
+
+        // Looks like this DateTimeFilter will be reused for all reporting pages
+        // All the hints from backend's DateTimeFilter class (about inclusive, exclusive)
+        // also make sense to duplicate here, in the frontend side.
+
+        searchWindow: searchWindow ? searchWindow : undefined,
+        relativeFromNow: searchWindow ? undefined : tmpRelativeFromNow, // tmp set to make filtering work
+        loadSince: lastLoaded ? Timestamp.fromDate(lastLoaded) : undefined,
+        orderDescending: orderDescending
+      }
+    };
     return GrpcUtils.unaryToObservable(this.client.getBopEvents.bind(this.client), request, {});
   }
 
-  getRtuAccidents(currentAccidents: boolean): Observable<gprc.GetRtuAccidentsResponse> {
-    const request: gprc.GetRtuAccidentsRequest = { currentAccidents };
+  getRtuAccidents(
+    currentAccidents: boolean,
+    searchWindow: DateTimeRange | null,
+    lastLoaded: Date | null,
+    orderDescending: boolean
+  ): Observable<gprc.GetRtuAccidentsResponse> {
+    const tmpRelativeFromNow = Duration.create();
+    tmpRelativeFromNow.seconds = '' + 5 * 365 * 12 * 3600;
+
+    const request: gprc.GetRtuAccidentsRequest = {
+      currentAccidents,
+      dateTimeFilter: {
+        // TMP comment:
+
+        // either searchWindow or relativeFromNow must be set, but not both
+        // in searchWindow pass Utc datetimes
+
+        // It could be handy to create DateTimeFilter class and pass all related props together,
+        // in a similar way like Backend utilizes it (see Rfts400.Application.DateTimeFilter)
+
+        // Looks like this DateTimeFilter will be reused for all reporting pages
+        // All the hints from backend's DateTimeFilter class (about inclusive, exclusive)
+        // also make sense to duplicate here, in the frontend side.
+
+        searchWindow: searchWindow ? searchWindow : undefined,
+        relativeFromNow: searchWindow ? undefined : tmpRelativeFromNow, // tmp set to make filtering work
+        loadSince: lastLoaded ? Timestamp.fromDate(lastLoaded) : undefined,
+        orderDescending: orderDescending
+      }
+    };
     return GrpcUtils.unaryToObservable(this.client.getRtuAccidents.bind(this.client), request, {});
   }
 

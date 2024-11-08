@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/cor
 import { Store } from '@ngrx/store';
 import { AppState, OpticalEventsActions, OpticalEventsSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
+import { EventTablesService } from 'src/app/core/grpc/services/event-tables.service';
+import { HowShowTablesService } from 'src/app/core/services/how-show-tables.service';
 import { EventStatus, FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { OpticalEvent } from 'src/app/core/store/models/ft30/optical-event';
 
@@ -24,9 +26,16 @@ export class OpticalEventsComponent implements OnInit {
   fiberStates = FiberState;
   eventStatuses = EventStatus;
 
-  orderDescending = true;
+  orderDescending!: boolean;
+  portionSize: number;
+
+  constructor(private ns: HowShowTablesService, private et: EventTablesService) {
+    this.portionSize = et.portionSize;
+  }
 
   ngOnInit(): void {
+    this.currentEvents = this.ns.opticalShowCurrent;
+    this.orderDescending = this.ns.opticalOrderDescending;
     this.loadIfNotLoadedBefore();
   }
 
@@ -40,9 +49,10 @@ export class OpticalEventsComponent implements OnInit {
     }
   }
 
-  currentEvents = true;
+  currentEvents!: boolean;
   onCurrentEventsToggle() {
     this.currentEvents = !this.currentEvents;
+    this.ns.setOne('OpticalEvent', this.currentEvents, this.orderDescending, -1);
     this.refresh();
   }
 
@@ -51,9 +61,9 @@ export class OpticalEventsComponent implements OnInit {
     this.refresh();
   }
 
-  onLoadMore() {
-    this.opticalEvents$;
-  }
+  // onLoadMore() {
+  //   this.opticalEvents$;
+  // }
 
   loadNextPage(lastLoadedEvent: OpticalEvent) {
     this.store.dispatch(

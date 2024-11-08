@@ -15,6 +15,7 @@ const reducer = createReducer(
     ...state,
     error: null
   })),
+
   on(BopEventsActions.getBopEvents, (state) => ({
     ...state,
     bopEvents: null,
@@ -29,6 +30,23 @@ const reducer = createReducer(
     loadedTime: new Date()
   })),
   on(BopEventsActions.getBopEventsFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
+  })),
+
+  on(BopEventsActions.loadNextBopEvents, (state) => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  on(BopEventsActions.loadNextBopEventsSuccess, (state, { bopEvents }) => ({
+    ...state,
+    bopEvents: state.bopEvents ? [...state.bopEvents, ...bopEvents] : bopEvents,
+    loading: false,
+    loadedTime: new Date()
+  })),
+  on(BopEventsActions.loadNextBopEventsFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error

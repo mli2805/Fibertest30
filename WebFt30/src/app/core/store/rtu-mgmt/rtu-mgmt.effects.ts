@@ -72,7 +72,6 @@ export class RtuMgmtEffects {
       switchMap(({ dto }) => {
         return this.rtuMgmtService.applyMonitoringSettings(dto).pipe(
           map((response) => {
-            console.log(response);
             return RtuMgmtActions.applyMonitoringSettingsSuccess({ dto: response.dto });
           }),
           catchError((error) => {

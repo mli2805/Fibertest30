@@ -13,21 +13,47 @@ export class NetworkEventsEffects {
   getNetworkEvents = createEffect(() =>
     this.actions$.pipe(
       ofType(NetworkEventsActions.getNetworkEvents),
-      switchMap(({ currentEvents }) =>
-        this.eventTablesService.getNetworkEvents(currentEvents).pipe(
-          map((response) => {
-            return NetworkEventsActions.getNetworkEventsSuccess({
-              networkEvents: EventTablesMapping.toNetworkEvents(response.networkEvents)
-            });
-          }),
-          catchError((error) =>
-            of(
-              NetworkEventsActions.getNetworkEventsFailure({
-                error: GrpcUtils.toServerError(error)
-              })
+      switchMap(({ currentEvents, orderDescending, searchWindow }) =>
+        this.eventTablesService
+          .getNetworkEvents(currentEvents, searchWindow, null, orderDescending)
+          .pipe(
+            map((response) => {
+              return NetworkEventsActions.getNetworkEventsSuccess({
+                networkEvents: EventTablesMapping.toNetworkEvents(response.networkEvents)
+              });
+            }),
+            catchError((error) =>
+              of(
+                NetworkEventsActions.getNetworkEventsFailure({
+                  error: GrpcUtils.toServerError(error)
+                })
+              )
             )
           )
-        )
+      )
+    )
+  );
+
+  loadNextNetworkEvents = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NetworkEventsActions.loadNextNetworkEvents),
+      switchMap(({ currentEvents, orderDescending, lastLoaded, searchWindow }) =>
+        this.eventTablesService
+          .getNetworkEvents(currentEvents, searchWindow, lastLoaded, orderDescending)
+          .pipe(
+            map((response) => {
+              return NetworkEventsActions.loadNextNetworkEventsSuccess({
+                networkEvents: EventTablesMapping.toNetworkEvents(response.networkEvents)
+              });
+            }),
+            catchError((error) =>
+              of(
+                NetworkEventsActions.loadNextNetworkEventsFailure({
+                  error: GrpcUtils.toServerError(error)
+                })
+              )
+            )
+          )
       )
     )
   );

@@ -13,21 +13,47 @@ export class BopEventsEffects {
   getBopEvents = createEffect(() =>
     this.actions$.pipe(
       ofType(BopEventsActions.getBopEvents),
-      switchMap(({ currentEvents }) =>
-        this.eventTablesService.getBopEvents(currentEvents).pipe(
-          map((response) => {
-            return BopEventsActions.getBopEventsSuccess({
-              bopEvents: EventTablesMapping.toBopEvents(response.bopEvents)
-            });
-          }),
-          catchError((error) =>
-            of(
-              BopEventsActions.getBopEventsFailure({
-                error: GrpcUtils.toServerError(error)
-              })
+      switchMap(({ currentEvents, orderDescending, searchWindow }) =>
+        this.eventTablesService
+          .getBopEvents(currentEvents, searchWindow, null, orderDescending)
+          .pipe(
+            map((response) => {
+              return BopEventsActions.getBopEventsSuccess({
+                bopEvents: EventTablesMapping.toBopEvents(response.bopEvents)
+              });
+            }),
+            catchError((error) =>
+              of(
+                BopEventsActions.getBopEventsFailure({
+                  error: GrpcUtils.toServerError(error)
+                })
+              )
             )
           )
-        )
+      )
+    )
+  );
+
+  loadNextBopEvents = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BopEventsActions.loadNextBopEvents),
+      switchMap(({ currentEvents, orderDescending, lastLoaded, searchWindow }) =>
+        this.eventTablesService
+          .getBopEvents(currentEvents, searchWindow, lastLoaded, orderDescending)
+          .pipe(
+            map((response) => {
+              return BopEventsActions.loadNextBopEventsSuccess({
+                bopEvents: EventTablesMapping.toBopEvents(response.bopEvents)
+              });
+            }),
+            catchError((error) =>
+              of(
+                BopEventsActions.loadNextBopEventsFailure({
+                  error: GrpcUtils.toServerError(error)
+                })
+              )
+            )
+          )
       )
     )
   );

@@ -4,13 +4,13 @@
       <table class="events-table min-w-full text-sm">
         <thead class="text-center text-gray-600 dark:text-zinc-400">
           <tr class="">
+            <th></th>
+            <th></th>
             <th class="w-16 font-thin">{{ 'i18n.ft.event-id' | translate }}</th>
             <th class="w-40 font-thin">{{ 'i18n.ft.event-registered-at' | translate }}</th>
             <th class="w-32 font-thin">{{ 'i18n.ft.event-type' | translate }}</th>
             <th class="font-thin">{{ 'i18n.ft.obj' | translate }}</th>
             <th class="w-32 font-thin">{{ 'i18n.ft.state' | translate }}</th>
-            <th></th>
-            <th></th>
           </tr>
         </thead>
         <tbody *ngIf="anyTypeEvents$ | async as anyTypeEvents">
@@ -18,18 +18,6 @@
             *ngFor="let anyTypeEvent of anyTypeEvents"
             class="odd:bg-rtu-second-bg dark:odd:bg-rtu-dark-second-bg"
           >
-            <td class="text-center">{{ anyTypeEvent.eventId }}</td>
-            <td class="text-center">{{ anyTypeEvent.registeredAt | rtuDateTime : 'medium' }}</td>
-            <td class="text-center">{{ anyTypeEvent.eventType }}</td>
-            <td class="text-center">{{ anyTypeEvent.obj }}</td>
-            <td class="text-center">
-              <div *ngIf="anyTypeEvent.isOk" class="text-green-500">
-                {{ 'i18n.ft.ok' | translate }}
-              </div>
-              <div *ngIf="!anyTypeEvent.isOk" class="text-red-500">
-                {{ 'i18n.ft.alarm' | translate }}
-              </div>
-            </td>
             <td class="w-0 py-3 pl-3 pr-1">
               <div class="flex items-center">
                 <rtu-navigate-button
@@ -41,6 +29,18 @@
             <td class="w-0 py-3 pl-3 pr-1">
               <div class="flex items-center">
                 <rtu-close-button (click)="dismissEvent(anyTypeEvent)" class="h-6 w-6" />
+              </div>
+            </td>
+            <td class="text-center">{{ anyTypeEvent.eventId }}</td>
+            <td class="text-center">{{ anyTypeEvent.registeredAt | rtuDateTime : 'medium' }}</td>
+            <td class="text-center">{{ anyTypeEvent.eventType }}</td>
+            <td class="text-center">{{ anyTypeEvent.obj }}</td>
+            <td class="text-center">
+              <div *ngIf="anyTypeEvent.isOk" class="text-green-500">
+                {{ 'i18n.ft.ok' | translate }}
+              </div>
+              <div *ngIf="!anyTypeEvent.isOk" class="text-red-500">
+                {{ 'i18n.ft.alarm' | translate }}
               </div>
             </td>
           </tr>

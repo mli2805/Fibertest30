@@ -15,6 +15,7 @@ const reducer = createReducer(
     ...state,
     error: null
   })),
+
   on(RtuAccidentsActions.getRtuAccidents, (state) => ({
     ...state,
     rtuAccidents: null,
@@ -29,6 +30,23 @@ const reducer = createReducer(
     loadedTime: new Date()
   })),
   on(RtuAccidentsActions.getRtuAccidentsFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
+  })),
+
+  on(RtuAccidentsActions.loadNextRtuAccidents, (state) => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  on(RtuAccidentsActions.loadNextRtuAccidentsSuccess, (state, { rtuAccidents }) => ({
+    ...state,
+    rtuAccidents: state.rtuAccidents ? [...state.rtuAccidents, ...rtuAccidents] : rtuAccidents,
+    loading: false,
+    loadedTime: new Date()
+  })),
+  on(RtuAccidentsActions.loadNextRtuAccidentsFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error

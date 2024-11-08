@@ -4,35 +4,42 @@
 ></rtu-single-error-popup>
 <rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
 
-<div class="relative h-full">
-  <div class="absolute right-4 top-0">
+<div class="flex h-full w-full flex-col pl-5 pt-5">
+  <div class="mb-3 flex justify-between">
     <div class="mx-2 flex items-center">
       <label class="mr-2 text-base">{{ 'i18n.ft.current-accidents' | translate }}</label>
       <label class="toggle">
-        <input type="checkbox" [checked]="checked" (change)="onToggle()" />
+        <input type="checkbox" [checked]="currentEvents" (change)="onCurrentEventsToggle()" />
         <div class="slider"></div>
       </label>
     </div>
+    <rtu-relative-time-refresh
+      class="mr-3 pr-3"
+      [loadedTime]="loadedTime$ | async"
+      (refresh)="refreshV2()"
+    ></rtu-relative-time-refresh>
   </div>
 
-  <div class="flex h-full w-full flex-col py-4 pt-8">
-    <div #cdkvirtscroll class="h-full w-full" style="overflow-y: scroll">
-      <table class="events-table min-w-full text-sm">
-        <thead class="text-center text-gray-600 dark:text-zinc-400">
-          <tr class="">
+  <div class="text-small h-full w-full pr-1" style="overflow-y: scroll">
+    <ng-container *ngIf="rtuAccidents$ | async as rtuAccidents">
+      <table class="events-table text-center">
+        <thead>
+          <tr>
             <th class="w-16 font-thin">{{ 'i18n.ft.event-id' | translate }}</th>
-            <th class="w-40 font-thin">{{ 'i18n.ft.event-registered-at' | translate }}</th>
+            <th class="w-40 font-thin">
+              <div class="flex gap-x-2">
+                <div>{{ 'i18n.ft.event-registered-at' | translate }}</div>
+                <rtu-order-button [orderDescending]="orderDescending" (click)="onOrderChanged()" />
+              </div>
+            </th>
             <th class="font-thin">{{ 'RTU' }}</th>
             <th class="font-thin">{{ 'i18n.ft.trace' | translate }}</th>
             <th class="w-40 font-thin">{{ 'i18n.ft.state' | translate }}</th>
             <th class="w-96 font-thin">{{ 'i18n.ft.additional-information' | translate }}</th>
           </tr>
         </thead>
-        <tbody *ngIf="rtuAccidents$ | async as rtuAccidents">
-          <tr
-            *ngFor="let rtuAccident of rtuAccidents"
-            class="odd:bg-rtu-second-bg dark:odd:bg-rtu-dark-second-bg"
-          >
+        <tbody>
+          <tr *ngFor="let rtuAccident of rtuAccidents">
             <td class="text-center">{{ rtuAccident.id }}</td>
             <td class="text-center">{{ rtuAccident.registeredAt | rtuDateTime : 'medium' }}</td>
             <td class="text-center">{{ rtuAccident.rtuTitle }}</td>
@@ -46,6 +53,14 @@
           </tr>
         </tbody>
       </table>
-    </div>
+      <ng-container *ngIf="rtuAccidents.length > 0 && rtuAccidents.length % portionSize === 0">
+        <div
+          class="my-2 flex cursor-pointer justify-center"
+          (click)="loadNextPage(rtuAccidents[rtuAccidents.length - 1])"
+        >
+          {{ 'i18n.ft.load-more' | translate }}
+        </div>
+      </ng-container>
+    </ng-container>
   </div>
 </div>
