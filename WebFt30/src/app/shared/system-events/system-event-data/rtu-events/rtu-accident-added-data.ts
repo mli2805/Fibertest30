@@ -36,5 +36,4 @@ export interface MeasurementAddedData {
   Obj: string;
   ObjId: string;
   IsOk: boolean;
-  IsEvent: boolean;
 }

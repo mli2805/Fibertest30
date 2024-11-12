@@ -50,13 +50,12 @@ public class RtuDataProcessor
 
             AddMeasurement? addMeasurement = await SaveAddMeasurement(dto, sorId);
 
-            if (addMeasurement != null)
+            if (addMeasurement != null && addMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent)
             {
                 await _systemEventSender
                     .Send(SystemEventFactory.MeasurementAdded(
                         addMeasurement.SorFileId, addMeasurement.EventRegistrationTimestamp, trace!.Title,
-                        trace!.TraceId.ToString(), addMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent,
-                        addMeasurement.TraceState == FiberState.Ok));
+                        trace!.TraceId.ToString(), addMeasurement.TraceState == FiberState.Ok));
 
             }
 

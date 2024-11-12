@@ -104,10 +104,10 @@ public static class SystemEventFactory
             SystemEventSource.FromUser(userId));
     }
 
-    public static SystemEvent MeasurementAdded(int eventId, DateTime registeredAt, string obj, string objId, bool isEvent, bool isOk)
+    public static SystemEvent MeasurementAdded(int eventId, DateTime registeredAt, string obj, string objId, bool isOk)
     {
         return new SystemEvent(SystemEventType.MeasurementAdded, SystemEventLevel.Critical,
-            new MeasurementAddedData(eventId, registeredAt, obj, objId, isEvent, isOk), SystemEventSource.FromSource("DataCenter"));
+            new MeasurementAddedData(eventId, registeredAt, obj, objId, isOk), SystemEventSource.FromSource("DataCenter"));
     }
 
     public static SystemEvent NetworkEventAdded(int eventId, DateTime registeredAt, string obj, string objId, bool isRtuAvailable)
