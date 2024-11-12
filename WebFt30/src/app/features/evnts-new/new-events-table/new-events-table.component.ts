@@ -32,7 +32,7 @@ export class NewEventsTableComponent {
     // перейти в нужн табл
     switch (evnt.eventType) {
       case 'OpticalEvent':
-        this.router.navigate([`op-evnts/optical-events/`]);
+        this.router.navigate([`op-evnts/optical-events/`, evnt.eventId]);
         break;
 
       case 'NetworkEvent':
@@ -52,6 +52,24 @@ export class NewEventsTableComponent {
     if (!evnt.isOk) this.audioService.dismissEvent(evnt);
     // удалить из новых событий строку
     this.store.dispatch(AnyTypeEventsActions.removeEvent({ removeEvent: evnt }));
+  }
+
+  getEventTypeName(evntType: string) {
+    switch (evntType) {
+      case 'OpticalEvent':
+        return 'i18n.ft.optical-event';
+
+      case 'NetworkEvent':
+        return 'i18n.ft.network-event';
+
+      case 'BopNetworkEvent':
+        return 'i18n.ft.bop-network-event';
+
+      case 'RtuAccident':
+        return 'i18n.ft.rtu-status-event';
+    }
+
+    return 'i18n.ft.unknown';
   }
 
   dismissEvent(evnt: AnyTypeEvent) {

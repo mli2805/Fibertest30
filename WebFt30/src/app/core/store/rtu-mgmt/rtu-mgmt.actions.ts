@@ -3,7 +3,6 @@ import { NetAddress } from '../models/ft30/net-address';
 import { InitializeRtuDto } from '../models/ft30/initialize-rtu-dto';
 import { RtuInitializedDto } from '../models/ft30/rtu-initialized-dto';
 import { DoMeasurementClientDto } from '../models/ft30/do-measurement-client-dto';
-import { MonitoringStoppedDto } from '../models/ft30/monitoring-stopped-dto';
 import { ApplyMonitoringSettingsDto } from '../models/ft30/apply-monitorig-settings-dto';
 import { RequestAnswer } from '../models/ft30/request-answer';
 

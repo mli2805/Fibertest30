@@ -56,6 +56,7 @@ export class MeasurementClientComponent extends OnDestroyBase implements OnInit,
 
   constructor(private store: Store<AppState>, rtuMgmtService: RtuMgmtService) {
     super();
+    store.dispatch(RtuMgmtActions.reset());
 
     this.completedMeasurement$ = this.measurementClientId$.pipe(
       takeUntil(this.ngDestroyed$),
