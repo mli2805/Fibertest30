@@ -30,7 +30,6 @@ import { AttachedTraceMenuComponent } from './rtu-tree/attached-trace/attached-t
 import { DetachedTraceMenuComponent } from './rtu-tree/detached-trace/detached-trace-menu/detached-trace-menu.component';
 import { OneBopMenuComponent } from './rtu-tree/one-bop/one-bop-menu/one-bop-menu.component';
 import { MeasurementClientComponent } from './measurement-client/measurement-client.component';
-import { ContextMenuLineComponent } from './shared/context-menu-line/context-menu-line.component';
 import { OtauMonitoringSettingsComponent } from './rtu-monitoring-settings/otau-monitoring-settings/otau-monitoring-settings.component';
 import { TraceAssignBaseComponent } from './trace-assign-base/trace-assign-base.component';
 import { TraceStateComponent } from './trace-state/trace-state.component';
@@ -71,7 +70,6 @@ import { BopAttachComponent } from './bop-attach/bop-attach.component';
     DetachedTraceMenuComponent,
     OneBopMenuComponent,
     MeasurementClientComponent,
-    ContextMenuLineComponent,
     OtauMonitoringSettingsComponent,
     TraceAssignBaseComponent,
     TraceStateComponent,

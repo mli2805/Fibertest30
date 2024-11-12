@@ -46,6 +46,7 @@ export class OneRtuMenuComponent {
     return this.currentUser ? this.currentUser.permissions.includes(permission) : false;
   }
 
+  // right mouse button
   onRtuNameClicked() {
     if (this.open === false) {
       this.open = true;
@@ -54,11 +55,13 @@ export class OneRtuMenuComponent {
   }
 
   onOverlayClick(event: MouseEvent) {
+    console.log(event);
     event.stopPropagation();
     this.open = false;
   }
 
-  @HostListener('document:click', ['$event'])
+  @HostListener('document:click', ['$event']) // левая кнопка
+  @HostListener('document:contextmenu', ['$event']) // правая кнопка
   onClickEverywhere(event: MouseEvent) {
     // this means Outside overlay
     if (!this.elementRef.nativeElement.contains(event.target)) {

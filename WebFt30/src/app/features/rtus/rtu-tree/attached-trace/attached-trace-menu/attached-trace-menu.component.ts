@@ -55,7 +55,8 @@ export class AttachedTraceMenuComponent {
     this.open = false;
   }
 
-  @HostListener('document:click', ['$event'])
+  @HostListener('document:click', ['$event']) // левая кнопка
+  @HostListener('document:contextmenu', ['$event']) // правая кнопка
   onClickEverywhere(event: MouseEvent) {
     // this means Outside overlay
     if (!this.elementRef.nativeElement.contains(event.target)) {
