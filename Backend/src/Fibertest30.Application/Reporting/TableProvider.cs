@@ -36,6 +36,12 @@ public class TableProvider
         return hasCurrentEvents;
     }
 
+    public OpticalEventDto GetOpticalEvent(int eventId)
+    {
+        var measurement = _writeModel.Measurements.Single(m => m.SorFileId == eventId);
+        return measurement.CreateOpticalEventDto(_writeModel);
+    }
+
     public List<OpticalEventDto> GetOpticalEvents(Guid userId, bool current, DateTimeFilter dateTimeFilter)
     {
         // var user = _writeModel.Users.First(u => u.UserId == userId);

@@ -51,15 +51,25 @@ export class RtuMgmtService {
     );
   }
 
-  getMeasurementClientSor(
-    measurementClientId: string
-  ): Observable<grpc.GetMeasurementClientSorResponse> {
+  getMeasurementClientSor(measurementClientId: string): Observable<grpc.GetSorResponse> {
     const request: grpc.GetMeasurementClientSorRequest = {
       measurementClientId: measurementClientId,
       vxsorFormat: true
     };
     return GrpcUtils.unaryToObservable(
       this.client.getMeasurementClientSor.bind(this.client),
+      request,
+      {}
+    );
+  }
+
+  getMeasurementSor(sorFileId: number): Observable<grpc.GetSorResponse> {
+    const request: grpc.GetMeasurementSorRequest = {
+      sorFileId,
+      vxsorFormat: true
+    };
+    return GrpcUtils.unaryToObservable(
+      this.client.getMeasurementSor.bind(this.client),
       request,
       {}
     );

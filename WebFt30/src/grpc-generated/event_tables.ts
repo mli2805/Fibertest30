@@ -7,8 +7,8 @@ import { HasCurrentEvents } from "./data.core";
 import { RtuAccident } from "./events.data";
 import { BopEvent } from "./events.data";
 import { NetworkEvent } from "./events.data";
-import { OpticalEvent } from "./events.data";
 import { DateTimeFilter } from "./events.data";
+import { OpticalEvent } from "./events.data";
 import { SystemEvent } from "./data.core";
 /**
  * @generated from protobuf message fibertest30.event_tables.GetSystemEventsRequest
@@ -23,6 +23,24 @@ export interface GetSystemEventsResponse {
      * @generated from protobuf field: repeated fibertest30.data.core.SystemEvent systemEvents = 1;
      */
     systemEvents: SystemEvent[];
+}
+/**
+ * @generated from protobuf message fibertest30.event_tables.GetOpticalEventRequest
+ */
+export interface GetOpticalEventRequest {
+    /**
+     * @generated from protobuf field: int32 eventId = 1;
+     */
+    eventId: number;
+}
+/**
+ * @generated from protobuf message fibertest30.event_tables.GetOpticalEventResponse
+ */
+export interface GetOpticalEventResponse {
+    /**
+     * @generated from protobuf field: fibertest30.events.data.OpticalEvent opticalEvent = 1;
+     */
+    opticalEvent?: OpticalEvent;
 }
 /**
  * @generated from protobuf message fibertest30.event_tables.GetOpticalEventsRequest
@@ -148,6 +166,30 @@ class GetSystemEventsResponse$Type extends MessageType<GetSystemEventsResponse> 
  * @generated MessageType for protobuf message fibertest30.event_tables.GetSystemEventsResponse
  */
 export const GetSystemEventsResponse = new GetSystemEventsResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetOpticalEventRequest$Type extends MessageType<GetOpticalEventRequest> {
+    constructor() {
+        super("fibertest30.event_tables.GetOpticalEventRequest", [
+            { no: 1, name: "eventId", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.event_tables.GetOpticalEventRequest
+ */
+export const GetOpticalEventRequest = new GetOpticalEventRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetOpticalEventResponse$Type extends MessageType<GetOpticalEventResponse> {
+    constructor() {
+        super("fibertest30.event_tables.GetOpticalEventResponse", [
+            { no: 1, name: "opticalEvent", kind: "message", T: () => OpticalEvent }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.event_tables.GetOpticalEventResponse
+ */
+export const GetOpticalEventResponse = new GetOpticalEventResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GetOpticalEventsRequest$Type extends MessageType<GetOpticalEventsRequest> {
     constructor() {
@@ -275,6 +317,7 @@ export const GetHasCurrentResponse = new GetHasCurrentResponse$Type();
  */
 export const EventTables = new ServiceType("fibertest30.event_tables.EventTables", [
     { name: "GetSystemEvents", options: {}, I: GetSystemEventsRequest, O: GetSystemEventsResponse },
+    { name: "GetOpticalEvent", options: {}, I: GetOpticalEventRequest, O: GetOpticalEventResponse },
     { name: "GetOpticalEvents", options: {}, I: GetOpticalEventsRequest, O: GetOpticalEventsResponse },
     { name: "GetNetworkEvents", options: {}, I: GetNetworkEventsRequest, O: GetNetworkEventsResponse },
     { name: "GetBopEvents", options: {}, I: GetBopEventsRequest, O: GetBopEventsResponse },

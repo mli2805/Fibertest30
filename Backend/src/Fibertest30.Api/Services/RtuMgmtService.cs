@@ -41,13 +41,23 @@ public class RtuMgmtService : RtuMgmt.RtuMgmtBase
         return new EmptyResponse();
     }
 
-    public override async Task<GetMeasurementClientSorResponse> GetMeasurementClientSor(
+    public override async Task<GetSorResponse> GetMeasurementClientSor(
         GetMeasurementClientSorRequest request, ServerCallContext context)
     {
         var sor = await _mediator.Send(new GetMeasurementClientSorQuery(Guid.Parse(request.MeasurementClientId)),
             context.CancellationToken);
 
-        return new GetMeasurementClientSorResponse()
+        return new GetSorResponse()
+        {
+            Sor = ProtoUtils.MeasurementTraceToSorByteString(sor, request.VxsorFormat)
+        };
+    }
+
+    public override async Task<GetSorResponse> GetMeasurementSor(GetMeasurementSorRequest request, ServerCallContext context)
+    {
+        var sor = await _mediator.Send(new GetMeasurementSorQuery(request.SorFileId), context.CancellationToken); 
+
+        return new GetSorResponse()
         {
             Sor = ProtoUtils.MeasurementTraceToSorByteString(sor, request.VxsorFormat)
         };

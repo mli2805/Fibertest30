@@ -191,5 +191,11 @@
 
   "i18n.ft.load-more": "Загрузить ещё...",
   "i18n.ft.enter-optical-switch-address": "Введите адрес оптического переключателя",
-  "i18n.ft.bop": "БОП"
+  "i18n.ft.bop": "БОП",
+
+  "i18n.ft.cant-load-optical-event": "Не удалось найти базовую",
+  "i18n.ft.cant-load-measurement-sor-file": "Не удалось загрузить sor файл измерения",
+  "i18n.ft.cant-load-baseline-sor-file": "Не удалось загрузить sor файл базовой",
+
+  "i18n.ft.state-at": "Состояние на"
 }

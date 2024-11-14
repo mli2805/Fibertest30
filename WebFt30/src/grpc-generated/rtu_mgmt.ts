@@ -286,13 +286,26 @@ export interface GetMeasurementClientSorRequest {
     vxsorFormat: boolean;
 }
 /**
- * @generated from protobuf message fibertest30.rtu_mgmt.GetMeasurementClientSorResponse
+ * @generated from protobuf message fibertest30.rtu_mgmt.GetSorResponse
  */
-export interface GetMeasurementClientSorResponse {
+export interface GetSorResponse {
     /**
      * @generated from protobuf field: bytes sor = 1;
      */
     sor: Uint8Array;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.GetMeasurementSorRequest
+ */
+export interface GetMeasurementSorRequest {
+    /**
+     * @generated from protobuf field: int32 sorFileId = 1;
+     */
+    sorFileId: number;
+    /**
+     * @generated from protobuf field: bool vxsorFormat = 2;
+     */
+    vxsorFormat: boolean;
 }
 /**
  * @generated from protobuf message fibertest30.rtu_mgmt.StopMonitoringRequest
@@ -579,17 +592,30 @@ class GetMeasurementClientSorRequest$Type extends MessageType<GetMeasurementClie
  */
 export const GetMeasurementClientSorRequest = new GetMeasurementClientSorRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class GetMeasurementClientSorResponse$Type extends MessageType<GetMeasurementClientSorResponse> {
+class GetSorResponse$Type extends MessageType<GetSorResponse> {
     constructor() {
-        super("fibertest30.rtu_mgmt.GetMeasurementClientSorResponse", [
+        super("fibertest30.rtu_mgmt.GetSorResponse", [
             { no: 1, name: "sor", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message fibertest30.rtu_mgmt.GetMeasurementClientSorResponse
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.GetSorResponse
  */
-export const GetMeasurementClientSorResponse = new GetMeasurementClientSorResponse$Type();
+export const GetSorResponse = new GetSorResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetMeasurementSorRequest$Type extends MessageType<GetMeasurementSorRequest> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.GetMeasurementSorRequest", [
+            { no: 1, name: "sorFileId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "vxsorFormat", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.GetMeasurementSorRequest
+ */
+export const GetMeasurementSorRequest = new GetMeasurementSorRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class StopMonitoringRequest$Type extends MessageType<StopMonitoringRequest> {
     constructor() {
@@ -667,7 +693,8 @@ export const RtuMgmt = new ServiceType("fibertest30.rtu_mgmt.RtuMgmt", [
     { name: "TestRtuConnection", options: {}, I: TestRtuConnectionRequest, O: TestRtuConnectionResponse },
     { name: "InitializeRtu", options: {}, I: InitializeRtuRequest, O: InitializeRtuResponse },
     { name: "DoMeasurementClient", options: {}, I: DoMeasurementClientRequest, O: EmptyResponse },
-    { name: "GetMeasurementClientSor", options: {}, I: GetMeasurementClientSorRequest, O: GetMeasurementClientSorResponse },
+    { name: "GetMeasurementClientSor", options: {}, I: GetMeasurementClientSorRequest, O: GetSorResponse },
+    { name: "GetMeasurementSor", options: {}, I: GetMeasurementSorRequest, O: GetSorResponse },
     { name: "StopMonitoring", options: {}, I: StopMonitoringRequest, O: EmptyResponse },
     { name: "ApplyMonitoringSettings", options: {}, I: ApplyMonitoringSettingsRequest, O: ApplyMonitoringSettingsResponse },
     { name: "AssignBaseRefs", options: {}, I: AssignBaseRefsRequest, O: AssignBaseRefsResponse }

@@ -14,6 +14,8 @@ import type { GetNetworkEventsResponse } from "./event_tables";
 import type { GetNetworkEventsRequest } from "./event_tables";
 import type { GetOpticalEventsResponse } from "./event_tables";
 import type { GetOpticalEventsRequest } from "./event_tables";
+import type { GetOpticalEventResponse } from "./event_tables";
+import type { GetOpticalEventRequest } from "./event_tables";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
 import type { GetSystemEventsResponse } from "./event_tables";
 import type { GetSystemEventsRequest } from "./event_tables";
@@ -27,6 +29,10 @@ export interface IEventTablesClient {
      * @generated from protobuf rpc: GetSystemEvents(fibertest30.event_tables.GetSystemEventsRequest) returns (fibertest30.event_tables.GetSystemEventsResponse);
      */
     getSystemEvents(input: GetSystemEventsRequest, options?: RpcOptions): UnaryCall<GetSystemEventsRequest, GetSystemEventsResponse>;
+    /**
+     * @generated from protobuf rpc: GetOpticalEvent(fibertest30.event_tables.GetOpticalEventRequest) returns (fibertest30.event_tables.GetOpticalEventResponse);
+     */
+    getOpticalEvent(input: GetOpticalEventRequest, options?: RpcOptions): UnaryCall<GetOpticalEventRequest, GetOpticalEventResponse>;
     /**
      * @generated from protobuf rpc: GetOpticalEvents(fibertest30.event_tables.GetOpticalEventsRequest) returns (fibertest30.event_tables.GetOpticalEventsResponse);
      */
@@ -65,38 +71,45 @@ export class EventTablesClient implements IEventTablesClient, ServiceInfo {
         return stackIntercept<GetSystemEventsRequest, GetSystemEventsResponse>("unary", this._transport, method, opt, input);
     }
     /**
+     * @generated from protobuf rpc: GetOpticalEvent(fibertest30.event_tables.GetOpticalEventRequest) returns (fibertest30.event_tables.GetOpticalEventResponse);
+     */
+    getOpticalEvent(input: GetOpticalEventRequest, options?: RpcOptions): UnaryCall<GetOpticalEventRequest, GetOpticalEventResponse> {
+        const method = this.methods[1], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetOpticalEventRequest, GetOpticalEventResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
      * @generated from protobuf rpc: GetOpticalEvents(fibertest30.event_tables.GetOpticalEventsRequest) returns (fibertest30.event_tables.GetOpticalEventsResponse);
      */
     getOpticalEvents(input: GetOpticalEventsRequest, options?: RpcOptions): UnaryCall<GetOpticalEventsRequest, GetOpticalEventsResponse> {
-        const method = this.methods[1], opt = this._transport.mergeOptions(options);
+        const method = this.methods[2], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetOpticalEventsRequest, GetOpticalEventsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetNetworkEvents(fibertest30.event_tables.GetNetworkEventsRequest) returns (fibertest30.event_tables.GetNetworkEventsResponse);
      */
     getNetworkEvents(input: GetNetworkEventsRequest, options?: RpcOptions): UnaryCall<GetNetworkEventsRequest, GetNetworkEventsResponse> {
-        const method = this.methods[2], opt = this._transport.mergeOptions(options);
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetNetworkEventsRequest, GetNetworkEventsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetBopEvents(fibertest30.event_tables.GetBopEventsRequest) returns (fibertest30.event_tables.GetBopEventsResponse);
      */
     getBopEvents(input: GetBopEventsRequest, options?: RpcOptions): UnaryCall<GetBopEventsRequest, GetBopEventsResponse> {
-        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetBopEventsRequest, GetBopEventsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetRtuAccidents(fibertest30.event_tables.GetRtuAccidentsRequest) returns (fibertest30.event_tables.GetRtuAccidentsResponse);
      */
     getRtuAccidents(input: GetRtuAccidentsRequest, options?: RpcOptions): UnaryCall<GetRtuAccidentsRequest, GetRtuAccidentsResponse> {
-        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        const method = this.methods[5], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetRtuAccidentsRequest, GetRtuAccidentsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetHasCurrent(fibertest30.event_tables.GetHasCurrentRequest) returns (fibertest30.event_tables.GetHasCurrentResponse);
      */
     getHasCurrent(input: GetHasCurrentRequest, options?: RpcOptions): UnaryCall<GetHasCurrentRequest, GetHasCurrentResponse> {
-        const method = this.methods[5], opt = this._transport.mergeOptions(options);
+        const method = this.methods[6], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetHasCurrentRequest, GetHasCurrentResponse>("unary", this._transport, method, opt, input);
     }
 }

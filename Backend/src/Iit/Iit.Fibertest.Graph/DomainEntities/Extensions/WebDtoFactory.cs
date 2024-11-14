@@ -199,7 +199,9 @@ namespace Iit.Fibertest.Graph
             return new OpticalEventDto()
             {
                 EventId = m.SorFileId,
+                RtuId = m.RtuId,
                 RtuTitle = writeModel.Rtus.FirstOrDefault(r => r.Id == m.RtuId)?.Title ?? "",
+                TraceId = m.TraceId,
                 TraceTitle = writeModel.Traces.FirstOrDefault(t => t.TraceId == m.TraceId)?.Title ?? "",
                 TraceState = m.TraceState,
                 BaseRefType = m.BaseRefType,

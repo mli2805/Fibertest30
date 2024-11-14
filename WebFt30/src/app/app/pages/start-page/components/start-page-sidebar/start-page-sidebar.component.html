@@ -42,7 +42,7 @@
     #rlaNewEvents="routerLinkActive"
     [ngClass]="rlaNewEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
   >
-    <div [ngClass]="{ 'text-orange-500': (hasNew$ | async) === true }">
+    <div [ngClass]="{ 'text-orange-600 dark:text-orange-500': (hasNew$ | async) === true }">
       <!-- prettier-ignore -->
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41.733 40" class="h-9 w-9">
   <g transform="translate(-4492.809 -969.551)">

@@ -9,7 +9,8 @@ service RtuMgmt {
 	rpc TestRtuConnection (TestRtuConnectionRequest) returns (TestRtuConnectionResponse);
 	rpc InitializeRtu (InitializeRtuRequest) returns (InitializeRtuResponse);
 	rpc DoMeasurementClient(DoMeasurementClientRequest) returns (EmptyResponse);
-	rpc GetMeasurementClientSor(GetMeasurementClientSorRequest) returns (GetMeasurementClientSorResponse);
+	rpc GetMeasurementClientSor(GetMeasurementClientSorRequest) returns (GetSorResponse);
+	rpc GetMeasurementSor(GetMeasurementSorRequest) returns (GetSorResponse);
 
 	rpc StopMonitoring(StopMonitoringRequest) returns (EmptyResponse);
 	rpc ApplyMonitoringSettings(ApplyMonitoringSettingsRequest) returns (ApplyMonitoringSettingsResponse);
@@ -123,8 +124,13 @@ message GetMeasurementClientSorRequest {
 	bool vxsorFormat = 2;
 }
 
-message GetMeasurementClientSorResponse {
+message GetSorResponse {
 	bytes sor = 1;
+}
+
+message GetMeasurementSorRequest {
+	int32 sorFileId = 1;
+	bool vxsorFormat = 2;
 }
 
 message StopMonitoringRequest {

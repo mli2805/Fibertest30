@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Fibertest30.Infrastructure
 {
-    public class SorFileRepository
+    public class SorFileRepository : ISorFileRepository
     {
         private readonly FtDbContext _ftDbContext;
         private readonly ILogger<SorFileRepository> _logger;

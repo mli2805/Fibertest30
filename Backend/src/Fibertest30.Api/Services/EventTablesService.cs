@@ -26,6 +26,13 @@ public class EventTablesService : EventTables.EventTablesBase
         return response;
     }
 
+    public override async Task<GetOpticalEventResponse> GetOpticalEvent(GetOpticalEventRequest request, ServerCallContext context)
+    {
+        var opticalEvent = await _mediator.Send(new GetOpticalEventQuery(request.EventId), context.CancellationToken);
+        var response = new GetOpticalEventResponse() { OpticalEvent = opticalEvent.ToProto() };
+        return response;
+    }
+
     public override async Task<GetOpticalEventsResponse> GetOpticalEvents(GetOpticalEventsRequest request,
         ServerCallContext context)
     {

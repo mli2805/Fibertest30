@@ -515,6 +515,12 @@
   "i18n.ft.enter-optical-switch-address": "Enter optical switch address",
   "i18n.ft.bop": "BOP",
 
+  "i18n.ft.cant-load-optical-event": "Can't find baseline",
+  "i18n.ft.cant-load-measurement-sor-file": "Can't load measurement sor file",
+  "i18n.ft.cant-load-baseline-sor-file": "Can't load baseline sor file",
+
+  "i18n.ft.state-at": "State at",
+
   "i18n.start-page.gis": "Gis",
   "i18n.start-page.notifications": "Notifications",
   "i18n.start-page.rfts-setup": "RFTS setup",

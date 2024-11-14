@@ -1,0 +1,29 @@
+<div class="grouped-border flex-1">
+  <div class="grid-container ml-1 gap-y-1 text-sm">
+    <label style="grid-area: traceTitleLabel" class="my-auto mr-2">{{
+      'i18n.ft.trace' | translate
+    }}</label>
+    <div style="grid-area: traceTitleValue" class="mb-1">{{ traceTitle }}</div>
+
+    <label style="grid-area: portLabel" class="my-auto mr-2">{{
+      'i18n.ft.port' | translate
+    }}</label>
+    <div style="grid-area: portValue" class="mb-1">{{ port }}</div>
+
+    <label style="grid-area: rtuLabel" class="my-auto mr-2">{{ 'RTU' }}</label>
+    <div style="grid-area: rtuValue" class="mb-1">{{ rtuTitle }}</div>
+  </div>
+</div>
+<div class="grouped-border mt-1 flex-1">
+  <div class="inline whitespace-nowrap text-sm">
+    <span class="ml-1">{{ 'i18n.ft.state-at' | translate }}</span>
+    <span class="ml-1">{{ _opticalEvent.measuredAt | rtuDateTime : 'short' : 'date' }}</span>
+    <span class="ml-1">
+      {{ _opticalEvent.measuredAt | rtuDateTime : 'medium' : 'time' }}
+    </span>
+    <span class="ml-1">(ID {{ _opticalEvent.eventId }})</span>
+  </div>
+  <div [rtuColorizeBgByOpticalTraceState]="_opticalEvent" class="mt-1 py-0.5 text-center">
+    {{ _opticalEvent | opticalTraceStatePipe | translate }}
+  </div>
+</div>

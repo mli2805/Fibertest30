@@ -32,7 +32,6 @@ import { OneBopMenuComponent } from './rtu-tree/one-bop/one-bop-menu/one-bop-men
 import { MeasurementClientComponent } from './measurement-client/measurement-client.component';
 import { OtauMonitoringSettingsComponent } from './rtu-monitoring-settings/otau-monitoring-settings/otau-monitoring-settings.component';
 import { TraceAssignBaseComponent } from './trace-assign-base/trace-assign-base.component';
-import { TraceStateComponent } from './trace-state/trace-state.component';
 import { TraceAttachComponent } from './trace-attach/trace-attach.component';
 import { BopAttachComponent } from './bop-attach/bop-attach.component';
 
@@ -72,7 +71,6 @@ import { BopAttachComponent } from './bop-attach/bop-attach.component';
     MeasurementClientComponent,
     OtauMonitoringSettingsComponent,
     TraceAssignBaseComponent,
-    TraceStateComponent,
     TraceAttachComponent,
     BopAttachComponent
   ],

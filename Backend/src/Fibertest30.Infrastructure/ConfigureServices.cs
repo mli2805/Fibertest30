@@ -79,6 +79,8 @@ public static class ConfigureServices
         services.AddScoped<INotificationSettingsRepository, NotificationSettingsRepository>();
         services.AddScoped<ISystemEventRepository, SystemEventRepository>();
 
+        services.AddScoped<ISorFileRepository, SorFileRepository>();
+
         services.AddScoped<IEmailBuilder, EmailBuilder>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<ISnmpService, SnmpService>();

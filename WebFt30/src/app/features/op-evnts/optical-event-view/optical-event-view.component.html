@@ -1,3 +1,20 @@
-<ng-container *ngIf="opticalEvent$ | async as opEvent">
-  <div>{{ opEvent.eventId }}</div>
-</ng-container>
+<rtu-single-error-popup [errorMessageId$]="errorMessageId$"></rtu-single-error-popup>
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
+
+<div class="flex h-full w-full flex-row">
+  <ng-container *ngIf="opticalEvent">
+    <rtu-trace-info class="w-96" [opticalEvent]="opticalEvent"></rtu-trace-info>
+  </ng-container>
+  <div class="ml-1 h-full w-full">
+    <ng-container *ngIf="measurementTrace !== null && baselineTrace !== null">
+      <!-- <rtu-sor-area-provider [sors]="[measurementTrace, baselineTrace]"></rtu-sor-area-provider> -->
+      <rtu-sor-result-baseline-provider
+        [result]="measurementTrace"
+        [baseline]="baselineTrace"
+      ></rtu-sor-result-baseline-provider>
+    </ng-container>
+    <ng-container *ngIf="measurementTrace === null || baselineTrace === null">
+      {{ 'loading...' }}
+    </ng-container>
+  </div>
+</div>
