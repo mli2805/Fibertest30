@@ -36,6 +36,7 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
   opticalEvent!: OpticalEvent | null;
   baseRefSorId!: number;
 
+  fullScreen = false;
   loading$ = new BehaviorSubject<boolean>(false);
   errorMessageId$ = new BehaviorSubject<string | null>(null);
 
@@ -73,6 +74,8 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
       return;
     }
 
+    // на самом деле мы храним сорку со встроенной рефлектограммой
+    // надо переделать... а то сейчас берется последняя базовая даже для старых измерений
     forkJoin({
       measurementSor: this.rtuMgmtService.getMeasurementSor(this.opticalEventId).pipe(
         mergeMap(async ({ sor }) => ConvertUtils.buildSorTrace(sor)),
@@ -95,12 +98,6 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
         tap(({ measurementSor, baselineSor }) => {
           this.measurementTrace = measurementSor;
           this.baselineTrace = baselineSor;
-        }),
-        tap(() => {
-          console.log(`ready`);
-          console.log(this.opticalEvent);
-          console.log(this.measurementTrace);
-          console.log(this.baselineTrace);
         })
       )
       .subscribe();
@@ -117,5 +114,23 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
       : this.opticalEvent!.baseRefType === BaseRefType.Fast
       ? trace!.fastSorId
       : trace!.additionalSorId;
+  }
+
+  async saveSor() {
+    if (!this.opticalEvent) {
+      return;
+    }
+
+    // this.store.dispatch(
+    //   MonitoringHistoryActions.saveTraceAndBase({
+    //     monitoringId: this.monitoringId,
+    //     monitoringPortId: this.monitoring.monitoringPortId,
+    //     at: this.monitoring.completedAt
+    //   })
+    // );
+  }
+
+  toggleFullScreen() {
+    this.fullScreen = !this.fullScreen;
   }
 }

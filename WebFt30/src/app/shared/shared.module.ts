@@ -71,6 +71,7 @@ import { BaseRefTypePipe } from './pipes/base-ref-type.pipe';
 import { EventTableIconComponent } from './components/event-table-icon/event-table-icon.component';
 import { OpticalTraceStatePipe } from './pipes/optical-trace-state.pipe';
 import { OpticalTraceStateBgDirective } from '../features/op-evnts/optical-events/colorize-bg-by-opticaltracestate.directive';
+import { ExpandMinimizeAvailableActionComponent } from './components/svg-buttons/available-action/expand-minimize-available-action.component';
 
 @NgModule({
   imports: [
@@ -144,7 +145,9 @@ import { OpticalTraceStateBgDirective } from '../features/op-evnts/optical-event
     HeaderMessageHelpComponent,
     ContextTooltipDirective,
     BluePointComponent,
-    EventTableIconComponent
+    EventTableIconComponent,
+
+    ExpandMinimizeAvailableActionComponent
   ],
   exports: [
     CommonModule,
@@ -208,7 +211,9 @@ import { OpticalTraceStateBgDirective } from '../features/op-evnts/optical-event
     TestPortHelpComponent,
     HeaderMessageHelpComponent,
     ContextTooltipDirective,
-    EventTableIconComponent
+    EventTableIconComponent,
+
+    ExpandMinimizeAvailableActionComponent
   ],
   providers: [RtuDateToDayOfWeekPipe, FrequencyPipe]
 })

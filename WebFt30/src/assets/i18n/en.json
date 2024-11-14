@@ -520,6 +520,9 @@
   "i18n.ft.cant-load-baseline-sor-file": "Can't load baseline sor file",
 
   "i18n.ft.state-at": "State at",
+  "i18n.ft.expand": "Expand",
+  "i18n.ft.minimize": "Minimize",
+  "i18n.ft.save": "Save",
 
   "i18n.start-page.gis": "Gis",
   "i18n.start-page.notifications": "Notifications",

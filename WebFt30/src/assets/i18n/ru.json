@@ -197,5 +197,8 @@
   "i18n.ft.cant-load-measurement-sor-file": "Не удалось загрузить sor файл измерения",
   "i18n.ft.cant-load-baseline-sor-file": "Не удалось загрузить sor файл базовой",
 
-  "i18n.ft.state-at": "Состояние на"
+  "i18n.ft.state-at": "Состояние на",
+  "i18n.ft.expand": "Развернуть",
+  "i18n.ft.minimize": "Свернуть",
+  "i18n.ft.save": "Сохранить"
 }
