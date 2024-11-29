@@ -303,9 +303,11 @@ export interface GetMeasurementSorRequest {
      */
     sorFileId: number;
     /**
-     * @generated from protobuf field: bool embeddedBase = 2;
+     * 0 - only measurement, 1 - only baseline, 2 - both (measurement with embedded baseline)
+     *
+     * @generated from protobuf field: int32 composition = 2;
      */
-    embeddedBase: boolean;
+    composition: number;
     /**
      * @generated from protobuf field: bool vxsorFormat = 3;
      */
@@ -612,7 +614,7 @@ class GetMeasurementSorRequest$Type extends MessageType<GetMeasurementSorRequest
     constructor() {
         super("fibertest30.rtu_mgmt.GetMeasurementSorRequest", [
             { no: 1, name: "sorFileId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "embeddedBase", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 2, name: "composition", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "vxsorFormat", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }

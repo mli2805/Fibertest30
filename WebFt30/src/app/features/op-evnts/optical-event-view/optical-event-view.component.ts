@@ -20,8 +20,9 @@ import { BaseRefType } from 'src/app/core/store/models/ft30/ft-enums';
 import { OpticalEvent } from 'src/app/core/store/models/ft30/optical-event';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
 import { SorResultBaselineComponent } from '../../fiberizer-core/components/viewer-providers';
-import { MapUtils } from 'src/app/core/map.utils';
 import { EventTablesMapping } from 'src/app/core/store/mapping/event-tables-mapping';
+import { FileSaverService } from 'src/app/core/grpc/services/file-saver.service';
+import { RtuDateTimePipe } from 'src/app/shared/pipes/datetime.pipe';
 
 @Component({
   selector: 'rtu-optical-event-view',
@@ -42,12 +43,15 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
 
   measurementTrace: SorTrace | null = null;
   baselineTrace: SorTrace | null = null;
+  sorFile: Uint8Array | null = null;
 
   constructor(
     private store: Store<AppState>,
     private route: ActivatedRoute,
     private eventTableService: EventTablesService,
-    private rtuMgmtService: RtuMgmtService
+    private rtuMgmtService: RtuMgmtService,
+    private fileSaverService: FileSaverService,
+    private dtPipe: RtuDateTimePipe
   ) {
     super();
   }
@@ -75,14 +79,14 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
     }
 
     forkJoin({
-      measurementSor: this.rtuMgmtService.getMeasurementSor(this.opticalEventId, false).pipe(
+      measurementSor: this.rtuMgmtService.getMeasurementSor(this.opticalEventId, 0, true).pipe(
         mergeMap(async ({ sor }) => ConvertUtils.buildSorTrace(sor)),
         catchError((error) => {
           this.errorMessageId$.next('i18n.ft.cant-load-measurement-sor-file');
           return of(null);
         })
       ),
-      baselineSor: this.rtuMgmtService.getMeasurementSor(this.opticalEventId, true).pipe(
+      baselineSor: this.rtuMgmtService.getMeasurementSor(this.opticalEventId, 1, true).pipe(
         mergeMap(async ({ sor }) => ConvertUtils.buildSorTrace(sor, SorColors.Baseline)),
         catchError((error) => {
           this.errorMessageId$.next('i18n.ft.cant-load-baseline-sor-file');
@@ -119,13 +123,22 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
       return;
     }
 
-    // this.store.dispatch(
-    //   MonitoringHistoryActions.saveTraceAndBase({
-    //     monitoringId: this.monitoringId,
-    //     monitoringPortId: this.monitoring.monitoringPortId,
-    //     at: this.monitoring.completedAt
-    //   })
-    // );
+    try {
+      const response = await firstValueFrom(
+        this.rtuMgmtService.getMeasurementSor(this.opticalEventId, 2, false)
+      );
+      this.sorFile = response.sor;
+      console.log(this.sorFile);
+    } catch (error) {
+      this.errorMessageId$.next('i18n.ft.cant-load-file');
+      this.loading$.next(false);
+      return;
+    }
+
+    const dt = this.dtPipe.getDateTimeForFileName(this.opticalEvent.registeredAt);
+    const filename = `${this.opticalEvent.traceTitle} - ID${this.opticalEventId} - ${dt}.sor`;
+
+    this.fileSaverService.saveAs(this.sorFile!, filename);
   }
 
   toggleFullScreen() {

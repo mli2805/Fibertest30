@@ -55,6 +55,29 @@ export class RtuDateTimePipe implements PipeTransform, OnDestroy {
     );
   }
 
+  getDateTimeForFileName(
+    value: Date,
+    overrideDataFormatLanguage: AppDateTimeLanguageFormat | null = null
+  ) {
+    const dateTimeLanguageFormat = overrideDataFormatLanguage || this.dateTimeLanguageFormat;
+
+    const dt = RtuDateTimePipe.getDateString(
+      value,
+      dateTimeLanguageFormat,
+      this.timezone.ianaId,
+      'full',
+      'medium'
+    );
+
+    return dt
+      .replaceAll('.', '-')
+      .replaceAll(':', '-')
+      .replaceAll('/', '-')
+      .replaceAll(',', '')
+      .replaceAll('AM', '')
+      .replaceAll('PM', '');
+  }
+
   static getDateString(
     value: Date,
     dateTimeLanguageFormat: AppDateTimeLanguageFormat,

@@ -130,7 +130,8 @@ message GetSorResponse {
 
 message GetMeasurementSorRequest {
 	int32 sorFileId = 1;
-	bool embeddedBase = 2;
+	// 0 - only measurement, 1 - only baseline, 2 - both (measurement with embedded baseline)
+	int32 composition = 2;
 	bool vxsorFormat = 3;
 }
 

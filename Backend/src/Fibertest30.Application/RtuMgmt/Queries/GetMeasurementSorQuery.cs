@@ -4,7 +4,7 @@ using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Fibertest30.Application;
 
-public record GetMeasurementSorQuery(int SorFileId, bool EmbeddedBase) : IRequest<MeasurementTrace>;
+public record GetMeasurementSorQuery(int SorFileId, int Composition) : IRequest<MeasurementTrace>;
 
 public class GetMeasurementSorQueryHandler : IRequestHandler<GetMeasurementSorQuery, MeasurementTrace>
 {
@@ -23,26 +23,30 @@ public class GetMeasurementSorQueryHandler : IRequestHandler<GetMeasurementSorQu
             throw new ArgumentException("Sor file with such id not found");
         }
 
-        if (request.EmbeddedBase)
+        switch (request.Composition)
         {
-            OtdrDataKnownBlocks sorData = sorBytes.ToSorData();
-            var baseRef = sorData.EmbeddedData.EmbeddedDataBlocks.FirstOrDefault(block => block.Description == @"SOR");
-            if (baseRef != null)
-                return new MeasurementTrace(baseRef.Data);
-            else
-            {
-                throw new ArgumentException("Base in this sorfile not found");
-            }
+            case 2:
+                return new MeasurementTrace(sorBytes);
+            case 1:
+                {
+                    OtdrDataKnownBlocks sorData = sorBytes.ToSorData();
+                    var baseRef = sorData.EmbeddedData.EmbeddedDataBlocks.FirstOrDefault(block => block.Description == @"SOR");
+                    if (baseRef != null)
+                        return new MeasurementTrace(baseRef.Data);
+                    else
+                    {
+                        throw new ArgumentException("Base in this sorfile not found");
+                    }
+                }
+            default:
+                {
+                    OtdrDataKnownBlocks sorData = sorBytes.ToSorData();
+                    var blocks = sorData.EmbeddedData.EmbeddedDataBlocks.Where(block => block.Description != @"SOR").ToArray();
+                    sorData.EmbeddedData.EmbeddedDataBlocks = blocks;
+                    var bytesWithoutBase = sorData.ToBytes();
+                    return new MeasurementTrace(bytesWithoutBase);
+                }
         }
-        else
-        {
-            OtdrDataKnownBlocks sorData = sorBytes.ToSorData();
-            var blocks = sorData.EmbeddedData.EmbeddedDataBlocks.Where(block => block.Description != @"SOR").ToArray();
-            sorData.EmbeddedData.EmbeddedDataBlocks = blocks;
-            var bytesWithoutBase = sorData.ToBytes();
-            return new MeasurementTrace(bytesWithoutBase);
-        }
-
     }
 }
 

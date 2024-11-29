@@ -215,6 +215,6 @@ import { ExpandMinimizeAvailableActionComponent } from './components/svg-buttons
 
     ExpandMinimizeAvailableActionComponent
   ],
-  providers: [RtuDateToDayOfWeekPipe, FrequencyPipe]
+  providers: [RtuDateToDayOfWeekPipe, FrequencyPipe, RtuDateTimePipe]
 })
 export class SharedModule {}
