@@ -17,7 +17,6 @@
     </ng-container>
     <div class="ml-1 h-full w-full">
       <ng-container *ngIf="measurementTrace !== null && baselineTrace !== null">
-        <!-- <rtu-sor-area-provider [sors]="[measurementTrace, baselineTrace]"></rtu-sor-area-provider> -->
         <rtu-sor-result-baseline-provider
           [result]="measurementTrace"
           [baseline]="baselineTrace"

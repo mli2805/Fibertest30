@@ -1,5 +1,5 @@
 .settings-grid {
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: 16rem minmax(0, 1fr);
 
   grid-template-areas:
     'laserLabel laserValue'
@@ -9,32 +9,4 @@
     'resolutionLabel resolutionValue'
     'pulseLable pulseValue'
     'averagingTimeLabel averagingTimeValue';
-}
-
-@media (min-width: 860px) {
-  .settings-grid {
-    grid-template-columns: minmax(6rem, 1fr) minmax(6rem, 1fr) 2rem minmax(6rem, 1fr) minmax(
-        6rem,
-        1fr
-      );
-
-    grid-template-areas:
-      'laserLabel laserValue space pulseLable pulseValue'
-      'backscatteringCoeffLabel backscatteringCoeffValue space resolutionLabel resolutionValue'
-      'refractiveIndexLabel refractiveIndexValue space averagingTimeLabel averagingTimeValue'
-      'distanceLabel distanceValue space a b';
-  }
-}
-
-@media (min-width: 1280px) {
-  .settings-grid {
-    grid-template-columns:
-      minmax(6rem, 1fr) minmax(6rem, 1fr) 6rem minmax(6rem, 1fr) minmax(6rem, 1fr)
-      6rem minmax(6rem, 1fr) minmax(6rem, 1fr);
-
-    grid-template-areas:
-      'laserLabel laserValue space averagingTimeLabel averagingTimeValue space2 distanceLabel distanceValue'
-      'backscatteringCoeffLabel backscatteringCoeffValue space resolutionLabel resolutionValue space2 pulseLable pulseValue'
-      'refractiveIndexLabel refractiveIndexValue space a b space2 c d ';
-  }
 }

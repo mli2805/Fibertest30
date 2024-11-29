@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { Store } from '@ngrx/store';
 import { SorTrace } from '@veex/sor';
 import { catchError, forkJoin, mergeMap, Observable, of, takeUntil, tap } from 'rxjs';
-import { AppState, RtuTreeSelectors } from 'src/app/core';
+import { AppState, FileSaverService, RtuTreeSelectors } from 'src/app/core';
 import { ConvertUtils } from 'src/app/core/convert.utils';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { RtuMgmtService } from 'src/app/core/grpc';
@@ -25,6 +25,7 @@ import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
+import { RtuDateTimePipe } from 'src/app/shared/pipes/datetime.pipe';
 import { DefaultParameters } from 'src/app/shared/utils/default-parameters';
 import { ValidationUtils } from 'src/app/shared/utils/validation-utils';
 
@@ -53,9 +54,15 @@ export class MeasurementClientComponent extends OnDestroyBase implements OnInit,
   error$ = this.store.select(RtuMgmtSelectors.selectErrorMessageId);
 
   completedMeasurement$: Observable<{ sor: SorTrace | null } | null>;
+  fullScreen = false;
   sorFile: Uint8Array | null = null;
 
-  constructor(private store: Store<AppState>, rtuMgmtService: RtuMgmtService) {
+  constructor(
+    private store: Store<AppState>,
+    rtuMgmtService: RtuMgmtService,
+    private fileSaverService: FileSaverService,
+    private dtPipe: RtuDateTimePipe
+  ) {
     super();
     store.dispatch(RtuMgmtActions.reset());
 
@@ -281,5 +288,21 @@ export class MeasurementClientComponent extends OnDestroyBase implements OnInit,
     ms.push(time);
 
     return ms;
+  }
+
+  async saveSor() {
+    if (!this.sorFile) {
+      return;
+    }
+
+    const now = new Date();
+    const dt = this.dtPipe.getDateTimeForFileName(now);
+    const filename = `meas - ${dt}.sor`;
+
+    this.fileSaverService.saveAs(this.sorFile!, filename);
+  }
+
+  toggleFullScreen() {
+    this.fullScreen = !this.fullScreen;
   }
 }
