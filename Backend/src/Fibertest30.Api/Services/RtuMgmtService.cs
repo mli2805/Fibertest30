@@ -55,7 +55,7 @@ public class RtuMgmtService : RtuMgmt.RtuMgmtBase
 
     public override async Task<GetSorResponse> GetMeasurementSor(GetMeasurementSorRequest request, ServerCallContext context)
     {
-        var sor = await _mediator.Send(new GetMeasurementSorQuery(request.SorFileId), context.CancellationToken); 
+        var sor = await _mediator.Send(new GetMeasurementSorQuery(request.SorFileId, request.EmbeddedBase), context.CancellationToken); 
 
         return new GetSorResponse()
         {

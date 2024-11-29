@@ -63,9 +63,10 @@ export class RtuMgmtService {
     );
   }
 
-  getMeasurementSor(sorFileId: number): Observable<grpc.GetSorResponse> {
+  getMeasurementSor(sorFileId: number, embeddedBase: boolean): Observable<grpc.GetSorResponse> {
     const request: grpc.GetMeasurementSorRequest = {
       sorFileId,
+      embeddedBase,
       vxsorFormat: true
     };
     return GrpcUtils.unaryToObservable(

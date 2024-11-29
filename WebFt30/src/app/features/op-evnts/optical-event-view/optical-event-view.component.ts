@@ -74,17 +74,15 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
       return;
     }
 
-    // на самом деле мы храним сорку со встроенной рефлектограммой
-    // надо переделать... а то сейчас берется последняя базовая даже для старых измерений
     forkJoin({
-      measurementSor: this.rtuMgmtService.getMeasurementSor(this.opticalEventId).pipe(
+      measurementSor: this.rtuMgmtService.getMeasurementSor(this.opticalEventId, false).pipe(
         mergeMap(async ({ sor }) => ConvertUtils.buildSorTrace(sor)),
         catchError((error) => {
           this.errorMessageId$.next('i18n.ft.cant-load-measurement-sor-file');
           return of(null);
         })
       ),
-      baselineSor: this.rtuMgmtService.getMeasurementSor(this.baseRefSorId).pipe(
+      baselineSor: this.rtuMgmtService.getMeasurementSor(this.opticalEventId, true).pipe(
         mergeMap(async ({ sor }) => ConvertUtils.buildSorTrace(sor, SorColors.Baseline)),
         catchError((error) => {
           this.errorMessageId$.next('i18n.ft.cant-load-baseline-sor-file');
