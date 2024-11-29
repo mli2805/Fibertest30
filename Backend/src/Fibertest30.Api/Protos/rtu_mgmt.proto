@@ -121,18 +121,17 @@ message DoMeasurementClientRequest{
 
 message GetMeasurementClientSorRequest {
 	string measurementClientId = 1;
-	bool vxsorFormat = 2;
 }
 
 message GetSorResponse {
-	bytes sor = 1;
+	bytes measurement = 1;
+	//  there is no baseline in sor for measurementClient
+	optional bytes baseline = 2; 
+	bytes file = 3;
 }
 
 message GetMeasurementSorRequest {
 	int32 sorFileId = 1;
-	// 0 - only measurement, 1 - only baseline, 2 - both (measurement with embedded baseline)
-	int32 composition = 2;
-	bool vxsorFormat = 3;
 }
 
 message StopMonitoringRequest {

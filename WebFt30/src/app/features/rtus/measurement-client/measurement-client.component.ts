@@ -53,6 +53,7 @@ export class MeasurementClientComponent extends OnDestroyBase implements OnInit,
   error$ = this.store.select(RtuMgmtSelectors.selectErrorMessageId);
 
   completedMeasurement$: Observable<{ sor: SorTrace | null } | null>;
+  sorFile: Uint8Array | null = null;
 
   constructor(private store: Store<AppState>, rtuMgmtService: RtuMgmtService) {
     super();
@@ -66,7 +67,10 @@ export class MeasurementClientComponent extends OnDestroyBase implements OnInit,
         }
         return forkJoin({
           sor: rtuMgmtService.getMeasurementClientSor(id).pipe(
-            mergeMap(async ({ sor }) => ConvertUtils.buildSorTrace(sor)),
+            mergeMap(async ({ measurement, baseline, file }) => {
+              this.sorFile = file;
+              return ConvertUtils.buildSorTrace(measurement);
+            }),
             catchError((error) => {
               console.log(error);
               return of(null);

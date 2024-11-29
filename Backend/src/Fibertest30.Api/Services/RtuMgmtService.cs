@@ -1,6 +1,7 @@
 ﻿using Grpc.Core;
 using Iit.Fibertest.Dto;
 using MediatR;
+using System.Data.SqlTypes;
 
 namespace Fibertest30.Api;
 
@@ -47,20 +48,15 @@ public class RtuMgmtService : RtuMgmt.RtuMgmtBase
         var sor = await _mediator.Send(new GetMeasurementClientSorQuery(Guid.Parse(request.MeasurementClientId)),
             context.CancellationToken);
 
-        return new GetSorResponse()
-        {
-            Sor = ProtoUtils.MeasurementTraceToSorByteString(sor, request.VxsorFormat)
-        };
+        return ProtoUtils.SorToResponse(sor);
     }
 
     public override async Task<GetSorResponse> GetMeasurementSor(GetMeasurementSorRequest request, ServerCallContext context)
     {
-        var sor = await _mediator.Send(new GetMeasurementSorQuery(request.SorFileId, request.Composition), context.CancellationToken); 
+        var sor = await _mediator.Send(new GetMeasurementSorQuery(request.SorFileId), context.CancellationToken);
 
-        return new GetSorResponse()
-        {
-            Sor = ProtoUtils.MeasurementTraceToSorByteString(sor, request.VxsorFormat)
-        };
+        return ProtoUtils.SorToResponse(sor);
+
     }
 
     public override async Task<EmptyResponse> StopMonitoring(StopMonitoringRequest request,

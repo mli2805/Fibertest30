@@ -53,8 +53,7 @@ export class RtuMgmtService {
 
   getMeasurementClientSor(measurementClientId: string): Observable<grpc.GetSorResponse> {
     const request: grpc.GetMeasurementClientSorRequest = {
-      measurementClientId: measurementClientId,
-      vxsorFormat: true
+      measurementClientId: measurementClientId
     };
     return GrpcUtils.unaryToObservable(
       this.client.getMeasurementClientSor.bind(this.client),
@@ -63,15 +62,9 @@ export class RtuMgmtService {
     );
   }
 
-  getMeasurementSor(
-    sorFileId: number,
-    composition: number,
-    vxsorFormat: boolean
-  ): Observable<grpc.GetSorResponse> {
+  getMeasurementSor(sorFileId: number): Observable<grpc.GetSorResponse> {
     const request: grpc.GetMeasurementSorRequest = {
-      sorFileId,
-      composition,
-      vxsorFormat
+      sorFileId
     };
     return GrpcUtils.unaryToObservable(
       this.client.getMeasurementSor.bind(this.client),

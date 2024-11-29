@@ -2,16 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { SorColors, SorTrace } from '@veex/sor';
-import {
-  BehaviorSubject,
-  catchError,
-  firstValueFrom,
-  forkJoin,
-  mergeMap,
-  of,
-  takeUntil,
-  tap
-} from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { AppState, RtuTreeSelectors } from 'src/app/core';
 import { ConvertUtils } from 'src/app/core/convert.utils';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -78,31 +69,20 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
       return;
     }
 
-    forkJoin({
-      measurementSor: this.rtuMgmtService.getMeasurementSor(this.opticalEventId, 0, true).pipe(
-        mergeMap(async ({ sor }) => ConvertUtils.buildSorTrace(sor)),
-        catchError((error) => {
-          this.errorMessageId$.next('i18n.ft.cant-load-measurement-sor-file');
-          return of(null);
-        })
-      ),
-      baselineSor: this.rtuMgmtService.getMeasurementSor(this.opticalEventId, 1, true).pipe(
-        mergeMap(async ({ sor }) => ConvertUtils.buildSorTrace(sor, SorColors.Baseline)),
-        catchError((error) => {
-          this.errorMessageId$.next('i18n.ft.cant-load-baseline-sor-file');
-          return of(null);
-        })
-      )
-    })
-      .pipe(
-        takeUntil(this.ngDestroyed$),
-        tap(() => this.loading$.next(false)),
-        tap(({ measurementSor, baselineSor }) => {
-          this.measurementTrace = measurementSor;
-          this.baselineTrace = baselineSor;
-        })
-      )
-      .subscribe();
+    try {
+      const response = await firstValueFrom(
+        this.rtuMgmtService.getMeasurementSor(this.opticalEventId)
+      );
+      this.measurementTrace = await ConvertUtils.buildSorTrace(response.measurement);
+      this.baselineTrace = await ConvertUtils.buildSorTrace(response.baseline!, SorColors.Baseline);
+      this.sorFile = response.file;
+
+      this.loading$.next(false);
+    } catch (error) {
+      this.errorMessageId$.next('i18n.ft.cant-load-measurement-sor-file');
+      this.loading$.next(false);
+      return;
+    }
   }
 
   getBaseRefSorId(opticalEvent: OpticalEvent): number {
@@ -119,19 +99,7 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
   }
 
   async saveSor() {
-    if (!this.opticalEvent) {
-      return;
-    }
-
-    try {
-      const response = await firstValueFrom(
-        this.rtuMgmtService.getMeasurementSor(this.opticalEventId, 2, false)
-      );
-      this.sorFile = response.sor;
-      console.log(this.sorFile);
-    } catch (error) {
-      this.errorMessageId$.next('i18n.ft.cant-load-file');
-      this.loading$.next(false);
+    if (!this.opticalEvent || !this.sorFile) {
       return;
     }
 

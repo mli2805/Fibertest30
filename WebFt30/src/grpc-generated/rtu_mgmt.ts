@@ -280,19 +280,25 @@ export interface GetMeasurementClientSorRequest {
      * @generated from protobuf field: string measurementClientId = 1;
      */
     measurementClientId: string;
-    /**
-     * @generated from protobuf field: bool vxsorFormat = 2;
-     */
-    vxsorFormat: boolean;
 }
 /**
  * @generated from protobuf message fibertest30.rtu_mgmt.GetSorResponse
  */
 export interface GetSorResponse {
     /**
-     * @generated from protobuf field: bytes sor = 1;
+     * @generated from protobuf field: bytes measurement = 1;
      */
-    sor: Uint8Array;
+    measurement: Uint8Array;
+    /**
+     *  there is no baseline in sor for measurementClient
+     *
+     * @generated from protobuf field: optional bytes baseline = 2;
+     */
+    baseline?: Uint8Array;
+    /**
+     * @generated from protobuf field: bytes file = 3;
+     */
+    file: Uint8Array;
 }
 /**
  * @generated from protobuf message fibertest30.rtu_mgmt.GetMeasurementSorRequest
@@ -302,16 +308,6 @@ export interface GetMeasurementSorRequest {
      * @generated from protobuf field: int32 sorFileId = 1;
      */
     sorFileId: number;
-    /**
-     * 0 - only measurement, 1 - only baseline, 2 - both (measurement with embedded baseline)
-     *
-     * @generated from protobuf field: int32 composition = 2;
-     */
-    composition: number;
-    /**
-     * @generated from protobuf field: bool vxsorFormat = 3;
-     */
-    vxsorFormat: boolean;
 }
 /**
  * @generated from protobuf message fibertest30.rtu_mgmt.StopMonitoringRequest
@@ -588,8 +584,7 @@ export const DoMeasurementClientRequest = new DoMeasurementClientRequest$Type();
 class GetMeasurementClientSorRequest$Type extends MessageType<GetMeasurementClientSorRequest> {
     constructor() {
         super("fibertest30.rtu_mgmt.GetMeasurementClientSorRequest", [
-            { no: 1, name: "measurementClientId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "vxsorFormat", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+            { no: 1, name: "measurementClientId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
@@ -601,7 +596,9 @@ export const GetMeasurementClientSorRequest = new GetMeasurementClientSorRequest
 class GetSorResponse$Type extends MessageType<GetSorResponse> {
     constructor() {
         super("fibertest30.rtu_mgmt.GetSorResponse", [
-            { no: 1, name: "sor", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
+            { no: 1, name: "measurement", kind: "scalar", T: 12 /*ScalarType.BYTES*/ },
+            { no: 2, name: "baseline", kind: "scalar", opt: true, T: 12 /*ScalarType.BYTES*/ },
+            { no: 3, name: "file", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
         ]);
     }
 }
@@ -613,9 +610,7 @@ export const GetSorResponse = new GetSorResponse$Type();
 class GetMeasurementSorRequest$Type extends MessageType<GetMeasurementSorRequest> {
     constructor() {
         super("fibertest30.rtu_mgmt.GetMeasurementSorRequest", [
-            { no: 1, name: "sorFileId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "composition", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 3, name: "vxsorFormat", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+            { no: 1, name: "sorFileId", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
 }
