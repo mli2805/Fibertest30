@@ -42,48 +42,54 @@
     #rlaNewEvents="routerLinkActive"
     [ngClass]="rlaNewEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
   >
-    <div [ngClass]="{ 'text-orange-600 dark:text-orange-500': (hasNew$ | async) === true }">
+    <div
+      [ngClass]="
+        (hasNew$ | async) === true
+          ? 'stroke-[2] text-orange-600 dark:text-orange-500'
+          : 'stroke-[0]'
+      "
+    >
       <!-- prettier-ignore -->
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41.733 40" class="h-9 w-9">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41.733 40" class="h-9 w-9 " >
   <g transform="translate(-4492.809 -969.551)">
     <g transform="translate(4518.848 983.91)">
-      <path d="M4633.931,1054.51h-1.2v-7.344h6.766v1.2h-5.568Z" transform="translate(-4632.732 -1047.166)" fill="currentColor" />
+      <path d="M4633.931,1054.51h-1.2v-7.344h6.766v1.2h-5.568Z" transform="translate(-4632.732 -1047.166)" fill="currentColor" stroke="currentColor"  />
     </g>
     <g transform="translate(4508.522 983.91)">
-      <path d="M4578.443,1054.51h-1.2v-7.344h6.766v1.2h-5.568Z" transform="translate(-4577.245 -1047.166)" fill="currentColor" />
+      <path d="M4578.443,1054.51h-1.2v-7.344h6.766v1.2h-5.568Z" transform="translate(-4577.245 -1047.166)" fill="currentColor" stroke="currentColor"/>
     </g>
     <g transform="translate(4508.522 992.836)">
-      <path d="M4578.443,1102.759h-1.2v-7.344h6.766v1.2h-5.568Z" transform="translate(-4577.245 -1095.415)" fill="currentColor" />
+      <path d="M4578.443,1102.759h-1.2v-7.344h6.766v1.2h-5.568Z" transform="translate(-4577.245 -1095.415)" fill="currentColor" stroke="currentColor" />
     </g>
     <g transform="translate(4499.158 983.91)">
-      <path d="M4522.957,1054.51h-1.2v-7.344h6.766v1.2h-5.567Z" transform="translate(-4521.758 -1047.166)" fill="currentColor" />
+      <path d="M4522.957,1054.51h-1.2v-7.344h6.766v1.2h-5.567Z" transform="translate(-4521.758 -1047.166)" fill="currentColor" stroke="currentColor" />
     </g>
     <g transform="translate(4499.158 992.836)">
-      <path d="M4522.957,1102.759h-1.2v-7.344h6.766v1.2h-5.567Z" transform="translate(-4521.758 -1095.415)" fill="currentColor" />
+      <path d="M4522.957,1102.759h-1.2v-7.344h6.766v1.2h-5.567Z" transform="translate(-4521.758 -1095.415)" fill="currentColor" stroke="currentColor" />
     </g>
     <g transform="translate(4492.809 973.12)">
-      <path d="M4521.352,1014.923h-23.993c-2.509,0-4.549-1.55-4.549-3.456V987.9c0-1.906,2.041-3.456,4.549-3.456h6.071v.91h-6.071c-1.848,0-3.351,1.142-3.351,2.546v23.569c0,1.4,1.5,2.546,3.351,2.546h23.993Z" transform="translate(-4492.809 -984.442)" fill="currentColor" />
+      <path d="M4521.352,1014.923h-23.993c-2.509,0-4.549-1.55-4.549-3.456V987.9c0-1.906,2.041-3.456,4.549-3.456h6.071v.91h-6.071c-1.848,0-3.351,1.142-3.351,2.546v23.569c0,1.4,1.5,2.546,3.351,2.546h23.993Z" transform="translate(-4492.809 -984.442)" fill="currentColor" stroke="currentColor" />
     </g>
     <g transform="translate(4519.961 973.12)">
-      <path d="M4658.912,1007.588h-1.2v-18.6a3.355,3.355,0,0,0-3.352-3.351H4648.1v-1.2h6.263a4.555,4.555,0,0,1,4.55,4.55Z" transform="translate(-4648.099 -984.442)" fill="currentColor" />
+      <path d="M4658.912,1007.588h-1.2v-18.6a3.355,3.355,0,0,0-3.352-3.351H4648.1v-1.2h6.263a4.555,4.555,0,0,1,4.55,4.55Z" transform="translate(-4648.099 -984.442)" fill="currentColor" stroke="currentColor" />
     </g>
     <g transform="translate(4502.941 969.551)">
-      <rect width="1.198" height="7.95" transform="translate(0 0)" fill="currentColor" />
+      <rect width="1.198" height="7.95" transform="translate(0 0)" fill="currentColor" stroke="currentColor" />
     </g>
     <g transform="translate(4519.672 969.551)">
-      <rect width="1.198" height="7.95" transform="translate(0 0)" fill="currentColor" />
+      <rect width="1.198" height="7.95" transform="translate(0 0)" fill="currentColor" stroke="currentColor" />
     </g>
     <g transform="translate(4504.258 972.927)">
-      <rect  width="15.538" height="1.198" transform="translate(0 0)" fill="currentColor" />
+      <rect  width="15.538" height="1.198" transform="translate(0 0)" fill="currentColor" stroke="currentColor" />
     </g>
     <g transform="translate(4496.66 979.084)">
-      <rect  width="36.291" height="1.198" transform="translate(0)" fill="currentColor" />
+      <rect  width="36.291" height="1.198" transform="translate(0)" fill="currentColor" stroke="currentColor" />
     </g>
     <g transform="translate(4519.844 1005.073)">
-      <path d="M4652.086,1162.5a4.483,4.483,0,0,1-4.478-4.478h1.2a3.279,3.279,0,0,0,6.559,0h1.2A4.483,4.483,0,0,1,4652.086,1162.5Z" transform="translate(-4647.609 -1158.026)" fill="currentColor" />
+      <path d="M4652.086,1162.5a4.483,4.483,0,0,1-4.478-4.478h1.2a3.279,3.279,0,0,0,6.559,0h1.2A4.483,4.483,0,0,1,4652.086,1162.5Z" transform="translate(-4647.609 -1158.026)" fill="currentColor" stroke="currentColor"/>
     </g>
     <g transform="translate(4513.378 987.467)">
-      <path d="M4640.246,1101.078h-18.069a1.546,1.546,0,0,1-1.094-2.64l3.512-3.512a.8.8,0,0,0,.235-.568v-3.418a6.381,6.381,0,0,1,12.761,0v3.418a.8.8,0,0,0,.235.568l3.512,3.512a1.546,1.546,0,0,1-1.093,2.64Zm-9.035-15.321a5.188,5.188,0,0,0-5.182,5.182v3.418a1.987,1.987,0,0,1-.586,1.415l-3.512,3.512a.348.348,0,0,0,.247.595h18.069a.348.348,0,0,0,.246-.595l-3.512-3.512a1.987,1.987,0,0,1-.586-1.415v-3.418A5.188,5.188,0,0,0,4631.211,1085.757Z" transform="translate(-4620.629 -1084.559)" fill="currentColor" />
+      <path d="M4640.246,1101.078h-18.069a1.546,1.546,0,0,1-1.094-2.64l3.512-3.512a.8.8,0,0,0,.235-.568v-3.418a6.381,6.381,0,0,1,12.761,0v3.418a.8.8,0,0,0,.235.568l3.512,3.512a1.546,1.546,0,0,1-1.093,2.64Zm-9.035-15.321a5.188,5.188,0,0,0-5.182,5.182v3.418a1.987,1.987,0,0,1-.586,1.415l-3.512,3.512a.348.348,0,0,0,.247.595h18.069a.348.348,0,0,0,.246-.595l-3.512-3.512a1.987,1.987,0,0,1-.586-1.415v-3.418A5.188,5.188,0,0,0,4631.211,1085.757Z" transform="translate(-4620.629 -1084.559)" fill="currentColor" stroke="currentColor"/>
     </g>
   </g>
       </svg>
