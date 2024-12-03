@@ -54,7 +54,8 @@ export class DetachedTraceMenuComponent {
   }
 
   onInformationClicked() {
-    //
+    const path = `rtus/trace-information/${this.trace.traceId}`;
+    this.router.navigate([path]);
   }
 
   onStateClicked() {
@@ -66,7 +67,8 @@ export class DetachedTraceMenuComponent {
   }
 
   onLandmarksClicked() {
-    //
+    const path = `rtus/trace-landmarks/${this.trace.traceId}`;
+    this.router.navigate([path]);
   }
 
   canClean() {

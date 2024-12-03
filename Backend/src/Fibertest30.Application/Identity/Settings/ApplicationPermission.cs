@@ -10,6 +10,7 @@ public enum ApplicationPermission
     EditUsers,
     ChangeNotificationSettings,
 
+    EditGraph,
     CheckRtuConnection,
     InitializeRtu,
     EditLandmarks,

@@ -156,6 +156,10 @@ public static class RtuTreeMapping
         {
             protoTrace.Port = trace.OtauPort.ToProto();
         }
+
+        if (trace.Comment != null)
+            protoTrace.Comment = trace.Comment;
+
         return protoTrace;
     }
 
@@ -202,6 +206,9 @@ public static class RtuTreeMapping
 
         if (rtu.TreeOfAcceptableMeasParams != null) // after RTU is initialized
             protoRtu.TreeOfAcceptableMeasParams = rtu.TreeOfAcceptableMeasParams.ToProto();
+
+        if (rtu.Comment != null)
+            protoRtu.Comment = rtu.Comment;
 
         return protoRtu;
     }

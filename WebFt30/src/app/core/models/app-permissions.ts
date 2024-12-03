@@ -8,6 +8,8 @@ export enum ApplicationPermission {
   EditUsers = 'EditUsers',
   ChangeNotificationSettings = 'ChangeNotificationSettings',
 
+  // EditGraph includes changing rtu/trace titles and comments
+  EditGraph = 'EditGraph',
   CheckRtuConnection = 'CheckRtuConnection',
   InitializeRtu = 'InitializeRtu',
   EditLandmarks = 'EditLandmarks',

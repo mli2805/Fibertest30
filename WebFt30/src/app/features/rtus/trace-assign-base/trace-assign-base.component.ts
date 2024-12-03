@@ -7,28 +7,13 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  BehaviorSubject,
-  catchError,
-  EMPTY,
-  firstValueFrom,
-  forkJoin,
-  Observable,
-  of,
-  ReplaySubject,
-  Subscription,
-  takeUntil,
-  tap
-} from 'rxjs';
+import { firstValueFrom, forkJoin, Observable, ReplaySubject, Subscription, takeUntil } from 'rxjs';
 import { AppState, RtuTreeSelectors } from 'src/app/core';
 import { RtuMgmtService } from 'src/app/core/grpc';
-import { MapUtils } from 'src/app/core/map.utils';
 import { RtuMgmtMapping } from 'src/app/core/store/mapping/rtu-mgmt-mapping';
-import { ApplyMonitoringSettingsDto } from 'src/app/core/store/models/ft30/apply-monitorig-settings-dto';
 import {
   AssignBaseRefsDto,
   BaseRefFile

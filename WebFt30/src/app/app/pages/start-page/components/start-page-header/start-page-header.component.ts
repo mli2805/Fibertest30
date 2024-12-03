@@ -27,7 +27,12 @@ import { UserEditDialogComponent } from 'src/app/features/ft-settings/components
 export class StartPageHeaderComponent {
   private readonly titleMap = new Map<RegExp, StartPageHeaderTitle>([
     [/^\/rtus$/, { titleId: 'i18n.ft.rtus' }],
+    [/^\/rtus\/information\/.*$/, { titleId: 'i18n.ft.information' }],
+    [/^\/rtus\/trace-information\/.*$/, { titleId: 'i18n.ft.information' }],
     [/^\/rtus\/initialization\/.*$/, { titleId: 'i18n.ft.network-settings' }],
+    [/^\/rtus\/state\/.*$/, { titleId: 'i18n.ft.state' }],
+    [/^\/rtus\/landmarks\/.*$/, { titleId: 'i18n.ft.landmarks' }],
+    [/^\/rtus\/trace-landmarks\/.*$/, { titleId: 'i18n.ft.landmarks' }],
     [/^\/rtus\/monitoring-settings\/.*$/, { titleId: 'i18n.ft.monitoring-settings' }],
     [/^\/rtus\/measurement-client\/.*$/, { titleId: 'i18n.ft.measurement-client' }],
     [/^\/rtus\/assign-base\/.*$/, { titleId: 'i18n.ft.assign-base-refs' }],

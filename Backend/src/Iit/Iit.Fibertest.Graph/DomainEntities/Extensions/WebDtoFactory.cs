@@ -94,7 +94,8 @@ namespace Iit.Fibertest.Graph
                 Version = r.Version,
                 Version2 = r.Version2,
 
-                TreeOfAcceptableMeasParams = r.AcceptableMeasParams
+                TreeOfAcceptableMeasParams = r.AcceptableMeasParams,
+                Comment = r.Comment,
             };
         }
 
@@ -175,6 +176,7 @@ namespace Iit.Fibertest.Graph
                 PreciseSorId = t.PreciseId != Guid.Empty ? writeModel.BaseRefs.First(b=>b.Id == t.PreciseId).SorFileId : -1,
                 FastSorId = t.FastId != Guid.Empty ? writeModel.BaseRefs.First(b=>b.Id == t.FastId).SorFileId : -1,
                 AdditionalSorId = t.AdditionalId != Guid.Empty ? writeModel.BaseRefs.First(b=>b.Id == t.AdditionalId).SorFileId : -1,
+                Comment = t.Comment
             };
         }
 

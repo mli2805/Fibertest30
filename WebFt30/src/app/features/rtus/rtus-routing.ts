@@ -8,6 +8,10 @@ import { RtusComponent } from './rtus/rtus.component';
 import { MeasurementClientComponent } from './measurement-client/measurement-client.component';
 import { RtuMonitoringSettingsComponent } from './rtu-monitoring-settings/rtu-monitoring-settings.component';
 import { TraceAssignBaseComponent } from './trace-assign-base/trace-assign-base.component';
+import { RtuStateComponent } from './rtu-state/rtu-state.component';
+import { TraceInformationComponent } from './trace-information/trace-information.component';
+import { RtuLandmarksComponent } from './rtu-landmarks/rtu-landmarks.component';
+import { TraceLandmarksComponent } from './trace-landmarks/trace-landmarks.component';
 
 export const routes: Routes = [
   {
@@ -27,12 +31,37 @@ export const routes: Routes = [
       {
         path: 'information/:id',
         pathMatch: 'full',
-        component: RtuInformationComponent
+        component: RtuInformationComponent,
+        data: { navigateToParent: 2 }
+      },
+      {
+        path: 'trace-information/:id',
+        pathMatch: 'full',
+        component: TraceInformationComponent,
+        data: { navigateToParent: 2 }
       },
       {
         path: 'initialization/:id',
         pathMatch: 'full',
         component: RtuInitializationComponent,
+        data: { navigateToParent: 2 }
+      },
+      {
+        path: 'state/:id',
+        pathMatch: 'full',
+        component: RtuStateComponent,
+        data: { navigateToParent: 2 }
+      },
+      {
+        path: 'landmarks/:id',
+        pathMatch: 'full',
+        component: RtuLandmarksComponent,
+        data: { navigateToParent: 2 }
+      },
+      {
+        path: 'trace-landmarks/:id',
+        pathMatch: 'full',
+        component: TraceLandmarksComponent,
         data: { navigateToParent: 2 }
       },
       {

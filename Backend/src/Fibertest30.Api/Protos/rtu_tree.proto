@@ -83,6 +83,7 @@ message Trace {
     int32 preciseSorId = 13;
     int32 fastSorId = 14;
     int32 additionalSorId = 15;
+    optional string comment = 16;
 }
 
 message Bop {
@@ -130,6 +131,7 @@ message Rtu {
 	repeated Trace traces = 24;
 
     optional TreeOfAcceptableMeasParams treeOfAcceptableMeasParams = 25;
+    optional string comment = 26;
 }
 
 message GetRtuTreeRequest {}

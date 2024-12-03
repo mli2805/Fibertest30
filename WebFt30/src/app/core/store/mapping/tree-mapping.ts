@@ -27,6 +27,7 @@ export class TreeMapping {
     trace.preciseSorId = grpcTrace.preciseSorId;
     trace.fastSorId = grpcTrace.fastSorId;
     trace.additionalSorId = grpcTrace.additionalSorId;
+    trace.comment = grpcTrace.comment !== undefined ? grpcTrace.comment : null;
     return trace;
   }
 
@@ -81,6 +82,7 @@ export class TreeMapping {
     rtu.acceptableParams = AcceptableParamsMapping.fromGrpcAcceptableParams(
       grpcRtu.treeOfAcceptableMeasParams!
     );
+    rtu.comment = grpcRtu.comment !== undefined ? grpcRtu.comment : null;
 
     // calculated properties
     rtu.isRtuAvailable =

@@ -21,6 +21,7 @@ public static class ApplicationDefaultPermissions
         AddPermission(P.EditUsers);
         AddPermission(P.ChangeNotificationSettings);
 
+        AddPermission(P.EditGraph);
         AddPermission(P.CheckRtuConnection, R.Operator, R.Supervisor);
         AddPermission(P.InitializeRtu, R.Operator);
         AddPermission(P.EditLandmarks, R.Operator);

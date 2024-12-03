@@ -1,0 +1,82 @@
+<div [formGroup]="form">
+  <fieldset [disabled]="isDisabled()">
+    <div class="grouped-border m-2 flex w-120 flex-col">
+      <div class="grid-container ml-1 gap-y-1 text-sm">
+        <label
+          class="my-auto text-sm"
+          [ngClass]="{ 'disabled-label': isDisabled() }"
+          style="grid-area: titleLabel"
+        >
+          {{ 'i18n.ft.title' | translate }}
+        </label>
+        <input
+          style="grid-area: titleValue"
+          formControlName="title"
+          [ngClass]="{ 'invalid-border': !isTraceTitleValid() }"
+          type="text"
+          class="input-simple w-full"
+        />
+
+        <label
+          class="my-auto text-sm"
+          [ngClass]="{ 'disabled-label': true }"
+          style="grid-area: idLabel"
+        >
+          ID
+        </label>
+        <label
+          class="my-2 ml-3 text-nowrap text-sm"
+          [ngClass]="{ 'disabled-label': true }"
+          style="grid-area: idValue"
+        >
+          {{ rtu.rtuId }}
+        </label>
+
+        <label
+          class="my-auto text-sm"
+          [ngClass]="{ 'disabled-label': isDisabled() }"
+          style="grid-area: rtuLabel"
+        >
+          RTU
+        </label>
+        <label
+          class="my-2 ml-3 text-nowrap text-sm"
+          [ngClass]="{ 'disabled-label': isDisabled() }"
+          style="grid-area: rtuValue"
+        >
+          {{ rtu.title }}
+        </label>
+
+        <label
+          class="my-auto text-sm"
+          [ngClass]="{ 'disabled-label': isDisabled() }"
+          style="grid-area: portLabel"
+        >
+          {{ 'i18n.ft.port' | translate }}
+        </label>
+        <label
+          class="my-2 ml-3 text-nowrap text-sm"
+          [ngClass]="{ 'disabled-label': isDisabled() }"
+          style="grid-area: portValue"
+        >
+          {{ port | translate }}
+        </label>
+      </div>
+    </div>
+    <div class="grouped-border m-2 flex w-120 flex-col">
+      <label
+        class="mb-2 text-sm"
+        [ngClass]="{ 'disabled-label': isDisabled() }"
+        style="grid-area: commentLabel"
+      >
+        {{ 'i18n.ft.comment' | translate }}
+      </label>
+      <input
+        style="grid-area: commentValue"
+        formControlName="comment"
+        type="text"
+        class="input-simple w-full"
+      />
+    </div>
+  </fieldset>
+</div>

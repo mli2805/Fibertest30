@@ -1,26 +1,30 @@
 import { Component, inject, OnInit } from '@angular/core';
 import {
-  AbstractControl,
-  FormControl,
   FormGroup,
-  RequiredValidator,
+  FormControl,
+  AbstractControl,
   ValidationErrors,
   ValidatorFn
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState, AuthSelectors, RtuTreeSelectors } from 'src/app/core';
+import { AppState, RtuTreeSelectors, AuthSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
+import { ExtensionUtils } from 'src/app/core/extension.utils';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
+import { Trace } from 'src/app/core/store/models/ft30/trace';
 
 @Component({
-  selector: 'rtu-rtu-information',
-  templateUrl: './rtu-information.component.html',
-  styleUrls: ['./rtu-information.component.scss']
+  selector: 'rtu-trace-information',
+  templateUrl: './trace-information.component.html',
+  styleUrls: ['./trace-information.component.scss']
 })
-export class RtuInformationComponent implements OnInit {
+export class TraceInformationComponent implements OnInit {
+  traceId!: string;
+  trace!: Trace;
   rtuId!: string;
   rtu!: Rtu;
+  port!: string;
 
   hasPermission!: boolean;
   form!: FormGroup;
@@ -29,16 +33,19 @@ export class RtuInformationComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.rtuId = this.route.snapshot.paramMap.get('id')!;
+    this.traceId = this.route.snapshot.paramMap.get('id')!;
+    this.trace = CoreUtils.getCurrentState(this.store, RtuTreeSelectors.selectTrace(this.traceId))!;
+    this.rtuId = this.trace.rtuId;
     this.rtu = CoreUtils.getCurrentState(this.store, RtuTreeSelectors.selectRtu(this.rtuId))!;
+    this.port = ExtensionUtils.PortOfOtauToString(this.trace.port);
     this.hasPermission = CoreUtils.getCurrentState(
       this.store,
       AuthSelectors.selectHasEditGraphPermission
     );
 
     this.form = new FormGroup({
-      title: new FormControl(this.rtu.title, [this.rtuTitleValidator()]),
-      comment: new FormControl(this.rtu.comment)
+      title: new FormControl(this.trace.title, [this.traceTitleValidator()]),
+      comment: new FormControl(this.trace.comment)
     });
   }
 
@@ -46,7 +53,7 @@ export class RtuInformationComponent implements OnInit {
     return !this.hasPermission;
   }
 
-  rtuTitleValidator(): ValidatorFn {
+  traceTitleValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (control.pristine) return null;
       if (control.value === '') return { invalidTitle: { value: 'required' } };
@@ -54,7 +61,7 @@ export class RtuInformationComponent implements OnInit {
     };
   }
 
-  isRtuTitleValid() {
+  isTraceTitleValid() {
     return this.form.controls['title'].valid;
   }
 }

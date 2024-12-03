@@ -42,4 +42,5 @@ export class Rtu {
   bopsState!: RtuPartState;
 
   children!: any[];
+  comment!: string | null;
 }

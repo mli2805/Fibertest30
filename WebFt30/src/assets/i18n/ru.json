@@ -12,6 +12,8 @@
   "i18n.ft.automatic-mode": "Автоматический режим",
   "i18n.ft.cant-load-rtu": "Не удалось загрузить RTU",
   "i18n.ft.cant-load-rtu-tree": "Не удалось загрузить дерево RTU",
+  "i18n.ft.title": "Название",
+  "i18n.ft.comment": "Комментарий",
   "i18n.ft.channel": "канал",
   "i18n.ft.connected-successfully": "Соединение успешно!",
   "i18n.ft.define-trace": "Определить трассу",

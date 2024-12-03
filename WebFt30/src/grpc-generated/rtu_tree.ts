@@ -224,6 +224,10 @@ export interface Trace {
      * @generated from protobuf field: int32 additionalSorId = 15;
      */
     additionalSorId: number;
+    /**
+     * @generated from protobuf field: string comment = 16;
+     */
+    comment: string;
 }
 /**
  * @generated from protobuf message fibertest30.rtu_tree.Bop
@@ -366,6 +370,10 @@ export interface Rtu {
      * @generated from protobuf field: optional fibertest30.rtu_tree.TreeOfAcceptableMeasParams treeOfAcceptableMeasParams = 25;
      */
     treeOfAcceptableMeasParams?: TreeOfAcceptableMeasParams;
+    /**
+     * @generated from protobuf field: optional string comment = 26;
+     */
+    comment?: string;
 }
 /**
  * @generated from protobuf message fibertest30.rtu_tree.GetRtuTreeRequest
@@ -613,7 +621,8 @@ class Trace$Type extends MessageType<Trace> {
             { no: 12, name: "additionalDuration", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 13, name: "preciseSorId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 14, name: "fastSorId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 15, name: "additionalSorId", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+            { no: 15, name: "additionalSorId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 16, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
@@ -668,7 +677,8 @@ class Rtu$Type extends MessageType<Rtu> {
             { no: 22, name: "version2", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 23, name: "bops", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Bop },
             { no: 24, name: "traces", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Trace },
-            { no: 25, name: "treeOfAcceptableMeasParams", kind: "message", T: () => TreeOfAcceptableMeasParams }
+            { no: 25, name: "treeOfAcceptableMeasParams", kind: "message", T: () => TreeOfAcceptableMeasParams },
+            { no: 26, name: "comment", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

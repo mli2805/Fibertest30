@@ -55,7 +55,6 @@ export class OneRtuMenuComponent {
   }
 
   onOverlayClick(event: MouseEvent) {
-    console.log(event);
     event.stopPropagation();
     this.open = false;
   }
@@ -70,7 +69,8 @@ export class OneRtuMenuComponent {
   }
 
   onInformationClicked() {
-    //
+    const path = `rtus/information/${this.rtu.rtuId}`;
+    this.router.navigate([path]);
   }
 
   canInitialize(): boolean {
@@ -83,11 +83,13 @@ export class OneRtuMenuComponent {
   }
 
   onStateClicked() {
-    //
+    const path = `rtus/state/${this.rtu.rtuId}`;
+    this.router.navigate([path]);
   }
 
   onLandmarksClicked() {
-    //
+    const path = `rtus/landmarks/${this.rtu.rtuId}`;
+    this.router.navigate([path]);
   }
 
   canAutomaticBaseRefs() {

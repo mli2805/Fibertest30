@@ -21,6 +21,10 @@ const selectHasEditUsersPermission = createSelector(selectUser, (user: User | nu
   user ? user.permissions.includes(ApplicationPermission.EditUsers) : false
 );
 
+const selectHasEditGraphPermission = createSelector(selectUser, (user: User | null) =>
+  user ? user.permissions.includes(ApplicationPermission.EditGraph) : false
+);
+
 const selectHasChangeNotificationSettingsPermission = createSelector(
   selectUser,
   (user: User | null) =>
@@ -40,6 +44,7 @@ export const AuthSelectors = {
   selectToken,
   selectUser,
   selectHasEditUsersPermission,
+  selectHasEditGraphPermission,
   selectHasChangeNotificationSettingsPermission,
   selectErrorMessageId
 };

@@ -360,6 +360,8 @@
   "i18n.ft.main": "Main",
   "i18n.ft.reserve": "Reserve",
   "i18n.ft.channel": "channel",
+  "i18n.ft.title": "Title",
+  "i18n.ft.comment": "Comment",
   "i18n.ft.serial": "Serial #",
   "i18n.ft.ports-available": "Ports available",
   "i18n.ft.rtu-manager-version": "RTU Manager version",

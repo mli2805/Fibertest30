@@ -22,6 +22,8 @@ namespace Iit.Fibertest.Dto
         [DataMember] public int PreciseSorId;
         [DataMember] public int FastSorId;
         [DataMember] public int AdditionalSorId;
+        [DataMember] public string? Comment;
+
 
         public TraceDto(ChildType childType) : base(childType)
         {

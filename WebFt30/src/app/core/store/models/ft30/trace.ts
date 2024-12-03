@@ -17,4 +17,5 @@ export class Trace {
   preciseSorId!: number;
   fastSorId!: number;
   additionalSorId!: number;
+  comment!: string | null;
 }
