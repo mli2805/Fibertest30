@@ -13,6 +13,7 @@ import { CoreUtils } from 'src/app/core/core.utils';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
+import { SecUtil } from '../../../rtu-monitoring-settings/sec-util';
 
 @Component({
   selector: 'rtu-one-rtu-menu',
@@ -130,7 +131,9 @@ export class OneRtuMenuComponent {
   }
 
   onAutomaticModeClicked() {
-    //
+    const dto = SecUtil.buildAutoModeDto(this.rtu);
+    console.log(dto);
+    this.store.dispatch(RtuMgmtActions.applyMonitoringSettings({ dto }));
   }
 
   canDetachAllTraces() {

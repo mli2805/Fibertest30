@@ -157,18 +157,9 @@ export class RtuMonitoringSettingsComponent extends OnDestroyBase implements OnI
       .map((o) => o.traces)
       .flat()
       .filter((t) => t && t.isIncludedInMonitoringCycle)
-      .map((a) => this.toPortWithTraceDto(a!));
+      .map((a) => SecUtil.toPortWithTraceDto(a!));
 
     return dto;
-  }
-
-  toPortWithTraceDto(trace: Trace): PortWithTraceDto {
-    const port = new PortWithTraceDto();
-    port.traceId = trace.traceId;
-    port.portOfOtau = trace.port!;
-    port.lastTraceState = trace.state;
-    port.lastRtuAccidentOnTrace = ReturnCode.MeasurementEndedNormally;
-    return port;
   }
 
   // если только посмотреть
