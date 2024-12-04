@@ -213,6 +213,9 @@ void MapGrpcServices(WebApplication app, bool startGrpcReflectionService)
           .RequireCors("AllowAll");
     app.MapGrpcService<RtuMgmtService>()
           .EnableGrpcWeb()
+          .RequireCors("AllowAll"); 
+    app.MapGrpcService<GraphService>()
+          .EnableGrpcWeb()
           .RequireCors("AllowAll");
 
     if (startGrpcReflectionService)

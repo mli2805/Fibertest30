@@ -1,7 +1,5 @@
 ﻿using Grpc.Core;
-using Iit.Fibertest.Dto;
 using MediatR;
-using System.Data.SqlTypes;
 
 namespace Fibertest30.Api;
 

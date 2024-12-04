@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option csharp_namespace = "Fibertest30.Api";
+package fibertest30.graph;
+
+service Graph {
+	rpc UpdateRtuInfo (UpdateRtuInfoRequest) returns (SendCommandResponse);
+	rpc UpdateTraceInfo (UpdateTraceInfoRequest) returns (SendCommandResponse);
+	rpc SendCommand (SendCommandRequest) returns (SendCommandResponse);
+}
+
+message SendCommandRequest {
+	string command = 1;
+	string commandType = 2;
+}
+
+message SendCommandResponse {
+	bool success = 1;
+	string error = 2;
+}
+
+message UpdateRtuInfoRequest {
+	string rtuId = 1;
+	string title = 2;
+	string comment = 3;
+}
+
+message UpdateTraceInfoRequest {
+	string traceId = 1;
+	string title = 2;
+	string comment = 3;
+}

@@ -36,7 +36,11 @@ namespace Iit.Fibertest.Graph
             rtu.Comment = e.Comment;
             var nodeOfRtu = model.Nodes.First(n => n.NodeId == rtu.NodeId);
             nodeOfRtu.Title = e.Title;
-            nodeOfRtu.Position = e.Position;
+
+            // временная проверка пока не шлём координаты рту они при десериализации получаются 0,0
+            // когда форма информация рту будет слать координаты, проверку можно будет убрать
+            if (e.Position.Lat != 0 && e.Position.Lng != 0)
+                nodeOfRtu.Position = e.Position;
             return null;
         }
 
@@ -72,10 +76,10 @@ namespace Iit.Fibertest.Graph
 
             var otauDto = new OtauDto
             {
-                OtauId = otau.Id.ToString(), 
-                Serial = otau.Serial, 
-                NetAddress = otau.NetAddress, 
-                OwnPortCount = otau.PortCount, 
+                OtauId = otau.Id.ToString(),
+                Serial = otau.Serial,
+                NetAddress = otau.NetAddress,
+                OwnPortCount = otau.PortCount,
                 IsOk = otau.IsOk
             };
             rtu.Children.Add(otau.MasterPort, otauDto);
@@ -121,7 +125,7 @@ namespace Iit.Fibertest.Graph
             rtu.RemoveOtauState(e.Id);
             model.Otaus.Remove(otau);
 
-            foreach (var measurement in model.ActiveMeasurements.Where(m=> e.TracesOnOtau.Contains(m.TraceId)).ToList())
+            foreach (var measurement in model.ActiveMeasurements.Where(m => e.TracesOnOtau.Contains(m.TraceId)).ToList())
             {
                 model.ActiveMeasurements.Remove(measurement);
             }

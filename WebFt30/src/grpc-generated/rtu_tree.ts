@@ -225,9 +225,9 @@ export interface Trace {
      */
     additionalSorId: number;
     /**
-     * @generated from protobuf field: string comment = 16;
+     * @generated from protobuf field: optional string comment = 16;
      */
-    comment: string;
+    comment?: string;
 }
 /**
  * @generated from protobuf message fibertest30.rtu_tree.Bop
@@ -622,7 +622,7 @@ class Trace$Type extends MessageType<Trace> {
             { no: 13, name: "preciseSorId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 14, name: "fastSorId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 15, name: "additionalSorId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 16, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 16, name: "comment", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

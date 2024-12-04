@@ -15,3 +15,5 @@ export * from './rtu_tree';
 export * from './rtu_tree.client';
 export * from './rtu_mgmt';
 export * from './rtu_mgmt.client';
+export * from './graph';
+export * from './graph.client';
