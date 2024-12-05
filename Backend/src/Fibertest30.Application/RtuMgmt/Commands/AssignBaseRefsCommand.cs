@@ -24,6 +24,11 @@ public class AssignBaseRefsCommandHandler : IRequestHandler<AssignBaseRefsComman
 
     public async Task<BaseRefAssignedDto> Handle(AssignBaseRefsCommand request, CancellationToken cancellationToken)
     {
+        request.Dto.Username = _currentUserService.UserName!;
+        foreach (BaseRefDto baseRefDto in request.Dto.BaseRefs)
+        {
+            baseRefDto.UserName = _currentUserService.UserName!;
+        }
         var result = await _rtuManager.AssignBaseRefs(request.Dto);
 
         // SystemEvent идет всем пользователям и в историю
