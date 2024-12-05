@@ -64,4 +64,22 @@ export class RtuTreeService {
     };
     return GrpcUtils.unaryToObservable(this.client.detachOtau.bind(this.client), request, {});
   }
+
+  getTraceBaselineState(traceId: string): Observable<grpc.GetTraceBaselineStatResponse> {
+    const request: grpc.GetTraceBaselineStatRequest = { traceId };
+    return GrpcUtils.unaryToObservable(
+      this.client.getTraceBaselineStat.bind(this.client),
+      request,
+      {}
+    );
+  }
+
+  getTraceStatistics(traceId: string): Observable<grpc.GetTraceStatisticsResponse> {
+    const request: grpc.GetTraceStatisticsRequest = { traceId };
+    return GrpcUtils.unaryToObservable(
+      this.client.getTraceStatistics.bind(this.client),
+      request,
+      {}
+    );
+  }
 }

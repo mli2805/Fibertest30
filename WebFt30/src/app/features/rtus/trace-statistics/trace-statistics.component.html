@@ -1,0 +1,108 @@
+<rtu-single-error-popup [errorMessageId$]="errorMessageId$"></rtu-single-error-popup>
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
+
+<ng-container *ngIf="(loading$ | async) === false">
+  <div class="flex w-144 flex-col">
+    <div class="grouped-border m-2 flex flex-col">
+      <div class="grid-container ml-1 gap-y-0 text-sm">
+        <label class="my-auto text-sm" style="grid-area: titleLabel">
+          {{ 'i18n.ft.trace' | translate }}
+        </label>
+        <label class="my-0.5 ml-3 text-nowrap text-sm" style="grid-area: titleValue">{{
+          trace.title
+        }}</label>
+
+        <label class="my-auto text-sm" style="grid-area: rtuLabel"> RTU </label>
+        <label class="my-0.5 ml-3 text-nowrap text-sm" style="grid-area: rtuValue">
+          {{ rtu.title }}
+        </label>
+
+        <label class="my-auto text-sm" style="grid-area: portLabel">
+          {{ 'i18n.ft.port' | translate }}
+        </label>
+        <label class="my-0.5 ml-3 text-nowrap text-sm" style="grid-area: portValue">
+          {{ port | translate }}
+        </label>
+      </div>
+    </div>
+    <div class="grouped-border mx-2 flex flex-col">
+      <table class="events-table">
+        <thead>
+          <tr>
+            <th class="w-30 text-left font-thin">
+              {{ 'i18n.ft.base-ref-type' | translate }}
+            </th>
+            <th class="w-50 text-left font-thin">
+              {{ 'i18n.ft.assigned-at' | translate }}
+            </th>
+            <th class="w-40 text-left font-thin">
+              {{ 'i18n.ft.user' | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let line of baselines">
+            <td>
+              {{ line.baseRefType | baseRefTypePipe | translate }}
+            </td>
+            <td>
+              {{ line.assignedAt | rtuDateTime : 'medium' }}
+            </td>
+            <td>
+              {{ line.byUser }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grouped-border m-2 flex flex-col">
+      <table class="events-table">
+        <thead>
+          <tr>
+            <th class="w-30 text-left font-thin">ID</th>
+            <th class="w-30 text-left font-thin">
+              {{ 'i18n.ft.base-ref-type' | translate }}
+            </th>
+            <th class="w-50 text-left font-thin">
+              {{ 'i18n.ft.registered-at' | translate }}
+            </th>
+            <th class="w-8"></th>
+            <th class="w-40 text-left font-thin">
+              {{ 'i18n.ft.trace-state' | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let meas of measurements">
+            <td>
+              {{ meas.sorFileId }}
+            </td>
+            <td>
+              {{ meas.baseRefType | baseRefTypePipe | translate }}
+            </td>
+            <td>
+              {{ meas.registeredAt | rtuDateTime : 'medium' }}
+            </td>
+            <td>
+              <ng-container *ngIf="meas.isEvent">E</ng-container
+              ><ng-container *ngIf="!meas.isEvent">-</ng-container>
+            </td>
+            <td>
+              <div
+                [rtuColorizeBgByTraceState]="{
+                  traceState: meas.traceState,
+                  baseRefType: meas.baseRefType
+                }"
+                class="py-0.5"
+              >
+                <div class="ml-1">
+                  {{ meas.traceState | traceStatePipe : meas.baseRefType | translate }}
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-container>

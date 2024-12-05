@@ -3,6 +3,8 @@
 // tslint:disable
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
+import { Timestamp } from "./google/protobuf/timestamp";
+import { BaseRefType } from "./ft.enums";
 import { MonitoringState } from "./ft.enums";
 import { RtuPartState } from "./ft.enums";
 import { RtuMaker } from "./ft.enums";
@@ -376,6 +378,50 @@ export interface Rtu {
     comment?: string;
 }
 /**
+ * @generated from protobuf message fibertest30.rtu_tree.TraceStatBaseline
+ */
+export interface TraceStatBaseline {
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.BaseRefType baseRefType = 1;
+     */
+    baseRefType: BaseRefType;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp assignedAt = 2;
+     */
+    assignedAt?: Timestamp;
+    /**
+     * @generated from protobuf field: string byUser = 3;
+     */
+    byUser: string;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.TraceStatMeasurement
+ */
+export interface TraceStatMeasurement {
+    /**
+     * @generated from protobuf field: int32 sorFileId = 1;
+     */
+    sorFileId: number;
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.BaseRefType baseRefType = 2;
+     */
+    baseRefType: BaseRefType;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp registeredAt = 3;
+     */
+    registeredAt?: Timestamp;
+    /**
+     * @generated from protobuf field: bool isEvent = 4;
+     */
+    isEvent: boolean;
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.FiberState traceState = 5;
+     */
+    traceState: FiberState;
+}
+// -------------------------------------------------------
+
+/**
  * @generated from protobuf message fibertest30.rtu_tree.GetRtuTreeRequest
  */
 export interface GetRtuTreeRequest {
@@ -486,6 +532,42 @@ export interface DetachOtauRequest {
  * @generated from protobuf message fibertest30.rtu_tree.DetachOtauResponse
  */
 export interface DetachOtauResponse {
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.GetTraceBaselineStatRequest
+ */
+export interface GetTraceBaselineStatRequest {
+    /**
+     * @generated from protobuf field: string traceId = 1;
+     */
+    traceId: string;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.GetTraceBaselineStatResponse
+ */
+export interface GetTraceBaselineStatResponse {
+    /**
+     * @generated from protobuf field: repeated fibertest30.rtu_tree.TraceStatBaseline baselines = 2;
+     */
+    baselines: TraceStatBaseline[];
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.GetTraceStatisticsRequest
+ */
+export interface GetTraceStatisticsRequest {
+    /**
+     * @generated from protobuf field: string traceId = 1;
+     */
+    traceId: string;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.GetTraceStatisticsResponse
+ */
+export interface GetTraceStatisticsResponse {
+    /**
+     * @generated from protobuf field: repeated fibertest30.rtu_tree.TraceStatMeasurement measurements = 2;
+     */
+    measurements: TraceStatMeasurement[];
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class NetAddress$Type extends MessageType<NetAddress> {
@@ -687,6 +769,36 @@ class Rtu$Type extends MessageType<Rtu> {
  */
 export const Rtu = new Rtu$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class TraceStatBaseline$Type extends MessageType<TraceStatBaseline> {
+    constructor() {
+        super("fibertest30.rtu_tree.TraceStatBaseline", [
+            { no: 1, name: "baseRefType", kind: "enum", T: () => ["fibertest30.ft.enums.BaseRefType", BaseRefType] },
+            { no: 2, name: "assignedAt", kind: "message", T: () => Timestamp },
+            { no: 3, name: "byUser", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.TraceStatBaseline
+ */
+export const TraceStatBaseline = new TraceStatBaseline$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class TraceStatMeasurement$Type extends MessageType<TraceStatMeasurement> {
+    constructor() {
+        super("fibertest30.rtu_tree.TraceStatMeasurement", [
+            { no: 1, name: "sorFileId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "baseRefType", kind: "enum", T: () => ["fibertest30.ft.enums.BaseRefType", BaseRefType] },
+            { no: 3, name: "registeredAt", kind: "message", T: () => Timestamp },
+            { no: 4, name: "isEvent", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 5, name: "traceState", kind: "enum", T: () => ["fibertest30.ft.enums.FiberState", FiberState] }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.TraceStatMeasurement
+ */
+export const TraceStatMeasurement = new TraceStatMeasurement$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class GetRtuTreeRequest$Type extends MessageType<GetRtuTreeRequest> {
     constructor() {
         super("fibertest30.rtu_tree.GetRtuTreeRequest", []);
@@ -826,6 +938,54 @@ class DetachOtauResponse$Type extends MessageType<DetachOtauResponse> {
  * @generated MessageType for protobuf message fibertest30.rtu_tree.DetachOtauResponse
  */
 export const DetachOtauResponse = new DetachOtauResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetTraceBaselineStatRequest$Type extends MessageType<GetTraceBaselineStatRequest> {
+    constructor() {
+        super("fibertest30.rtu_tree.GetTraceBaselineStatRequest", [
+            { no: 1, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.GetTraceBaselineStatRequest
+ */
+export const GetTraceBaselineStatRequest = new GetTraceBaselineStatRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetTraceBaselineStatResponse$Type extends MessageType<GetTraceBaselineStatResponse> {
+    constructor() {
+        super("fibertest30.rtu_tree.GetTraceBaselineStatResponse", [
+            { no: 2, name: "baselines", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => TraceStatBaseline }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.GetTraceBaselineStatResponse
+ */
+export const GetTraceBaselineStatResponse = new GetTraceBaselineStatResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetTraceStatisticsRequest$Type extends MessageType<GetTraceStatisticsRequest> {
+    constructor() {
+        super("fibertest30.rtu_tree.GetTraceStatisticsRequest", [
+            { no: 1, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.GetTraceStatisticsRequest
+ */
+export const GetTraceStatisticsRequest = new GetTraceStatisticsRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetTraceStatisticsResponse$Type extends MessageType<GetTraceStatisticsResponse> {
+    constructor() {
+        super("fibertest30.rtu_tree.GetTraceStatisticsResponse", [
+            { no: 2, name: "measurements", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => TraceStatMeasurement }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.GetTraceStatisticsResponse
+ */
+export const GetTraceStatisticsResponse = new GetTraceStatisticsResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.rtu_tree.RtuTree
  */
@@ -835,5 +995,7 @@ export const RtuTree = new ServiceType("fibertest30.rtu_tree.RtuTree", [
     { name: "AttachTrace", options: {}, I: AttachTraceRequest, O: AttachTraceResponse },
     { name: "DetachTrace", options: {}, I: DetachTraceRequest, O: DetachTraceResponse },
     { name: "AttachOtau", options: {}, I: AttachOtauRequest, O: AttachOtauResponse },
-    { name: "DetachOtau", options: {}, I: DetachOtauRequest, O: DetachOtauResponse }
+    { name: "DetachOtau", options: {}, I: DetachOtauRequest, O: DetachOtauResponse },
+    { name: "GetTraceBaselineStat", options: {}, I: GetTraceBaselineStatRequest, O: GetTraceBaselineStatResponse },
+    { name: "GetTraceStatistics", options: {}, I: GetTraceStatisticsRequest, O: GetTraceStatisticsResponse }
 ]);

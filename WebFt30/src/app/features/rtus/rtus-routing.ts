@@ -12,6 +12,7 @@ import { RtuStateComponent } from './rtu-state/rtu-state.component';
 import { TraceInformationComponent } from './trace-information/trace-information.component';
 import { RtuLandmarksComponent } from './rtu-landmarks/rtu-landmarks.component';
 import { TraceLandmarksComponent } from './trace-landmarks/trace-landmarks.component';
+import { TraceStatisticsComponent } from './trace-statistics/trace-statistics.component';
 
 export const routes: Routes = [
   {
@@ -44,6 +45,12 @@ export const routes: Routes = [
         path: 'initialization/:id',
         pathMatch: 'full',
         component: RtuInitializationComponent,
+        data: { navigateToParent: 2 }
+      },
+      {
+        path: 'trace-statistics/:id',
+        pathMatch: 'full',
+        component: TraceStatisticsComponent,
         data: { navigateToParent: 2 }
       },
       {

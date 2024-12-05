@@ -20,7 +20,7 @@ public class GetRtuQueryHandler : IRequestHandler<GetRtuQuery, RtuDto>
     public Task<RtuDto> Handle(GetRtuQuery request, CancellationToken cancellationToken)
     {
         var userId = _currentUserService.UserId!;
-        User user = _writeModel.Users.FirstOrDefault(u=>u.Title == userId) ?? _writeModel.Users.First(u=>u.Title == "root");
+        User user = _writeModel.Users.FirstOrDefault(u => u.Title == userId) ?? _writeModel.Users.First(u => u.Title == "root");
         return Task.FromResult(_writeModel.GetRtu(request.RtuId, user));
 
     }

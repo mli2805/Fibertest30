@@ -70,8 +70,16 @@
             <td class="text-center">{{ opticalEvent.rtuTitle }}</td>
             <td class="text-center">{{ opticalEvent.traceTitle }}</td>
             <td class="text-center">
-              <div [rtuColorizeBgByOpticalTraceState]="opticalEvent" class="py-0.5">
-                {{ opticalEvent | opticalTraceStatePipe | translate }}
+              <div
+                [rtuColorizeBgByTraceState]="{
+                  traceState: opticalEvent.traceState,
+                  baseRefType: opticalEvent.baseRefType
+                }"
+                class="py-0.5"
+              >
+                {{
+                  opticalEvent.traceState | traceStatePipe : opticalEvent.baseRefType | translate
+                }}
               </div>
             </td>
             <td class="text-center">

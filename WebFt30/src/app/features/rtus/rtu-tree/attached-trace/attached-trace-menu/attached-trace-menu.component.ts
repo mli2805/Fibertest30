@@ -74,7 +74,8 @@ export class AttachedTraceMenuComponent {
   }
 
   onStatisticsClicked() {
-    //
+    const path = `rtus/trace-statistics/${this.trace.traceId}`;
+    this.router.navigate([path]);
   }
 
   onLandmarksClicked() {

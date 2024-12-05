@@ -1,12 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { BaseRefType, FiberState } from 'src/app/core/store/models/ft30/ft-enums';
-import { OpticalEvent } from 'src/app/core/store/models/ft30/optical-event';
 
-@Pipe({ name: 'opticalTraceStatePipe' })
-export class OpticalTraceStatePipe implements PipeTransform {
-  transform(value: OpticalEvent) {
-    if (value.baseRefType === BaseRefType.Fast) return 'i18n.ft.suspicion';
-    switch (value.traceState) {
+@Pipe({ name: 'traceStatePipe' })
+export class TraceStatePipe implements PipeTransform {
+  transform(traceState: FiberState, baseRefType: BaseRefType) {
+    if (baseRefType === BaseRefType.Fast) return 'i18n.ft.suspicion';
+    switch (traceState) {
       case FiberState.Ok:
         return 'i18n.ft.ok';
       case FiberState.Minor:

@@ -4,6 +4,10 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { RtuTree } from "./rtu_tree";
+import type { GetTraceStatisticsResponse } from "./rtu_tree";
+import type { GetTraceStatisticsRequest } from "./rtu_tree";
+import type { GetTraceBaselineStatResponse } from "./rtu_tree";
+import type { GetTraceBaselineStatRequest } from "./rtu_tree";
 import type { DetachOtauResponse } from "./rtu_tree";
 import type { DetachOtauRequest } from "./rtu_tree";
 import type { AttachOtauResponse } from "./rtu_tree";
@@ -47,6 +51,14 @@ export interface IRtuTreeClient {
      * @generated from protobuf rpc: DetachOtau(fibertest30.rtu_tree.DetachOtauRequest) returns (fibertest30.rtu_tree.DetachOtauResponse);
      */
     detachOtau(input: DetachOtauRequest, options?: RpcOptions): UnaryCall<DetachOtauRequest, DetachOtauResponse>;
+    /**
+     * @generated from protobuf rpc: GetTraceBaselineStat(fibertest30.rtu_tree.GetTraceBaselineStatRequest) returns (fibertest30.rtu_tree.GetTraceBaselineStatResponse);
+     */
+    getTraceBaselineStat(input: GetTraceBaselineStatRequest, options?: RpcOptions): UnaryCall<GetTraceBaselineStatRequest, GetTraceBaselineStatResponse>;
+    /**
+     * @generated from protobuf rpc: GetTraceStatistics(fibertest30.rtu_tree.GetTraceStatisticsRequest) returns (fibertest30.rtu_tree.GetTraceStatisticsResponse);
+     */
+    getTraceStatistics(input: GetTraceStatisticsRequest, options?: RpcOptions): UnaryCall<GetTraceStatisticsRequest, GetTraceStatisticsResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.rtu_tree.RtuTree
@@ -98,5 +110,19 @@ export class RtuTreeClient implements IRtuTreeClient, ServiceInfo {
     detachOtau(input: DetachOtauRequest, options?: RpcOptions): UnaryCall<DetachOtauRequest, DetachOtauResponse> {
         const method = this.methods[5], opt = this._transport.mergeOptions(options);
         return stackIntercept<DetachOtauRequest, DetachOtauResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetTraceBaselineStat(fibertest30.rtu_tree.GetTraceBaselineStatRequest) returns (fibertest30.rtu_tree.GetTraceBaselineStatResponse);
+     */
+    getTraceBaselineStat(input: GetTraceBaselineStatRequest, options?: RpcOptions): UnaryCall<GetTraceBaselineStatRequest, GetTraceBaselineStatResponse> {
+        const method = this.methods[6], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetTraceBaselineStatRequest, GetTraceBaselineStatResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetTraceStatistics(fibertest30.rtu_tree.GetTraceStatisticsRequest) returns (fibertest30.rtu_tree.GetTraceStatisticsResponse);
+     */
+    getTraceStatistics(input: GetTraceStatisticsRequest, options?: RpcOptions): UnaryCall<GetTraceStatisticsRequest, GetTraceStatisticsResponse> {
+        const method = this.methods[7], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetTraceStatisticsRequest, GetTraceStatisticsResponse>("unary", this._transport, method, opt, input);
     }
 }

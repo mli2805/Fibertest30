@@ -30,6 +30,7 @@ export class StartPageHeaderComponent {
     [/^\/rtus\/information\/.*$/, { titleId: 'i18n.ft.information' }],
     [/^\/rtus\/trace-information\/.*$/, { titleId: 'i18n.ft.information' }],
     [/^\/rtus\/initialization\/.*$/, { titleId: 'i18n.ft.network-settings' }],
+    [/^\/rtus\/trace-statistics\/.*$/, { titleId: 'i18n.ft.statistics' }],
     [/^\/rtus\/state\/.*$/, { titleId: 'i18n.ft.state' }],
     [/^\/rtus\/landmarks\/.*$/, { titleId: 'i18n.ft.landmarks' }],
     [/^\/rtus\/trace-landmarks\/.*$/, { titleId: 'i18n.ft.landmarks' }],

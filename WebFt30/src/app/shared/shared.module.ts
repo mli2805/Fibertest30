@@ -69,9 +69,9 @@ import { ChannelEventBgDirective } from '../features/net-evnts/newtork-events/co
 import { IsAvailableBgDirective } from '../features/net-evnts/newtork-events/colorize-bg-by-isavailable.directive';
 import { BaseRefTypePipe } from './pipes/base-ref-type.pipe';
 import { EventTableIconComponent } from './components/event-table-icon/event-table-icon.component';
-import { OpticalTraceStatePipe } from './pipes/optical-trace-state.pipe';
-import { OpticalTraceStateBgDirective } from '../features/op-evnts/optical-events/colorize-bg-by-opticaltracestate.directive';
 import { ExpandMinimizeAvailableActionComponent } from './components/svg-buttons/available-action/expand-minimize-available-action.component';
+import { TraceStatePipe } from './pipes/trace-state.pipe';
+import { TraceStateBgDirective } from '../features/rtus/trace-statistics/colorize-bg-by-tracestate.directive';
 
 @NgModule({
   imports: [
@@ -93,7 +93,7 @@ import { ExpandMinimizeAvailableActionComponent } from './components/svg-buttons
     SelectItemDirective,
     SystemEventLevelDirective,
     FiberStateBgDirective,
-    OpticalTraceStateBgDirective,
+    TraceStateBgDirective,
     EventStatusBgDirective,
     ChannelEventBgDirective,
     IsAvailableBgDirective,
@@ -102,7 +102,7 @@ import { ExpandMinimizeAvailableActionComponent } from './components/svg-buttons
     RtuDateToDayOfWeekPipe,
     SignedNumberPipe,
     FiberStatePipe,
-    OpticalTraceStatePipe,
+    TraceStatePipe,
     FrequencyPipe,
     EventStatusPipe,
     ChannelEventPipe,
@@ -164,7 +164,7 @@ import { ExpandMinimizeAvailableActionComponent } from './components/svg-buttons
     SelectItemDirective,
     SystemEventLevelDirective,
     FiberStateBgDirective,
-    OpticalTraceStateBgDirective,
+    TraceStateBgDirective,
     EventStatusBgDirective,
     ChannelEventBgDirective,
     IsAvailableBgDirective,
@@ -173,7 +173,7 @@ import { ExpandMinimizeAvailableActionComponent } from './components/svg-buttons
     RtuDateToDayOfWeekPipe,
     SignedNumberPipe,
     FiberStatePipe,
-    OpticalTraceStatePipe,
+    TraceStatePipe,
     FrequencyPipe,
     EventStatusPipe,
     ChannelEventPipe,

@@ -7,6 +7,9 @@ import { Rtu } from '../models/ft30/rtu';
 import { AcceptableParamsMapping } from './acceptable-params-mapping';
 import { MonitoringState, RtuPartState } from '../models/ft30/ft-enums';
 import { PortOfOtau } from '../models/ft30/port-of-otau';
+import { BaselineStat } from 'src/app/features/rtus/trace-statistics/baseline-stat';
+import { Timestamp } from 'src/grpc-generated/google/protobuf/timestamp';
+import { MeasurementStat } from 'src/app/features/rtus/trace-statistics/measurement-stat';
 
 export class TreeMapping {
   static fromGrpcTrace(grpcTrace: grpc.Trace): Trace {
@@ -160,5 +163,23 @@ export class TreeMapping {
       }
     }
     return bopState;
+  }
+
+  static toBaselineStat(grpcBaselineStat: grpc.TraceStatBaseline): BaselineStat {
+    const baselineStat = new BaselineStat();
+    baselineStat.baseRefType = grpcBaselineStat.baseRefType;
+    baselineStat.assignedAt = Timestamp.toDate(grpcBaselineStat.assignedAt!);
+    baselineStat.byUser = grpcBaselineStat.byUser;
+    return baselineStat;
+  }
+
+  static toMeasurementStat(grpcMeasurementStat: grpc.TraceStatMeasurement): MeasurementStat {
+    const measurementStat = new MeasurementStat();
+    measurementStat.sorFileId = grpcMeasurementStat.sorFileId;
+    measurementStat.baseRefType = grpcMeasurementStat.baseRefType;
+    measurementStat.registeredAt = Timestamp.toDate(grpcMeasurementStat.registeredAt!);
+    measurementStat.isEvent = grpcMeasurementStat.isEvent;
+    measurementStat.traceState = FtEnumsMapping.fromGrpcFiberState(grpcMeasurementStat.traceState);
+    return measurementStat;
   }
 }

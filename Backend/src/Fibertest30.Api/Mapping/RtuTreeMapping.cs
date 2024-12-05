@@ -217,7 +217,7 @@ public static class RtuTreeMapping
     {
         return new AttachOtauDto()
         {
-            RtuId = Guid.Parse(request.RtuId), 
+            RtuId = Guid.Parse(request.RtuId),
             NetAddress = request.NetAddress.FromProto(),
             OpticalPort = request.OpticalPort,
         };
@@ -227,10 +227,32 @@ public static class RtuTreeMapping
     {
         return new DetachOtauDto()
         {
-            RtuId = Guid.Parse(request.RtuId), 
+            RtuId = Guid.Parse(request.RtuId),
             OtauId = Guid.Parse(request.OtauId),
             NetAddress = request.NetAddress.FromProto(),
             OpticalPort = request.OpticalPort,
+        };
+    }
+
+    public static TraceStatBaseline ToProto(this BaselineStat b)
+    {
+        return new TraceStatBaseline()
+        {
+            BaseRefType = b.BaseRefType.ToProto(),
+            AssignedAt = b.AssignedAt.ToUniversalTime().ToTimestamp(),
+            ByUser = b.ByUser
+        };
+    }
+
+    public static TraceStatMeasurement ToProto(this MeasurementStat m)
+    {
+        return new TraceStatMeasurement()
+        {
+            SorFileId = m.SorFileId,
+            BaseRefType = m.BaseRefType.ToProto(),
+            RegisteredAt = m.RegisteredAt.ToUniversalTime().ToTimestamp(),
+            IsEvent = m.IsEvent,
+            TraceState = m.TraceState.ToProto()
         };
     }
 }

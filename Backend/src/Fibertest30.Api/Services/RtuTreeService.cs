@@ -8,7 +8,7 @@ public class RtuTreeService : RtuTree.RtuTreeBase
 {
     private readonly ISender _mediator;
 
-    public RtuTreeService( ISender mediator)
+    public RtuTreeService(ISender mediator)
     {
         _mediator = mediator;
     }
@@ -56,5 +56,21 @@ public class RtuTreeService : RtuTree.RtuTreeBase
         var dto = request.FromProto();
         await _mediator.Send(new DetachOtauCommand(dto), context.CancellationToken);
         return new DetachOtauResponse();
+    }
+
+    public override async Task<GetTraceBaselineStatResponse> GetTraceBaselineStat(GetTraceBaselineStatRequest request,
+        ServerCallContext context)
+    {
+        var baselines = await _mediator.Send(new GetTraceBaselineStatQuery(Guid.Parse(request.TraceId)),
+            context.CancellationToken);
+        return new GetTraceBaselineStatResponse() { Baselines = { baselines.Select(b => b.ToProto()) } };
+    }
+
+    public override async Task<GetTraceStatisticsResponse> GetTraceStatistics(GetTraceStatisticsRequest request,
+        ServerCallContext context)
+    {
+        var measurements = await _mediator.Send(new GetTraceMeasurementStatQuery(Guid.Parse(request.TraceId)),
+            context.CancellationToken);
+        return new GetTraceStatisticsResponse() { Measurements = { measurements.Select(m => m.ToProto()) } };
     }
 }

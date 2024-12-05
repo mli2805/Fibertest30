@@ -23,7 +23,13 @@
     </span>
     <span class="ml-1">(ID {{ _opticalEvent.eventId }})</span>
   </div>
-  <div [rtuColorizeBgByOpticalTraceState]="_opticalEvent" class="mt-1 py-0.5 text-center">
-    {{ _opticalEvent | opticalTraceStatePipe | translate }}
+  <div
+    [rtuColorizeBgByTraceState]="{
+      traceState: _opticalEvent.traceState,
+      baseRefType: _opticalEvent.baseRefType
+    }"
+    class="mt-1 py-0.5 text-center"
+  >
+    {{ _opticalEvent.traceState | traceStatePipe : _opticalEvent.baseRefType | translate }}
   </div>
 </div>

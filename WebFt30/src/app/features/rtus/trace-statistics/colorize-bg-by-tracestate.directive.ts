@@ -1,27 +1,26 @@
 import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
 import { BaseRefType, FiberState } from 'src/app/core/store/models/ft30/ft-enums';
-import { OpticalEvent } from 'src/app/core/store/models/ft30/optical-event';
 
 @Directive({
-  selector: '[rtuColorizeBgByOpticalTraceState]'
+  selector: '[rtuColorizeBgByTraceState]'
 })
-export class OpticalTraceStateBgDirective {
-  @Input() set rtuColorizeBgByOpticalTraceState(opticalEvent: OpticalEvent) {
-    this.applyBgColor(opticalEvent);
+export class TraceStateBgDirective {
+  @Input() set rtuColorizeBgByTraceState(data: any) {
+    this.applyBgColor(data);
   }
 
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
-  private applyBgColor(opticalEvent: OpticalEvent) {
+  private applyBgColor(data: any) {
     const { nativeElement } = this.el;
 
-    if (opticalEvent.baseRefType === BaseRefType.Fast) {
+    if (data.baseRefType === BaseRefType.Fast) {
       this.renderer.addClass(nativeElement, 'bg-[#ffff00]');
       this.renderer.addClass(nativeElement, 'dark:text-black');
       return;
     }
 
-    switch (opticalEvent.traceState) {
+    switch (data.traceState) {
       case FiberState.Ok:
         break;
       case FiberState.Minor:

@@ -414,6 +414,7 @@
   "i18n.ft.event-id": "Event ID",
   "i18n.ft.measurement-terminated-at": "Measurement terminated at",
   "i18n.ft.event-registered-at": "Event registered at",
+  "i18n.ft.registered-at": "Registered at",
   "i18n.ft.trace": "Trace",
   "i18n.ft.trace-state": "Trace state",
   "i18n.ft.event-status": "Event status",
@@ -477,6 +478,8 @@
   "i18n.ft.measurement-in-progress": "Measurement in progress...",
 
   "i18n.ft.failed-to-connect-rtu": "Failed to connect RTU",
+  "i18n.ft.base-ref-type": "Base ref type",
+  "i18n.ft.assigned-at": "Assigned at",
   "i18n.ft.not-attached": "not attached",
   "i18n.ft.precise-base": "Precise base",
   "i18n.ft.fast-base": "Fast base",
