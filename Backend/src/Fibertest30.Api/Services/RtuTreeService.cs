@@ -73,4 +73,13 @@ public class RtuTreeService : RtuTree.RtuTreeBase
             context.CancellationToken);
         return new GetTraceStatisticsResponse() { Measurements = { measurements.Select(m => m.ToProto()) } };
     }
+
+    public override async Task<GetTraceLastMeasurementResponse> GetTraceLastMeasurement(
+        GetTraceLastMeasurementRequest request, ServerCallContext context)
+    {
+        var sorFileId = await _mediator.Send(new GetTraceLastMeasurement(Guid.Parse(request.TraceId)),
+            context.CancellationToken);
+
+        return new GetTraceLastMeasurementResponse() { SorFileId = sorFileId };
+    }
 }

@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { RtuTree } from "./rtu_tree";
+import type { GetTraceLastMeasurementResponse } from "./rtu_tree";
+import type { GetTraceLastMeasurementRequest } from "./rtu_tree";
 import type { GetTraceStatisticsResponse } from "./rtu_tree";
 import type { GetTraceStatisticsRequest } from "./rtu_tree";
 import type { GetTraceBaselineStatResponse } from "./rtu_tree";
@@ -59,6 +61,10 @@ export interface IRtuTreeClient {
      * @generated from protobuf rpc: GetTraceStatistics(fibertest30.rtu_tree.GetTraceStatisticsRequest) returns (fibertest30.rtu_tree.GetTraceStatisticsResponse);
      */
     getTraceStatistics(input: GetTraceStatisticsRequest, options?: RpcOptions): UnaryCall<GetTraceStatisticsRequest, GetTraceStatisticsResponse>;
+    /**
+     * @generated from protobuf rpc: GetTraceLastMeasurement(fibertest30.rtu_tree.GetTraceLastMeasurementRequest) returns (fibertest30.rtu_tree.GetTraceLastMeasurementResponse);
+     */
+    getTraceLastMeasurement(input: GetTraceLastMeasurementRequest, options?: RpcOptions): UnaryCall<GetTraceLastMeasurementRequest, GetTraceLastMeasurementResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.rtu_tree.RtuTree
@@ -124,5 +130,12 @@ export class RtuTreeClient implements IRtuTreeClient, ServiceInfo {
     getTraceStatistics(input: GetTraceStatisticsRequest, options?: RpcOptions): UnaryCall<GetTraceStatisticsRequest, GetTraceStatisticsResponse> {
         const method = this.methods[7], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetTraceStatisticsRequest, GetTraceStatisticsResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetTraceLastMeasurement(fibertest30.rtu_tree.GetTraceLastMeasurementRequest) returns (fibertest30.rtu_tree.GetTraceLastMeasurementResponse);
+     */
+    getTraceLastMeasurement(input: GetTraceLastMeasurementRequest, options?: RpcOptions): UnaryCall<GetTraceLastMeasurementRequest, GetTraceLastMeasurementResponse> {
+        const method = this.methods[8], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetTraceLastMeasurementRequest, GetTraceLastMeasurementResponse>("unary", this._transport, method, opt, input);
     }
 }

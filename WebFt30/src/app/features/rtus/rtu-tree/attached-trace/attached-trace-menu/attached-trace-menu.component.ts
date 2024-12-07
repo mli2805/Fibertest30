@@ -1,8 +1,10 @@
 import { Component, ElementRef, HostListener, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { firstValueFrom } from 'rxjs';
 import { AppState, AuthSelectors, RtuTreeActions, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
+import { RtuTreeService } from 'src/app/core/grpc';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
 
@@ -35,7 +37,11 @@ export class AttachedTraceMenuComponent {
 
   public open = false;
 
-  constructor(private elementRef: ElementRef, private router: Router) {
+  constructor(
+    private elementRef: ElementRef,
+    private router: Router,
+    private rtuTreeService: RtuTreeService
+  ) {
     this.currentUser = CoreUtils.getCurrentState(this.store, AuthSelectors.selectUser);
   }
 
@@ -69,8 +75,19 @@ export class AttachedTraceMenuComponent {
     this.router.navigate([path]);
   }
 
-  onStateClicked() {
-    //
+  lastMeasurementId!: number;
+  async onStateClicked() {
+    try {
+      const response = await firstValueFrom(
+        this.rtuTreeService.getTraceLastMeasurement(this._trace.traceId)
+      );
+      this.lastMeasurementId = response.sorFileId;
+    } catch (error) {
+      return;
+    }
+
+    const path = `op-evnts/optical-events/${this.lastMeasurementId}`;
+    this.router.navigate([path]);
   }
 
   onStatisticsClicked() {

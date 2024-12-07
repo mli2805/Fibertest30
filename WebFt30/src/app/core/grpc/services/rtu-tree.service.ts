@@ -82,4 +82,13 @@ export class RtuTreeService {
       {}
     );
   }
+
+  getTraceLastMeasurement(traceId: string): Observable<grpc.GetTraceLastMeasurementResponse> {
+    const request: grpc.GetTraceLastMeasurementRequest = { traceId };
+    return GrpcUtils.unaryToObservable(
+      this.client.getTraceLastMeasurement.bind(this.client),
+      request,
+      {}
+    );
+  }
 }

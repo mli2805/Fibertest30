@@ -14,6 +14,7 @@ service RtuTree {
     rpc DetachOtau (DetachOtauRequest) returns (DetachOtauResponse);
     rpc GetTraceBaselineStat (GetTraceBaselineStatRequest) returns (GetTraceBaselineStatResponse);
     rpc GetTraceStatistics (GetTraceStatisticsRequest) returns (GetTraceStatisticsResponse);
+    rpc GetTraceLastMeasurement (GetTraceLastMeasurementRequest) returns (GetTraceLastMeasurementResponse);
 }
 
 
@@ -201,7 +202,7 @@ message GetTraceBaselineStatRequest {
 }
 
 message GetTraceBaselineStatResponse {
-    repeated TraceStatBaseline baselines = 2;
+    repeated TraceStatBaseline baselines = 1;
 }
 
 message GetTraceStatisticsRequest {
@@ -209,5 +210,13 @@ message GetTraceStatisticsRequest {
 }
 
 message GetTraceStatisticsResponse {
-    repeated TraceStatMeasurement measurements = 2;
+    repeated TraceStatMeasurement measurements = 1;
+}
+
+message GetTraceLastMeasurementRequest {
+    string traceId = 1;
+}
+
+message GetTraceLastMeasurementResponse {
+    int32 sorFileId = 1;
 }

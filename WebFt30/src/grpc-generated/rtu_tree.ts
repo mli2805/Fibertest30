@@ -551,7 +551,7 @@ export interface GetTraceBaselineStatRequest {
  */
 export interface GetTraceBaselineStatResponse {
     /**
-     * @generated from protobuf field: repeated fibertest30.rtu_tree.TraceStatBaseline baselines = 2;
+     * @generated from protobuf field: repeated fibertest30.rtu_tree.TraceStatBaseline baselines = 1;
      */
     baselines: TraceStatBaseline[];
 }
@@ -569,9 +569,27 @@ export interface GetTraceStatisticsRequest {
  */
 export interface GetTraceStatisticsResponse {
     /**
-     * @generated from protobuf field: repeated fibertest30.rtu_tree.TraceStatMeasurement measurements = 2;
+     * @generated from protobuf field: repeated fibertest30.rtu_tree.TraceStatMeasurement measurements = 1;
      */
     measurements: TraceStatMeasurement[];
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.GetTraceLastMeasurementRequest
+ */
+export interface GetTraceLastMeasurementRequest {
+    /**
+     * @generated from protobuf field: string traceId = 1;
+     */
+    traceId: string;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.GetTraceLastMeasurementResponse
+ */
+export interface GetTraceLastMeasurementResponse {
+    /**
+     * @generated from protobuf field: int32 sorFileId = 1;
+     */
+    sorFileId: number;
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class NetAddress$Type extends MessageType<NetAddress> {
@@ -959,7 +977,7 @@ export const GetTraceBaselineStatRequest = new GetTraceBaselineStatRequest$Type(
 class GetTraceBaselineStatResponse$Type extends MessageType<GetTraceBaselineStatResponse> {
     constructor() {
         super("fibertest30.rtu_tree.GetTraceBaselineStatResponse", [
-            { no: 2, name: "baselines", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => TraceStatBaseline }
+            { no: 1, name: "baselines", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => TraceStatBaseline }
         ]);
     }
 }
@@ -983,7 +1001,7 @@ export const GetTraceStatisticsRequest = new GetTraceStatisticsRequest$Type();
 class GetTraceStatisticsResponse$Type extends MessageType<GetTraceStatisticsResponse> {
     constructor() {
         super("fibertest30.rtu_tree.GetTraceStatisticsResponse", [
-            { no: 2, name: "measurements", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => TraceStatMeasurement }
+            { no: 1, name: "measurements", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => TraceStatMeasurement }
         ]);
     }
 }
@@ -991,6 +1009,30 @@ class GetTraceStatisticsResponse$Type extends MessageType<GetTraceStatisticsResp
  * @generated MessageType for protobuf message fibertest30.rtu_tree.GetTraceStatisticsResponse
  */
 export const GetTraceStatisticsResponse = new GetTraceStatisticsResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetTraceLastMeasurementRequest$Type extends MessageType<GetTraceLastMeasurementRequest> {
+    constructor() {
+        super("fibertest30.rtu_tree.GetTraceLastMeasurementRequest", [
+            { no: 1, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.GetTraceLastMeasurementRequest
+ */
+export const GetTraceLastMeasurementRequest = new GetTraceLastMeasurementRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetTraceLastMeasurementResponse$Type extends MessageType<GetTraceLastMeasurementResponse> {
+    constructor() {
+        super("fibertest30.rtu_tree.GetTraceLastMeasurementResponse", [
+            { no: 1, name: "sorFileId", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.GetTraceLastMeasurementResponse
+ */
+export const GetTraceLastMeasurementResponse = new GetTraceLastMeasurementResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.rtu_tree.RtuTree
  */
@@ -1002,5 +1044,6 @@ export const RtuTree = new ServiceType("fibertest30.rtu_tree.RtuTree", [
     { name: "AttachOtau", options: {}, I: AttachOtauRequest, O: AttachOtauResponse },
     { name: "DetachOtau", options: {}, I: DetachOtauRequest, O: DetachOtauResponse },
     { name: "GetTraceBaselineStat", options: {}, I: GetTraceBaselineStatRequest, O: GetTraceBaselineStatResponse },
-    { name: "GetTraceStatistics", options: {}, I: GetTraceStatisticsRequest, O: GetTraceStatisticsResponse }
+    { name: "GetTraceStatistics", options: {}, I: GetTraceStatisticsRequest, O: GetTraceStatisticsResponse },
+    { name: "GetTraceLastMeasurement", options: {}, I: GetTraceLastMeasurementRequest, O: GetTraceLastMeasurementResponse }
 ]);
