@@ -37,6 +37,7 @@ import { BopAttachComponent } from './bop-attach/bop-attach.component';
 import { TraceInformationComponent } from './trace-information/trace-information.component';
 import { TraceLandmarksComponent } from './trace-landmarks/trace-landmarks.component';
 import { TraceStatisticsComponent } from './trace-statistics/trace-statistics.component';
+import { BaselineViewComponent } from './baseline-view/baseline-view.component';
 
 @NgModule({
   imports: [
@@ -78,7 +79,8 @@ import { TraceStatisticsComponent } from './trace-statistics/trace-statistics.co
     BopAttachComponent,
     TraceInformationComponent,
     TraceLandmarksComponent,
-    TraceStatisticsComponent
+    TraceStatisticsComponent,
+    BaselineViewComponent
   ],
   providers: []
 })

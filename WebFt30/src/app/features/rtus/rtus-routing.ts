@@ -13,6 +13,7 @@ import { TraceInformationComponent } from './trace-information/trace-information
 import { RtuLandmarksComponent } from './rtu-landmarks/rtu-landmarks.component';
 import { TraceLandmarksComponent } from './trace-landmarks/trace-landmarks.component';
 import { TraceStatisticsComponent } from './trace-statistics/trace-statistics.component';
+import { BaselineViewComponent } from './baseline-view/baseline-view.component';
 
 export const routes: Routes = [
   {
@@ -51,6 +52,12 @@ export const routes: Routes = [
         path: 'trace-statistics/:id',
         pathMatch: 'full',
         component: TraceStatisticsComponent,
+        data: { navigateToParent: 2 }
+      },
+      {
+        path: 'baseline/:id',
+        pathMatch: 'full',
+        component: BaselineViewComponent,
         data: { navigateToParent: 2 }
       },
       {

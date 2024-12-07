@@ -382,15 +382,19 @@ export interface Rtu {
  */
 export interface TraceStatBaseline {
     /**
-     * @generated from protobuf field: fibertest30.ft.enums.BaseRefType baseRefType = 1;
+     * @generated from protobuf field: int32 sorFileId = 1;
+     */
+    sorFileId: number;
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.BaseRefType baseRefType = 2;
      */
     baseRefType: BaseRefType;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp assignedAt = 2;
+     * @generated from protobuf field: google.protobuf.Timestamp assignedAt = 3;
      */
     assignedAt?: Timestamp;
     /**
-     * @generated from protobuf field: string byUser = 3;
+     * @generated from protobuf field: string byUser = 4;
      */
     byUser: string;
 }
@@ -772,9 +776,10 @@ export const Rtu = new Rtu$Type();
 class TraceStatBaseline$Type extends MessageType<TraceStatBaseline> {
     constructor() {
         super("fibertest30.rtu_tree.TraceStatBaseline", [
-            { no: 1, name: "baseRefType", kind: "enum", T: () => ["fibertest30.ft.enums.BaseRefType", BaseRefType] },
-            { no: 2, name: "assignedAt", kind: "message", T: () => Timestamp },
-            { no: 3, name: "byUser", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "sorFileId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "baseRefType", kind: "enum", T: () => ["fibertest30.ft.enums.BaseRefType", BaseRefType] },
+            { no: 3, name: "assignedAt", kind: "message", T: () => Timestamp },
+            { no: 4, name: "byUser", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

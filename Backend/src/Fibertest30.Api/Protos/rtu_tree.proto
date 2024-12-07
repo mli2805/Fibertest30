@@ -138,9 +138,10 @@ message Rtu {
 }
 
 message TraceStatBaseline {
-    ft.enums.BaseRefType baseRefType = 1;
-	google.protobuf.Timestamp assignedAt = 2;
-    string byUser = 3;
+    int32 sorFileId = 1;
+    ft.enums.BaseRefType baseRefType = 2;
+	google.protobuf.Timestamp assignedAt = 3;
+    string byUser = 4;
 }
 
 message TraceStatMeasurement {

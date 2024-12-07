@@ -238,6 +238,7 @@ public static class RtuTreeMapping
     {
         return new TraceStatBaseline()
         {
+            SorFileId = b.SorFileId,
             BaseRefType = b.BaseRefType.ToProto(),
             AssignedAt = b.AssignedAt.ToUniversalTime().ToTimestamp(),
             ByUser = b.ByUser

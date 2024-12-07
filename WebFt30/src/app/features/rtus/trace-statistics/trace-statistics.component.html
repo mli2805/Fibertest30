@@ -29,6 +29,7 @@
       <table class="events-table">
         <thead>
           <tr>
+            <th class="pr-1"></th>
             <th class="w-30 text-left font-thin">
               {{ 'i18n.ft.base-ref-type' | translate }}
             </th>
@@ -42,6 +43,12 @@
         </thead>
         <tbody>
           <tr *ngFor="let line of baselines">
+            <td class="px-2">
+              <rtu-navigate-button
+                class="h-6 w-6 pt-0.5 text-blue-500"
+                [routerLink]="['../../baseline', line.sorFileId]"
+              />
+            </td>
             <td>
               {{ line.baseRefType | baseRefTypePipe | translate }}
             </td>
@@ -59,6 +66,7 @@
       <table class="events-table">
         <thead>
           <tr>
+            <th class="pr-1"></th>
             <th class="w-30 text-left font-thin">ID</th>
             <th class="w-30 text-left font-thin">
               {{ 'i18n.ft.base-ref-type' | translate }}
@@ -74,6 +82,12 @@
         </thead>
         <tbody>
           <tr *ngFor="let meas of measurements">
+            <td class="px-2">
+              <rtu-navigate-button
+                class="h-6 w-6 pt-0.5 text-blue-500"
+                [routerLink]="['../../../op-evnts/optical-events', meas.sorFileId]"
+              />
+            </td>
             <td>
               {{ meas.sorFileId }}
             </td>
@@ -84,8 +98,17 @@
               {{ meas.registeredAt | rtuDateTime : 'medium' }}
             </td>
             <td>
-              <ng-container *ngIf="meas.isEvent">E</ng-container
-              ><ng-container *ngIf="!meas.isEvent">-</ng-container>
+              <ng-container *ngIf="meas.isEvent">
+                <svg class="h-4 w-4">
+                  <path d="M1,1h15v15h-15z" fill="transparent" stroke="currentColor" />
+                  <path d="M4,4h9v9h-9z" fill="currentColor" stroke="currentColor" />
+                </svg>
+              </ng-container>
+              <ng-container *ngIf="!meas.isEvent">
+                <svg class="h-4 w-4">
+                  <path d="M1,1h15v15h-15z" fill="transparent" stroke="currentColor" />
+                </svg>
+              </ng-container>
             </td>
             <td>
               <div

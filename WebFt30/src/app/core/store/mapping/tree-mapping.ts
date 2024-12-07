@@ -167,6 +167,7 @@ export class TreeMapping {
 
   static toBaselineStat(grpcBaselineStat: grpc.TraceStatBaseline): BaselineStat {
     const baselineStat = new BaselineStat();
+    baselineStat.sorFileId = grpcBaselineStat.sorFileId;
     baselineStat.baseRefType = grpcBaselineStat.baseRefType;
     baselineStat.assignedAt = Timestamp.toDate(grpcBaselineStat.assignedAt!);
     baselineStat.byUser = grpcBaselineStat.byUser;

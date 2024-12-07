@@ -29,40 +29,6 @@ export interface SendCommandResponse {
      */
     error: string;
 }
-/**
- * @generated from protobuf message fibertest30.graph.UpdateRtuInfoRequest
- */
-export interface UpdateRtuInfoRequest {
-    /**
-     * @generated from protobuf field: string rtuId = 1;
-     */
-    rtuId: string;
-    /**
-     * @generated from protobuf field: string title = 2;
-     */
-    title: string;
-    /**
-     * @generated from protobuf field: string comment = 3;
-     */
-    comment: string;
-}
-/**
- * @generated from protobuf message fibertest30.graph.UpdateTraceInfoRequest
- */
-export interface UpdateTraceInfoRequest {
-    /**
-     * @generated from protobuf field: string traceId = 1;
-     */
-    traceId: string;
-    /**
-     * @generated from protobuf field: string title = 2;
-     */
-    title: string;
-    /**
-     * @generated from protobuf field: string comment = 3;
-     */
-    comment: string;
-}
 // @generated message type with reflection information, may provide speed optimized methods
 class SendCommandRequest$Type extends MessageType<SendCommandRequest> {
     constructor() {
@@ -89,39 +55,9 @@ class SendCommandResponse$Type extends MessageType<SendCommandResponse> {
  * @generated MessageType for protobuf message fibertest30.graph.SendCommandResponse
  */
 export const SendCommandResponse = new SendCommandResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateRtuInfoRequest$Type extends MessageType<UpdateRtuInfoRequest> {
-    constructor() {
-        super("fibertest30.graph.UpdateRtuInfoRequest", [
-            { no: 1, name: "rtuId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.graph.UpdateRtuInfoRequest
- */
-export const UpdateRtuInfoRequest = new UpdateRtuInfoRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateTraceInfoRequest$Type extends MessageType<UpdateTraceInfoRequest> {
-    constructor() {
-        super("fibertest30.graph.UpdateTraceInfoRequest", [
-            { no: 1, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.graph.UpdateTraceInfoRequest
- */
-export const UpdateTraceInfoRequest = new UpdateTraceInfoRequest$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.graph.Graph
  */
 export const Graph = new ServiceType("fibertest30.graph.Graph", [
-    { name: "UpdateRtuInfo", options: {}, I: UpdateRtuInfoRequest, O: SendCommandResponse },
-    { name: "UpdateTraceInfo", options: {}, I: UpdateTraceInfoRequest, O: SendCommandResponse },
     { name: "SendCommand", options: {}, I: SendCommandRequest, O: SendCommandResponse }
 ]);

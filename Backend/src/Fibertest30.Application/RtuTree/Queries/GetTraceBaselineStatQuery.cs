@@ -21,6 +21,7 @@ public class GetTraceBaselineStatQueryHandler : IRequestHandler<GetTraceBaseline
             .Where(t => t.TraceId == request.TraceId)
             .Select(b => new BaselineStat()
             {
+                SorFileId = b.SorFileId,
                 BaseRefType = b.BaseRefType,
                 AssignedAt = b.SaveTimestamp,
                 ByUser = b.UserName

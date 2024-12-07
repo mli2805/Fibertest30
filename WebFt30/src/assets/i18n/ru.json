@@ -157,6 +157,7 @@
 
   "i18n.ft.failed-to-connect-rtu": "Ошибка обращения к RTU",
   "i18n.ft.not-attached": "не подключена",
+  "i18n.ft.base-ref": "Базовая рефлектограмма",
   "i18n.ft.base-ref-type": "Тип базовой",
   "i18n.ft.assigned-at": "Задано",
   "i18n.ft.precise-base": "Точная базовая",

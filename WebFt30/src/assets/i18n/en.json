@@ -478,6 +478,7 @@
   "i18n.ft.measurement-in-progress": "Measurement in progress...",
 
   "i18n.ft.failed-to-connect-rtu": "Failed to connect RTU",
+  "i18n.ft.base-ref": "Base ref",
   "i18n.ft.base-ref-type": "Base ref type",
   "i18n.ft.assigned-at": "Assigned at",
   "i18n.ft.not-attached": "not attached",
