@@ -3,7 +3,7 @@ import { SorResultBaselineComponent } from '../../fiberizer-core/components/view
 import { SorTrace } from '@veex/sor';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { FileSaverService } from 'src/app/core';
+import { FileSaverService, NavigationService } from 'src/app/core';
 import { RtuMgmtService } from 'src/app/core/grpc';
 import { ConvertUtils } from 'src/app/core/convert.utils';
 
@@ -27,7 +27,8 @@ export class BaselineViewComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private rtuMgmtService: RtuMgmtService,
-    private fileSaverService: FileSaverService
+    private fileSaverService: FileSaverService,
+    private navigationService: NavigationService
   ) {}
 
   async ngOnInit() {
@@ -62,6 +63,8 @@ export class BaselineViewComponent implements OnInit {
       return;
     }
 
-    this.fileSaverService.saveAs(this.sorFile!, 'base.sor');
+    const filename = this.navigationService.baselineFileName;
+
+    this.fileSaverService.saveAs(this.sorFile!, filename);
   }
 }

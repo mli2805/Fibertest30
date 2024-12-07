@@ -215,6 +215,6 @@ import { TraceStateBgDirective } from '../features/rtus/trace-statistics/coloriz
 
     ExpandMinimizeAvailableActionComponent
   ],
-  providers: [RtuDateToDayOfWeekPipe, FrequencyPipe, RtuDateTimePipe]
+  providers: [RtuDateToDayOfWeekPipe, FrequencyPipe, RtuDateTimePipe, BaseRefTypePipe]
 })
 export class SharedModule {}

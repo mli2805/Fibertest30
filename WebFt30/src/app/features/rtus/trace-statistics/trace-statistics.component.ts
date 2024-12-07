@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { RtuTreeService } from 'src/app/core/grpc';
 import { BaselineStat } from './baseline-stat';
@@ -7,10 +7,13 @@ import { MeasurementStat } from './measurement-stat';
 import { TreeMapping } from 'src/app/core/store/mapping/tree-mapping';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
-import { AppState, RtuTreeSelectors } from 'src/app/core';
+import { AppState, NavigationService, RtuTreeSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { ExtensionUtils } from 'src/app/core/extension.utils';
 import { Store } from '@ngrx/store';
+import { RtuDateTimePipe } from 'src/app/shared/pipes/datetime.pipe';
+import { BaseRefTypePipe } from 'src/app/shared/pipes/base-ref-type.pipe';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'rtu-trace-statistics',
@@ -30,7 +33,15 @@ export class TraceStatisticsComponent implements OnInit {
   errorMessageId$ = new BehaviorSubject<string | null>(null);
 
   public store: Store<AppState> = inject(Store);
-  constructor(private route: ActivatedRoute, private rtuTreeService: RtuTreeService) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private rtuTreeService: RtuTreeService,
+    private ts: TranslateService,
+    private dtPipe: RtuDateTimePipe,
+    private baseRefPipe: BaseRefTypePipe,
+    private navigationService: NavigationService
+  ) {}
 
   async ngOnInit() {
     this.traceId = this.route.snapshot.paramMap.get('id')!;
@@ -65,5 +76,14 @@ export class TraceStatisticsComponent implements OnInit {
     }
 
     this.loading$.next(false);
+  }
+
+  onBaselineClick(line: BaselineStat) {
+    const dt = this.dtPipe.getDateTimeForFileName(line.assignedAt);
+    const br = this.ts.instant(this.baseRefPipe.transform(line.baseRefType));
+    const filename = `${this.trace.title} - ${br} - ${dt}.sor`;
+    this.navigationService.baselineFileName = filename;
+    console.log(filename);
+    this.router.navigate(['rtus/baseline', line.sorFileId]);
   }
 }

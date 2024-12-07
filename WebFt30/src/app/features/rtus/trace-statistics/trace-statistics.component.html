@@ -46,7 +46,7 @@
             <td class="px-2">
               <rtu-navigate-button
                 class="h-6 w-6 pt-0.5 text-blue-500"
-                [routerLink]="['../../baseline', line.sorFileId]"
+                (click)="onBaselineClick(line)"
               />
             </td>
             <td>
