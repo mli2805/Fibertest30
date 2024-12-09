@@ -1,5 +1,6 @@
 ﻿using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using System.Diagnostics;
 
 namespace Fibertest30.Application;
 
@@ -27,7 +28,7 @@ public class TableProvider
         if (_writeModel.BopNetworkEvents
             .OrderByDescending(e => e.EventTimestamp)
             .GroupBy(b => b.Serial)
-            .Select(g => g.Last()).Any(l => !l.IsOk))
+            .Select(g => g.First()).Any(l => !l.IsOk))
             hasCurrentEvents.HasCurrentBopNetworkEvents = true;
 
         if (GetCurrentStateAccidents().Any())
@@ -99,14 +100,14 @@ public class TableProvider
     {
         var collection = current
             ? _writeModel.BopNetworkEvents
-                .OrderByDescending(e => e.EventTimestamp)
+                .OrderByDescending(e => e.EventTimestamp) // самыц свежий - первый
                 .GroupBy(b => b.Serial)
-                .Select(g => g.Last())
+                .Select(g => g.First())
                 .Where(l => !l.IsOk)
             : _writeModel.BopNetworkEvents;
 
         // TODO нужно будет фильтровать по зонам отв для пользователя
-        var filtered = collection; 
+        var filtered = collection.ToList(); 
         
         var since = dateTimeFilter.LoadSince != null
             ? dateTimeFilter.OrderDescending
