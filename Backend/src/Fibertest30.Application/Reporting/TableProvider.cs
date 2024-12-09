@@ -149,16 +149,16 @@ public class TableProvider
 
     private IEnumerable<RtuAccident> GetCurrentStateAccidents()
     {
-        var traces = _writeModel.Traces
+        var accidentsOnTraces = _writeModel.Traces
             .Select(trace => _writeModel.RtuAccidents
                 .LastOrDefault(a => a.IsMeasurementProblem && a.TraceId == trace.TraceId))
             .Where(lastAccident => lastAccident != null && !lastAccident.IsGoodAccident);
 
-        var rtus = _writeModel.Rtus
+        var accidentsOnRtus = _writeModel.Rtus
             .Select(rtu => _writeModel.RtuAccidents
                 .LastOrDefault(a => a.RtuId == rtu.Id && !a.IsMeasurementProblem))
             .Where(lastAccident => lastAccident != null && !lastAccident.IsGoodAccident);
 
-        return traces.Union(rtus)!;
+        return accidentsOnTraces.Union(accidentsOnRtus)!;
     }
 }
