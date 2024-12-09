@@ -324,6 +324,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         this.addOrReplace(anyTypeEvent);
         this.store.dispatch(DeviceActions.getHasCurrentEvents());
         this.audioService.play(anyTypeEvent);
+        this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: anyTypeEvent.objId }));
         return;
       }
       case 'BopNetworkEventAdded': {
