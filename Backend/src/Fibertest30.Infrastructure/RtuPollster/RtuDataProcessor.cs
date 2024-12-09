@@ -59,11 +59,7 @@ public class RtuDataProcessor
 
             }
 
-            BopNetworkEvent? bopNetworkEvent = await CheckAndSendBopNetworkIfNeeded(dto);
-            if (bopNetworkEvent != null)
-                await _systemEventSender.Send(SystemEventFactory.BopNetworkEventAdded(
-                    bopNetworkEvent.Ordinal, bopNetworkEvent.EventTimestamp, bopNetworkEvent.OtauIp,
-                    bopNetworkEvent.Serial, bopNetworkEvent.IsOk));
+            await CheckAndSendBopNetworkIfNeeded(dto);
         }
 
         // it is a RtuAccident
@@ -122,13 +118,13 @@ public class RtuDataProcessor
     }
 
 
-    // BOP - because MSMQ message about BOP came
-    private async Task<BopNetworkEvent?> CheckAndSendBopNetworkEventIfNeeded(BopStateChangedDto dto)
+    // BOP - т.к. сообщение что не смог переключиться в порт бопа
+    private async Task CheckAndSendBopNetworkEventIfNeeded(BopStateChangedDto dto)
     {
         var otau = _writeModel.Otaus.FirstOrDefault(o =>
             o.NetAddress.Ip4Address == dto.OtauIp && o.NetAddress.Port == dto.TcpPort
         );
-        if (otau == null) return null;
+        if (otau == null) return;
 
         _logger.LogInformation($@"RTU {dto.RtuId.First6()} BOP {otau.NetAddress.ToStringA()} state changed to {dto.IsOk} (because MSMQ message about BOP came)");
         var cmd = new AddBopNetworkEvent()
@@ -141,16 +137,16 @@ public class RtuDataProcessor
             IsOk = dto.IsOk,
         };
 
-        return await PersistBopEvent(cmd);
+        await PersistBopEventAndSendToClients(cmd);
     }
 
-    // BOP - because monitoring result from bop port came
-    private async Task<BopNetworkEvent?> CheckAndSendBopNetworkIfNeeded(MonitoringResultDto dto)
+    // BOP - т.к. результат измерения по порту на бопе
+    private async Task CheckAndSendBopNetworkIfNeeded(MonitoringResultDto dto)
     {
         var otau = _writeModel.Otaus.FirstOrDefault(o =>
             o.Serial == dto.PortWithTrace.OtauPort.Serial
         );
-        if (otau == null || otau.IsOk) return null;
+        if (otau == null || otau.IsOk) return;
 
         _logger.LogInformation($@"RTU {dto.RtuId.First6()} BOP {dto.PortWithTrace.OtauPort.Serial} state changed to OK (because MSMQ message with monitoring result came)");
         var cmd = new AddBopNetworkEvent()
@@ -163,17 +159,21 @@ public class RtuDataProcessor
             IsOk = true,
         };
 
-        return await PersistBopEvent(cmd);
+        await PersistBopEventAndSendToClients(cmd);
     }
 
-    private async Task<BopNetworkEvent?> PersistBopEvent(AddBopNetworkEvent cmd)
+    private async Task PersistBopEventAndSendToClients(AddBopNetworkEvent cmd)
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var eventStoreService = scope.ServiceProvider.GetRequiredService<IEventStoreService>();
         var result = await eventStoreService.SendCommand(cmd, "system", "OnServer");
-        if (!string.IsNullOrEmpty(result)) return null;
+        if (!string.IsNullOrEmpty(result)) return ;
 
-        return _writeModel.BopNetworkEvents.LastOrDefault();
+        var bopNetworkEvent = _writeModel.BopNetworkEvents.LastOrDefault();
+        if (bopNetworkEvent != null)
+            await _systemEventSender.Send(SystemEventFactory.BopNetworkEventAdded(
+                bopNetworkEvent.Ordinal, bopNetworkEvent.EventTimestamp, bopNetworkEvent.OtauIp,
+                bopNetworkEvent.Serial, bopNetworkEvent.IsOk));
     }
 
     public async Task ProcessRtuNetworkEvent(RtuNetworkEvent dto)
