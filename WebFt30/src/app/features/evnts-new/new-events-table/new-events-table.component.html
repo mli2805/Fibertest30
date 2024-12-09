@@ -34,7 +34,7 @@
             <td class="text-center">{{ anyTypeEvent.eventId }}</td>
             <td class="text-center">{{ anyTypeEvent.registeredAt | rtuDateTime : 'medium' }}</td>
             <td class="text-center">{{ getEventTypeName(anyTypeEvent.eventType) | translate }}</td>
-            <td class="text-center">{{ anyTypeEvent.obj }}</td>
+            <td class="text-center">{{ anyTypeEvent.objTitle }}</td>
             <td class="text-center">
               <div *ngIf="anyTypeEvent.isOk" class="text-green-500">
                 {{ 'i18n.ft.ok' | translate }}

@@ -53,9 +53,10 @@ public class RtuDataProcessor
             if (addMeasurement != null && addMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent)
             {
                 await _systemEventSender
-                    .Send(SystemEventFactory.MeasurementAdded(
+                    .Send(SystemEventFactory.AnyTypeAccidentAdded("OpticalEvent",
                         addMeasurement.SorFileId, addMeasurement.EventRegistrationTimestamp, trace!.Title,
-                        trace!.TraceId.ToString(), addMeasurement.TraceState == FiberState.Ok));
+                        trace!.TraceId.ToString(), trace.RtuId.ToString(),
+                        addMeasurement.TraceState == FiberState.Ok));
 
             }
 
@@ -70,10 +71,12 @@ public class RtuDataProcessor
             RtuAccident? rtuAccident = await SaveRtuAccidentIfNeeded(dto);
             if (rtuAccident != null)
             {
-                var obj = rtuAccident.IsMeasurementProblem ? trace!.Title : rtu!.Title;
+                var objTitle = rtuAccident.IsMeasurementProblem ? trace!.Title : rtu!.Title;
                 var objId = rtuAccident.IsMeasurementProblem ? trace!.TraceId : rtu!.Id;
-                await _systemEventSender.Send(SystemEventFactory.RtuAccidentAdded(
-                    rtuAccident.Id, rtuAccident.EventRegistrationTimestamp, obj, obj, rtuAccident.IsGoodAccident));
+                var rtuId = rtuAccident.IsMeasurementProblem ? trace!.RtuId : rtu!.Id;
+                await _systemEventSender.Send(SystemEventFactory.AnyTypeAccidentAdded("RtuAccident",
+                    rtuAccident.Id, rtuAccident.EventRegistrationTimestamp, objTitle, objId.ToString(), 
+                    rtuId.ToString(), rtuAccident.IsGoodAccident));
 
             }
         }
@@ -171,9 +174,12 @@ public class RtuDataProcessor
 
         var bopNetworkEvent = _writeModel.BopNetworkEvents.LastOrDefault();
         if (bopNetworkEvent != null)
-            await _systemEventSender.Send(SystemEventFactory.BopNetworkEventAdded(
+        {
+            var bop = _writeModel.Otaus.First(o => o.Serial == bopNetworkEvent.Serial);
+            await _systemEventSender.Send(SystemEventFactory.AnyTypeAccidentAdded("BopNetworkEvent",
                 bopNetworkEvent.Ordinal, bopNetworkEvent.EventTimestamp, bopNetworkEvent.OtauIp,
-                bopNetworkEvent.Serial, bopNetworkEvent.IsOk));
+                bop.Id.ToString(), bop.RtuId.ToString(), bopNetworkEvent.IsOk));
+        }
     }
 
     public async Task ProcessRtuNetworkEvent(RtuNetworkEvent dto)
@@ -194,8 +200,8 @@ public class RtuDataProcessor
         var evnt = _writeModel.NetworkEvents.Last();
         var rtu = _writeModel.Rtus.First(r => r.Id == dto.RtuId);
 
-        await _systemEventSender.Send(SystemEventFactory.NetworkEventAdded(
-            evnt.Ordinal, evnt.EventTimestamp, rtu.Title, rtu.Id.ToString(),
+        await _systemEventSender.Send(SystemEventFactory.AnyTypeAccidentAdded("NetworkEvent",
+            evnt.Ordinal, evnt.EventTimestamp, rtu.Title, rtu.Id.ToString(), rtu.Id.ToString(),
             dto.OnMainChannel == ChannelEvent.Repaired));
     }
 }

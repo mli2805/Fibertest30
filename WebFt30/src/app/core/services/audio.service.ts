@@ -88,8 +88,8 @@ export class AudioService {
 
   // пришёл новый ивент
   private updateAllAlarms(anyTypeEvent: AnyTypeEvent) {
-    const pair = this.allAlarms.find((el) => el.eventType === anyTypeEvent.eventType);
-    this.updateOneTypeArray(pair!.alarms, anyTypeEvent);
+    const subArray = this.allAlarms.find((el) => el.eventType === anyTypeEvent.eventType);
+    this.updateOneTypeArray(subArray!.alarms, anyTypeEvent);
   }
 
   // обновить подмассив нужного типа событий

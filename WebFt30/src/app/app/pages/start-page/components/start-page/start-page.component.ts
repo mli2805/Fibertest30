@@ -16,7 +16,8 @@ import {
   NetworkEventsActions,
   BopEventsActions,
   AnyTypeEventsSelectors,
-  DeviceActions
+  DeviceActions,
+  RtuTreeSelectors
 } from 'src/app/core';
 import { AuthUtils } from 'src/app/core/auth/auth.utils';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -40,12 +41,6 @@ import { MonitoringStoppedData } from 'src/app/shared/system-events/system-event
 import { MonitoringSettingsAppliedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/monitoring-settings-applied-data';
 import { BaseRefsAssignedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/base-refs-assigned-data';
 import { AnyTypeEvent } from 'src/app/core/store/models/ft30/any-type-event';
-import {
-  BopNetworkEventAddedData,
-  MeasurementAddedData,
-  NetworkEventAddedData,
-  RtuAccidentAddedData
-} from 'src/app/shared/system-events/system-event-data/rtu-events/rtu-accident-added-data';
 import { AudioService } from 'src/app/core/services/audio.service';
 import {
   OtauAttachedData,
@@ -53,6 +48,7 @@ import {
   TraceAttachedData,
   TraceDetachedData
 } from 'src/app/shared/system-events/system-event-data/rtu-tree/trace-attached-data';
+import { AnyTypeAccidentAddedData } from 'src/app/shared/system-events/system-event-data/any-type-accident-data';
 
 @Component({
   selector: 'rtu-start-page',
@@ -284,64 +280,29 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
         return;
       }
-      case 'RtuAccidentAdded': {
-        const data = <RtuAccidentAddedData>JSON.parse(systemEvent.jsonData);
-        const anyTypeEvent = new AnyTypeEvent();
-        anyTypeEvent.eventId = data.EventId;
-        anyTypeEvent.registeredAt = new Date(data.RegisteredAt);
-        anyTypeEvent.eventType = data.EventType;
-        anyTypeEvent.obj = data.Obj;
-        anyTypeEvent.objId = data.ObjId;
-        anyTypeEvent.isOk = data.IsGoodAccident;
+      case 'AnyTypeAccidentAdded': {
+        const anyTypeEvent = this.map(systemEvent.jsonData);
         this.addOrReplace(anyTypeEvent);
         this.store.dispatch(DeviceActions.getHasCurrentEvents());
         this.audioService.play(anyTypeEvent);
-        return;
-      }
-      case 'MeasurementAdded': {
-        const data = <MeasurementAddedData>JSON.parse(systemEvent.jsonData);
-        const anyTypeEvent = new AnyTypeEvent();
-        anyTypeEvent.eventId = data.EventId;
-        anyTypeEvent.registeredAt = new Date(data.RegisteredAt);
-        anyTypeEvent.eventType = data.EventType;
-        anyTypeEvent.obj = data.Obj;
-        anyTypeEvent.objId = data.ObjId;
-        anyTypeEvent.isOk = data.IsOk;
-        this.addOrReplace(anyTypeEvent);
-        this.store.dispatch(DeviceActions.getHasCurrentEvents());
-        this.audioService.play(anyTypeEvent);
-        return;
-      }
-      case 'NetworkEventAdded': {
-        const data = <NetworkEventAddedData>JSON.parse(systemEvent.jsonData);
-        const anyTypeEvent = new AnyTypeEvent();
-        anyTypeEvent.eventId = data.EventId;
-        anyTypeEvent.registeredAt = new Date(data.RegisteredAt);
-        anyTypeEvent.eventType = data.EventType;
-        anyTypeEvent.obj = data.Obj;
-        anyTypeEvent.objId = data.ObjId;
-        anyTypeEvent.isOk = data.IsRtuAvailable;
-        this.addOrReplace(anyTypeEvent);
-        this.store.dispatch(DeviceActions.getHasCurrentEvents());
-        this.audioService.play(anyTypeEvent);
-        this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: anyTypeEvent.objId }));
-        return;
-      }
-      case 'BopNetworkEventAdded': {
-        const data = <BopNetworkEventAddedData>JSON.parse(systemEvent.jsonData);
-        const anyTypeEvent = new AnyTypeEvent();
-        anyTypeEvent.eventId = data.EventId;
-        anyTypeEvent.registeredAt = new Date(data.RegisteredAt);
-        anyTypeEvent.eventType = data.EventType;
-        anyTypeEvent.obj = data.Obj;
-        anyTypeEvent.objId = data.ObjId;
-        anyTypeEvent.isOk = data.IsOk;
-        this.addOrReplace(anyTypeEvent);
-        this.store.dispatch(DeviceActions.getHasCurrentEvents());
-        this.audioService.play(anyTypeEvent);
+        this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: anyTypeEvent.rtuId }));
         return;
       }
     }
+  }
+
+  private map(json: string): AnyTypeEvent {
+    const data = <AnyTypeAccidentAddedData>JSON.parse(json);
+    const anyTypeEvent = new AnyTypeEvent();
+    anyTypeEvent.eventType = data.EventType;
+    anyTypeEvent.eventId = data.EventId;
+    anyTypeEvent.registeredAt = new Date(data.RegisteredAt);
+    anyTypeEvent.eventType = data.EventType;
+    anyTypeEvent.objTitle = data.ObjTitle;
+    anyTypeEvent.objId = data.ObjId;
+    anyTypeEvent.rtuId = data.RtuId;
+    anyTypeEvent.isOk = data.IsOk;
+    return anyTypeEvent;
   }
 
   private addOrReplace(newEvent: AnyTypeEvent) {
@@ -356,9 +317,5 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       this.store.dispatch(AnyTypeEventsActions.removeEvent({ removeEvent: oldEvent }));
     }
     this.store.dispatch(AnyTypeEventsActions.addEvent({ newEvent: newEvent }));
-  }
-
-  private updateCorrespondingStore(eventType: string) {
-    this.store.dispatch(DeviceActions.getHasCurrentEvents());
   }
 }

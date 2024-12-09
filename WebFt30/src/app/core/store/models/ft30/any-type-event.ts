@@ -2,7 +2,8 @@ export class AnyTypeEvent {
   eventType!: string;
   registeredAt!: Date;
   eventId!: number;
-  obj!: string;
+  objTitle!: string;
   objId!: string;
+  rtuId!: string;
   isOk!: boolean;
 }

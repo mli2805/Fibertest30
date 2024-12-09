@@ -45,8 +45,5 @@ public enum SystemEventType
     OtauAttached,
     OtauDetached,
 
-    MeasurementAdded,
-    NetworkEventAdded,
-    BopNetworkEventAdded,
-    RtuAccidentAdded,
+    AnyTypeAccidentAdded,
 }
