@@ -44,7 +44,10 @@ public static class ConfigureServices
 
         services.AddDbContext<FtDbContext>(c =>
         {
-            var connectionString = "server=localhost;port=3306;user id=root;password=root;database=ft20efcore";
+            string myTablesScheme = "ft20efcore";
+            var conStrTemplate = configuration["MySqlConnectionString"] 
+                                 ?? "server=localhost;port=3306;user id=root;password=root;database={0}";
+            var connectionString = string.Format(conStrTemplate, myTablesScheme);    
             c.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         });
         services.AddScoped<FtDbContextInitializer>();

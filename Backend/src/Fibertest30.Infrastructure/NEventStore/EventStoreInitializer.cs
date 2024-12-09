@@ -37,14 +37,14 @@ public class EventStoreInitializer
 
     public void Init()
     {
-        CreateDatabaseIfNotExists();
+        CreateDatabaseIfNotExists(); // это мой кусок  (EFCore = RtuStations и Snapshots и Sorfiles)
         try
         {
             DbProviderFactories.RegisterFactory("AnyNameYouWant", MySqlConnectorFactory.Instance);
             var providerFactory = DbProviderFactories.GetFactory("AnyNameYouWant");
 
             StoreEvents = Wireup.Init()
-                .UsingSqlPersistence(providerFactory, $"{EventSourcingConnectionString}")
+                .UsingSqlPersistence(providerFactory, $"{EventSourcingConnectionString}") // А это только Commits
                 .WithDialect(new MySqlDialect())
                 .InitializeStorageEngine()
                 .UsingCustomSerialization(_mySerializer)
