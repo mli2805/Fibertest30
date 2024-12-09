@@ -13,11 +13,8 @@ public class EventStoreInitializer
     private readonly IConfiguration _configuration;
     private readonly MySerializer _mySerializer;
     private string EventSourcingScheme => "ft20graph";
-    private string MyTablesScheme => "ft20efcore";
     public string EventSourcingConnectionString { get; init; }
 
-    // такая же строка ещё используется для конфигурации доступа ко 2й части бд, см ConfigureServices
-    private string FtConnectionString { get; init; }
 
     public Guid StreamIdOriginal { get; set; } = Guid.Empty;
     public IStoreEvents? StoreEvents { get; set; }
@@ -29,28 +26,27 @@ public class EventStoreInitializer
         _configuration = configuration;
         _mySerializer = mySerializer;
 
-        var conStrTemplate = _configuration["MySqlConnectionString"] 
-                             ?? "server=localhost;port=3306;user id=root;password=root;database={0}";
+        // этот же шаблон из конфига ещё используется для конфигурации доступа ко 2й части бд,
+        // см Fibertest30.Infrastructure.ConfigureServices
+        var conStrTemplate = _configuration["MySqlConnectionString"]
+                         ?? "server=localhost;port=3306;user id=root;password=root;database={0}";
         EventSourcingConnectionString = string.Format(conStrTemplate, EventSourcingScheme);
-        FtConnectionString = string.Format(conStrTemplate, MyTablesScheme);
     }
 
     public void Init()
     {
-        CreateDatabaseIfNotExists(); // это мой кусок  (EFCore = RtuStations и Snapshots и Sorfiles)
+        CreateDatabaseIfNotExists(); 
         try
         {
             DbProviderFactories.RegisterFactory("AnyNameYouWant", MySqlConnectorFactory.Instance);
             var providerFactory = DbProviderFactories.GetFactory("AnyNameYouWant");
 
             StoreEvents = Wireup.Init()
-                .UsingSqlPersistence(providerFactory, $"{EventSourcingConnectionString}") // А это только Commits
+                .UsingSqlPersistence(providerFactory, $"{EventSourcingConnectionString}") 
                 .WithDialect(new MySqlDialect())
                 .InitializeStorageEngine()
                 .UsingCustomSerialization(_mySerializer)
                 .Build();
-
-            _logger.LogInformation("Events store: MYSQL=localhost:3306   Database=ft20graph");
         }
         catch (Exception e)
         {
@@ -63,7 +59,7 @@ public class EventStoreInitializer
     {
         try
         {
-            MySqlConnection connection = new MySqlConnection(FtConnectionString);
+            MySqlConnection connection = new MySqlConnection(EventSourcingConnectionString);
             MySqlCommand command = new MySqlCommand($"create database if not exists {EventSourcingScheme};", connection);
             connection.Open();
             command.ExecuteNonQuery();
@@ -85,7 +81,6 @@ public class EventStoreInitializer
         var commandText = isWindows
             ? $"SELECT StreamIdOriginal FROM {EventSourcingScheme}.commits LIMIT 1;"
             : $"SELECT StreamIdOriginal FROM {EventSourcingScheme}.Сommits LIMIT 1;";
-        _logger.LogInformation($"command is {commandText}");
 
         if (isWindows) return GetByMysqlCommand(commandText);
 
@@ -103,7 +98,7 @@ public class EventStoreInitializer
         try
         {
             MySqlConnection connection = new MySqlConnection(EventSourcingConnectionString);
-            _logger.LogInformation($"connection string is {EventSourcingConnectionString}");
+            _logger.LogInformation($"Events store: {EventSourcingConnectionString}");
             MySqlCommand command = new MySqlCommand(commandText, connection);
             connection.Open();
 
