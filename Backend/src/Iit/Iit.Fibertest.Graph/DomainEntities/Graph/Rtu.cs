@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Graph
         public NetAddress OtdrNetAddress { get; set; } = new NetAddress(@"0.0.0.0", 1500); // real address
         public bool IsAvailable => MainChannelState == RtuPartState.Ok ||
                                    ReserveChannelState == RtuPartState.Ok;
-        public bool IsAllRight => MainChannelState == RtuPartState.Ok &&
+        public bool IsAllRight => MainChannelState != RtuPartState.Broken &&
                                   ReserveChannelState != RtuPartState.Broken;
 
         // pair OTAU ID - is OK or not
