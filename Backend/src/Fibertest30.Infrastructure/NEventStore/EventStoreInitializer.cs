@@ -10,13 +10,12 @@ namespace Fibertest30.Infrastructure;
 public class EventStoreInitializer
 {
     private readonly ILogger<EventStoreInitializer> _logger;
-    private readonly IConfiguration _configuration;
     private readonly MySerializer _mySerializer;
     private string EventSourcingScheme => "ft20graph";
     public string EventSourcingConnectionString { get; init; }
 
     // for creation new database - without Database=xxxx
-    public string ConnectionStringForCreation => "server=localhost;port=3306;user id=root;password=root";
+    public string ConnectionStringForCreation { get; init; }
 
 
     public Guid StreamIdOriginal { get; set; } = Guid.Empty;
@@ -26,14 +25,15 @@ public class EventStoreInitializer
     public EventStoreInitializer(ILogger<EventStoreInitializer> logger, IConfiguration configuration, MySerializer mySerializer)
     {
         _logger = logger;
-        _configuration = configuration;
         _mySerializer = mySerializer;
 
         // этот же шаблон из конфига ещё используется для конфигурации доступа ко 2й части бд,
         // см Fibertest30.Infrastructure.ConfigureServices
-        var conStrTemplate = _configuration["MySqlConnectionString"]
-                         ?? "server=localhost;port=3306;user id=root;password=root;database={0}";
-        EventSourcingConnectionString = string.Format(conStrTemplate, EventSourcingScheme);
+        var mySqlAddress = configuration["MySqlServerAddress"] ?? "localhost";
+        var fullDbTemplate = "server={0};port=3306;user id=root;password=root";
+        ConnectionStringForCreation = string.Format(fullDbTemplate, mySqlAddress);
+        var schemeDbTemplate = "server={0};port=3306;user id=root;password=root;database={1}";
+        EventSourcingConnectionString = string.Format(schemeDbTemplate, mySqlAddress, EventSourcingScheme);
     }
 
     public void Init()
@@ -108,6 +108,9 @@ public class EventStoreInitializer
         var lines = output.Split('\n');
         var streamIdOriginal = Guid.Parse(lines[1]);
         _logger.LogInformation($"StreamIdOriginal is {streamIdOriginal}");
+
+        var remove = $"rm {scriptFilename}";
+        ShellCommand.GetCommandLineOutput(remove);
         return streamIdOriginal;
     }
 

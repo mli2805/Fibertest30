@@ -45,9 +45,9 @@ public static class ConfigureServices
         services.AddDbContext<FtDbContext>(c =>
         {
             string myTablesScheme = "ft20efcore";
-            var conStrTemplate = configuration["MySqlConnectionString"] 
-                                 ?? "server=localhost;port=3306;user id=root;password=root;database={0}";
-            var connectionString = string.Format(conStrTemplate, myTablesScheme);    
+            var mySqlAddress = configuration["MySqlServerAddress"] ?? "localhost";
+            var conStrTemplate = "server={0};port=3306;user id=root;password=root;database={1}";
+            var connectionString = string.Format(conStrTemplate, mySqlAddress, myTablesScheme);
             c.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         });
         services.AddScoped<FtDbContextInitializer>();
@@ -60,7 +60,7 @@ public static class ConfigureServices
 
         services.AddMemoryCache();
 
-       
+
 
         services.AddScoped<RtuStationsRepository>();
         services.AddScoped<SnapshotRepository>();
@@ -102,7 +102,7 @@ public static class ConfigureServices
         return services;
     }
 
-  
+
 }
 
 public static class SqliteSharedConnection

@@ -35,15 +35,9 @@ public class EventStoreService : IEventStoreService
     public async Task InitializeBothDbAndService()
     {
         var exists = _eventStoreInitializer.IsFt20GraphExists();
-        if (exists)
-        {
-            _eventStoreInitializer.StreamIdOriginal = await _eventStoreInitializer.GetStreamId();
-        }
-        else
-        {
-            _eventStoreInitializer.StreamIdOriginal = Guid.NewGuid();
-            _logger.LogInformation($"Use ID {_eventStoreInitializer.StreamIdOriginal} after creation");
-        }
+        _eventStoreInitializer.StreamIdOriginal = exists 
+            ? await _eventStoreInitializer.GetStreamId() 
+            : Guid.NewGuid();
 
         await InitializeEventStoreService();
     }
