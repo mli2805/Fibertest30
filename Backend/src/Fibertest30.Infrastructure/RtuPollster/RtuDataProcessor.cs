@@ -57,7 +57,6 @@ public class RtuDataProcessor
                         addMeasurement.SorFileId, addMeasurement.EventRegistrationTimestamp, trace!.Title,
                         trace!.TraceId.ToString(), trace.RtuId.ToString(),
                         addMeasurement.TraceState == FiberState.Ok));
-
             }
 
             await CheckAndSendBopNetworkIfNeeded(dto);
@@ -119,7 +118,6 @@ public class RtuDataProcessor
 
         return addMeasurement;
     }
-
 
     // BOP - т.к. сообщение что не смог переключиться в порт бопа
     private async Task CheckAndSendBopNetworkEventIfNeeded(BopStateChangedDto dto)

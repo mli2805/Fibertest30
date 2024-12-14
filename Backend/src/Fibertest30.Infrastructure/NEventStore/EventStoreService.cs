@@ -34,13 +34,23 @@ public class EventStoreService : IEventStoreService
 
     public async Task InitializeBothDbAndService()
     {
-        _eventStoreInitializer.StreamIdOriginal = _eventStoreInitializer.GetStreamIdIfExists();
+        var exists = _eventStoreInitializer.IsFt20GraphExists();
+        if (exists)
+        {
+            _eventStoreInitializer.StreamIdOriginal = await _eventStoreInitializer.GetStreamId();
+        }
+        else
+        {
+            _eventStoreInitializer.StreamIdOriginal = Guid.NewGuid();
+            _logger.LogInformation($"Use ID {_eventStoreInitializer.StreamIdOriginal} after creation");
+        }
+
         await InitializeEventStoreService();
     }
 
     private async Task<int> InitializeEventStoreService()
     {
-        _eventStoreInitializer.Init();
+        _eventStoreInitializer.Init(); // если не существует - будет создана
 
         var snapshot = await _snapshotRepository.ReadSnapshotAsync(_eventStoreInitializer.StreamIdOriginal);
         if (snapshot == null)
@@ -61,6 +71,9 @@ public class EventStoreService : IEventStoreService
 
         if (LastEventNumberInSnapshot == 0 && eventStream.CommittedEvents.FirstOrDefault() == null)
         {
+            // если бд пустая задаем ID
+            _eventStoreInitializer.StreamIdOriginal = Guid.NewGuid();
+
             foreach (var cmd in DbSeeds.Collection)
                 await SendCommand(cmd, "developer", "OnServer");
             _logger.LogInformation("Empty graph is seeded with default zone and users.");

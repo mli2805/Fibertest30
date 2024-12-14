@@ -15,6 +15,9 @@ public class EventStoreInitializer
     private string EventSourcingScheme => "ft20graph";
     public string EventSourcingConnectionString { get; init; }
 
+    // for creation new database - without Database=xxxx
+    public string ConnectionStringForCreation => "server=localhost;port=3306;user id=root;password=root";
+
 
     public Guid StreamIdOriginal { get; set; } = Guid.Empty;
     public IStoreEvents? StoreEvents { get; set; }
@@ -35,14 +38,14 @@ public class EventStoreInitializer
 
     public void Init()
     {
-        CreateDatabaseIfNotExists(); 
+        CreateDatabaseIfNotExists();
         try
         {
             DbProviderFactories.RegisterFactory("AnyNameYouWant", MySqlConnectorFactory.Instance);
             var providerFactory = DbProviderFactories.GetFactory("AnyNameYouWant");
 
             StoreEvents = Wireup.Init()
-                .UsingSqlPersistence(providerFactory, $"{EventSourcingConnectionString}") 
+                .UsingSqlPersistence(providerFactory, $"{EventSourcingConnectionString}")
                 .WithDialect(new MySqlDialect())
                 .InitializeStorageEngine()
                 .UsingCustomSerialization(_mySerializer)
@@ -59,7 +62,7 @@ public class EventStoreInitializer
     {
         try
         {
-            MySqlConnection connection = new MySqlConnection(EventSourcingConnectionString);
+            MySqlConnection connection = new MySqlConnection(ConnectionStringForCreation);
             MySqlCommand command = new MySqlCommand($"create database if not exists {EventSourcingScheme};", connection);
             connection.Open();
             command.ExecuteNonQuery();
@@ -73,34 +76,51 @@ public class EventStoreInitializer
         }
     }
 
-    public Guid GetStreamIdIfExists()
+    public async Task<Guid> GetStreamId()
     {
         if (StreamIdOriginal != Guid.Empty) return StreamIdOriginal;
 
         bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-        var commandText = isWindows
-            ? $"SELECT StreamIdOriginal FROM {EventSourcingScheme}.commits LIMIT 1;"
-            : $"SELECT StreamIdOriginal FROM {EventSourcingScheme}.Сommits LIMIT 1;";
 
-        if (isWindows) return GetByMysqlCommand(commandText);
-
-        // под линуксом дает ошибку нет такой таблицы (не важно с большой или маленькой буквы задаешь)
-        // поэтому временно делаем так - задаем в appsettings.json StreamIdOriginal
-
-        string? ll = _configuration["StreamIdOriginal"];
-        if (ll == null)
-            return Guid.Empty;
-        return Guid.TryParse(ll, out Guid r) ? r : Guid.Empty;
+        return isWindows ? GetByMysqlCommand() : await GetStreamIdOnLinuxByScript();
     }
 
-    private Guid GetByMysqlCommand(string commandText)
+    /// <summary>
+    /// запускать под линуксом, когда уже известно что бд ft20graph существует
+    /// 
+    /// "mysql -uroot -proot ft20graph -e \"select StreamIdOriginal from Commits limit 1\"";
+    /// исполнить как команду /bash/sh -c command - не удалось (хотя из ком строки нормально выполняется),
+    /// а вот выполнить скрипт можно /bash/sh ab.sh
+    /// </summary>
+    /// <returns></returns>
+    private async Task<Guid> GetStreamIdOnLinuxByScript()
     {
+        string scriptFilename = "getStreamId.sh";
+        var command = "mysql -uroot -proot ft20graph -e \"select StreamIdOriginal from Commits limit 1\"";
+        await File.WriteAllTextAsync(scriptFilename, command);
+        await Task.Delay(100);
+
+        var chmod = $"chmod 775 {scriptFilename}";
+        ShellCommand.GetCommandLineOutput(chmod);
+        await Task.Delay(100);
+
+        var output = ShellCommand.GetScriptOutput(scriptFilename);
+        var lines = output.Split('\n');
+        var streamIdOriginal = Guid.Parse(lines[1]);
+        _logger.LogInformation($"StreamIdOriginal is {streamIdOriginal}");
+        return streamIdOriginal;
+    }
+
+    // запускать под виндой (под линуксом не срабатывает)
+    private Guid GetByMysqlCommand()
+    {
+        string commandText = $"SELECT StreamIdOriginal FROM {EventSourcingScheme}.commits LIMIT 1;";
         try
         {
             MySqlConnection connection = new MySqlConnection(EventSourcingConnectionString);
-            _logger.LogInformation($"Events store: {EventSourcingConnectionString}");
-            MySqlCommand command = new MySqlCommand(commandText, connection);
             connection.Open();
+            _logger.LogInformation($"Get StreamIdOriginal by command {commandText}");
+            MySqlCommand command = new MySqlCommand(commandText, connection);
 
             // метод ExecuteReader 
             var result = "";
@@ -119,8 +139,34 @@ public class EventStoreInitializer
         }
         catch (Exception e)
         {
-            _logger.LogError("GetStreamIdIfExists: " + e.Message);
+            _logger.LogError("GetByMysqlCommand: " + e.Message);
             return Guid.Empty;
+        }
+    }
+
+    public bool IsFt20GraphExists()
+    {
+        try
+        {
+            MySqlConnection connection = new MySqlConnection(EventSourcingConnectionString);
+            connection.Open();
+            connection.Close();
+            Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            _logger.LogInformation($"Connection open successfully: {EventSourcingConnectionString}");
+            return true;
+        }
+        catch (Exception e)
+        {
+            if (e.Message == "Unknown database 'ft20graph'")
+            {
+                _logger.LogWarning("IsFt20GraphExists: " + e.Message);
+            }
+            else
+            {
+                _logger.LogError("IsFt20GraphExists: " + e.Message);
+
+            }
+            return false;
         }
     }
 }
