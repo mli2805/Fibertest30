@@ -17,7 +17,8 @@ try
     SetCurrentDirectoryAndCreateDataDirectory(builder);
 
     Log.Logger = CreateLogger(builder);
-    Log.Information("Starting Rfts400 v{Version}", new VersionProvider().GetApiVersion());
+    Log.Information("-----------------------------------------------------------------------");
+    Log.Information("Starting Fibertest v{Version}", new VersionProvider().GetApiVersion());
 
     builder.Host.UseSerilog(Log.Logger);
     builder.Services.AddApplicationServices();

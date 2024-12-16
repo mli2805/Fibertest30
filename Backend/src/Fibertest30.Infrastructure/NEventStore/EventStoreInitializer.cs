@@ -17,6 +17,7 @@ public class EventStoreInitializer
     // for creation new database - without Database=xxxx
     public string ConnectionStringForCreation { get; init; }
 
+    private string LinuxMysqlPath { get; init; }
 
     public Guid StreamIdOriginal { get; set; } = Guid.Empty;
     public IStoreEvents? StoreEvents { get; set; }
@@ -34,6 +35,8 @@ public class EventStoreInitializer
         ConnectionStringForCreation = string.Format(fullDbTemplate, mySqlAddress);
         var schemeDbTemplate = "server={0};port=3306;user id=root;password=root;database={1}";
         EventSourcingConnectionString = string.Format(schemeDbTemplate, mySqlAddress, EventSourcingScheme);
+
+        LinuxMysqlPath = configuration["LinuxMysqlPath"] ?? "";
     }
 
     public void Init()
@@ -95,22 +98,32 @@ public class EventStoreInitializer
     /// <returns></returns>
     private async Task<Guid> GetStreamIdOnLinuxByScript()
     {
+        string cmd = "whoami";
+        var res = ShellCommand.GetCommandLineOutput(cmd);
+        _logger.LogInformation($"user id {res}");
+
+
         string scriptFilename = "getStreamId.sh";
-        var command = "mysql -uroot -proot ft20graph -e \"select StreamIdOriginal from Commits limit 1\"";
+
+        // "LinuxMysqlPath": ""  на виртуалке deb12office работает и без пути, а mysql я установил в другой каталог /var/lib/mysql
+        // после установки/копирования на виртуалке deb12office удалить в appsettings.json эту переменную
+        var command = $"{LinuxMysqlPath}mysql -uroot -proot ft20graph -e \"select StreamIdOriginal from Commits limit 1\"";
         await File.WriteAllTextAsync(scriptFilename, command);
-        await Task.Delay(100);
+        await Task.Delay(300);
 
         var chmod = $"chmod 775 {scriptFilename}";
         ShellCommand.GetCommandLineOutput(chmod);
-        await Task.Delay(100);
+        await Task.Delay(300);
 
         var output = ShellCommand.GetScriptOutput(scriptFilename);
+        _logger.LogInformation(output);
         var lines = output.Split('\n');
+        _logger.LogInformation($"got {lines.Length} lines ");
         var streamIdOriginal = Guid.Parse(lines[1]);
         _logger.LogInformation($"StreamIdOriginal is {streamIdOriginal}");
 
-        var remove = $"rm {scriptFilename}";
-        ShellCommand.GetCommandLineOutput(remove);
+        // var remove = $"rm {scriptFilename}";
+        // ShellCommand.GetCommandLineOutput(remove);
         return streamIdOriginal;
     }
 
