@@ -98,16 +98,20 @@ public class EventStoreInitializer
     /// <returns></returns>
     private async Task<Guid> GetStreamIdOnLinuxByScript()
     {
-        string cmd = "whoami";
-        var res = ShellCommand.GetCommandLineOutput(cmd);
-        _logger.LogInformation($"user id {res}");
+        var res = ShellCommand.GetCommandLineOutput("whoami");
+        _logger.LogInformation($"user is {res}");
+
+        var res1 = ShellCommand.GetCommandLineOutput("echo $PATH");
+        _logger.LogInformation($" {res1}");
 
 
         string scriptFilename = "getStreamId.sh";
 
-        // "LinuxMysqlPath": ""  на виртуалке deb12office работает и без пути, а mysql я установил в другой каталог /var/lib/mysql
+        //  на виртуалке deb12office работает и без пути, потому что mysql установил стандартно
+        // и mysqld лег в стандартный каталог /usr/sbin  данные бд - /var/lib/mysql
         // после установки/копирования на виртуалке deb12office удалить в appsettings.json эту переменную
-        var command = $"{LinuxMysqlPath}mysql -uroot -proot ft20graph -e \"select StreamIdOriginal from Commits limit 1\"";
+        // var command = $"{LinuxMysqlPath}mysql -uroot -proot ft20graph -e \"select StreamIdOriginal from Commits limit 1\"";
+        var command = "mysql -uroot -proot ft20graph -e \"select StreamIdOriginal from Commits limit 1\"";
         await File.WriteAllTextAsync(scriptFilename, command);
         await Task.Delay(300);
 
