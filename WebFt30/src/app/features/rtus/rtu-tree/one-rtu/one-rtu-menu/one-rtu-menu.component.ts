@@ -49,6 +49,7 @@ export class OneRtuMenuComponent {
 
   // right mouse button
   onRtuNameClicked() {
+    console.log(this.rtu);
     if (this.open === false) {
       this.open = true;
     }

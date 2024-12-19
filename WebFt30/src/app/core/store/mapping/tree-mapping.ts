@@ -93,6 +93,10 @@ export class TreeMapping {
     rtu.isMonitoringOn = rtu.monitoringMode === MonitoringState.On;
     rtu.bopsState = this.evaluateBopsState(rtu);
     rtu.children = this.arrangeRtuChildren(rtu);
+    rtu.ownAttachedTraceCount = rtu.traces.filter((t) => t.port).length;
+    rtu.fullAttachedTraceCount =
+      rtu.ownAttachedTraceCount +
+      rtu.bops.map((b) => b.traces.length).reduce((accumulator, value) => accumulator + value, 0);
     return rtu;
   }
 

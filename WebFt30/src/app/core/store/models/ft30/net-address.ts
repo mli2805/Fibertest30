@@ -4,6 +4,9 @@ export class NetAddress {
   port!: number;
 
   toString() {
-    return `${this.ip4Address} : ${this.port}`;
+    if (this.ip4Address !== '') {
+      return `${this.ip4Address} : ${this.port}`;
+    }
+    return '';
   }
 }

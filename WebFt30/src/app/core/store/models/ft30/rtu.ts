@@ -1,6 +1,6 @@
 import { TreeOfAcceptableMeasurementParameters } from './acceptable-measurement-parameters';
 import { Bop } from './bop';
-import { RtuPartState, MonitoringState, RtuMaker, Frequency } from './ft-enums';
+import { RtuPartState, MonitoringState, RtuMaker, Frequency, FiberState } from './ft-enums';
 import { NetAddress } from './net-address';
 import { Trace } from './trace';
 
@@ -40,6 +40,9 @@ export class Rtu {
   isRtuAvailable!: boolean;
   isMonitoringOn!: boolean;
   bopsState!: RtuPartState;
+  attachedTracesWorstState!: FiberState;
+  ownAttachedTraceCount!: number;
+  fullAttachedTraceCount!: number;
 
   children!: any[];
   comment!: string | null;

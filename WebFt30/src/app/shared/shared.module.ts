@@ -72,6 +72,7 @@ import { EventTableIconComponent } from './components/event-table-icon/event-tab
 import { ExpandMinimizeAvailableActionComponent } from './components/svg-buttons/available-action/expand-minimize-available-action.component';
 import { TraceStatePipe } from './pipes/trace-state.pipe';
 import { TraceStateBgDirective } from '../features/rtus/trace-statistics/colorize-bg-by-tracestate.directive';
+import { RtuPartStatePipe } from './pipes/rtu-part-state.pipe';
 
 @NgModule({
   imports: [
@@ -107,6 +108,7 @@ import { TraceStateBgDirective } from '../features/rtus/trace-statistics/coloriz
     EventStatusPipe,
     ChannelEventPipe,
     BaseRefTypePipe,
+    RtuPartStatePipe,
     SimpleErrorComponent,
     DescriptionLabelComponent,
     LoadingSpinnerComponent,
@@ -178,6 +180,7 @@ import { TraceStateBgDirective } from '../features/rtus/trace-statistics/coloriz
     EventStatusPipe,
     ChannelEventPipe,
     BaseRefTypePipe,
+    RtuPartStatePipe,
     SimpleErrorComponent,
     DescriptionLabelComponent,
     LoadingSpinnerComponent,
