@@ -9,7 +9,7 @@ public class DateTimeFilterValidatorTests
     {
         public DateTimeFilterTestValidator()
         {
-            this.RuleFor(x => x).ValidateDateTimeFilter();
+            RuleFor(x => x).ValidateDateTimeFilter();
         }
     }
     

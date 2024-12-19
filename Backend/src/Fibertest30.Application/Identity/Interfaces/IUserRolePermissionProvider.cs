@@ -72,7 +72,7 @@ public class UserRolePermissionProvider : IUserRolePermissionProvider
 
     public async Task<bool> HasPermission(string role, ApplicationPermission permission)
     {
-        var permissions = await this.GetRolePermissions(role);
+        var permissions = await GetRolePermissions(role);
         return permissions.Any(x => x == permission);
     }
 

@@ -93,7 +93,7 @@ public static class RtuMgmtMapping
         return result;
     }
 
-    public static BaseRefsAssignedDto ToProto(this Iit.Fibertest.Dto.BaseRefAssignedDto dto)
+    public static BaseRefsAssignedDto ToProto(this BaseRefAssignedDto dto)
     {
         var result = new BaseRefsAssignedDto()
         {

@@ -19,7 +19,7 @@ public class TestDateTime : IDateTime
         get
         {
             var dateTime = _dateTime;
-            if (this._autoAddSecondOnUtcNow)
+            if (_autoAddSecondOnUtcNow)
             {
                 _dateTime = _dateTime.AddSeconds(1);
             }

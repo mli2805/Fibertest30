@@ -40,7 +40,7 @@ public partial class RtuManager
 
     }
 
-    private async Task<AssignBaseRefsDto> CreateAssignBaseRefsDto(AttachTraceDto cmd, Rtu rtu, Iit.Fibertest.Graph.Trace trace)
+    private async Task<AssignBaseRefsDto> CreateAssignBaseRefsDto(AttachTraceDto cmd, Rtu rtu, Trace trace)
     {
         var dto = new AssignBaseRefsDto()
         {
