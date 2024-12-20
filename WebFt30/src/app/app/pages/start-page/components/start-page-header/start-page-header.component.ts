@@ -38,11 +38,8 @@ export class StartPageHeaderComponent {
     [/^\/rtus\/monitoring-settings\/.*$/, { titleId: 'i18n.ft.monitoring-settings' }],
     [/^\/rtus\/measurement-client\/.*$/, { titleId: 'i18n.ft.measurement-client' }],
     [/^\/rtus\/assign-base\/.*$/, { titleId: 'i18n.ft.assign-base-refs' }],
-    [/^\/rfts-setup$/, { titleId: 'i18n.ft.settings' }],
-    [
-      /^\/rfts-setup\/monitoring\/monitoring-profiles$/,
-      { titleId: 'i18n.monitoring.monitoring-profiles' }
-    ],
+    [/^\/ft-settings$/, { titleId: 'i18n.ft.settings' }],
+
     [/^\/event-tables$/, { titleId: 'i18n.ft.events' }],
     [/^\/event-tables\/system-events$/, { titleId: 'i18n.ft.system-events' }],
     [/^\/evnts-new$/, { titleId: 'i18n.ft.new-events' }],

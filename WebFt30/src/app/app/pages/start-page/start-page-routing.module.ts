@@ -53,7 +53,7 @@ const routes: Routes = [
           import('../../../features/sts-evnts/sts-evnts.module').then((m) => m.StsEvntsModule)
       },
       {
-        path: 'rfts-setup',
+        path: 'ft-settings',
         loadChildren: () =>
           import('../../../features/ft-settings/ft-settings.module').then((m) => m.RftsSetupModule)
       },

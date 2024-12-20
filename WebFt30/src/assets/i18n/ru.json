@@ -1,4 +1,8 @@
 {
+  "i18n.ft.user-accounts": "Пользо-ватели",
+  "i18n.ft.notification-settings": "Настройки рассылок",
+  "i18n.ft.download-logs": "Загрузить логи",
+
   "i18n.ft.no": "Нет",
   "i18n.ft.attach": "Присоединить",
   "i18n.ft.cancel": "Отменить",

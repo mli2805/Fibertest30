@@ -251,6 +251,10 @@
   "i18n.ntp-settings.primary-ntp-server": "Primary NTP server",
   "i18n.ntp-settings.secondary-ntp-server": "Secondary NTP server",
 
+  "i18n.ft.user-accounts": "User accounts",
+  "i18n.ft.notification-settings": "Notification settings",
+  "i18n.ft.download-logs": "Download logs",
+
   "i18n.ft.no": "No",
   "i18n.ft.available-actions": "Available actions",
   "i18n.ft.events": "Events",

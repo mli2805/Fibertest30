@@ -57,7 +57,7 @@ export const selectHideMonitoringsAvailableActions = createSelector(
     }
 
     const url = routerState.state.url;
-    const pattern = /^\/rfts-setup\/monitoring\/ports\/\d+\/dashboard\/\d+$/;
+    const pattern = /^\/ft-settings\/monitoring\/ports\/\d+\/dashboard\/\d+$/;
     return pattern.test(url);
   }
 );
