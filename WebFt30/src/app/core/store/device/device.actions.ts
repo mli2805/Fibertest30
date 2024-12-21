@@ -24,6 +24,12 @@ const getHasCurrentEventsFailure = createAction(
   props<{ error: string }>()
 );
 
+const getLogBundle = createAction('[Device] Get Log Bundle');
+const getLogBundleSuccess = createAction(
+  '[Device] Get Log Bundle Success',
+  props<{ archive: Uint8Array }>()
+);
+
 export const DeviceActions = {
   loadDeviceInfo,
   loadDeviceInfoSuccess,
@@ -31,5 +37,8 @@ export const DeviceActions = {
 
   getHasCurrentEvents,
   getHasCurrentEventsSuccess,
-  getHasCurrentEventsFailure
+  getHasCurrentEventsFailure,
+
+  getLogBundle,
+  getLogBundleSuccess
 };

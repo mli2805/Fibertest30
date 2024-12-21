@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ofType, createEffect, Actions } from '@ngrx/effects';
-import { catchError, map, switchMap, tap, finalize } from 'rxjs/operators';
+import { catchError, map, switchMap, tap, finalize, exhaustMap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as moment from 'moment-timezone';
@@ -12,6 +12,8 @@ import { AppState } from '../../core.state';
 import { CoreService } from '../../grpc/services/core.service';
 import { EventTablesService } from '../../grpc/services/event-tables.service';
 import { EventTablesMapping } from '../mapping/event-tables-mapping';
+import { MeasurementService } from '../../grpc';
+import { FileSaverService } from '../../services/file-saver.service';
 
 @Injectable()
 export class DeviceEffects {
@@ -62,10 +64,42 @@ export class DeviceEffects {
     )
   );
 
+  getLogBundle = createEffect(() =>
+    this.actions$.pipe(
+      ofType(DeviceActions.getLogBundle),
+      exhaustMap(() =>
+        this.measurementServcie.getLogBundle().pipe(
+          map(({ archive }) => DeviceActions.getLogBundleSuccess({ archive })),
+          catchError((error) =>
+            of(
+              GlobalUiActions.showPopupError({
+                popupErrorMessageId: 'i18n.ft.cant-load-log-bundle'
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  getLogBundleSuccess = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(DeviceActions.getLogBundleSuccess),
+        map(({ archive }) => {
+          const name = 'log-bundle.zip';
+          this.fileSaver.saveAs(archive, name);
+        })
+      ),
+    { dispatch: false }
+  );
+
   constructor(
     private actions$: Actions,
     private store: Store<AppState>,
     private coreService: CoreService,
-    private eventTablesService: EventTablesService
+    private eventTablesService: EventTablesService,
+    private measurementServcie: MeasurementService,
+    private fileSaver: FileSaverService
   ) {}
 }

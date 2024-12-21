@@ -66,4 +66,9 @@ export class MeasurementService {
       {}
     );
   }
+
+  getLogBundle(): Observable<grpc.GetLogBundleResponse> {
+    const request: grpc.GetLogBundleRequest = {};
+    return GrpcUtils.unaryToObservable(this.client.getLogBundle.bind(this.client), request, {});
+  }
 }

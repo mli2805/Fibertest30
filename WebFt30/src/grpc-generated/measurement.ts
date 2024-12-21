@@ -7,18 +7,18 @@ import { TrapReceiver } from "./data.core";
 import { EmailServer } from "./data.core";
 import { NotificationSettings } from "./data.core";
 /**
- * @generated from protobuf message fibertest30.measurement.GetSorSampleRequest
+ * @generated from protobuf message fibertest30.measurement.GetLogBundleRequest
  */
-export interface GetSorSampleRequest {
+export interface GetLogBundleRequest {
 }
 /**
- * @generated from protobuf message fibertest30.measurement.GetSorSampleResponse
+ * @generated from protobuf message fibertest30.measurement.GetLogBundleResponse
  */
-export interface GetSorSampleResponse {
+export interface GetLogBundleResponse {
     /**
-     * @generated from protobuf field: bytes sor = 1;
+     * @generated from protobuf field: bytes archive = 1;
      */
-    sor: Uint8Array;
+    archive: Uint8Array;
 }
 /**
  * UpdateNotificationSettings
@@ -85,27 +85,27 @@ export interface TestTrapReceiverSettingsRequest {
 export interface TestTrapReceiverSettingsResponse {
 }
 // @generated message type with reflection information, may provide speed optimized methods
-class GetSorSampleRequest$Type extends MessageType<GetSorSampleRequest> {
+class GetLogBundleRequest$Type extends MessageType<GetLogBundleRequest> {
     constructor() {
-        super("fibertest30.measurement.GetSorSampleRequest", []);
+        super("fibertest30.measurement.GetLogBundleRequest", []);
     }
 }
 /**
- * @generated MessageType for protobuf message fibertest30.measurement.GetSorSampleRequest
+ * @generated MessageType for protobuf message fibertest30.measurement.GetLogBundleRequest
  */
-export const GetSorSampleRequest = new GetSorSampleRequest$Type();
+export const GetLogBundleRequest = new GetLogBundleRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class GetSorSampleResponse$Type extends MessageType<GetSorSampleResponse> {
+class GetLogBundleResponse$Type extends MessageType<GetLogBundleResponse> {
     constructor() {
-        super("fibertest30.measurement.GetSorSampleResponse", [
-            { no: 1, name: "sor", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
+        super("fibertest30.measurement.GetLogBundleResponse", [
+            { no: 1, name: "archive", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message fibertest30.measurement.GetSorSampleResponse
+ * @generated MessageType for protobuf message fibertest30.measurement.GetLogBundleResponse
  */
-export const GetSorSampleResponse = new GetSorSampleResponse$Type();
+export const GetLogBundleResponse = new GetLogBundleResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateNotificationSettingsRequest$Type extends MessageType<UpdateNotificationSettingsRequest> {
     constructor() {
@@ -198,9 +198,9 @@ export const TestTrapReceiverSettingsResponse = new TestTrapReceiverSettingsResp
  * @generated ServiceType for protobuf service fibertest30.measurement.Measurement
  */
 export const Measurement = new ServiceType("fibertest30.measurement.Measurement", [
-    { name: "GetSorSample", options: {}, I: GetSorSampleRequest, O: GetSorSampleResponse },
     { name: "UpdateNotificationSettings", options: {}, I: UpdateNotificationSettingsRequest, O: UpdateNotificationSettingsResponse },
     { name: "GetNotificationSettings", options: {}, I: GetNotificationSettingsRequest, O: GetNotificationSettingsResponse },
     { name: "TestEmailServerSettings", options: {}, I: TestEmailServerSettingsRequest, O: TestEmailServerSettingsResponse },
-    { name: "TestTrapReceiverSettings", options: {}, I: TestTrapReceiverSettingsRequest, O: TestTrapReceiverSettingsResponse }
+    { name: "TestTrapReceiverSettings", options: {}, I: TestTrapReceiverSettingsRequest, O: TestTrapReceiverSettingsResponse },
+    { name: "GetLogBundle", options: {}, I: GetLogBundleRequest, O: GetLogBundleResponse }
 ]);

@@ -1,4 +1,4 @@
-﻿namespace Fibertest30.Infrastructure.Services;
+﻿namespace Fibertest30.Infrastructure;
 
 public class DateTimeService : IDateTime
 {

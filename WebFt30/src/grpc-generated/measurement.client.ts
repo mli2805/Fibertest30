@@ -4,27 +4,23 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { Measurement } from "./measurement";
+import type { GetLogBundleResponse } from "./measurement";
+import type { GetLogBundleRequest } from "./measurement";
 import type { TestTrapReceiverSettingsResponse } from "./measurement";
 import type { TestTrapReceiverSettingsRequest } from "./measurement";
 import type { TestEmailServerSettingsResponse } from "./measurement";
 import type { TestEmailServerSettingsRequest } from "./measurement";
 import type { GetNotificationSettingsResponse } from "./measurement";
 import type { GetNotificationSettingsRequest } from "./measurement";
+import { stackIntercept } from "@protobuf-ts/runtime-rpc";
 import type { UpdateNotificationSettingsResponse } from "./measurement";
 import type { UpdateNotificationSettingsRequest } from "./measurement";
-import { stackIntercept } from "@protobuf-ts/runtime-rpc";
-import type { GetSorSampleResponse } from "./measurement";
-import type { GetSorSampleRequest } from "./measurement";
 import type { UnaryCall } from "@protobuf-ts/runtime-rpc";
 import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
 /**
  * @generated from protobuf service fibertest30.measurement.Measurement
  */
 export interface IMeasurementClient {
-    /**
-     * @generated from protobuf rpc: GetSorSample(fibertest30.measurement.GetSorSampleRequest) returns (fibertest30.measurement.GetSorSampleResponse);
-     */
-    getSorSample(input: GetSorSampleRequest, options?: RpcOptions): UnaryCall<GetSorSampleRequest, GetSorSampleResponse>;
     /**
      * @generated from protobuf rpc: UpdateNotificationSettings(fibertest30.measurement.UpdateNotificationSettingsRequest) returns (fibertest30.measurement.UpdateNotificationSettingsResponse);
      */
@@ -41,6 +37,10 @@ export interface IMeasurementClient {
      * @generated from protobuf rpc: TestTrapReceiverSettings(fibertest30.measurement.TestTrapReceiverSettingsRequest) returns (fibertest30.measurement.TestTrapReceiverSettingsResponse);
      */
     testTrapReceiverSettings(input: TestTrapReceiverSettingsRequest, options?: RpcOptions): UnaryCall<TestTrapReceiverSettingsRequest, TestTrapReceiverSettingsResponse>;
+    /**
+     * @generated from protobuf rpc: GetLogBundle(fibertest30.measurement.GetLogBundleRequest) returns (fibertest30.measurement.GetLogBundleResponse);
+     */
+    getLogBundle(input: GetLogBundleRequest, options?: RpcOptions): UnaryCall<GetLogBundleRequest, GetLogBundleResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.measurement.Measurement
@@ -52,38 +52,38 @@ export class MeasurementClient implements IMeasurementClient, ServiceInfo {
     constructor(private readonly _transport: RpcTransport) {
     }
     /**
-     * @generated from protobuf rpc: GetSorSample(fibertest30.measurement.GetSorSampleRequest) returns (fibertest30.measurement.GetSorSampleResponse);
-     */
-    getSorSample(input: GetSorSampleRequest, options?: RpcOptions): UnaryCall<GetSorSampleRequest, GetSorSampleResponse> {
-        const method = this.methods[0], opt = this._transport.mergeOptions(options);
-        return stackIntercept<GetSorSampleRequest, GetSorSampleResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
      * @generated from protobuf rpc: UpdateNotificationSettings(fibertest30.measurement.UpdateNotificationSettingsRequest) returns (fibertest30.measurement.UpdateNotificationSettingsResponse);
      */
     updateNotificationSettings(input: UpdateNotificationSettingsRequest, options?: RpcOptions): UnaryCall<UpdateNotificationSettingsRequest, UpdateNotificationSettingsResponse> {
-        const method = this.methods[1], opt = this._transport.mergeOptions(options);
+        const method = this.methods[0], opt = this._transport.mergeOptions(options);
         return stackIntercept<UpdateNotificationSettingsRequest, UpdateNotificationSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetNotificationSettings(fibertest30.measurement.GetNotificationSettingsRequest) returns (fibertest30.measurement.GetNotificationSettingsResponse);
      */
     getNotificationSettings(input: GetNotificationSettingsRequest, options?: RpcOptions): UnaryCall<GetNotificationSettingsRequest, GetNotificationSettingsResponse> {
-        const method = this.methods[2], opt = this._transport.mergeOptions(options);
+        const method = this.methods[1], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetNotificationSettingsRequest, GetNotificationSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: TestEmailServerSettings(fibertest30.measurement.TestEmailServerSettingsRequest) returns (fibertest30.measurement.TestEmailServerSettingsResponse);
      */
     testEmailServerSettings(input: TestEmailServerSettingsRequest, options?: RpcOptions): UnaryCall<TestEmailServerSettingsRequest, TestEmailServerSettingsResponse> {
-        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        const method = this.methods[2], opt = this._transport.mergeOptions(options);
         return stackIntercept<TestEmailServerSettingsRequest, TestEmailServerSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: TestTrapReceiverSettings(fibertest30.measurement.TestTrapReceiverSettingsRequest) returns (fibertest30.measurement.TestTrapReceiverSettingsResponse);
      */
     testTrapReceiverSettings(input: TestTrapReceiverSettingsRequest, options?: RpcOptions): UnaryCall<TestTrapReceiverSettingsRequest, TestTrapReceiverSettingsResponse> {
-        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
         return stackIntercept<TestTrapReceiverSettingsRequest, TestTrapReceiverSettingsResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetLogBundle(fibertest30.measurement.GetLogBundleRequest) returns (fibertest30.measurement.GetLogBundleResponse);
+     */
+    getLogBundle(input: GetLogBundleRequest, options?: RpcOptions): UnaryCall<GetLogBundleRequest, GetLogBundleResponse> {
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetLogBundleRequest, GetLogBundleResponse>("unary", this._transport, method, opt, input);
     }
 }

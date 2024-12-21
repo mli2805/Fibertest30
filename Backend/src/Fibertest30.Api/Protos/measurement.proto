@@ -5,20 +5,18 @@ option csharp_namespace = "Fibertest30.Api";
 package fibertest30.measurement;
 
 service Measurement {
-  rpc GetSorSample (GetSorSampleRequest) returns (GetSorSampleResponse);
-  
   rpc UpdateNotificationSettings(UpdateNotificationSettingsRequest) returns (UpdateNotificationSettingsResponse);
   rpc GetNotificationSettings(GetNotificationSettingsRequest) returns(GetNotificationSettingsResponse);
   rpc TestEmailServerSettings(TestEmailServerSettingsRequest) returns(TestEmailServerSettingsResponse);
   rpc TestTrapReceiverSettings(TestTrapReceiverSettingsRequest) returns(TestTrapReceiverSettingsResponse);
 
+  rpc GetLogBundle (GetLogBundleRequest) returns (GetLogBundleResponse);
 }
 
-message GetSorSampleRequest {
-}
+message GetLogBundleRequest {}
 
-message GetSorSampleResponse {
-  bytes sor = 1;
+message GetLogBundleResponse {
+	bytes archive = 1;
 }
 
 

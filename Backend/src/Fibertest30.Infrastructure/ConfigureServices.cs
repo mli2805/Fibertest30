@@ -1,5 +1,4 @@
-﻿using Fibertest30.Infrastructure.Services;
-using Iit.Fibertest.Graph;
+﻿using Iit.Fibertest.Graph;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -87,6 +86,7 @@ public static class ConfigureServices
         services.AddScoped<IEmailBuilder, EmailBuilder>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<ISnmpService, SnmpService>();
+        services.AddScoped<ILogProvider, LogProvider>();
 
         services.AddScoped<IRtuTransmitter, MakLinuxHttpTransmitter>();
         services.AddScoped<IRtuManager, RtuManager>();

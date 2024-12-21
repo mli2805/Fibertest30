@@ -15,17 +15,17 @@ public class MeasurementService : Measurement.MeasurementBase
         _mediator = mediator;
     }
 
-    public override Task<GetSorSampleResponse> GetSorSample(GetSorSampleRequest request, ServerCallContext context)
+
+    public override async Task<GetLogBundleResponse> GetLogBundle(GetLogBundleRequest request, ServerCallContext context)
     {
-        var sorBytes = File.ReadAllBytes(@"assets\samples\dr_sample_1310.sor");
-        var sorData = sorBytes.ToSorData();
-        var sorDataBuf = sorData.ToSorDataBuf();
-        var sorDataBufBytes = sorDataBuf.ToBytes();
-        var response = new GetSorSampleResponse { Sor = ByteString.CopyFrom(sorDataBufBytes) };
-        return Task.FromResult(response);
+        var data = await _mediator.Send(new GetLogBundleQuery(), context.CancellationToken);
+        var response = new GetLogBundleResponse()
+        {
+            Archive = ByteString.CopyFrom(data)
+        };
+        return response;
     }
 
-  
 
     public override async Task<UpdateNotificationSettingsResponse> UpdateNotificationSettings(
         UpdateNotificationSettingsRequest request, ServerCallContext context)
