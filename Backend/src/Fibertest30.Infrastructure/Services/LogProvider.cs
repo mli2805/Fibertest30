@@ -1,20 +1,22 @@
 ﻿using Microsoft.Extensions.Logging;
 
 namespace Fibertest30.Infrastructure;
-public class LogProvider : ILogProvider
+public class LogProvider(ILogger<LogProvider> logger) : ILogProvider
 {
-    private readonly ILogger<LogProvider> _logger;
-
-    public LogProvider(ILogger<LogProvider> logger)
-    {
-        _logger = logger;
-    }
-
     public async Task<List<(byte[], string)>> GetDataCenterLogs(CancellationToken ct)
     {
-        var folder = "../log/";
+        return await GetFromFolder("../log/", "dataCenter", ct);
+    }
+
+    public async Task<List<(byte[], string)>> GetNginxLogs(CancellationToken ct)
+    {
+        return await GetFromFolder("/var/log/nginx/", "nginx", ct);
+    }
+
+    private async Task<List<(byte[], string)>> GetFromFolder(string folder, string nameIt, CancellationToken ct)
+    {
         var result = new List<(byte[], string)>();
-        ;
+        
         try
         {
             var di = new DirectoryInfo(folder);
@@ -24,40 +26,13 @@ public class LogProvider : ILogProvider
                 byte[]? bytes = await ReadStream(file.FullName, ct);
                 if (bytes != null && bytes.Length > 0)
                 {
-                    result.Add((bytes, "dataCenter/" + file.Name));
+                    result.Add((bytes, nameIt +"/" + file.Name));
                 }
             }
         }
         catch (Exception e)
         {
-            _logger.LogError(e.Message);
-        }
-
-        return result;
-    }
-
-    public async Task<List<(byte[], string)>> GetNginxLogs(CancellationToken ct)
-    {
-        // var folder = "/var/log/nginx/";
-        var folder = "c:/temp/";
-        var result = new List<(byte[], string)>();
-        try
-        {
-            byte[]? bytes1 = await ReadStream(Path.Combine(folder, "access.log"), ct);
-            if (bytes1 != null && bytes1.Length > 0)
-            {
-                result.Add((bytes1, "nginx/" + "access.log"));
-            }
-            
-            byte[]? bytes2 = await ReadStream(Path.Combine(folder, "error.log"), ct);
-            if (bytes2 != null && bytes2.Length > 0)
-            {
-                result.Add((bytes2, "nginx/" + "error.log"));
-            }
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e.Message);
+            logger.LogError(e.Message);
         }
 
         return result;
@@ -75,8 +50,8 @@ public class LogProvider : ILogProvider
         }
         catch (Exception e)
         {
-            _logger.LogError($"Failed to read: {path}");
-            _logger.LogError(e.Message);
+            logger.LogError($"Failed to read: {path}");
+            logger.LogError(e.Message);
             return null;
         }
     }

@@ -1,3 +1,5 @@
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
+
 <div class="flex h-full w-full flex-1 flex-col">
   <div class="mx-2 flex items-stretch">
     <div class="mr-2 self-center">
@@ -48,6 +50,7 @@
       (click)="downloadLogs()"
       routerLinkActive
       #rlaDownloadLogs="routerLinkActive"
+      [ngClass]="rlaDownloadLogs.isActive ? 'action-active' : 'action-non-active'"
     >
       <!-- prettier-ignore -->
       <svg class="h-8 w-8" fill="currentColor" width="800px" height="800px"  version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 

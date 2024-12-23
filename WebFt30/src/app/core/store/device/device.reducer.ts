@@ -33,6 +33,14 @@ const reducer = createReducer(
     ...state,
     hasCurrentEvents,
     loading: false
+  })),
+  on(DeviceActions.getLogBundle, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(DeviceActions.getLogBundleSuccess, (state) => ({
+    ...state,
+    loading: false
   }))
 );
 
