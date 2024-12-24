@@ -4,12 +4,6 @@ using System.Threading.Channels;
 
 namespace Fibertest30.Infrastructure;
 
-public interface IRtuDataDispatcher
-{
-    Task Send(IDataFromRtu dataFromRtu, CancellationToken ct);
-    Task ProcessRtuData(CancellationToken ct);
-
-}
 public class RtuDataDispatcher : IRtuDataDispatcher
 {
     private readonly ILogger<RtuDataDispatcher> _logger;
@@ -61,7 +55,7 @@ public class RtuDataDispatcher : IRtuDataDispatcher
                 }
                 else if (rtuData is CurrentMonitoringStepDto currentMonitoringStepDto)
                 {
-                    // пока нет
+                    _rtuDataProcessor.ProcessCurrentRtuState(currentMonitoringStepDto);
                 }
                 else if (rtuData is RtuNetworkEvent dto)
                 {

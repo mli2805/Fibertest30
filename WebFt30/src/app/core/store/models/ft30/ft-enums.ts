@@ -87,3 +87,15 @@ export enum Frequency {
   Every30Days = 720,
   DoNot = 9999
 }
+
+export enum MonitoringCurrentStep {
+  Unknown = -1,
+  Idle,
+  Toggle,
+  Measure,
+  FailedOtauProblem,
+  FailedOtdrProblem,
+  Interrupted,
+  Analysis,
+  MeasurementFinished
+}

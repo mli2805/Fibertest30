@@ -11,16 +11,18 @@ public class RtuDataProcessor
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ProcessedResultsDtoFactory _processedResultsDtoFactory;
     private readonly ISystemEventSender _systemEventSender;
+    private readonly IRtuCurrentStateDictionary _rtuCurrentStateDictionary;
 
     public RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger,
         IServiceScopeFactory serviceScopeFactory, ProcessedResultsDtoFactory processedResultsDtoFactory,
-        ISystemEventSender systemEventSender)
+        ISystemEventSender systemEventSender, IRtuCurrentStateDictionary rtuCurrentStateDictionary)
     {
         _writeModel = writeModel;
         _logger = logger;
         _serviceScopeFactory = serviceScopeFactory;
         _processedResultsDtoFactory = processedResultsDtoFactory;
         _systemEventSender = systemEventSender;
+        _rtuCurrentStateDictionary = rtuCurrentStateDictionary;
     }
 
     public async Task ProcessBopStateChanges(BopStateChangedDto dto)
@@ -201,5 +203,10 @@ public class RtuDataProcessor
         await _systemEventSender.Send(SystemEventFactory.AnyTypeAccidentAdded("NetworkEvent",
             evnt.Ordinal, evnt.EventTimestamp, rtu.Title, rtu.Id.ToString(), rtu.Id.ToString(),
             dto.OnMainChannel == ChannelEvent.Repaired));
+    }
+
+    public void ProcessCurrentRtuState(CurrentMonitoringStepDto dto)
+    {
+        _rtuCurrentStateDictionary.Set(dto);
     }
 }

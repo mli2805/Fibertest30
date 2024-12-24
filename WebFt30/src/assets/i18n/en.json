@@ -447,6 +447,15 @@
   "i18n.ft.nothing": "Nothing",
   "i18n.ft.alarm": "Alarm",
 
+  "i18n.ft.idle": "Idle",
+  "i18n.ft.toggle-to-port": "Toggle to port {{ 0 }}",
+  "i18n.ft.measurement-on-port-trace": "Measurement on port {{ 0 }}, trace {{ 1 }}",
+  "i18n.ft.measurement-otau-problem": "Measurement on port {{ 0 }}, trace {{ 1 }} failed, OTAU problem",
+  "i18n.ft.measurement-otdr-problem": "Measurement on port {{ 0 }}, trace {{ 1 }} failed, OTDR problem",
+  "i18n.ft.measurement-analysis": "Measurement result analysis, port {{ 0 }}, trace {{ 1 }}",
+  "i18n.ft.measurement-interrupted": "Measurement interrupted",
+  "i18n.ft.measurement-finished": "Measurement on port {{ 0 }}, trace {{ 1 }} finished",
+
   "i18n.ft.not-important": "Not important",
   "i18n.ft.planned": "Planned",
   "i18n.ft.not-confirmed": "Not confirmed",

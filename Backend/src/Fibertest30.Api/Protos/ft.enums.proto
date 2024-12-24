@@ -74,3 +74,16 @@ enum ChannelEvent {
     ChannelEvent_Broken = -1;
     Repaired = 1;
 }
+
+enum MonitoringCurrentStep {
+    Idle = 0;
+    Toggle = 1;
+    Measure = 2;
+    FailedOtauProblem = 3;
+    FailedOtdrProblem = 4;
+    Interrupted = 5;
+	Analysis = 6;
+    MeasurementFinished = 7;
+    Unknown = -1;
+}
+

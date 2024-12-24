@@ -6,8 +6,7 @@ namespace Iit.Fibertest.Dto
     [DataContract]
     public class PortWithTraceDto
     {
-        [DataMember]
-        public OtauPortDto OtauPort { get; set; }
+        [DataMember] public OtauPortDto OtauPort { get; set; } = null!;
 
         [DataMember]
         public Guid TraceId { get; set; }

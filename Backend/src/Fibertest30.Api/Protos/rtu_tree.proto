@@ -15,6 +15,7 @@ service RtuTree {
     rpc GetTraceBaselineStat (GetTraceBaselineStatRequest) returns (GetTraceBaselineStatResponse);
     rpc GetTraceStatistics (GetTraceStatisticsRequest) returns (GetTraceStatisticsResponse);
     rpc GetTraceLastMeasurement (GetTraceLastMeasurementRequest) returns (GetTraceLastMeasurementResponse);
+    rpc GetRtuCurrentStep (GetRtuCurrentStepRequest) returns (GetRtuCurrentStepResponse); 
 }
 
 
@@ -219,4 +220,14 @@ message GetTraceLastMeasurementRequest {
 
 message GetTraceLastMeasurementResponse {
     int32 sorFileId = 1;
+}
+
+message GetRtuCurrentStepRequest {
+    string rtuId = 1;
+}
+
+message GetRtuCurrentStepResponse {
+    ft.enums.MonitoringCurrentStep step = 1;
+    string traceTitle = 2;
+    string port = 3;
 }

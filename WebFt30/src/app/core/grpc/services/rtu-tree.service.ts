@@ -91,4 +91,13 @@ export class RtuTreeService {
       {}
     );
   }
+
+  getRtuCurrentStep(rtuId: string): Observable<grpc.GetRtuCurrentStepResponse> {
+    const request: grpc.GetRtuCurrentStepRequest = { rtuId };
+    return GrpcUtils.unaryToObservable(
+      this.client.getRtuCurrentStep.bind(this.client),
+      request,
+      {}
+    );
+  }
 }

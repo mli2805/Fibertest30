@@ -217,3 +217,44 @@ export enum ChannelEvent {
      */
     Repaired = 1
 }
+/**
+ * @generated from protobuf enum fibertest30.ft.enums.MonitoringCurrentStep
+ */
+export enum MonitoringCurrentStep {
+    /**
+     * @generated from protobuf enum value: Idle = 0;
+     */
+    Idle = 0,
+    /**
+     * @generated from protobuf enum value: Toggle = 1;
+     */
+    Toggle = 1,
+    /**
+     * @generated from protobuf enum value: Measure = 2;
+     */
+    Measure = 2,
+    /**
+     * @generated from protobuf enum value: FailedOtauProblem = 3;
+     */
+    FailedOtauProblem = 3,
+    /**
+     * @generated from protobuf enum value: FailedOtdrProblem = 4;
+     */
+    FailedOtdrProblem = 4,
+    /**
+     * @generated from protobuf enum value: Interrupted = 5;
+     */
+    Interrupted = 5,
+    /**
+     * @generated from protobuf enum value: Analysis = 6;
+     */
+    Analysis = 6,
+    /**
+     * @generated from protobuf enum value: MeasurementFinished = 7;
+     */
+    MeasurementFinished = 7,
+    /**
+     * @generated from protobuf enum value: Unknown = -1;
+     */
+    Unknown = -1
+}

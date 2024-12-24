@@ -77,9 +77,19 @@ public class RtuTreeService : RtuTree.RtuTreeBase
     public override async Task<GetTraceLastMeasurementResponse> GetTraceLastMeasurement(
         GetTraceLastMeasurementRequest request, ServerCallContext context)
     {
-        var sorFileId = await _mediator.Send(new GetTraceLastMeasurement(Guid.Parse(request.TraceId)),
+        var sorFileId = await _mediator.Send(new GetTraceLastMeasurementQuery(Guid.Parse(request.TraceId)),
             context.CancellationToken);
 
         return new GetTraceLastMeasurementResponse() { SorFileId = sorFileId };
+    }
+
+    public override async Task<GetRtuCurrentStepResponse> GetRtuCurrentStep(GetRtuCurrentStepRequest request, ServerCallContext context)
+    {
+        var result = await _mediator.Send(new GetRtuCurrentStepQuery(Guid.Parse(request.RtuId)),
+            context.CancellationToken);
+        return new GetRtuCurrentStepResponse()
+        {
+            Step = result.Step.ToProto(), Port = result.Port, TraceTitle = result.TraceTitle
+        };
     }
 }

@@ -127,4 +127,22 @@ public static class FtEnumsMapping
             _ => throw new ArgumentOutOfRangeException()
         };
     }
+
+    public static MonitoringCurrentStep ToProto(this Iit.Fibertest.Dto.MonitoringCurrentStep step)
+    {
+        return step switch
+        {
+            Iit.Fibertest.Dto.MonitoringCurrentStep.Unknown => MonitoringCurrentStep.Unknown,
+            Iit.Fibertest.Dto.MonitoringCurrentStep.Idle => MonitoringCurrentStep.Idle,
+            Iit.Fibertest.Dto.MonitoringCurrentStep.Toggle => MonitoringCurrentStep.Toggle,
+            Iit.Fibertest.Dto.MonitoringCurrentStep.Measure => MonitoringCurrentStep.Measure,
+            Iit.Fibertest.Dto.MonitoringCurrentStep.FailedOtauProblem => MonitoringCurrentStep.FailedOtauProblem,
+            Iit.Fibertest.Dto.MonitoringCurrentStep.FailedOtdrProblem => MonitoringCurrentStep.FailedOtdrProblem,
+            Iit.Fibertest.Dto.MonitoringCurrentStep.Interrupted => MonitoringCurrentStep.Interrupted,
+            Iit.Fibertest.Dto.MonitoringCurrentStep.Analysis => MonitoringCurrentStep.Analysis,
+            Iit.Fibertest.Dto.MonitoringCurrentStep.MeasurementFinished => MonitoringCurrentStep.MeasurementFinished,
+            _ => throw new ArgumentOutOfRangeException()
+
+        };
+    }
 }

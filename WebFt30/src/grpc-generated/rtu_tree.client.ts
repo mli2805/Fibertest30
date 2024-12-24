@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { RtuTree } from "./rtu_tree";
+import type { GetRtuCurrentStepResponse } from "./rtu_tree";
+import type { GetRtuCurrentStepRequest } from "./rtu_tree";
 import type { GetTraceLastMeasurementResponse } from "./rtu_tree";
 import type { GetTraceLastMeasurementRequest } from "./rtu_tree";
 import type { GetTraceStatisticsResponse } from "./rtu_tree";
@@ -65,6 +67,10 @@ export interface IRtuTreeClient {
      * @generated from protobuf rpc: GetTraceLastMeasurement(fibertest30.rtu_tree.GetTraceLastMeasurementRequest) returns (fibertest30.rtu_tree.GetTraceLastMeasurementResponse);
      */
     getTraceLastMeasurement(input: GetTraceLastMeasurementRequest, options?: RpcOptions): UnaryCall<GetTraceLastMeasurementRequest, GetTraceLastMeasurementResponse>;
+    /**
+     * @generated from protobuf rpc: GetRtuCurrentStep(fibertest30.rtu_tree.GetRtuCurrentStepRequest) returns (fibertest30.rtu_tree.GetRtuCurrentStepResponse);
+     */
+    getRtuCurrentStep(input: GetRtuCurrentStepRequest, options?: RpcOptions): UnaryCall<GetRtuCurrentStepRequest, GetRtuCurrentStepResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.rtu_tree.RtuTree
@@ -137,5 +143,12 @@ export class RtuTreeClient implements IRtuTreeClient, ServiceInfo {
     getTraceLastMeasurement(input: GetTraceLastMeasurementRequest, options?: RpcOptions): UnaryCall<GetTraceLastMeasurementRequest, GetTraceLastMeasurementResponse> {
         const method = this.methods[8], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetTraceLastMeasurementRequest, GetTraceLastMeasurementResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetRtuCurrentStep(fibertest30.rtu_tree.GetRtuCurrentStepRequest) returns (fibertest30.rtu_tree.GetRtuCurrentStepResponse);
+     */
+    getRtuCurrentStep(input: GetRtuCurrentStepRequest, options?: RpcOptions): UnaryCall<GetRtuCurrentStepRequest, GetRtuCurrentStepResponse> {
+        const method = this.methods[9], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetRtuCurrentStepRequest, GetRtuCurrentStepResponse>("unary", this._transport, method, opt, input);
     }
 }

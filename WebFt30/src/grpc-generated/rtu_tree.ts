@@ -3,6 +3,7 @@
 // tslint:disable
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
+import { MonitoringCurrentStep } from "./ft.enums";
 import { Timestamp } from "./google/protobuf/timestamp";
 import { BaseRefType } from "./ft.enums";
 import { MonitoringState } from "./ft.enums";
@@ -591,6 +592,32 @@ export interface GetTraceLastMeasurementResponse {
      */
     sorFileId: number;
 }
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.GetRtuCurrentStepRequest
+ */
+export interface GetRtuCurrentStepRequest {
+    /**
+     * @generated from protobuf field: string rtuId = 1;
+     */
+    rtuId: string;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.GetRtuCurrentStepResponse
+ */
+export interface GetRtuCurrentStepResponse {
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.MonitoringCurrentStep step = 1;
+     */
+    step: MonitoringCurrentStep;
+    /**
+     * @generated from protobuf field: string traceTitle = 2;
+     */
+    traceTitle: string;
+    /**
+     * @generated from protobuf field: string port = 3;
+     */
+    port: string;
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class NetAddress$Type extends MessageType<NetAddress> {
     constructor() {
@@ -1033,6 +1060,32 @@ class GetTraceLastMeasurementResponse$Type extends MessageType<GetTraceLastMeasu
  * @generated MessageType for protobuf message fibertest30.rtu_tree.GetTraceLastMeasurementResponse
  */
 export const GetTraceLastMeasurementResponse = new GetTraceLastMeasurementResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetRtuCurrentStepRequest$Type extends MessageType<GetRtuCurrentStepRequest> {
+    constructor() {
+        super("fibertest30.rtu_tree.GetRtuCurrentStepRequest", [
+            { no: 1, name: "rtuId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.GetRtuCurrentStepRequest
+ */
+export const GetRtuCurrentStepRequest = new GetRtuCurrentStepRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetRtuCurrentStepResponse$Type extends MessageType<GetRtuCurrentStepResponse> {
+    constructor() {
+        super("fibertest30.rtu_tree.GetRtuCurrentStepResponse", [
+            { no: 1, name: "step", kind: "enum", T: () => ["fibertest30.ft.enums.MonitoringCurrentStep", MonitoringCurrentStep] },
+            { no: 2, name: "traceTitle", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "port", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.GetRtuCurrentStepResponse
+ */
+export const GetRtuCurrentStepResponse = new GetRtuCurrentStepResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.rtu_tree.RtuTree
  */
@@ -1045,5 +1098,6 @@ export const RtuTree = new ServiceType("fibertest30.rtu_tree.RtuTree", [
     { name: "DetachOtau", options: {}, I: DetachOtauRequest, O: DetachOtauResponse },
     { name: "GetTraceBaselineStat", options: {}, I: GetTraceBaselineStatRequest, O: GetTraceBaselineStatResponse },
     { name: "GetTraceStatistics", options: {}, I: GetTraceStatisticsRequest, O: GetTraceStatisticsResponse },
-    { name: "GetTraceLastMeasurement", options: {}, I: GetTraceLastMeasurementRequest, O: GetTraceLastMeasurementResponse }
+    { name: "GetTraceLastMeasurement", options: {}, I: GetTraceLastMeasurementRequest, O: GetTraceLastMeasurementResponse },
+    { name: "GetRtuCurrentStep", options: {}, I: GetRtuCurrentStepRequest, O: GetRtuCurrentStepResponse }
 ]);

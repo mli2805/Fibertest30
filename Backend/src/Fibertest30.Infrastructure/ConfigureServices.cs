@@ -95,14 +95,13 @@ public static class ConfigureServices
         services.AddSingleton<AccidentPlaceLocator>();
         services.AddSingleton<AccidentsFromSorExtractor>();
         services.AddSingleton<ProcessedResultsDtoFactory>();
+        services.AddSingleton<IRtuCurrentStateDictionary, RtuCurrentStateDictionary>();
         services.AddSingleton<RtuDataProcessor>();
         services.AddSingleton<IRtuDataDispatcher, RtuDataDispatcher>();
         services.AddSingleton<IRtuLinuxPollster, RtuLinuxPollster>();
 
         return services;
     }
-
-
 }
 
 public static class SqliteSharedConnection

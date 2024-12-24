@@ -4,6 +4,7 @@ import {
   ChannelEvent,
   EventStatus,
   FiberState,
+  MonitoringCurrentStep,
   MonitoringState,
   RtuMaker,
   RtuPartState,
@@ -148,6 +149,23 @@ export class FtEnumsMapping {
       case grpc.EventStatus.Confirmed: return EventStatus.Confirmed;
       default:
         throw new Error(`Unknown grpc.EventStatus: ${grpcStatus}`);
+    }
+  }
+
+  static fromGrpcCurrentStep(grpcStep: grpc.MonitoringCurrentStep): MonitoringCurrentStep {
+    // prettier-ignore
+    switch(grpcStep) {
+      case grpc.MonitoringCurrentStep.Unknown: return MonitoringCurrentStep.Unknown;
+      case grpc.MonitoringCurrentStep.Idle: return MonitoringCurrentStep.Idle;
+      case grpc.MonitoringCurrentStep.Toggle: return MonitoringCurrentStep.Toggle;
+      case grpc.MonitoringCurrentStep.Measure: return MonitoringCurrentStep.Measure;
+      case grpc.MonitoringCurrentStep.FailedOtauProblem: return MonitoringCurrentStep.FailedOtauProblem;
+      case grpc.MonitoringCurrentStep.FailedOtdrProblem: return MonitoringCurrentStep.FailedOtdrProblem;
+      case grpc.MonitoringCurrentStep.Interrupted: return MonitoringCurrentStep.Interrupted;
+      case grpc.MonitoringCurrentStep.Analysis: return MonitoringCurrentStep.Analysis;
+      case grpc.MonitoringCurrentStep.MeasurementFinished: return MonitoringCurrentStep.MeasurementFinished;
+      default:
+        throw new Error(`Unknown grpc.MonitoringCurrentStep: ${grpcStep}`);
     }
   }
 }
