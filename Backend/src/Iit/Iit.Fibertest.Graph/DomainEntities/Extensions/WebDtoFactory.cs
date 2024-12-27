@@ -158,6 +158,8 @@ namespace Iit.Fibertest.Graph
                 };
             }
 
+            var lastMeasurement = writeModel.Measurements.LastOrDefault(m => m.TraceId == t.TraceId);
+
             return new TraceDto(ChildType.Trace)
             {
                 TraceId = t.TraceId,
@@ -176,7 +178,10 @@ namespace Iit.Fibertest.Graph
                 PreciseSorId = t.PreciseId != Guid.Empty ? writeModel.BaseRefs.First(b=>b.Id == t.PreciseId).SorFileId : -1,
                 FastSorId = t.FastId != Guid.Empty ? writeModel.BaseRefs.First(b=>b.Id == t.FastId).SorFileId : -1,
                 AdditionalSorId = t.AdditionalId != Guid.Empty ? writeModel.BaseRefs.First(b=>b.Id == t.AdditionalId).SorFileId : -1,
-                Comment = t.Comment
+                Comment = t.Comment,
+                SorFileId = lastMeasurement?.SorFileId ?? -1,
+                RegisteredAt = lastMeasurement?.EventRegistrationTimestamp ?? null,
+                BaseRefType = lastMeasurement?.BaseRefType ?? BaseRefType.None,
             };
         }
 

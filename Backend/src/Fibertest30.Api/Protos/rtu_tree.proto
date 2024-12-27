@@ -89,6 +89,9 @@ message Trace {
     int32 fastSorId = 14;
     int32 additionalSorId = 15;
     optional string comment = 16;
+    int32 sorFileId = 17;
+    optional google.protobuf.Timestamp registeredAt = 18;
+    ft.enums.BaseRefType baseRefType = 19;
 }
 
 message Bop {

@@ -4,11 +4,11 @@
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
 import { MonitoringCurrentStep } from "./ft.enums";
-import { Timestamp } from "./google/protobuf/timestamp";
-import { BaseRefType } from "./ft.enums";
 import { MonitoringState } from "./ft.enums";
 import { RtuPartState } from "./ft.enums";
 import { RtuMaker } from "./ft.enums";
+import { BaseRefType } from "./ft.enums";
+import { Timestamp } from "./google/protobuf/timestamp";
 import { TceLinkState } from "./ft.enums";
 import { FiberState } from "./ft.enums";
 /**
@@ -231,6 +231,18 @@ export interface Trace {
      * @generated from protobuf field: optional string comment = 16;
      */
     comment?: string;
+    /**
+     * @generated from protobuf field: int32 sorFileId = 17;
+     */
+    sorFileId: number;
+    /**
+     * @generated from protobuf field: optional google.protobuf.Timestamp registeredAt = 18;
+     */
+    registeredAt?: Timestamp;
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.BaseRefType baseRefType = 19;
+     */
+    baseRefType: BaseRefType;
 }
 /**
  * @generated from protobuf message fibertest30.rtu_tree.Bop
@@ -753,7 +765,10 @@ class Trace$Type extends MessageType<Trace> {
             { no: 13, name: "preciseSorId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 14, name: "fastSorId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 15, name: "additionalSorId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 16, name: "comment", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+            { no: 16, name: "comment", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 17, name: "sorFileId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 18, name: "registeredAt", kind: "message", T: () => Timestamp },
+            { no: 19, name: "baseRefType", kind: "enum", T: () => ["fibertest30.ft.enums.BaseRefType", BaseRefType] }
         ]);
     }
 }

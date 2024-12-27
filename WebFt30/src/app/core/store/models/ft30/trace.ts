@@ -1,4 +1,4 @@
-import { FiberState, TceLinkState } from './ft-enums';
+import { BaseRefType, FiberState, TceLinkState } from './ft-enums';
 import { PortOfOtau } from './port-of-otau';
 
 export class Trace {
@@ -18,4 +18,8 @@ export class Trace {
   fastSorId!: number;
   additionalSorId!: number;
   comment!: string | null;
+
+  sorFileId!: number;
+  registeredAt!: Date | null;
+  baseRefType!: BaseRefType;
 }

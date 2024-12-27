@@ -24,6 +24,11 @@ namespace Iit.Fibertest.Dto
         [DataMember] public int AdditionalSorId;
         [DataMember] public string? Comment;
 
+        // последнее измерение по трассе, чтобы показывать в табл на форме RtuState
+        [DataMember] public int SorFileId;
+        [DataMember] public DateTime? RegisteredAt;
+        [DataMember] public BaseRefType BaseRefType;
+
 
         public TraceDto(ChildType childType) : base(childType)
         {

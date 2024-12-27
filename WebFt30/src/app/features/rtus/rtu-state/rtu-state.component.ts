@@ -83,7 +83,7 @@ export class RtuStateComponent implements OnInit, OnDestroy {
 
         case 'attached-trace':
           res.push({ port: child.port, title: child.payload.title, state: child.payload.state,
-            sorFileId: -1, registeredAt: null });
+            sorFileId: child.payload.sorFileId, registeredAt: child.payload.registeredAt });
           break;
 
         case 'bop':
@@ -110,7 +110,7 @@ export class RtuStateComponent implements OnInit, OnDestroy {
 
         case 'attached-trace':
           res.push({ port: portOnBop, title: child.payload.title, state: child.payload.state,
-            sorFileId: -1, registeredAt: null });
+            sorFileId: child.payload.sorFileId, registeredAt: child.payload.registeredAt });
           break;
       }
     }

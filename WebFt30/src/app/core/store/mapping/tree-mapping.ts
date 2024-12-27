@@ -31,6 +31,12 @@ export class TreeMapping {
     trace.fastSorId = grpcTrace.fastSorId;
     trace.additionalSorId = grpcTrace.additionalSorId;
     trace.comment = grpcTrace.comment !== undefined ? grpcTrace.comment : null;
+
+    trace.sorFileId = grpcTrace.sorFileId;
+    trace.registeredAt =
+      grpcTrace.registeredAt !== undefined ? Timestamp.toDate(grpcTrace.registeredAt) : null;
+    trace.baseRefType = grpcTrace.baseRefType;
+
     return trace;
   }
 

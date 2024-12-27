@@ -151,6 +151,8 @@ public static class RtuTreeMapping
             PreciseSorId = trace.PreciseSorId,
             FastSorId = trace.FastSorId,
             AdditionalSorId = trace.AdditionalSorId,
+            SorFileId = trace.SorFileId,
+            BaseRefType = trace.BaseRefType.ToProto(),
         };
         if (trace.OtauPort != null) // only for attached trace
         {
@@ -159,6 +161,8 @@ public static class RtuTreeMapping
 
         if (trace.Comment != null)
             protoTrace.Comment = trace.Comment;
+        if (trace.RegisteredAt != null)
+            protoTrace.RegisteredAt = ((DateTime)trace.RegisteredAt).ToUniversalTime().ToTimestamp();
 
         return protoTrace;
     }
