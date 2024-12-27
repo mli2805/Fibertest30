@@ -118,6 +118,7 @@ export class RtuStateComponent implements OnInit, OnDestroy {
   }
 
   async startPollingStep() {
+    this.stepLine = this.ts.instant('i18n.ft.loading');
     if (this.intervalId !== null) {
       clearInterval(this.intervalId);
     }

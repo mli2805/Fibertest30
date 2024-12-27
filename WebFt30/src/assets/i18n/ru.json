@@ -219,5 +219,15 @@
   "i18n.ft.state-at": "Состояние на",
   "i18n.ft.expand": "Развернуть",
   "i18n.ft.minimize": "Свернуть",
-  "i18n.ft.save": "Сохранить"
+  "i18n.ft.save": "Сохранить",
+
+  "i18n.ft.loading": "Загрузка...",
+  "i18n.ft.idle": "Нет измерения",
+  "i18n.ft.toggle-to-port": "Переключение в порт {{ 0 }}",
+  "i18n.ft.measurement-on-port-trace": "Измерение порт {{ 0 }}, трасса {{ 1 }}",
+  "i18n.ft.measurement-otau-problem": "Измерение порт {{ 0 }}, трасса {{ 1 }} не удалось. Ошибка переключателя",
+  "i18n.ft.measurement-otdr-problem": "Измерение порт {{ 0 }}, трасса {{ 1 }} не удалось. Ошибка рефлектометра",
+  "i18n.ft.measurement-analysis": "Анализ результатов измерения, порт {{ 0 }}, трасса {{ 1 }}",
+  "i18n.ft.measurement-interrupted": "Измерение прервано",
+  "i18n.ft.measurement-finished": "Измерение порт {{ 0 }}, трасса {{ 1 }} завершено"
 }
