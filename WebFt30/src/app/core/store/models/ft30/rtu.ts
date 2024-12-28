@@ -40,7 +40,6 @@ export class Rtu {
   isRtuAvailable!: boolean;
   isMonitoringOn!: boolean;
   bopsState!: RtuPartState;
-  attachedTracesWorstState!: FiberState;
   ownAttachedTraceCount!: number;
   fullAttachedTraceCount!: number;
 

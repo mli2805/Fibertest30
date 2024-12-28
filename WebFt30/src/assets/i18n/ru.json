@@ -222,6 +222,7 @@
   "i18n.ft.save": "Сохранить",
 
   "i18n.ft.loading": "Загрузка...",
+  "i18n.ft.waiting-for-data": "Ожидание данных",
   "i18n.ft.idle": "Нет измерения",
   "i18n.ft.toggle-to-port": "Переключение в порт {{ 0 }}",
   "i18n.ft.measurement-on-port-trace": "Измерение порт {{ 0 }}, трасса {{ 1 }}",

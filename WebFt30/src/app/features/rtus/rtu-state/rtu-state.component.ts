@@ -19,6 +19,7 @@ export interface PortInTable {
   port: string;
   title: string;
   state: FiberState | null;
+  baseRefType: BaseRefType;
   sorFileId: number;
   registeredAt: Date | null;
 }
@@ -42,6 +43,7 @@ export class RtuStateComponent implements OnInit, OnDestroy {
   subscription!: Subscription;
 
   portTable$ = new BehaviorSubject<PortInTable[] | null>(null);
+  worstPort$ = new BehaviorSubject<PortInTable | null>(null);
 
   constructor(
     private route: ActivatedRoute,
@@ -78,11 +80,12 @@ export class RtuStateComponent implements OnInit, OnDestroy {
       // prettier-ignore
       switch (child.type) {
         case 'free-port':
-          res.push({ port: child.port, title: this.ts.instant("i18n.ft.no").toLowerCase(), state: null, sorFileId: -1, registeredAt: null });
+          res.push({ port: child.port, title: this.ts.instant("i18n.ft.no").toLowerCase(), 
+            state: null, baseRefType: BaseRefType.None, sorFileId: -1, registeredAt: null });
           break;
 
         case 'attached-trace':
-          res.push({ port: child.port, title: child.payload.title, state: child.payload.state,
+          res.push({ port: child.port, title: child.payload.title, state: child.payload.state, baseRefType: child.payload.baseRefType,
             sorFileId: child.payload.sorFileId, registeredAt: child.payload.registeredAt });
           break;
 
@@ -92,6 +95,14 @@ export class RtuStateComponent implements OnInit, OnDestroy {
         case 'detached-trace':
           break;
       }
+    }
+
+    const onlyTraces = res.filter((l) => l.state !== null);
+    if (onlyTraces.length > 0) {
+      const worst = onlyTraces.reduce((acc, value) => {
+        return (acc = acc.state! > value.state! ? acc : value);
+      });
+      this.worstPort$.next(worst);
     }
 
     this.portTable$.next(res);
@@ -105,11 +116,12 @@ export class RtuStateComponent implements OnInit, OnDestroy {
       // prettier-ignore
       switch (child.type) {
         case 'free-port':
-          res.push({ port: portOnBop, title: this.ts.instant("i18n.ft.no").toLowerCase(), state: null, sorFileId: -1, registeredAt: null });
+          res.push({ port: portOnBop, title: this.ts.instant("i18n.ft.no").toLowerCase(), 
+            state: null, baseRefType: BaseRefType.None, sorFileId: -1, registeredAt: null });
           break;
 
         case 'attached-trace':
-          res.push({ port: portOnBop, title: child.payload.title, state: child.payload.state,
+          res.push({ port: portOnBop, title: child.payload.title, state: child.payload.state, baseRefType: child.payload.baseRefType,
             sorFileId: child.payload.sorFileId, registeredAt: child.payload.registeredAt });
           break;
       }
@@ -118,7 +130,7 @@ export class RtuStateComponent implements OnInit, OnDestroy {
   }
 
   async startPollingStep() {
-    this.stepLine = this.ts.instant('i18n.ft.loading');
+    this.stepLine = this.ts.instant('i18n.ft.waiting-for-data');
     if (this.intervalId !== null) {
       clearInterval(this.intervalId);
     }

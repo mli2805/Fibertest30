@@ -448,6 +448,7 @@
   "i18n.ft.alarm": "Alarm",
 
   "i18n.ft.loading": "Loading...",
+  "i18n.ft.waiting-for-data": "Waiting for data",
   "i18n.ft.idle": "No measurement",
   "i18n.ft.toggle-to-port": "Toggling to the port {{ 0 }}",
   "i18n.ft.measurement-on-port-trace": "Measurement on port {{ 0 }}, trace {{ 1 }}",

@@ -30,7 +30,7 @@ public class GetRtuCurrentStepQueryHandler(IRtuCurrentStateDictionary rtuCurrent
 
 public class CurrentState
 {
-    public MonitoringCurrentStep Step { get; set; } = MonitoringCurrentStep.Unknown; 
+    public MonitoringCurrentStep Step { get; set; } = MonitoringCurrentStep.Idle; 
     public string Port { get; set; } = ""; // порта может не быть
     public string TraceTitle { get; set; } = ""; // трассы может не быть
 }
