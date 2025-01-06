@@ -15,9 +15,9 @@ namespace Iit.Fibertest.Graph
 
         public static IEnumerable<RtuDto> GetTree(this Model writeModel, User user)
         {
-            return from rtu in writeModel.Rtus 
-                where rtu.ZoneIds.Contains(user.ZoneId) 
-                select writeModel.GetRtuWithChildren(rtu, user);
+            return from rtu in writeModel.Rtus
+                   where rtu.ZoneIds.Contains(user.ZoneId)
+                   select writeModel.GetRtuWithChildren(rtu, user);
         }
 
         private static RtuDto GetRtuWithChildren(this Model writeModel, Rtu rtu, User user)
@@ -175,9 +175,9 @@ namespace Iit.Fibertest.Graph
                 AdditionalDuration = t.AdditionalDuration,
                 IsIncludedInMonitoringCycle = t.IsIncludedInMonitoringCycle,
                 TceLinkState = t.TraceToTceLinkState,
-                PreciseSorId = t.PreciseId != Guid.Empty ? writeModel.BaseRefs.First(b=>b.Id == t.PreciseId).SorFileId : -1,
-                FastSorId = t.FastId != Guid.Empty ? writeModel.BaseRefs.First(b=>b.Id == t.FastId).SorFileId : -1,
-                AdditionalSorId = t.AdditionalId != Guid.Empty ? writeModel.BaseRefs.First(b=>b.Id == t.AdditionalId).SorFileId : -1,
+                PreciseSorId = t.PreciseId != Guid.Empty ? writeModel.BaseRefs.First(b => b.Id == t.PreciseId).SorFileId : -1,
+                FastSorId = t.FastId != Guid.Empty ? writeModel.BaseRefs.First(b => b.Id == t.FastId).SorFileId : -1,
+                AdditionalSorId = t.AdditionalId != Guid.Empty ? writeModel.BaseRefs.First(b => b.Id == t.AdditionalId).SorFileId : -1,
                 Comment = t.Comment,
                 SorFileId = lastMeasurement?.SorFileId ?? -1,
                 RegisteredAt = lastMeasurement?.EventRegistrationTimestamp ?? null,

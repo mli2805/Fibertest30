@@ -27,8 +27,10 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
   opticalEventId!: number;
   opticalEvent!: OpticalEvent | null;
   baseRefSorId!: number;
+  opticalEvent$ = new BehaviorSubject<OpticalEvent | null>(null);
 
   fullScreen = false;
+  isGraphMode = true;
   loading$ = new BehaviorSubject<boolean>(false);
   errorMessageId$ = new BehaviorSubject<string | null>(null);
 
@@ -61,6 +63,7 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
         this.eventTableService.getOpticalEvent(this.opticalEventId)
       );
       this.opticalEvent = EventTablesMapping.toOpticalEvent(response.opticalEvent!);
+      this.opticalEvent$.next(this.opticalEvent);
 
       this.baseRefSorId = this.getBaseRefSorId(this.opticalEvent!);
     } catch (error) {
@@ -111,5 +114,9 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
 
   toggleFullScreen() {
     this.fullScreen = !this.fullScreen;
+  }
+
+  toggleGraphSor() {
+    this.isGraphMode = !this.isGraphMode;
   }
 }

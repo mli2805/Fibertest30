@@ -34,6 +34,7 @@
 		<Protobuf Include="Protos\rtu_tree.proto" ProtoRoot="Protos" GrpcServices="Server" />
 		<Protobuf Include="Protos\rtu_mgmt.proto" ProtoRoot="Protos" GrpcServices="Server" />
 		<Protobuf Include="Protos\graph.proto" ProtoRoot="Protos" GrpcServices="Server" />
+		<Protobuf Include="Protos\gis.proto" ProtoRoot="Protos" GrpcServices="Server" />
 	</ItemGroup>
 
 	<ItemGroup>

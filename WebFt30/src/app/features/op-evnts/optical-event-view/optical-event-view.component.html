@@ -2,7 +2,8 @@
 <rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
 
 <div class="flex h-full w-full flex-col">
-  <div class="flex items-center justify-end">
+  <div class="flex items-center justify-end gap-x-1">
+    <rtu-graph-sor-avaiable-action (click)="toggleGraphSor()" [isGraphMode]="isGraphMode" />
     <div class="available-action action-non-active mr-2" (click)="saveSor()">
       <rtu-save-button class="h-8 w-8" />
       <div class="my-auto text-center text-xs">
@@ -16,14 +17,21 @@
       <rtu-trace-info class="w-96" [opticalEvent]="opticalEvent"></rtu-trace-info>
     </ng-container>
     <div class="ml-1 h-full w-full">
-      <ng-container *ngIf="measurementTrace !== null && baselineTrace !== null">
-        <rtu-sor-result-baseline-provider
-          [result]="measurementTrace"
-          [baseline]="baselineTrace"
-        ></rtu-sor-result-baseline-provider>
+      <ng-container *ngIf="opticalEvent$ | async as opticalEvent">
+        <ng-container *ngIf="isGraphMode">
+          <rtu-gis-trace-viewer [opticalEvent]="opticalEvent"></rtu-gis-trace-viewer>
+        </ng-container>
       </ng-container>
-      <ng-container *ngIf="measurementTrace === null || baselineTrace === null">
-        {{ 'loading...' }}
+      <ng-container *ngIf="!isGraphMode">
+        <ng-container *ngIf="measurementTrace !== null && baselineTrace !== null">
+          <rtu-sor-result-baseline-provider
+            [result]="measurementTrace"
+            [baseline]="baselineTrace"
+          ></rtu-sor-result-baseline-provider>
+        </ng-container>
+        <ng-container *ngIf="measurementTrace === null || baselineTrace === null">
+          {{ 'loading...' }}
+        </ng-container>
       </ng-container>
     </div>
   </div>

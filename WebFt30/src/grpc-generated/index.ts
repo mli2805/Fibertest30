@@ -17,3 +17,5 @@ export * from './rtu_mgmt';
 export * from './rtu_mgmt.client';
 export * from './graph';
 export * from './graph.client';
+export * from './gis';
+export * from './gis.client';

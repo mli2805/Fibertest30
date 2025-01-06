@@ -75,6 +75,10 @@ export class AttachedTraceMenuComponent {
     this.router.navigate([path]);
   }
 
+  onShowClicked() {
+    //
+  }
+
   lastMeasurementId!: number;
   async onStateClicked() {
     try {

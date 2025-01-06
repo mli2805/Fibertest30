@@ -1,6 +1,5 @@
 ﻿using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using System.Diagnostics;
 
 namespace Fibertest30.Application;
 

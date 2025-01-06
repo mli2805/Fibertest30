@@ -38,6 +38,7 @@ import { TraceInformationComponent } from './trace-information/trace-information
 import { TraceLandmarksComponent } from './trace-landmarks/trace-landmarks.component';
 import { TraceStatisticsComponent } from './trace-statistics/trace-statistics.component';
 import { BaselineViewComponent } from './baseline-view/baseline-view.component';
+import { GisModule } from '../gis/gis.module';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { BaselineViewComponent } from './baseline-view/baseline-view.component';
     SharedModule,
     FiberizerCoreModule,
     ScrollingModule,
+    GisModule,
     TranslateModule.forChild()
   ],
   exports: [],

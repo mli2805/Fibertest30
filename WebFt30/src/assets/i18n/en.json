@@ -346,6 +346,7 @@
 
   "i18n.ft.rtus": "RTUs",
   "i18n.ft.information": "Information",
+  "i18n.ft.show": "Show",
   "i18n.ft.network-settings": "Network settings",
   "i18n.ft.state": "State",
   "i18n.ft.statistics": "Statistics",
@@ -389,6 +390,9 @@
   "i18n.ft.attach-optical-switch": "Attach optical switch",
   "i18n.ft.measurement-client": "Measurement (Client)",
   "i18n.ft.measure": "Measure",
+
+  "i18n.ft.switch-to-sor": "Switch to SOR",
+  "i18n.ft.switch-to-graph": "Switch to MAP",
 
   "i18n.ft.new-events": "New events",
   "i18n.ft.optical-event": "Optical event",

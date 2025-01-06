@@ -28,7 +28,7 @@ public static class RtuTreeMapping
 
     public static Iit.Fibertest.Dto.DoubleAddress FromProto(this DoubleAddress doubleAddress)
     {
-        Iit.Fibertest.Dto.DoubleAddress result = new Iit.Fibertest.Dto.DoubleAddress()
+        Iit.Fibertest.Dto.DoubleAddress result = new()
         {
             Main = doubleAddress.Main.FromProto(),
             HasReserveAddress = doubleAddress.HasReserveAddress,
@@ -86,9 +86,10 @@ public static class RtuTreeMapping
 
     private static PortOfOtau ToProto(this OtauPortDto otauPortDto)
     {
+        // NetAddress не должен быть null, a в базе был
         PortOfOtau portOfOtau = new PortOfOtau()
         {
-            OtauNetAddress = otauPortDto.NetAddress.ToProto(),
+            OtauNetAddress = otauPortDto.NetAddress?.ToProto() ?? new Iit.Fibertest.Dto.NetAddress().ToProto(),
             OtauSerial = otauPortDto.Serial,
             OpticalPort = otauPortDto.OpticalPort,
             IsPortOnMainCharon = otauPortDto.IsPortOnMainCharon,

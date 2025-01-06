@@ -73,6 +73,10 @@ import { ExpandMinimizeAvailableActionComponent } from './components/svg-buttons
 import { TraceStatePipe } from './pipes/trace-state.pipe';
 import { TraceStateBgDirective } from '../features/rtus/trace-statistics/colorize-bg-by-tracestate.directive';
 import { RtuPartStatePipe } from './pipes/rtu-part-state.pipe';
+import { GraphSorAvailableActionComponent } from './components/svg-buttons/available-action/graph-sor-available-action.component';
+import { GraphIconComponent } from './components/svg-buttons/graph-icon.component';
+import { SorIconComponent } from './components/svg-buttons/sor-icon.component';
+import { GisIconComponent } from './components/svg-buttons/gis-icon.component';
 
 @NgModule({
   imports: [
@@ -149,7 +153,11 @@ import { RtuPartStatePipe } from './pipes/rtu-part-state.pipe';
     BluePointComponent,
     EventTableIconComponent,
 
-    ExpandMinimizeAvailableActionComponent
+    ExpandMinimizeAvailableActionComponent,
+    GraphIconComponent,
+    SorIconComponent,
+    GisIconComponent,
+    GraphSorAvailableActionComponent
   ],
   exports: [
     CommonModule,
@@ -216,7 +224,11 @@ import { RtuPartStatePipe } from './pipes/rtu-part-state.pipe';
     ContextTooltipDirective,
     EventTableIconComponent,
 
-    ExpandMinimizeAvailableActionComponent
+    ExpandMinimizeAvailableActionComponent,
+    GraphIconComponent,
+    SorIconComponent,
+    GisIconComponent,
+    GraphSorAvailableActionComponent
   ],
   providers: [RtuDateToDayOfWeekPipe, FrequencyPipe, RtuDateTimePipe, BaseRefTypePipe]
 })

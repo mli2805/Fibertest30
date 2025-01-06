@@ -45,6 +45,7 @@ public partial class RtuManager
     {
         var rtu = _writeModel.Rtus.First(r => r.Id == dto.RtuId);
         dto.RtuMaker = rtu.RtuMaker;
+        dto.RtuAddresses.Main.Port = dto.RtuAddresses.Main.Port == -1 ? (int)TcpPorts.RtuListenToHttp : dto.RtuAddresses.Main.Port;
         dto.ServerAddresses = new DoubleAddress(); // в случае MakLinux вообще не нужен, все идет от сервера к рту
         dto.IsFirstInitialization = !rtu.IsInitialized;
         dto.Serial = rtu.Serial;

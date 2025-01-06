@@ -1,0 +1,66 @@
+syntax = "proto3";
+import "ft.enums.proto";
+
+option csharp_namespace = "Fibertest30.Api";
+package fibertest30.gis;
+
+service Gis {
+	rpc GetTraceRoute(GetTraceRouteRequest) returns (GetTraceRouteResponse);
+	rpc GetGraphRoutes(GetGraphRoutesRequest) returns (GetGraphRoutesResponse);
+}
+
+enum EquipmentType {
+	Nothing = 0;
+	AdjustmentPoint = 100;
+
+    EmptyNode = 200;
+
+    CableReserve = 300;
+
+    Other = 400;
+    Closure = 402;
+    Cross = 403;
+    Well = 405;
+    Terminal = 406;
+
+    Rtu = 500;
+
+    AccidentPlace = 501;
+}
+
+message GeoCoordinate {
+  double latitude = 1;
+  double longitude = 2;
+}
+
+message TraceNode {
+	string id = 1;
+	string title = 2;
+	GeoCoordinate coors = 3;
+	EquipmentType equipmentType = 4;
+}
+
+message TraceRouteData {
+	repeated TraceNode nodes = 1;
+	ft.enums.FiberState traceState = 2;
+}
+
+message GraphRoutesData {
+	repeated TraceRouteData traces = 1;
+}
+
+// GetTraceRoute
+message GetTraceRouteRequest {
+	string traceId = 1;
+}
+
+message GetTraceRouteResponse {
+	TraceRouteData routeData = 1;
+}
+
+// GetGraphRoutes
+message GetGraphRoutesRequest {}
+
+message GetGraphRoutesResponse {
+	GraphRoutesData data = 1;
+}

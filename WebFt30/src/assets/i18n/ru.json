@@ -8,6 +8,9 @@
   "i18n.ft.attach": "Присоединить",
   "i18n.ft.cancel": "Отменить",
 
+  "i18n.ft.switch-to-sor": "Рефл",
+  "i18n.ft.switch-to-graph": "Карта",
+
   "i18n.ft.available-actions": "Доступные действия",
   "i18n.ft.events": "События",
 
@@ -27,6 +30,7 @@
   "i18n.ft.detach-trace": "Отключить трассу",
   "i18n.ft.failed-to-connect": "Не удалось подключиться!",
   "i18n.ft.information": "Информация",
+  "i18n.ft.show": "Показать",
   "i18n.ft.initialize": "Инициализировать",
   "i18n.ft.initializing": "идёт инициализация...",
   "i18n.ft.ip": "IP",
