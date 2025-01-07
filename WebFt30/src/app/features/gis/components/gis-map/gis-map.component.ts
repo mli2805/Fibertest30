@@ -20,7 +20,7 @@ import {
   TraceNode,
   TraceRouteData
 } from 'src/app/core/store/models/ft30/graph-data';
-import { GeoCoordinate } from 'src/grpc-generated';
+import { EquipmentType, GeoCoordinate } from 'src/grpc-generated';
 
 GisMapUtils.fixLeafletMarkers();
 
@@ -32,7 +32,7 @@ GisMapUtils.fixLeafletMarkers();
 })
 export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy {
   static RouteColor = '#1d4ed8';
-  static ZoomNoClustering = 16;
+  static ZoomNoClustering = 13;
 
   private map!: L.Map;
   private icons = new GisMapIcons();
@@ -41,7 +41,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
 
   private popupBinder!: LeafletAngularPopupBinder;
 
-  startZoom = 11;
+  startZoom!: number;
   currentZoom = new BehaviorSubject<number>(this.startZoom);
   currentZoom$ = this.currentZoom.asObservable();
 
@@ -82,9 +82,10 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
   private mogilevZoom = 9;
 
   private initMap(): void {
-    this.startZoom = this.mogilevZoom;
+    // когда показываем трассу центр и зум выбираются позже исходя из точек трассы (чтобы вся видна была)
+    this.startZoom = 16;
     this.map = L.map('map', {
-      center: this.mogilevCoors,
+      center: [53.371, 30.978],
       zoom: this.startZoom
     });
 
@@ -202,6 +203,10 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
       L.polyline(latLngs, { color: GisMapComponent.RouteColor }).addTo(
         this.layer(GisMapLayer.Route)
       );
+
+      route.nodes.forEach((node) => {
+        this.addNodeToLayer(GisMapLayer.Locations, node);
+      });
     }
   }
 
@@ -218,7 +223,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
   }
 
   private addNodeToLayer(layerType: GisMapLayer, node: TraceNode): void {
-    const marker = this.createMarker(node.coors, this.icons.location);
+    const marker = this.createMarker(node.coors, this.icons.getIcon(node));
     marker.bindPopup(node.title);
     (<any>marker).id = node.id;
     this.layer(layerType).addLayer(marker);

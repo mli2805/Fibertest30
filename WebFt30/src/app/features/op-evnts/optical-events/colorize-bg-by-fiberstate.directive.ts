@@ -19,7 +19,6 @@ export class FiberStateBgDirective {
         break;
       case FiberState.Suspicion:
         this.renderer.addClass(nativeElement, 'bg-[#ffff00]');
-        // this.renderer.addClass(nativeElement, 'dark:bg-[#d0d000]');
         this.renderer.addClass(nativeElement, 'dark:text-black');
         break;
       case FiberState.Minor:
