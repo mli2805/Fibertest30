@@ -141,11 +141,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     // route needs to be a feature group to use getBounds()
     if (layerType === GisMapLayer.Route) {
       return L.featureGroup();
-    } else {
-      // return L.layerGroup();
-
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const self = this;
+    } else if (layerType === GisMapLayer.TraceEquipment) {
       return L.markerClusterGroup({
         iconCreateFunction: function (cluster) {
           return GisMapIcons.createLetterIcon(
@@ -154,7 +150,21 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
             GisMapIcons.getColorClass(layerType),
             true
           );
-          // return L.divIcon({ html: '<b>' + cluster.getChildCount() + '</b>' });
+        },
+        disableClusteringAtZoom: 11,
+        maxClusterRadius: 120,
+        showCoverageOnHover: false,
+        spiderfyOnMaxZoom: false
+      });
+    } else {
+      return L.markerClusterGroup({
+        iconCreateFunction: function (cluster) {
+          return GisMapIcons.createLetterIcon(
+            cluster.getChildCount().toString(),
+            false,
+            GisMapIcons.getColorClass(layerType),
+            true
+          );
         },
         disableClusteringAtZoom: GisMapComponent.ZoomNoClustering,
         maxClusterRadius: 120,
@@ -205,7 +215,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
       );
 
       route.nodes.forEach((node) => {
-        this.addNodeToLayer(GisMapLayer.Locations, node);
+        this.addNodeToLayer(node);
       });
     }
   }
@@ -215,18 +225,35 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     L.polyline(latLngs, { color: GisMapComponent.RouteColor }).addTo(this.layer(GisMapLayer.Route));
 
     route.nodes.forEach((node) => {
-      this.addNodeToLayer(GisMapLayer.Locations, node);
+      this.addNodeToLayer(node);
     });
 
     const bounds = new L.LatLngBounds(latLngs);
     this.map.fitBounds(bounds);
   }
 
-  private addNodeToLayer(layerType: GisMapLayer, node: TraceNode): void {
+  private addNodeToLayer(node: TraceNode): void {
     const marker = this.createMarker(node.coors, this.icons.getIcon(node));
     marker.bindPopup(node.title);
     (<any>marker).id = node.id;
-    this.layer(layerType).addLayer(marker);
+
+    const layer = this.getLayerFor(node);
+    this.layer(layer).addLayer(marker);
+  }
+
+  private getLayerFor(node: TraceNode) {
+    switch (node.equipmentType) {
+      case EquipmentType.Rtu:
+        return GisMapLayer.Route;
+      case EquipmentType.Terminal:
+      case EquipmentType.Cross:
+      case EquipmentType.CableReserve:
+      case EquipmentType.Closure:
+      case EquipmentType.Other:
+        return GisMapLayer.TraceEquipment;
+      default:
+        return GisMapLayer.Locations;
+    }
   }
 
   createMarker(coordinate: GeoCoordinate, iconWithIndex?: GisIconWithZIndex): L.Marker {

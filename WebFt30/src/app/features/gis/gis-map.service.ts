@@ -7,6 +7,7 @@ import { GraphRoutesData, TraceRouteData } from 'src/app/core/store/models/ft30/
 export class GisMapService {
   public static InitialLayerVisibility = new Map<GisMapLayer, boolean>([
     [GisMapLayer.Route, true],
+    [GisMapLayer.TraceEquipment, true],
     [GisMapLayer.Locations, true]
   ]);
 
