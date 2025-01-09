@@ -72,6 +72,7 @@ export class GisMapIcons {
     this.other = { icon: this.createOtherIcon(colorClass), zIndex: 28 };
     this.terminal = { icon: this.createTerminalIcon(colorClass), zIndex: 28 };
     this.rtu = { icon: this.createRtuIcon(colorClass), zIndex: 20 };
+    this.accidentPlace = { icon: this.createAccidentPlaceIcon(colorClass), zIndex: 15 };
 
     this.traceMarker = { zIndex: 22 };
     this.alarmFiberBreak = { icon: this.createFiberBreakIcon(false), zIndex: 20 };
@@ -111,6 +112,24 @@ export class GisMapIcons {
                   fill-rule="evenodd" 
                   d="M9 12v1h1v-1H9zm-2 0v1h1v-1H7zm-2 0v1h1v-1H5zm4-4v1h1V8H9zM7 8v1h1V8H7zM5 8v1h1V8H5zm4-4v1h1V4H9zM7 5h1V4H7v1zM5 5h1V4H5v1zm4 3v1h1V8H9zM7 9h1V8H7v1zM5 9h1V8H5v1zm4 3v1h1v-1H9zm-2 1h1v-1H7v1zm-2 0h1v-1H5v1zm17 2V2H2v13h13v3h-2v1H4v1h9v1h5v-1h2v-1h-2v-1h-2v-3h6zM3 3h18v3H3V3zm0 4h18v3H3V7zm14 12v1h-3v-1h3zM3 14v-3h18v3H3zm6-1h1v-1H9v1zm0-4h1V8H9v1zm0-4h1V4H9v1zm-2 8h1v-1H7v1zm0-4h1V8H7v1zm0-4h1V4H7v1zm-2 8h1v-1H5v1zm0-4h1V8H5v1zm0-4h1V4H5v1zm4-1v1h1V4H9zM7 4v1h1V4H7zM5 4v1h1V4H5z"
                   clip-rule="evenodd" />
+                </svg>
+              </div>
+        `,
+      iconSize: [width, height],
+      iconAnchor: [39, 54]
+    });
+  }
+
+  createAccidentPlaceIcon(colorClass: string): L.DivIcon {
+    const width = 64;
+    const height = 64;
+
+    return L.divIcon({
+      className: 'map-marker-wrapper',
+      html: `
+              <div class="${colorClass}" style="width: ${width}px; height: ${height}px">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M512.481 421.906L850.682 84.621c25.023-24.964 65.545-24.917 90.51.105s24.917 65.545-.105 90.51L603.03 512.377 940.94 850c25.003 24.984 25.017 65.507.033 90.51s-65.507 25.017-90.51.033L512.397 602.764 174.215 940.03c-25.023 24.964-65.545 24.917-90.51-.105s-24.917-65.545.105-90.51l338.038-337.122L84.14 174.872c-25.003-24.984-25.017-65.507-.033-90.51s65.507-25.017 90.51-.033L512.48 421.906z"/>
                 </svg>
               </div>
         `,

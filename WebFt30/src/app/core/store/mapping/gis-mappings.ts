@@ -1,5 +1,11 @@
 import * as grpc from 'src/grpc-generated';
-import { GeoFiber, GraphRoutesData, TraceNode, TraceRouteData } from '../models/ft30/geo-data';
+import {
+  AllGeoData,
+  GeoFiber,
+  GraphRoutesData,
+  TraceNode,
+  TraceRouteData
+} from '../models/ft30/geo-data';
 import { FtEnumsMapping } from './ft-enums-mapping';
 
 export class GisMapping {
@@ -35,5 +41,11 @@ export class GisMapping {
   static fromGrpcGraphRoutesData(grpcGraphRoutesData: grpc.GraphRoutesData): GraphRoutesData {
     const routes = grpcGraphRoutesData.traces.map((t) => this.fromTraceRouteData(t));
     return new GraphRoutesData(routes);
+  }
+
+  static fromGrpcGeoData(grpcGeoData: grpc.AllGeoData): AllGeoData {
+    const nodes = grpcGeoData.nodes.map((n) => this.fromTraceNode(n));
+    const fibers = grpcGeoData.fibers.map((f) => this.fromGeoFiber(f));
+    return new AllGeoData(fibers, nodes);
   }
 }

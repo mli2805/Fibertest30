@@ -1,5 +1,7 @@
 import * as L from 'leaflet';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
+import { EquipmentType } from 'src/grpc-generated';
+import { GisMapLayer } from '../../models/gis-map-layer';
 
 export class GisMapUtils {
   static fixLeafletMarkers(): void {
@@ -17,6 +19,21 @@ export class GisMapUtils {
       shadowSize: [41, 41]
     });
     L.Marker.prototype.options.icon = iconDefault;
+  }
+
+  static equipmentTypeToGisMapLayer(equipmentType: EquipmentType): GisMapLayer {
+    switch (equipmentType) {
+      case EquipmentType.Rtu:
+        return GisMapLayer.Route;
+      case EquipmentType.Terminal:
+      case EquipmentType.Cross:
+      case EquipmentType.CableReserve:
+      case EquipmentType.Closure:
+      case EquipmentType.Other:
+        return GisMapLayer.TraceEquipment;
+      default:
+        return GisMapLayer.Locations;
+    }
   }
 
   static fiberStateToColorClass(fiberstate: FiberState): string {

@@ -20,20 +20,35 @@ export class GisViewerComponent extends OnDestroyBase implements OnInit {
 
   async ngOnInit() {
     try {
-      const response = await firstValueFrom(this.gisService.getGraphRoutes());
-      const graphData = GisMapping.fromGrpcGraphRoutesData(response.data!);
-
-      const sum = graphData.routes
-        .map((r) => r.nodes.length)
-        .reduce((acc, value) => {
-          return acc + value;
-        }, 0);
-      console.log(graphData);
-      this.gisMapService.setGraphRoutesData(graphData);
-      console.log(`${sum} nodes`);
+      await this.loadAllGeoData();
     } catch (error) {
       console.log(error);
       return;
     }
+  }
+
+  // может применяться для read-only пользователей
+  async loadRoutesData() {
+    const response = await firstValueFrom(this.gisService.getGraphRoutes());
+    const graphData = GisMapping.fromGrpcGraphRoutesData(response.data!);
+
+    const sum = graphData.routes
+      .map((r) => r.nodes.length)
+      .reduce((acc, value) => {
+        return acc + value;
+      }, 0);
+    console.log(graphData);
+
+    this.gisMapService.setGraphRoutesData(graphData);
+    console.log(`${sum} nodes`);
+  }
+
+  // для рута. содержит узлы/участки не входящие в трассы
+  async loadAllGeoData() {
+    const response = await firstValueFrom(this.gisService.getAllGeoData());
+    const geoData = GisMapping.fromGrpcGeoData(response.data!);
+    console.log(`nodes: ${geoData.nodes.length}  fibers: ${geoData.fibers.length}`);
+
+    this.gisMapService.setGeoData(geoData);
   }
 }

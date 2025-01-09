@@ -17,6 +17,8 @@ import 'leaflet.markercluster';
 import 'leaflet-contextmenu';
 import { BehaviorSubject, takeUntil } from 'rxjs';
 import {
+  AllGeoData,
+  GeoFiber,
   GraphRoutesData,
   TraceNode,
   TraceRouteData
@@ -71,6 +73,10 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     this.gisMapService.graphRoutesData$
       .pipe(takeUntil(this.ngDestroyed$))
       .subscribe((d) => this.onGraphRoutesData(d));
+
+    this.gisMapService.geoData$
+      .pipe(takeUntil(this.ngDestroyed$))
+      .subscribe((d) => this.onGeoData(d));
   }
 
   override ngOnDestroy(): void {
@@ -268,6 +274,22 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     this.addGraphRoutes(data.graphRoutesData.routes);
   }
 
+  onGeoData(data: { geoData: AllGeoData } | null): void {
+    this.mapLayersMap.forEach((layer) => layer.clearLayers());
+    if (!data) return;
+
+    data.geoData.fibers.forEach((f) => this.addGeoFiber(f));
+    data.geoData.nodes.forEach((n) => this.addNodeToLayer(n));
+  }
+
+  private addGeoFiber(fiber: GeoFiber): void {
+    const c1 = new L.LatLng(fiber.coors1.latitude, fiber.coors1.longitude);
+    const c2 = new L.LatLng(fiber.coors2.latitude, fiber.coors2.longitude);
+    L.polyline([c1, c2], { color: ColorUtils.routeStateToColor(fiber.fiberState) }).addTo(
+      this.layer(GisMapLayer.Route)
+    );
+  }
+
   private addGraphRoutes(routes: TraceRouteData[]): void {
     for (let i = 0; i < routes.length; i++) {
       const route = routes[i];
@@ -301,23 +323,8 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     marker.bindPopup(node.title);
     (<any>marker).id = node.id;
 
-    const layer = this.getLayerFor(node);
+    const layer = GisMapUtils.equipmentTypeToGisMapLayer(node.equipmentType);
     this.layer(layer).addLayer(marker);
-  }
-
-  private getLayerFor(node: TraceNode) {
-    switch (node.equipmentType) {
-      case EquipmentType.Rtu:
-        return GisMapLayer.Route;
-      case EquipmentType.Terminal:
-      case EquipmentType.Cross:
-      case EquipmentType.CableReserve:
-      case EquipmentType.Closure:
-      case EquipmentType.Other:
-        return GisMapLayer.TraceEquipment;
-      default:
-        return GisMapLayer.Locations;
-    }
   }
 
   createMarker(
@@ -327,6 +334,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
   ): L.Marker {
     const options = {
       icon: iconWithIndex.icon,
+      draggable: true,
       contextmenu: true,
       contextmenuInheritItems: false,
       contextmenuItems: this.buildMarkerContextMenu(equipmentType)
@@ -339,6 +347,17 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
 
     marker.on('click', () => {
       console.log((<any>marker).id);
+    });
+
+    marker.on('dragend', (e) => {
+      console.log(`new coordinates: ${(<L.Marker>e.target).getLatLng()}`);
+
+      // двигает карту помещая новую позицию маркера в центр
+      // удобно, если затягиваешь маркер за пределы экрана,
+      // на сколько это удобно если двигаешь немного в пределах экрана
+      // и не ожидаешь перемещения всей карты - это вопрос
+      const position = (<L.Marker>e.target).getLatLng();
+      this.map.panTo(position);
     });
 
     return marker;
