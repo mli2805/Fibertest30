@@ -1,5 +1,6 @@
 import * as grpc from 'src/grpc-generated';
-import { GraphRoutesData, TraceNode, TraceRouteData } from '../models/ft30/graph-data';
+import { GeoFiber, GraphRoutesData, TraceNode, TraceRouteData } from '../models/ft30/geo-data';
+import { FtEnumsMapping } from './ft-enums-mapping';
 
 export class GisMapping {
   static fromTraceNode(grpcTraceNode: grpc.TraceNode): TraceNode {
@@ -12,9 +13,22 @@ export class GisMapping {
     return node;
   }
 
+  static fromGeoFiber(grpcGeoFiber: grpc.GeoFiber): GeoFiber {
+    const fiber = new GeoFiber(
+      grpcGeoFiber.id,
+      grpcGeoFiber.coors1!,
+      grpcGeoFiber.coors2!,
+      FtEnumsMapping.fromGrpcFiberState(grpcGeoFiber.fiberState)
+    );
+    return fiber;
+  }
+
   static fromTraceRouteData(grpcTraceRoute: grpc.TraceRouteData): TraceRouteData {
     const nodes = grpcTraceRoute.nodes.map((n) => this.fromTraceNode(n));
-    const route = new TraceRouteData(nodes, grpcTraceRoute.traceState);
+    const route = new TraceRouteData(
+      nodes,
+      FtEnumsMapping.fromGrpcFiberState(grpcTraceRoute.traceState)
+    );
     return route;
   }
 

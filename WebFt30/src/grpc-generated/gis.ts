@@ -39,6 +39,27 @@ export interface TraceNode {
     equipmentType: EquipmentType;
 }
 /**
+ * @generated from protobuf message fibertest30.gis.GeoFiber
+ */
+export interface GeoFiber {
+    /**
+     * @generated from protobuf field: string id = 1;
+     */
+    id: string;
+    /**
+     * @generated from protobuf field: fibertest30.gis.GeoCoordinate coors1 = 2;
+     */
+    coors1?: GeoCoordinate;
+    /**
+     * @generated from protobuf field: fibertest30.gis.GeoCoordinate coors2 = 3;
+     */
+    coors2?: GeoCoordinate;
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.FiberState fiberState = 4;
+     */
+    fiberState: FiberState;
+}
+/**
  * @generated from protobuf message fibertest30.gis.TraceRouteData
  */
 export interface TraceRouteData {
@@ -59,6 +80,19 @@ export interface GraphRoutesData {
      * @generated from protobuf field: repeated fibertest30.gis.TraceRouteData traces = 1;
      */
     traces: TraceRouteData[];
+}
+/**
+ * @generated from protobuf message fibertest30.gis.AllGeoData
+ */
+export interface AllGeoData {
+    /**
+     * @generated from protobuf field: repeated fibertest30.gis.GeoFiber fibers = 1;
+     */
+    fibers: GeoFiber[];
+    /**
+     * @generated from protobuf field: repeated fibertest30.gis.TraceNode nodes = 2;
+     */
+    nodes: TraceNode[];
 }
 /**
  * GetTraceRoute
@@ -95,6 +129,22 @@ export interface GetGraphRoutesResponse {
      * @generated from protobuf field: fibertest30.gis.GraphRoutesData data = 1;
      */
     data?: GraphRoutesData;
+}
+/**
+ * GetAllGeoData
+ *
+ * @generated from protobuf message fibertest30.gis.GetAllGeoDataRequest
+ */
+export interface GetAllGeoDataRequest {
+}
+/**
+ * @generated from protobuf message fibertest30.gis.GetAllGeoDataResponse
+ */
+export interface GetAllGeoDataResponse {
+    /**
+     * @generated from protobuf field: fibertest30.gis.AllGeoData data = 1;
+     */
+    data?: AllGeoData;
 }
 /**
  * @generated from protobuf enum fibertest30.gis.EquipmentType
@@ -174,6 +224,21 @@ class TraceNode$Type extends MessageType<TraceNode> {
  */
 export const TraceNode = new TraceNode$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class GeoFiber$Type extends MessageType<GeoFiber> {
+    constructor() {
+        super("fibertest30.gis.GeoFiber", [
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "coors1", kind: "message", T: () => GeoCoordinate },
+            { no: 3, name: "coors2", kind: "message", T: () => GeoCoordinate },
+            { no: 4, name: "fiberState", kind: "enum", T: () => ["fibertest30.ft.enums.FiberState", FiberState] }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.gis.GeoFiber
+ */
+export const GeoFiber = new GeoFiber$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class TraceRouteData$Type extends MessageType<TraceRouteData> {
     constructor() {
         super("fibertest30.gis.TraceRouteData", [
@@ -198,6 +263,19 @@ class GraphRoutesData$Type extends MessageType<GraphRoutesData> {
  * @generated MessageType for protobuf message fibertest30.gis.GraphRoutesData
  */
 export const GraphRoutesData = new GraphRoutesData$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AllGeoData$Type extends MessageType<AllGeoData> {
+    constructor() {
+        super("fibertest30.gis.AllGeoData", [
+            { no: 1, name: "fibers", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => GeoFiber },
+            { no: 2, name: "nodes", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => TraceNode }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.gis.AllGeoData
+ */
+export const AllGeoData = new AllGeoData$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GetTraceRouteRequest$Type extends MessageType<GetTraceRouteRequest> {
     constructor() {
@@ -244,10 +322,33 @@ class GetGraphRoutesResponse$Type extends MessageType<GetGraphRoutesResponse> {
  * @generated MessageType for protobuf message fibertest30.gis.GetGraphRoutesResponse
  */
 export const GetGraphRoutesResponse = new GetGraphRoutesResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetAllGeoDataRequest$Type extends MessageType<GetAllGeoDataRequest> {
+    constructor() {
+        super("fibertest30.gis.GetAllGeoDataRequest", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.gis.GetAllGeoDataRequest
+ */
+export const GetAllGeoDataRequest = new GetAllGeoDataRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetAllGeoDataResponse$Type extends MessageType<GetAllGeoDataResponse> {
+    constructor() {
+        super("fibertest30.gis.GetAllGeoDataResponse", [
+            { no: 1, name: "data", kind: "message", T: () => AllGeoData }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.gis.GetAllGeoDataResponse
+ */
+export const GetAllGeoDataResponse = new GetAllGeoDataResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.gis.Gis
  */
 export const Gis = new ServiceType("fibertest30.gis.Gis", [
     { name: "GetTraceRoute", options: {}, I: GetTraceRouteRequest, O: GetTraceRouteResponse },
-    { name: "GetGraphRoutes", options: {}, I: GetGraphRoutesRequest, O: GetGraphRoutesResponse }
+    { name: "GetGraphRoutes", options: {}, I: GetGraphRoutesRequest, O: GetGraphRoutesResponse },
+    { name: "GetAllGeoData", options: {}, I: GetAllGeoDataRequest, O: GetAllGeoDataResponse }
 ]);

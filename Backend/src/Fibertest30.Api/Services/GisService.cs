@@ -20,4 +20,10 @@ public class GisService(ISender mediator) : Gis.GisBase
         var gisData = await mediator.Send(new GetGisDataQuery(), context.CancellationToken);
         return new GetGraphRoutesResponse() { Data = gisData.ToProto() };
     }
+
+    public override async Task<GetAllGeoDataResponse> GetAllGeoData(GetAllGeoDataRequest request, ServerCallContext context)
+    {
+        var allGeoData = await mediator.Send(new GetAllGeoDataQuery(), context.CancellationToken);
+        return new GetAllGeoDataResponse() { Data = allGeoData.ToProto() };
+    }
 }

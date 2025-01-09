@@ -447,7 +447,7 @@
   "i18n.ft.fiber-break": "Fiber break",
   "i18n.ft.no-fiber": "No fiber",
   "i18n.ft.high-lighted": "Highlighted",
-  "i18n.ft.distance-measurement": "Distance",
+  "i18n.ft.distance-measurement": "Distance measurement",
   "i18n.ft.nothing": "Nothing",
   "i18n.ft.alarm": "Alarm",
 
@@ -554,6 +554,18 @@
   "i18n.ft.expand": "Expand",
   "i18n.ft.minimize": "Minimize",
   "i18n.ft.save": "Save",
+
+  "i18n.ft.add-node": "Add node",
+  "i18n.ft.add-rtu": "Add RTU",
+  "i18n.ft.add-node-with-cable-reserve": "Add node with cable reserve",
+  "i18n.ft.add-node-with-closure": "Add node with closure",
+  "i18n.ft.add-node-with-cross": "Add node with cross",
+  "i18n.ft.add-node-with-terminal": "Add node with terminal",
+  "i18n.ft.add-node-with-other-equipment": "Add node with other equipment",
+  "i18n.ft.copy-coordinates": "Copy coordinates",
+
+  "i18n.ft.add-equipment": "Add equipment",
+  "i18n.ft.section": "Section",
 
   "i18n.start-page.gis": "Gis",
   "i18n.start-page.notifications": "Notifications",

@@ -7,6 +7,7 @@ package fibertest30.gis;
 service Gis {
 	rpc GetTraceRoute(GetTraceRouteRequest) returns (GetTraceRouteResponse);
 	rpc GetGraphRoutes(GetGraphRoutesRequest) returns (GetGraphRoutesResponse);
+	rpc GetAllGeoData(GetAllGeoDataRequest) returns (GetAllGeoDataResponse);
 }
 
 enum EquipmentType {
@@ -40,6 +41,13 @@ message TraceNode {
 	EquipmentType equipmentType = 4;
 }
 
+message GeoFiber {
+	string id = 1;
+	GeoCoordinate coors1 = 2;
+	GeoCoordinate coors2 = 3;
+	ft.enums.FiberState fiberState = 4;
+}
+
 message TraceRouteData {
 	repeated TraceNode nodes = 1;
 	ft.enums.FiberState traceState = 2;
@@ -47,6 +55,11 @@ message TraceRouteData {
 
 message GraphRoutesData {
 	repeated TraceRouteData traces = 1;
+}
+
+message AllGeoData {
+	repeated GeoFiber fibers = 1;
+	repeated TraceNode nodes = 2;
 }
 
 // GetTraceRoute
@@ -63,4 +76,11 @@ message GetGraphRoutesRequest {}
 
 message GetGraphRoutesResponse {
 	GraphRoutesData data = 1;
+}
+
+// GetAllGeoData
+message GetAllGeoDataRequest {}
+
+message GetAllGeoDataResponse {
+	AllGeoData data = 1;
 }

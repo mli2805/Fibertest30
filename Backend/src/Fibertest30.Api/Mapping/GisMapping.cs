@@ -39,6 +39,17 @@ public static class GisMapping
         };
     }
 
+    private static GeoFiber ToProto(this FiberGisData fiber)
+    {
+        return new GeoFiber()
+        {
+            Id = fiber.Id.ToString(),
+            Coors1 = fiber.Coors1.ToProto(),
+            Coors2 = fiber.Coors2.ToProto(),
+            FiberState = fiber.FiberState.ToProto(),
+        };
+    }
+
     public static TraceRouteData ToProto(this TraceGisData trace)
     {
         var result = new TraceRouteData { TraceState = trace.TraceState.ToProto() };
@@ -50,6 +61,14 @@ public static class GisMapping
     {
         var result = new GraphRoutesData();
         data.Traces.ForEach(t=>result.Traces.Add(t.ToProto()));
+        return result;
+    }
+
+    public static AllGeoData ToProto(this AllGisData data)
+    {
+        var result = new AllGeoData();
+        data.Fibers.ForEach(f=>result.Fibers.Add(f.ToProto()));
+        data.Nodes.ForEach(n=>result.Nodes.Add(n.ToProto()));
         return result;
     }
 }

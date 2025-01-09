@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { Gis } from "./gis";
+import type { GetAllGeoDataResponse } from "./gis";
+import type { GetAllGeoDataRequest } from "./gis";
 import type { GetGraphRoutesResponse } from "./gis";
 import type { GetGraphRoutesRequest } from "./gis";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
@@ -23,6 +25,10 @@ export interface IGisClient {
      * @generated from protobuf rpc: GetGraphRoutes(fibertest30.gis.GetGraphRoutesRequest) returns (fibertest30.gis.GetGraphRoutesResponse);
      */
     getGraphRoutes(input: GetGraphRoutesRequest, options?: RpcOptions): UnaryCall<GetGraphRoutesRequest, GetGraphRoutesResponse>;
+    /**
+     * @generated from protobuf rpc: GetAllGeoData(fibertest30.gis.GetAllGeoDataRequest) returns (fibertest30.gis.GetAllGeoDataResponse);
+     */
+    getAllGeoData(input: GetAllGeoDataRequest, options?: RpcOptions): UnaryCall<GetAllGeoDataRequest, GetAllGeoDataResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.gis.Gis
@@ -46,5 +52,12 @@ export class GisClient implements IGisClient, ServiceInfo {
     getGraphRoutes(input: GetGraphRoutesRequest, options?: RpcOptions): UnaryCall<GetGraphRoutesRequest, GetGraphRoutesResponse> {
         const method = this.methods[1], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetGraphRoutesRequest, GetGraphRoutesResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetAllGeoData(fibertest30.gis.GetAllGeoDataRequest) returns (fibertest30.gis.GetAllGeoDataResponse);
+     */
+    getAllGeoData(input: GetAllGeoDataRequest, options?: RpcOptions): UnaryCall<GetAllGeoDataRequest, GetAllGeoDataResponse> {
+        const method = this.methods[2], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetAllGeoDataRequest, GetAllGeoDataResponse>("unary", this._transport, method, opt, input);
     }
 }

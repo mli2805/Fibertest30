@@ -20,4 +20,30 @@ export class ColorUtils {
     }
     return 'text-black';
   }
+
+  static routeStateToColor(state: FiberState): string {
+    switch (state) {
+      case FiberState.NotInTrace:
+        return 'aqua';
+      case FiberState.NotJoined:
+        return 'blue';
+      case FiberState.Ok:
+        return 'black';
+      case FiberState.Suspicion:
+        return 'yellow';
+      case FiberState.Minor:
+        return '#8080c0';
+      case FiberState.Major:
+        return '#ff69b4';
+      case FiberState.Critical:
+      case FiberState.FiberBreak:
+      case FiberState.NoFiber:
+        return 'red';
+      case FiberState.User:
+        return 'green';
+      case FiberState.HighLighted:
+        return 'lime';
+    }
+    return 'black';
+  }
 }

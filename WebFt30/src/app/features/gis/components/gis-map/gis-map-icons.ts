@@ -4,7 +4,7 @@ import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { GisMapUtils } from './gis-map.utils';
 import { OpticalEvent } from 'src/app/core/store/models/ft30/optical-event';
 import { ColorUtils } from 'src/app/shared/utils/color-utils';
-import { TraceNode } from 'src/app/core/store/models/ft30/graph-data';
+import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { EquipmentType, GeoCoordinate } from 'src/grpc-generated';
 
 export interface GisIconWithZIndex {

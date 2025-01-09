@@ -15,6 +15,11 @@ namespace Iit.Fibertest.Graph
         // if empty - fiber is not in any trace; pair contains trace.TraceId : trace.TraceState
         public Dictionary<Guid, FiberState> States { get; set; } = new Dictionary<Guid, FiberState>();
 
+        public FiberState GetState()
+        {
+            return States.Any() ? States.Values.OrderDescending().First() :  FiberState.NotInTrace;
+        }
+
         public void SetState(Guid traceId, FiberState traceState)
         {
             States[traceId] = traceState;

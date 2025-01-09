@@ -22,8 +22,15 @@ export class GisViewerComponent extends OnDestroyBase implements OnInit {
     try {
       const response = await firstValueFrom(this.gisService.getGraphRoutes());
       const graphData = GisMapping.fromGrpcGraphRoutesData(response.data!);
+
+      const sum = graphData.routes
+        .map((r) => r.nodes.length)
+        .reduce((acc, value) => {
+          return acc + value;
+        }, 0);
       console.log(graphData);
       this.gisMapService.setGraphRoutesData(graphData);
+      console.log(`${sum} nodes`);
     } catch (error) {
       console.log(error);
       return;

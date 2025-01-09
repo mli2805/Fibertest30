@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { GisMapLayer } from './models/gis-map-layer';
 import { BehaviorSubject } from 'rxjs';
-import { GraphRoutesData, TraceRouteData } from 'src/app/core/store/models/ft30/graph-data';
+import { GraphRoutesData, TraceRouteData } from 'src/app/core/store/models/ft30/geo-data';
 
 @Injectable()
 export class GisMapService {
-  public static InitialLayerVisibility = new Map<GisMapLayer, boolean>([
-    [GisMapLayer.Route, true],
-    [GisMapLayer.TraceEquipment, true],
-    [GisMapLayer.Locations, true]
+  public static GisMapLayerZoom = new Map<GisMapLayer, number>([
+    [GisMapLayer.Route, 0],
+    [GisMapLayer.TraceEquipment, 13],
+    [GisMapLayer.Locations, 16]
   ]);
 
   ////////////////////

@@ -125,7 +125,7 @@
   "i18n.ft.fiber-break": "Обрыв волокна",
   "i18n.ft.no-fiber": "Нет волокна",
   "i18n.ft.high-lighted": "Подсвечено",
-  "i18n.ft.distance-measurement": "Расстояние",
+  "i18n.ft.distance-measurement": "Измерение расстояния",
   "i18n.ft.nothing": "",
   "i18n.ft.alarm": "Авария",
 
@@ -234,5 +234,17 @@
   "i18n.ft.measurement-otdr-problem": "Измерение порт {{ 0 }}, трасса {{ 1 }} не удалось. Ошибка рефлектометра",
   "i18n.ft.measurement-analysis": "Анализ результатов измерения, порт {{ 0 }}, трасса {{ 1 }}",
   "i18n.ft.measurement-interrupted": "Измерение прервано",
-  "i18n.ft.measurement-finished": "Измерение порт {{ 0 }}, трасса {{ 1 }} завершено"
+  "i18n.ft.measurement-finished": "Измерение порт {{ 0 }}, трасса {{ 1 }} завершено",
+
+  "i18n.ft.add-node": "Добавить узел",
+  "i18n.ft.add-rtu": "Добавить RTU",
+  "i18n.ft.add-node-with-cable-reserve": "Добавить узел с кабельным резервом",
+  "i18n.ft.add-node-with-closure": "Добавить узел с муфтой",
+  "i18n.ft.add-node-with-cross": "Добавить узел с проключением",
+  "i18n.ft.add-node-with-terminal": "Добавить узел с оконечным терминалом",
+  "i18n.ft.add-node-with-other-equipment": "Добавить узел с другим оборудованием",
+  "i18n.ft.copy-coordinates": "Копировать координаты",
+
+  "i18n.ft.add-equipment": "Добавить оборудование",
+  "i18n.ft.section": "Участок"
 }

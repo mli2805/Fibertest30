@@ -14,13 +14,16 @@ import { GisMapService } from '../../gis-map.service';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
+import 'leaflet-contextmenu';
 import { BehaviorSubject, takeUntil } from 'rxjs';
 import {
   GraphRoutesData,
   TraceNode,
   TraceRouteData
-} from 'src/app/core/store/models/ft30/graph-data';
+} from 'src/app/core/store/models/ft30/geo-data';
 import { EquipmentType, GeoCoordinate } from 'src/grpc-generated';
+import { ColorUtils } from 'src/app/shared/utils/color-utils';
+import { TranslateService } from '@ngx-translate/core';
 
 GisMapUtils.fixLeafletMarkers();
 
@@ -31,8 +34,7 @@ GisMapUtils.fixLeafletMarkers();
   styles: [':host { overflow-y: auto; width: 100%; height: 100%; }']
 })
 export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy {
-  static RouteColor = '#1d4ed8';
-  static ZoomNoClustering = 13;
+  static ZoomNoClustering = 1; // прячем слои вместо кластеризации
 
   private map!: L.Map;
   private icons = new GisMapIcons();
@@ -50,6 +52,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
 
   constructor(
     private gisMapService: GisMapService,
+    private ts: TranslateService,
     appRef: ApplicationRef,
     envInjector: EnvironmentInjector
   ) {
@@ -77,20 +80,74 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
   }
 
   private minskCoors: L.LatLngExpression = [53.85, 27.59];
-  private minskZoom = 11;
+  private minskZoom = 12;
   private mogilevCoors: L.LatLngExpression = [53.85, 29.99];
   private mogilevZoom = 9;
 
   private initMap(): void {
     // когда показываем трассу центр и зум выбираются позже исходя из точек трассы (чтобы вся видна была)
-    this.startZoom = 16;
+    this.startZoom = this.minskZoom;
+    this.currentZoom.next(this.startZoom);
     this.map = L.map('map', {
-      center: [53.371, 30.978],
-      zoom: this.startZoom
+      center: this.minskCoors,
+      zoom: this.startZoom,
+      contextmenu: true,
+      contextmenuItems: [
+        {
+          text: this.ts.instant('i18n.ft.add-node'),
+          callback: (e) => this.addNewNode(e, EquipmentType.EmptyNode)
+        },
+        {
+          text: '-',
+          separator: true
+        },
+        {
+          text: this.ts.instant('i18n.ft.add-node-with-cable-reserve'),
+          callback: (e) => this.addNewNode(e, EquipmentType.CableReserve)
+        },
+        {
+          text: this.ts.instant('i18n.ft.add-node-with-closure'),
+          callback: (e) => this.addNewNode(e, EquipmentType.Closure)
+        },
+        {
+          text: this.ts.instant('i18n.ft.add-node-with-cross'),
+          callback: (e) => this.addNewNode(e, EquipmentType.Cross)
+        },
+        {
+          text: this.ts.instant('i18n.ft.add-node-with-terminal'),
+          callback: (e) => this.addNewNode(e, EquipmentType.Terminal)
+        },
+        {
+          text: this.ts.instant('i18n.ft.add-node-with-other-equipment'),
+          callback: (e) => this.addNewNode(e, EquipmentType.Other)
+        },
+        {
+          text: '-',
+          separator: true
+        },
+        {
+          text: this.ts.instant('i18n.ft.add-rtu'),
+          callback: (e) => this.addNewNode(e, EquipmentType.Rtu)
+        },
+        {
+          text: '-',
+          separator: true
+        },
+        {
+          text: this.ts.instant('i18n.ft.copy-coordinates'),
+          callback: (e) => this.copyCoordinates(e)
+        },
+        {
+          text: this.ts.instant('i18n.ft.distance-measurement'),
+          callback: (e) => this.copyCoordinates(e)
+        }
+      ]
     });
 
     this.map.on('zoomend', (e) => {
-      this.currentZoom.next(this.map.getZoom());
+      const newZoom = this.map.getZoom();
+      this.adjustLayersToZoom(newZoom);
+      this.currentZoom.next(newZoom);
     });
 
     this.map.on('click', (e) => {
@@ -114,6 +171,24 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     this.initMapLayersMap();
   }
 
+  adjustLayersToZoom(newZoom: number) {
+    const emptyNodesZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.Locations)!;
+    if (this.currentZoom.value < emptyNodesZoom && newZoom >= emptyNodesZoom) {
+      this.setLayerVisibility(GisMapLayer.Locations, true);
+    }
+    if (this.currentZoom.value >= emptyNodesZoom && newZoom < emptyNodesZoom) {
+      this.setLayerVisibility(GisMapLayer.Locations, false);
+    }
+
+    const equipmentZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.TraceEquipment)!;
+    if (this.currentZoom.value < equipmentZoom && newZoom >= equipmentZoom) {
+      this.setLayerVisibility(GisMapLayer.TraceEquipment, true);
+    }
+    if (this.currentZoom.value >= equipmentZoom && newZoom < equipmentZoom) {
+      this.setLayerVisibility(GisMapLayer.TraceEquipment, false);
+    }
+  }
+
   latLngToString(latlng: L.LatLng): string {
     const lat = Math.round(latlng.lat * 1000000) / 1000000;
     const lng = Math.round(latlng.lng * 1000000) / 1000000;
@@ -131,9 +206,8 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
       this.mapLayersMap.set(layerType, layer);
     }
 
-    // set initial visibility
-    GisMapService.InitialLayerVisibility.forEach((value, key) => {
-      this.setLayerVisibility(key, value);
+    GisMapService.GisMapLayerZoom.forEach((value, key) => {
+      this.setLayerVisibility(key, this.currentZoom.value >= value);
     });
   }
 
@@ -142,35 +216,23 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     if (layerType === GisMapLayer.Route) {
       return L.featureGroup();
     } else if (layerType === GisMapLayer.TraceEquipment) {
-      return L.markerClusterGroup({
-        iconCreateFunction: function (cluster) {
-          return GisMapIcons.createLetterIcon(
-            cluster.getChildCount().toString(),
-            false,
-            GisMapIcons.getColorClass(layerType),
-            true
-          );
-        },
-        disableClusteringAtZoom: 11,
-        maxClusterRadius: 120,
-        showCoverageOnHover: false,
-        spiderfyOnMaxZoom: false
-      });
+      return L.layerGroup();
     } else {
-      return L.markerClusterGroup({
-        iconCreateFunction: function (cluster) {
-          return GisMapIcons.createLetterIcon(
-            cluster.getChildCount().toString(),
-            false,
-            GisMapIcons.getColorClass(layerType),
-            true
-          );
-        },
-        disableClusteringAtZoom: GisMapComponent.ZoomNoClustering,
-        maxClusterRadius: 120,
-        showCoverageOnHover: false,
-        spiderfyOnMaxZoom: false
-      });
+      return L.layerGroup();
+      //   return L.markerClusterGroup({
+      //     iconCreateFunction: function (cluster) {
+      //       return GisMapIcons.createLetterIcon(
+      //         cluster.getChildCount().toString(),
+      //         false,
+      //         GisMapIcons.getColorClass(layerType),
+      //         true
+      //       );
+      //     },
+      //     disableClusteringAtZoom: GisMapComponent.ZoomNoClustering,
+      //     maxClusterRadius: 120,
+      //     showCoverageOnHover: false,
+      //     spiderfyOnMaxZoom: false
+      //   });
     }
   }
 
@@ -210,7 +272,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     for (let i = 0; i < routes.length; i++) {
       const route = routes[i];
       const latLngs = route.nodes.map((n) => new L.LatLng(n.coors.latitude, n.coors.longitude));
-      L.polyline(latLngs, { color: GisMapComponent.RouteColor }).addTo(
+      L.polyline(latLngs, { color: ColorUtils.routeStateToColor(route.traceState) }).addTo(
         this.layer(GisMapLayer.Route)
       );
 
@@ -222,7 +284,9 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
 
   private addTraceRoute(route: TraceRouteData): void {
     const latLngs = route.nodes.map((n) => new L.LatLng(n.coors.latitude, n.coors.longitude));
-    L.polyline(latLngs, { color: GisMapComponent.RouteColor }).addTo(this.layer(GisMapLayer.Route));
+    L.polyline(latLngs, { color: ColorUtils.routeStateToColor(route.traceState) }).addTo(
+      this.layer(GisMapLayer.Route)
+    );
 
     route.nodes.forEach((node) => {
       this.addNodeToLayer(node);
@@ -233,7 +297,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
   }
 
   private addNodeToLayer(node: TraceNode): void {
-    const marker = this.createMarker(node.coors, this.icons.getIcon(node));
+    const marker = this.createMarker(node.coors, node.equipmentType, this.icons.getIcon(node));
     marker.bindPopup(node.title);
     (<any>marker).id = node.id;
 
@@ -256,8 +320,17 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     }
   }
 
-  createMarker(coordinate: GeoCoordinate, iconWithIndex?: GisIconWithZIndex): L.Marker {
-    const options = iconWithIndex?.icon ? { icon: iconWithIndex.icon } : {};
+  createMarker(
+    coordinate: GeoCoordinate,
+    equipmentType: EquipmentType,
+    iconWithIndex: GisIconWithZIndex
+  ): L.Marker {
+    const options = {
+      icon: iconWithIndex.icon,
+      contextmenu: true,
+      contextmenuInheritItems: false,
+      contextmenuItems: this.buildMarkerContextMenu(equipmentType)
+    };
     const marker = L.marker([coordinate.latitude, coordinate.longitude], options);
 
     if (iconWithIndex?.zIndex) {
@@ -265,9 +338,105 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     }
 
     marker.on('click', () => {
-      console.log("I'm clicked");
+      console.log((<any>marker).id);
     });
 
     return marker;
+  }
+
+  buildMarkerContextMenu(equipmentType: EquipmentType): L.ContextMenuItem[] {
+    switch (equipmentType) {
+      case EquipmentType.Rtu:
+        return this.buildRtuContextMenu();
+      case EquipmentType.AdjustmentPoint:
+        return this.buildAdjustmentPointContextMenu();
+      default:
+        return this.buildNodeContextMenu();
+    }
+  }
+
+  buildRtuContextMenu(): L.ContextMenuItem[] {
+    return [
+      {
+        text: this.ts.instant('i18n.ft.information'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.showInformation(e)
+      },
+      {
+        text: '-',
+        separator: true
+      },
+      {
+        text: this.ts.instant('i18n.ft.section'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e)
+      },
+      {
+        text: '-',
+        separator: true
+      },
+      {
+        text: this.ts.instant('i18n.ft.define-trace'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e)
+      }
+    ];
+  }
+
+  buildNodeContextMenu(): L.ContextMenuItem[] {
+    return [
+      {
+        text: this.ts.instant('i18n.ft.information'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.showInformation(e)
+      },
+      {
+        text: this.ts.instant('i18n.ft.add-equipment'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.addEquipment(e)
+      },
+      {
+        text: '-',
+        separator: true
+      },
+      {
+        text: this.ts.instant('i18n.ft.section'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e)
+      }
+    ];
+  }
+
+  buildAdjustmentPointContextMenu(): L.ContextMenuItem[] {
+    return [
+      {
+        text: this.ts.instant('i18n.ft.remove'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.removeNode(e)
+      }
+    ];
+  }
+
+  // map menu
+  addNewNode(e: L.ContextMenuItemClickEvent, equipmentType: EquipmentType) {
+    console.log(`addNewNode clicked ${e.latlng}, EquipmentType: ${equipmentType}`);
+  }
+
+  copyCoordinates(e: L.ContextMenuItemClickEvent) {
+    console.log(`copyCoordinates clicked ${e.latlng}`);
+  }
+
+  measureDistance(e: L.ContextMenuItemClickEvent) {
+    console.log(`measureDistance clicked ${e.latlng}`);
+  }
+
+  // node menu
+  showInformation(e: L.ContextMenuItemClickEvent) {
+    console.log((<any>e.relatedTarget).id);
+  }
+
+  addEquipment(e: L.ContextMenuItemClickEvent) {
+    console.log((<any>e.relatedTarget).id);
+  }
+
+  removeNode(e: L.ContextMenuItemClickEvent) {
+    console.log((<any>e.relatedTarget).id);
+  }
+
+  drawSection(e: L.ContextMenuItemClickEvent) {
+    console.log(e);
   }
 }

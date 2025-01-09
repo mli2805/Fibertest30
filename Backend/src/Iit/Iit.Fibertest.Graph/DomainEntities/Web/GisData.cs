@@ -11,6 +11,14 @@ public class NodeGisData
     public EquipmentType EquipmentType;
 }
 
+public class FiberGisData
+{
+    public Guid Id;
+    public PointLatLng Coors1;
+    public PointLatLng Coors2;
+    public FiberState FiberState;
+}
+
 public class TraceGisData
 {
     public List<NodeGisData> Nodes = null!;
@@ -20,4 +28,10 @@ public class TraceGisData
 public class GisData
 {
     public List<TraceGisData> Traces = null!;
+}
+
+public class AllGisData
+{
+    public List<FiberGisData> Fibers = null!;
+    public List<NodeGisData> Nodes = null!;
 }
