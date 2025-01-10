@@ -7,11 +7,26 @@ import { GisMapComponent } from './components/gis-map/gis-map.component';
 import { GisMapService } from './gis-map.service';
 import { GisTraceViewerComponent } from './components/gis-trace-viewer/gis-trace-viewer.component';
 import { GisViewerComponent } from './components/gis-viewer/gis-viewer.component';
+import { GisEditorMapComponent } from './components/gis-editor-map/gis-editor-map.component';
+import { GisEditorComponent } from './components/gis-editor/gis-editor.component';
 
 @NgModule({
   imports: [GisRoutingModule, SharedModule],
-  exports: [GisMapComponent, GisTraceViewerComponent, GisViewerComponent],
-  declarations: [GisComponent, GisMapComponent, GisTraceViewerComponent, GisViewerComponent],
+  exports: [
+    GisMapComponent,
+    GisEditorMapComponent,
+    GisTraceViewerComponent,
+    GisViewerComponent,
+    GisEditorComponent
+  ],
+  declarations: [
+    GisComponent,
+    GisMapComponent,
+    GisTraceViewerComponent,
+    GisViewerComponent,
+    GisEditorMapComponent,
+    GisEditorComponent
+  ],
   providers: [GisMapService]
 })
 export class GisModule {}

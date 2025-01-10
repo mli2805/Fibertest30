@@ -4,7 +4,6 @@ import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-dest
 import { GisService } from 'src/app/core/grpc/services/gis.service';
 import { firstValueFrom } from 'rxjs';
 import { GisMapping } from 'src/app/core/store/mapping/gis-mappings';
-import { OpticalEvent } from 'src/app/core/store/models/ft30/optical-event';
 
 @Component({
   selector: 'rtu-gis-viewer',
@@ -20,7 +19,7 @@ export class GisViewerComponent extends OnDestroyBase implements OnInit {
 
   async ngOnInit() {
     try {
-      await this.loadAllGeoData();
+      await this.loadRoutesData();
     } catch (error) {
       console.log(error);
       return;
@@ -37,18 +36,9 @@ export class GisViewerComponent extends OnDestroyBase implements OnInit {
       .reduce((acc, value) => {
         return acc + value;
       }, 0);
-    console.log(graphData);
+    // console.log(graphData);
 
     this.gisMapService.setGraphRoutesData(graphData);
     console.log(`${sum} nodes`);
-  }
-
-  // для рута. содержит узлы/участки не входящие в трассы
-  async loadAllGeoData() {
-    const response = await firstValueFrom(this.gisService.getAllGeoData());
-    const geoData = GisMapping.fromGrpcGeoData(response.data!);
-    console.log(`nodes: ${geoData.nodes.length}  fibers: ${geoData.fibers.length}`);
-
-    this.gisMapService.setGeoData(geoData);
   }
 }

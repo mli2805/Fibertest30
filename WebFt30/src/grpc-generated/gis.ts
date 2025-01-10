@@ -37,6 +37,10 @@ export interface TraceNode {
      * @generated from protobuf field: fibertest30.gis.EquipmentType equipmentType = 4;
      */
     equipmentType: EquipmentType;
+    /**
+     * @generated from protobuf field: repeated string fiberIds = 5;
+     */
+    fiberIds: string[];
 }
 /**
  * @generated from protobuf message fibertest30.gis.GeoFiber
@@ -215,7 +219,8 @@ class TraceNode$Type extends MessageType<TraceNode> {
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "coors", kind: "message", T: () => GeoCoordinate },
-            { no: 4, name: "equipmentType", kind: "enum", T: () => ["fibertest30.gis.EquipmentType", EquipmentType] }
+            { no: 4, name: "equipmentType", kind: "enum", T: () => ["fibertest30.gis.EquipmentType", EquipmentType] },
+            { no: 5, name: "fiberIds", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

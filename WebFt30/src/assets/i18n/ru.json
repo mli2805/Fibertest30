@@ -246,5 +246,7 @@
   "i18n.ft.copy-coordinates": "Копировать координаты",
 
   "i18n.ft.add-equipment": "Добавить оборудование",
-  "i18n.ft.section": "Участок"
+  "i18n.ft.add-adjustment-point": "Добавить точку привязки",
+  "i18n.ft.section": "Участок",
+  "i18n.ft.remove-section": "Удалить участок"
 }

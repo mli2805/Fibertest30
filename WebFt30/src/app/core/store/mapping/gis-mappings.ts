@@ -14,7 +14,8 @@ export class GisMapping {
       grpcTraceNode.id,
       grpcTraceNode.title,
       grpcTraceNode.coors!,
-      grpcTraceNode.equipmentType
+      grpcTraceNode.equipmentType,
+      grpcTraceNode.fiberIds
     );
     return node;
   }

@@ -30,13 +30,15 @@ public static class GisMapping
 
     private static TraceNode ToProto(this NodeGisData node)
     {
-        return new TraceNode()
+        TraceNode traceNode = new TraceNode()
         {
             Id = node.Id.ToString(),
             Title = node.Title,
             Coors = node.Coors.ToProto(),
-            EquipmentType = node.EquipmentType.ToProto()
+            EquipmentType = node.EquipmentType.ToProto(),
         };
+        node.FiberIds.ForEach(f=>traceNode.FiberIds.Add(f.ToString()));
+        return traceNode;
     }
 
     private static GeoFiber ToProto(this FiberGisData fiber)

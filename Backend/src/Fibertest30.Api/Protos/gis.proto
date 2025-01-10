@@ -39,6 +39,7 @@ message TraceNode {
 	string title = 2;
 	GeoCoordinate coors = 3;
 	EquipmentType equipmentType = 4;
+	repeated string fiberIds = 5;
 }
 
 message GeoFiber {

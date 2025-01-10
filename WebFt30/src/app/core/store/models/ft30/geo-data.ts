@@ -1,12 +1,14 @@
 import { EquipmentType, GeoCoordinate } from 'src/grpc-generated';
 import { FiberState } from './ft-enums';
+import { publishFacade } from '@angular/compiler';
 
 export class TraceNode {
   constructor(
     public id: string,
     public title: string,
     public coors: GeoCoordinate,
-    public equipmentType: EquipmentType
+    public equipmentType: EquipmentType,
+    public fiberIds: string[]
   ) {}
 }
 

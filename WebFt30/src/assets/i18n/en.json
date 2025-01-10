@@ -565,7 +565,9 @@
   "i18n.ft.copy-coordinates": "Copy coordinates",
 
   "i18n.ft.add-equipment": "Add equipment",
+  "i18n.ft.add-adjustment-point": "Add adjustment point",
   "i18n.ft.section": "Section",
+  "i18n.ft.remove-section": "Remove section",
 
   "i18n.start-page.gis": "Gis",
   "i18n.start-page.notifications": "Notifications",

@@ -6,26 +6,23 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
-import { GisMapUtils } from './gis-map.utils';
 import { GisMapLayer } from '../../models/gis-map-layer';
-import { GisIconWithZIndex, GisMapIcons } from './gis-map-icons';
-import { LeafletAngularPopupBinder } from './leaflet-angular-popup-binder';
 import { GisMapService } from '../../gis-map.service';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
-import 'leaflet-contextmenu';
 import { BehaviorSubject, takeUntil } from 'rxjs';
 import {
-  AllGeoData,
-  GeoFiber,
   GraphRoutesData,
   TraceNode,
   TraceRouteData
 } from 'src/app/core/store/models/ft30/geo-data';
-import { EquipmentType, GeoCoordinate } from 'src/grpc-generated';
+import { GeoCoordinate } from 'src/grpc-generated';
 import { ColorUtils } from 'src/app/shared/utils/color-utils';
 import { TranslateService } from '@ngx-translate/core';
+import { GisMapIcons, GisIconWithZIndex } from '../shared/gis-map-icons';
+import { GisMapUtils } from '../shared/gis-map.utils';
+import { LeafletAngularPopupBinder } from '../shared/leaflet-angular-popup-binder';
 
 GisMapUtils.fixLeafletMarkers();
 
@@ -41,7 +38,6 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
   private map!: L.Map;
   private icons = new GisMapIcons();
   private mapLayersMap: Map<GisMapLayer, L.FeatureGroup | L.LayerGroup> = new Map();
-  private previousLocateRoutePart: L.Polyline | null = null;
 
   private popupBinder!: LeafletAngularPopupBinder;
 
@@ -73,10 +69,6 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     this.gisMapService.graphRoutesData$
       .pipe(takeUntil(this.ngDestroyed$))
       .subscribe((d) => this.onGraphRoutesData(d));
-
-    this.gisMapService.geoData$
-      .pipe(takeUntil(this.ngDestroyed$))
-      .subscribe((d) => this.onGeoData(d));
   }
 
   override ngOnDestroy(): void {
@@ -98,56 +90,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
       center: this.minskCoors,
       zoom: this.startZoom,
       contextmenu: true,
-      contextmenuItems: [
-        {
-          text: this.ts.instant('i18n.ft.add-node'),
-          callback: (e) => this.addNewNode(e, EquipmentType.EmptyNode)
-        },
-        {
-          text: '-',
-          separator: true
-        },
-        {
-          text: this.ts.instant('i18n.ft.add-node-with-cable-reserve'),
-          callback: (e) => this.addNewNode(e, EquipmentType.CableReserve)
-        },
-        {
-          text: this.ts.instant('i18n.ft.add-node-with-closure'),
-          callback: (e) => this.addNewNode(e, EquipmentType.Closure)
-        },
-        {
-          text: this.ts.instant('i18n.ft.add-node-with-cross'),
-          callback: (e) => this.addNewNode(e, EquipmentType.Cross)
-        },
-        {
-          text: this.ts.instant('i18n.ft.add-node-with-terminal'),
-          callback: (e) => this.addNewNode(e, EquipmentType.Terminal)
-        },
-        {
-          text: this.ts.instant('i18n.ft.add-node-with-other-equipment'),
-          callback: (e) => this.addNewNode(e, EquipmentType.Other)
-        },
-        {
-          text: '-',
-          separator: true
-        },
-        {
-          text: this.ts.instant('i18n.ft.add-rtu'),
-          callback: (e) => this.addNewNode(e, EquipmentType.Rtu)
-        },
-        {
-          text: '-',
-          separator: true
-        },
-        {
-          text: this.ts.instant('i18n.ft.copy-coordinates'),
-          callback: (e) => this.copyCoordinates(e)
-        },
-        {
-          text: this.ts.instant('i18n.ft.distance-measurement'),
-          callback: (e) => this.copyCoordinates(e)
-        }
-      ]
+      contextmenuItems: []
     });
 
     this.map.on('zoomend', (e) => {
@@ -274,29 +217,15 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     this.addGraphRoutes(data.graphRoutesData.routes);
   }
 
-  onGeoData(data: { geoData: AllGeoData } | null): void {
-    this.mapLayersMap.forEach((layer) => layer.clearLayers());
-    if (!data) return;
-
-    data.geoData.fibers.forEach((f) => this.addGeoFiber(f));
-    data.geoData.nodes.forEach((n) => this.addNodeToLayer(n));
-  }
-
-  private addGeoFiber(fiber: GeoFiber): void {
-    const c1 = new L.LatLng(fiber.coors1.latitude, fiber.coors1.longitude);
-    const c2 = new L.LatLng(fiber.coors2.latitude, fiber.coors2.longitude);
-    L.polyline([c1, c2], { color: ColorUtils.routeStateToColor(fiber.fiberState) }).addTo(
-      this.layer(GisMapLayer.Route)
-    );
-  }
-
   private addGraphRoutes(routes: TraceRouteData[]): void {
     for (let i = 0; i < routes.length; i++) {
       const route = routes[i];
       const latLngs = route.nodes.map((n) => new L.LatLng(n.coors.latitude, n.coors.longitude));
-      L.polyline(latLngs, { color: ColorUtils.routeStateToColor(route.traceState) }).addTo(
-        this.layer(GisMapLayer.Route)
-      );
+      const options = {
+        color: ColorUtils.routeStateToColor(route.traceState)
+      };
+      const polyline = L.polyline(latLngs, options);
+      polyline.addTo(this.layer(GisMapLayer.Route));
 
       route.nodes.forEach((node) => {
         this.addNodeToLayer(node);
@@ -319,7 +248,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
   }
 
   private addNodeToLayer(node: TraceNode): void {
-    const marker = this.createMarker(node.coors, node.equipmentType, this.icons.getIcon(node));
+    const marker = this.createMarker(node.coors, this.icons.getIcon(node));
     marker.bindPopup(node.title);
     (<any>marker).id = node.id;
 
@@ -327,17 +256,11 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     this.layer(layer).addLayer(marker);
   }
 
-  createMarker(
-    coordinate: GeoCoordinate,
-    equipmentType: EquipmentType,
-    iconWithIndex: GisIconWithZIndex
-  ): L.Marker {
+  createMarker(coordinate: GeoCoordinate, iconWithIndex: GisIconWithZIndex): L.Marker {
     const options = {
       icon: iconWithIndex.icon,
-      draggable: true,
-      contextmenu: true,
-      contextmenuInheritItems: false,
-      contextmenuItems: this.buildMarkerContextMenu(equipmentType)
+      contextmenu: false,
+      contextmenuItems: []
     };
     const marker = L.marker([coordinate.latitude, coordinate.longitude], options);
 
@@ -349,113 +272,6 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
       console.log((<any>marker).id);
     });
 
-    marker.on('dragend', (e) => {
-      console.log(`new coordinates: ${(<L.Marker>e.target).getLatLng()}`);
-
-      // двигает карту помещая новую позицию маркера в центр
-      // удобно, если затягиваешь маркер за пределы экрана,
-      // на сколько это удобно если двигаешь немного в пределах экрана
-      // и не ожидаешь перемещения всей карты - это вопрос
-      const position = (<L.Marker>e.target).getLatLng();
-      this.map.panTo(position);
-    });
-
     return marker;
-  }
-
-  buildMarkerContextMenu(equipmentType: EquipmentType): L.ContextMenuItem[] {
-    switch (equipmentType) {
-      case EquipmentType.Rtu:
-        return this.buildRtuContextMenu();
-      case EquipmentType.AdjustmentPoint:
-        return this.buildAdjustmentPointContextMenu();
-      default:
-        return this.buildNodeContextMenu();
-    }
-  }
-
-  buildRtuContextMenu(): L.ContextMenuItem[] {
-    return [
-      {
-        text: this.ts.instant('i18n.ft.information'),
-        callback: (e: L.ContextMenuItemClickEvent) => this.showInformation(e)
-      },
-      {
-        text: '-',
-        separator: true
-      },
-      {
-        text: this.ts.instant('i18n.ft.section'),
-        callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e)
-      },
-      {
-        text: '-',
-        separator: true
-      },
-      {
-        text: this.ts.instant('i18n.ft.define-trace'),
-        callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e)
-      }
-    ];
-  }
-
-  buildNodeContextMenu(): L.ContextMenuItem[] {
-    return [
-      {
-        text: this.ts.instant('i18n.ft.information'),
-        callback: (e: L.ContextMenuItemClickEvent) => this.showInformation(e)
-      },
-      {
-        text: this.ts.instant('i18n.ft.add-equipment'),
-        callback: (e: L.ContextMenuItemClickEvent) => this.addEquipment(e)
-      },
-      {
-        text: '-',
-        separator: true
-      },
-      {
-        text: this.ts.instant('i18n.ft.section'),
-        callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e)
-      }
-    ];
-  }
-
-  buildAdjustmentPointContextMenu(): L.ContextMenuItem[] {
-    return [
-      {
-        text: this.ts.instant('i18n.ft.remove'),
-        callback: (e: L.ContextMenuItemClickEvent) => this.removeNode(e)
-      }
-    ];
-  }
-
-  // map menu
-  addNewNode(e: L.ContextMenuItemClickEvent, equipmentType: EquipmentType) {
-    console.log(`addNewNode clicked ${e.latlng}, EquipmentType: ${equipmentType}`);
-  }
-
-  copyCoordinates(e: L.ContextMenuItemClickEvent) {
-    console.log(`copyCoordinates clicked ${e.latlng}`);
-  }
-
-  measureDistance(e: L.ContextMenuItemClickEvent) {
-    console.log(`measureDistance clicked ${e.latlng}`);
-  }
-
-  // node menu
-  showInformation(e: L.ContextMenuItemClickEvent) {
-    console.log((<any>e.relatedTarget).id);
-  }
-
-  addEquipment(e: L.ContextMenuItemClickEvent) {
-    console.log((<any>e.relatedTarget).id);
-  }
-
-  removeNode(e: L.ContextMenuItemClickEvent) {
-    console.log((<any>e.relatedTarget).id);
-  }
-
-  drawSection(e: L.ContextMenuItemClickEvent) {
-    console.log(e);
   }
 }

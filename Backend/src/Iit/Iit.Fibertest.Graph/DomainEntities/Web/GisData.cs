@@ -9,6 +9,7 @@ public class NodeGisData
     public string Title = null!;
     public PointLatLng Coors;
     public EquipmentType EquipmentType;
+    public List<Guid> FiberIds = new List<Guid>();
 }
 
 public class FiberGisData

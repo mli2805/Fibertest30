@@ -4,35 +4,30 @@ public static class WebGisDtoFactory
 {
     public static AllGisData GetAllGisData(this Model writeModel)
     {
+        var nodeDict = writeModel
+            .Nodes.Select(node => node.GetNodeGisData()).ToDictionary(x => x.Id, x => x);
+
+        var fibers = new List<FiberGisData>();
+        foreach (Fiber fiber in writeModel.Fibers)
+        {
+                fibers.Add(new FiberGisData()
+                {
+                    Id = fiber.FiberId,
+                    Coors1 = writeModel.Nodes.First(n => n.NodeId == fiber.NodeId1).Position,
+                    Coors2 = writeModel.Nodes.First(n => n.NodeId == fiber.NodeId2).Position,
+                    FiberState = fiber.GetState()
+                });
+
+            nodeDict[fiber.NodeId1].FiberIds.Add(fiber.FiberId);
+            nodeDict[fiber.NodeId2].FiberIds.Add(fiber.FiberId);
+        }
+
         return new AllGisData()
         {
-            Fibers = writeModel.Fibers.Select(fiber => new FiberGisData()
-            {
-                Id = fiber.FiberId,
-                Coors1 = writeModel.Nodes.First(n => n.NodeId == fiber.NodeId1).Position,
-                Coors2 = writeModel.Nodes.First(n => n.NodeId == fiber.NodeId2).Position,
-                FiberState = fiber.GetState()
-            }).ToList(),
-            Nodes = writeModel.Nodes.Select(node => node.GetNodeGisData()).ToList(),
+            Nodes = nodeDict.Values.ToList(),
+            Fibers = fibers
         };
     }
-
-    // public static IEnumerable<FiberGisData> GetAllFibersGisData(this Model writeModel)
-    // {
-    //     return writeModel.Fibers.Select(fiber => new FiberGisData()
-    //     {
-    //         Id = fiber.FiberId,
-    //         Coors1 = writeModel.Nodes.First(n => n.NodeId == fiber.NodeId1).Position,
-    //         Coors2 = writeModel.Nodes.First(n => n.NodeId == fiber.NodeId2).Position,
-    //         FiberState = fiber.GetState()
-    //     });
-    // }
-    //
-    // public static IEnumerable<NodeGisData> GetAllNodesGisData(this Model writeModel)
-    // {
-    //     return writeModel.Nodes.Select(node => node.GetNodeGisData());
-    // }
-
 
     public static TraceGisData GetTraceGisData(this Model writeModel, Guid traceId)
     {
