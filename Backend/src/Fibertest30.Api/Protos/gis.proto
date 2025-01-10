@@ -39,14 +39,15 @@ message TraceNode {
 	string title = 2;
 	GeoCoordinate coors = 3;
 	EquipmentType equipmentType = 4;
-	repeated string fiberIds = 5;
 }
 
 message GeoFiber {
 	string id = 1;
-	GeoCoordinate coors1 = 2;
-	GeoCoordinate coors2 = 3;
-	ft.enums.FiberState fiberState = 4;
+	string node1id = 2;
+	GeoCoordinate coors1 = 3;
+	string node2id = 4;
+	GeoCoordinate coors2 = 5;
+	ft.enums.FiberState fiberState = 6;
 }
 
 message TraceRouteData {

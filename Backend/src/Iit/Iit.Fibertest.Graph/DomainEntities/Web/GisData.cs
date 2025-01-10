@@ -9,13 +9,14 @@ public class NodeGisData
     public string Title = null!;
     public PointLatLng Coors;
     public EquipmentType EquipmentType;
-    public List<Guid> FiberIds = new List<Guid>();
 }
 
 public class FiberGisData
 {
     public Guid Id;
+    public Guid Node1Id;
     public PointLatLng Coors1;
+    public Guid Node2Id;
     public PointLatLng Coors2;
     public FiberState FiberState;
 }

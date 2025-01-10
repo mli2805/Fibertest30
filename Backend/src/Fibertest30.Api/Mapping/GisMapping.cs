@@ -37,7 +37,6 @@ public static class GisMapping
             Coors = node.Coors.ToProto(),
             EquipmentType = node.EquipmentType.ToProto(),
         };
-        node.FiberIds.ForEach(f=>traceNode.FiberIds.Add(f.ToString()));
         return traceNode;
     }
 
@@ -46,7 +45,9 @@ public static class GisMapping
         return new GeoFiber()
         {
             Id = fiber.Id.ToString(),
+            Node1Id = fiber.Node1Id.ToString(),
             Coors1 = fiber.Coors1.ToProto(),
+            Node2Id = fiber.Node2Id.ToString(),
             Coors2 = fiber.Coors2.ToProto(),
             FiberState = fiber.FiberState.ToProto(),
         };

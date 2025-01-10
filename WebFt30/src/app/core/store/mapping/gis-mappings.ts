@@ -1,4 +1,5 @@
 import * as grpc from 'src/grpc-generated';
+import * as L from 'leaflet';
 import {
   AllGeoData,
   GeoFiber,
@@ -9,13 +10,16 @@ import {
 import { FtEnumsMapping } from './ft-enums-mapping';
 
 export class GisMapping {
+  static fromGeoCoordinate(coors: grpc.GeoCoordinate): L.LatLng {
+    return new L.LatLng(coors.latitude, coors.longitude);
+  }
+
   static fromTraceNode(grpcTraceNode: grpc.TraceNode): TraceNode {
     const node = new TraceNode(
       grpcTraceNode.id,
       grpcTraceNode.title,
-      grpcTraceNode.coors!,
-      grpcTraceNode.equipmentType,
-      grpcTraceNode.fiberIds
+      this.fromGeoCoordinate(grpcTraceNode.coors!),
+      grpcTraceNode.equipmentType
     );
     return node;
   }
@@ -23,8 +27,10 @@ export class GisMapping {
   static fromGeoFiber(grpcGeoFiber: grpc.GeoFiber): GeoFiber {
     const fiber = new GeoFiber(
       grpcGeoFiber.id,
-      grpcGeoFiber.coors1!,
-      grpcGeoFiber.coors2!,
+      grpcGeoFiber.node1Id,
+      this.fromGeoCoordinate(grpcGeoFiber.coors1!),
+      grpcGeoFiber.node2Id,
+      this.fromGeoCoordinate(grpcGeoFiber.coors2!),
       FtEnumsMapping.fromGrpcFiberState(grpcGeoFiber.fiberState)
     );
     return fiber;

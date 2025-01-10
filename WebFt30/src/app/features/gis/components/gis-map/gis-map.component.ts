@@ -78,7 +78,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
   }
 
   private minskCoors: L.LatLngExpression = [53.85, 27.59];
-  private minskZoom = 12;
+  private minskZoom = 14;
   private mogilevCoors: L.LatLngExpression = [53.85, 29.99];
   private mogilevZoom = 9;
 
@@ -101,12 +101,12 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
 
     this.map.on('click', (e) => {
       const center = this.map.getCenter();
-      this.mousePosition.next(this.mncToString(e.latlng, center));
+      this.mousePosition.next(GisMapUtils.mouseToString(e.latlng, center));
     });
 
     this.map.on('mousemove', (e) => {
       const center = this.map.getCenter();
-      this.mousePosition.next(this.mncToString(e.latlng, center));
+      this.mousePosition.next(GisMapUtils.mouseToString(e.latlng, center));
     });
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -136,16 +136,6 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     if (this.currentZoom.value >= equipmentZoom && newZoom < equipmentZoom) {
       this.setLayerVisibility(GisMapLayer.TraceEquipment, false);
     }
-  }
-
-  latLngToString(latlng: L.LatLng): string {
-    const lat = Math.round(latlng.lat * 1000000) / 1000000;
-    const lng = Math.round(latlng.lng * 1000000) / 1000000;
-    return `${lat} : ${lng}`;
-  }
-
-  mncToString(mouse: L.LatLng, center: L.LatLng): string {
-    return `center: ${this.latLngToString(center)},  mouse: ${this.latLngToString(mouse)}`;
   }
 
   private initMapLayersMap(): void {
@@ -220,7 +210,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
   private addGraphRoutes(routes: TraceRouteData[]): void {
     for (let i = 0; i < routes.length; i++) {
       const route = routes[i];
-      const latLngs = route.nodes.map((n) => new L.LatLng(n.coors.latitude, n.coors.longitude));
+      const latLngs = route.nodes.map((n) => n.coors);
       const options = {
         color: ColorUtils.routeStateToColor(route.traceState)
       };
@@ -234,7 +224,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
   }
 
   private addTraceRoute(route: TraceRouteData): void {
-    const latLngs = route.nodes.map((n) => new L.LatLng(n.coors.latitude, n.coors.longitude));
+    const latLngs = route.nodes.map((n) => n.coors);
     L.polyline(latLngs, { color: ColorUtils.routeStateToColor(route.traceState) }).addTo(
       this.layer(GisMapLayer.Route)
     );
@@ -256,13 +246,13 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     this.layer(layer).addLayer(marker);
   }
 
-  createMarker(coordinate: GeoCoordinate, iconWithIndex: GisIconWithZIndex): L.Marker {
+  createMarker(coordinate: L.LatLng, iconWithIndex: GisIconWithZIndex): L.Marker {
     const options = {
       icon: iconWithIndex.icon,
       contextmenu: false,
       contextmenuItems: []
     };
-    const marker = L.marker([coordinate.latitude, coordinate.longitude], options);
+    const marker = L.marker(coordinate, options);
 
     if (iconWithIndex?.zIndex) {
       marker.setZIndexOffset(iconWithIndex.zIndex * 1000);

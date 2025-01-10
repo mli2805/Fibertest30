@@ -64,8 +64,8 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
     super.ngOnDestroy();
   }
 
-  private minskCoors: L.LatLngExpression = [53.85, 27.59];
-  private minskZoom = 12;
+  private minskCoors: L.LatLngExpression = [53.88, 27.51];
+  private minskZoom = 16;
   private mogilevCoors: L.LatLngExpression = [53.85, 29.99];
   private mogilevZoom = 9;
 
@@ -137,12 +137,12 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
 
     this.map.on('click', (e) => {
       const center = this.map.getCenter();
-      this.mousePosition.next(this.mncToString(e.latlng, center));
+      this.mousePosition.next(GisMapUtils.mouseToString(e.latlng, center));
     });
 
     this.map.on('mousemove', (e) => {
       const center = this.map.getCenter();
-      this.mousePosition.next(this.mncToString(e.latlng, center));
+      this.mousePosition.next(GisMapUtils.mouseToString(e.latlng, center));
     });
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -160,8 +160,6 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
     for (const layerTypeKey in GisMapLayer) {
       const layerType = GisMapLayer[layerTypeKey as keyof typeof GisMapLayer];
       const group = this.createLayerGroupByGisType(layerType);
-      // this.mapLayersMap.set(layerType, layer);
-
       this.layerGroups.set(layerType, group);
     }
 
@@ -207,20 +205,17 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
   }
 
   private addGeoFiber(fiber: GeoFiber): void {
-    const c1 = new L.LatLng(fiber.coors1.latitude, fiber.coors1.longitude);
-    const c2 = new L.LatLng(fiber.coors2.latitude, fiber.coors2.longitude);
     const options = {
       color: ColorUtils.routeStateToColor(fiber.fiberState),
       contextmenu: true,
       contextmenuInheritItems: false,
       contextmenuItems: this.buildFiberContextMenu()
     };
-    const polyline = L.polyline([c1, c2], options);
+    const polyline = L.polyline([fiber.coors1, fiber.coors2], options);
     (<any>polyline).id = fiber.id;
 
     const group = this.layerGroups.get(GisMapLayer.Route)!;
     group.addLayer(polyline);
-    // polyline.addTo(this.layer(GisMapLayer.Route));
   }
 
   private addNodeToLayer(node: TraceNode): void {
@@ -234,7 +229,7 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
   }
 
   createMarker(
-    coordinate: GeoCoordinate,
+    coordinate: L.LatLng,
     equipmentType: EquipmentType,
     iconWithIndex: GisIconWithZIndex
   ): L.Marker {
@@ -245,7 +240,7 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
       contextmenuInheritItems: false,
       contextmenuItems: this.buildMarkerContextMenu(equipmentType)
     };
-    const marker = L.marker([coordinate.latitude, coordinate.longitude], options);
+    const marker = L.marker(coordinate, options);
 
     if (iconWithIndex?.zIndex) {
       marker.setZIndexOffset(iconWithIndex.zIndex * 1000);
@@ -265,16 +260,32 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
   dragMarkerWithPolylines(e: L.DragEndEvent) {
     const position = (<L.Marker>e.target).getLatLng();
     const nodeId = (<any>e.target).id;
-    const node = this.geoData.nodes.find((n) => n.id === nodeId);
-    node!.fiberIds.forEach((fId) => {
-      console.log(fId);
+    const node = this.geoData.nodes.find((n) => n.id === nodeId)!;
+    node.coors = position;
+
+    const fibers = this.geoData.fibers.filter(
+      (f) => f.node1id === node.id || f.node2id === node.id
+    );
+
+    const routeGroup = this.layerGroups.get(GisMapLayer.Route)!;
+    fibers.forEach((f) => {
+      const oldRouteLayer = routeGroup.getLayers().find((r) => (<any>r).id === f.id);
+      routeGroup.removeLayer(oldRouteLayer!);
+
+      if (f.node1id === node.id) {
+        f.coors1 = position;
+      } else {
+        f.coors2 = position;
+      }
+
+      this.addGeoFiber(f);
     });
 
     // двигает карту помещая новую позицию маркера в центр
     // удобно, если затягиваешь маркер за пределы экрана,
     // на сколько это удобно если двигаешь немного в пределах экрана
     // и не ожидаешь перемещения всей карты - это вопрос
-    this.map.panTo(position);
+    // this.map.panTo(position);
   }
 
   adjustLayersToZoom(newZoom: number) {
@@ -293,16 +304,6 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
     if (this.currentZoom.value >= equipmentZoom && newZoom < equipmentZoom) {
       this.setLayerVisibility(GisMapLayer.TraceEquipment, false);
     }
-  }
-
-  latLngToString(latlng: L.LatLng): string {
-    const lat = Math.round(latlng.lat * 1000000) / 1000000;
-    const lng = Math.round(latlng.lng * 1000000) / 1000000;
-    return `${lat} : ${lng}`;
-  }
-
-  mncToString(mouse: L.LatLng, center: L.LatLng): string {
-    return `center: ${this.latLngToString(center)},  mouse: ${this.latLngToString(mouse)}`;
   }
 
   private setLayerVisibility(layerType: GisMapLayer, visible: boolean) {

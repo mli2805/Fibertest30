@@ -4,28 +4,20 @@ public static class WebGisDtoFactory
 {
     public static AllGisData GetAllGisData(this Model writeModel)
     {
-        var nodeDict = writeModel
-            .Nodes.Select(node => node.GetNodeGisData()).ToDictionary(x => x.Id, x => x);
-
-        var fibers = new List<FiberGisData>();
-        foreach (Fiber fiber in writeModel.Fibers)
-        {
-                fibers.Add(new FiberGisData()
-                {
-                    Id = fiber.FiberId,
-                    Coors1 = writeModel.Nodes.First(n => n.NodeId == fiber.NodeId1).Position,
-                    Coors2 = writeModel.Nodes.First(n => n.NodeId == fiber.NodeId2).Position,
-                    FiberState = fiber.GetState()
-                });
-
-            nodeDict[fiber.NodeId1].FiberIds.Add(fiber.FiberId);
-            nodeDict[fiber.NodeId2].FiberIds.Add(fiber.FiberId);
-        }
-
         return new AllGisData()
         {
-            Nodes = nodeDict.Values.ToList(),
-            Fibers = fibers
+            Nodes = writeModel
+                .Nodes.Select(node => node.GetNodeGisData()).ToList(),
+            Fibers = writeModel.Fibers.Select(fiber => new FiberGisData()
+                {
+                    Id = fiber.FiberId,
+                    Node1Id = fiber.NodeId1,
+                    Coors1 = writeModel.Nodes.First(n => n.NodeId == fiber.NodeId1).Position,
+                    Node2Id = fiber.NodeId2,
+                    Coors2 = writeModel.Nodes.First(n => n.NodeId == fiber.NodeId2).Position,
+                    FiberState = fiber.GetState()
+                })
+                .ToList()
         };
     }
 
