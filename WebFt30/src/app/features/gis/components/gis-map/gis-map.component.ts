@@ -33,7 +33,7 @@ GisMapUtils.fixLeafletMarkers();
   styles: [':host { overflow-y: auto; width: 100%; height: 100%; }']
 })
 export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy {
-  static ZoomNoClustering = 1; // прячем слои вместо кластеризации
+  static ZoomNoClustering = 18; // прячем слои вместо кластеризации
 
   private map!: L.Map;
   private icons = new GisMapIcons();
@@ -121,12 +121,20 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
   }
 
   adjustLayersToZoom(newZoom: number) {
-    const emptyNodesZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.Locations)!;
+    const adjustmentPointsZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.AdjustmentPoints)!;
+    if (this.currentZoom.value < adjustmentPointsZoom && newZoom >= adjustmentPointsZoom) {
+      this.setLayerVisibility(GisMapLayer.AdjustmentPoints, true);
+    }
+    if (this.currentZoom.value >= adjustmentPointsZoom && newZoom < adjustmentPointsZoom) {
+      this.setLayerVisibility(GisMapLayer.AdjustmentPoints, false);
+    }
+
+    const emptyNodesZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.EmptyNodes)!;
     if (this.currentZoom.value < emptyNodesZoom && newZoom >= emptyNodesZoom) {
-      this.setLayerVisibility(GisMapLayer.Locations, true);
+      this.setLayerVisibility(GisMapLayer.EmptyNodes, true);
     }
     if (this.currentZoom.value >= emptyNodesZoom && newZoom < emptyNodesZoom) {
-      this.setLayerVisibility(GisMapLayer.Locations, false);
+      this.setLayerVisibility(GisMapLayer.EmptyNodes, false);
     }
 
     const equipmentZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.TraceEquipment)!;
@@ -155,23 +163,37 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     if (layerType === GisMapLayer.Route) {
       return L.featureGroup();
     } else if (layerType === GisMapLayer.TraceEquipment) {
-      return L.layerGroup();
+      // return L.layerGroup();
+      return L.markerClusterGroup({
+        iconCreateFunction: function (cluster) {
+          return GisMapIcons.createLetterIcon(
+            cluster.getChildCount().toString(),
+            false,
+            GisMapIcons.getColorClass(layerType),
+            true
+          );
+        },
+        disableClusteringAtZoom: GisMapComponent.ZoomNoClustering,
+        maxClusterRadius: 120,
+        showCoverageOnHover: false,
+        spiderfyOnMaxZoom: false
+      });
     } else {
-      return L.layerGroup();
-      //   return L.markerClusterGroup({
-      //     iconCreateFunction: function (cluster) {
-      //       return GisMapIcons.createLetterIcon(
-      //         cluster.getChildCount().toString(),
-      //         false,
-      //         GisMapIcons.getColorClass(layerType),
-      //         true
-      //       );
-      //     },
-      //     disableClusteringAtZoom: GisMapComponent.ZoomNoClustering,
-      //     maxClusterRadius: 120,
-      //     showCoverageOnHover: false,
-      //     spiderfyOnMaxZoom: false
-      //   });
+      // return L.layerGroup();
+      return L.markerClusterGroup({
+        iconCreateFunction: function (cluster) {
+          return GisMapIcons.createLetterIcon(
+            cluster.getChildCount().toString(),
+            false,
+            GisMapIcons.getColorClass(layerType),
+            true
+          );
+        },
+        disableClusteringAtZoom: GisMapComponent.ZoomNoClustering,
+        maxClusterRadius: 120,
+        showCoverageOnHover: false,
+        spiderfyOnMaxZoom: false
+      });
     }
   }
 

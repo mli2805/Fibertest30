@@ -74,29 +74,29 @@ export class GisMapIcons {
     this.rtu = { icon: this.createRtuIcon(colorClass), zIndex: 20 };
     this.accidentPlace = { icon: this.createAccidentPlaceIcon(colorClass), zIndex: 15 };
 
-    this.traceMarker = { zIndex: 22 };
-    this.alarmFiberBreak = { icon: this.createFiberBreakIcon(false), zIndex: 20 };
-    this.alarmCritical = { icon: this.createAlarmIcon(FiberState.Critical), zIndex: 18 };
-    this.alarmMajor = { icon: this.createAlarmIcon(FiberState.Major), zIndex: 16 };
-    this.alarmMinor = { icon: this.createAlarmIcon(FiberState.Minor), zIndex: 14 };
-    this.alarmFiberBreakResolved = { icon: this.createFiberBreakIcon(true), zIndex: 13 };
-    this.alarmResolved = { icon: this.createResolvedAlarmIcon(), zIndex: 13 };
-    this.routeStart = {
-      icon: GisMapIcons.createLetterIcon('S', true, GisMapIcons.getColorClass(GisMapLayer.Route)),
-      zIndex: 12
-    };
-    this.routeFinish = {
-      icon: GisMapIcons.createLetterIcon('F', true, GisMapIcons.getColorClass(GisMapLayer.Route)),
-      zIndex: 10
-    };
+    // this.traceMarker = { zIndex: 22 };
+    // this.alarmFiberBreak = { icon: this.createFiberBreakIcon(false), zIndex: 20 };
+    // this.alarmCritical = { icon: this.createAlarmIcon(FiberState.Critical), zIndex: 18 };
+    // this.alarmMajor = { icon: this.createAlarmIcon(FiberState.Major), zIndex: 16 };
+    // this.alarmMinor = { icon: this.createAlarmIcon(FiberState.Minor), zIndex: 14 };
+    // this.alarmFiberBreakResolved = { icon: this.createFiberBreakIcon(true), zIndex: 13 };
+    // this.alarmResolved = { icon: this.createResolvedAlarmIcon(), zIndex: 13 };
+    // this.routeStart = {
+    //   icon: GisMapIcons.createLetterIcon('S', true, GisMapIcons.getColorClass(GisMapLayer.Route)),
+    //   zIndex: 12
+    // };
+    // this.routeFinish = {
+    //   icon: GisMapIcons.createLetterIcon('F', true, GisMapIcons.getColorClass(GisMapLayer.Route)),
+    //   zIndex: 10
+    // };
 
-    this.location = {
-      icon: GisMapIcons.createLetterIcon(
-        '&nbsp;',
-        false,
-        GisMapIcons.getColorClass(GisMapLayer.Locations)
-      )
-    };
+    // this.location = {
+    //   icon: GisMapIcons.createLetterIcon(
+    //     '&nbsp;',
+    //     false,
+    //     GisMapIcons.getColorClass(GisMapLayer.Locations)
+    //   )
+    // };
   }
 
   createRtuIcon(colorClass: string): L.DivIcon {

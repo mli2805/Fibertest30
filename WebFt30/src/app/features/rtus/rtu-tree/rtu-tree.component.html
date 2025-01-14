@@ -1,5 +1,5 @@
-<div class="flex min-w-full">
-  <div class="min-w-144 text-sm text-gray-700 dark:text-zinc-300">
+<div class="flex w-full">
+  <div class="min-w-144 overflow-y-auto text-sm text-gray-700 dark:text-zinc-300">
     <ng-container *ngIf="rtus$ | async as rtuArray">
       <ng-container *ngFor="let rtu of rtuArray; let i = index">
         <rtu-one-rtu [rtuId]="rtu.rtuId" [i]="i"></rtu-one-rtu>
@@ -7,7 +7,7 @@
     </ng-container>
     <div class="h-5"></div>
   </div>
-  <div class="flex flex-1">
+  <div class="ml-1 flex flex-1">
     <rtu-gis-viewer />
   </div>
 </div>

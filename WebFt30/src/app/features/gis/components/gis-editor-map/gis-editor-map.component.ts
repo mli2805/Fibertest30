@@ -131,7 +131,7 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
 
     this.map.on('zoomend', (e) => {
       const newZoom = this.map.getZoom();
-      this.adjustLayersToZoom(newZoom);
+      // this.adjustLayersToZoom(newZoom);
       this.currentZoom.next(newZoom);
     });
 
@@ -173,7 +173,21 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
     if (layerType === GisMapLayer.Route) {
       return L.featureGroup();
     } else if (layerType === GisMapLayer.TraceEquipment) {
-      return L.featureGroup();
+      // return L.featureGroup();
+      return L.markerClusterGroup({
+        iconCreateFunction: function (cluster) {
+          return GisMapIcons.createLetterIcon(
+            cluster.getChildCount().toString(),
+            false,
+            GisMapIcons.getColorClass(layerType),
+            true
+          );
+        },
+        disableClusteringAtZoom: 18,
+        maxClusterRadius: 120,
+        showCoverageOnHover: false,
+        spiderfyOnMaxZoom: false
+      });
     } else {
       // return L.featureGroup();
       return L.markerClusterGroup({
@@ -185,7 +199,7 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
             true
           );
         },
-        disableClusteringAtZoom: 1,
+        disableClusteringAtZoom: 18,
         maxClusterRadius: 120,
         showCoverageOnHover: false,
         spiderfyOnMaxZoom: false
@@ -289,12 +303,20 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
   }
 
   adjustLayersToZoom(newZoom: number) {
-    const emptyNodesZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.Locations)!;
+    const adjustmentPointsZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.AdjustmentPoints)!;
+    if (this.currentZoom.value < adjustmentPointsZoom && newZoom >= adjustmentPointsZoom) {
+      this.setLayerVisibility(GisMapLayer.AdjustmentPoints, true);
+    }
+    if (this.currentZoom.value >= adjustmentPointsZoom && newZoom < adjustmentPointsZoom) {
+      this.setLayerVisibility(GisMapLayer.AdjustmentPoints, false);
+    }
+
+    const emptyNodesZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.EmptyNodes)!;
     if (this.currentZoom.value < emptyNodesZoom && newZoom >= emptyNodesZoom) {
-      this.setLayerVisibility(GisMapLayer.Locations, true);
+      this.setLayerVisibility(GisMapLayer.EmptyNodes, true);
     }
     if (this.currentZoom.value >= emptyNodesZoom && newZoom < emptyNodesZoom) {
-      this.setLayerVisibility(GisMapLayer.Locations, false);
+      this.setLayerVisibility(GisMapLayer.EmptyNodes, false);
     }
 
     const equipmentZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.TraceEquipment)!;

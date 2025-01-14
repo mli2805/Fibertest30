@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { GisMapService } from '../../gis-map.service';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
 import { GisService } from 'src/app/core/grpc/services/gis.service';
-import { firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { GisMapping } from 'src/app/core/store/mapping/gis-mappings';
 
 @Component({
@@ -13,6 +13,9 @@ import { GisMapping } from 'src/app/core/store/mapping/gis-mappings';
   styles: [':host { width: 100%; height: 100%; }']
 })
 export class GisEditorComponent extends OnDestroyBase implements OnInit {
+  loading = new BehaviorSubject<boolean>(false);
+  loading$ = this.loading.asObservable();
+
   constructor(private gisMapService: GisMapService, private gisService: GisService) {
     super();
   }
@@ -28,11 +31,13 @@ export class GisEditorComponent extends OnDestroyBase implements OnInit {
 
   // для рута. содержит узлы/участки не входящие в трассы
   async loadAllGeoData() {
+    this.loading.next(true);
     const response = await firstValueFrom(this.gisService.getAllGeoData());
     const geoData = GisMapping.fromGrpcGeoData(response.data!);
     // console.log(geoData);
     // console.log(`nodes: ${geoData.nodes.length}  fibers: ${geoData.fibers.length}`);
 
     this.gisMapService.setGeoData(geoData);
+    this.loading.next(false);
   }
 }

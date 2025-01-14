@@ -12,7 +12,8 @@ export class GisMapService {
   public static GisMapLayerZoom = new Map<GisMapLayer, number>([
     [GisMapLayer.Route, 0],
     [GisMapLayer.TraceEquipment, 13],
-    [GisMapLayer.Locations, 16]
+    [GisMapLayer.EmptyNodes, 16],
+    [GisMapLayer.AdjustmentPoints, 19]
   ]);
 
   /////////////////////

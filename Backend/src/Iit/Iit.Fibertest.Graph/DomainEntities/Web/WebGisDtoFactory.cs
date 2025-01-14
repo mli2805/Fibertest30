@@ -4,20 +4,36 @@ public static class WebGisDtoFactory
 {
     public static AllGisData GetAllGisData(this Model writeModel)
     {
-        return new AllGisData()
+        List<NodeGisData> nodes = writeModel
+            .Nodes.Select(node => node.GetNodeGisData()).ToList();
+
+        List<FiberGisData> gisFibers = new List<FiberGisData>();
+        foreach (Fiber fiber in writeModel.Fibers)
         {
-            Nodes = writeModel
-                .Nodes.Select(node => node.GetNodeGisData()).ToList(),
-            Fibers = writeModel.Fibers.Select(fiber => new FiberGisData()
+            var node1 = writeModel.Nodes.FirstOrDefault(n => n.NodeId == fiber.NodeId1);
+            var node2 = writeModel.Nodes.FirstOrDefault(n => n.NodeId == fiber.NodeId2);
+            if (node1 != null && node2 != null)
+            {
+                gisFibers.Add(new FiberGisData()
                 {
                     Id = fiber.FiberId,
                     Node1Id = fiber.NodeId1,
-                    Coors1 = writeModel.Nodes.First(n => n.NodeId == fiber.NodeId1).Position,
+                    Coors1 = node1.Position,
                     Node2Id = fiber.NodeId2,
-                    Coors2 = writeModel.Nodes.First(n => n.NodeId == fiber.NodeId2).Position,
+                    Coors2 = node2.Position,
                     FiberState = fiber.GetState()
-                })
-                .ToList()
+                });
+            }
+            else
+            {
+                Console.WriteLine($@"bad fiber {fiber.FiberId}");
+            }
+        }
+
+        return new AllGisData()
+        {
+            Nodes = nodes,
+            Fibers = gisFibers
         };
     }
 

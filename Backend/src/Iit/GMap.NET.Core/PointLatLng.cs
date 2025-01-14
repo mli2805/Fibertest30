@@ -8,11 +8,13 @@ namespace GMap.NET
     [Serializable]
     public struct PointLatLng
     {
-        public static readonly PointLatLng Empty = new PointLatLng();
+        // public static readonly PointLatLng Empty = new PointLatLng();
         private double _lat;
         private double _lng;
 
         bool _notEmpty;
+
+        public PointLatLng(){}
 
         public PointLatLng(double lat, double lng)
         {

@@ -45,7 +45,7 @@ public class EventStoreService : IEventStoreService
     private async Task<int> InitializeEventStoreService()
     {
         _eventStoreInitializer.Init(); // если не существует - будет создана
-
+        
         var snapshot = await _snapshotRepository.ReadSnapshotAsync(_eventStoreInitializer.StreamIdOriginal);
         if (snapshot == null)
         {
@@ -60,6 +60,41 @@ public class EventStoreService : IEventStoreService
                 return -1;
             _eventLogComposer.Initialize();
         }
+
+        // 
+
+        // на версии 2.5 выгрузил snapshot в json
+        //        _writeModel.WriteToJsonFile(@"c:\temp\model.json");
+        // 
+        // // беру из json файла модель - в ней есть координаты узлов
+        // Model? snapshotModel = ModelJsonSerializationExt.ReadFromJsonFile(@"c:\temp\model.json");
+        // if (snapshotModel != null)
+        // {
+        //     // сериализую старым методом
+        //     byte[]? bytes = await snapshotModel.Serialize(_logger);
+        //
+        //     if (bytes != null)
+        //     {
+        //         Model forCheck = new Model();
+        //         // и десериализую обратно, чтобы убедиться, что сериализация - десериализация не портят координаты
+        //         var result = await forCheck.Deserialize(_logger, bytes);
+        //         if (result)
+        //         {
+        //             await _snapshotRepository.RemoveOldSnapshots(); // не работает, придется руками удалить, не забыть применить удаление
+        //
+        //             // записываю заново с теми же параметрами
+        //             await _snapshotRepository
+        //                 .AddSnapshotAsync(Guid.Parse("1c28cbb5-a9f5-4a5c-b7af-3d188f8f24ed"),
+        //                 106836, new DateTime(2024, 1, 31), bytes);
+        //         }
+        //     }
+        //    
+        //
+        //     _eventLogComposer.Initialize();
+        // }
+       
+        ////////////
+
 
         var eventStream = _eventStoreInitializer.StoreEvents.OpenStream(_eventStoreInitializer.StreamIdOriginal);
 

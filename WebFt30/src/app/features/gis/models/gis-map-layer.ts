@@ -1,5 +1,6 @@
 export enum GisMapLayer {
   Route,
   TraceEquipment,
-  Locations
+  EmptyNodes,
+  AdjustmentPoints
 }

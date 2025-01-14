@@ -31,8 +31,10 @@ export class GisMapUtils {
       case EquipmentType.Closure:
       case EquipmentType.Other:
         return GisMapLayer.TraceEquipment;
+      case EquipmentType.EmptyNode:
+        return GisMapLayer.EmptyNodes;
       default:
-        return GisMapLayer.Locations;
+        return GisMapLayer.AdjustmentPoints;
     }
   }
 
