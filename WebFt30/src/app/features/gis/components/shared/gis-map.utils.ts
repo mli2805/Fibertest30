@@ -2,8 +2,33 @@ import * as L from 'leaflet';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { EquipmentType } from 'src/grpc-generated';
 import { GisMapLayer } from '../../models/gis-map-layer';
+import { GisMapIcons } from './gis-map-icons';
 
 export class GisMapUtils {
+  static createLayerGroupByGisType(layerType: GisMapLayer): L.FeatureGroup {
+    if (layerType === GisMapLayer.Route) {
+      return L.featureGroup();
+    } else {
+      // если возвращать featureGroup а не markerClusterGroup
+      //  и включить adjustLayersToZoom в обработчике изменения зума,
+      // то маркеры будут показываться в зависимости от зума
+      // return L.featureGroup();
+      return this.getMarkerClusterGroup();
+    }
+  }
+
+  static getMarkerClusterGroup() {
+    return L.markerClusterGroup({
+      iconCreateFunction: function (cluster) {
+        return GisMapIcons.createLetterIcon(cluster.getChildCount().toString());
+      },
+      disableClusteringAtZoom: 18,
+      maxClusterRadius: 180,
+      showCoverageOnHover: false,
+      spiderfyOnMaxZoom: false
+    });
+  }
+
   static fixLeafletMarkers(): void {
     const iconRetinaUrl = './assets/leaflet/marker-icon-2x.png';
     const iconUrl = './assets/leaflet/marker-icon.png';

@@ -20,6 +20,7 @@ import { ColorUtils } from 'src/app/shared/utils/color-utils';
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { GisMapService } from '../../gis-map.service';
 import { GisMapLayer } from '../../models/gis-map-layer';
+import { GisMapLayers } from '../shared/gis-map-layers';
 
 @Component({
   selector: 'rtu-gis-editor-map',
@@ -131,7 +132,7 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
 
     this.map.on('zoomend', (e) => {
       const newZoom = this.map.getZoom();
-      // this.adjustLayersToZoom(newZoom);
+      // GisMapLayers.adjustLayersToZoom(this.map, this.layerGroups, this.currentZoom.value, newZoom);
       this.currentZoom.next(newZoom);
     });
 
@@ -159,52 +160,23 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
   private initMapLayersMap(): void {
     for (const layerTypeKey in GisMapLayer) {
       const layerType = GisMapLayer[layerTypeKey as keyof typeof GisMapLayer];
-      const group = this.createLayerGroupByGisType(layerType);
+      const group = GisMapUtils.createLayerGroupByGisType(layerType);
       this.layerGroups.set(layerType, group);
+
+      this.map.addLayer(group);
     }
 
-    GisMapService.GisMapLayerZoom.forEach((value, key) => {
-      this.setLayerVisibility(key, this.currentZoom.value >= value);
-    });
-  }
-
-  private createLayerGroupByGisType(layerType: GisMapLayer): L.FeatureGroup {
-    // route needs to be a feature group to use getBounds()
-    if (layerType === GisMapLayer.Route) {
-      return L.featureGroup();
-    } else if (layerType === GisMapLayer.TraceEquipment) {
-      // return L.featureGroup();
-      return L.markerClusterGroup({
-        iconCreateFunction: function (cluster) {
-          return GisMapIcons.createLetterIcon(
-            cluster.getChildCount().toString(),
-            false,
-            GisMapIcons.getColorClass(layerType),
-            true
-          );
-        },
-        disableClusteringAtZoom: 18,
-        maxClusterRadius: 120,
-        showCoverageOnHover: false,
-        spiderfyOnMaxZoom: false
-      });
-    } else {
-      // return L.featureGroup();
-      return L.markerClusterGroup({
-        iconCreateFunction: function (cluster) {
-          return GisMapIcons.createLetterIcon(
-            cluster.getChildCount().toString(),
-            false,
-            GisMapIcons.getColorClass(layerType),
-            true
-          );
-        },
-        disableClusteringAtZoom: 18,
-        maxClusterRadius: 120,
-        showCoverageOnHover: false,
-        spiderfyOnMaxZoom: false
-      });
-    }
+    // если показывать не кластера а по зуму, то при инициализации
+    // надо не просто добавить слой в карту (выше строка)
+    // а сделать это в зависимомсти от текущего зума
+    // GisMapService.GisMapLayerZoom.forEach((value, key) => {
+    //   GisMapLayers.setLayerVisibility(
+    //     this.map,
+    //     this.layerGroups,
+    //     key,
+    //     this.currentZoom.value >= value
+    //   );
+    // });
   }
 
   geoData!: AllGeoData;
@@ -300,48 +272,6 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
     // на сколько это удобно если двигаешь немного в пределах экрана
     // и не ожидаешь перемещения всей карты - это вопрос
     // this.map.panTo(position);
-  }
-
-  adjustLayersToZoom(newZoom: number) {
-    const adjustmentPointsZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.AdjustmentPoints)!;
-    if (this.currentZoom.value < adjustmentPointsZoom && newZoom >= adjustmentPointsZoom) {
-      this.setLayerVisibility(GisMapLayer.AdjustmentPoints, true);
-    }
-    if (this.currentZoom.value >= adjustmentPointsZoom && newZoom < adjustmentPointsZoom) {
-      this.setLayerVisibility(GisMapLayer.AdjustmentPoints, false);
-    }
-
-    const emptyNodesZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.EmptyNodes)!;
-    if (this.currentZoom.value < emptyNodesZoom && newZoom >= emptyNodesZoom) {
-      this.setLayerVisibility(GisMapLayer.EmptyNodes, true);
-    }
-    if (this.currentZoom.value >= emptyNodesZoom && newZoom < emptyNodesZoom) {
-      this.setLayerVisibility(GisMapLayer.EmptyNodes, false);
-    }
-
-    const equipmentZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.TraceEquipment)!;
-    if (this.currentZoom.value < equipmentZoom && newZoom >= equipmentZoom) {
-      this.setLayerVisibility(GisMapLayer.TraceEquipment, true);
-    }
-    if (this.currentZoom.value >= equipmentZoom && newZoom < equipmentZoom) {
-      this.setLayerVisibility(GisMapLayer.TraceEquipment, false);
-    }
-  }
-
-  private setLayerVisibility(layerType: GisMapLayer, visible: boolean) {
-    if (!this.map) {
-      return;
-    }
-
-    const group = this.layerGroups.get(layerType)!;
-
-    if (!visible && this.map.hasLayer(group)) {
-      this.map.removeLayer(group);
-    }
-
-    if (visible && !this.map.hasLayer(group)) {
-      this.map.addLayer(group);
-    }
   }
 
   /////////////////////

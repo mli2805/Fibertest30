@@ -23,6 +23,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { GisMapIcons, GisIconWithZIndex } from '../shared/gis-map-icons';
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { LeafletAngularPopupBinder } from '../shared/leaflet-angular-popup-binder';
+import { GisMapLayers } from '../shared/gis-map-layers';
 
 GisMapUtils.fixLeafletMarkers();
 
@@ -37,7 +38,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
 
   private map!: L.Map;
   private icons = new GisMapIcons();
-  private mapLayersMap: Map<GisMapLayer, L.FeatureGroup | L.LayerGroup> = new Map();
+  private layerGroups: Map<GisMapLayer, L.FeatureGroup> = new Map();
 
   private popupBinder!: LeafletAngularPopupBinder;
 
@@ -95,7 +96,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
 
     this.map.on('zoomend', (e) => {
       const newZoom = this.map.getZoom();
-      this.adjustLayersToZoom(newZoom);
+      // this.adjustLayersToZoom(newZoom);
       this.currentZoom.next(newZoom);
     });
 
@@ -120,111 +121,36 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     this.initMapLayersMap();
   }
 
-  adjustLayersToZoom(newZoom: number) {
-    const adjustmentPointsZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.AdjustmentPoints)!;
-    if (this.currentZoom.value < adjustmentPointsZoom && newZoom >= adjustmentPointsZoom) {
-      this.setLayerVisibility(GisMapLayer.AdjustmentPoints, true);
-    }
-    if (this.currentZoom.value >= adjustmentPointsZoom && newZoom < adjustmentPointsZoom) {
-      this.setLayerVisibility(GisMapLayer.AdjustmentPoints, false);
-    }
-
-    const emptyNodesZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.EmptyNodes)!;
-    if (this.currentZoom.value < emptyNodesZoom && newZoom >= emptyNodesZoom) {
-      this.setLayerVisibility(GisMapLayer.EmptyNodes, true);
-    }
-    if (this.currentZoom.value >= emptyNodesZoom && newZoom < emptyNodesZoom) {
-      this.setLayerVisibility(GisMapLayer.EmptyNodes, false);
-    }
-
-    const equipmentZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.TraceEquipment)!;
-    if (this.currentZoom.value < equipmentZoom && newZoom >= equipmentZoom) {
-      this.setLayerVisibility(GisMapLayer.TraceEquipment, true);
-    }
-    if (this.currentZoom.value >= equipmentZoom && newZoom < equipmentZoom) {
-      this.setLayerVisibility(GisMapLayer.TraceEquipment, false);
-    }
-  }
-
   private initMapLayersMap(): void {
     for (const layerTypeKey in GisMapLayer) {
       const layerType = GisMapLayer[layerTypeKey as keyof typeof GisMapLayer];
-      const layer = this.getLayerGroupByGisType(layerType);
-      this.mapLayersMap.set(layerType, layer);
+      const group = GisMapUtils.createLayerGroupByGisType(layerType);
+      this.layerGroups.set(layerType, group);
+
+      this.map.addLayer(group);
     }
 
-    GisMapService.GisMapLayerZoom.forEach((value, key) => {
-      this.setLayerVisibility(key, this.currentZoom.value >= value);
-    });
-  }
-
-  private getLayerGroupByGisType(layerType: GisMapLayer): L.LayerGroup | L.FeatureGroup {
-    // route needs to be a feature group to use getBounds()
-    if (layerType === GisMapLayer.Route) {
-      return L.featureGroup();
-    } else if (layerType === GisMapLayer.TraceEquipment) {
-      // return L.layerGroup();
-      return L.markerClusterGroup({
-        iconCreateFunction: function (cluster) {
-          return GisMapIcons.createLetterIcon(
-            cluster.getChildCount().toString(),
-            false,
-            GisMapIcons.getColorClass(layerType),
-            true
-          );
-        },
-        disableClusteringAtZoom: GisMapComponent.ZoomNoClustering,
-        maxClusterRadius: 120,
-        showCoverageOnHover: false,
-        spiderfyOnMaxZoom: false
-      });
-    } else {
-      // return L.layerGroup();
-      return L.markerClusterGroup({
-        iconCreateFunction: function (cluster) {
-          return GisMapIcons.createLetterIcon(
-            cluster.getChildCount().toString(),
-            false,
-            GisMapIcons.getColorClass(layerType),
-            true
-          );
-        },
-        disableClusteringAtZoom: GisMapComponent.ZoomNoClustering,
-        maxClusterRadius: 120,
-        showCoverageOnHover: false,
-        spiderfyOnMaxZoom: false
-      });
-    }
-  }
-
-  private layer(layerType: GisMapLayer): L.FeatureGroup | L.LayerGroup {
-    return this.mapLayersMap.get(layerType)!;
-  }
-
-  private setLayerVisibility(layerType: GisMapLayer, visible: boolean) {
-    if (!this.map) {
-      return;
-    }
-
-    const layer = this.layer(layerType);
-
-    if (!visible && this.map.hasLayer(layer)) {
-      this.map.removeLayer(layer);
-    }
-
-    if (visible && !this.map.hasLayer(layer)) {
-      this.map.addLayer(layer);
-    }
+    // если показывать не кластера а по зуму, то при инициализации
+    // надо не просто добавить слой в карту (выше строка)
+    // а сделать это в зависимомсти от текущего зума
+    // GisMapService.GisMapLayerZoom.forEach((value, key) => {
+    //   GisMapLayers.setLayerVisibility(
+    //     this.map,
+    //     this.layerGroups,
+    //     key,
+    //     this.currentZoom.value >= value
+    //   );
+    // });
   }
 
   onTraceRouteData(data: { traceRouteData: TraceRouteData } | null): void {
-    this.mapLayersMap.forEach((layer) => layer.clearLayers());
+    this.layerGroups.forEach((group) => group.clearLayers());
     if (!data) return;
     this.addTraceRoute(data.traceRouteData);
   }
 
   onGraphRoutesData(data: { graphRoutesData: GraphRoutesData } | null): void {
-    this.mapLayersMap.forEach((layer) => layer.clearLayers());
+    this.layerGroups.forEach((group) => group.clearLayers());
     if (!data) return;
     this.addGraphRoutes(data.graphRoutesData.routes);
   }
@@ -237,7 +163,8 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
         color: ColorUtils.routeStateToColor(route.traceState)
       };
       const polyline = L.polyline(latLngs, options);
-      polyline.addTo(this.layer(GisMapLayer.Route));
+      const group = this.layerGroups.get(GisMapLayer.Route)!;
+      group.addLayer(polyline);
 
       route.nodes.forEach((node) => {
         this.addNodeToLayer(node);
@@ -247,9 +174,9 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
 
   private addTraceRoute(route: TraceRouteData): void {
     const latLngs = route.nodes.map((n) => n.coors);
-    L.polyline(latLngs, { color: ColorUtils.routeStateToColor(route.traceState) }).addTo(
-      this.layer(GisMapLayer.Route)
-    );
+    const polyline = L.polyline(latLngs, { color: ColorUtils.routeStateToColor(route.traceState) });
+    const group = this.layerGroups.get(GisMapLayer.Route)!;
+    group.addLayer(polyline);
 
     route.nodes.forEach((node) => {
       this.addNodeToLayer(node);
@@ -264,8 +191,9 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     marker.bindPopup(node.title);
     (<any>marker).id = node.id;
 
-    const layer = GisMapUtils.equipmentTypeToGisMapLayer(node.equipmentType);
-    this.layer(layer).addLayer(marker);
+    const layerType = GisMapUtils.equipmentTypeToGisMapLayer(node.equipmentType);
+    const group = this.layerGroups.get(layerType)!;
+    group.addLayer(marker);
   }
 
   createMarker(coordinate: L.LatLng, iconWithIndex: GisIconWithZIndex): L.Marker {

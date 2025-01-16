@@ -1,11 +1,8 @@
 import * as L from 'leaflet';
-import { GisMapLayer } from '../../models/gis-map-layer';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
-import { GisMapUtils } from './gis-map.utils';
-import { OpticalEvent } from 'src/app/core/store/models/ft30/optical-event';
 import { ColorUtils } from 'src/app/shared/utils/color-utils';
 import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
-import { EquipmentType, GeoCoordinate } from 'src/grpc-generated';
+import { EquipmentType } from 'src/grpc-generated';
 
 export interface GisIconWithZIndex {
   icon?: L.DivIcon;
@@ -23,20 +20,6 @@ export class GisMapIcons {
   terminal!: GisIconWithZIndex;
   rtu!: GisIconWithZIndex;
   accidentPlace!: GisIconWithZIndex;
-
-  traceMarker!: GisIconWithZIndex;
-  alarmFiberBreak!: GisIconWithZIndex;
-  alarmFiberBreakResolved!: GisIconWithZIndex;
-  alarmCritical!: GisIconWithZIndex;
-  alarmMajor!: GisIconWithZIndex;
-  alarmMinor!: GisIconWithZIndex;
-  alarmResolved!: GisIconWithZIndex;
-  routeStart!: GisIconWithZIndex;
-  routeFinish!: GisIconWithZIndex;
-  slack!: GisIconWithZIndex;
-  location!: GisIconWithZIndex;
-  unknownLocations!: GisIconWithZIndex;
-  unknownSlacks!: GisIconWithZIndex;
 
   constructor() {
     this.initMapIcons();
@@ -73,30 +56,6 @@ export class GisMapIcons {
     this.terminal = { icon: this.createTerminalIcon(colorClass), zIndex: 28 };
     this.rtu = { icon: this.createRtuIcon(colorClass), zIndex: 20 };
     this.accidentPlace = { icon: this.createAccidentPlaceIcon(colorClass), zIndex: 15 };
-
-    // this.traceMarker = { zIndex: 22 };
-    // this.alarmFiberBreak = { icon: this.createFiberBreakIcon(false), zIndex: 20 };
-    // this.alarmCritical = { icon: this.createAlarmIcon(FiberState.Critical), zIndex: 18 };
-    // this.alarmMajor = { icon: this.createAlarmIcon(FiberState.Major), zIndex: 16 };
-    // this.alarmMinor = { icon: this.createAlarmIcon(FiberState.Minor), zIndex: 14 };
-    // this.alarmFiberBreakResolved = { icon: this.createFiberBreakIcon(true), zIndex: 13 };
-    // this.alarmResolved = { icon: this.createResolvedAlarmIcon(), zIndex: 13 };
-    // this.routeStart = {
-    //   icon: GisMapIcons.createLetterIcon('S', true, GisMapIcons.getColorClass(GisMapLayer.Route)),
-    //   zIndex: 12
-    // };
-    // this.routeFinish = {
-    //   icon: GisMapIcons.createLetterIcon('F', true, GisMapIcons.getColorClass(GisMapLayer.Route)),
-    //   zIndex: 10
-    // };
-
-    // this.location = {
-    //   icon: GisMapIcons.createLetterIcon(
-    //     '&nbsp;',
-    //     false,
-    //     GisMapIcons.getColorClass(GisMapLayer.Locations)
-    //   )
-    // };
   }
 
   createRtuIcon(colorClass: string): L.DivIcon {
@@ -135,24 +94,6 @@ export class GisMapIcons {
         `,
       iconSize: [width, height],
       iconAnchor: [39, 54]
-    });
-  }
-
-  createClosureIcon(colorClass: string): L.DivIcon {
-    const width = 12;
-    const height = 12;
-
-    return L.divIcon({
-      className: 'map-marker-wrapper',
-      html: `
-              <div class="${colorClass}" style="width: ${width}px; height: ${height}px">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
-                  <circle fill="currentColor" cx="6" cy="6" r="6"/>
-                </svg>
-              </div>
-        `,
-      iconSize: [width, height],
-      iconAnchor: [width / 2, height / 2]
     });
   }
 
@@ -265,95 +206,41 @@ export class GisMapIcons {
     });
   }
 
-  createFiberBreakIcon(resolved: boolean): L.DivIcon {
-    const colorClass = resolved
-      ? GisMapIcons.getResolvedColorClass()
-      : GisMapUtils.fiberStateToColorClass(FiberState.Critical);
-    const width = 50;
-    const height = 50;
+  createClosureIcon(colorClass: string): L.DivIcon {
+    const size = 12;
 
     return L.divIcon({
       className: 'map-marker-wrapper',
       html: `
-              <div class="${colorClass}" style="width: ${width}px; height: ${height}px">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" >
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+              <div class="${colorClass}" style="width: ${size}px; height: ${size}px">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
+                  <circle fill="currentColor" cx="6" cy="6" r="6"/>
                 </svg>
               </div>
         `,
-      iconSize: [width, height],
-      iconAnchor: [width / 2, height / 2]
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size / 2]
     });
   }
 
-  createAlarmIcon(state: FiberState): L.DivIcon {
-    const colorClass = GisMapUtils.fiberStateToColorClass(state);
-    return this.createAlarmIconByColor(colorClass);
-  }
-
-  createResolvedAlarmIcon(): L.DivIcon {
-    const colorClass = GisMapIcons.getResolvedColorClass();
-    return this.createAlarmIconByColor(colorClass);
-  }
-
-  private createAlarmIconByColor(colorClass: string): L.DivIcon {
-    const width = 20;
-    const height = 20;
+  static createLetterIcon(letter: string): L.DivIcon {
+    const size = 16 + letter.length * 4;
+    const colorClass = 'text-[#347deb]';
 
     return L.divIcon({
       className: 'map-marker-wrapper',
       html: `
-               <div class="${colorClass}" style="width: ${width}px; height: ${height}px">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M0 0h24L12 24"/></svg>
+              <div class="relative ${colorClass}" style="width: ${size}px; height: ${size}px">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
+                  <circle fill="currentColor" cx="11" cy="11" r="11"/>
+                </svg>
+                <div class="absolute top-0 left-0 text-black flex items-center justify-center " style="width: ${size}px; height: ${size}px">
+                  <span >${letter}</span>
+                </div>
               </div>
         `,
-      iconSize: [width, height],
-      iconAnchor: [width / 2, height]
-    });
-  }
-
-  static createLetterIcon(
-    letter: string,
-    rounded: boolean,
-    colorClass: string,
-    bigger = false
-  ): L.DivIcon {
-    let size = rounded ? 22 : 12;
-    if (bigger) {
-      size = size * 2;
-    }
-
-    return L.divIcon({
-      className: 'map-marker-wrapper',
-      html: `<div class="map-letter-marker ${
-        rounded ? 'rounded-full' : ''
-      } ${colorClass}">${letter}</div>`,
       iconSize: [size, size],
-      iconAnchor: [size / 2, size / 2],
-      popupAnchor: [0, -size / 2]
+      iconAnchor: [size / 2, size / 2]
     });
-  }
-
-  static getResolvedColorClass(): string {
-    return 'alarm-resolved';
-  }
-
-  static getColorClass(layerType: GisMapLayer): string {
-    return 'bg-blue-700';
-  }
-
-  public getIconByAlarmLevel(opticalEvent: OpticalEvent): GisIconWithZIndex {
-    switch (opticalEvent.traceState) {
-      case FiberState.NoFiber:
-      case FiberState.FiberBreak:
-      case FiberState.Critical:
-        return this.alarmCritical;
-      case FiberState.Major:
-        return this.alarmMajor;
-      case FiberState.Minor:
-        return this.alarmMinor;
-      default:
-        throw new Error('Unknown alarm level');
-    }
   }
 }

@@ -63,9 +63,9 @@ public class EventStoreService : IEventStoreService
 
         // 
 
-        // на версии 2.5 выгрузил snapshot в json
-        //        _writeModel.WriteToJsonFile(@"c:\temp\model.json");
-        // 
+        // // на версии 2.5 выгрузил snapshot в json
+        // //        _writeModel.WriteToJsonFile(@"c:\temp\model.json");
+        // // 
         // // беру из json файла модель - в ней есть координаты узлов
         // Model? snapshotModel = ModelJsonSerializationExt.ReadFromJsonFile(@"c:\temp\model.json");
         // if (snapshotModel != null)
