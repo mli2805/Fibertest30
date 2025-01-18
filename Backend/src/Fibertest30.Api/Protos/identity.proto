@@ -54,6 +54,10 @@ message UserSettings {
   string language = 2;
   string theme = 3;
   string dateTimeFormat = 5;
+  int32 zoom = 7;
+  double lat = 8;
+  double lng = 9;
+
 }
 
 // Login

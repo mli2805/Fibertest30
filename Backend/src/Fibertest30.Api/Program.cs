@@ -73,7 +73,7 @@ try
     using (var scope = app.Services.CreateScope())
     {
         var initializer = scope.ServiceProvider.GetRequiredService<RtuContextInitializer>();
-        await initializer.InitialiseAsync();
+        await initializer.InitializeAsync();
 
         var emulator = builder.Configuration.GetValue<bool>("Emulator:Enabled");
         var seedDemoOtaus = emulator ? "all" : string.Empty;

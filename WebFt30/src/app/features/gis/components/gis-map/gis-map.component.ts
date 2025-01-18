@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EnvironmentInjector,
+  inject,
   OnDestroy,
   OnInit
 } from '@angular/core';
@@ -17,13 +18,14 @@ import {
   TraceNode,
   TraceRouteData
 } from 'src/app/core/store/models/ft30/geo-data';
-import { GeoCoordinate } from 'src/grpc-generated';
 import { ColorUtils } from 'src/app/shared/utils/color-utils';
 import { TranslateService } from '@ngx-translate/core';
 import { GisMapIcons, GisIconWithZIndex } from '../shared/gis-map-icons';
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { LeafletAngularPopupBinder } from '../shared/leaflet-angular-popup-binder';
-import { GisMapLayers } from '../shared/gis-map-layers';
+import { Store } from '@ngrx/store';
+import { AppState, SettingsActions, SettingsSelectors } from 'src/app/core';
+import { CoreUtils } from 'src/app/core/core.utils';
 
 GisMapUtils.fixLeafletMarkers();
 
@@ -34,6 +36,7 @@ GisMapUtils.fixLeafletMarkers();
   styles: [':host { overflow-y: auto; width: 100%; height: 100%; }']
 })
 export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy {
+  private store: Store<AppState> = inject(Store<AppState>);
   static ZoomNoClustering = 18; // прячем слои вместо кластеризации
 
   private map!: L.Map;
@@ -42,8 +45,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
 
   private popupBinder!: LeafletAngularPopupBinder;
 
-  startZoom!: number;
-  currentZoom = new BehaviorSubject<number>(this.startZoom);
+  currentZoom = new BehaviorSubject<number>(16);
   currentZoom$ = this.currentZoom.asObservable();
 
   mousePosition = new BehaviorSubject<string>('');
@@ -78,18 +80,13 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     super.ngOnDestroy();
   }
 
-  private minskCoors: L.LatLngExpression = [53.85, 27.59];
-  private minskZoom = 14;
-  private mogilevCoors: L.LatLngExpression = [53.85, 29.99];
-  private mogilevZoom = 9;
-
   private initMap(): void {
     // когда показываем трассу центр и зум выбираются позже исходя из точек трассы (чтобы вся видна была)
-    this.startZoom = this.minskZoom;
-    this.currentZoom.next(this.startZoom);
+    const userSettings = CoreUtils.getCurrentState(this.store, SettingsSelectors.selectSettings);
+    this.currentZoom.next(userSettings.zoom);
     this.map = L.map('map', {
-      center: this.minskCoors,
-      zoom: this.startZoom,
+      center: [userSettings.lat, userSettings.lng],
+      zoom: userSettings.zoom,
       contextmenu: true,
       contextmenuItems: []
     });
@@ -98,6 +95,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
       const newZoom = this.map.getZoom();
       // this.adjustLayersToZoom(newZoom);
       this.currentZoom.next(newZoom);
+      this.store.dispatch(SettingsActions.changeZoom({ zoom: newZoom }));
     });
 
     this.map.on('click', (e) => {
@@ -108,6 +106,11 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     this.map.on('mousemove', (e) => {
       const center = this.map.getCenter();
       this.mousePosition.next(GisMapUtils.mouseToString(e.latlng, center));
+    });
+
+    this.map.on('dragend', (e) => {
+      const center = this.map.getCenter();
+      this.store.dispatch(SettingsActions.changeCenter({ center }));
     });
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

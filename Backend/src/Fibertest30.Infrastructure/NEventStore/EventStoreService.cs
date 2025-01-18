@@ -83,9 +83,12 @@ public class EventStoreService : IEventStoreService
         //             await _snapshotRepository.RemoveOldSnapshots(); // не работает, придется руками удалить, не забыть применить удаление
         //
         //             // записываю заново с теми же параметрами
+        //             // await _snapshotRepository
+        //             //     .AddSnapshotAsync(Guid.Parse("1c28cbb5-a9f5-4a5c-b7af-3d188f8f24ed"),
+        //             //     106836, new DateTime(2024, 1, 31), bytes);
         //             await _snapshotRepository
-        //                 .AddSnapshotAsync(Guid.Parse("1c28cbb5-a9f5-4a5c-b7af-3d188f8f24ed"),
-        //                 106836, new DateTime(2024, 1, 31), bytes);
+        //                 .AddSnapshotAsync(Guid.Parse("53e252c5-a855-4add-8a1a-13f8e506b92d"),
+        //                 2144, new DateTime(2025, 1, 13), bytes);
         //         }
         //     }
         //    

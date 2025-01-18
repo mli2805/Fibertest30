@@ -192,7 +192,10 @@ export class MapUtils {
     return {
       language: user.language,
       theme: user.theme,
-      dateTimeFormat: user.dateTimeFormat
+      dateTimeFormat: user.dateTimeFormat,
+      zoom: user.zoom,
+      lat: user.lat,
+      lng: user.lng
     };
   }
 
@@ -200,7 +203,10 @@ export class MapUtils {
     return {
       language: user.language,
       theme: user.theme,
-      dateTimeFormat: user.dateTimeFormat
+      dateTimeFormat: user.dateTimeFormat,
+      zoom: user.zoom,
+      lat: user.lat,
+      lng: user.lng
     };
   }
 

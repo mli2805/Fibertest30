@@ -110,6 +110,18 @@ export interface UserSettings {
      * @generated from protobuf field: string dateTimeFormat = 5;
      */
     dateTimeFormat: string;
+    /**
+     * @generated from protobuf field: int32 zoom = 7;
+     */
+    zoom: number;
+    /**
+     * @generated from protobuf field: double lat = 8;
+     */
+    lat: number;
+    /**
+     * @generated from protobuf field: double lng = 9;
+     */
+    lng: number;
 }
 /**
  * Login
@@ -377,7 +389,10 @@ class UserSettings$Type extends MessageType<UserSettings> {
         super("fibertest30.Identity.UserSettings", [
             { no: 2, name: "language", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "theme", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "dateTimeFormat", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 5, name: "dateTimeFormat", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "zoom", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 8, name: "lat", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 9, name: "lng", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ }
         ]);
     }
 }

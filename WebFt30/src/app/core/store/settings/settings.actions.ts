@@ -20,6 +20,9 @@ const changeTimeZone = createAction(
   props<{ timeZone: AppTimezone }>()
 );
 
+const changeZoom = createAction('[Settings] Change Zoom', props<{ zoom: number }>());
+const changeCenter = createAction('[Settings] Change Center', props<{ center: L.LatLng }>());
+
 const saveUserSettings = createAction(
   '[Settings] Save User Settings',
   props<{ settings: SettingsState }>()
@@ -37,6 +40,9 @@ export const SettingsActions = {
   changeLanguage,
   changeDateTimeFormat,
   changeTimeZone,
+  changeZoom,
+  changeCenter,
+
   saveUserSettings,
   saveUserSettingsSuccess,
   saveUserSettingsFailure

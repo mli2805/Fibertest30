@@ -84,10 +84,19 @@ export class SettingsEffects {
     )
   );
 
+  persistGisSettings = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SettingsActions.changeZoom, SettingsActions.changeCenter),
+      withLatestFrom(this.store.pipe(select(SettingsSelectors.selectSettings))),
+      map(([action, settings]) => SettingsActions.saveUserSettings({ settings }))
+    )
+  );
+
   saveUserSettings = createEffect(() =>
     this.actions$.pipe(
       ofType(SettingsActions.saveUserSettings),
       switchMap(({ settings }) => {
+        console.log(settings);
         const gRpcUserSettings = MapUtils.toGprcUserSettings(settings);
         return this.identityService.saveUserSettings(gRpcUserSettings).pipe(
           map((response) => {

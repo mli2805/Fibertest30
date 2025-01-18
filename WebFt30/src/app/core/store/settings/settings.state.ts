@@ -17,5 +17,8 @@ export interface SettingsState {
   timeZone: AppTimezone;
   language: AppLanguage;
   dateTimeFormat: AppDateTimeLanguageFormat;
+  zoom: number;
+  lat: number;
+  lng: number;
   saveUserSettingsError: string | null;
 }

@@ -43,6 +43,9 @@ public static class UserMappingExtensions
             Theme = settings.Theme,
             Language = settings.Language,
             DateTimeFormat = settings.DateTimeFormat,
+            Zoom = settings.Zoom,
+            Lat = settings.Lat,
+            Lng = settings.Lng,
         };
     }
 
@@ -53,6 +56,9 @@ public static class UserMappingExtensions
             Theme = settings.Theme,
             Language = settings.Language,
             DateTimeFormat = settings.DateTimeFormat,
+            Zoom = settings.Zoom,
+            Lat = settings.Lat,
+            Lng = settings.Lng,
         };
     }
 }

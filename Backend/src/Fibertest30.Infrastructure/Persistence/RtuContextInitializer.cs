@@ -3,39 +3,20 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Fibertest30.Infrastructure;
-public class RtuContextInitializer
+public class RtuContextInitializer(ILogger<RtuContextInitializer> logger, RtuContext context,
+    IDefaultPermissionProvider permissionProvider, UserManager<ApplicationUser> userManager,
+    RoleManager<IdentityRole> roleManager)
 {
-    private readonly ILogger<RtuContextInitializer> _logger;
-    private readonly RtuContext _context;
-    private readonly IDefaultPermissionProvider _permissionProvider;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
-
-    public RtuContextInitializer(
-        ILogger<RtuContextInitializer> logger,
-        RtuContext context,
-        IDefaultPermissionProvider permissionProvider,
-        UserManager<ApplicationUser> userManager,
-        RoleManager<IdentityRole> roleManager
-        )
-    {
-        _logger = logger;
-        _context = context;
-        _permissionProvider = permissionProvider;
-        _userManager = userManager;
-        _roleManager = roleManager;
-    }
-
-    public async Task InitialiseAsync()
+    public async Task InitializeAsync()
     {
         try
         {
-            await _context.Database.EnsureCreatedAsync();
+            await context.Database.EnsureCreatedAsync();
             // await _context.Database.MigrateAsync();
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while initializing the database.");
+            logger.LogError(ex, "An error occurred while initializing the database.");
             throw;
         }
     }
@@ -48,7 +29,7 @@ public class RtuContextInitializer
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while seeding the database.");
+            logger.LogError(ex, "An error occurred while seeding the database.");
             throw;
         }
     }
@@ -72,19 +53,19 @@ public class RtuContextInitializer
             await SeedAdministratorUser();
         }
 
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
     private async Task SeedDefaultRolesAndPermissions()
     {
         // add a new default role if doesn't exist 
-        var defaultRoles = _permissionProvider.DefaultRoles.Select(x => x.ToString()).ToList();
+        var defaultRoles = permissionProvider.DefaultRoles.Select(x => x.ToString()).ToList();
         foreach (var defaultRole in defaultRoles)
         {
 
-            if (!(await _roleManager.RoleExistsAsync(defaultRole)))
+            if (!(await roleManager.RoleExistsAsync(defaultRole)))
             {
-                var result = await _roleManager.CreateAsync(new IdentityRole(defaultRole));
+                var result = await roleManager.CreateAsync(new IdentityRole(defaultRole));
                 ThrowIfNotSucceed(result, $"Can't add {defaultRole} role");
             }
         }
@@ -96,19 +77,19 @@ public class RtuContextInitializer
         // But we should remove missed permission from custom roles
 
 
-        var customRoles = _roleManager.Roles.ToList().Where(x => !defaultRoles.Exists(y => y == x.Name)).ToList();
-        var applicationPermissions = _permissionProvider.AllPermissions;
+        var customRoles = roleManager.Roles.ToList().Where(x => !defaultRoles.Exists(y => y == x.Name)).ToList();
+        var applicationPermissions = permissionProvider.AllPermissions;
 
         foreach (var customRole in customRoles)
         {
-            var roleCurrentClaims = await _roleManager.GetClaimsAsync(customRole);
+            var roleCurrentClaims = await roleManager.GetClaimsAsync(customRole);
             var rolePermissionClaims = roleCurrentClaims.Where(x => x.Type == ApplicationClaims.Permissions);
             foreach (var rolePermissionClaim in rolePermissionClaims)
             {
                 var notExistAnymore = !applicationPermissions.Any(x => x.ToString() == rolePermissionClaim.Value);
                 if (notExistAnymore)
                 {
-                    var result = await _roleManager.RemoveClaimAsync(customRole, rolePermissionClaim);
+                    var result = await roleManager.RemoveClaimAsync(customRole, rolePermissionClaim);
                     ThrowIfNotSucceed(result, $"Can't remove {rolePermissionClaim.Value} permission from {customRole.Name} role");
                 }
             }
@@ -118,13 +99,13 @@ public class RtuContextInitializer
  
     private async Task SeedDemoUsers()
     {
-        var userCount = await _userManager.Users.CountAsync();
+        var userCount = await userManager.Users.CountAsync();
         if (userCount > 0) { return;} 
         
         // Seed users for test needs.
         foreach (var testUser in TestUsersProvider.TestUsers)
         {
-            var currentUser = await _userManager.FindByNameAsync(testUser.UserName);
+            var currentUser = await userManager.FindByNameAsync(testUser.UserName);
             if (currentUser == null)
             {
                 var user = new ApplicationUser
@@ -140,7 +121,7 @@ public class RtuContextInitializer
                 ThrowIfNotSucceed(result, $"Can't create {user.UserName} user");
 
 
-                result = await _userManager.AddToRoleAsync(user, testUser.Role.ToString());
+                result = await userManager.AddToRoleAsync(user, testUser.Role.ToString());
                 ThrowIfNotSucceed(result, $"Can't add {user.UserName} user to {testUser.Role.ToString()} role");
             }
         }
@@ -148,7 +129,7 @@ public class RtuContextInitializer
 
     private async Task SeedAdministratorUser()
     {
-        var userCount = await _userManager.Users.CountAsync();
+        var userCount = await userManager.Users.CountAsync();
         if (userCount > 0) { return;} 
 
         var adminRole = ApplicationDefaultRole.Root;
@@ -161,16 +142,16 @@ public class RtuContextInitializer
         var result = await CreateUserWithLoosePassword(user, TestUsersProvider.DefaultRootPassword);
         ThrowIfNotSucceed(result, $"Can't create {user.UserName} user");
 
-        result = await _userManager.AddToRoleAsync(user, adminRole.ToString());
+        result = await userManager.AddToRoleAsync(user, adminRole.ToString());
         ThrowIfNotSucceed(result, $"Can't add {user.UserName} user to {adminRole.ToString()} role");
     }
 
     private async Task<IdentityResult> CreateUserWithLoosePassword(ApplicationUser user, string password)
     {
-        var originalPasswordOptions = _userManager.Options.Password;
-        _userManager.Options.Password = GetLoosePasswordOptions();
-        var result = await _userManager.CreateAsync(user, password);
-        _userManager.Options.Password = originalPasswordOptions;
+        var originalPasswordOptions = userManager.Options.Password;
+        userManager.Options.Password = GetLoosePasswordOptions();
+        var result = await userManager.CreateAsync(user, password);
+        userManager.Options.Password = originalPasswordOptions;
         return result;
     }
 
@@ -189,7 +170,7 @@ public class RtuContextInitializer
 
     private async Task SeedEmptyNotificationSettings()
     {
-        if (await _context.NotificationSettings.AnyAsync()) return;
+        if (await context.NotificationSettings.AnyAsync()) return;
 
         var emailServer = new EmailServer
         {
@@ -227,7 +208,7 @@ public class RtuContextInitializer
 
         var settings = new NotificationSettings { EmailServer = emailServer, TrapReceiver = trapReceiver, };
 
-        _context.NotificationSettings.Add(settings.ToEf());
+        context.NotificationSettings.Add(settings.ToEf());
     }
 
      

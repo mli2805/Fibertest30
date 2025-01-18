@@ -16,6 +16,9 @@ export const initialState: SettingsState = {
   language: 'en', // user navigator's language will be used if supported (see loadInitialSettingsState)
   dateTimeFormat: 'en',
   timeZone: AppTimezone.GetUtcTimeZone(), // т.е. показываем время как оно есть на сервере, возможно когда-нибудь будем хранить на сервере в UTC, тогда надо будет здесь реальная зона
+  zoom: 16,
+  lat: 53.88,
+  lng: 27.51,
   saveUserSettingsError: null
 };
 
@@ -27,6 +30,12 @@ const reducer = createReducer(
     ...state,
     dateTimeFormat
   })),
+  on(SettingsActions.changeZoom, (state, { zoom }) => ({ ...state, zoom })),
+  on(SettingsActions.changeCenter, (state, { center }) => ({
+    ...state,
+    lat: center.lat,
+    lng: center.lng
+  })),
   on(AuthActions.loginSuccess, (state, { settings }) => {
     if (settings == null) {
       return state;
@@ -36,7 +45,10 @@ const reducer = createReducer(
       ...state,
       theme: <AppTheme>settings.theme,
       language: <AppLanguage>settings.language,
-      dateTimeFormat: <AppDateTimeLanguageFormat>settings.dateTimeFormat
+      dateTimeFormat: <AppDateTimeLanguageFormat>settings.dateTimeFormat,
+      zoom: settings.zoom,
+      lat: settings.lat,
+      lng: settings.lng
     };
   }),
   on(AuthActions.loadCurrentUserSuccess, (state, { settings }) => {
@@ -48,7 +60,10 @@ const reducer = createReducer(
       ...state,
       theme: <AppTheme>settings.theme,
       language: <AppLanguage>settings.language,
-      dateTimeFormat: <AppDateTimeLanguageFormat>settings.dateTimeFormat
+      dateTimeFormat: <AppDateTimeLanguageFormat>settings.dateTimeFormat,
+      zoom: settings.zoom,
+      lat: settings.lat,
+      lng: settings.lng
     };
   }),
   on(SettingsActions.saveUserSettings, (state) => ({
