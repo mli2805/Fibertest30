@@ -6,6 +6,7 @@ import {
   GraphRoutesData,
   TraceRouteData
 } from 'src/app/core/store/models/ft30/geo-data';
+import * as L from 'leaflet';
 
 @Injectable()
 export class GisMapService {
@@ -17,10 +18,17 @@ export class GisMapService {
   ]);
 
   /////////////////////
+  private geoData!: AllGeoData;
+  getGeoData(): AllGeoData {
+    return this.geoData;
+  }
+
   private geoDataSubject = new BehaviorSubject<{ geoData: AllGeoData } | null>(null);
   geoData$ = this.geoDataSubject.asObservable();
 
+  // внешний компонент получает данные от сервера и засовывает их в этот сервис
   setGeoData(geoData: AllGeoData): void {
+    this.geoData = geoData;
     this.geoDataSubject.next({ geoData });
   }
 
@@ -46,5 +54,26 @@ export class GisMapService {
 
   setGraphRoutesData(graphRoutesData: GraphRoutesData): void {
     this.graphRoutesDataSubject.next({ graphRoutesData });
+  }
+
+  ///////////////////////
+  private map!: L.Map;
+
+  setMap(map: L.Map): void {
+    this.map = map;
+  }
+
+  getMap(): L.Map {
+    return this.map;
+  }
+
+  private layerGroups!: Map<GisMapLayer, L.FeatureGroup>;
+
+  setLayerGroups(groups: Map<GisMapLayer, L.FeatureGroup>) {
+    this.layerGroups = groups;
+  }
+
+  getLayerGroups(): Map<GisMapLayer, L.FeatureGroup> {
+    return this.layerGroups;
   }
 }
