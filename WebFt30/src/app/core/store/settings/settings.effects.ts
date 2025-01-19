@@ -96,7 +96,6 @@ export class SettingsEffects {
     this.actions$.pipe(
       ofType(SettingsActions.saveUserSettings),
       switchMap(({ settings }) => {
-        console.log(settings);
         const gRpcUserSettings = MapUtils.toGprcUserSettings(settings);
         return this.identityService.saveUserSettings(gRpcUserSettings).pipe(
           map((response) => {

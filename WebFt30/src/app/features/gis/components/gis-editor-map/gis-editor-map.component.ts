@@ -11,7 +11,7 @@ import {
   OnInit
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, takeUntil } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, takeUntil } from 'rxjs';
 import { GisIconWithZIndex, GisMapIcons } from '../shared/gis-map-icons';
 import { LeafletAngularPopupBinder } from '../shared/leaflet-angular-popup-binder';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
@@ -24,6 +24,7 @@ import { GisMapLayer } from '../../models/gis-map-layer';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { Store } from '@ngrx/store';
 import { AppState, SettingsActions, SettingsSelectors } from 'src/app/core';
+import { GraphService } from 'src/app/core/grpc';
 
 @Component({
   selector: 'rtu-gis-editor-map',
@@ -47,6 +48,7 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
 
   constructor(
     private gisMapService: GisMapService,
+    private graphService: GraphService,
     private ts: TranslateService,
     appRef: ApplicationRef,
     envInjector: EnvironmentInjector
@@ -367,8 +369,32 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
   }
 
   // map menu
-  addNewNode(e: L.ContextMenuItemClickEvent, equipmentType: EquipmentType) {
+  emptyGuid = '00000000-0000-0000-0000-000000000000';
+  async addNewNode(e: L.ContextMenuItemClickEvent, equipmentType: EquipmentType) {
     console.log(`addNewNode clicked ${e.latlng}, EquipmentType: ${equipmentType}`);
+
+    const guid =
+      equipmentType === EquipmentType.EmptyNode || equipmentType === EquipmentType.AdjustmentPoint
+        ? this.emptyGuid
+        : crypto.randomUUID();
+    console.log(guid);
+    const command = {
+      RequestedEquipmentId: crypto.randomUUID(),
+      EmptyNodeEquipmentId: guid,
+      NodeId: crypto.randomUUID(),
+      Type: equipmentType,
+      Latitude: e.latlng.lat,
+      Longitude: e.latlng.lng
+    };
+    console.log(command);
+    const json = JSON.stringify(command);
+    const response = await firstValueFrom(
+      this.graphService.sendCommand(json, 'AddEquipmentAtGpsLocation')
+    );
+    if (response.success) {
+      const traceNode = new TraceNode(command.NodeId, '', e.latlng, equipmentType);
+      this.addNodeToLayer(traceNode);
+    }
   }
 
   copyCoordinates(e: L.ContextMenuItemClickEvent) {

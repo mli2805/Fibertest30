@@ -36,6 +36,8 @@ public record GraphCommandHandler : IRequestHandler<GraphCommand, string?>
         {
             case "UpdateRtu": return JsonSerializer.Deserialize<UpdateRtu>(json);
             case "UpdateTrace": return JsonSerializer.Deserialize<UpdateTrace>(json);
+
+            case "AddEquipmentAtGpsLocation": return  JsonSerializer.Deserialize<AddEquipmentAtGpsLocation>(json);
         }
 
         return null;
