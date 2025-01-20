@@ -8,20 +8,20 @@ public class UsersRepository : IUsersRepository
 {
     private static readonly string GetAllUsersKey = "GetAllUsers";
 
-    private readonly RtuContext _rtuContext;
+    private readonly ServerDbContext _serverDbContext;
     private readonly IUserRolePermissionProvider _permissionProvider;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly IMemoryCache _cache;
 
-    public UsersRepository(RtuContext rtuContext,
+    public UsersRepository(ServerDbContext serverDbContext,
         IUserRolePermissionProvider permissionProvider,
         UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole> roleManager,
         IMemoryCache cache
     )
     {
-        _rtuContext = rtuContext;
+        _serverDbContext = serverDbContext;
         _permissionProvider = permissionProvider;
         _userManager = userManager;
         _roleManager = roleManager;
@@ -55,7 +55,7 @@ public class UsersRepository : IUsersRepository
 
     private async Task<List<AuthenticatedUser>> DoGetAllUsers()
     {
-        var users = await _rtuContext.Users.ToListAsync();
+        var users = await _serverDbContext.Users.ToListAsync();
         var result = new List<AuthenticatedUser>();
         foreach (var user in users)
         {
@@ -68,18 +68,18 @@ public class UsersRepository : IUsersRepository
 
     public async Task UpdateUser(string userId, ApplicationUserPatch patch)
     {
-        var existingUser = _rtuContext.Users.FirstOrDefault(u => u.Id == userId);
+        var existingUser = _serverDbContext.Users.FirstOrDefault(u => u.Id == userId);
         if (existingUser == null)
         {
             throw new NullReferenceException($"User {userId} not found");
         }
 
-        await using var transaction = await _rtuContext.Database.BeginTransactionAsync();
+        await using var transaction = await _serverDbContext.Database.BeginTransactionAsync();
 
         try
         {
             PatchUser(existingUser, patch);
-            await _rtuContext.SaveChangesAsync();
+            await _serverDbContext.SaveChangesAsync();
 
             if (patch.Password is not null)
             {
@@ -88,8 +88,8 @@ public class UsersRepository : IUsersRepository
 
             if (patch.Role is not null)
             {
-                var adminRole = _rtuContext.Roles.First(r => r.Name == ApplicationDefaultRole.Root.ToString());
-                var admins = _rtuContext.UserRoles.Where(u => u.RoleId == adminRole.Id).ToList();
+                var adminRole = _serverDbContext.Roles.First(r => r.Name == ApplicationDefaultRole.Root.ToString());
+                var admins = _serverDbContext.UserRoles.Where(u => u.RoleId == adminRole.Id).ToList();
                 if (admins.Count() == 1 && admins[0].UserId == userId && patch.Role != ApplicationDefaultRole.Root.ToString())
                     throw new ArgumentException("Prohibited to downgrade last administrator");
 
@@ -109,7 +109,7 @@ public class UsersRepository : IUsersRepository
 
     public async Task DeleteUser(string userId)
     {
-        var user = _rtuContext.Users.FirstOrDefault(u => u.Id == userId);
+        var user = _serverDbContext.Users.FirstOrDefault(u => u.Id == userId);
         if (user == null)
         {
             throw new NullReferenceException($"User {userId} not found");
@@ -194,13 +194,13 @@ public class UsersRepository : IUsersRepository
 
     public async Task<string> CreateUser(ApplicationUserPatch patch)
     {
-        var existingUser = _rtuContext.Users.FirstOrDefault(u => u.UserName == patch.UserName);
+        var existingUser = _serverDbContext.Users.FirstOrDefault(u => u.UserName == patch.UserName);
         if (existingUser != null)
         {
             throw new NullReferenceException("UserName must be unique");
         }
 
-        await using var transaction = await _rtuContext.Database.BeginTransactionAsync();
+        await using var transaction = await _serverDbContext.Database.BeginTransactionAsync();
 
         try
         {
@@ -212,7 +212,7 @@ public class UsersRepository : IUsersRepository
 
             }
 
-            await _rtuContext.SaveChangesAsync();
+            await _serverDbContext.SaveChangesAsync();
 
             var addToRoleResult = await _userManager.AddToRoleAsync(newUser, patch.Role!);
             if (!addToRoleResult.Succeeded)
@@ -257,7 +257,7 @@ public class UsersRepository : IUsersRepository
     //         PhoneNumber = patch.PhoneNumber ?? "",
     //         JobTitle = patch.JobTitle ?? "",
     //     };
-    //     _rtuContext.Users.Add(newUser);
+    //     _serverDbContext.Users.Add(newUser);
     //     return newUser;
     // }
 }

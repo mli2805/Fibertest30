@@ -4,10 +4,10 @@ using System.Reflection;
 
 namespace Fibertest30.Infrastructure;
 
-public class RtuContext : IdentityDbContext<ApplicationUser>
+public class ServerDbContext : IdentityDbContext<ApplicationUser>
 {
-    public RtuContext() { /* Empty ctor for EF Moq */ }
-    public RtuContext(DbContextOptions<RtuContext> options) : base(options) { }
+    public ServerDbContext() { /* Empty ctor for EF Moq */ }
+    public ServerDbContext(DbContextOptions<ServerDbContext> options) : base(options) { }
     public DbSet<UserSettings> UserSettings { get; set; }
     public DbSet<SystemEventEf> SystemEvents { get; set; }
     public DbSet<UserSystemNotificationEf> UserSystemNotifications { get; set; }

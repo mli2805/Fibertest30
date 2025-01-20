@@ -13,12 +13,12 @@ public abstract class SqliteTestBase
     protected bool _useSqliteMemory = true;
     private SqliteConnection? _inMemorySqlite;
 
-    protected RtuContext _rtuContext = null!;
+    protected ServerDbContext _serverDbContext = null!;
     protected UserManager<ApplicationUser> _userManager = null!;
     protected RoleManager<IdentityRole> _roleManager = null!;
-    private RtuContextInitializer _initializer = null!;
+    private ServerDbContextInitializer _initializer = null!;
 
-    private readonly Mock<ILogger<RtuContextInitializer>> _mockLogger = new();
+    private readonly Mock<ILogger<ServerDbContextInitializer>> _mockLogger = new();
     protected readonly DefaultPermissionProvider _permissionProvider = new();
     protected readonly Mock<IDefaultPermissionProvider> _mockPermissionProvier = new();
 
@@ -34,7 +34,7 @@ public abstract class SqliteTestBase
     [TestCleanup]
     public void BaseTestCleanup()
     {
-        _rtuContext.Dispose();
+        _serverDbContext.Dispose();
         _inMemorySqlite?.Dispose();
     }
 
@@ -47,7 +47,7 @@ public abstract class SqliteTestBase
         var services = new ServiceCollection();
         services.AddIdentityCore<ApplicationUser>(options => { })
              .AddRoles<IdentityRole>()
-        .AddEntityFrameworkStores<RtuContext>();
+        .AddEntityFrameworkStores<ServerDbContext>();
 
         services.Configure<IdentityOptions>(IdentityOptionsConfiguration.Configure);
         services.AddSingleton<IUserStore<ApplicationUser>>(userStore);
@@ -59,22 +59,22 @@ public abstract class SqliteTestBase
 
 
         ResetPermissionProvider();
-        _initializer = new RtuContextInitializer(
+        _initializer = new ServerDbContextInitializer(
             _mockLogger.Object,
             rtuContext,
             _mockPermissionProvier.Object,
             _userManager,
             _roleManager
             );
-        _rtuContext = rtuContext;
+        _serverDbContext = rtuContext;
     }
 
-    private RtuContext GetEntityFrameworkInMemory()
+    private ServerDbContext GetEntityFrameworkInMemory()
     {
-        var dbOptions = new DbContextOptionsBuilder<RtuContext>()
+        var dbOptions = new DbContextOptionsBuilder<ServerDbContext>()
                         .UseInMemoryDatabase(databaseName: "TestRtu")
                         .Options;
-        var rtuContext = new RtuContext(dbOptions);
+        var rtuContext = new ServerDbContext(dbOptions);
 
         // Clear the database between each test
         // Alternatively you can use Guid.NewGuid() as database name
@@ -83,7 +83,7 @@ public abstract class SqliteTestBase
         return rtuContext;
     }
 
-    private RtuContext GetSqliteDbContext()
+    private ServerDbContext GetSqliteDbContext()
     {
         // Sqlite memory mode destroys the database after connection is closed
         // Let's open the connection manually, and don't close it till test ends
@@ -92,10 +92,10 @@ public abstract class SqliteTestBase
         _inMemorySqlite = new SqliteConnection("Data Source=:memory:");
         _inMemorySqlite.Open();
 
-        var dbOptions = new DbContextOptionsBuilder<RtuContext>()
+        var dbOptions = new DbContextOptionsBuilder<ServerDbContext>()
                 .UseSqlite(_inMemorySqlite)
                 .Options;
-        var rtuContext = new RtuContext(dbOptions);
+        var rtuContext = new ServerDbContext(dbOptions);
         rtuContext.Database.Migrate();
         return rtuContext;
     }

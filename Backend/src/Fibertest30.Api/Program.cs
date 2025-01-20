@@ -72,7 +72,7 @@ try
     Log.Information("Initialize and seed database..");
     using (var scope = app.Services.CreateScope())
     {
-        var initializer = scope.ServiceProvider.GetRequiredService<RtuContextInitializer>();
+        var initializer = scope.ServiceProvider.GetRequiredService<ServerDbContextInitializer>();
         await initializer.InitializeAsync();
 
         var emulator = builder.Configuration.GetValue<bool>("Emulator:Enabled");

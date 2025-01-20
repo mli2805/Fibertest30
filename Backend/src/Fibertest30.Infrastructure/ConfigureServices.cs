@@ -19,7 +19,7 @@ public static class ConfigureServices
 
         services.AddSingleton<IDateTime, DateTimeService>();
         services.AddSingleton<IDelayService, DelayService>();
-        services.AddDbContext<RtuContext>(c =>
+        services.AddDbContext<ServerDbContext>(c =>
         {
             var connectionString = configuration.GetConnectionString("Default")!;
             if (connectionString.Contains(":memory:"))
@@ -36,10 +36,10 @@ public static class ConfigureServices
 
         services.AddIdentityCore<ApplicationUser>(_ => { /*options.SignIn.RequireConfirmedAccount = true;*/ })
              .AddRoles<IdentityRole>()
-             .AddEntityFrameworkStores<RtuContext>()
+             .AddEntityFrameworkStores<ServerDbContext>()
             //.AddDefaultTokenProviders()
             ;
-        services.AddScoped<RtuContextInitializer>();
+        services.AddScoped<ServerDbContextInitializer>();
 
         services.AddDbContext<FtDbContext>(c =>
         {

@@ -4,26 +4,26 @@ namespace Fibertest30.Infrastructure;
 
 public class UserSettingsRepository : IUserSettingsRepository
 {
-    private readonly RtuContext _rtuContext;
+    private readonly ServerDbContext _serverDbContext;
 
-    public UserSettingsRepository(RtuContext rtuContext)
+    public UserSettingsRepository(ServerDbContext serverDbContext)
     {
-        _rtuContext = rtuContext;
+        _serverDbContext = serverDbContext;
     }
     
     public Task<UserSettings?> GetUserSettings(string userId)
     {
-        return _rtuContext.UserSettings
+        return _serverDbContext.UserSettings
             .SingleOrDefaultAsync(x => x.UserId == userId);
     }
 
     public async Task SaveUserSettings(string userId, UserSettings settings)
     {
-        var userSettings = _rtuContext.UserSettings.SingleOrDefault(x => x.UserId == userId);
+        var userSettings = _serverDbContext.UserSettings.SingleOrDefault(x => x.UserId == userId);
         if (userSettings == null)
         {
             settings.UserId = userId;
-            _rtuContext.UserSettings.Add(settings);
+            _serverDbContext.UserSettings.Add(settings);
         }
         else
         {
@@ -35,6 +35,6 @@ public class UserSettingsRepository : IUserSettingsRepository
             userSettings.Lng = settings.Lng;
         }
         
-        await _rtuContext.SaveChangesAsync();
+        await _serverDbContext.SaveChangesAsync();
     }
 }

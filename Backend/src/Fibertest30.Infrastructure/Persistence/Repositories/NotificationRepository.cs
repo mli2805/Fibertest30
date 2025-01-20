@@ -4,11 +4,11 @@ namespace Fibertest30.Infrastructure;
 
 public class NotificationRepository : INotificationRepository
 {
-    private readonly RtuContext _rtuContext;
+    private readonly ServerDbContext _serverDbContext;
 
-    public NotificationRepository(RtuContext rtuContext)
+    public NotificationRepository(ServerDbContext serverDbContext)
     {
-        _rtuContext = rtuContext;
+        _serverDbContext = serverDbContext;
     }
     
     public bool IsEnabled(NotificationChannel channel, SystemEventType systemEventType, string userId)
@@ -21,19 +21,19 @@ public class NotificationRepository : INotificationRepository
 
     public async Task AddInAppSystemNotification(int systemEventId, string userId)
     {
-        _rtuContext.UserSystemNotifications.Add(new UserSystemNotificationEf
+        _serverDbContext.UserSystemNotifications.Add(new UserSystemNotificationEf
         {
             UserId = userId,
             SystemEventId =  systemEventId
         });
         
-        await _rtuContext.SaveChangesAsync();
+        await _serverDbContext.SaveChangesAsync();
     }
 
   
     public async Task<List<SystemEvent>> GetUserSystemNotifications(string userId)
     {
-        return await _rtuContext.UserSystemNotifications
+        return await _serverDbContext.UserSystemNotifications
             .Where(x => x.UserId == userId)
             .Include(x => x.SystemEvent)
             .Select(x => x.SystemEvent.FromEf())
@@ -48,22 +48,22 @@ public class NotificationRepository : INotificationRepository
             SystemEventId = systemEventId
         };
 
-        _rtuContext.UserSystemNotifications.Attach(notification);
-        _rtuContext.UserSystemNotifications.Remove(notification);
+        _serverDbContext.UserSystemNotifications.Attach(notification);
+        _serverDbContext.UserSystemNotifications.Remove(notification);
 
-        await _rtuContext.SaveChangesAsync();
+        await _serverDbContext.SaveChangesAsync();
     }
     
     public async Task DismissAllSystemNotificationsByLevel(string userId, SystemEventLevel systemEventLevel)
     {
-        await _rtuContext.UserSystemNotifications
+        await _serverDbContext.UserSystemNotifications
             .Where(x => x.UserId == userId && x.SystemEvent.Level == systemEventLevel)
             .ExecuteDeleteAsync();
     }
 
     public async Task  DismissAllUserSystemNotifications(string userId)
     {
-        await _rtuContext.UserSystemNotifications
+        await _serverDbContext.UserSystemNotifications
             .Where(x => x.UserId == userId)
             .ExecuteDeleteAsync();
     }

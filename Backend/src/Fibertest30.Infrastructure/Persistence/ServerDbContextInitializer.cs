@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Fibertest30.Infrastructure;
-public class RtuContextInitializer(ILogger<RtuContextInitializer> logger, RtuContext context,
+public class ServerDbContextInitializer(ILogger<ServerDbContextInitializer> logger, ServerDbContext context,
     IDefaultPermissionProvider permissionProvider, UserManager<ApplicationUser> userManager,
     RoleManager<IdentityRole> roleManager)
 {

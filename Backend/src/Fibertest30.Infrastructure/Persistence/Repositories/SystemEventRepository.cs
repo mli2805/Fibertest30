@@ -4,24 +4,24 @@ namespace Fibertest30.Infrastructure;
 
 public class SystemEventRepository : ISystemEventRepository
 {
-    private readonly RtuContext _rtuContext;
+    private readonly ServerDbContext _serverDbContext;
 
-    public SystemEventRepository(RtuContext rtuContext)
+    public SystemEventRepository(ServerDbContext serverDbContext)
     {
-        _rtuContext = rtuContext;
+        _serverDbContext = serverDbContext;
     }
     
     public async Task<int> Add(SystemEvent systemEvent, CancellationToken ct)
     {
         var systemEventEf = systemEvent.ToEf();
-        _rtuContext.SystemEvents.Add(systemEventEf);
-        await _rtuContext.SaveChangesAsync(ct);
+        _serverDbContext.SystemEvents.Add(systemEventEf);
+        await _serverDbContext.SaveChangesAsync(ct);
         return systemEventEf.Id;
     }
 
     public async Task<List<SystemEvent>> GetAll(bool sortDescending, CancellationToken ct)
     {
-        IQueryable<SystemEventEf> query = _rtuContext.SystemEvents;
+        IQueryable<SystemEventEf> query = _serverDbContext.SystemEvents;
         if (sortDescending)
         {
             query = query.OrderByDescending(x => x.Id);

@@ -6,16 +6,16 @@ namespace Fibertest30.Infrastructure;
 
 public class NotificationSettingsRepository : INotificationSettingsRepository
 {
-    private readonly RtuContext _rtuContext;
+    private readonly ServerDbContext _serverDbContext;
 
-    public NotificationSettingsRepository(RtuContext rtuContext)
+    public NotificationSettingsRepository(ServerDbContext serverDbContext)
     {
-        _rtuContext = rtuContext;
+        _serverDbContext = serverDbContext;
     }
 
     public async Task<NotificationSettings> GetSettingsWithoutPasswords(CancellationToken ct)
     {
-        var settingsEf = await _rtuContext.NotificationSettings.SingleAsync(ct);
+        var settingsEf = await _serverDbContext.NotificationSettings.SingleAsync(ct);
         var settings = settingsEf.FromEf();
         settings.EmailServer!.IsPasswordSet = settings.EmailServer!.ServerPassword != "";
         settings.EmailServer!.ServerPassword = "";
@@ -29,7 +29,7 @@ public class NotificationSettingsRepository : INotificationSettingsRepository
 
     public async Task<EmailServer> GetEmailServer(CancellationToken ct)
     {
-        var settingsEf = await _rtuContext.NotificationSettings.SingleAsync(ct);
+        var settingsEf = await _serverDbContext.NotificationSettings.SingleAsync(ct);
         var emailServer = settingsEf.FromEf().EmailServer!;
         emailServer.ServerPassword = DecodePassword(emailServer.ServerPassword);
         return emailServer;
@@ -37,7 +37,7 @@ public class NotificationSettingsRepository : INotificationSettingsRepository
 
     public async Task<TrapReceiver> GetTrapReceiver(CancellationToken ct)
     {
-        var settingsEf = await _rtuContext.NotificationSettings.SingleAsync(ct);
+        var settingsEf = await _serverDbContext.NotificationSettings.SingleAsync(ct);
         var trapReceiver = settingsEf.FromEf().TrapReceiver!;
         trapReceiver.AuthenticationPassword = DecodePassword(trapReceiver.AuthenticationPassword);
         trapReceiver.PrivacyPassword = DecodePassword(trapReceiver.PrivacyPassword);
@@ -46,7 +46,7 @@ public class NotificationSettingsRepository : INotificationSettingsRepository
 
     public async Task UpdateNotificationSettings(NotificationSettings notificationSettings, CancellationToken ct)
     {
-        var existingSettings = await _rtuContext.NotificationSettings.SingleOrDefaultAsync(ct);
+        var existingSettings = await _serverDbContext.NotificationSettings.SingleOrDefaultAsync(ct);
         if (existingSettings == null)
         {
             throw new NullReferenceException("NotificationSettings not found");
@@ -80,12 +80,12 @@ public class NotificationSettingsRepository : INotificationSettingsRepository
         }
 
 
-        await _rtuContext.SaveChangesAsync(ct);
+        await _serverDbContext.SaveChangesAsync(ct);
     }
 
     public async Task<string> GetEmailServerPassword(CancellationToken ct)
     {
-        var settingsEf = await _rtuContext.NotificationSettings.SingleAsync(ct);
+        var settingsEf = await _serverDbContext.NotificationSettings.SingleAsync(ct);
         var settings = settingsEf.FromEf();
         var password = DecodePassword(settings.EmailServer!.ServerPassword);
         return password;
@@ -93,7 +93,7 @@ public class NotificationSettingsRepository : INotificationSettingsRepository
 
     public async Task<Tuple<string, string>> GetTrapReceiverPasswords(CancellationToken ct)
     {
-        var settingsEf = await _rtuContext.NotificationSettings.SingleAsync(ct);
+        var settingsEf = await _serverDbContext.NotificationSettings.SingleAsync(ct);
         var settings = settingsEf.FromEf();
         var authPassword = DecodePassword(settings.TrapReceiver!.AuthenticationPassword);
         var privPassword = DecodePassword(settings.TrapReceiver!.PrivacyPassword);
