@@ -30,7 +30,13 @@ public static class ConfigureServices
             }
             else
             {
-                c.UseSqlite(connectionString);
+                // c.UseSqlite(connectionString);
+
+                string serverDbScheme = "ft30server";
+                var mySqlAddress = configuration["MySqlServerAddress"] ?? "localhost";
+                var conStrTemplate = "server={0};port=3306;user id=root;password=root;database={1}";
+                var conString = string.Format(conStrTemplate, mySqlAddress, serverDbScheme);
+                c.UseMySql(conString, ServerVersion.AutoDetect(conString));
             }
         });
 

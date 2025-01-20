@@ -186,7 +186,8 @@ void SetCurrentDirectoryAndCreateDataDirectory(WebApplicationBuilder builder)
     Directory.SetCurrentDirectory(Path.GetDirectoryName(assemblyLocation)!);
 
     // Create a directory for stored data (like sqlite database)
-    Directory.CreateDirectory("../conf");
+    // Directory.CreateDirectory("../conf");
+    // db in mysql
 }
 
 
