@@ -4,6 +4,7 @@ import { NgModule, inject } from '@angular/core';
 import { StartPageComponent } from './components/start-page/start-page.component';
 import { DeviceInfoResolver, UsersResolver } from './components/guards';
 import { canActivateStartPage } from 'src/app/guards';
+import { GisComponent } from 'src/app/features/gis/gis/gis.component';
 
 const routes: Routes = [
   {
@@ -59,9 +60,13 @@ const routes: Routes = [
       },
       {
         path: 'gis',
-        loadChildren: () => import('../../../features/gis/gis.module').then((m) => m.GisModule),
+        component: GisComponent,
+
+        // хотя в gis.module был всего один route при попытке reuse было переполнение callstack
+        // loadChildren: () => import('../../../features/gis/gis.module').then((m) => m.GisModule),
+        // gis.module всё равно наверное нужен, т.к. там объявлены все дочерние компоненты
         data: {
-          _reuseRouteId: 'gis'
+          reuseRouteId: 'gis'
         }
       },
       {
