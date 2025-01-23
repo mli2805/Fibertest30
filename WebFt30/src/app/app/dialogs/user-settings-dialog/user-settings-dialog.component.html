@@ -1,6 +1,6 @@
 <div class="dialog">
   <div class="flex flex-col">
-    <rtu-dialog-header>{{ 'i18n.user-settings.my-settings' | translate }}</rtu-dialog-header>
+    <rtu-dialog-header>{{ 'i18n.ft.my-settings' | translate }}</rtu-dialog-header>
     <div *ngIf="user$ | async as user">
       <rtu-user-card [user]="user"></rtu-user-card>
     </div>
@@ -12,11 +12,11 @@
       <div
         class="group grid grid-cols-[auto_minmax(0,_1fr)] gap-y-1 sm:grid-cols-[auto_minmax(0,_1fr)_2rem_auto_minmax(0,_1fr)]"
       >
-        <label class="m-2 my-auto">{{ 'i18n.user-settings.language' | translate }}</label>
+        <label class="m-2 my-auto">{{ 'i18n.ft.language' | translate }}</label>
         <rtu-language-switcher class="w-full"></rtu-language-switcher>
 
         <label class="col-start-1 row-start-2 m-2 my-auto">{{
-          'i18n.user-settings.date-time-format' | translate
+          'i18n.ft.date-time-format' | translate
         }}</label>
         <rtu-datetime-format-switcher
           class="col-start-2 row-start-2"
@@ -24,7 +24,7 @@
 
         <div class="hidden sm:block"></div>
 
-        <label class="m-2 my-auto">{{ 'i18n.user-settings.theme' | translate }}</label>
+        <label class="m-2 my-auto">{{ 'i18n.ft.theme' | translate }}</label>
         <rtu-theme-switcher class="my-auto"></rtu-theme-switcher>
       </div>
     </div>
@@ -32,7 +32,7 @@
     <rtu-simple-error
       *ngIf="saveUserSettingsError$ | async as error"
       class="mt-5"
-      [error]="'i18n.user-settings.save-error' | translate"
+      [error]="'i18n.ft.save-error' | translate"
     ></rtu-simple-error>
   </div>
 </div>

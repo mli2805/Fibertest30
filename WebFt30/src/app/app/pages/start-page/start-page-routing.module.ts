@@ -17,7 +17,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'rtus',
+        redirectTo: 'gis',
         pathMatch: 'full'
       },
       {
@@ -59,7 +59,10 @@ const routes: Routes = [
       },
       {
         path: 'gis',
-        loadChildren: () => import('../../../features/gis/gis.module').then((m) => m.GisModule)
+        loadChildren: () => import('../../../features/gis/gis.module').then((m) => m.GisModule),
+        data: {
+          _reuseRouteId: 'gis'
+        }
       },
       {
         path: 'reports',

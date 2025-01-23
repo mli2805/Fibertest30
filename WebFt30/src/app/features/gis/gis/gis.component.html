@@ -1,3 +1,8 @@
 <div class="flex flex-1">
-  <rtu-gis-editor />
+  <ng-container *ngIf="(hasEditPermission$ | async) === true">
+    <rtu-gis-editor />
+  </ng-container>
+  <ng-container *ngIf="(hasEditPermission$ | async) === false">
+    <rtu-gis-viewer />
+  </ng-container>
 </div>

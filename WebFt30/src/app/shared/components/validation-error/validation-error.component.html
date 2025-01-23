@@ -9,12 +9,12 @@
     {{ 'i18n.common.validation.cannot-be-more-than' | translate }} {{ max.max }}
   </p>
   <p class="p-2" *ngIf="errors!['doNotMatch']">
-    {{ 'i18n.users.passwords-do-not-match' | translate }}
+    {{ 'i18n.ft.passwords-do-not-match' | translate }}
   </p>
   <p class="p-2" *ngIf="errors!['notUnique']">
     {{ 'i18n.validation.not-unique' | translate }}
   </p>
-  <!-- <p *ngIf="errors!['required']">{{ 'i18n.users.required' | translate }}</p> -->
+  <!-- <p *ngIf="errors!['required']">{{ 'i18n.ft.required' | translate }}</p> -->
   <p class="p-2" *ngIf="errors!['theSameIp']">
     {{ 'i18n.otau.error.otau-with-this-ip-address-is-already-added' | translate }}
   </p>

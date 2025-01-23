@@ -5,7 +5,7 @@
 <rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
 
 <div class="flex flex-col" *ngIf="loaded$ | async">
-  <p class="m-2">{{ 'i18n.user-accounts.user-accounts' | translate }}</p>
+  <p class="m-2">{{ 'i18n.ft.user-accounts' | translate }}</p>
   <div class="m-2 flex grow flex-wrap content-start gap-2">
     <ng-container *ngFor="let user of users$ | async">
       <div class="grouped-border min-h-32 min-w-96">

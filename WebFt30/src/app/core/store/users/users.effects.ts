@@ -25,7 +25,7 @@ export class UsersEffects {
             });
           }),
           catchError((error) =>
-            of(UsersActions.getUsersFailure({ errorMessageId: 'i18n.users.cant-load-users' }))
+            of(UsersActions.getUsersFailure({ errorMessageId: 'i18n.ft.cant-load-users' }))
           )
         )
       )
@@ -43,7 +43,7 @@ export class UsersEffects {
           }),
           catchError((error) => {
             return of(
-              UsersActions.createUserFailure({ errorMessageId: 'i18n.users.cant-create-user' })
+              UsersActions.createUserFailure({ errorMessageId: 'i18n.ft.cant-create-user' })
             );
           })
         );
@@ -86,7 +86,7 @@ export class UsersEffects {
           }),
           catchError((error) => {
             return of(
-              UsersActions.deleteUserFailure({ errorMessageId: 'i18n.users.cant-delete-user' })
+              UsersActions.deleteUserFailure({ errorMessageId: 'i18n.ft.cant-delete-user' })
             );
           })
         );

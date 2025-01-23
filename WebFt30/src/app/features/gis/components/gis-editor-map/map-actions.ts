@@ -53,7 +53,6 @@ export class MapActions {
     (<any>marker).id = node.id;
 
     const layerType = GisMapUtils.equipmentTypeToGisMapLayer(node.equipmentType);
-    console.log(this.gisMapService.getLayerGroups());
     const group = this.gisMapService.getLayerGroups().get(layerType)!;
     group.addLayer(marker);
   }

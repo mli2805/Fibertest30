@@ -20,7 +20,7 @@ export class RolesEffects {
             });
           }),
           catchError((error) =>
-            of(RolesActions.getRolesFailure({ errorMessageId: 'i18n.users.cant-load-roles' }))
+            of(RolesActions.getRolesFailure({ errorMessageId: 'i18n.ft.cant-load-roles' }))
           )
         )
       )

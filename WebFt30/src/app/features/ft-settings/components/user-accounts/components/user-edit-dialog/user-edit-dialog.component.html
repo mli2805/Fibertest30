@@ -180,7 +180,7 @@
         <rtu-select style="grid-area: userGroupValue" formControlName="role" [items]="roles">
           <ng-template rtuSelectLabel let-selectedItem>
             <rtu-description-label
-              [description]="'i18n.user-settings.member-of' | translate"
+              [description]="'i18n.ft.member-of' | translate"
               [label]="selectedItem"
             ></rtu-description-label>
           </ng-template>
@@ -341,7 +341,7 @@
       <!-- schedule component-->
       <div *ngIf="false" style="width: 32rem" class="m-3 mt-28 h-48">
         <div class="flex">
-          <label class="m-2 text-xs">{{ 'i18n.user-accounts.set-work-hours' | translate }}</label>
+          <label class="m-2 text-xs">{{ 'i18n.ft.set-work-hours' | translate }}</label>
           <label class="toggle">
             <input
               #isSchedule
@@ -407,19 +407,19 @@
         class="button-delete mr-2 mt-6 min-w-36"
         (click)="OnDeleteClicked()"
       >
-        {{ 'i18n.users.delete-user' | translate }}
+        {{ 'i18n.ft.delete-user' | translate }}
       </button>
 
       <div class="mt-6 flex flex-row justify-end">
         <button class="button-cancel mr-2 min-w-36" (click)="onDiscardClicked()" cdkFocusInitial>
-          {{ 'i18n.common.discard' | translate }}
+          {{ 'i18n.ft.discard' | translate }}
         </button>
         <button
           class="button-ok mr-2 min-w-36"
           [disabled]="isApplyDisabled()"
           (click)="onApplyClicked()"
         >
-          {{ 'i18n.common.apply' | translate }}
+          {{ 'i18n.ft.apply' | translate }}
         </button>
       </div>
     </div>
