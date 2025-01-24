@@ -11,6 +11,7 @@ import { ColorUtils } from 'src/app/shared/utils/color-utils';
 import { MapFiberMenu } from './map-fiber-menu';
 import { Injector } from '@angular/core';
 import { MapNodeMenu } from './map-node-menu';
+import { MapLayersActions } from './map-layers-actions';
 
 export class MapActions {
   private static icons = new GisMapIcons();
@@ -22,11 +23,10 @@ export class MapActions {
     this.graphService = injector.get(GraphService);
   }
 
-  static emptyGuid = '00000000-0000-0000-0000-000000000000';
   static async addNewNode(e: L.ContextMenuItemClickEvent, equipmentType: EquipmentType) {
     const guid =
       equipmentType === EquipmentType.EmptyNode || equipmentType === EquipmentType.AdjustmentPoint
-        ? this.emptyGuid
+        ? GisMapUtils.emptyGuid
         : crypto.randomUUID();
     const command = {
       RequestedEquipmentId: crypto.randomUUID(),
@@ -43,86 +43,8 @@ export class MapActions {
     );
     if (response.success) {
       const traceNode = new TraceNode(command.NodeId, '', e.latlng, equipmentType);
-      this.addNodeToLayer(traceNode);
+      MapLayersActions.addNodeToLayer(traceNode);
     }
-  }
-
-  static addNodeToLayer(node: TraceNode): void {
-    const marker = this.createMarker(node.coors, node.equipmentType, this.icons.getIcon(node));
-    marker.bindPopup(node.title);
-    (<any>marker).id = node.id;
-
-    const layerType = GisMapUtils.equipmentTypeToGisMapLayer(node.equipmentType);
-    const group = this.gisMapService.getLayerGroups().get(layerType)!;
-    group.addLayer(marker);
-  }
-
-  static addFiberToLayer(fiber: GeoFiber): void {
-    const options = {
-      color: ColorUtils.routeStateToColor(fiber.fiberState),
-      contextmenu: true,
-      contextmenuInheritItems: false,
-      contextmenuItems: MapFiberMenu.buildFiberContextMenu()
-    };
-    const polyline = L.polyline([fiber.coors1, fiber.coors2], options);
-    (<any>polyline).id = fiber.id;
-
-    const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
-    group.addLayer(polyline);
-  }
-
-  static createMarker(
-    coordinate: L.LatLng,
-    equipmentType: EquipmentType,
-    iconWithIndex: GisIconWithZIndex
-  ): L.Marker {
-    const options = {
-      icon: iconWithIndex.icon,
-      draggable: true,
-      contextmenu: true,
-      contextmenuInheritItems: false,
-      contextmenuItems: MapNodeMenu.buildMarkerContextMenu(equipmentType)
-    };
-    const marker = L.marker(coordinate, options);
-
-    if (iconWithIndex?.zIndex) {
-      marker.setZIndexOffset(iconWithIndex.zIndex * 1000);
-    }
-
-    marker.on('click', () => {
-      console.log((<any>marker).id);
-    });
-
-    marker.on('dragend', (e) => {
-      this.dragMarkerWithPolylines(e);
-    });
-
-    return marker;
-  }
-
-  static dragMarkerWithPolylines(e: L.DragEndEvent) {
-    const position = (<L.Marker>e.target).getLatLng();
-    const nodeId = (<any>e.target).id;
-    const node = this.gisMapService.getGeoData().nodes.find((n) => n.id === nodeId)!;
-    node.coors = position;
-
-    const fibers = this.gisMapService
-      .getGeoData()
-      .fibers.filter((f) => f.node1id === node.id || f.node2id === node.id);
-
-    const routeGroup = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
-    fibers.forEach((f) => {
-      const oldRouteLayer = routeGroup.getLayers().find((r) => (<any>r).id === f.id);
-      routeGroup.removeLayer(oldRouteLayer!);
-
-      if (f.node1id === node.id) {
-        f.coors1 = position;
-      } else {
-        f.coors2 = position;
-      }
-
-      this.addFiberToLayer(f);
-    });
   }
 
   static copyCoordinates(e: L.ContextMenuItemClickEvent) {

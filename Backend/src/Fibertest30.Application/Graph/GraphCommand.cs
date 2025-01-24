@@ -1,6 +1,7 @@
 ﻿using Iit.Fibertest.Graph;
 using MediatR;
-using System.Text.Json;
+using System.Reflection;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Fibertest30.Application;
 
@@ -11,7 +12,7 @@ public class GraphCommandHandler(ICurrentUserService currentUserService, IEventS
 {
     public async Task<string?> Handle(GraphCommand request, CancellationToken cancellationToken)
     {
-        var cmd = Des(request.Command, request.CommandType);
+        var cmd = Deserialize(request.Command, request.CommandType);
         if (cmd == null)
         {
             throw new ArgumentException("Failed deserialize command");
@@ -20,16 +21,28 @@ public class GraphCommandHandler(ICurrentUserService currentUserService, IEventS
         return await eventStoreService.SendCommand(cmd, currentUserService.UserName, "");
     }
 
-    private object? Des(string json, string typeName)
+    // private object? Deserialize(string json, string typeName)
+    // {
+    //     switch (typeName)
+    //     {
+    //         case "UpdateRtu": return JsonSerializer.Deserialize<UpdateRtu>(json);
+    //         case "UpdateTrace": return JsonSerializer.Deserialize<UpdateTrace>(json);
+    //
+    //         case "AddEquipmentAtGpsLocation": return JsonSerializer.Deserialize<AddEquipmentAtGpsLocation>(json);
+    //     }
+    //
+    //     return null;
+    // }
+
+    // только для классов из Iit.Fibertest.Graph
+    private object? Deserialize(string json, string typeName)
     {
-        switch (typeName)
-        {
-            case "UpdateRtu": return JsonSerializer.Deserialize<UpdateRtu>(json);
-            case "UpdateTrace": return JsonSerializer.Deserialize<UpdateTrace>(json);
-
-            case "AddEquipmentAtGpsLocation": return  JsonSerializer.Deserialize<AddEquipmentAtGpsLocation>(json);
-        }
-
-        return null;
+        var a = typeof(UpdateRtu).Assembly;
+        var type = a.GetTypes().FirstOrDefault(t => t.FullName == $"Iit.Fibertest.Graph.{typeName}");
+        return type != null ? JsonSerializer.Deserialize(json, type) : null;
     }
+
 }
+
+
+

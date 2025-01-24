@@ -35,6 +35,7 @@ export class MapFiberMenu {
 
   static showSectionInformation(e: L.ContextMenuItemClickEvent) {
     console.log(e);
+    console.log(e.relatedTarget);
   }
 
   static addNodeToSection(e: L.ContextMenuItemClickEvent) {

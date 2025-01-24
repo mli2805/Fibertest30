@@ -273,6 +273,7 @@
   "i18n.ft.measurement-finished": "Измерение порт {{ 0 }}, трасса {{ 1 }} завершено",
 
   "i18n.ft.add-node": "Добавить узел",
+  "i18n.ft.remove-node": "Удалить узел",
   "i18n.ft.add-rtu": "Добавить RTU",
   "i18n.ft.add-node-with-cable-reserve": "Добавить узел с кабельным резервом",
   "i18n.ft.add-node-with-closure": "Добавить узел с муфтой",

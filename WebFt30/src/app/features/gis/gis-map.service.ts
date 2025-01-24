@@ -7,6 +7,7 @@ import {
   TraceRouteData
 } from 'src/app/core/store/models/ft30/geo-data';
 import * as L from 'leaflet';
+import { GisMapUtils } from './components/shared/gis-map.utils';
 
 @Injectable()
 export class GisMapService {
@@ -76,4 +77,14 @@ export class GisMapService {
   getLayerGroups(): Map<GisMapLayer, L.FeatureGroup> {
     return this.layerGroups;
   }
+  //////////////////
+  currentZoom = new BehaviorSubject<number>(16);
+  currentZoom$ = this.currentZoom.asObservable();
+
+  mousePosition = new BehaviorSubject<string>('');
+  mousePosition$ = this.mousePosition.asObservable();
+
+  /////////////////////////
+  addSectionMode = false;
+  addSectionFromNodeId = GisMapUtils.emptyGuid;
 }

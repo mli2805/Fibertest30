@@ -5,6 +5,8 @@ import { GisMapLayer } from '../../models/gis-map-layer';
 import { GisMapIcons } from './gis-map-icons';
 
 export class GisMapUtils {
+  static emptyGuid = '00000000-0000-0000-0000-000000000000';
+
   static createLayerGroupByGisType(layerType: GisMapLayer): L.FeatureGroup {
     if (layerType === GisMapLayer.Route) {
       return L.featureGroup();

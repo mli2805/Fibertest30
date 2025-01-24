@@ -554,6 +554,7 @@
   "i18n.ft.save": "Save",
 
   "i18n.ft.add-node": "Add node",
+  "i18n.ft.remove-node": "Remove узел",
   "i18n.ft.add-rtu": "Add RTU",
   "i18n.ft.add-node-with-cable-reserve": "Add node with cable reserve",
   "i18n.ft.add-node-with-closure": "Add node with closure",
