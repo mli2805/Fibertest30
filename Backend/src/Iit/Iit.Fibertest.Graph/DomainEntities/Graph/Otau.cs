@@ -8,11 +8,11 @@ namespace Iit.Fibertest.Graph
     {
         public Guid Id { get; set; }
         public Guid RtuId { get; set; }
-        public string VeexRtuMainOtauId { get; set; }
+        public string? VeexRtuMainOtauId { get; set; }
         public bool IsMainOtau { get; set; }
 
         public NetAddress NetAddress { get; set; } = new NetAddress();
-        public string Serial { get; set; }
+        public string Serial { get; set; } = null!;
         public int PortCount { get; set; }
 
         public int MasterPort { get; set; }

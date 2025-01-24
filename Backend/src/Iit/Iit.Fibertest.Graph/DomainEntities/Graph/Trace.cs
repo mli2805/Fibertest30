@@ -6,7 +6,7 @@ namespace Iit.Fibertest.Graph
     public class Trace
     {
         public Guid TraceId { get; set; }
-        public string Title { get; set; }
+        public string Title { get; set; } = null!;
         public Guid RtuId { get; set; } // it's better to store than search through the RTU list
 
         public FiberState State { get; set; } = FiberState.NotJoined;
@@ -15,9 +15,9 @@ namespace Iit.Fibertest.Graph
         public int Port { get; set; } = -1;
 
         public TraceMode Mode { get; set; } = TraceMode.Light;
-        public List<Guid> NodeIds { get; set; } = new List<Guid>();
-        public List<Guid> EquipmentIds { get; set; } = new List<Guid>();
-        public List<Guid> FiberIds { get; set; } = new List<Guid>();
+        public List<Guid> NodeIds { get; set; } = new();
+        public List<Guid> EquipmentIds { get; set; } = new();
+        public List<Guid> FiberIds { get; set; } = new();
 
         public Guid PreciseId { get; set; } = Guid.Empty;
         public TimeSpan PreciseDuration { get; set; }
@@ -27,13 +27,13 @@ namespace Iit.Fibertest.Graph
         public TimeSpan AdditionalDuration { get; set; }
 
         public TraceToTceLinkState TraceToTceLinkState { get; set; }
-        public string Comment { get; set; }
+        public string Comment { get; set; } = string.Empty;
 
         public bool HasAnyBaseRef => PreciseId != Guid.Empty || FastId != Guid.Empty || AdditionalId != Guid.Empty;
         public bool HasEnoughBaseRefsToPerformMonitoring => PreciseId != Guid.Empty && FastId != Guid.Empty;
         public bool IsIncludedInMonitoringCycle { get; set; }
 
-        public List<Guid> ZoneIds { get; set; } = new List<Guid>();
+        public List<Guid> ZoneIds { get; set; } = new();
 
         public override string ToString()
         {

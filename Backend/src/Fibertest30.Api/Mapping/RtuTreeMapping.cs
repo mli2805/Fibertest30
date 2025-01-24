@@ -89,7 +89,7 @@ public static class RtuTreeMapping
         // NetAddress не должен быть null, a в базе был
         PortOfOtau portOfOtau = new PortOfOtau()
         {
-            OtauNetAddress = otauPortDto.NetAddress?.ToProto() ?? new Iit.Fibertest.Dto.NetAddress().ToProto(),
+            OtauNetAddress = otauPortDto.NetAddress.ToProto(),
             OtauSerial = otauPortDto.Serial,
             OpticalPort = otauPortDto.OpticalPort,
             IsPortOnMainCharon = otauPortDto.IsPortOnMainCharon,

@@ -1,5 +1,3 @@
-using Iit.Fibertest.Dto;
-
 namespace Fibertest30.Application;
 
 public class MonitoringAlarmEvent : INotificationEvent

@@ -115,8 +115,8 @@ public class TableProvider
             : filtered;
 
         var ordered = dateTimeFilter.OrderDescending
-            ? since.OrderByDescending(o => o!.EventTimestamp)
-            : since.OrderBy(o => o!.EventTimestamp);
+            ? since.OrderByDescending(o => o.EventTimestamp)
+            : since.OrderBy(o => o.EventTimestamp);
 
         var portion = ordered.Take(_pageSize);
 

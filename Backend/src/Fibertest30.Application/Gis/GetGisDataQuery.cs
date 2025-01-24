@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Fibertest30.Application;
 
-public record GetGisDataQuery() : IRequest<GisData>;
+public record GetGisDataQuery : IRequest<GisData>;
 
 public class GetGisDataQueryHandler(Model writeModel) : IRequestHandler<GetGisDataQuery, GisData>
 {

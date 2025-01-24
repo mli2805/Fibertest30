@@ -2,7 +2,4 @@
 namespace Fibertest30.Application;
 
 [AttributeUsage(AttributeTargets.Class)]
-public class AllowAnonymousAttribute : Attribute
-{
-
-}
+public class AllowAnonymousAttribute : Attribute;

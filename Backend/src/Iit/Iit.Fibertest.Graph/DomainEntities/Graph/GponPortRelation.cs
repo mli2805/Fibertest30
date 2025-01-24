@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Graph
         public int GponInterface { get; set; }
         public Guid RtuId { get; set; }
         public RtuMaker RtuMaker { get; set; }
-        public OtauPortDto OtauPortDto { get; set; }
+        public OtauPortDto OtauPortDto { get; set; } = null!;
         public Guid TraceId { get; set; }
     }
 }

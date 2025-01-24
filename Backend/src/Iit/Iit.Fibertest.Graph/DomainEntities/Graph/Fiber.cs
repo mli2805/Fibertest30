@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Graph
         public double OpticalLength { get; set; }
 
         // if empty - fiber is not in any trace; pair contains trace.TraceId : trace.TraceState
-        public Dictionary<Guid, FiberState> States { get; set; } = new Dictionary<Guid, FiberState>();
+        public Dictionary<Guid, FiberState> States { get; set; } = new();
 
         public FiberState GetState()
         {
@@ -31,11 +31,11 @@ namespace Iit.Fibertest.Graph
                 States.Remove(traceId);
         }
 
-        public List<Guid> HighLights { get; set; } = new List<Guid>();
+        public List<Guid> HighLights { get; set; } = new();
 
         public void SetLightOnOff(Guid traceId, bool light)
         {
-            if (HighLights == null) HighLights = new List<Guid>();
+            // if (HighLights == null) HighLights = new List<Guid>();
             if (light && !HighLights.Contains(traceId))
             {
                 HighLights.Add(traceId);
@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        public Dictionary<Guid, FiberState> TracesWithExceededLossCoeff { get; set; } = new Dictionary<Guid, FiberState>();
+        public Dictionary<Guid, FiberState> TracesWithExceededLossCoeff { get; set; } = new();
 
         public void SetBadSegment(Guid traceId, FiberState lossCoeffSeriousness)
         {

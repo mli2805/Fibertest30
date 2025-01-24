@@ -27,9 +27,9 @@ public class EmailService : IEmailService
             var sslEnabled = emailServer.ServerPort == 465;
             await client.ConnectAsync(emailServer.ServerAddress, emailServer.ServerPort, sslEnabled, ct);
         }
-        catch (FailedToVerifySmtpServerCertificateException e)
+        catch (FailedToVerifySmtpServerCertificateException)
         {
-            throw e;
+            throw;
         }
         catch (Exception)
         {

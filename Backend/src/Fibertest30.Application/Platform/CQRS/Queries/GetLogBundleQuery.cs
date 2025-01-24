@@ -3,24 +3,17 @@ using System.IO.Compression;
 
 namespace Fibertest30.Application;
 
-public record GetLogBundleQuery() : IRequest<byte[]>;
+public record GetLogBundleQuery : IRequest<byte[]>;
 
-public class GetLogBundleQueryHandler : IRequestHandler<GetLogBundleQuery, byte[]>
+public class GetLogBundleQueryHandler(ILogProvider logProvider) : IRequestHandler<GetLogBundleQuery, byte[]>
 {
-    private readonly ILogProvider _logProvider;
-
-    public GetLogBundleQueryHandler(ILogProvider logProvider)
-    {
-        _logProvider = logProvider;
-    }
-
     public async Task<byte[]> Handle(GetLogBundleQuery request, CancellationToken ct)
     {
 
         using var compressedMemoryStream = new MemoryStream();
         using (var zip = new ZipArchive(compressedMemoryStream, ZipArchiveMode.Create))
         {
-            var dataCenterLogs = await _logProvider.GetDataCenterLogs(ct);
+            var dataCenterLogs = await logProvider.GetDataCenterLogs(ct);
             foreach ((byte[], string) dataCenterLog in dataCenterLogs)
             {
                 var entry = zip.CreateEntry(dataCenterLog.Item2);
@@ -29,7 +22,7 @@ public class GetLogBundleQueryHandler : IRequestHandler<GetLogBundleQuery, byte[
                 await stream.CopyToAsync(entryAsStream, ct);
             }
 
-            var nginxLogs = await _logProvider.GetNginxLogs(ct);
+            var nginxLogs = await logProvider.GetNginxLogs(ct);
             foreach ((byte[], string) nginxLog in nginxLogs)
             {
                 var entry = zip.CreateEntry(nginxLog.Item2);

@@ -35,7 +35,7 @@ public class RtuLinuxPollster(IConfiguration configuration, ILogger<RtuLinuxPoll
                 {
                     await PollRtu(makLinuxRtu, ct);
                 }
-                catch (Exception e)
+                catch (Exception )
                 {
                     // логируем внутри процедуры
 

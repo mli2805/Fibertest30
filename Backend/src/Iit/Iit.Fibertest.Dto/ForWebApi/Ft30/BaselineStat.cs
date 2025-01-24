@@ -4,5 +4,5 @@ public class BaselineStat
     public int SorFileId;
     public BaseRefType BaseRefType;
     public DateTime AssignedAt;
-    public string ByUser;
+    public string ByUser = string.Empty;
 }

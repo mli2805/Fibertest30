@@ -4,12 +4,12 @@
     public class TceS
     {
         public Guid Id { get; set; } = Guid.NewGuid();
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
         public TceTypeStruct TceTypeStruct { get; set; }
         public string Ip { get; set; } = @"0.0.0.0";
-        public List<TceSlot> Slots { get; set; } = new List<TceSlot>();
+        public List<TceSlot> Slots { get; set; } = new();
         public bool ProcessSnmpTraps { get; set; }
-        public string Comment { get; set; }
+        public string Comment { get; set; } = string.Empty;
 
         public TceS()
         {
