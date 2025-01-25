@@ -14,11 +14,14 @@
       ></rtu-trace-monitoring-mode-pictogram>
       <rtu-tce-link-pictogram [state]="trace.tceLinkState"></rtu-tce-link-pictogram>
       <rtu-fiber-state-pictogram [state]="trace.state"></rtu-fiber-state-pictogram>
-      <rtu-attached-trace-menu
-        [trace]="trace"
-        [isRtuAvailableNow]="rtu.isRtuAvailable"
-        [isMonitoringOn]="rtu.isMonitoringOn"
-      ></rtu-attached-trace-menu>
+
+      <div class="w-full whitespace-nowrap px-3 py-1 text-left">
+        <rtu-attached-trace-menu
+          [trace]="trace"
+          [isRtuAvailableNow]="rtu.isRtuAvailable"
+          [isMonitoringOn]="rtu.isMonitoringOn"
+        ></rtu-attached-trace-menu>
+      </div>
     </div>
   </ng-container>
 </ng-container>
