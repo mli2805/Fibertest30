@@ -44,6 +44,7 @@ export class MapActions {
     if (response.success) {
       const traceNode = new TraceNode(command.NodeId, '', e.latlng, equipmentType);
       MapLayersActions.addNodeToLayer(traceNode);
+      this.gisMapService.getGeoData().nodes.push(traceNode);
     }
   }
 

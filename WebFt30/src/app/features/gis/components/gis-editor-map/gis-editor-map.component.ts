@@ -147,6 +147,10 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
 
     data.geoData.fibers.forEach((f) => MapLayersActions.addFiberToLayer(f));
     data.geoData.nodes.forEach((n) => MapLayersActions.addNodeToLayer(n));
+
+    // если вывести fibers у каждого будет Id и даже _leaflet_id
+    // const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
+    // group.getLayers().forEach((l) => console.log(l));
   }
 
   onZoomChanged(zoom: number) {

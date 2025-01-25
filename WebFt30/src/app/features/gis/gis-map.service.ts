@@ -84,6 +84,9 @@ export class GisMapService {
   mousePosition = new BehaviorSubject<string>('');
   mousePosition$ = this.mousePosition.asObservable();
 
+  showTraceDefine = new BehaviorSubject<boolean>(false);
+  showTraceDefine$ = this.showTraceDefine.asObservable();
+
   /////////////////////////
   addSectionMode = false;
   addSectionFromNodeId = GisMapUtils.emptyGuid;

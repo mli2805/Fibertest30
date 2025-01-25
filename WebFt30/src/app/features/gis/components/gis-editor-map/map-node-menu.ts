@@ -9,6 +9,7 @@ import { GisMapUtils } from '../shared/gis-map.utils';
 import { GeoFiber } from 'src/app/core/store/models/ft30/geo-data';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { MapLayersActions } from './map-layers-actions';
+import { GisMapLayer } from '../../models/gis-map-layer';
 
 export class MapNodeMenu {
   private static ts: TranslateService;
@@ -52,7 +53,7 @@ export class MapNodeMenu {
       },
       {
         text: this.ts.instant('i18n.ft.define-trace'),
-        callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e)
+        callback: (e: L.ContextMenuItemClickEvent) => this.defineTrace(e)
       }
     ];
   }
@@ -92,6 +93,7 @@ export class MapNodeMenu {
   }
 
   static showInformation(e: L.ContextMenuItemClickEvent) {
+    console.log(e);
     console.log(e.relatedTarget);
   }
 
@@ -113,11 +115,24 @@ export class MapNodeMenu {
       const group = this.gisMapService.getLayerGroups().get(layerType);
       const marker = group?.getLayers().find((m) => (<any>m).id === nodeId);
       group?.removeLayer(marker!);
+
+      const routesGroup = this.gisMapService.getLayerGroups().get(GisMapLayer.Route);
+      this.gisMapService.getGeoData().fibers.forEach((f) => {
+        if (f.node1id === nodeId || f.node2id === nodeId) {
+          const route = routesGroup!.getLayers().find((r) => (<any>r).id === f.id);
+          routesGroup!.removeLayer(route!);
+        }
+      });
     }
   }
 
   static drawSection(e: L.ContextMenuItemClickEvent) {
     const nodeId = (<any>e.relatedTarget).id;
+
+    console.log(nodeId);
+    const node1 = this.gisMapService.getGeoData().nodes.find((n) => n.id === nodeId);
+    console.log(node1);
+
     this.gisMapService.addSectionMode = true;
     this.gisMapService.addSectionFromNodeId = nodeId;
   }
@@ -133,12 +148,15 @@ export class MapNodeMenu {
 
     this.gisMapService.addSectionMode = false;
     this.gisMapService.addSectionFromNodeId = GisMapUtils.emptyGuid;
+    console.log(beginNodeId);
 
     const json = JSON.stringify(command);
     const response = await firstValueFrom(this.graphService.sendCommand(json, 'AddFiber'));
     if (response.success) {
       const node1 = this.gisMapService.getGeoData().nodes.find((n) => n.id === beginNodeId);
+      console.log(node1);
       const node2 = this.gisMapService.getGeoData().nodes.find((n) => n.id === endNodeId);
+      console.log(node2);
       const fiber = new GeoFiber(
         fiberId,
         beginNodeId,
@@ -149,5 +167,11 @@ export class MapNodeMenu {
       );
       MapLayersActions.addFiberToLayer(fiber);
     }
+  }
+
+  static defineTrace(e: L.ContextMenuItemClickEvent) {
+    const nodeId = (<any>e.relatedTarget).id;
+    console.log(nodeId);
+    this.gisMapService.showTraceDefine.next(true);
   }
 }

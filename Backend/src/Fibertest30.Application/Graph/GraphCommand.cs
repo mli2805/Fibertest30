@@ -21,18 +21,7 @@ public class GraphCommandHandler(ICurrentUserService currentUserService, IEventS
         return await eventStoreService.SendCommand(cmd, currentUserService.UserName, "");
     }
 
-    // private object? Deserialize(string json, string typeName)
-    // {
-    //     switch (typeName)
-    //     {
-    //         case "UpdateRtu": return JsonSerializer.Deserialize<UpdateRtu>(json);
-    //         case "UpdateTrace": return JsonSerializer.Deserialize<UpdateTrace>(json);
-    //
-    //         case "AddEquipmentAtGpsLocation": return JsonSerializer.Deserialize<AddEquipmentAtGpsLocation>(json);
-    //     }
-    //
-    //     return null;
-    // }
+ 
 
     // только для классов из Iit.Fibertest.Graph
     private object? Deserialize(string json, string typeName)

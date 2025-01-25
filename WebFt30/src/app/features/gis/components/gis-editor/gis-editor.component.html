@@ -2,4 +2,7 @@
 
 <div class="mr-1 flex h-full flex-1">
   <rtu-gis-editor-map />
+  <ng-container *ngIf="gisMapService.showTraceDefine$ | async">
+    <rtu-trace-define />
+  </ng-container>
 </div>

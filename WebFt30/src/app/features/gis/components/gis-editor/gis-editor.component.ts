@@ -16,7 +16,7 @@ export class GisEditorComponent extends OnDestroyBase implements OnInit {
   loading = new BehaviorSubject<boolean>(false);
   loading$ = this.loading.asObservable();
 
-  constructor(private gisMapService: GisMapService, private gisService: GisService) {
+  constructor(public gisMapService: GisMapService, private gisService: GisService) {
     super();
   }
 
@@ -34,8 +34,6 @@ export class GisEditorComponent extends OnDestroyBase implements OnInit {
     this.loading.next(true);
     const response = await firstValueFrom(this.gisService.getAllGeoData());
     const geoData = GisMapping.fromGrpcGeoData(response.data!);
-    // console.log(geoData);
-    // console.log(`nodes: ${geoData.nodes.length}  fibers: ${geoData.fibers.length}`);
 
     this.gisMapService.setGeoData(geoData);
     this.loading.next(false);

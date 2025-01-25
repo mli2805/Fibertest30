@@ -9,6 +9,7 @@ import { GisTraceViewerComponent } from './components/gis-trace-viewer/gis-trace
 import { GisViewerComponent } from './components/gis-viewer/gis-viewer.component';
 import { GisEditorMapComponent } from './components/gis-editor-map/gis-editor-map.component';
 import { GisEditorComponent } from './components/gis-editor/gis-editor.component';
+import { TraceDefineComponent } from './components/trace-define/trace-define.component';
 
 @NgModule({
   imports: [GisRoutingModule, SharedModule],
@@ -25,7 +26,8 @@ import { GisEditorComponent } from './components/gis-editor/gis-editor.component
     GisTraceViewerComponent,
     GisViewerComponent,
     GisEditorMapComponent,
-    GisEditorComponent
+    GisEditorComponent,
+    TraceDefineComponent
   ],
   providers: [GisMapService]
 })

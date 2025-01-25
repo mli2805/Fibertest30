@@ -35,6 +35,9 @@ export class MapFiberMenu {
 
   static showSectionInformation(e: L.ContextMenuItemClickEvent) {
     console.log(e);
+    // console.log(JSON.stringify(e));
+    console.log(this);
+    console.log(JSON.stringify(this));
     console.log(e.relatedTarget);
   }
 
