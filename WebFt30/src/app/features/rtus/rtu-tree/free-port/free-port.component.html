@@ -1,12 +1,13 @@
+<!-- если пиктограммы 16px то ml-14 -->
 <div
-  class="ml-16 text-left"
+  class="ml-12 text-left"
   [ngClass]="{
   'bg-rtu-second-bg dark:bg-rtu-dark-second-bg': i % 2 === 0,
   'border-t-rtu-second-bg dark:border-t-rtu-dark-second-bg': i % 2 !== 0,
   'border-t-rtu-primary-bg dark:border-t-rtu-dark-primary-bg': i % 2 === 0,
 }"
 >
-  <div class="w-full whitespace-nowrap px-3 py-1 text-left">
+  <div class="w-full whitespace-nowrap py-1 pl-1 text-left">
     <rtu-free-port-menu
       [portOfOtau]="portOfOtau"
       [isRtuAvailableNow]="isRtuAvailableNow"

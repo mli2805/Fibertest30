@@ -6,7 +6,17 @@
   (click)="onTraceNameClicked()"
   (contextmenu)="onTraceNameClicked()"
 >
-  <span class="ml-2 text-blue-500 dark:text-blue-400">{{ trace.title }}</span>
+  <div class="flex items-center">
+    <rtu-trace-monitoring-mode-pictogram
+      [trace]="trace"
+      [rtuMonitoringMode]="rtu.monitoringMode"
+    ></rtu-trace-monitoring-mode-pictogram>
+    <rtu-tce-link-pictogram [state]="trace.tceLinkState"></rtu-tce-link-pictogram>
+    <rtu-fiber-state-pictogram [state]="trace.state"></rtu-fiber-state-pictogram>
+    <span class="ml-2 whitespace-break-spaces text-left text-blue-500 dark:text-blue-400">{{
+      trace.title
+    }}</span>
+  </div>
 </button>
 
 <ng-template

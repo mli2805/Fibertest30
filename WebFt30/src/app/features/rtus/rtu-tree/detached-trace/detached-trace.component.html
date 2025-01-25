@@ -8,15 +8,8 @@
   'border-t-rtu-primary-bg dark:border-t-rtu-dark-primary-bg': i % 2 === 0,
 }"
     >
-      <rtu-trace-monitoring-mode-pictogram
-        [trace]="trace"
-        [rtuMonitoringMode]="rtu.monitoringMode"
-      ></rtu-trace-monitoring-mode-pictogram>
-      <rtu-tce-link-pictogram [state]="trace.tceLinkState"></rtu-tce-link-pictogram>
-      <rtu-fiber-state-pictogram [state]="trace.state"></rtu-fiber-state-pictogram>
-
-      <div class="w-full whitespace-nowrap px-3 py-1 text-left">
-        <rtu-detached-trace-menu [trace]="trace"></rtu-detached-trace-menu>
+      <div class="w-full whitespace-nowrap py-1 text-left">
+        <rtu-detached-trace-menu [rtu]="rtu" [trace]="trace"></rtu-detached-trace-menu>
       </div>
     </div>
   </ng-container>

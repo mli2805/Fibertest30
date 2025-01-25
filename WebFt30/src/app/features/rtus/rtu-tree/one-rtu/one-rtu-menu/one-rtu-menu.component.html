@@ -6,7 +6,13 @@
   (click)="onRtuNameClicked()"
   (contextmenu)="onRtuNameClicked()"
 >
-  <span>{{ rtu.title }}</span>
+  <div class="flex items-center">
+    <rtu-monitoring-mode-pictogram [mode]="rtu.monitoringMode"></rtu-monitoring-mode-pictogram>
+    <rtu-rtu-part-state-pictogram [state]="rtu.bopsState"></rtu-rtu-part-state-pictogram>
+    <rtu-rtu-part-state-pictogram [state]="rtu.mainChannelState"></rtu-rtu-part-state-pictogram>
+    <rtu-rtu-part-state-pictogram [state]="rtu.reserveChannelState"></rtu-rtu-part-state-pictogram>
+    <span class="ml-2">{{ rtu.title }}</span>
+  </div>
 </button>
 
 <ng-template

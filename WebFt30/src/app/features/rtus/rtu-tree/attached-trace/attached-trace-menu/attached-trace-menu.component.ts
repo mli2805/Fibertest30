@@ -6,6 +6,7 @@ import { AppState, AuthSelectors, RtuTreeActions, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { RtuTreeService } from 'src/app/core/grpc';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
+import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
 
 @Component({
@@ -24,16 +25,21 @@ export class AttachedTraceMenuComponent {
   currentUser: User | null;
 
   lineContent!: string;
+  portName!: string;
+  traceTitle!: string;
   private _trace!: Trace;
   @Input() set trace(value: Trace) {
     this._trace = value;
     this.lineContent = `N${this._trace.port!.opticalPort}: ${this._trace.title}`;
+    this.portName = `N${this._trace.port!.opticalPort}`;
+    this.traceTitle = this._trace.title;
   }
   get trace() {
     return this._trace;
   }
   @Input() isRtuAvailableNow!: boolean;
   @Input() isMonitoringOn!: boolean;
+  @Input() rtu!: Rtu;
 
   public open = false;
 

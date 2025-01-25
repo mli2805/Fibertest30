@@ -1,8 +1,8 @@
 <ng-container *ngIf="bop$ | async as bop">
   <ng-container *ngIf="rtu$ | async as rtu">
-    <!-- bop line itself -->
+    <!-- вся линия бопа, если пиктограммы 16px то ml-2 -->
     <div
-      class="ml-2 flex items-center text-left"
+      class="ml-0 flex items-center text-left"
       [ngClass]="{
   'bg-rtu-second-bg dark:bg-rtu-dark-second-bg': i % 2 === 0,
 }"
@@ -10,7 +10,7 @@
       <div *ngIf="bop.portCount === 0">
         <div class="ml-8"></div>
       </div>
-      <div *ngIf="bop.portCount !== 0" class="mt-1">
+      <div *ngIf="bop.portCount !== 0" class="mt-0">
         <rtu-expand-branch
           *ngIf="!isExpanded"
           class="ml-2 h-6 w-6"
@@ -22,9 +22,8 @@
           (click)="flipExpanded()"
         ></rtu-collapse-branch>
       </div>
-      <rtu-rtu-part-state-pictogram [state]="bop.bopState"></rtu-rtu-part-state-pictogram>
 
-      <div class="w-full whitespace-nowrap px-3 py-1 text-left">
+      <div class="w-full whitespace-nowrap py-1 text-left">
         <rtu-one-bop-menu
           [bop]="bop"
           [isRtuAvailableNow]="rtu.isRtuAvailable"
@@ -37,7 +36,7 @@
 
     <!-- children -->
     <ng-container *ngIf="isExpanded" class="rounded-sm">
-      <div class="ml-32 border-t-4 border-t-rtu-primary-bg dark:border-t-rtu-dark-primary-bg">
+      <div class="ml-16 border-t-4 border-t-rtu-primary-bg dark:border-t-rtu-dark-primary-bg">
         <ng-container *ngFor="let child of bop.children; let ib = index">
           <ng-container *ngIf="child.type === 'attached-trace'">
             <rtu-attached-trace

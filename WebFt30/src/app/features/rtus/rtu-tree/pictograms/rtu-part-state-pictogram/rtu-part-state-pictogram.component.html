@@ -1,16 +1,13 @@
-<div class="ml-1 mt-1">
+<div class="ml-1">
   <div *ngIf="state === rtuPartState.NotSetYet">
-    <rtu-square-pictogram class="h-4 w-4" [fillColor]="'none'"></rtu-square-pictogram>
+    <rtu-square-pictogram [fillColor]="'none'"></rtu-square-pictogram>
   </div>
   <div *ngIf="state === rtuPartState.Broken">
-    <rtu-square-pictogram
-      class="h-4 w-4 text-red-500"
-      [fillColor]="'currentColor'"
-    ></rtu-square-pictogram>
+    <rtu-square-pictogram class="text-red-500" [fillColor]="'currentColor'"></rtu-square-pictogram>
   </div>
   <div *ngIf="state === rtuPartState.Ok">
     <rtu-square-pictogram
-      class="h-4 w-4 text-green-500"
+      class="text-green-500"
       [fillColor]="'currentColor'"
     ></rtu-square-pictogram>
   </div>

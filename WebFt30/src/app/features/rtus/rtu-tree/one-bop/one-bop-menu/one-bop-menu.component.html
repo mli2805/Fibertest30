@@ -6,7 +6,10 @@
   (click)="onBopNameClicked()"
   (contextmenu)="onBopNameClicked()"
 >
-  <span class="ml-2">{{ lineContent }}</span>
+  <div class="flex items-center">
+    <rtu-rtu-part-state-pictogram [state]="bop.bopState"></rtu-rtu-part-state-pictogram>
+    <span class="ml-2">{{ lineContent }}</span>
+  </div>
 </button>
 
 <ng-template
