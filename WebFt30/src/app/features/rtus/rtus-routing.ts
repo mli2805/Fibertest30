@@ -28,7 +28,8 @@ export const routes: Routes = [
       {
         path: 'rtu-tree',
         pathMatch: 'full',
-        component: RtuTreeComponent
+        component: RtuTreeComponent,
+        data: { reuseRouteId: 'rtu-tree' }
       },
       {
         path: 'information/:id',

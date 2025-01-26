@@ -10,20 +10,20 @@
       <div *ngIf="bop.portCount === 0">
         <div class="ml-8"></div>
       </div>
-      <div *ngIf="bop.portCount !== 0" class="mt-0">
+      <div *ngIf="bop.portCount !== 0" class="ml-[14px] h-5 w-5">
         <rtu-expand-branch
           *ngIf="!isExpanded"
-          class="ml-2 h-6 w-6"
+          class="h-full w-full"
           (click)="flipExpanded()"
         ></rtu-expand-branch>
         <rtu-collapse-branch
           *ngIf="isExpanded"
-          class="ml-2 h-6 w-6"
+          class="h-full w-full"
           (click)="flipExpanded()"
         ></rtu-collapse-branch>
       </div>
 
-      <div class="w-full whitespace-nowrap py-1 text-left">
+      <div class="w-full whitespace-nowrap pb-0.5 pt-1 text-left">
         <rtu-one-bop-menu
           [bop]="bop"
           [isRtuAvailableNow]="rtu.isRtuAvailable"
