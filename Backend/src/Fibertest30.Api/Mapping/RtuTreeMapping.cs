@@ -87,9 +87,12 @@ public static class RtuTreeMapping
     private static PortOfOtau ToProto(this OtauPortDto otauPortDto)
     {
         // NetAddress не должен быть null, a в базе был
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        var netAddress = otauPortDto.NetAddress != null ? otauPortDto.NetAddress : new Iit.Fibertest.Dto.NetAddress();
+        
         PortOfOtau portOfOtau = new PortOfOtau()
         {
-            OtauNetAddress = otauPortDto.NetAddress.ToProto(),
+            OtauNetAddress = netAddress.ToProto(),
             OtauSerial = otauPortDto.Serial,
             OpticalPort = otauPortDto.OpticalPort,
             IsPortOnMainCharon = otauPortDto.IsPortOnMainCharon,
