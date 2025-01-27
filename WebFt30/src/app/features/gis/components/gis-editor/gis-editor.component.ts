@@ -9,7 +9,6 @@ import { GisMapping } from 'src/app/core/store/mapping/gis-mappings';
   selector: 'rtu-gis-editor',
   templateUrl: './gis-editor.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [GisMapService],
   styles: [':host { width: 100%; height: 100%; }']
 })
 export class GisEditorComponent extends OnDestroyBase implements OnInit {

@@ -140,6 +140,7 @@ message Rtu {
 
     optional TreeOfAcceptableMeasParams treeOfAcceptableMeasParams = 25;
     optional string comment = 26;
+    string nodeId = 27;
 }
 
 message TraceStatBaseline {

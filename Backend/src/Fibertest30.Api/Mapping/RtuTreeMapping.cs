@@ -173,6 +173,7 @@ public static class RtuTreeMapping
         Rtu protoRtu = new Rtu()
         {
             RtuId = rtu.RtuId.ToString(),
+            NodeId = rtu.NodeId.ToString(),
             RtuMaker = rtu.RtuMaker.ToProto(),
             Title = rtu.Title,
 

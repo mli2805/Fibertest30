@@ -6,6 +6,7 @@ import { Trace } from './trace';
 
 export class Rtu {
   rtuId!: string;
+  nodeId!: string;
   rtuMaker!: RtuMaker;
   title!: string;
 

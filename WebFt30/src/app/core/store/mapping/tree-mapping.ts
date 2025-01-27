@@ -60,6 +60,7 @@ export class TreeMapping {
   static fromGrpcRtu(grpcRtu: grpc.Rtu): Rtu {
     const rtu = new Rtu();
     rtu.rtuId = grpcRtu.rtuId;
+    rtu.nodeId = grpcRtu.nodeId;
     rtu.rtuMaker = FtEnumsMapping.fromGrpcRtuMaker(grpcRtu.rtuMaker);
     rtu.title = grpcRtu.title;
 

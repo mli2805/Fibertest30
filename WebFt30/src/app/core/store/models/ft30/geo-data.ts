@@ -22,13 +22,14 @@ export class GeoFiber {
 }
 
 export class TraceRouteData {
-  constructor(public nodes: TraceNode[], public traceState: FiberState) {}
+  constructor(public traceId: string, public nodes: TraceNode[], public traceState: FiberState) {}
 }
 
 export class GraphRoutesData {
   constructor(public routes: TraceRouteData[]) {}
 }
 
+// узлы и участки для карты root'а
 export class AllGeoData {
   constructor(public fibers: GeoFiber[], public nodes: TraceNode[]) {}
 }

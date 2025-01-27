@@ -4,6 +4,7 @@ import {
   Component,
   EnvironmentInjector,
   inject,
+  Injector,
   OnDestroy,
   OnInit
 } from '@angular/core';
@@ -26,6 +27,7 @@ import { LeafletAngularPopupBinder } from '../shared/leaflet-angular-popup-binde
 import { Store } from '@ngrx/store';
 import { AppState, SettingsActions, SettingsSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
+import { MapExternalCommands } from '../gis-editor-map/map-external-commands';
 
 GisMapUtils.fixLeafletMarkers();
 
@@ -52,12 +54,14 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
   mousePosition$ = this.mousePosition.asObservable();
 
   constructor(
-    private gisMapService: GisMapService,
+    private injector: Injector,
+    public gisMapService: GisMapService,
     private ts: TranslateService,
     appRef: ApplicationRef,
     envInjector: EnvironmentInjector
   ) {
     super();
+    MapExternalCommands.initialize(injector);
 
     this.popupBinder = new LeafletAngularPopupBinder(appRef, envInjector);
   }
@@ -72,6 +76,10 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     this.gisMapService.graphRoutesData$
       .pipe(takeUntil(this.ngDestroyed$))
       .subscribe((d) => this.onGraphRoutesData(d));
+
+    this.gisMapService.externalCommand$
+      .pipe(takeUntil(this.ngDestroyed$))
+      .subscribe((c) => MapExternalCommands.do(c));
   }
 
   override ngOnDestroy(): void {
@@ -120,6 +128,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
 
     // hide leaflet own attribution
     this.map.attributionControl.setPrefix('');
+    this.gisMapService.setMap(this.map);
 
     this.initMapLayersMap();
   }

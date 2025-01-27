@@ -23,6 +23,7 @@ public class FiberGisData
 
 public class TraceGisData
 {
+    public Guid TraceId;
     public List<NodeGisData> Nodes = null!;
     public FiberState TraceState;
 }

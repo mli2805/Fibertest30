@@ -389,6 +389,10 @@ export interface Rtu {
      * @generated from protobuf field: optional string comment = 26;
      */
     comment?: string;
+    /**
+     * @generated from protobuf field: string nodeId = 27;
+     */
+    nodeId: string;
 }
 /**
  * @generated from protobuf message fibertest30.rtu_tree.TraceStatBaseline
@@ -824,7 +828,8 @@ class Rtu$Type extends MessageType<Rtu> {
             { no: 23, name: "bops", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Bop },
             { no: 24, name: "traces", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Trace },
             { no: 25, name: "treeOfAcceptableMeasParams", kind: "message", T: () => TreeOfAcceptableMeasParams },
-            { no: 26, name: "comment", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
+            { no: 26, name: "comment", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
+            { no: 27, name: "nodeId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

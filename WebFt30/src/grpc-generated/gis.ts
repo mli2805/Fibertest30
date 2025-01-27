@@ -72,11 +72,15 @@ export interface GeoFiber {
  */
 export interface TraceRouteData {
     /**
-     * @generated from protobuf field: repeated fibertest30.gis.TraceNode nodes = 1;
+     * @generated from protobuf field: string traceId = 1;
+     */
+    traceId: string;
+    /**
+     * @generated from protobuf field: repeated fibertest30.gis.TraceNode nodes = 2;
      */
     nodes: TraceNode[];
     /**
-     * @generated from protobuf field: fibertest30.ft.enums.FiberState traceState = 2;
+     * @generated from protobuf field: fibertest30.ft.enums.FiberState traceState = 3;
      */
     traceState: FiberState;
 }
@@ -252,8 +256,9 @@ export const GeoFiber = new GeoFiber$Type();
 class TraceRouteData$Type extends MessageType<TraceRouteData> {
     constructor() {
         super("fibertest30.gis.TraceRouteData", [
-            { no: 1, name: "nodes", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => TraceNode },
-            { no: 2, name: "traceState", kind: "enum", T: () => ["fibertest30.ft.enums.FiberState", FiberState] }
+            { no: 1, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "nodes", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => TraceNode },
+            { no: 3, name: "traceState", kind: "enum", T: () => ["fibertest30.ft.enums.FiberState", FiberState] }
         ]);
     }
 }

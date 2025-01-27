@@ -65,6 +65,7 @@ namespace Iit.Fibertest.Graph
             return new RtuDto()
             {
                 RtuId = r.Id,
+                NodeId = r.NodeId,
                 Title = r.Title,
                 RtuMaker = r.RtuMaker,
                 Serial = r.Serial,

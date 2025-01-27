@@ -566,6 +566,7 @@
   "i18n.ft.add-equipment": "Add equipment",
   "i18n.ft.add-adjustment-point": "Add adjustment point",
   "i18n.ft.section": "Section",
+  "i18n.ft.section-with-nodes": "Section with nodes",
   "i18n.ft.remove-section": "Remove section",
 
   "i18n.ft.step-by-step-trace-definition": "Step by step trace definition",

@@ -1,16 +1,12 @@
 import * as L from 'leaflet';
 import { firstValueFrom } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc';
-import { GeoFiber, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
+import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { EquipmentType } from 'src/grpc-generated';
 import { GisMapService } from '../../gis-map.service';
 import { GisMapUtils } from '../shared/gis-map.utils';
-import { GisIconWithZIndex, GisMapIcons } from '../shared/gis-map-icons';
-import { GisMapLayer } from '../../models/gis-map-layer';
-import { ColorUtils } from 'src/app/shared/utils/color-utils';
-import { MapFiberMenu } from './map-fiber-menu';
+import { GisMapIcons } from '../shared/gis-map-icons';
 import { Injector } from '@angular/core';
-import { MapNodeMenu } from './map-node-menu';
 import { MapLayersActions } from './map-layers-actions';
 
 export class MapActions {

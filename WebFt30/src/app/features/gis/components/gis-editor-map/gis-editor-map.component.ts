@@ -11,8 +11,7 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
-import { BehaviorSubject, takeUntil } from 'rxjs';
-import { GisMapIcons } from '../shared/gis-map-icons';
+import { takeUntil } from 'rxjs';
 import { LeafletAngularPopupBinder } from '../shared/leaflet-angular-popup-binder';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
 import { AllGeoData } from 'src/app/core/store/models/ft30/geo-data';
@@ -21,13 +20,14 @@ import { GisMapService } from '../../gis-map.service';
 import { GisMapLayer } from '../../models/gis-map-layer';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { Store } from '@ngrx/store';
-import { AppState, SettingsActions, SettingsSelectors } from 'src/app/core';
+import { AppState, SettingsSelectors } from 'src/app/core';
 import { MapNodeMenu } from './map-node-menu';
 import { MapFiberMenu } from './map-fiber-menu';
 import { MapActions } from './map-actions';
 import { MapMenu } from './map-menu';
 import { MapLayersActions } from './map-layers-actions';
 import { MapMouseActions } from './map-mouse-actions';
+import { MapExternalCommands } from './map-external-commands';
 
 @Component({
   selector: 'rtu-gis-editor-map',
@@ -54,6 +54,7 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
     MapActions.initialize(injector);
     MapNodeMenu.initialize(injector);
     MapFiberMenu.initialize(injector);
+    MapExternalCommands.initialize(injector);
     this.popupBinder = new LeafletAngularPopupBinder(appRef, envInjector);
   }
 
@@ -64,9 +65,9 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
       .pipe(takeUntil(this.ngDestroyed$))
       .subscribe((d) => this.onGeoData(d));
 
-    this.gisMapService.currentZoom$
+    this.gisMapService.externalCommand$
       .pipe(takeUntil(this.ngDestroyed$))
-      .subscribe((d) => this.onZoomChanged(d));
+      .subscribe((c) => MapExternalCommands.do(c));
   }
 
   override ngOnDestroy(): void {
@@ -151,9 +152,5 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
     // если вывести fibers у каждого будет Id и даже _leaflet_id
     // const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
     // group.getLayers().forEach((l) => console.log(l));
-  }
-
-  onZoomChanged(zoom: number) {
-    //
   }
 }

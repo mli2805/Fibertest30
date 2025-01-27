@@ -39,6 +39,7 @@ export class GisMapping {
   static fromTraceRouteData(grpcTraceRoute: grpc.TraceRouteData): TraceRouteData {
     const nodes = grpcTraceRoute.nodes.map((n) => this.fromTraceNode(n));
     const route = new TraceRouteData(
+      grpcTraceRoute.traceId,
       nodes,
       FtEnumsMapping.fromGrpcFiberState(grpcTraceRoute.traceState)
     );

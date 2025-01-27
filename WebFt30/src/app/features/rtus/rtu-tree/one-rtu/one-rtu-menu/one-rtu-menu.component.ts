@@ -14,6 +14,7 @@ import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 import { SecUtil } from '../../../rtu-monitoring-settings/sec-util';
+import { GisMapService } from 'src/app/features/gis/gis-map.service';
 
 @Component({
   selector: 'rtu-one-rtu-menu',
@@ -36,6 +37,7 @@ export class OneRtuMenuComponent {
   public open = false;
 
   constructor(
+    public gisMapService: GisMapService,
     private elementRef: ElementRef,
     private router: Router,
     private cdr: ChangeDetectorRef
@@ -74,11 +76,19 @@ export class OneRtuMenuComponent {
     this.router.navigate([path]);
   }
 
+  onShowClicked() {
+    const cmd = {
+      name: 'ShowRtu',
+      nodeId: this.rtu.nodeId
+    };
+    this.gisMapService.externalCommand.next(cmd);
+  }
+
   canInitialize(): boolean {
     return this.hasPermission(ApplicationPermission.InitializeRtu);
   }
 
-  onNetworkSettignsClicked() {
+  onNetworkSettingsClicked() {
     const path = `rtus/initialization/${this.rtu.rtuId}`;
     this.router.navigate([path]);
   }

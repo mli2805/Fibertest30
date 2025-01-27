@@ -18,7 +18,7 @@ export class GisMapService {
     [GisMapLayer.AdjustmentPoints, 19]
   ]);
 
-  /////////////////////
+  ///////////////////// все узлы и участки для карты root'а
   private geoData!: AllGeoData;
   getGeoData(): AllGeoData {
     return this.geoData;
@@ -27,13 +27,12 @@ export class GisMapService {
   private geoDataSubject = new BehaviorSubject<{ geoData: AllGeoData } | null>(null);
   geoData$ = this.geoDataSubject.asObservable();
 
-  // внешний компонент получает данные от сервера и засовывает их в этот сервис
   setGeoData(geoData: AllGeoData): void {
     this.geoData = geoData;
     this.geoDataSubject.next({ geoData });
   }
 
-  ////////////////////
+  //////////////////// одна трасса для показа на форме опт соб
   private traceRouteDataSubject = new BehaviorSubject<{
     traceRouteData: TraceRouteData;
   } | null>(null);
@@ -46,7 +45,12 @@ export class GisMapService {
     });
   }
 
-  /////////////////////
+  ///////////////////// все трассы для полной карты без редактирования
+  private graph!: GraphRoutesData;
+  public getGraph(): GraphRoutesData {
+    return this.graph;
+  }
+
   private graphRoutesDataSubject = new BehaviorSubject<{ graphRoutesData: GraphRoutesData } | null>(
     null
   );
@@ -54,6 +58,7 @@ export class GisMapService {
   graphRoutesData$ = this.graphRoutesDataSubject.asObservable();
 
   setGraphRoutesData(graphRoutesData: GraphRoutesData): void {
+    this.graph = graphRoutesData;
     this.graphRoutesDataSubject.next({ graphRoutesData });
   }
 
@@ -90,4 +95,8 @@ export class GisMapService {
   /////////////////////////
   addSectionMode = false;
   addSectionFromNodeId = GisMapUtils.emptyGuid;
+
+  //////////////////////////////
+  externalCommand = new BehaviorSubject<any>({});
+  externalCommand$ = this.externalCommand.asObservable();
 }

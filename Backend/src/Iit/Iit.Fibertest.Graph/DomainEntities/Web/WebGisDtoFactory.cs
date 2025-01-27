@@ -52,6 +52,7 @@ public static class WebGisDtoFactory
     {
         return new TraceGisData()
         {
+            TraceId = trace.TraceId,
             TraceState = trace.State,
             Nodes = trace.NodeIds
                 .Select(nodeId => writeModel.Nodes.First(n => n.NodeId == nodeId).GetNodeGisData())

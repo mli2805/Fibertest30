@@ -9,14 +9,13 @@ import { GisMapping } from 'src/app/core/store/mapping/gis-mappings';
   selector: 'rtu-gis-viewer',
   templateUrl: './gis-viewer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [GisMapService],
   styles: [':host { width: 100%; height: 100%; }']
 })
 export class GisViewerComponent extends OnDestroyBase implements OnInit {
   loading = new BehaviorSubject<boolean>(false);
   loading$ = this.loading.asObservable();
 
-  constructor(private gisMapService: GisMapService, private gisService: GisService) {
+  constructor(public gisMapService: GisMapService, private gisService: GisService) {
     super();
   }
 

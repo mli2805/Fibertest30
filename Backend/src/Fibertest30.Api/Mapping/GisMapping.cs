@@ -55,7 +55,10 @@ public static class GisMapping
 
     public static TraceRouteData ToProto(this TraceGisData trace)
     {
-        var result = new TraceRouteData { TraceState = trace.TraceState.ToProto() };
+        var result = new TraceRouteData
+        {
+            TraceId = trace.TraceId.ToString(), TraceState = trace.TraceState.ToProto()
+        };
         trace.Nodes.ForEach(n => result.Nodes.Add(n.ToProto()));
         return result;
     }
@@ -63,15 +66,15 @@ public static class GisMapping
     public static GraphRoutesData ToProto(this GisData data)
     {
         var result = new GraphRoutesData();
-        data.Traces.ForEach(t=>result.Traces.Add(t.ToProto()));
+        data.Traces.ForEach(t => result.Traces.Add(t.ToProto()));
         return result;
     }
 
     public static AllGeoData ToProto(this AllGisData data)
     {
         var result = new AllGeoData();
-        data.Fibers.ForEach(f=>result.Fibers.Add(f.ToProto()));
-        data.Nodes.ForEach(n=>result.Nodes.Add(n.ToProto()));
+        data.Fibers.ForEach(f => result.Fibers.Add(f.ToProto()));
+        data.Nodes.ForEach(n => result.Nodes.Add(n.ToProto()));
         return result;
     }
 }

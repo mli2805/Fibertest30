@@ -6,6 +6,7 @@ namespace Iit.Fibertest.Dto
     public class RtuDto
     {
         [DataMember] public Guid RtuId;
+        [DataMember] public Guid NodeId;
         [DataMember] public RtuMaker RtuMaker;
         [DataMember] public string Title;
         // [DataMember] public string OtauId; // in VeEX RTU main OTAU has its own ID

@@ -51,8 +51,9 @@ message GeoFiber {
 }
 
 message TraceRouteData {
-	repeated TraceNode nodes = 1;
-	ft.enums.FiberState traceState = 2;
+	string traceId = 1;
+	repeated TraceNode nodes = 2;
+	ft.enums.FiberState traceState = 3;
 }
 
 message GraphRoutesData {
