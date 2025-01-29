@@ -11,12 +11,13 @@ import { GisMapUtils } from './components/shared/gis-map.utils';
 
 @Injectable()
 export class GisMapService {
-  public static GisMapLayerZoom = new Map<GisMapLayer, number>([
-    [GisMapLayer.Route, 0],
-    [GisMapLayer.TraceEquipment, 13],
-    [GisMapLayer.EmptyNodes, 16],
-    [GisMapLayer.AdjustmentPoints, 19]
-  ]);
+  // public static GisMapLayerZoom = new Map<GisMapLayer, number>([
+  //   [GisMapLayer.Route, 0],
+  //   [GisMapLayer.TraceEquipment, 13],
+  //   [GisMapLayer.EmptyNodes, 16],
+  //   [GisMapLayer.AdjustmentPoints, 19]
+  // ]);
+  public static GisMapLayerZoom = new Map<GisMapLayer, number>([]);
 
   ///////////////////// все узлы и участки для карты root'а
   private geoData!: AllGeoData;

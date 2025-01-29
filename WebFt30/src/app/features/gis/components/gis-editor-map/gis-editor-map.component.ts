@@ -11,7 +11,7 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
-import { takeUntil } from 'rxjs';
+import { firstValueFrom, takeUntil } from 'rxjs';
 import { LeafletAngularPopupBinder } from '../shared/leaflet-angular-popup-binder';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
 import { AllGeoData } from 'src/app/core/store/models/ft30/geo-data';
@@ -20,7 +20,7 @@ import { GisMapService } from '../../gis-map.service';
 import { GisMapLayer } from '../../models/gis-map-layer';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { Store } from '@ngrx/store';
-import { AppState, SettingsSelectors } from 'src/app/core';
+import { AppSettingsService, AppState, SettingsSelectors } from 'src/app/core';
 import { MapNodeMenu } from './map-node-menu';
 import { MapFiberMenu } from './map-fiber-menu';
 import { MapActions } from './map-actions';
@@ -28,6 +28,7 @@ import { MapMenu } from './map-menu';
 import { MapLayersActions } from './map-layers-actions';
 import { MapMouseActions } from './map-mouse-actions';
 import { MapExternalCommands } from './map-external-commands';
+import { GisMapLayers } from '../shared/gis-map-layers';
 
 @Component({
   selector: 'rtu-gis-editor-map',
@@ -44,6 +45,7 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
   constructor(
     private injector: Injector,
     public gisMapService: GisMapService,
+    private appSettingsService: AppSettingsService,
     appRef: ApplicationRef,
     envInjector: EnvironmentInjector
   ) {
@@ -58,7 +60,7 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
     this.popupBinder = new LeafletAngularPopupBinder(appRef, envInjector);
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.initMap();
 
     this.gisMapService.geoData$
@@ -68,6 +70,13 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
     this.gisMapService.externalCommand$
       .pipe(takeUntil(this.ngDestroyed$))
       .subscribe((c) => MapExternalCommands.do(c));
+
+    const settings = await firstValueFrom(this.appSettingsService.settings$);
+    console.log(settings!.showNodesFromZoom);
+    GisMapService.GisMapLayerZoom.set(GisMapLayer.Route, 0);
+    GisMapService.GisMapLayerZoom.set(GisMapLayer.TraceEquipment, settings!.showNodesFromZoom);
+    GisMapService.GisMapLayerZoom.set(GisMapLayer.EmptyNodes, settings!.showNodesFromZoom);
+    GisMapService.GisMapLayerZoom.set(GisMapLayer.AdjustmentPoints, settings!.showNodesFromZoom);
   }
 
   override ngOnDestroy(): void {
@@ -103,7 +112,7 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
     });
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
+      maxZoom: 21,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap'
     }).addTo(this.map);
 
@@ -129,14 +138,14 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
     // если показывать не кластера а по зуму, то при инициализации
     // надо не просто добавить слой в карту (выше строка)
     // а сделать это в зависимомсти от текущего зума
-    // GisMapService.GisMapLayerZoom.forEach((value, key) => {
-    //   GisMapLayers.setLayerVisibility(
-    //     this.map,
-    //     this.layerGroups,
-    //     key,
-    //     this.currentZoom.value >= value
-    //   );
-    // });
+    GisMapService.GisMapLayerZoom.forEach((value, key) => {
+      GisMapLayers.setLayerVisibility(
+        this.map,
+        this.gisMapService.getLayerGroups(),
+        key,
+        this.gisMapService.currentZoom.value >= value
+      );
+    });
   }
 
   geoData!: AllGeoData;

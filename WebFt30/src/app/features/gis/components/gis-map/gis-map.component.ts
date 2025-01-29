@@ -28,6 +28,7 @@ import { Store } from '@ngrx/store';
 import { AppState, SettingsActions, SettingsSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { MapExternalCommands } from '../gis-editor-map/map-external-commands';
+import { GisMapLayers } from '../shared/gis-map-layers';
 
 GisMapUtils.fixLeafletMarkers();
 
@@ -101,7 +102,12 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
 
     this.map.on('zoomend', (e) => {
       const newZoom = this.map.getZoom();
-      // this.adjustLayersToZoom(newZoom);
+      GisMapLayers.adjustLayersToZoom(
+        this.gisMapService.getMap(),
+        this.gisMapService.getLayerGroups(),
+        this.gisMapService.currentZoom.value,
+        newZoom
+      );
       this.currentZoom.next(newZoom);
       this.store.dispatch(SettingsActions.changeZoom({ zoom: newZoom }));
     });

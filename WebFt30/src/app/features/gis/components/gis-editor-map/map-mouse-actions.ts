@@ -4,6 +4,7 @@ import { GisMapService } from '../../gis-map.service';
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { Store } from '@ngrx/store';
 import { AppState, SettingsActions } from 'src/app/core';
+import { GisMapLayers } from '../shared/gis-map-layers';
 
 export class MapMouseActions {
   private static gisMapService: GisMapService;
@@ -21,7 +22,12 @@ export class MapMouseActions {
 
   static onZoom() {
     const newZoom = this.gisMapService.getMap().getZoom();
-    // GisMapLayers.adjustLayersToZoom(this.map, this.layerGroups, this.currentZoom.value, newZoom);
+    GisMapLayers.adjustLayersToZoom(
+      this.gisMapService.getMap(),
+      this.gisMapService.getLayerGroups(),
+      this.gisMapService.currentZoom.value,
+      newZoom
+    );
     this.gisMapService.currentZoom.next(newZoom);
     this.store.dispatch(SettingsActions.changeZoom({ zoom: newZoom }));
   }

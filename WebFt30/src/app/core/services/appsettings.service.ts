@@ -8,6 +8,7 @@ export interface AppSettings {
   showQuickSignIn: boolean;
   debugLanguage: boolean;
   logGrpcExecutionTime: boolean;
+  showNodesFromZoom: number;
 }
 
 @Injectable({
@@ -26,7 +27,8 @@ export class AppSettingsService {
       this.setAppSettings({
         showQuickSignIn: true,
         debugLanguage: true,
-        logGrpcExecutionTime: false // set to true to log grpc execution time in development mode
+        logGrpcExecutionTime: false, // set to true to log grpc execution time in development mode
+        showNodesFromZoom: 16
       });
 
       return;

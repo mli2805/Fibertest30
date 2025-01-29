@@ -14,8 +14,8 @@ export class GisMapUtils {
       // если возвращать featureGroup а не markerClusterGroup
       //  и включить adjustLayersToZoom в обработчике изменения зума,
       // то маркеры будут показываться в зависимости от зума
-      // return L.featureGroup();
-      return this.getMarkerClusterGroup();
+      return L.featureGroup();
+      // return this.getMarkerClusterGroup();
     }
   }
 
