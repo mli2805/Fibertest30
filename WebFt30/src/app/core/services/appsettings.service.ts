@@ -32,7 +32,7 @@ export class AppSettingsService {
       showQuickSignIn: true,
       debugLanguage: true,
       logGrpcExecutionTime: false, // set to true to log grpc execution time in development mode
-      showNodesFromZoom: 16
+      showNodesFromZoom: 14
     });
   }
 

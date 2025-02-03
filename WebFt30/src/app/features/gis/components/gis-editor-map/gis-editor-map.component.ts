@@ -110,6 +110,12 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
       MapMouseActions.onDragEnd();
     });
 
+    this.map.on('contextmenu', (e) => {
+      // console.log('map contextmenu', e, e.originalEvent === MapLayersActions.temp);
+      // e.originalEvent.stopPropagation();
+      // e.originalEvent
+    });
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 21,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap'
@@ -156,9 +162,5 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
 
     data.geoData.fibers.forEach((f) => MapLayersActions.addFiberToLayer(f));
     data.geoData.nodes.forEach((n) => MapLayersActions.addNodeToLayer(n));
-
-    // если вывести fibers у каждого будет Id и даже _leaflet_id
-    // const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
-    // group.getLayers().forEach((l) => console.log(l));
   }
 }

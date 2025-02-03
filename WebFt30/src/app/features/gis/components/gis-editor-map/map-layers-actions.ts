@@ -44,7 +44,10 @@ export class MapLayersActions {
       contextmenuItems: MapFiberMenu.buildFiberContextMenu()
     };
     const line = L.polyline([fiber.coors1, fiber.coors2], options);
-
+    line.on('contextmenu', (e) => {
+      // чтобы не приходил этот же ивент от карты (портит ивент от линии)
+      L.DomEvent.stopPropagation(e);
+    });
     return line;
   }
 

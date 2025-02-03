@@ -41,19 +41,17 @@ export class MapFiberMenu {
   }
 
   static showSectionInformation(e: L.ContextMenuItemClickEvent) {
-    console.log(e);
+    // console.log(e);
     // console.log(JSON.stringify(e));
-    console.log(this);
-    console.log(JSON.stringify(this));
     console.log(e.relatedTarget);
   }
 
   static async addNodeToSection(e: L.ContextMenuItemClickEvent) {
-    // await this.addToSection(e, EquipmentType.EmptyNode);
+    await this.addToSection(e, EquipmentType.EmptyNode);
   }
 
   static async addPointToSection(e: L.ContextMenuItemClickEvent) {
-    // await this.addToSection(e, EquipmentType.AdjustmentPoint);
+    await this.addToSection(e, EquipmentType.AdjustmentPoint);
   }
 
   static async addToSection(e: L.ContextMenuItemClickEvent, eqType: EquipmentType) {
