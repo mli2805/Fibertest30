@@ -14,17 +14,17 @@ export class GisMapUtils {
       // если возвращать featureGroup а не markerClusterGroup
       //  и включить adjustLayersToZoom в обработчике изменения зума,
       // то маркеры будут показываться в зависимости от зума
-      return L.featureGroup();
-      // return this.getMarkerClusterGroup();
+      // return L.featureGroup();
+      return this.getMarkerClusterGroup(1); // если реально исползовать кластеризацию, то поставить зум большой - 18 или типа того
     }
   }
 
-  static getMarkerClusterGroup() {
+  static getMarkerClusterGroup(disableClusteringAtZoom: number) {
     return L.markerClusterGroup({
       iconCreateFunction: function (cluster) {
         return GisMapIcons.createLetterIcon(cluster.getChildCount().toString());
       },
-      disableClusteringAtZoom: 18,
+      disableClusteringAtZoom,
       maxClusterRadius: 180,
       showCoverageOnHover: false,
       spiderfyOnMaxZoom: false

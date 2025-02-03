@@ -78,7 +78,7 @@
                 }
               ]
             },
-            "demo": {
+            "server": {
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -88,21 +88,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.demo.ts"
-                }
-              ]
-            },
-            "device": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.device.ts"
+                  "with": "src/environments/environment.server.ts"
                 }
               ]
             }
@@ -118,8 +104,8 @@
             "development": {
               "browserTarget": "rfts400:build:development"
             },
-            "demo": {
-              "browserTarget": "rfts400:build:demo"
+            "server": {
+              "browserTarget": "rfts400:build:server"
             },
             "device": {
               "browserTarget": "rfts400:build:device"
