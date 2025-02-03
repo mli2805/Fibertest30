@@ -61,6 +61,12 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
   }
 
   async ngOnInit(): Promise<void> {
+    const settings = await firstValueFrom(this.appSettingsService.settings$);
+    GisMapService.GisMapLayerZoom.set(GisMapLayer.Route, 0);
+    GisMapService.GisMapLayerZoom.set(GisMapLayer.TraceEquipment, settings!.showNodesFromZoom);
+    GisMapService.GisMapLayerZoom.set(GisMapLayer.EmptyNodes, settings!.showNodesFromZoom);
+    GisMapService.GisMapLayerZoom.set(GisMapLayer.AdjustmentPoints, settings!.showNodesFromZoom);
+
     this.initMap();
 
     this.gisMapService.geoData$
@@ -70,13 +76,6 @@ export class GisEditorMapComponent extends OnDestroyBase implements OnInit, OnDe
     this.gisMapService.externalCommand$
       .pipe(takeUntil(this.ngDestroyed$))
       .subscribe((c) => MapExternalCommands.do(c));
-
-    const settings = await firstValueFrom(this.appSettingsService.settings$);
-    console.log(settings!.showNodesFromZoom);
-    GisMapService.GisMapLayerZoom.set(GisMapLayer.Route, 0);
-    GisMapService.GisMapLayerZoom.set(GisMapLayer.TraceEquipment, settings!.showNodesFromZoom);
-    GisMapService.GisMapLayerZoom.set(GisMapLayer.EmptyNodes, settings!.showNodesFromZoom);
-    GisMapService.GisMapLayerZoom.set(GisMapLayer.AdjustmentPoints, settings!.showNodesFromZoom);
   }
 
   override ngOnDestroy(): void {

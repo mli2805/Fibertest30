@@ -19,21 +19,24 @@ export class AppSettingsService {
   public readonly settings$ = this.appSettingsSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    this.loadDemoSettings();
+    console.log(environment);
+    if (environment.production) {
+      this.loadSettingsFromAssets();
+    } else {
+      this.setDebugSettings();
+    }
   }
 
-  private loadDemoSettings(): void {
-    if (!environment.production) {
-      this.setAppSettings({
-        showQuickSignIn: true,
-        debugLanguage: true,
-        logGrpcExecutionTime: false, // set to true to log grpc execution time in development mode
-        showNodesFromZoom: 16
-      });
+  private setDebugSettings(): void {
+    this.setAppSettings({
+      showQuickSignIn: true,
+      debugLanguage: true,
+      logGrpcExecutionTime: false, // set to true to log grpc execution time in development mode
+      showNodesFromZoom: 16
+    });
+  }
 
-      return;
-    }
-
+  private loadSettingsFromAssets(): void {
     this.http
       .get<AppSettings>('assets/appsettings.json')
       .pipe(
