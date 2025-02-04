@@ -5,8 +5,9 @@ import { GisMapService } from '../../gis-map.service';
 import { EquipmentType } from 'src/grpc-generated';
 import { firstValueFrom } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc';
-import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
+import { GeoFiber, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { MapLayersActions } from './map-layers-actions';
+import { GisMapLayer } from '../../models/gis-map-layer';
 
 export class MapFiberMenu {
   private static ts: TranslateService;
@@ -56,29 +57,79 @@ export class MapFiberMenu {
 
   static async addToSection(e: L.ContextMenuItemClickEvent, eqType: EquipmentType) {
     const fiberId = (<any>e.relatedTarget).id;
+    const oldFiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === fiberId)!;
 
     const command = {
       Id: crypto.randomUUID(),
       EquipmentId: crypto.randomUUID(),
-      Position: e.latlng,
+      Position: { Lat: e.latlng.lat, Lng: e.latlng.lng },
       InjectionType: eqType,
       FiberId: fiberId,
       NewFiberId1: crypto.randomUUID(),
       NewFiberId2: crypto.randomUUID()
     };
-    console.log(command);
     const json = JSON.stringify(command);
     const response = await firstValueFrom(this.graphService.sendCommand(json, 'AddNodeIntoFiber'));
     if (response.success) {
+      // добавить этот узел на карту и в GeoData
       const traceNode = new TraceNode(command.Id, '', e.latlng, eqType);
       MapLayersActions.addNodeToLayer(traceNode);
       this.gisMapService.getGeoData().nodes.push(traceNode);
 
-      // удалить старое и добавить 2 новых волокна
+      // добавить 2 новых волокна на карту и в GeoData
+      const newFiber1 = new GeoFiber(
+        command.NewFiberId1,
+        oldFiber.node1id,
+        oldFiber.coors1,
+        command.Id,
+        e.latlng,
+        oldFiber.fiberState
+      );
+      const newFiber2 = new GeoFiber(
+        command.NewFiberId2,
+        command.Id,
+        e.latlng,
+        oldFiber.node2id,
+        oldFiber.coors2,
+        oldFiber.fiberState
+      );
+
+      MapLayersActions.addFiberToLayer(newFiber1);
+      MapLayersActions.addFiberToLayer(newFiber2);
+      this.gisMapService.getGeoData().fibers.push(newFiber1);
+      this.gisMapService.getGeoData().fibers.push(newFiber2);
+
+      // удалить старое волокно с карты и из GeoData
+      const routeGroup = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
+      const oldRouteLayer = routeGroup.getLayers().find((r) => (<any>r).id === fiberId);
+      routeGroup.removeLayer(oldRouteLayer!);
+      const indexOfFiber = this.gisMapService.getGeoData().fibers.indexOf(oldFiber);
+      if (indexOfFiber > -1) {
+        this.gisMapService.getGeoData().fibers.splice(indexOfFiber, 1);
+      }
     }
   }
 
-  static removeSection(e: L.ContextMenuItemClickEvent) {
-    console.log(e);
+  static async removeSection(e: L.ContextMenuItemClickEvent) {
+    const fiberId = (<any>e.relatedTarget).id;
+    const oldFiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === fiberId)!;
+
+    const command = {
+      FiberId: fiberId
+    };
+    const json = JSON.stringify(command);
+    const response = await firstValueFrom(this.graphService.sendCommand(json, 'RemoveFiber'));
+    if (response.success) {
+      // если один из концов волокна - точка привязки, то удаляем её и продолжение после неё и т.д.
+
+      // удалить волокно с карты и из GeoData
+      const routeGroup = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
+      const oldRouteLayer = routeGroup.getLayers().find((r) => (<any>r).id === fiberId);
+      routeGroup.removeLayer(oldRouteLayer!);
+      const indexOfFiber = this.gisMapService.getGeoData().fibers.indexOf(oldFiber);
+      if (indexOfFiber > -1) {
+        this.gisMapService.getGeoData().fibers.splice(indexOfFiber, 1);
+      }
+    }
   }
 }

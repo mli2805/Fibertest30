@@ -1,6 +1,5 @@
 ﻿using Iit.Fibertest.Graph;
 using MediatR;
-using System.Reflection;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Fibertest30.Application;
@@ -20,8 +19,6 @@ public class GraphCommandHandler(ICurrentUserService currentUserService, IEventS
 
         return await eventStoreService.SendCommand(cmd, currentUserService.UserName, "");
     }
-
- 
 
     // только для классов из Iit.Fibertest.Graph
     private object? Deserialize(string json, string typeName)

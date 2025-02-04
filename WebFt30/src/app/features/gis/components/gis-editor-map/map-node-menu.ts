@@ -102,6 +102,8 @@ export class MapNodeMenu {
   }
 
   static async removeNode(e: L.ContextMenuItemClickEvent) {
+    // точка привязки должна удаляться иначе (сейчас удаляет волокно, должна пропасть только точка)
+    console.log(e);
     const nodeId = (<any>e.relatedTarget).id;
 
     const command = {
@@ -110,6 +112,9 @@ export class MapNodeMenu {
     const json = JSON.stringify(command);
     const response = await firstValueFrom(this.graphService.sendCommand(json, 'RemoveNode'));
     if (response.success) {
+      // удаляем узел и его волокна с карты и из GeoData
+      // если другой конец волокна удаляемого при удалении узла явл точкой привязки, то удаляем точку привязки и след волокно и т.д. пока не дойдем до обычного узла
+
       const node = this.gisMapService.getGeoData().nodes.find((n) => n.id === nodeId);
       const layerType = GisMapUtils.equipmentTypeToGisMapLayer(node!.equipmentType);
       const group = this.gisMapService.getLayerGroups().get(layerType);
@@ -128,11 +133,8 @@ export class MapNodeMenu {
 
   static drawSection(e: L.ContextMenuItemClickEvent) {
     const nodeId = (<any>e.relatedTarget).id;
-
-    console.log(nodeId);
-    const node1 = this.gisMapService.getGeoData().nodes.find((n) => n.id === nodeId);
-    console.log(node1);
-
+    // это мы только ставим флаги что на данном узле пользователь кликнул добавить волокно
+    // само добавление произойдет по клику на другом узле
     this.gisMapService.addSectionMode = true;
     this.gisMapService.addSectionFromNodeId = nodeId;
   }
@@ -148,15 +150,13 @@ export class MapNodeMenu {
 
     this.gisMapService.addSectionMode = false;
     this.gisMapService.addSectionFromNodeId = GisMapUtils.emptyGuid;
-    console.log(beginNodeId);
 
     const json = JSON.stringify(command);
     const response = await firstValueFrom(this.graphService.sendCommand(json, 'AddFiber'));
     if (response.success) {
+      // добавить новое волокно на карту и в GeoData
       const node1 = this.gisMapService.getGeoData().nodes.find((n) => n.id === beginNodeId);
-      console.log(node1);
       const node2 = this.gisMapService.getGeoData().nodes.find((n) => n.id === endNodeId);
-      console.log(node2);
       const fiber = new GeoFiber(
         fiberId,
         beginNodeId,
@@ -166,6 +166,7 @@ export class MapNodeMenu {
         FiberState.NotInTrace
       );
       MapLayersActions.addFiberToLayer(fiber);
+      this.gisMapService.getGeoData().fibers.push(fiber);
     }
   }
 
