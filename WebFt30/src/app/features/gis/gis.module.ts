@@ -14,6 +14,7 @@ import { TraceDefineComponent } from './components/trace-define/trace-define.com
 @NgModule({
   imports: [GisRoutingModule, SharedModule],
   exports: [
+    GisComponent,
     GisMapComponent,
     GisEditorMapComponent,
     GisTraceViewerComponent,

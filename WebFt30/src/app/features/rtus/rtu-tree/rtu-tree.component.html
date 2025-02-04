@@ -10,12 +10,7 @@
   <!-- когда-нибудь сделать слайдер cursor-col-resize -->
   <div class="h-full w-1"></div>
   <div class="ml-0 flex flex-1">
-    <ng-container *ngIf="(hasEditPermission$ | async) === true">
-      <rtu-gis-editor />
-    </ng-container>
-    <ng-container *ngIf="(hasEditPermission$ | async) === false">
-      <rtu-gis-viewer />
-    </ng-container>
+    <rtu-gis />
   </div>
 </div>
 <rtu-loading-centered-big-spinner

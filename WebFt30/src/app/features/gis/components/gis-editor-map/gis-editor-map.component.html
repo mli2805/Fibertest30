@@ -1,8 +1,4 @@
 <div class="flex h-full w-full flex-col">
   <!-- set z-0 to allow the global popup error to be shown on the map -->
   <div class="leaflet-custom-popup z-0 h-full w-full rounded-sm" id="map"></div>
-  <div class="text-sm">
-    <span>{{ 'zoom: ' }}{{ gisMapService.currentZoom$ | async }}</span
-    ><span class="ml-3">{{ gisMapService.mousePosition$ | async }}</span>
-  </div>
 </div>
