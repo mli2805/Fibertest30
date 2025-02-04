@@ -1,10 +1,12 @@
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
+
 <div class="flex h-full w-full flex-col">
-  <ng-container *ngIf="(hasEditPermission$ | async) === true">
-    <rtu-gis-editor />
-  </ng-container>
-  <ng-container *ngIf="(hasEditPermission$ | async) === false">
-    <rtu-gis-viewer />
-  </ng-container>
+  <div class="mr-1 flex h-full flex-1">
+    <rtu-gis-map />
+    <ng-container *ngIf="gisMapService.showTraceDefine$ | async">
+      <rtu-trace-define />
+    </ng-container>
+  </div>
   <div class="text-sm">
     <span>{{ 'zoom: ' }}{{ gisMapService.currentZoom$ | async }}</span
     ><span class="ml-3">{{ gisMapService.mousePosition$ | async }}</span>

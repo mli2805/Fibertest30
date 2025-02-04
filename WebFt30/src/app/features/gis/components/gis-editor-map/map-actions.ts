@@ -2,12 +2,12 @@ import * as L from 'leaflet';
 import { firstValueFrom } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc';
 import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
-import { EquipmentType, UserSettings } from 'src/grpc-generated';
+import { EquipmentType } from 'src/grpc-generated';
 import { GisMapService } from '../../gis-map.service';
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { Injector } from '@angular/core';
 import { MapLayersActions } from './map-layers-actions';
-import { MapMouseActions } from './map-mouse-actions';
+import { GisMapLayer } from '../../models/gis-map-layer';
 
 export class MapActions {
   private static gisMapService: GisMapService;
@@ -16,43 +16,6 @@ export class MapActions {
   static initialize(injector: Injector) {
     this.gisMapService = injector.get(GisMapService);
     this.graphService = injector.get(GraphService);
-  }
-
-  static initMap(userSettings: UserSettings): void {
-    this.gisMapService.setShowNodesFromZoom(userSettings.showNodesFromZoom);
-    this.gisMapService.currentZoom.next(userSettings.zoom);
-    const map = L.map('map', {
-      center: [userSettings.lat, userSettings.lng],
-      zoom: userSettings.zoom,
-      contextmenu: true,
-      contextmenuItems: []
-    });
-
-    map.on('zoomend', (e) => {
-      MapMouseActions.onZoom();
-    });
-
-    map.on('click', (e) => {
-      MapMouseActions.onClick(e.latlng);
-    });
-
-    map.on('mousemove', (e) => {
-      MapMouseActions.onMouseMove(e.latlng);
-    });
-
-    map.on('dragend', (e) => {
-      MapMouseActions.onDragEnd();
-    });
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 21,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap'
-    }).addTo(map);
-
-    // hide leaflet own attribution
-    map.attributionControl.setPrefix('');
-    this.gisMapService.setMap(map);
-    MapLayersActions.initMapLayersMap();
   }
 
   static async addNewNode(e: L.ContextMenuItemClickEvent, equipmentType: EquipmentType) {
@@ -79,6 +42,31 @@ export class MapActions {
       MapLayersActions.addNodeToLayer(traceNode);
       this.gisMapService.getGeoData().nodes.push(traceNode);
     }
+  }
+
+  static dragMarkerWithPolylines(e: L.DragEndEvent) {
+    const position = (<L.Marker>e.target).getLatLng();
+    const nodeId = (<any>e.target).id;
+    const node = this.gisMapService.getGeoData().nodes.find((n) => n.id === nodeId)!;
+    node.coors = position;
+
+    const fibers = this.gisMapService
+      .getGeoData()
+      .fibers.filter((f) => f.node1id === node.id || f.node2id === node.id);
+
+    const routeGroup = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
+    fibers.forEach((f) => {
+      const oldRouteLayer = routeGroup.getLayers().find((r) => (<any>r).id === f.id);
+      routeGroup.removeLayer(oldRouteLayer!);
+
+      if (f.node1id === node.id) {
+        f.coors1 = position;
+      } else {
+        f.coors2 = position;
+      }
+
+      MapLayersActions.addFiberToLayer(f);
+    });
   }
 
   static copyCoordinates(e: L.ContextMenuItemClickEvent) {

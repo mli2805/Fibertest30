@@ -2,7 +2,7 @@ import * as L from 'leaflet';
 import { Injector } from '@angular/core';
 import { GisMapService } from '../../gis-map.service';
 import { GisIconWithZIndex, GisMapIcons } from '../shared/gis-map-icons';
-import { GeoFiber, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
+import { GeoFiber, TraceNode, TraceRouteData } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { ColorUtils } from 'src/app/shared/utils/color-utils';
 import { MapFiberMenu } from './map-fiber-menu';
@@ -10,13 +10,56 @@ import { GisMapLayer } from '../../models/gis-map-layer';
 import { EquipmentType } from 'src/grpc-generated/gis';
 import { MapNodeMenu } from './map-node-menu';
 import { GisMapLayers } from '../shared/gis-map-layers';
+import { MapActions } from './map-actions';
+import { MapMouseActions } from './map-mouse-actions';
+import { UserSettings } from 'src/app/core/models/user-settings';
+import { MapMenu } from './map-menu';
 
 export class MapLayersActions {
   private static icons = new GisMapIcons();
   private static gisMapService: GisMapService;
+  private static hasEditPermissions: boolean;
 
   static initialize(injector: Injector) {
     this.gisMapService = injector.get(GisMapService);
+  }
+
+  static initMap(userSettings: UserSettings, hasEditPermissions: boolean): void {
+    this.hasEditPermissions = hasEditPermissions;
+    this.gisMapService.setShowNodesFromZoom(userSettings.showNodesFromZoom);
+    this.gisMapService.currentZoom.next(userSettings.zoom);
+    const map = L.map('map', {
+      center: [userSettings.lat, userSettings.lng],
+      zoom: userSettings.zoom,
+      contextmenu: true,
+      contextmenuItems: MapMenu.buildMapMenu(hasEditPermissions)
+    });
+
+    map.on('zoomend', (e) => {
+      MapMouseActions.onZoom();
+    });
+
+    map.on('click', (e) => {
+      MapMouseActions.onClick(e.latlng);
+    });
+
+    map.on('mousemove', (e) => {
+      MapMouseActions.onMouseMove(e.latlng);
+    });
+
+    map.on('dragend', (e) => {
+      MapMouseActions.onDragEnd();
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 21,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap'
+    }).addTo(map);
+
+    // hide leaflet own attribution
+    map.attributionControl.setPrefix('');
+    this.gisMapService.setMap(map);
+    this.initMapLayersMap();
   }
 
   static initMapLayersMap(): void {
@@ -44,6 +87,22 @@ export class MapLayersActions {
     });
   }
 
+  static addTraceRoute(route: TraceRouteData, toBounds: boolean): void {
+    const latLngs = route.nodes.map((n) => n.coors);
+    const polyline = L.polyline(latLngs, { color: ColorUtils.routeStateToColor(route.traceState) });
+    const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
+    group.addLayer(polyline);
+
+    route.nodes.forEach((node) => {
+      MapLayersActions.addNodeToLayer(node);
+    });
+
+    if (toBounds) {
+      const bounds = new L.LatLngBounds(latLngs);
+      this.gisMapService.getMap().fitBounds(bounds);
+    }
+  }
+
   static addNodeToLayer(node: TraceNode): void {
     const marker = this.createMarker(node.coors, node.equipmentType, this.icons.getIcon(node));
     marker.bindPopup(node.title);
@@ -67,7 +126,7 @@ export class MapLayersActions {
       color: ColorUtils.routeStateToColor(fiber.fiberState),
       contextmenu: true,
       contextmenuInheritItems: false,
-      contextmenuItems: MapFiberMenu.buildFiberContextMenu()
+      contextmenuItems: MapFiberMenu.buildFiberContextMenu(this.hasEditPermissions)
     };
     const line = L.polyline([fiber.coors1, fiber.coors2], options);
     line.on('contextmenu', (e) => {
@@ -87,7 +146,7 @@ export class MapLayersActions {
       draggable: true,
       contextmenu: true,
       contextmenuInheritItems: false,
-      contextmenuItems: MapNodeMenu.buildMarkerContextMenu(equipmentType)
+      contextmenuItems: MapNodeMenu.buildMarkerContextMenu(equipmentType, this.hasEditPermissions)
     };
     const marker = L.marker(coordinate, options);
 
@@ -102,34 +161,9 @@ export class MapLayersActions {
     });
 
     marker.on('dragend', (e) => {
-      this.dragMarkerWithPolylines(e);
+      MapActions.dragMarkerWithPolylines(e);
     });
 
     return marker;
-  }
-
-  static dragMarkerWithPolylines(e: L.DragEndEvent) {
-    const position = (<L.Marker>e.target).getLatLng();
-    const nodeId = (<any>e.target).id;
-    const node = this.gisMapService.getGeoData().nodes.find((n) => n.id === nodeId)!;
-    node.coors = position;
-
-    const fibers = this.gisMapService
-      .getGeoData()
-      .fibers.filter((f) => f.node1id === node.id || f.node2id === node.id);
-
-    const routeGroup = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
-    fibers.forEach((f) => {
-      const oldRouteLayer = routeGroup.getLayers().find((r) => (<any>r).id === f.id);
-      routeGroup.removeLayer(oldRouteLayer!);
-
-      if (f.node1id === node.id) {
-        f.coors1 = position;
-      } else {
-        f.coors2 = position;
-      }
-
-      this.addFiberToLayer(f);
-    });
   }
 }

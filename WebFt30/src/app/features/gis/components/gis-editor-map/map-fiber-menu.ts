@@ -20,25 +20,34 @@ export class MapFiberMenu {
     this.graphService = injector.get(GraphService);
   }
 
-  static buildFiberContextMenu(): L.ContextMenuItem[] {
-    return [
-      {
-        text: this.ts.instant('i18n.ft.information'),
-        callback: (e: L.ContextMenuItemClickEvent) => this.showSectionInformation(e)
-      },
-      {
-        text: this.ts.instant('i18n.ft.add-node'),
-        callback: (e: L.ContextMenuItemClickEvent) => this.addNodeToSection(e)
-      },
-      {
-        text: this.ts.instant('i18n.ft.add-adjustment-point'),
-        callback: (e: L.ContextMenuItemClickEvent) => this.addPointToSection(e)
-      },
-      {
-        text: this.ts.instant('i18n.ft.remove-section'),
-        callback: (e: L.ContextMenuItemClickEvent) => this.removeSection(e)
-      }
-    ];
+  static buildFiberContextMenu(hasEditPermissions: boolean): L.ContextMenuItem[] {
+    if (hasEditPermissions) {
+      return [
+        {
+          text: this.ts.instant('i18n.ft.information'),
+          callback: (e: L.ContextMenuItemClickEvent) => this.showSectionInformation(e)
+        },
+        {
+          text: this.ts.instant('i18n.ft.add-node'),
+          callback: (e: L.ContextMenuItemClickEvent) => this.addNodeToSection(e)
+        },
+        {
+          text: this.ts.instant('i18n.ft.add-adjustment-point'),
+          callback: (e: L.ContextMenuItemClickEvent) => this.addPointToSection(e)
+        },
+        {
+          text: this.ts.instant('i18n.ft.remove-section'),
+          callback: (e: L.ContextMenuItemClickEvent) => this.removeSection(e)
+        }
+      ];
+    } else {
+      return [
+        {
+          text: this.ts.instant('i18n.ft.information'),
+          callback: (e: L.ContextMenuItemClickEvent) => this.showSectionInformation(e)
+        }
+      ];
+    }
   }
 
   static showSectionInformation(e: L.ContextMenuItemClickEvent) {

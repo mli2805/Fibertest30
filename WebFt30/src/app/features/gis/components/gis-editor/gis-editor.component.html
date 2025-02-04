@@ -1,8 +1,0 @@
-<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
-
-<div class="mr-1 flex h-full flex-1">
-  <rtu-gis-editor-map />
-  <ng-container *ngIf="gisMapService.showTraceDefine$ | async">
-    <rtu-trace-define />
-  </ng-container>
-</div>
