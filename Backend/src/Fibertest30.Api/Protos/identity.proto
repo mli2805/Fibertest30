@@ -57,6 +57,7 @@ message UserSettings {
   int32 zoom = 7;
   double lat = 8;
   double lng = 9;
+  int32 showNodesFromZoom = 10;
 
 }
 

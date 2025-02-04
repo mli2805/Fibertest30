@@ -11,8 +11,8 @@ public class ServerDbContextInitializer(ILogger<ServerDbContextInitializer> logg
     {
         try
         {
-            await context.Database.EnsureCreatedAsync();
-            // await context.Database.MigrateAsync();
+            // await context.Database.EnsureCreatedAsync();
+            await context.Database.MigrateAsync();
         }
         catch (Exception ex)
         {

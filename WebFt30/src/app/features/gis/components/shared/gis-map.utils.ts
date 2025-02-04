@@ -15,6 +15,7 @@ export class GisMapUtils {
       //  и включить adjustLayersToZoom в обработчике изменения зума,
       // то маркеры будут показываться в зависимости от зума
       // return L.featureGroup();
+      // или всё-таки getMarkerClusterGroup, но кластеризация запрещена с 1го же зума
       return this.getMarkerClusterGroup(1); // если реально исползовать кластеризацию, то поставить зум большой - 18 или типа того
     }
   }

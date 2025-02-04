@@ -33,6 +33,7 @@ public class UserSettingsRepository : IUserSettingsRepository
             userSettings.Zoom = settings.Zoom;
             userSettings.Lat = settings.Lat;
             userSettings.Lng = settings.Lng;
+            userSettings.ShowNodesFromZoom = settings.ShowNodesFromZoom;
         }
         
         await _serverDbContext.SaveChangesAsync();

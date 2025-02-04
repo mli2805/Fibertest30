@@ -20,5 +20,6 @@ export interface SettingsState {
   zoom: number;
   lat: number;
   lng: number;
+  showNodesFromZoom: number;
   saveUserSettingsError: string | null;
 }

@@ -5,4 +5,5 @@ export class UserSettings {
   zoom!: number;
   lat!: number;
   lng!: number;
+  showNodesFromZoom!: number;
 }

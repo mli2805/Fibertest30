@@ -122,6 +122,10 @@ export interface UserSettings {
      * @generated from protobuf field: double lng = 9;
      */
     lng: number;
+    /**
+     * @generated from protobuf field: int32 showNodesFromZoom = 10;
+     */
+    showNodesFromZoom: number;
 }
 /**
  * Login
@@ -392,7 +396,8 @@ class UserSettings$Type extends MessageType<UserSettings> {
             { no: 5, name: "dateTimeFormat", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 7, name: "zoom", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 8, name: "lat", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 9, name: "lng", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ }
+            { no: 9, name: "lng", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 10, name: "showNodesFromZoom", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
 }

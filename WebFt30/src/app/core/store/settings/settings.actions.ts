@@ -22,6 +22,10 @@ const changeTimeZone = createAction(
 
 const changeZoom = createAction('[Settings] Change Zoom', props<{ zoom: number }>());
 const changeCenter = createAction('[Settings] Change Center', props<{ center: L.LatLng }>());
+const changeShowNodesFromZoom = createAction(
+  '[Settings] Change ShowNodesFromZoom',
+  props<{ zoom: number }>()
+);
 
 const saveUserSettings = createAction(
   '[Settings] Save User Settings',
@@ -42,6 +46,7 @@ export const SettingsActions = {
   changeTimeZone,
   changeZoom,
   changeCenter,
+  changeShowNodesFromZoom,
 
   saveUserSettings,
   saveUserSettingsSuccess,

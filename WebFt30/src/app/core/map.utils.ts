@@ -195,7 +195,8 @@ export class MapUtils {
       dateTimeFormat: user.dateTimeFormat,
       zoom: user.zoom,
       lat: user.lat,
-      lng: user.lng
+      lng: user.lng,
+      showNodesFromZoom: user.showNodesFromZoom
     };
   }
 
@@ -206,7 +207,8 @@ export class MapUtils {
       dateTimeFormat: user.dateTimeFormat,
       zoom: user.zoom,
       lat: user.lat,
-      lng: user.lng
+      lng: user.lng,
+      showNodesFromZoom: user.showNodesFromZoom
     };
   }
 

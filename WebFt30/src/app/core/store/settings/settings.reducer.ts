@@ -19,6 +19,7 @@ export const initialState: SettingsState = {
   zoom: 16,
   lat: 53.88,
   lng: 27.51,
+  showNodesFromZoom: 16,
   saveUserSettingsError: null
 };
 
@@ -31,6 +32,10 @@ const reducer = createReducer(
     dateTimeFormat
   })),
   on(SettingsActions.changeZoom, (state, { zoom }) => ({ ...state, zoom })),
+  on(SettingsActions.changeShowNodesFromZoom, (state, { zoom }) => ({
+    ...state,
+    showNodesFromZoom: zoom
+  })),
   on(SettingsActions.changeCenter, (state, { center }) => ({
     ...state,
     lat: center.lat,
@@ -48,7 +53,8 @@ const reducer = createReducer(
       dateTimeFormat: <AppDateTimeLanguageFormat>settings.dateTimeFormat,
       zoom: settings.zoom,
       lat: settings.lat,
-      lng: settings.lng
+      lng: settings.lng,
+      showNodesFromZoom: settings.showNodesFromZoom
     };
   }),
   on(AuthActions.loadCurrentUserSuccess, (state, { settings }) => {
@@ -63,7 +69,8 @@ const reducer = createReducer(
       dateTimeFormat: <AppDateTimeLanguageFormat>settings.dateTimeFormat,
       zoom: settings.zoom,
       lat: settings.lat,
-      lng: settings.lng
+      lng: settings.lng,
+      showNodesFromZoom: settings.showNodesFromZoom
     };
   }),
   on(SettingsActions.saveUserSettings, (state) => ({

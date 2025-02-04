@@ -12,4 +12,6 @@ public class UserSettings
     public double Lat { get; set; } = 53.88;
     public double Lng { get; set; } = 27.51;
 
+    public int ShowNodesFromZoom { get; set; } = 16;
+
 }

@@ -11,13 +11,13 @@ import { GisMapUtils } from './components/shared/gis-map.utils';
 
 @Injectable()
 export class GisMapService {
-  // public static GisMapLayerZoom = new Map<GisMapLayer, number>([
-  //   [GisMapLayer.Route, 0],
-  //   [GisMapLayer.TraceEquipment, 13],
-  //   [GisMapLayer.EmptyNodes, 16],
-  //   [GisMapLayer.AdjustmentPoints, 19]
-  // ]);
-  public static GisMapLayerZoom = new Map<GisMapLayer, number>([]);
+  public static GisMapLayerZoom = new Map<GisMapLayer, number>([
+    [GisMapLayer.Route, 0],
+    [GisMapLayer.TraceEquipment, 16],
+    [GisMapLayer.EmptyNodes, 16],
+    [GisMapLayer.AdjustmentPoints, 16]
+  ]);
+  // public static GisMapLayerZoom = new Map<GisMapLayer, number>([]);
 
   ///////////////////// все узлы и участки для карты root'а
   private geoData!: AllGeoData;
@@ -84,6 +84,16 @@ export class GisMapService {
     return this.layerGroups;
   }
   //////////////////
+  showNodesFromZoom = new BehaviorSubject<number>(16);
+  showNodesFromZoom$ = this.showNodesFromZoom.asObservable();
+  setShowNodesFromZoom(fromZoom: number) {
+    this.showNodesFromZoom.next(fromZoom);
+
+    GisMapService.GisMapLayerZoom.set(GisMapLayer.TraceEquipment, fromZoom);
+    GisMapService.GisMapLayerZoom.set(GisMapLayer.EmptyNodes, fromZoom);
+    GisMapService.GisMapLayerZoom.set(GisMapLayer.AdjustmentPoints, fromZoom);
+  }
+
   currentZoom = new BehaviorSubject<number>(16);
   currentZoom$ = this.currentZoom.asObservable();
 

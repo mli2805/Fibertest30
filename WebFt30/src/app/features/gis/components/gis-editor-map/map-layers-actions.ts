@@ -9,6 +9,7 @@ import { MapFiberMenu } from './map-fiber-menu';
 import { GisMapLayer } from '../../models/gis-map-layer';
 import { EquipmentType } from 'src/grpc-generated/gis';
 import { MapNodeMenu } from './map-node-menu';
+import { GisMapLayers } from '../shared/gis-map-layers';
 
 export class MapLayersActions {
   private static icons = new GisMapIcons();
@@ -16,6 +17,31 @@ export class MapLayersActions {
 
   static initialize(injector: Injector) {
     this.gisMapService = injector.get(GisMapService);
+  }
+
+  static initMapLayersMap(): void {
+    const layerGroups = new Map();
+    for (const layerTypeKey in GisMapLayer) {
+      const layerType = GisMapLayer[layerTypeKey as keyof typeof GisMapLayer];
+      const group = GisMapUtils.createLayerGroupByGisType(layerType);
+
+      layerGroups.set(layerType, group);
+
+      this.gisMapService.getMap().addLayer(group);
+    }
+    this.gisMapService.setLayerGroups(layerGroups);
+
+    // если показывать не кластера а по зуму, то при инициализации
+    // надо не просто добавить слой в карту (выше строка)
+    // а сделать это в зависимомсти от текущего зума
+    GisMapService.GisMapLayerZoom.forEach((value, key) => {
+      GisMapLayers.setLayerVisibility(
+        this.gisMapService.getMap(),
+        this.gisMapService.getLayerGroups(),
+        key,
+        this.gisMapService.currentZoom.value >= value
+      );
+    });
   }
 
   static addNodeToLayer(node: TraceNode): void {
