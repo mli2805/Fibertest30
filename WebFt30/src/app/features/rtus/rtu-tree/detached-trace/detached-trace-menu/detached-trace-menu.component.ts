@@ -7,6 +7,7 @@ import { CoreUtils } from 'src/app/core/core.utils';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
+import { Utils } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'rtu-detached-trace-menu',
@@ -56,7 +57,10 @@ export class DetachedTraceMenuComponent {
     }
   }
 
-  onInformationClicked() {
+  async onInformationClicked() {
+    this.open = false;
+    await Utils.delay(100);
+
     const path = `rtus/trace-information/${this.trace.traceId}`;
     this.router.navigate([path]);
   }
@@ -65,12 +69,18 @@ export class DetachedTraceMenuComponent {
     //
   }
 
-  onStatisticsClicked() {
+  async onStatisticsClicked() {
+    this.open = false;
+    await Utils.delay(100);
+
     const path = `rtus/trace-statistics/${this.trace.traceId}`;
     this.router.navigate([path]);
   }
 
-  onLandmarksClicked() {
+  async onLandmarksClicked() {
+    this.open = false;
+    await Utils.delay(100);
+
     const path = `rtus/trace-landmarks/${this.trace.traceId}`;
     this.router.navigate([path]);
   }
@@ -92,7 +102,10 @@ export class DetachedTraceMenuComponent {
   canAssignBaseRefs() {
     return this.hasPermission(ApplicationPermission.AssignBaseRef);
   }
-  onAssignBaseRefsClicked() {
+  async onAssignBaseRefsClicked() {
+    this.open = false;
+    await Utils.delay(100);
+
     this.router.navigate([`rtus/assign-base/`, this.trace.rtuId, this.trace.traceId]);
   }
 }

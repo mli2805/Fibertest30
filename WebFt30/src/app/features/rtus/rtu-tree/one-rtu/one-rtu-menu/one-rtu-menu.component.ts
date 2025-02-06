@@ -15,6 +15,7 @@ import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 import { SecUtil } from '../../../rtu-monitoring-settings/sec-util';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
+import { Utils } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'rtu-one-rtu-menu',
@@ -57,7 +58,8 @@ export class OneRtuMenuComponent {
     return false; // prevent browser menu
   }
 
-  onOverlayClick(event: MouseEvent) {
+  // этот обработчик нужен для тех пунктов, которые не переходят на новую страницу
+  async onOverlayClick(event: MouseEvent) {
     event.stopPropagation();
     this.open = false;
   }
@@ -71,7 +73,10 @@ export class OneRtuMenuComponent {
     }
   }
 
-  onInformationClicked() {
+  async onInformationClicked() {
+    this.open = false;
+    await Utils.delay(100);
+
     const path = `rtus/information/${this.rtu.rtuId}`;
     this.router.navigate([path]);
   }
@@ -88,17 +93,26 @@ export class OneRtuMenuComponent {
     return this.hasPermission(ApplicationPermission.InitializeRtu);
   }
 
-  onNetworkSettingsClicked() {
+  async onNetworkSettingsClicked() {
+    this.open = false;
+    await Utils.delay(100);
+
     const path = `rtus/initialization/${this.rtu.rtuId}`;
     this.router.navigate([path]);
   }
 
-  onStateClicked() {
+  async onStateClicked() {
+    this.open = false;
+    await Utils.delay(100);
+
     const path = `rtus/state/${this.rtu.rtuId}`;
     this.router.navigate([path]);
   }
 
-  onLandmarksClicked() {
+  async onLandmarksClicked() {
+    this.open = false;
+    await Utils.delay(100);
+
     const path = `rtus/landmarks/${this.rtu.rtuId}`;
     this.router.navigate([path]);
   }
@@ -117,7 +131,10 @@ export class OneRtuMenuComponent {
     );
   }
 
-  onMonitoringSettingsClicked() {
+  async onMonitoringSettingsClicked() {
+    this.open = false;
+    await Utils.delay(100);
+
     this.store.dispatch(RtuMgmtActions.reset());
     const path = `rtus/monitoring-settings/${this.rtu.rtuId}`;
     this.router.navigate([path]);

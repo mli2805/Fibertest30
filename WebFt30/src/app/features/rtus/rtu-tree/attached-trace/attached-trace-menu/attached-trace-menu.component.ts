@@ -1,13 +1,14 @@
 import { Component, ElementRef, HostListener, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { firstValueFrom } from 'rxjs';
+import { delay, firstValueFrom } from 'rxjs';
 import { AppState, AuthSelectors, RtuTreeActions, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { RtuTreeService } from 'src/app/core/grpc';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
+import { Utils } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'rtu-attached-trace-menu',
@@ -76,7 +77,10 @@ export class AttachedTraceMenuComponent {
     }
   }
 
-  onInformationClicked() {
+  async onInformationClicked() {
+    this.open = false;
+    await Utils.delay(100);
+
     const path = `rtus/trace-information/${this.trace.traceId}`;
     this.router.navigate([path]);
   }
@@ -96,16 +100,25 @@ export class AttachedTraceMenuComponent {
       return;
     }
 
+    this.open = false;
+    await Utils.delay(100);
+
     const path = `op-evnts/optical-events/${this.lastMeasurementId}`;
     this.router.navigate([path]);
   }
 
-  onStatisticsClicked() {
+  async onStatisticsClicked() {
+    this.open = false;
+    await Utils.delay(100);
+
     const path = `rtus/trace-statistics/${this.trace.traceId}`;
     this.router.navigate([path]);
   }
 
-  onLandmarksClicked() {
+  async onLandmarksClicked() {
+    this.open = false;
+    await Utils.delay(100);
+
     const path = `rtus/trace-landmarks/${this.trace.traceId}`;
     this.router.navigate([path]);
   }
@@ -129,7 +142,10 @@ export class AttachedTraceMenuComponent {
     );
   }
 
-  onAssignBaseRefsClicked() {
+  async onAssignBaseRefsClicked() {
+    this.open = false;
+    await Utils.delay(100);
+
     this.router.navigate([`rtus/assign-base/`, this._trace.rtuId, this._trace.traceId]);
   }
 
@@ -161,13 +177,17 @@ export class AttachedTraceMenuComponent {
     return this.hasPermission(ApplicationPermission.DoMeasurementClient) && this.isRtuAvailableNow;
   }
 
-  onMeasurementClientClicked() {
+  async onMeasurementClientClicked() {
     let portName!: string;
     if (this.trace.port!.isPortOnMainCharon) {
       portName = `${this.trace.port!.opticalPort}`;
     } else {
       portName = `${this.trace.port!.mainCharonPort}-${this.trace.port!.opticalPort}`;
     }
+
+    this.open = false;
+    await Utils.delay(100);
+
     this.router.navigate([`rtus/measurement-client/`, this._trace.rtuId, portName]);
   }
 }

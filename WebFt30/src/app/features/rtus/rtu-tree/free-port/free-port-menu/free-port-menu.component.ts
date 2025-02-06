@@ -9,6 +9,7 @@ import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
 import { TraceAttachComponent } from '../../../trace-attach/trace-attach.component';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
 import { BopAttachComponent } from '../../../bop-attach/bop-attach.component';
+import { Utils } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'rtu-free-port-menu',
@@ -98,13 +99,17 @@ export class FreePortMenuComponent {
     return this.hasPermission(ApplicationPermission.DoMeasurementClient) && this.isRtuAvailableNow;
   }
 
-  onMeasurementClientClicked() {
+  async onMeasurementClientClicked() {
     let portName!: string;
     if (this.portOfOtau.isPortOnMainCharon) {
       portName = `${this.portOfOtau.opticalPort}`;
     } else {
       portName = `${this.portOfOtau.mainCharonPort}-${this.portOfOtau.opticalPort}`;
     }
+
+    this.open = false;
+    await Utils.delay(100);
+
     this.router.navigate([`rtus/measurement-client/`, this.portOfOtau.rtuId, portName]);
   }
 }
