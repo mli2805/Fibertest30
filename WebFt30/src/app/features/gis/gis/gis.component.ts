@@ -45,10 +45,10 @@ export class GisComponent extends OnDestroyBase implements OnInit {
 
   async ngOnInit() {
     try {
-      const hasEditPermission = CoreUtils.getCurrentState(
-        this.store,
-        AuthSelectors.selectHasEditGraphPermission
-      );
+      // const hasEditPermission = CoreUtils.getCurrentState(
+      //   this.store,
+      //   AuthSelectors.selectHasEditGraphPermission
+      // );
 
       const userSettings = CoreUtils.getCurrentState(this.store, SettingsSelectors.selectSettings);
       this.gisMapService.currentZoom.next(userSettings.zoom);
@@ -60,18 +60,17 @@ export class GisComponent extends OnDestroyBase implements OnInit {
       this.selectedMapSource = mapSource;
       this.gisMapService.mapSourceId.next(mapSource.id);
 
-      if (hasEditPermission) {
-        await this.loadAllGeoData();
-      } else {
-        await this.loadRoutesData();
-      }
+      // сервер определит полномочия пользователя и выдаст соотв данные
+      // а здесь в зависимости от пермишенов будут созданы контекстные меню
+      await this.loadAllGeoData();
     } catch (error) {
       console.log(error);
       return;
     }
   }
 
-  // для рута. содержит узлы/участки не входящие в трассы
+  // для рута содержит узлы/участки не входящие в трассы
+  // для остальных только готовые трассы
   async loadAllGeoData() {
     this.loading.next(true);
     const response = await firstValueFrom(this.gisService.getAllGeoData());
@@ -82,14 +81,14 @@ export class GisComponent extends OnDestroyBase implements OnInit {
   }
 
   // может применяться для read-only пользователей
-  async loadRoutesData() {
-    this.loading.next(true);
-    const response = await firstValueFrom(this.gisService.getGraphRoutes());
-    const graphData = GisMapping.fromGrpcGraphRoutesData(response.data!);
+  // async loadRoutesData() {
+  //   this.loading.next(true);
+  //   const response = await firstValueFrom(this.gisService.getGraphRoutes());
+  //   const graphData = GisMapping.fromGrpcGraphRoutesData(response.data!);
 
-    this.gisMapService.setGraphRoutesData(graphData);
-    this.loading.next(false);
-  }
+  //   this.gisMapService.setGraphRoutesData(graphData);
+  //   this.loading.next(false);
+  // }
 
   // это про зум с которого начинать показывать узлы
   onZoomChanged($event: any) {
