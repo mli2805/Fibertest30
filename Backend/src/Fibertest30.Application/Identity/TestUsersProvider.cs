@@ -12,47 +12,37 @@ public static class TestUsersProvider
                 FirstName = "Alex",
                 LastName = "Khazanov",
                 JobTitle = "Product Manager",
-                Email = "john.smith@veexinc.com",
+                Email = "a.khazanov@yandex.by",
                 PhoneNumber = "+1234567890"
             },
-            // new TestUser
-            // {
-            //     Role = ApplicationDefaultRole.Administrator,
-            //     UserName = "admin",
-            //     FirstName = "John",
-            //     LastName = "Smith",
-            //     JobTitle = "Project Supervisor",
-            //     Email = "john.smith@veexinc.com",
-            //     PhoneNumber = "+1234567890"
-            // }, 
             new TestUser
             {
                 Role = ApplicationDefaultRole.Operator,
-                UserName = "mdavis",
-                FirstName = "Maria",
-                LastName = "Davis",
-                JobTitle = "RFTS Expert",
-                Email = "maria.davis@veexinc.com",
+                UserName = "spetrov",
+                FirstName = "Сергей",
+                LastName = "Петров",
+                JobTitle = "Оператор 1 смены",
+                Email = "s.petrov@yandex.by",
                 PhoneNumber = "+1234567891"
             },
             new TestUser
             {
                 Role = ApplicationDefaultRole.Supervisor,
-                UserName = "wjones",
-                FirstName = "William",
-                LastName = "Jones",
-                JobTitle = "Fiber Installation Inspector",
-                Email = "wjones@veexinc.com",
+                UserName = "vkuznetzov",
+                FirstName = "Владимир",
+                LastName = "Кузнецов",
+                JobTitle = "Надсмотрщик",
+                Email = "v.kuznetzov@yandex.by",
                 PhoneNumber = string.Empty
             },
             new TestUser
             {
                 Role = ApplicationDefaultRole.NotificationReceiver,
-                UserName = "gmartin",
-                FirstName = "Greg",
-                LastName = "Martin",
+                UserName = "mhavlicek",
+                FirstName = "Martin",
+                LastName = "Havlicek",
                 JobTitle = string.Empty,
-                Email = "greg.martin@veexinc.com",
+                Email = "m.havlicek@yandex.com",
                 PhoneNumber = string.Empty
             }
         };

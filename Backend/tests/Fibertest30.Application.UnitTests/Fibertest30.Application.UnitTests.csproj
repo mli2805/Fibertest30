@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Fibertest30.Infrastructure\Fibertest30.Infrastructure.csproj" />
-    <ProjectReference Include="..\Fibertest30.TestUtils\Fibertest30.TestUtils.csproj" />
   </ItemGroup>
 
   <ItemGroup>

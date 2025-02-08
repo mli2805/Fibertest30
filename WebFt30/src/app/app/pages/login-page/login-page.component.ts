@@ -29,7 +29,6 @@ class DemoUser {
 })
 export class LoginPageComponent {
   private store: Store<AppState> = inject(Store<AppState>);
-  private localStorageService: LocalStorageService = inject(LocalStorageService);
 
   passwordInputType: 'password' | 'text' = 'password';
 
@@ -43,15 +42,15 @@ export class LoginPageComponent {
       role: 'Root'
     },
     {
-      name: 'mdavis',
+      name: 'spetrov',
       role: 'Operator'
     },
     {
-      name: 'wjones',
+      name: 'vkuznetzov',
       role: 'Supervisor'
     },
     {
-      name: 'gmartin',
+      name: 'mhavlicek',
       role: 'NotificationReceiver'
     }
   ];
@@ -72,7 +71,7 @@ export class LoginPageComponent {
   }
 
   get defaultPassword() {
-    return `root`;
+    return `zaq1@WSX`;
   }
 
   onLoginClick(demoUser: DemoUser) {
