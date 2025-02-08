@@ -58,6 +58,7 @@ message UserSettings {
   double lat = 8;
   double lng = 9;
   int32 showNodesFromZoom = 10;
+  int32 sourceMapId = 11;
 
 }
 

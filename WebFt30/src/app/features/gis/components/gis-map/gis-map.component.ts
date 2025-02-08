@@ -71,6 +71,10 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     );
     MapLayersActions.initMap(userSettings, hasEditPermissions);
 
+    this.gisMapService.mapSourceId$
+      .pipe(takeUntil(this.ngDestroyed$))
+      .subscribe((d) => this.onMapSourceId(d));
+
     this.gisMapService.geoData$
       .pipe(takeUntil(this.ngDestroyed$))
       .subscribe((d) => this.onGeoData(d));
@@ -92,6 +96,10 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     this.popupBinder?.destroy();
 
     super.ngOnDestroy();
+  }
+
+  onMapSourceId(id: number) {
+    MapLayersActions.setTileLayer(id, this.gisMapService.getMap());
   }
 
   onGeoData(data: { geoData: AllGeoData } | null): void {

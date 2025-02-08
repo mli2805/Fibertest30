@@ -4,7 +4,6 @@ import {
   catchError,
   distinctUntilChanged,
   filter,
-  finalize,
   map,
   switchMap,
   tap,
@@ -86,7 +85,12 @@ export class SettingsEffects {
 
   persistGisSettings = createEffect(() =>
     this.actions$.pipe(
-      ofType(SettingsActions.changeZoom, SettingsActions.changeCenter),
+      ofType(
+        SettingsActions.changeZoom,
+        SettingsActions.changeCenter,
+        SettingsActions.changeShowNodesFromZoom,
+        SettingsActions.changeSourceMapId
+      ),
       withLatestFrom(this.store.pipe(select(SettingsSelectors.selectSettings))),
       map(([action, settings]) => SettingsActions.saveUserSettings({ settings }))
     )

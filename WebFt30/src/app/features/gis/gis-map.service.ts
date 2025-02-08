@@ -74,6 +74,9 @@ export class GisMapService {
     return this.map;
   }
 
+  mapSourceId = new BehaviorSubject<number>(1);
+  mapSourceId$ = this.mapSourceId.asObservable();
+
   private layerGroups!: Map<GisMapLayer, L.FeatureGroup>;
 
   setLayerGroups(groups: Map<GisMapLayer, L.FeatureGroup>) {

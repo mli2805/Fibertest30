@@ -20,6 +20,7 @@ export const initialState: SettingsState = {
   lat: 53.88,
   lng: 27.51,
   showNodesFromZoom: 16,
+  sourceMapId: 1,
   saveUserSettingsError: null
 };
 
@@ -35,6 +36,10 @@ const reducer = createReducer(
   on(SettingsActions.changeShowNodesFromZoom, (state, { zoom }) => ({
     ...state,
     showNodesFromZoom: zoom
+  })),
+  on(SettingsActions.changeSourceMapId, (state, { id }) => ({
+    ...state,
+    sourceMapId: id
   })),
   on(SettingsActions.changeCenter, (state, { center }) => ({
     ...state,
@@ -54,7 +59,8 @@ const reducer = createReducer(
       zoom: settings.zoom,
       lat: settings.lat,
       lng: settings.lng,
-      showNodesFromZoom: settings.showNodesFromZoom
+      showNodesFromZoom: settings.showNodesFromZoom,
+      sourceMapId: settings.sourceMapId
     };
   }),
   on(AuthActions.loadCurrentUserSuccess, (state, { settings }) => {
@@ -70,7 +76,8 @@ const reducer = createReducer(
       zoom: settings.zoom,
       lat: settings.lat,
       lng: settings.lng,
-      showNodesFromZoom: settings.showNodesFromZoom
+      showNodesFromZoom: settings.showNodesFromZoom,
+      sourceMapId: settings.sourceMapId
     };
   }),
   on(SettingsActions.saveUserSettings, (state) => ({

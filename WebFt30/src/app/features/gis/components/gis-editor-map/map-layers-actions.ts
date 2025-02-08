@@ -26,8 +26,6 @@ export class MapLayersActions {
 
   static initMap(userSettings: UserSettings, hasEditPermissions: boolean): void {
     this.hasEditPermissions = hasEditPermissions;
-    this.gisMapService.setShowNodesFromZoom(userSettings.showNodesFromZoom);
-    this.gisMapService.currentZoom.next(userSettings.zoom);
     const map = L.map('map', {
       center: [userSettings.lat, userSettings.lng],
       zoom: userSettings.zoom,
@@ -51,15 +49,56 @@ export class MapLayersActions {
       MapMouseActions.onDragEnd();
     });
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 21,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap'
-    }).addTo(map);
+    this.setTileLayer(this.gisMapService.mapSourceId.value, map);
 
     // hide leaflet own attribution
     map.attributionControl.setPrefix('');
     this.gisMapService.setMap(map);
     this.initMapLayersMap();
+  }
+
+  static tileLayer: any = null;
+  // https://stackoverflow.com/questions/33343881/leaflet-in-google-maps
+  static setTileLayer(mapId: number, map: L.Map) {
+    if (this.tileLayer !== null) map.removeLayer(this.tileLayer);
+
+    switch (mapId) {
+      case 0: {
+        this.tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 21,
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap'
+        }).addTo(map);
+        break;
+      }
+      case 1: {
+        this.tileLayer = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
+          maxZoom: 20,
+          subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+        }).addTo(map);
+        break;
+      }
+      case 2: {
+        this.tileLayer = L.tileLayer('http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}', {
+          maxZoom: 20,
+          subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+        }).addTo(map);
+        break;
+      }
+      case 3: {
+        this.tileLayer = L.tileLayer('http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}', {
+          maxZoom: 20,
+          subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+        }).addTo(map);
+        break;
+      }
+      case 4: {
+        this.tileLayer = L.tileLayer('http://{s}.google.com/vt?lyrs=p&x={x}&y={y}&z={z}', {
+          maxZoom: 20,
+          subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+        }).addTo(map);
+        break;
+      }
+    }
   }
 
   static initMapLayersMap(): void {

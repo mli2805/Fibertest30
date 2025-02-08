@@ -8,11 +8,8 @@ import {
   SystemEvent,
   SystemEventLevel,
   SystemEventSource,
-  DataPoint,
   AppTimezone
 } from './store/models';
-
-import { PbLong } from '@protobuf-ts/runtime';
 
 import { TimezoneUtils } from 'src/app/core/timezone.utils';
 
@@ -24,12 +21,6 @@ import {
   TrapReceiver
 } from './store/models/notification-settings';
 import { TreeMapping } from './store/mapping/tree-mapping';
-import { OpticalEvent } from './store/models/ft30/optical-event';
-import { FtEnumsMapping } from './store/mapping/ft-enums-mapping';
-import { NetworkEvent } from './store/models/ft30/network-event';
-import { BopEvent } from './store/models/ft30/bop-event';
-import { RtuAccident } from './store/models/ft30/rtu-accident';
-import { EventTablesMapping } from './store/mapping/event-tables-mapping';
 
 export class MapUtils {
   static toGrpcNotificationSettings(settings: NotificationSettings): grpc.NotificationSettings {
@@ -196,7 +187,8 @@ export class MapUtils {
       zoom: user.zoom,
       lat: user.lat,
       lng: user.lng,
-      showNodesFromZoom: user.showNodesFromZoom
+      showNodesFromZoom: user.showNodesFromZoom,
+      sourceMapId: user.sourceMapId
     };
   }
 
@@ -208,7 +200,8 @@ export class MapUtils {
       zoom: user.zoom,
       lat: user.lat,
       lng: user.lng,
-      showNodesFromZoom: user.showNodesFromZoom
+      showNodesFromZoom: user.showNodesFromZoom,
+      sourceMapId: user.sourceMapId
     };
   }
 

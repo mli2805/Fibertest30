@@ -6,4 +6,5 @@ export class UserSettings {
   lat!: number;
   lng!: number;
   showNodesFromZoom!: number;
+  sourceMapId!: number;
 }

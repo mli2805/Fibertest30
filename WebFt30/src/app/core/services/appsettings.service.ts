@@ -18,7 +18,6 @@ export class AppSettingsService {
   public readonly settings$ = this.appSettingsSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    console.log(environment);
     if (environment.production) {
       this.loadSettingsFromAssets();
     } else {

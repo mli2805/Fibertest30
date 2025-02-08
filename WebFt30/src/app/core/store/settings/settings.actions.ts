@@ -26,6 +26,7 @@ const changeShowNodesFromZoom = createAction(
   '[Settings] Change ShowNodesFromZoom',
   props<{ zoom: number }>()
 );
+const changeSourceMapId = createAction('[Settings] Change SourceMapId', props<{ id: number }>());
 
 const saveUserSettings = createAction(
   '[Settings] Save User Settings',
@@ -47,6 +48,7 @@ export const SettingsActions = {
   changeZoom,
   changeCenter,
   changeShowNodesFromZoom,
+  changeSourceMapId,
 
   saveUserSettings,
   saveUserSettingsSuccess,

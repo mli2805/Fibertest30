@@ -47,6 +47,7 @@ public static class UserMappingExtensions
             Lat = settings.Lat,
             Lng = settings.Lng,
             ShowNodesFromZoom = settings.ShowNodesFromZoom,
+            SourceMapId = settings.SourceMapId
         };
     }
 
@@ -61,6 +62,7 @@ public static class UserMappingExtensions
             Lat = settings.Lat,
             Lng = settings.Lng,
             ShowNodesFromZoom = settings.ShowNodesFromZoom,
+            SourceMapId = settings.SourceMapId
         };
     }
 }

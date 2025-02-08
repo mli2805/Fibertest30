@@ -13,5 +13,6 @@ public class UserSettings
     public double Lng { get; set; } = 27.51;
 
     public int ShowNodesFromZoom { get; set; } = 16;
+    public int SourceMapId { get; set; } = 1;
 
 }

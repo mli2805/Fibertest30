@@ -7,8 +7,37 @@
       <rtu-trace-define />
     </ng-container>
   </div>
-  <div class="text-sm">
-    <span>{{ 'zoom: ' }}{{ gisMapService.currentZoom$ | async }}</span
-    ><span class="ml-3">{{ gisMapService.mousePosition$ | async }}</span>
+  <div class="mb-1 mr-2 mt-0.5 flex items-center justify-between text-sm">
+    <div>
+      <span>{{ 'zoom: ' }}{{ gisMapService.currentZoom$ | async }}</span
+      ><span class="ml-3">{{ gisMapService.mousePosition$ | async }}</span>
+    </div>
+    <div class="flex">
+      <rtu-select
+        [items]="mapSources"
+        [selectedItem]="selectedMapSource"
+        (selectedItemChange)="onMapSourceChanged($event)"
+      >
+        <ng-template rtuSelectLabel let-selectedItem>
+          {{ selectedItem.str }}
+        </ng-template>
+        <ng-template rtuSelectItem let-item>
+          {{ item.str }}
+        </ng-template>
+      </rtu-select>
+      <div class="w-1"></div>
+      <rtu-select
+        [items]="zooms"
+        [selectedItem]="selectedZoom"
+        (selectedItemChange)="onZoomChanged($event)"
+      >
+        <ng-template rtuSelectLabel let-selectedItem>
+          {{ selectedItem }}
+        </ng-template>
+        <ng-template rtuSelectItem let-item>
+          {{ item }}
+        </ng-template>
+      </rtu-select>
+    </div>
   </div>
 </div>
