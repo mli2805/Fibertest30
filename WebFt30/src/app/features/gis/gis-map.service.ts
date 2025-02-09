@@ -3,7 +3,9 @@ import { GisMapLayer } from './models/gis-map-layer';
 import { BehaviorSubject } from 'rxjs';
 import {
   AllGeoData,
+  GeoFiber,
   GraphRoutesData,
+  TraceNode,
   TraceRouteData
 } from 'src/app/core/store/models/ft30/geo-data';
 import * as L from 'leaflet';
@@ -110,6 +112,14 @@ export class GisMapService {
   addSectionMode = false;
   addSectionFromNodeId = GisMapUtils.emptyGuid;
   addSectionFromCoors!: L.LatLng;
+
+  dragNodeMode = false;
+  draggedNodeId!: string;
+  draggedNode!: TraceNode | undefined;
+  draggedMarkerGroup!: L.FeatureGroup | undefined;
+  draggedMarker!: L.Layer | undefined;
+  draggedFibers!: GeoFiber[];
+  draggedPolylines!: L.Layer[];
 
   //////////////////////////////
   externalCommand = new BehaviorSubject<any>({});

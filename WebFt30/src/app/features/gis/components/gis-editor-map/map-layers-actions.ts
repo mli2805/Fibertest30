@@ -42,7 +42,7 @@ export class MapLayersActions {
     });
 
     map.on('mousemove', (e) => {
-      MapMouseActions.onMouseMove(e.latlng);
+      MapMouseActions.onMouseMove(e);
     });
 
     map.on('mousedown', (e) => {
@@ -152,22 +152,30 @@ export class MapLayersActions {
     }
   }
 
-  static addNodeToLayer(node: TraceNode): void {
-    const marker = this.createMarker(node.coors, node.equipmentType, this.icons.getIcon(node));
-    marker.bindPopup(node.title);
+  static addNodeToLayer(node: TraceNode, coors: L.LatLng | null = null): L.Marker {
+    const marker = this.createMarker(
+      // когда тягаем узел рисуем его с новыми координатами
+      coors === null ? node.coors : coors,
+      node.equipmentType,
+      this.icons.getIcon(node),
+      node.id
+    );
+    // marker.bindPopup(node.title);
     (<any>marker).id = node.id;
 
     const layerType = GisMapUtils.equipmentTypeToGisMapLayer(node.equipmentType);
     const group = this.gisMapService.getLayerGroups().get(layerType)!;
     group.addLayer(marker);
+    return marker;
   }
 
-  static addFiberToLayer(fiber: GeoFiber): void {
+  static addFiberToLayer(fiber: GeoFiber): L.Polyline {
     const polyline = this.createMyLine(fiber);
     (<any>polyline).id = fiber.id;
 
     const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
     group.addLayer(polyline);
+    return polyline;
   }
 
   static createMyLine(fiber: GeoFiber) {
@@ -189,11 +197,12 @@ export class MapLayersActions {
   static createMarker(
     coordinate: L.LatLng,
     equipmentType: EquipmentType,
-    iconWithIndex: GisIconWithZIndex
+    iconWithIndex: GisIconWithZIndex,
+    nodeId: string
   ): L.Marker {
     const options = {
       icon: iconWithIndex.icon,
-      draggable: true,
+      draggable: false,
       contextmenu: true,
       contextmenuInheritItems: false,
       contextmenuItems: MapNodeMenu.buildMarkerContextMenu(equipmentType, this.hasEditPermissions)
@@ -208,6 +217,16 @@ export class MapLayersActions {
       if (this.gisMapService.addSectionMode) {
         MapNodeMenu.addNewFiber((<any>marker).id);
       }
+    });
+
+    marker.on('mousedown', (e) => {
+      MapMouseActions.onMouseDownOnNode(e, nodeId);
+      L.DomEvent.stopPropagation(e);
+    });
+
+    marker.on('mouseup', (e) => {
+      MapMouseActions.onMouseUpOnNode(e, nodeId);
+      L.DomEvent.stopPropagation(e);
     });
 
     marker.on('dragend', (e) => {
