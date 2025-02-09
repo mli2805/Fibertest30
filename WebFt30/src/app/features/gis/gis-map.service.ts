@@ -109,6 +109,7 @@ export class GisMapService {
   /////////////////////////
   addSectionMode = false;
   addSectionFromNodeId = GisMapUtils.emptyGuid;
+  addSectionFromCoors!: L.LatLng;
 
   //////////////////////////////
   externalCommand = new BehaviorSubject<any>({});

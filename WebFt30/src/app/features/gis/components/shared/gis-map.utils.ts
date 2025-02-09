@@ -87,9 +87,7 @@ export class GisMapUtils {
     return `${lat} : ${lng}`;
   }
 
-  static mouseToString(mouse: L.LatLng, center: L.LatLng): string {
-    return `center: ${GisMapUtils.latLngToString(center)},  mouse: ${GisMapUtils.latLngToString(
-      mouse
-    )}`;
+  static mouseToString(mouse: L.LatLng): string {
+    return `mouse: ${GisMapUtils.latLngToString(mouse)}`;
   }
 }

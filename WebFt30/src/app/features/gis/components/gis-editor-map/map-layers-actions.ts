@@ -45,6 +45,14 @@ export class MapLayersActions {
       MapMouseActions.onMouseMove(e.latlng);
     });
 
+    map.on('mousedown', (e) => {
+      document.getElementById('map')!.style.cursor = 'move';
+    });
+
+    map.on('mouseup', (e) => {
+      document.getElementById('map')!.style.cursor = 'default';
+    });
+
     map.on('dragend', (e) => {
       MapMouseActions.onDragEnd();
     });
@@ -55,6 +63,8 @@ export class MapLayersActions {
     map.attributionControl.setPrefix('');
     this.gisMapService.setMap(map);
     this.initMapLayersMap();
+
+    document.getElementById('map')!.style.cursor = 'default';
   }
 
   static tileLayer: any = null;
@@ -114,7 +124,7 @@ export class MapLayersActions {
     this.gisMapService.setLayerGroups(layerGroups);
 
     // если показывать не кластера а по зуму, то при инициализации
-    // надо не просто добавить слой в карту (выше строка)
+    // надо не просто добавить слой в карту
     // а сделать это в зависимомсти от текущего зума
     GisMapService.GisMapLayerZoom.forEach((value, key) => {
       GisMapLayers.setLayerVisibility(
@@ -163,6 +173,7 @@ export class MapLayersActions {
   static createMyLine(fiber: GeoFiber) {
     const options = {
       color: ColorUtils.routeStateToColor(fiber.fiberState),
+      weight: 3,
       contextmenu: true,
       contextmenuInheritItems: false,
       contextmenuItems: MapFiberMenu.buildFiberContextMenu(this.hasEditPermissions)

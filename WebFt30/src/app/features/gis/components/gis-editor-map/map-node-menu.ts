@@ -159,6 +159,7 @@ export class MapNodeMenu {
     // само добавление произойдет по клику на другом узле
     this.gisMapService.addSectionMode = true;
     this.gisMapService.addSectionFromNodeId = nodeId;
+    this.gisMapService.addSectionFromCoors = e.latlng;
   }
 
   static async addNewFiber(endNodeId: string) {
