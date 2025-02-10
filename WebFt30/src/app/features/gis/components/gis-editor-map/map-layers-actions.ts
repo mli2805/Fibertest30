@@ -38,7 +38,7 @@ export class MapLayersActions {
     });
 
     map.on('click', (e) => {
-      MapMouseActions.onClick(e.latlng);
+      MapMouseActions.onClick();
     });
 
     map.on('mousemove', (e) => {

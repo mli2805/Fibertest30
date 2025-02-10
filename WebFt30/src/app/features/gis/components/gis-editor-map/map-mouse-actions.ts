@@ -75,16 +75,14 @@ export class MapMouseActions {
     this.store.dispatch(SettingsActions.changeZoom({ zoom: newZoom }));
   }
 
-  static onClick(pos: L.LatLng) {
-    // рисуем волокно - клик на пустом месте означает отмену
+  static onClick() {
+    // если рисуем волокно - клик на пустом месте означает отмену
     if (this.gisMapService.addSectionMode) {
       if (this.lineInProgress !== undefined) {
         this.gisMapService.getMap().removeLayer(this.lineInProgress);
       }
       this.gisMapService.addSectionMode = false;
     }
-
-    this.gisMapService.mousePosition.next(GisMapUtils.mouseToString(pos));
   }
 
   static onDragEnd() {
