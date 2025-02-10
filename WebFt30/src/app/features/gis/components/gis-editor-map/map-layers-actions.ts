@@ -214,7 +214,11 @@ export class MapLayersActions {
     }
 
     marker.on('click', (e) => {
+      // завершить создание нового участка
       if (this.gisMapService.addSectionMode) {
+        if (MapMouseActions.lineInProgress !== undefined) {
+          this.gisMapService.getMap().removeLayer(MapMouseActions.lineInProgress);
+        }
         MapNodeMenu.addNewFiber((<any>marker).id);
       }
     });

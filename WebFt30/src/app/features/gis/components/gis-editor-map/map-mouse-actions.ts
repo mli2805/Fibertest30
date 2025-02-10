@@ -26,6 +26,7 @@ export class MapMouseActions {
     const pos = e.latlng;
     this.gisMapService.mousePosition.next(GisMapUtils.mouseToString(pos));
 
+    // перерисовать временное волокно во время создания участка
     if (this.gisMapService.addSectionMode) {
       if (this.lineInProgress !== undefined) {
         this.gisMapService.getMap().removeLayer(this.lineInProgress);
@@ -37,6 +38,7 @@ export class MapMouseActions {
       group.addLayer(this.lineInProgress);
     }
 
+    // перерисовать узел который тягаем
     if (this.gisMapService.dragNodeMode) {
       this.gisMapService.draggedMarkerGroup?.removeLayer(this.gisMapService.draggedMarker!);
 
@@ -82,8 +84,8 @@ export class MapMouseActions {
   }
 
   static onMouseDownOnNode(e: L.LeafletMouseEvent, nodeId: string) {
+    // Ctrl нажат - начать тягание узла
     if (e.originalEvent.ctrlKey && !this.gisMapService.dragNodeMode) {
-      // Ctrl нажат - переходим к тяганию узла
       // временно запретить тягание карты
       this.gisMapService.getMap().dragging.disable();
 
@@ -112,6 +114,7 @@ export class MapMouseActions {
   }
 
   static async onMouseUpOnNode(e: L.LeafletMouseEvent, nodeId: string) {
+    // завершить тягание узла
     if (this.gisMapService.dragNodeMode) {
       this.gisMapService.dragNodeMode = false;
       this.gisMapService.getMap().dragging.enable();
@@ -122,7 +125,10 @@ export class MapMouseActions {
         Longitude: e.latlng.lng
       };
       const json = JSON.stringify(command);
-      await firstValueFrom(this.graphService.sendCommand(json, 'MoveNode'));
+      const response = await firstValueFrom(this.graphService.sendCommand(json, 'MoveNode'));
+      if (response.success) {
+        this.gisMapService.draggedNode?.setCoors(e.latlng);
+      }
     }
   }
 }

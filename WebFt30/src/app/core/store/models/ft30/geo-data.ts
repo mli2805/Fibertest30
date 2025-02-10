@@ -8,6 +8,10 @@ export class TraceNode {
     public coors: L.LatLng,
     public equipmentType: EquipmentType
   ) {}
+
+  setCoors(coors: L.LatLng) {
+    this.coors = coors;
+  }
 }
 
 export class GeoFiber {
