@@ -227,6 +227,24 @@ export class MapLayersActions {
       marker.setZIndexOffset(iconWithIndex.zIndex * 1000);
     }
 
+    let popup: any = null;
+    const popupShift = equipmentType === EquipmentType.Rtu ? -40 : -4;
+    marker.on('mouseover', (e) => {
+      if (nodeTitle === '') return;
+      // надо сдвигать popup потому что если мышь оказывается над popup'ом то он пропадает
+      popup = L.popup({ offset: L.point(popupShift, popupShift) });
+      popup.setContent(nodeTitle);
+      popup.setLatLng(e.target.getLatLng());
+      popup.openOn(this.gisMapService.getMap());
+    });
+
+    marker.on('mouseout', (e) => {
+      this.gisMapService.getMap().closePopup(popup);
+    });
+
+    if (!this.hasEditPermissions) return marker;
+    // остальные обработчики нужны только руту
+
     marker.on('click', (e) => {
       // завершить создание нового участка
       if (this.gisMapService.addSectionMode) {
@@ -245,21 +263,6 @@ export class MapLayersActions {
     marker.on('mouseup', (e) => {
       MapMouseActions.onMouseUpOnNode(e, nodeId);
       L.DomEvent.stopPropagation(e);
-    });
-
-    let popup: any = null;
-    const popupShift = equipmentType === EquipmentType.Rtu ? -40 : -4;
-    marker.on('mouseover', (e) => {
-      if (nodeTitle === '') return;
-      // надо сдвигать popup потому что если мышь оказывается над popup'ом то он пропадает
-      popup = L.popup({ offset: L.point(popupShift, popupShift) });
-      popup.setContent(nodeTitle);
-      popup.setLatLng(e.target.getLatLng());
-      popup.openOn(this.gisMapService.getMap());
-    });
-
-    marker.on('mouseout', (e) => {
-      this.gisMapService.getMap().closePopup(popup);
     });
 
     return marker;
