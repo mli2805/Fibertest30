@@ -25,6 +25,16 @@ export class GeoFiber {
   ) {}
 }
 
+export class GeoTrace {
+  constructor(
+    public id: string,
+    public nodeIds: string[],
+    public fiberIds: string[],
+    public hasAnyBaseRef: boolean,
+    public state: FiberState
+  ) {}
+}
+
 export class TraceRouteData {
   constructor(public traceId: string, public nodes: TraceNode[], public traceState: FiberState) {}
 }
@@ -35,5 +45,5 @@ export class GraphRoutesData {
 
 // узлы и участки для карты root'а
 export class AllGeoData {
-  constructor(public fibers: GeoFiber[], public nodes: TraceNode[]) {}
+  constructor(public fibers: GeoFiber[], public nodes: TraceNode[], public traces: GeoTrace[]) {}
 }

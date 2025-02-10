@@ -75,6 +75,7 @@ export class GisComponent extends OnDestroyBase implements OnInit {
     this.loading.next(true);
     const response = await firstValueFrom(this.gisService.getAllGeoData());
     const geoData = GisMapping.fromGrpcGeoData(response.data!);
+    console.log(geoData);
 
     this.gisMapService.setGeoData(geoData);
     this.loading.next(false);

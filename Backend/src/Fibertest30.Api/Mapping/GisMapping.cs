@@ -53,6 +53,17 @@ public static class GisMapping
         };
     }
 
+    private static GeoTrace ToProto(this Iit.Fibertest.Graph.Trace trace)
+    {
+        var result = new GeoTrace()
+        {
+            Id = trace.TraceId.ToString(), HasAnyBaseRef = trace.HasAnyBaseRef, State = trace.State.ToProto()
+        };
+        trace.NodeIds.ForEach(n=>result.NodeIds.Add(n.ToString()));
+        trace.FiberIds.ForEach(n=>result.FiberIds.Add(n.ToString()));
+        return result;
+    }
+
     public static TraceRouteData ToProto(this TraceGisData trace)
     {
         var result = new TraceRouteData
@@ -75,6 +86,7 @@ public static class GisMapping
         var result = new AllGeoData();
         data.Fibers.ForEach(f => result.Fibers.Add(f.ToProto()));
         data.Nodes.ForEach(n => result.Nodes.Add(n.ToProto()));
+        data.Traces.ForEach(t => result.Traces.Add(t.ToProto()));
         return result;
     }
 }

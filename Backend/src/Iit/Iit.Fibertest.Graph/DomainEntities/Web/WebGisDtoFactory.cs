@@ -10,7 +10,8 @@ public static class WebGisDtoFactory
                 .Nodes.Select(node => node.GetNodeGisData()).ToList(),
             Fibers = writeModel
                 .Fibers.Select(f=>f.GetFiberGisData(writeModel))
-                .Where(fiberGisData => fiberGisData != null).ToList()!
+                .Where(fiberGisData => fiberGisData != null).ToList()!,
+            Traces = writeModel.Traces
         };
     }
 

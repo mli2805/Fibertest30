@@ -10,7 +10,7 @@ import { GisMapUtils } from '../shared/gis-map.utils';
 import { GeoFiber } from 'src/app/core/store/models/ft30/geo-data';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { MapLayersActions } from './map-layers-actions';
-import { GisMapLayer } from '../../models/gis-map-layer';
+import { MapNodeRemove } from './map-node-remove';
 
 export class MapNodeMenu {
   private static ts: TranslateService;
@@ -124,32 +124,49 @@ export class MapNodeMenu {
   }
 
   static async removeNode(e: L.ContextMenuItemClickEvent) {
-    // точка привязки должна удаляться иначе (сейчас удаляет волокно, должна пропасть только точка)
-    console.log(e);
     const nodeId = (<any>e.relatedTarget).id;
+    const node = this.gisMapService.getGeoData().nodes.find((n) => n.id === nodeId);
+
+    if (!MapNodeRemove.isRemoveThisNodePermitted(nodeId, node!.equipmentType)) return;
+    if (!MapNodeRemove.isPossibleToRemove(nodeId)) return;
+
+    let detours: any[] = [];
+    for (let i = 0; i < this.gisMapService.getGeoData().traces.length; i++) {
+      const trace = this.gisMapService.getGeoData().traces[i];
+      const traceDetours = MapNodeRemove.buildDetoursForTrace(nodeId, trace);
+      // detours = detours.concat(traceDetours);
+      detours = [...traceDetours];
+    }
+
+    const isAdjustmentPoint = node?.equipmentType === EquipmentType.AdjustmentPoint;
+    const fiberIdToDetourAdjustmentPoint = isAdjustmentPoint
+      ? crypto.randomUUID()
+      : GisMapUtils.emptyGuid;
 
     const command = {
-      NodeId: nodeId
+      NodeId: nodeId,
+      IsAdjustmentPoint: isAdjustmentPoint,
+      DetoursForGraph: detours,
+      FiberIdToDetourAdjustmentPoint: fiberIdToDetourAdjustmentPoint
     };
     const json = JSON.stringify(command);
     const response = await firstValueFrom(this.graphService.sendCommand(json, 'RemoveNode'));
     if (response.success) {
-      // удаляем узел и его волокна с карты и из GeoData
-      // если другой конец волокна удаляемого при удалении узла явл точкой привязки, то удаляем точку привязки и след волокно и т.д. пока не дойдем до обычного узла
+      // сначала рисуем новые волокна трассам, если таковые проходили через узел
+      const traces = this.gisMapService.getGeoData().traces;
+      for (let i = 0; i < traces.length; i++) {
+        MapNodeRemove.ExcludeAllNodeAppearancesInTrace(nodeId, traces[i], detours);
+      }
 
-      const node = this.gisMapService.getGeoData().nodes.find((n) => n.id === nodeId);
-      const layerType = GisMapUtils.equipmentTypeToGisMapLayer(node!.equipmentType);
-      const group = this.gisMapService.getLayerGroups().get(layerType);
-      const marker = group?.getLayers().find((m) => (<any>m).id === nodeId);
-      group?.removeLayer(marker!);
-
-      const routesGroup = this.gisMapService.getLayerGroups().get(GisMapLayer.Route);
-      this.gisMapService.getGeoData().fibers.forEach((f) => {
-        if (f.node1id === nodeId || f.node2id === nodeId) {
-          const route = routesGroup!.getLayers().find((r) => (<any>r).id === f.id);
-          routesGroup!.removeLayer(route!);
+      if (fiberIdToDetourAdjustmentPoint !== GisMapUtils.emptyGuid) {
+        MapNodeRemove.ExcludeAdjustmentPoint(nodeId, fiberIdToDetourAdjustmentPoint);
+      } else {
+        if (detours.length === 0) {
+          MapNodeRemove.RemoveNodeWithAllHisFibersUptoRealNode(node!);
+        } else {
+          MapNodeRemove.RemoveNodeWithAllHisFibers(node!);
         }
-      });
+      }
     }
   }
 

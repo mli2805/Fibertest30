@@ -93,7 +93,7 @@ namespace Iit.Fibertest.Graph
 
         public static string? UpdateNode(this Model model, NodeUpdated source)
         {
-            Node destination = model.Nodes.FirstOrDefault(n => n.NodeId == source.NodeId);
+            Node? destination = model.Nodes.FirstOrDefault(n => n.NodeId == source.NodeId);
             if (destination == null)
             {
                 return $@"NodeUpdated: Node {source.NodeId.First6()} not found";
@@ -104,7 +104,7 @@ namespace Iit.Fibertest.Graph
 
         public static string? UpdateAndMoveNode(this Model model, NodeUpdatedAndMoved source)
         {
-            Node destination = model.Nodes.FirstOrDefault(n => n.NodeId == source.NodeId);
+            Node? destination = model.Nodes.FirstOrDefault(n => n.NodeId == source.NodeId);
             if (destination == null)
             {
                 return $@"NodeUpdated: Node {source.NodeId.First6()} not found";
@@ -115,7 +115,7 @@ namespace Iit.Fibertest.Graph
 
         public static string? MoveNode(this Model model, NodeMoved newLocation)
         {
-            Node node = model.Nodes.FirstOrDefault(n => n.NodeId == newLocation.NodeId);
+            Node? node = model.Nodes.FirstOrDefault(n => n.NodeId == newLocation.NodeId);
             if (node == null)
             {
                 return $@"NodeMoved: Node {newLocation.NodeId.First6()} not found";
@@ -178,7 +178,7 @@ namespace Iit.Fibertest.Graph
                 : model.RemoveNodeWithAllHisFibers(e.NodeId);
         }
 
-        private static string ExcludeAllNodeAppearancesInTrace(this Model model, Guid nodeId, Trace trace, List<NodeDetour> nodeDetours)
+        private static string? ExcludeAllNodeAppearancesInTrace(this Model model, Guid nodeId, Trace trace, List<NodeDetour> nodeDetours)
         {
             int index;
             while ((index = trace.NodeIds.IndexOf(nodeId)) != -1)
@@ -214,7 +214,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        private static string ExcludeTurnNodeFromTrace(Trace trace, int index)
+        private static string? ExcludeTurnNodeFromTrace(Trace trace, int index)
         {
             if (trace.NodeIds.Count <= 3)
             {
@@ -252,13 +252,12 @@ namespace Iit.Fibertest.Graph
             }
             else
             {
-                if (!fiber.States.ContainsKey(detour.TraceId))
-                    fiber.States.Add(detour.TraceId, detour.TraceState);
+                fiber.States.TryAdd(detour.TraceId, detour.TraceState);
             }
 
         }
 
-        private static string ExcludeAdjustmentPoint(this Model model, Guid nodeId, Guid detourFiberId)
+        private static string? ExcludeAdjustmentPoint(this Model model, Guid nodeId, Guid detourFiberId)
         {
             var leftFiber = model.Fibers.FirstOrDefault(f => f.NodeId2 == nodeId);
             if (leftFiber == null)

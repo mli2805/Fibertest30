@@ -50,6 +50,15 @@ message GeoFiber {
 	ft.enums.FiberState fiberState = 6;
 }
 
+message GeoTrace {
+	string id = 1;
+	repeated string nodeIds = 2;
+	repeated string fiberIds = 3;
+	bool hasAnyBaseRef = 4;
+	ft.enums.FiberState state = 5;
+
+}
+
 message TraceRouteData {
 	string traceId = 1;
 	repeated TraceNode nodes = 2;
@@ -63,6 +72,7 @@ message GraphRoutesData {
 message AllGeoData {
 	repeated GeoFiber fibers = 1;
 	repeated TraceNode nodes = 2;
+	repeated GeoTrace traces = 3;
 }
 
 // GetTraceRoute

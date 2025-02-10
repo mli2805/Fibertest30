@@ -3,6 +3,7 @@ import * as L from 'leaflet';
 import {
   AllGeoData,
   GeoFiber,
+  GeoTrace,
   GraphRoutesData,
   TraceNode,
   TraceRouteData
@@ -36,6 +37,17 @@ export class GisMapping {
     return fiber;
   }
 
+  static fromGeoTrace(grpcGeoTrace: grpc.GeoTrace): GeoTrace {
+    const trace = new GeoTrace(
+      grpcGeoTrace.id,
+      grpcGeoTrace.nodeIds.map((n) => n),
+      grpcGeoTrace.fiberIds.map((f) => f),
+      grpcGeoTrace.hasAnyBaseRef,
+      FtEnumsMapping.fromGrpcFiberState(grpcGeoTrace.state)
+    );
+    return trace;
+  }
+
   static fromTraceRouteData(grpcTraceRoute: grpc.TraceRouteData): TraceRouteData {
     const nodes = grpcTraceRoute.nodes.map((n) => this.fromTraceNode(n));
     const route = new TraceRouteData(
@@ -54,6 +66,7 @@ export class GisMapping {
   static fromGrpcGeoData(grpcGeoData: grpc.AllGeoData): AllGeoData {
     const nodes = grpcGeoData.nodes.map((n) => this.fromTraceNode(n));
     const fibers = grpcGeoData.fibers.map((f) => this.fromGeoFiber(f));
-    return new AllGeoData(fibers, nodes);
+    const traces = grpcGeoData.traces.map((t) => this.fromGeoTrace(t));
+    return new AllGeoData(fibers, nodes, traces);
   }
 }

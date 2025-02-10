@@ -4,7 +4,7 @@ namespace Iit.Fibertest.Graph
 {
     public static class ModelRemoveThroughAdjustmentPointsExt
     {
-        public static string RemoveNodeWithAllHisFibersUptoRealNode(this Model model, Guid nodeId)
+        public static string? RemoveNodeWithAllHisFibersUptoRealNode(this Model model, Guid nodeId)
         {
             foreach (var fiber in model.Fibers.Where(f => f.NodeId1 == nodeId || f.NodeId2 == nodeId).ToList())
             {
@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string RemoveNodeWithAllHisFibers(this Model model, Guid nodeId)
+        public static string? RemoveNodeWithAllHisFibers(this Model model, Guid nodeId)
         {
             model.Fibers.RemoveAll(f => f.NodeId1 == nodeId || f.NodeId2 == nodeId);
             model.Equipments.RemoveAll(e => e.NodeId == nodeId);

@@ -37,4 +37,5 @@ public class AllGisData
 {
     public List<FiberGisData> Fibers = null!;
     public List<NodeGisData> Nodes = null!;
+    public List<Trace> Traces = null!;
 }
