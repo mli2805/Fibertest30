@@ -57,6 +57,19 @@ export class MapLayersActions {
       MapMouseActions.onDragEnd();
     });
 
+    // не реагирует почему-то
+    // map.on('keydown', (e) => {
+    //   console.log(e);
+    //   if (e.originalEvent.code === 'Escape') {
+    //     if (this.gisMapService.addSectionMode) {
+    //       this.gisMapService.addSectionMode = false;
+    //       if (MapMouseActions.lineInProgress !== undefined) {
+    //         this.gisMapService.getMap().removeLayer(MapMouseActions.lineInProgress);
+    //       }
+    //     }
+    //   }
+    // });
+
     this.setTileLayer(this.gisMapService.mapSourceId.value, map);
 
     // hide leaflet own attribution
@@ -152,13 +165,13 @@ export class MapLayersActions {
     }
   }
 
-  static addNodeToLayer(node: TraceNode, coors: L.LatLng | null = null): L.Marker {
+  static addNodeToLayer(node: TraceNode): L.Marker {
     const marker = this.createMarker(
-      // когда тягаем узел рисуем его с новыми координатами
-      coors === null ? node.coors : coors,
+      node.coors,
       node.equipmentType,
       this.icons.getIcon(node),
-      node.id
+      node.id,
+      node.title
     );
     // marker.bindPopup(node.title);
     (<any>marker).id = node.id;
@@ -198,7 +211,8 @@ export class MapLayersActions {
     coordinate: L.LatLng,
     equipmentType: EquipmentType,
     iconWithIndex: GisIconWithZIndex,
-    nodeId: string
+    nodeId: string,
+    nodeTitle: string
   ): L.Marker {
     const options = {
       icon: iconWithIndex.icon,
@@ -233,8 +247,19 @@ export class MapLayersActions {
       L.DomEvent.stopPropagation(e);
     });
 
-    marker.on('dragend', (e) => {
-      MapActions.dragMarkerWithPolylines(e);
+    let popup: any = null;
+    const popupShift = equipmentType === EquipmentType.Rtu ? -40 : -4;
+    marker.on('mouseover', (e) => {
+      if (nodeTitle === '') return;
+      // надо сдвигать popup потому что если мышь оказывается над popup'ом то он пропадает
+      popup = L.popup({ offset: L.point(popupShift, popupShift) });
+      popup.setContent(nodeTitle);
+      popup.setLatLng(e.target.getLatLng());
+      popup.openOn(this.gisMapService.getMap());
+    });
+
+    marker.on('mouseout', (e) => {
+      this.gisMapService.getMap().closePopup(popup);
     });
 
     return marker;

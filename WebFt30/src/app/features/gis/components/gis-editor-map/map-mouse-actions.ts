@@ -42,7 +42,8 @@ export class MapMouseActions {
     if (this.gisMapService.dragNodeMode) {
       this.gisMapService.draggedMarkerGroup?.removeLayer(this.gisMapService.draggedMarker!);
 
-      const marker = MapLayersActions.addNodeToLayer(this.gisMapService.draggedNode!, pos);
+      this.gisMapService.draggedNode?.setCoors(pos);
+      const marker = MapLayersActions.addNodeToLayer(this.gisMapService.draggedNode!);
       this.gisMapService.draggedMarker = marker;
 
       const routesGroup = this.gisMapService.getLayerGroups().get(GisMapLayer.Route);
@@ -75,6 +76,14 @@ export class MapMouseActions {
   }
 
   static onClick(pos: L.LatLng) {
+    // рисуем волокно - клик на пустом месте означает отмену
+    if (this.gisMapService.addSectionMode) {
+      if (this.lineInProgress !== undefined) {
+        this.gisMapService.getMap().removeLayer(this.lineInProgress);
+      }
+      this.gisMapService.addSectionMode = false;
+    }
+
     this.gisMapService.mousePosition.next(GisMapUtils.mouseToString(pos));
   }
 
@@ -125,10 +134,7 @@ export class MapMouseActions {
         Longitude: e.latlng.lng
       };
       const json = JSON.stringify(command);
-      const response = await firstValueFrom(this.graphService.sendCommand(json, 'MoveNode'));
-      if (response.success) {
-        this.gisMapService.draggedNode?.setCoors(e.latlng);
-      }
+      await firstValueFrom(this.graphService.sendCommand(json, 'MoveNode'));
     }
   }
 }
