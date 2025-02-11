@@ -33,7 +33,8 @@ public static class WebGisDtoFactory
             Fibers = fiberIds
                 .Select(id => writeModel.Fibers.First(f=>f.FiberId == id))
                 .Select(fiber=>fiber.GetFiberGisData(writeModel))
-                .Where(fiberGisData => fiberGisData != null).ToList()!
+                .Where(fiberGisData => fiberGisData != null).ToList()!,
+            Traces = writeModel.Traces
         };
     }
 
