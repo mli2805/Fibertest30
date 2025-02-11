@@ -85,13 +85,13 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
       .pipe(takeUntil(this.ngDestroyed$))
       .subscribe((x) => this.onTraceRouteData(x));
 
-    this.gisMapService.graphRoutesData$
-      .pipe(takeUntil(this.ngDestroyed$))
-      .subscribe((d) => this.onGraphRoutesData(d));
-
     this.gisMapService.externalCommand$
       .pipe(takeUntil(this.ngDestroyed$))
       .subscribe((c) => MapExternalCommands.do(c));
+
+    this.gisMapService.showNodesFromZoom$
+      .pipe(takeUntil(this.ngDestroyed$))
+      .subscribe((c) => MapLayersActions.setLayersVisibility());
   }
 
   override ngOnDestroy(): void {
@@ -116,11 +116,5 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     this.gisMapService.getLayerGroups().forEach((group) => group.clearLayers());
     if (!data) return;
     MapLayersActions.addTraceRoute(data.traceRouteData, true);
-  }
-
-  onGraphRoutesData(data: { graphRoutesData: GraphRoutesData } | null): void {
-    this.gisMapService.getLayerGroups().forEach((group) => group.clearLayers());
-    if (!data) return;
-    data.graphRoutesData.routes.forEach((r) => MapLayersActions.addTraceRoute(r, false));
   }
 }

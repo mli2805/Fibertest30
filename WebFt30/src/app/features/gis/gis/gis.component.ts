@@ -81,16 +81,6 @@ export class GisComponent extends OnDestroyBase implements OnInit {
     this.loading.next(false);
   }
 
-  // может применяться для read-only пользователей
-  // async loadRoutesData() {
-  //   this.loading.next(true);
-  //   const response = await firstValueFrom(this.gisService.getGraphRoutes());
-  //   const graphData = GisMapping.fromGrpcGraphRoutesData(response.data!);
-
-  //   this.gisMapService.setGraphRoutesData(graphData);
-  //   this.loading.next(false);
-  // }
-
   // это про зум с которого начинать показывать узлы
   onZoomChanged($event: any) {
     this.gisMapService.setShowNodesFromZoom($event);

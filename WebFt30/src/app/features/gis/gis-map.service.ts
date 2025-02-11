@@ -92,11 +92,11 @@ export class GisMapService {
   showNodesFromZoom = new BehaviorSubject<number>(16);
   showNodesFromZoom$ = this.showNodesFromZoom.asObservable();
   setShowNodesFromZoom(fromZoom: number) {
-    this.showNodesFromZoom.next(fromZoom);
-
     GisMapService.GisMapLayerZoom.set(GisMapLayer.TraceEquipment, fromZoom);
     GisMapService.GisMapLayerZoom.set(GisMapLayer.EmptyNodes, fromZoom);
     GisMapService.GisMapLayerZoom.set(GisMapLayer.AdjustmentPoints, fromZoom);
+
+    this.showNodesFromZoom.next(fromZoom);
   }
 
   currentZoom = new BehaviorSubject<number>(16);

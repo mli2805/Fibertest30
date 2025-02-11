@@ -139,6 +139,10 @@ export class MapLayersActions {
     // если показывать не кластера а по зуму, то при инициализации
     // надо не просто добавить слой в карту
     // а сделать это в зависимомсти от текущего зума
+    this.setLayersVisibility();
+  }
+
+  static setLayersVisibility() {
     GisMapService.GisMapLayerZoom.forEach((value, key) => {
       GisMapLayers.setLayerVisibility(
         this.gisMapService.getMap(),
