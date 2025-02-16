@@ -38,7 +38,7 @@ export class MapActions {
     );
     if (response.success) {
       // добавить этот узел на карту и в GeoData
-      const traceNode = new TraceNode(command.NodeId, '', e.latlng, equipmentType);
+      const traceNode = new TraceNode(command.NodeId, '', e.latlng, equipmentType, '');
       MapLayersActions.addNodeToLayer(traceNode);
       this.gisMapService.getGeoData().nodes.push(traceNode);
     }

@@ -1,3 +1,4 @@
+import 'leaflet-contextmenu';
 import 'leaflet.markercluster';
 import {
   ApplicationRef,
@@ -12,11 +13,7 @@ import {
 import { GisMapService } from '../../gis-map.service';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
 import { takeUntil } from 'rxjs';
-import {
-  AllGeoData,
-  GraphRoutesData,
-  TraceRouteData
-} from 'src/app/core/store/models/ft30/geo-data';
+import { AllGeoData, TraceRouteData } from 'src/app/core/store/models/ft30/geo-data';
 import { TranslateService } from '@ngx-translate/core';
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { LeafletAngularPopupBinder } from '../shared/leaflet-angular-popup-binder';
@@ -43,7 +40,7 @@ GisMapUtils.fixLeafletMarkers();
 export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy {
   private store: Store<AppState> = inject(Store<AppState>);
 
-  private popupBinder!: LeafletAngularPopupBinder;
+  // private popupBinder!: LeafletAngularPopupBinder;
 
   constructor(
     private injector: Injector,
@@ -62,7 +59,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     MapNodeMenu.initialize(injector);
     MapFiberMenu.initialize(injector);
     MapExternalCommands.initialize(injector);
-    this.popupBinder = new LeafletAngularPopupBinder(appRef, envInjector);
+    // this.popupBinder = new LeafletAngularPopupBinder(appRef, envInjector);
   }
 
   async ngOnInit(): Promise<void> {
@@ -95,7 +92,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
   }
 
   override ngOnDestroy(): void {
-    this.popupBinder?.destroy();
+    // this.popupBinder?.destroy();
 
     super.ngOnDestroy();
   }

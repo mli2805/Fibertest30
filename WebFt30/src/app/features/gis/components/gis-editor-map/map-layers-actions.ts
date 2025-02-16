@@ -10,7 +10,6 @@ import { GisMapLayer } from '../../models/gis-map-layer';
 import { EquipmentType } from 'src/grpc-generated/gis';
 import { MapNodeMenu } from './map-node-menu';
 import { GisMapLayers } from '../shared/gis-map-layers';
-import { MapActions } from './map-actions';
 import { MapMouseActions } from './map-mouse-actions';
 import { UserSettings } from 'src/app/core/models/user-settings';
 import { MapMenu } from './map-menu';
@@ -34,7 +33,7 @@ export class MapLayersActions {
     });
 
     map.on('zoomend', (e) => {
-      MapMouseActions.onZoom();
+      MapMouseActions.onZoom(e);
     });
 
     map.on('click', (e) => {
@@ -177,7 +176,6 @@ export class MapLayersActions {
       node.id,
       node.title
     );
-    // marker.bindPopup(node.title);
     (<any>marker).id = node.id;
 
     const layerType = GisMapUtils.equipmentTypeToGisMapLayer(node.equipmentType);
@@ -232,10 +230,10 @@ export class MapLayersActions {
     }
 
     let popup: any = null;
+    // надо сдвигать popup потому что если мышь оказывается над popup'ом то он пропадает
     const popupShift = equipmentType === EquipmentType.Rtu ? -40 : -4;
     marker.on('mouseover', (e) => {
       if (nodeTitle === '') return;
-      // надо сдвигать popup потому что если мышь оказывается над popup'ом то он пропадает
       popup = L.popup({ offset: L.point(popupShift, popupShift) });
       popup.setContent(nodeTitle);
       popup.setLatLng(e.target.getLatLng());

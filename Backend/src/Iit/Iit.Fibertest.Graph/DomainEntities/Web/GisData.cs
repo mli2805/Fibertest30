@@ -9,6 +9,19 @@ public class NodeGisData
     public string Title = null!;
     public PointLatLng Coors;
     public EquipmentType EquipmentType;
+    public string Comment = "";
+}
+
+public class EquipmentGisData
+{
+    public Guid Id;
+    public Guid NodeId;
+    public string Title = null!;
+    public EquipmentType Type;
+    public int CableReserveLeft;
+    public int CableReserveRight;
+    public string Comment = "";
+
 }
 
 public class FiberGisData
@@ -36,6 +49,7 @@ public class GisData
 public class AllGisData
 {
     public List<FiberGisData> Fibers = null!;
+    public List<EquipmentGisData> Equipments = null!;
     public List<NodeGisData> Nodes = null!;
     public List<Trace> Traces = null!;
 }

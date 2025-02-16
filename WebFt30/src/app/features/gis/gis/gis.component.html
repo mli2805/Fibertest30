@@ -6,7 +6,12 @@
     <ng-container *ngIf="gisMapService.showTraceDefine$ | async">
       <rtu-trace-define />
     </ng-container>
+    <ng-container *ngIf="gisMapService.showNodeInfo$ | async">
+      <rtu-show-node-info />
+    </ng-container>
   </div>
+
+  <!-- общий футер карты и опредилителя трассы -->
   <div class="mb-1 mr-2 mt-0.5 flex items-center justify-between text-sm">
     <div>
       <span>{{ 'zoom: ' }}{{ gisMapService.currentZoom$ | async }}</span

@@ -81,7 +81,7 @@ export class MapFiberMenu {
     const response = await firstValueFrom(this.graphService.sendCommand(json, 'AddNodeIntoFiber'));
     if (response.success) {
       // добавить этот узел на карту и в GeoData
-      const traceNode = new TraceNode(command.Id, '', e.latlng, eqType);
+      const traceNode = new TraceNode(command.Id, '', e.latlng, eqType, '');
       MapLayersActions.addNodeToLayer(traceNode);
       this.gisMapService.getGeoData().nodes.push(traceNode);
 

@@ -569,6 +569,21 @@
   "i18n.ft.section-with-nodes": "Section with nodes",
   "i18n.ft.remove-section": "Remove section",
 
+  "i18n.ft.terminal": "Terminal",
+  "i18n.ft.cross": "Cross",
+  "i18n.ft.closure": "Closure",
+  "i18n.ft.other": "Other",
+  "i18n.ft.cable-reserve": "Cable reserve",
+
+  "i18n.ft.node": "Node",
+  "i18n.ft.equipment-in-node": "Equipment in node",
+  "i18n.ft.traces-in-node": "Traces in node",
+  "i18n.ft.coordinates": "Coordinates",
+  "i18n.ft.type": "Type",
+  "i18n.ft.l-m": "L, m",
+  "i18n.ft.r-m": "R, m",
+  "i18n.ft.traces": "Traces",
+
   "i18n.ft.step-by-step-trace-definition": "Step by step trace definition",
 
   "i18n.start-page.gis": "Gis",
@@ -610,6 +625,12 @@
   "i18n.ft.password-rules": "Password rules",
   "i18n.ft.passwords-do-not-match": "passwords do not match",
   "i18n.ft.required": "required",
+
+  "i18n.ft.step-forward": "Step forward",
+  "i18n.ft.step-backward": "Step backward",
+  "i18n.ft.cancel-step": "Cancel step",
+  "i18n.ft.noname-node": "<Noname node>",
+
   "i18n.validation.incorrect-level-order": "incorrect level order",
   "i18n.validation.not-unique": "must be unique",
   "i18n.validation.precision-limit": "precision limit"

@@ -4,12 +4,12 @@ import { BehaviorSubject } from 'rxjs';
 import {
   AllGeoData,
   GeoFiber,
-  GraphRoutesData,
   TraceNode,
   TraceRouteData
 } from 'src/app/core/store/models/ft30/geo-data';
 import * as L from 'leaflet';
 import { GisMapUtils } from './components/shared/gis-map.utils';
+import { StepModel } from './forms/trace-define/step-model';
 
 @Injectable()
 export class GisMapService {
@@ -19,7 +19,6 @@ export class GisMapService {
     [GisMapLayer.EmptyNodes, 16],
     [GisMapLayer.AdjustmentPoints, 16]
   ]);
-  // public static GisMapLayerZoom = new Map<GisMapLayer, number>([]);
 
   ///////////////////// все узлы и участки для карты root'а
   private geoData!: AllGeoData;
@@ -35,6 +34,25 @@ export class GisMapService {
     this.geoDataSubject.next({ geoData });
   }
 
+  //
+  // попробуем для случаев когда уверен что узел есть
+  getNode(nodeId: string): TraceNode {
+    return this.geoData.nodes.find((n) => n.id === nodeId)!;
+  }
+
+  getNodeFibers(nodeId: string): GeoFiber[] {
+    return this.geoData.fibers.filter((f) => f.node1id === nodeId || f.node2id === nodeId);
+  }
+
+  getAnotherFiberOfAdjustmentPoint(adjustmentPointId: string, fiberId: string): GeoFiber {
+    return this.geoData.fibers.find(
+      (f) =>
+        (f.node1id === adjustmentPointId || f.node2id === adjustmentPointId) && f.id !== fiberId
+    )!;
+  }
+
+  //
+
   //////////////////// одна трасса для показа на форме опт соб
   private traceRouteDataSubject = new BehaviorSubject<{
     traceRouteData: TraceRouteData;
@@ -46,23 +64,6 @@ export class GisMapService {
     this.traceRouteDataSubject.next({
       traceRouteData: traceRouteData
     });
-  }
-
-  ///////////////////// все трассы для полной карты без редактирования
-  private graph!: GraphRoutesData;
-  public getGraph(): GraphRoutesData {
-    return this.graph;
-  }
-
-  private graphRoutesDataSubject = new BehaviorSubject<{ graphRoutesData: GraphRoutesData } | null>(
-    null
-  );
-
-  graphRoutesData$ = this.graphRoutesDataSubject.asObservable();
-
-  setGraphRoutesData(graphRoutesData: GraphRoutesData): void {
-    this.graph = graphRoutesData;
-    this.graphRoutesDataSubject.next({ graphRoutesData });
   }
 
   ///////////////////////
@@ -102,6 +103,14 @@ export class GisMapService {
   currentZoom = new BehaviorSubject<number>(16);
   currentZoom$ = this.currentZoom.asObservable();
 
+  mousePos!: L.LatLng;
+  setMousePos(e: L.LatLng) {
+    this.mousePos = e;
+    this.mousePosition.next(GisMapUtils.mouseToString(e));
+  }
+  moveCenterToMousePos() {
+    this.map.setView(this.mousePos);
+  }
   mousePosition = new BehaviorSubject<string>('');
   mousePosition$ = this.mousePosition.asObservable();
 
@@ -122,6 +131,31 @@ export class GisMapService {
   draggedPolylines!: L.Layer[];
 
   //////////////////////////////
+  // пока используется чтобы показать RTU по клику в дереве
   externalCommand = new BehaviorSubject<any>({});
   externalCommand$ = this.externalCommand.asObservable();
+
+  //////////////////////////////
+  steps!: StepModel[];
+
+  clearSteps() {
+    this.steps = [];
+    this.stepList.next(this.steps);
+  }
+
+  addStep(step: StepModel) {
+    this.steps.push(step);
+    this.stepList.next(this.steps);
+  }
+
+  stepList = new BehaviorSubject<StepModel[]>([]);
+  stepList$ = this.stepList.asObservable();
+
+  //////////////////////////
+  // значение - nodeId
+  showNodeInfo = new BehaviorSubject<string | null>(null);
+  showNodeInfo$ = this.showNodeInfo.asObservable();
+
+  showAddEquipment = new BehaviorSubject<string | null>(null);
+  showAddEquipment$ = this.showAddEquipment.asObservable();
 }

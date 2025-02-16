@@ -2,9 +2,9 @@ import * as grpc from 'src/grpc-generated';
 import * as L from 'leaflet';
 import {
   AllGeoData,
+  GeoEquipment,
   GeoFiber,
   GeoTrace,
-  GraphRoutesData,
   TraceNode,
   TraceRouteData
 } from '../models/ft30/geo-data';
@@ -20,9 +20,23 @@ export class GisMapping {
       grpcTraceNode.id,
       grpcTraceNode.title,
       this.fromGeoCoordinate(grpcTraceNode.coors!),
-      grpcTraceNode.equipmentType
+      grpcTraceNode.equipmentType,
+      grpcTraceNode.comment
     );
     return node;
+  }
+
+  static fromGeoEquipment(grpcGeoEquipment: grpc.GeoEquipment): GeoEquipment {
+    const equipment = new GeoEquipment(
+      grpcGeoEquipment.id,
+      grpcGeoEquipment.title,
+      grpcGeoEquipment.nodeId,
+      grpcGeoEquipment.type,
+      grpcGeoEquipment.cableReserveLeft,
+      grpcGeoEquipment.cableReserveRight,
+      grpcGeoEquipment.comment
+    );
+    return equipment;
   }
 
   static fromGeoFiber(grpcGeoFiber: grpc.GeoFiber): GeoFiber {
@@ -40,10 +54,14 @@ export class GisMapping {
   static fromGeoTrace(grpcGeoTrace: grpc.GeoTrace): GeoTrace {
     const trace = new GeoTrace(
       grpcGeoTrace.id,
+      grpcGeoTrace.title,
       grpcGeoTrace.nodeIds.map((n) => n),
+      grpcGeoTrace.equipmentIds.map((e) => e),
       grpcGeoTrace.fiberIds.map((f) => f),
       grpcGeoTrace.hasAnyBaseRef,
-      FtEnumsMapping.fromGrpcFiberState(grpcGeoTrace.state)
+      FtEnumsMapping.fromGrpcFiberState(grpcGeoTrace.state),
+      grpcGeoTrace.darkMode,
+      grpcGeoTrace.comment
     );
     return trace;
   }
@@ -58,15 +76,11 @@ export class GisMapping {
     return route;
   }
 
-  static fromGrpcGraphRoutesData(grpcGraphRoutesData: grpc.GraphRoutesData): GraphRoutesData {
-    const routes = grpcGraphRoutesData.traces.map((t) => this.fromTraceRouteData(t));
-    return new GraphRoutesData(routes);
-  }
-
   static fromGrpcGeoData(grpcGeoData: grpc.AllGeoData): AllGeoData {
     const nodes = grpcGeoData.nodes.map((n) => this.fromTraceNode(n));
     const fibers = grpcGeoData.fibers.map((f) => this.fromGeoFiber(f));
     const traces = grpcGeoData.traces.map((t) => this.fromGeoTrace(t));
-    return new AllGeoData(fibers, nodes, traces);
+    const equipments = grpcGeoData.equipments.map((e) => this.fromGeoEquipment(e));
+    return new AllGeoData(fibers, nodes, traces, equipments);
   }
 }

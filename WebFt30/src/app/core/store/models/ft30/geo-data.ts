@@ -6,12 +6,25 @@ export class TraceNode {
     public id: string,
     public title: string,
     public coors: L.LatLng,
-    public equipmentType: EquipmentType
+    public equipmentType: EquipmentType,
+    public comment: string
   ) {}
 
   setCoors(coors: L.LatLng) {
     this.coors = coors;
   }
+}
+
+export class GeoEquipment {
+  constructor(
+    public id: string,
+    public title: string,
+    public nodeId: string,
+    public type: EquipmentType,
+    public cableReserveLeft: number,
+    public cableReserveRight: number,
+    public comment: string
+  ) {}
 }
 
 export class GeoFiber {
@@ -28,10 +41,14 @@ export class GeoFiber {
 export class GeoTrace {
   constructor(
     public id: string,
+    public title: string,
     public nodeIds: string[],
+    public equipmentIds: string[],
     public fiberIds: string[],
     public hasAnyBaseRef: boolean,
-    public state: FiberState
+    public state: FiberState,
+    public darkMode: boolean,
+    public comment: string
   ) {}
 }
 
@@ -39,11 +56,12 @@ export class TraceRouteData {
   constructor(public traceId: string, public nodes: TraceNode[], public traceState: FiberState) {}
 }
 
-export class GraphRoutesData {
-  constructor(public routes: TraceRouteData[]) {}
-}
-
 // узлы и участки для карты root'а
 export class AllGeoData {
-  constructor(public fibers: GeoFiber[], public nodes: TraceNode[], public traces: GeoTrace[]) {}
+  constructor(
+    public fibers: GeoFiber[],
+    public nodes: TraceNode[],
+    public traces: GeoTrace[],
+    public equipments: GeoEquipment[]
+  ) {}
 }

@@ -39,6 +39,17 @@ message TraceNode {
 	string title = 2;
 	GeoCoordinate coors = 3;
 	EquipmentType equipmentType = 4;
+	string comment = 5;
+}
+
+message GeoEquipment {
+	string id = 1;
+	string nodeId = 2;
+	string title = 3;
+	EquipmentType type = 4;
+	int32 cableReserveLeft = 5;
+	int32 cableReserveRight = 6;
+	string comment = 7;
 }
 
 message GeoFiber {
@@ -52,10 +63,14 @@ message GeoFiber {
 
 message GeoTrace {
 	string id = 1;
-	repeated string nodeIds = 2;
-	repeated string fiberIds = 3;
-	bool hasAnyBaseRef = 4;
-	ft.enums.FiberState state = 5;
+	string title = 2;
+	repeated string nodeIds = 3;
+	repeated string equipmentIds = 4;
+	repeated string fiberIds = 5;
+	bool hasAnyBaseRef = 6;
+	ft.enums.FiberState state = 7;
+	bool darkMode = 8;
+	string comment = 9;
 
 }
 
@@ -73,6 +88,7 @@ message AllGeoData {
 	repeated GeoFiber fibers = 1;
 	repeated TraceNode nodes = 2;
 	repeated GeoTrace traces = 3;
+	repeated GeoEquipment equipments = 4;
 }
 
 // GetTraceRoute

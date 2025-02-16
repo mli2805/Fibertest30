@@ -20,6 +20,8 @@ export class GisMapIcons {
   terminal!: GisIconWithZIndex;
   rtu!: GisIconWithZIndex;
   accidentPlace!: GisIconWithZIndex;
+  highlightRtu!: GisIconWithZIndex;
+  highlightNode!: GisIconWithZIndex;
 
   constructor() {
     this.initMapIcons();
@@ -56,6 +58,9 @@ export class GisMapIcons {
     this.terminal = { icon: this.createTerminalIcon(colorClass), zIndex: 28 };
     this.rtu = { icon: this.createRtuIcon(colorClass), zIndex: 20 };
     this.accidentPlace = { icon: this.createAccidentPlaceIcon(colorClass), zIndex: 15 };
+
+    this.highlightRtu = { icon: this.createHighlightRtuIcon(), zIndex: 12 };
+    this.highlightNode = { icon: this.createHighlightNodeIcon(), zIndex: 12 };
   }
 
   createRtuIcon(colorClass: string): L.DivIcon {
@@ -238,6 +243,44 @@ export class GisMapIcons {
         `,
       iconSize: [size, size],
       iconAnchor: [size / 2, size / 2]
+    });
+  }
+
+  createHighlightRtuIcon(): L.DivIcon {
+    const colorClass = 'text-green-500';
+    const width = 86;
+    const height = 86;
+
+    return L.divIcon({
+      className: 'map-marker-wrapper',
+      html: `
+              <div class="${colorClass}" style="width: ${width}px; height: ${height}px">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 103 103">
+                  <circle fill="none" stroke="currentColor" stroke-width="3" cx="51" cy="51" r="50"/>
+                </svg>
+              </div>
+        `,
+      iconSize: [width, height],
+      iconAnchor: [49, 66]
+    });
+  }
+
+  createHighlightNodeIcon(): L.DivIcon {
+    const colorClass = 'text-green-500';
+    const width = 11;
+    const height = 11;
+
+    return L.divIcon({
+      className: 'map-marker-wrapper',
+      html: `
+              <div class="${colorClass}" style="width: ${width}px; height: ${height}px">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 13">
+                  <circle fill="none" stroke="currentColor" stroke-width="1" cx="6" cy="6" r="5"/>
+                </svg>
+              </div>
+        `,
+      iconSize: [width, height],
+      iconAnchor: [width / 2, height / 2]
     });
   }
 

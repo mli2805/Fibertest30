@@ -36,8 +36,24 @@ public static class GisMapping
             Title = node.Title,
             Coors = node.Coors.ToProto(),
             EquipmentType = node.EquipmentType.ToProto(),
+            Comment = node.Comment,
         };
         return traceNode;
+    }
+
+    private static GeoEquipment ToProto(this EquipmentGisData equipment)
+    {
+        GeoEquipment geoEquipment = new GeoEquipment()
+        {
+            Id = equipment.Id.ToString(),
+            Title = equipment.Title,
+            NodeId = equipment.NodeId.ToString(),
+            Type = equipment.Type.ToProto(),
+            CableReserveLeft = equipment.CableReserveLeft,
+            CableReserveRight = equipment.CableReserveRight,
+            Comment = equipment.Comment
+        };
+        return geoEquipment;
     }
 
     private static GeoFiber ToProto(this FiberGisData fiber)
@@ -57,10 +73,16 @@ public static class GisMapping
     {
         var result = new GeoTrace()
         {
-            Id = trace.TraceId.ToString(), HasAnyBaseRef = trace.HasAnyBaseRef, State = trace.State.ToProto()
+            Id = trace.TraceId.ToString(),
+            Title = trace.Title,
+            HasAnyBaseRef = trace.HasAnyBaseRef,
+            State = trace.State.ToProto(),
+            DarkMode = trace.Mode == TraceMode.Dark,
+            Comment = trace.Comment ?? ""
         };
-        trace.NodeIds.ForEach(n=>result.NodeIds.Add(n.ToString()));
-        trace.FiberIds.ForEach(n=>result.FiberIds.Add(n.ToString()));
+        trace.NodeIds.ForEach(n => result.NodeIds.Add(n.ToString()));
+        trace.EquipmentIds.ForEach(n => result.EquipmentIds.Add(n.ToString()));
+        trace.FiberIds.ForEach(n => result.FiberIds.Add(n.ToString()));
         return result;
     }
 
@@ -68,7 +90,8 @@ public static class GisMapping
     {
         var result = new TraceRouteData
         {
-            TraceId = trace.TraceId.ToString(), TraceState = trace.TraceState.ToProto()
+            TraceId = trace.TraceId.ToString(),
+            TraceState = trace.TraceState.ToProto()
         };
         trace.Nodes.ForEach(n => result.Nodes.Add(n.ToProto()));
         return result;
@@ -87,6 +110,7 @@ public static class GisMapping
         data.Fibers.ForEach(f => result.Fibers.Add(f.ToProto()));
         data.Nodes.ForEach(n => result.Nodes.Add(n.ToProto()));
         data.Traces.ForEach(t => result.Traces.Add(t.ToProto()));
+        data.Equipments.ForEach(e => result.Equipments.Add(e.ToProto()));
         return result;
     }
 }

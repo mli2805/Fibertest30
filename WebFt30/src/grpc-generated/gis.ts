@@ -37,6 +37,43 @@ export interface TraceNode {
      * @generated from protobuf field: fibertest30.gis.EquipmentType equipmentType = 4;
      */
     equipmentType: EquipmentType;
+    /**
+     * @generated from protobuf field: string comment = 5;
+     */
+    comment: string;
+}
+/**
+ * @generated from protobuf message fibertest30.gis.GeoEquipment
+ */
+export interface GeoEquipment {
+    /**
+     * @generated from protobuf field: string id = 1;
+     */
+    id: string;
+    /**
+     * @generated from protobuf field: string nodeId = 2;
+     */
+    nodeId: string;
+    /**
+     * @generated from protobuf field: string title = 3;
+     */
+    title: string;
+    /**
+     * @generated from protobuf field: fibertest30.gis.EquipmentType type = 4;
+     */
+    type: EquipmentType;
+    /**
+     * @generated from protobuf field: int32 cableReserveLeft = 5;
+     */
+    cableReserveLeft: number;
+    /**
+     * @generated from protobuf field: int32 cableReserveRight = 6;
+     */
+    cableReserveRight: number;
+    /**
+     * @generated from protobuf field: string comment = 7;
+     */
+    comment: string;
 }
 /**
  * @generated from protobuf message fibertest30.gis.GeoFiber
@@ -76,21 +113,37 @@ export interface GeoTrace {
      */
     id: string;
     /**
-     * @generated from protobuf field: repeated string nodeIds = 2;
+     * @generated from protobuf field: string title = 2;
+     */
+    title: string;
+    /**
+     * @generated from protobuf field: repeated string nodeIds = 3;
      */
     nodeIds: string[];
     /**
-     * @generated from protobuf field: repeated string fiberIds = 3;
+     * @generated from protobuf field: repeated string equipmentIds = 4;
+     */
+    equipmentIds: string[];
+    /**
+     * @generated from protobuf field: repeated string fiberIds = 5;
      */
     fiberIds: string[];
     /**
-     * @generated from protobuf field: bool hasAnyBaseRef = 4;
+     * @generated from protobuf field: bool hasAnyBaseRef = 6;
      */
     hasAnyBaseRef: boolean;
     /**
-     * @generated from protobuf field: fibertest30.ft.enums.FiberState state = 5;
+     * @generated from protobuf field: fibertest30.ft.enums.FiberState state = 7;
      */
     state: FiberState;
+    /**
+     * @generated from protobuf field: bool darkMode = 8;
+     */
+    darkMode: boolean;
+    /**
+     * @generated from protobuf field: string comment = 9;
+     */
+    comment: string;
 }
 /**
  * @generated from protobuf message fibertest30.gis.TraceRouteData
@@ -134,6 +187,10 @@ export interface AllGeoData {
      * @generated from protobuf field: repeated fibertest30.gis.GeoTrace traces = 3;
      */
     traces: GeoTrace[];
+    /**
+     * @generated from protobuf field: repeated fibertest30.gis.GeoEquipment equipments = 4;
+     */
+    equipments: GeoEquipment[];
 }
 /**
  * GetTraceRoute
@@ -256,7 +313,8 @@ class TraceNode$Type extends MessageType<TraceNode> {
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "coors", kind: "message", T: () => GeoCoordinate },
-            { no: 4, name: "equipmentType", kind: "enum", T: () => ["fibertest30.gis.EquipmentType", EquipmentType] }
+            { no: 4, name: "equipmentType", kind: "enum", T: () => ["fibertest30.gis.EquipmentType", EquipmentType] },
+            { no: 5, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
@@ -264,6 +322,24 @@ class TraceNode$Type extends MessageType<TraceNode> {
  * @generated MessageType for protobuf message fibertest30.gis.TraceNode
  */
 export const TraceNode = new TraceNode$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GeoEquipment$Type extends MessageType<GeoEquipment> {
+    constructor() {
+        super("fibertest30.gis.GeoEquipment", [
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "nodeId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "type", kind: "enum", T: () => ["fibertest30.gis.EquipmentType", EquipmentType] },
+            { no: 5, name: "cableReserveLeft", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 6, name: "cableReserveRight", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 7, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.gis.GeoEquipment
+ */
+export const GeoEquipment = new GeoEquipment$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GeoFiber$Type extends MessageType<GeoFiber> {
     constructor() {
@@ -286,10 +362,14 @@ class GeoTrace$Type extends MessageType<GeoTrace> {
     constructor() {
         super("fibertest30.gis.GeoTrace", [
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "nodeIds", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "fiberIds", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "hasAnyBaseRef", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 5, name: "state", kind: "enum", T: () => ["fibertest30.ft.enums.FiberState", FiberState] }
+            { no: 2, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "nodeIds", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "equipmentIds", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "fiberIds", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "hasAnyBaseRef", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 7, name: "state", kind: "enum", T: () => ["fibertest30.ft.enums.FiberState", FiberState] },
+            { no: 8, name: "darkMode", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 9, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
@@ -329,7 +409,8 @@ class AllGeoData$Type extends MessageType<AllGeoData> {
         super("fibertest30.gis.AllGeoData", [
             { no: 1, name: "fibers", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => GeoFiber },
             { no: 2, name: "nodes", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => TraceNode },
-            { no: 3, name: "traces", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => GeoTrace }
+            { no: 3, name: "traces", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => GeoTrace },
+            { no: 4, name: "equipments", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => GeoEquipment }
         ]);
     }
 }

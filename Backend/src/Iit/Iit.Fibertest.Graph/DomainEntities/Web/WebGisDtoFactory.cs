@@ -8,8 +8,10 @@ public static class WebGisDtoFactory
         {
             Nodes = writeModel
                 .Nodes.Select(node => node.GetNodeGisData()).ToList(),
+            Equipments = writeModel.Equipments
+                .Select(e => e.GetEquipmentGisData()).ToList(),
             Fibers = writeModel
-                .Fibers.Select(f=>f.GetFiberGisData(writeModel))
+                .Fibers.Select(f => f.GetFiberGisData(writeModel))
                 .Where(fiberGisData => fiberGisData != null).ToList()!,
             Traces = writeModel.Traces
         };
@@ -30,9 +32,10 @@ public static class WebGisDtoFactory
             Nodes = nodeIds
                 .Select(id => writeModel.Nodes.First(n => n.NodeId == id))
                 .Select(node => node.GetNodeGisData()).ToList(),
+            Equipments = new List<EquipmentGisData>(),
             Fibers = fiberIds
-                .Select(id => writeModel.Fibers.First(f=>f.FiberId == id))
-                .Select(fiber=>fiber.GetFiberGisData(writeModel))
+                .Select(id => writeModel.Fibers.First(f => f.FiberId == id))
+                .Select(fiber => fiber.GetFiberGisData(writeModel))
                 .Where(fiberGisData => fiberGisData != null).ToList()!,
             Traces = writeModel.Traces
         };
@@ -69,7 +72,22 @@ public static class WebGisDtoFactory
             Id = node.NodeId,
             Title = node.Title ?? "",
             Coors = node.Position,
-            EquipmentType = node.TypeOfLastAddedEquipment
+            EquipmentType = node.TypeOfLastAddedEquipment,
+            Comment = node.Comment ?? "",
+        };
+    }
+
+    private static EquipmentGisData GetEquipmentGisData(this Equipment equipment)
+    {
+        return new EquipmentGisData()
+        {
+            Id = equipment.EquipmentId,
+            NodeId = equipment.NodeId,
+            Title = equipment.Title ?? "",
+            Type = equipment.Type,
+            CableReserveLeft = equipment.CableReserveLeft,
+            CableReserveRight = equipment.CableReserveRight,
+            Comment = equipment.Comment ?? ""
         };
     }
 

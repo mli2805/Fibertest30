@@ -77,6 +77,8 @@ import { GraphSorAvailableActionComponent } from './components/svg-buttons/avail
 import { GraphIconComponent } from './components/svg-buttons/graph-icon.component';
 import { SorIconComponent } from './components/svg-buttons/sor-icon.component';
 import { GisIconComponent } from './components/svg-buttons/gis-icon.component';
+import { CoordinatesPipe } from './pipes/coordinates.pipe';
+import { EquipmentPipe } from './pipes/equipment.pipe';
 
 @NgModule({
   imports: [
@@ -108,10 +110,12 @@ import { GisIconComponent } from './components/svg-buttons/gis-icon.component';
     SignedNumberPipe,
     FiberStatePipe,
     TraceStatePipe,
+    CoordinatesPipe,
     FrequencyPipe,
     EventStatusPipe,
     ChannelEventPipe,
     BaseRefTypePipe,
+    EquipmentPipe,
     RtuPartStatePipe,
     SimpleErrorComponent,
     DescriptionLabelComponent,
@@ -184,10 +188,12 @@ import { GisIconComponent } from './components/svg-buttons/gis-icon.component';
     SignedNumberPipe,
     FiberStatePipe,
     TraceStatePipe,
+    CoordinatesPipe,
     FrequencyPipe,
     EventStatusPipe,
     ChannelEventPipe,
     BaseRefTypePipe,
+    EquipmentPipe,
     RtuPartStatePipe,
     SimpleErrorComponent,
     DescriptionLabelComponent,

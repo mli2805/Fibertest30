@@ -1,5 +1,5 @@
 import * as L from 'leaflet';
-import { inject, Injector } from '@angular/core';
+import { Injector } from '@angular/core';
 import { GisMapService } from '../../gis-map.service';
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { Store } from '@ngrx/store';
@@ -24,7 +24,7 @@ export class MapMouseActions {
   static lineInProgress: L.Polyline;
   static onMouseMove(e: L.LeafletMouseEvent) {
     const pos = e.latlng;
-    this.gisMapService.mousePosition.next(GisMapUtils.mouseToString(pos));
+    this.gisMapService.setMousePos(e.latlng);
 
     // перерисовать временное волокно во время создания участка
     if (this.gisMapService.addSectionMode) {
@@ -63,7 +63,8 @@ export class MapMouseActions {
     }
   }
 
-  static onZoom() {
+  static onZoom(e: L.LeafletEvent) {
+    this.gisMapService.moveCenterToMousePos();
     const newZoom = this.gisMapService.getMap().getZoom();
     GisMapLayers.adjustLayersToZoom(
       this.gisMapService.getMap(),

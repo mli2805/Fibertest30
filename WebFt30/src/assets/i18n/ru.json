@@ -288,5 +288,24 @@
   "i18n.ft.section-with-nodes": "Участок с узлами",
   "i18n.ft.remove-section": "Удалить участок",
 
-  "i18n.ft.step-by-step-trace-definition": "Пошаговое определение трассы"
+  "i18n.ft.terminal": "Оконечный кросс",
+  "i18n.ft.cross": "Проключение",
+  "i18n.ft.closure": "Муфта",
+  "i18n.ft.other": "Другое",
+  "i18n.ft.cable-reserve": "Кабельный резерв",
+
+  "i18n.ft.node": "Узел",
+  "i18n.ft.equipment-in-node": "Оборудование в узле",
+  "i18n.ft.traces-in-node": "Трассы в узле",
+  "i18n.ft.coordinates": "Координаты",
+  "i18n.ft.type": "Тип",
+  "i18n.ft.l-m": "Л, м",
+  "i18n.ft.r-m": "П, м",
+  "i18n.ft.traces": "Трассы",
+
+  "i18n.ft.step-by-step-trace-definition": "Пошаговое определение трассы",
+  "i18n.ft.step-forward": "Шаг вперед",
+  "i18n.ft.step-backward": "Шаг назад",
+  "i18n.ft.cancel-step": "Отменить шаг",
+  "i18n.ft.noname-node": "<Узел без названия>"
 }

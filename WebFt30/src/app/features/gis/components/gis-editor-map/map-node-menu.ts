@@ -11,6 +11,9 @@ import { GeoFiber } from 'src/app/core/store/models/ft30/geo-data';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { MapLayersActions } from './map-layers-actions';
 import { MapNodeRemove } from './map-node-remove';
+import { GisMapIcons } from '../shared/gis-map-icons';
+import { GisMapLayer } from '../../models/gis-map-layer';
+import { StepModel } from '../../forms/trace-define/step-model';
 
 export class MapNodeMenu {
   private static ts: TranslateService;
@@ -115,12 +118,13 @@ export class MapNodeMenu {
   }
 
   static showInformation(e: L.ContextMenuItemClickEvent) {
-    console.log(e);
-    console.log(e.relatedTarget);
+    const nodeId = (<any>e.relatedTarget).id;
+    this.gisMapService.showNodeInfo.next(nodeId);
   }
 
   static addEquipment(e: L.ContextMenuItemClickEvent) {
-    console.log((<any>e.relatedTarget).id);
+    const nodeId = (<any>e.relatedTarget).id;
+    this.gisMapService.showAddEquipment.next(nodeId);
   }
 
   static async removeNode(e: L.ContextMenuItemClickEvent) {
@@ -212,7 +216,27 @@ export class MapNodeMenu {
 
   static defineTrace(e: L.ContextMenuItemClickEvent) {
     const nodeId = (<any>e.relatedTarget).id;
-    console.log(nodeId);
+    const node = this.gisMapService.getNode(nodeId);
+    console.log(node);
+
+    const icons = new GisMapIcons();
+    const hlIcon = icons.highlightRtu;
+    const options = {
+      icon: hlIcon.icon,
+      contextmenu: false,
+      contextmenuItems: []
+    };
+    const marker = L.marker(node!.coors, options);
+    const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
+    group.addLayer(marker);
+
     this.gisMapService.showTraceDefine.next(true);
+
+    this.gisMapService.clearSteps();
+    const firstStepRtu = new StepModel();
+    firstStepRtu.nodeId = nodeId;
+    firstStepRtu.title = node!.title;
+    firstStepRtu.equipmentId = ''; // нужно будет взять rtuId
+    this.gisMapService.addStep(firstStepRtu);
   }
 }

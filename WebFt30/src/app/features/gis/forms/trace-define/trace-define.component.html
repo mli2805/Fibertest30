@@ -1,0 +1,35 @@
+<div class="grouped-border ml-0.5 flex h-full w-80 flex-col justify-between">
+  <div class="flex h-full w-full flex-col items-start justify-start">
+    <p class="my-0.5 self-center">{{ 'i18n.ft.step-by-step-trace-definition' | translate }}</p>
+    <div class="mt-0.5">
+      <ng-container *ngIf="stepList$ | async as steps">
+        <ng-container *ngFor="let step of steps">
+          <div>{{ step.title }}</div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- buttons -->
+  <div class="flex flex-col">
+    <div class="flex">
+      <button class="button-extra m-1" (click)="onStepForward()">
+        {{ 'i18n.ft.step-forward' | translate }}
+      </button>
+      <button class="button-extra m-1" (click)="onStepBackward()">
+        {{ 'i18n.ft.step-backward' | translate }}
+      </button>
+      <button class="button-extra m-1" (click)="onCancelStep()">
+        {{ 'i18n.ft.cancel-step' | translate }}
+      </button>
+    </div>
+    <div class="mb-2 flex w-full justify-evenly">
+      <button class="button-extra w-36" (click)="onApply()">
+        {{ 'i18n.ft.apply' | translate }}
+      </button>
+      <button class="button-extra w-36" (click)="onDiscard()">
+        {{ 'i18n.ft.discard' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
