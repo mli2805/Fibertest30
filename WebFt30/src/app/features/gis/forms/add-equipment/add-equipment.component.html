@@ -1,1 +1,75 @@
-<p>add-equipment works!</p>
+<div class="ml-1 w-[340px]">
+  <div class="grouped-border flex flex-col" [formGroup]="form">
+    <div class="mb-2">
+      <ng-container *ngIf="true">
+        <label>{{ 'i18n.ft.add-equimpent' | translate }}</label>
+      </ng-container>
+      <ng-container *ngIf="false">
+        <label>{{ 'i18n.ft.update-equimpent' | translate }}</label>
+      </ng-container>
+    </div>
+
+    <div class="mb-2 flex items-center">
+      <label class="w-28 text-sm">{{ 'i18n.ft.title' | translate }}</label>
+      <div>
+        <input #titleInput formControlName="title" type="text" class="input-simple peer" />
+      </div>
+    </div>
+    <div class="mb-2 flex">
+      <label class="w-28 text-sm">{{ 'i18n.ft.type' | translate }}</label>
+      <div class="text-sm">
+        <rtu-radio-button [button]="buttons[0]" (click)="onRadioButtonClick(0)" />
+        <rtu-radio-button [button]="buttons[1]" (click)="onRadioButtonClick(1)" />
+        <rtu-radio-button [button]="buttons[2]" (click)="onRadioButtonClick(2)" />
+        <rtu-radio-button [button]="buttons[3]" (click)="onRadioButtonClick(3)" />
+        <rtu-radio-button [button]="buttons[4]" (click)="onRadioButtonClick(4)" />
+      </div>
+    </div>
+    <div class="mb-2 flex flex-col text-sm">
+      <div class="mb-2">{{ 'i18n.ft.with-cable-reserve' | translate }}</div>
+      <div class="mb-1 flex items-center">
+        <label class="w-28 pl-2">{{ 'i18n.ft.to-the-left' | translate }}</label>
+        <input
+          #titleInput
+          formControlName="leftReserve"
+          type="text"
+          class="input-simple peer w-16"
+          [ngClass]="{
+            'invalid-border': isleftReserveInvalid()
+          }"
+        />
+      </div>
+      <div class="flex items-center">
+        <label class="w-28 pl-2">{{ 'i18n.ft.to-the-right' | translate }}</label>
+        <input
+          #titleInput
+          formControlName="rightReserve"
+          type="text"
+          class="input-simple peer w-16"
+          [ngClass]="{
+            'invalid-border': isRightReserveInvalid()
+          }"
+        />
+      </div>
+    </div>
+    <div class="flex items-center">
+      <label class="w-28 text-sm">{{ 'i18n.ft.comment' | translate }}</label>
+      <div>
+        <input #titleInput formControlName="comment" type="text" class="input-simple peer" />
+      </div>
+    </div>
+  </div>
+  <!-- buttons -->
+  <div class="mt-6 flex flex-row justify-end">
+    <button class="button-cancel mr-2 min-w-36" (click)="onDiscardClicked()" cdkFocusInitial>
+      {{ 'i18n.ft.discard' | translate }}
+    </button>
+    <button
+      class="button-ok mr-2 min-w-36"
+      [disabled]="isApplyDisabled()"
+      (click)="onApplyClicked()"
+    >
+      {{ 'i18n.ft.apply' | translate }}
+    </button>
+  </div>
+</div>

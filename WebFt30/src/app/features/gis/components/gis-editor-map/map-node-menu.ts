@@ -124,6 +124,7 @@ export class MapNodeMenu {
 
   static addEquipment(e: L.ContextMenuItemClickEvent) {
     const nodeId = (<any>e.relatedTarget).id;
+    this.gisMapService.updateEquipment = null;
     this.gisMapService.showAddEquipment.next(nodeId);
   }
 

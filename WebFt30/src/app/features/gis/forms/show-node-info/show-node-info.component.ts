@@ -70,6 +70,7 @@ export class ShowNodeInfoComponent {
 
     this.gisMapService.showNodeInfo.next(null);
   }
+
   onDiscardClicked() {
     this.gisMapService.showNodeInfo.next(null);
   }

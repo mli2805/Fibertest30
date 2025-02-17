@@ -79,6 +79,7 @@ import { SorIconComponent } from './components/svg-buttons/sor-icon.component';
 import { GisIconComponent } from './components/svg-buttons/gis-icon.component';
 import { CoordinatesPipe } from './pipes/coordinates.pipe';
 import { EquipmentPipe } from './pipes/equipment.pipe';
+import { RadioButtonComponent } from './components/svg-buttons/radio-button/radio-button.component';
 
 @NgModule({
   imports: [
@@ -161,7 +162,8 @@ import { EquipmentPipe } from './pipes/equipment.pipe';
     GraphIconComponent,
     SorIconComponent,
     GisIconComponent,
-    GraphSorAvailableActionComponent
+    GraphSorAvailableActionComponent,
+    RadioButtonComponent
   ],
   exports: [
     CommonModule,
@@ -234,7 +236,9 @@ import { EquipmentPipe } from './pipes/equipment.pipe';
     GraphIconComponent,
     SorIconComponent,
     GisIconComponent,
-    GraphSorAvailableActionComponent
+    GraphSorAvailableActionComponent,
+
+    RadioButtonComponent
   ],
   providers: [RtuDateToDayOfWeekPipe, FrequencyPipe, RtuDateTimePipe, BaseRefTypePipe]
 })

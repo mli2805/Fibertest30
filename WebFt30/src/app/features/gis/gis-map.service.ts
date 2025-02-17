@@ -3,6 +3,7 @@ import { GisMapLayer } from './models/gis-map-layer';
 import { BehaviorSubject } from 'rxjs';
 import {
   AllGeoData,
+  GeoEquipment,
   GeoFiber,
   TraceNode,
   TraceRouteData
@@ -156,6 +157,9 @@ export class GisMapService {
   showNodeInfo = new BehaviorSubject<string | null>(null);
   showNodeInfo$ = this.showNodeInfo.asObservable();
 
+  // можно использовать для добавления или редактирования существующего
+  // значение - nodeId
   showAddEquipment = new BehaviorSubject<string | null>(null);
+  updateEquipment!: GeoEquipment | null;
   showAddEquipment$ = this.showAddEquipment.asObservable();
 }

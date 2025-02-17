@@ -626,6 +626,12 @@
   "i18n.ft.passwords-do-not-match": "passwords do not match",
   "i18n.ft.required": "required",
 
+  "i18n.ft.add-equimpent": "Add equipment",
+  "i18n.ft.update-equimpent": "Update equipment",
+  "i18n.ft.with-cable-reserve": "With cable reserve",
+  "i18n.ft.to-the-left": "to the left, m:",
+  "i18n.ft.to-the-right": "to the right, m:",
+
   "i18n.ft.step-forward": "Step forward",
   "i18n.ft.step-backward": "Step backward",
   "i18n.ft.cancel-step": "Cancel step",

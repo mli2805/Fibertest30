@@ -303,6 +303,12 @@
   "i18n.ft.r-m": "П, м",
   "i18n.ft.traces": "Трассы",
 
+  "i18n.ft.add-equimpent": "Добавить оборудование",
+  "i18n.ft.update-equimpent": "Изменить оборудование",
+  "i18n.ft.with-cable-reserve": "С кабельным резервом",
+  "i18n.ft.to-the-left": "слева, м:",
+  "i18n.ft.to-the-right": "справа, м:",
+
   "i18n.ft.step-by-step-trace-definition": "Пошаговое определение трассы",
   "i18n.ft.step-forward": "Шаг вперед",
   "i18n.ft.step-backward": "Шаг назад",
