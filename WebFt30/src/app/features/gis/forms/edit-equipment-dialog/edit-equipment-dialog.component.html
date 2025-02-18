@@ -18,7 +18,7 @@
     <div class="mb-2 flex text-sm">
       <label class="w-28">{{ 'i18n.ft.type' | translate }}</label>
       <rtu-equipment-type-selector
-        [startValue]="equipmentType.Closure"
+        [startValue]="selectedType"
         (changedValueEvent)="onEquipmentTypeChanged($event)"
       />
     </div>

@@ -1,5 +1,4 @@
-import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { GraphService } from 'src/app/core/grpc';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GeoEquipment, GeoTrace, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
@@ -8,6 +7,7 @@ import { EquipmentType } from 'src/grpc-generated';
 import { firstValueFrom } from 'rxjs';
 import { GisMapUtils } from '../../components/shared/gis-map.utils';
 import { MapLayersActions } from '../../components/gis-editor-map/map-layers-actions';
+import { MapEquipmentActions } from '../../components/gis-editor-map/map-equipment-actions';
 
 @Component({
   selector: 'rtu-show-node-info',
@@ -75,7 +75,17 @@ export class ShowNodeInfoComponent {
     this.gisMapService.showNodeInfo.next(null);
   }
 
+  // если оборудование входит в трассу для которой заданы базовые, то МОЖНО редактировать
   editEquipment(equipment: any) {
-    console.log(equipment);
+    MapEquipmentActions.openEditEquipmentDialog(this.nodeId, equipment, false);
+  }
+
+  // если оборудование входит в трассу для которой заданы базовые, то НЕЛЬЗЯ удалять
+  async removeEquipment(equipment: GeoEquipment) {
+    await MapEquipmentActions.removeEquipment(equipment);
+  }
+
+  addEquipment() {
+    MapEquipmentActions.openEditEquipmentDialog(this.nodeId, null, true);
   }
 }

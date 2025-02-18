@@ -40,12 +40,14 @@
     </div>
   </div>
 
+  <!-- equipment -->
   <div class="grouped-border mt-1">
     <div class="mb-2">{{ 'i18n.ft.equipment-in-node' | translate }}</div>
     <table class="min-w-full text-sm">
       <thead class="text-left">
         <tr>
-          <th class="pr-1"></th>
+          <th></th>
+          <th></th>
           <th class="py-3 font-thin">{{ 'i18n.ft.title' | translate }}</th>
           <th class="py-3 font-thin">{{ 'i18n.ft.type' | translate }}</th>
           <th class="py-3 font-thin">{{ 'i18n.ft.l-m' | translate }}</th>
@@ -55,8 +57,15 @@
       </thead>
       <tbody class="text-left text-gray-700 dark:text-zinc-300"></tbody>
       <tr *ngFor="let equipment of equipments">
-        <td class="pr-0">
-          <rtu-pencil-button class="ml-0 h-3 w-3" (click)="editEquipment(equipment)" />
+        <td class="w-0 pr-2">
+          <div class="flex">
+            <rtu-pencil-button class="ml-0 h-3 w-3" (click)="editEquipment(equipment)" />
+          </div>
+        </td>
+        <td class="w-0 pr-3">
+          <div class="flex">
+            <rtu-close-button class="h-5 w-5" (click)="removeEquipment(equipment)" />
+          </div>
         </td>
         <td>{{ equipment.title }}</td>
         <td>{{ equipment.type | equipmentPipe | translate }}</td>
@@ -67,12 +76,20 @@
     </table>
   </div>
 
+  <div class="mb-4 mr-2 mt-2 flex justify-end">
+    <button class="button-extra" (click)="addEquipment()">
+      {{ 'i18n.ft.add-equipment' | translate }}
+    </button>
+  </div>
+
+  <!-- traces -->
   <div class="grouped-border mt-1">
     <div class="mb-2">{{ 'i18n.ft.traces-in-node' | translate }}</div>
     <ng-container *ngFor="let trace of traces">
       <div class="text-sm">{{ trace.title }}</div>
     </ng-container>
   </div>
+
   <!-- buttons -->
   <div class="mt-6 flex flex-row justify-end">
     <button class="button-cancel mr-2 min-w-36" (click)="onDiscardClicked()" cdkFocusInitial>

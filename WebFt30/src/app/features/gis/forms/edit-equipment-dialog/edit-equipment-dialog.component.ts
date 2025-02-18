@@ -21,6 +21,7 @@ export class EditEquipmentDialogComponent {
   selectedType!: EquipmentType;
 
   constructor(@Inject(DIALOG_DATA) private data: any, private ts: TranslateService) {
+    console.log(data);
     this.nodeId = data.nodeId;
     this.addMode = data.addMode;
     this.equipmentInWork = this.addMode
@@ -46,7 +47,11 @@ export class EditEquipmentDialogComponent {
 
   isleftReserveInvalid(): boolean {
     const control = this.form.controls['leftReserve'];
-    if (this.selectedType === EquipmentType.CableReserve && control.value === '') return true;
+    if (
+      this.selectedType === EquipmentType.CableReserve &&
+      (control.value === '' || +control.value === 0)
+    )
+      return true;
     return control.invalid && (control.dirty || control.touched);
   }
 
@@ -70,7 +75,7 @@ export class EditEquipmentDialogComponent {
 
   async onApplyClicked() {
     const command = {
-      EquipmentId: crypto.randomUUID(),
+      EquipmentId: this.addMode ? crypto.randomUUID() : this.equipmentInWork.id,
       NodeId: this.nodeId,
       Title: this.form.controls['title'].value,
       Type: this.selectedType,

@@ -28,6 +28,7 @@ import { MapActions } from '../gis-editor-map/map-actions';
 import { MapMenu } from '../gis-editor-map/map-menu';
 import { MapFiberMenu } from '../gis-editor-map/map-fiber-menu';
 import { MapNodeRemove } from '../gis-editor-map/map-node-remove';
+import { MapEquipmentActions } from '../gis-editor-map/map-equipment-actions';
 
 GisMapUtils.fixLeafletMarkers();
 
@@ -56,6 +57,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     MapMouseActions.initialize(injector);
     MapActions.initialize(injector);
     MapNodeRemove.initialize(injector);
+    MapEquipmentActions.initialize(injector);
     MapNodeMenu.initialize(injector);
     MapFiberMenu.initialize(injector);
     MapExternalCommands.initialize(injector);

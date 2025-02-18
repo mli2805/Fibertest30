@@ -7,27 +7,24 @@ import { EquipmentType } from 'src/grpc-generated';
 import { firstValueFrom } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc/services/graph.service';
 import { GisMapUtils } from '../shared/gis-map.utils';
-import { GeoEquipment, GeoFiber } from 'src/app/core/store/models/ft30/geo-data';
+import { GeoFiber } from 'src/app/core/store/models/ft30/geo-data';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { MapLayersActions } from './map-layers-actions';
 import { MapNodeRemove } from './map-node-remove';
 import { GisMapIcons } from '../shared/gis-map-icons';
 import { GisMapLayer } from '../../models/gis-map-layer';
 import { StepModel } from '../../forms/trace-define/step-model';
-import { Dialog } from '@angular/cdk/dialog';
-import { EditEquipmentDialogComponent } from '../../forms/edit-equipment-dialog/edit-equipment-dialog.component';
+import { MapEquipmentActions } from './map-equipment-actions';
 
 export class MapNodeMenu {
   private static ts: TranslateService;
   private static gisMapService: GisMapService;
   private static graphService: GraphService;
-  private static dialog: Dialog;
 
   static initialize(injector: Injector) {
     this.ts = injector.get(TranslateService);
     this.gisMapService = injector.get(GisMapService);
     this.graphService = injector.get(GraphService);
-    this.dialog = injector.get(Dialog);
   }
 
   static buildMarkerContextMenu(
@@ -131,50 +128,7 @@ export class MapNodeMenu {
     // this.gisMapService.updateEquipment = null;
     // this.gisMapService.showAddEquipment.next(nodeId);
 
-    this.dialog
-      .open(EditEquipmentDialogComponent, {
-        maxHeight: '95vh',
-        maxWidth: '95vw',
-        disableClose: true,
-        data: { nodeId, equipment: null, addMode: true }
-      })
-      .closed.subscribe((result) => {
-        if (result !== null) {
-          this.applyEditEquipmentResult(<string>result);
-        }
-      });
-  }
-
-  static async applyEditEquipmentResult(json: string) {
-    const command = JSON.parse(json);
-    // c карты можно вызвать только Добавление оборудования
-    const response = await firstValueFrom(
-      this.graphService.sendCommand(json, 'AddEquipmentIntoNode')
-    );
-    if (response.success) {
-      const node = this.gisMapService.getNode(command.NodeId);
-
-      const layerType = GisMapUtils.equipmentTypeToGisMapLayer(node.equipmentType);
-      const group = this.gisMapService.getLayerGroups().get(layerType)!;
-      const marker = group.getLayers().find((m) => (<any>m).id === command.NodeId);
-      group.removeLayer(marker!);
-
-      const equipment = new GeoEquipment(
-        command.EquipmentId,
-        command.Title,
-        command.NodeId,
-        command.Type,
-        command.CableReserveLeft,
-        command.CableReserveRight,
-        command.Comment
-      );
-      this.gisMapService.getGeoData().equipments.push(equipment);
-
-      node.equipmentType = command.Type;
-      MapLayersActions.addNodeToLayer(node);
-    }
-    // this.gisMapService.showAddEquipment.next(null);
-    // this.gisMapService.updateEquipment = null;
+    MapEquipmentActions.openEditEquipmentDialog(nodeId, null, true);
   }
 
   static async removeNode(e: L.ContextMenuItemClickEvent) {
