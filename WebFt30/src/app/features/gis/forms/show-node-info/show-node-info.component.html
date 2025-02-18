@@ -45,16 +45,19 @@
     <table class="min-w-full text-sm">
       <thead class="text-left">
         <tr>
+          <th class="pr-1"></th>
           <th class="py-3 font-thin">{{ 'i18n.ft.title' | translate }}</th>
           <th class="py-3 font-thin">{{ 'i18n.ft.type' | translate }}</th>
           <th class="py-3 font-thin">{{ 'i18n.ft.l-m' | translate }}</th>
           <th class="py-3 font-thin">{{ 'i18n.ft.r-m' | translate }}</th>
           <th class="py-3 font-thin">{{ 'i18n.ft.comment' | translate }}</th>
-          <th class="py-3 font-thin">{{ 'i18n.ft.traces' | translate }}</th>
         </tr>
       </thead>
       <tbody class="text-left text-gray-700 dark:text-zinc-300"></tbody>
       <tr *ngFor="let equipment of equipments">
+        <td class="pr-0">
+          <rtu-pencil-button class="ml-0 h-3 w-3" (click)="editEquipment(equipment)" />
+        </td>
         <td>{{ equipment.title }}</td>
         <td>{{ equipment.type | equipmentPipe | translate }}</td>
         <td>{{ equipment.cableReserveLeft }}</td>

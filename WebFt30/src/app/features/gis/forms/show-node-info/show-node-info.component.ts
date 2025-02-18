@@ -74,4 +74,8 @@ export class ShowNodeInfoComponent {
   onDiscardClicked() {
     this.gisMapService.showNodeInfo.next(null);
   }
+
+  editEquipment(equipment: any) {
+    console.log(equipment);
+  }
 }
