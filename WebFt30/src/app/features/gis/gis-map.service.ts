@@ -159,7 +159,7 @@ export class GisMapService {
 
   // можно использовать для добавления или редактирования существующего
   // значение - nodeId
-  showAddEquipment = new BehaviorSubject<string | null>(null);
-  updateEquipment!: GeoEquipment | null;
-  showAddEquipment$ = this.showAddEquipment.asObservable();
+  // showAddEquipment = new BehaviorSubject<string | null>(null);
+  // updateEquipment!: GeoEquipment | null;
+  // showAddEquipment$ = this.showAddEquipment.asObservable();
 }

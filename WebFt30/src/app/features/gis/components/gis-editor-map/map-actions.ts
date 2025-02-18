@@ -31,7 +31,6 @@ export class MapActions {
       Latitude: e.latlng.lat,
       Longitude: e.latlng.lng
     };
-    console.log(command);
     const json = JSON.stringify(command);
     const response = await firstValueFrom(
       this.graphService.sendCommand(json, 'AddEquipmentAtGpsLocation')

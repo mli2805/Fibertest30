@@ -9,6 +9,8 @@ import { GisTraceViewerComponent } from './components/gis-trace-viewer/gis-trace
 import { TraceDefineComponent } from './forms/trace-define/trace-define.component';
 import { ShowNodeInfoComponent } from './forms/show-node-info/show-node-info.component';
 import { AddEquipmentComponent } from './forms/add-equipment/add-equipment.component';
+import { EditEquipmentDialogComponent } from './forms/edit-equipment-dialog/edit-equipment-dialog.component';
+import { EquipmentTypeSelectorComponent } from './forms/equipment-type-selector/equipment-type-selector.component';
 
 @NgModule({
   imports: [GisRoutingModule, SharedModule],
@@ -19,7 +21,9 @@ import { AddEquipmentComponent } from './forms/add-equipment/add-equipment.compo
     GisTraceViewerComponent,
     TraceDefineComponent,
     ShowNodeInfoComponent,
-    AddEquipmentComponent
+    AddEquipmentComponent,
+    EditEquipmentDialogComponent,
+    EquipmentTypeSelectorComponent
   ],
   providers: [GisMapService]
 })

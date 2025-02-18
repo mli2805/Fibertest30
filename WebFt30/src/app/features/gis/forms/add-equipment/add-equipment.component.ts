@@ -33,11 +33,11 @@ export class AddEquipmentComponent {
     private graphService: GraphService,
     private ts: TranslateService
   ) {
-    this.nodeId = gisMapService.showAddEquipment.value!;
-    this.addMode = gisMapService.updateEquipment === null;
-    this.equipmentInWork = this.addMode
-      ? new GeoEquipment(crypto.randomUUID(), '', this.nodeId, EquipmentType.Closure, 0, 0, '')
-      : gisMapService.updateEquipment!;
+    // this.nodeId = gisMapService.showAddEquipment.value!;
+    // this.addMode = gisMapService.updateEquipment === null;
+    // this.equipmentInWork = this.addMode
+    //   ? new GeoEquipment(crypto.randomUUID(), '', this.nodeId, EquipmentType.Closure, 0, 0, '')
+    //   : gisMapService.updateEquipment!;
 
     this.form = new FormGroup({
       title: new FormControl(this.equipmentInWork.title),
@@ -124,13 +124,13 @@ export class AddEquipmentComponent {
       node.equipmentType = command.Type;
       MapLayersActions.addNodeToLayer(node);
     }
-    this.gisMapService.showAddEquipment.next(null);
-    this.gisMapService.updateEquipment = null;
+    // this.gisMapService.showAddEquipment.next(null);
+    // this.gisMapService.updateEquipment = null;
   }
 
   onDiscardClicked() {
-    this.gisMapService.showAddEquipment.next(null);
-    this.gisMapService.updateEquipment = null;
+    // this.gisMapService.showAddEquipment.next(null);
+    // this.gisMapService.updateEquipment = null;
   }
 
   getSelectedEquipmentType() {
