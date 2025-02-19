@@ -56,22 +56,27 @@
         </tr>
       </thead>
       <tbody class="text-left text-gray-700 dark:text-zinc-300"></tbody>
-      <tr *ngFor="let equipment of equipments">
-        <td class="w-0 pr-2">
+      <tr
+        *ngFor="let line of equipTable"
+        [ngClass]="{ 'bg-blue-100 dark:bg-slate-700': line.isSelected }"
+        (click)="onEquipLineClick(line)"
+        class="cursor-pointer"
+      >
+        <td class="h-3.5 w-3.5 px-1">
           <div class="flex">
-            <rtu-pencil-button class="ml-0 h-3 w-3" (click)="editEquipment(equipment)" />
+            <rtu-pencil-button class="h-3 w-3" (click)="editEquipment(line.equipment)" />
           </div>
         </td>
         <td class="w-0 pr-3">
           <div class="flex">
-            <rtu-close-button class="h-5 w-5" (click)="removeEquipment(equipment)" />
+            <rtu-close-button class="h-5 w-5" (click)="removeEquipment(line.equipment)" />
           </div>
         </td>
-        <td>{{ equipment.title }}</td>
-        <td>{{ equipment.type | equipmentPipe | translate }}</td>
-        <td>{{ equipment.cableReserveLeft }}</td>
-        <td>{{ equipment.cableReserveRight }}</td>
-        <td>{{ equipment.comment }}</td>
+        <td>{{ line.equipment.title }}</td>
+        <td>{{ line.equipment.type | equipmentPipe | translate }}</td>
+        <td>{{ line.equipment.cableReserveLeft }}</td>
+        <td>{{ line.equipment.cableReserveRight }}</td>
+        <td>{{ line.equipment.comment }}</td>
       </tr>
     </table>
   </div>
@@ -85,8 +90,10 @@
   <!-- traces -->
   <div class="grouped-border mt-1">
     <div class="mb-2">{{ 'i18n.ft.traces-in-node' | translate }}</div>
-    <ng-container *ngFor="let trace of traces">
-      <div class="text-sm">{{ trace.title }}</div>
+    <ng-container *ngFor="let line of traceTable">
+      <div class="text-sm" [ngClass]="{ 'bg-blue-100 dark:bg-slate-700': line.isSelected }">
+        {{ line.trace.title }}
+      </div>
     </ng-container>
   </div>
 

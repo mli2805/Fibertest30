@@ -9,6 +9,17 @@ import { GisMapUtils } from '../../components/shared/gis-map.utils';
 import { MapLayersActions } from '../../components/gis-editor-map/map-layers-actions';
 import { MapEquipmentActions } from '../../components/gis-editor-map/map-equipment-actions';
 
+interface EquipElement {
+  isSelected: boolean;
+  equipment: GeoEquipment;
+}
+
+interface TraceElement {
+  isSelected: boolean;
+  equipId: string | null; // id того оборудов которое вкл в эту трассу, или null если ничего не включено
+  trace: GeoTrace;
+}
+
 @Component({
   selector: 'rtu-show-node-info',
   templateUrl: './show-node-info.component.html',
@@ -19,8 +30,10 @@ export class ShowNodeInfoComponent {
   nodeId!: string;
   nodeInWork!: TraceNode;
 
-  equipments!: GeoEquipment[];
-  traces!: GeoTrace[];
+  // equipments!: GeoEquipment[];
+  equipTable!: EquipElement[];
+  // traces!: GeoTrace[];
+  traceTable!: TraceElement[];
 
   constructor(public gisMapService: GisMapService, private graphService: GraphService) {
     this.nodeId = gisMapService.showNodeInfo.value!;
@@ -30,12 +43,36 @@ export class ShowNodeInfoComponent {
       comment: new FormControl(this.nodeInWork.comment)
     });
 
-    this.equipments = gisMapService
+    const equipments = gisMapService
       .getGeoData()
       .equipments.filter((e) => e.nodeId === this.nodeId && e.type !== EquipmentType.EmptyNode);
-    this.traces = gisMapService
+
+    if (equipments.length > 0) {
+      this.equipTable = equipments.map((e) => {
+        return { isSelected: false, equipment: e };
+      });
+      this.equipTable[0].isSelected = true;
+    }
+
+    const traces = gisMapService
       .getGeoData()
       .traces.filter((t) => t.nodeIds.indexOf(this.nodeId) !== -1);
+
+    this.traceTable = traces.map((t) => {
+      return this.createTraceLine(t, equipments);
+    });
+    console.log(this.traceTable);
+  }
+
+  createTraceLine(t: GeoTrace, equipments: GeoEquipment[]): TraceElement {
+    for (let i = 0; i < equipments.length; i++) {
+      const e = equipments[i];
+      const eqId = t.equipmentIds.find((id) => id === e.id);
+      if (eqId !== undefined) {
+        return { isSelected: e.id === equipments[0].id, equipId: eqId, trace: t };
+      }
+    }
+    return { isSelected: false, equipId: null, trace: t };
   }
 
   isTitleValid(): boolean {
@@ -87,5 +124,16 @@ export class ShowNodeInfoComponent {
 
   addEquipment() {
     MapEquipmentActions.openEditEquipmentDialog(this.nodeId, null, true);
+  }
+
+  onEquipLineClick(line: EquipElement) {
+    console.log(line);
+    this.equipTable.forEach((l) => {
+      l.isSelected = l.equipment.id === line.equipment.id;
+    });
+
+    this.traceTable.forEach((l) => {
+      l.isSelected = l.equipId === line.equipment.id;
+    });
   }
 }

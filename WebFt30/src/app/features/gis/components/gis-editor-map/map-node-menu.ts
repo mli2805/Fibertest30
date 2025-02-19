@@ -15,6 +15,7 @@ import { GisMapIcons } from '../shared/gis-map-icons';
 import { GisMapLayer } from '../../models/gis-map-layer';
 import { StepModel } from '../../forms/trace-define/step-model';
 import { MapEquipmentActions } from './map-equipment-actions';
+import { Utils } from 'src/app/shared/utils/utils';
 
 export class MapNodeMenu {
   private static ts: TranslateService;
@@ -118,9 +119,12 @@ export class MapNodeMenu {
     ];
   }
 
-  static showInformation(e: L.ContextMenuItemClickEvent) {
+  static async showInformation(e: L.ContextMenuItemClickEvent) {
     const nodeId = (<any>e.relatedTarget).id;
+    const node = this.gisMapService.getNode(nodeId);
     this.gisMapService.showNodeInfo.next(nodeId);
+    // await Utils.delay(2000);
+    this.gisMapService.getMap().setView(node.coors);
   }
 
   static addEquipment(e: L.ContextMenuItemClickEvent) {

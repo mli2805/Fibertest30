@@ -87,7 +87,7 @@ export class MapLayersActions {
     switch (mapId) {
       case 0: {
         this.tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 21,
+          maxZoom: 19,
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap'
         }).addTo(map);
         break;
