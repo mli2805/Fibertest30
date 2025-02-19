@@ -8,8 +8,7 @@ import { EquipmentType } from 'src/grpc-generated';
 
 @Component({
   selector: 'rtu-edit-equipment-dialog',
-  templateUrl: './edit-equipment-dialog.component.html',
-  styleUrls: ['./edit-equipment-dialog.component.scss']
+  templateUrl: './edit-equipment-dialog.component.html'
 })
 export class EditEquipmentDialogComponent {
   equipmentType = EquipmentType;
