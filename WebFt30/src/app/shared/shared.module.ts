@@ -81,6 +81,7 @@ import { CoordinatesPipe } from './pipes/coordinates.pipe';
 import { EquipmentPipe } from './pipes/equipment.pipe';
 import { RadioButtonComponent } from './components/svg-buttons/radio-button/radio-button.component';
 import { PencilButtonComponent } from './components/svg-buttons/pencil-button.component';
+import { DeleteButtonComponent } from './components/svg-buttons/delete-button.component';
 
 @NgModule({
   imports: [
@@ -151,6 +152,7 @@ import { PencilButtonComponent } from './components/svg-buttons/pencil-button.co
     TrianglePictogramComponent,
     IitLogoComponent,
     PencilButtonComponent,
+    DeleteButtonComponent,
 
     HelpTooltipComponent,
     EofThresholdHelpComponent,
@@ -227,6 +229,7 @@ import { PencilButtonComponent } from './components/svg-buttons/pencil-button.co
     TrianglePictogramComponent,
     IitLogoComponent,
     PencilButtonComponent,
+    DeleteButtonComponent,
 
     HelpTooltipComponent,
     EofThresholdHelpComponent,

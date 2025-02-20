@@ -67,9 +67,9 @@
             <rtu-pencil-button class="h-3 w-3" (click)="editEquipment(line.equipment)" />
           </div>
         </td>
-        <td class="w-0 pr-3">
+        <td class="w-0 pl-1 pr-3">
           <div class="flex">
-            <rtu-close-button class="h-5 w-5" (click)="removeEquipment(line.equipment)" />
+            <rtu-delete-button class="h-4 w-4" (click)="removeEquipment(line.equipment)" />
           </div>
         </td>
         <td>{{ line.equipment.title }}</td>
