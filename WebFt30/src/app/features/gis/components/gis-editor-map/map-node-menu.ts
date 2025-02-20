@@ -121,10 +121,7 @@ export class MapNodeMenu {
 
   static async showInformation(e: L.ContextMenuItemClickEvent) {
     const nodeId = (<any>e.relatedTarget).id;
-    const node = this.gisMapService.getNode(nodeId);
     this.gisMapService.showNodeInfo.next(nodeId);
-    // await Utils.delay(2000);
-    this.gisMapService.getMap().setView(node.coors);
   }
 
   static addEquipment(e: L.ContextMenuItemClickEvent) {
@@ -225,7 +222,6 @@ export class MapNodeMenu {
   static defineTrace(e: L.ContextMenuItemClickEvent) {
     const nodeId = (<any>e.relatedTarget).id;
     const node = this.gisMapService.getNode(nodeId);
-    console.log(node);
 
     const icons = new GisMapIcons();
     const hlIcon = icons.highlightRtu;
@@ -238,7 +234,7 @@ export class MapNodeMenu {
     const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
     group.addLayer(marker);
 
-    this.gisMapService.showTraceDefine.next(true);
+    this.gisMapService.showTraceDefine.next(nodeId);
 
     this.gisMapService.clearSteps();
     const firstStepRtu = new StepModel();

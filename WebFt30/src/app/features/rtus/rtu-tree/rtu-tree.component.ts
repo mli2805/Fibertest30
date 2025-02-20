@@ -15,5 +15,27 @@ export class RtuTreeComponent {
   inProgress$ = this.store.select(RtuMgmtSelectors.selectRtuOperationInProgress);
   loading$ = this.store.select(RtuTreeSelectors.selectLoading);
 
+  treeWidth = 384;
+
   constructor(private store: Store<AppState>, public gisMapService: GisMapService) {}
+
+  sliderMouseDown($event: MouseEvent) {
+    this.gisMapService.sliderMouseDown = $event;
+  }
+
+  sliderMouseUp($event: MouseEvent) {
+    this.gisMapService.sliderMouseDown = null;
+  }
+
+  mouseMove($event: MouseEvent) {
+    if (this.gisMapService.sliderMouseDown !== null) {
+      const delta = this.gisMapService.sliderMouseDown.clientX - $event.clientX;
+      this.treeWidth = this.treeWidth - delta;
+      this.gisMapService.sliderMouseDown = $event;
+    }
+  }
+
+  mouseUp($event: MouseEvent) {
+    this.gisMapService.sliderMouseDown = null;
+  }
 }

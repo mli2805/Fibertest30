@@ -72,6 +72,24 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     );
     MapLayersActions.initMap(userSettings, hasEditPermissions);
 
+    // в случае изменения размеров div, в который обернута карта, обновляет карту
+    const mapDiv = document.getElementById('map');
+    const resizeObserver = new (window as any).ResizeObserver(() => {
+      this.gisMapService.getMap().invalidateSize();
+
+      if (this.gisMapService.showNodeInfo.value !== null) {
+        const node = this.gisMapService.getNode(this.gisMapService.showNodeInfo.value);
+        this.gisMapService.getMap().setView(node.coors);
+      }
+
+      if (this.gisMapService.showTraceDefine.value !== null) {
+        const node = this.gisMapService.getNode(this.gisMapService.showTraceDefine.value);
+        this.gisMapService.getMap().setView(node.coors);
+      }
+    });
+    resizeObserver.observe(mapDiv);
+    //////////////////////////////////
+
     this.gisMapService.mapSourceId$
       .pipe(takeUntil(this.ngDestroyed$))
       .subscribe((d) => this.onMapSourceId(d));

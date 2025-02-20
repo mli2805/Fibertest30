@@ -72,6 +72,6 @@ export class TraceDefineComponent {
   }
 
   close() {
-    this.gisMapService.showTraceDefine.next(false);
+    this.gisMapService.showTraceDefine.next(null);
   }
 }

@@ -1,5 +1,8 @@
-<div class="flex w-full">
-  <div class="w-96 overflow-y-auto text-sm text-gray-700 dark:text-zinc-300">
+<div class="flex w-full" (mousemove)="mouseMove($event)" (mouseup)="mouseUp($event)">
+  <div
+    class="min-w-8 overflow-y-auto text-sm text-gray-700 dark:text-zinc-300"
+    [style.width.px]="treeWidth"
+  >
     <ng-container *ngIf="rtus$ | async as rtuArray">
       <ng-container *ngFor="let rtu of rtuArray; let i = index">
         <rtu-one-rtu class="text-xs" [rtuId]="rtu.rtuId" [i]="i"></rtu-one-rtu>
@@ -7,8 +10,17 @@
     </ng-container>
     <div class="h-5"></div>
   </div>
-  <!-- когда-нибудь сделать слайдер cursor-col-resize -->
-  <div class="h-full w-1"></div>
+  <!-- слайдер  -->
+  <div
+    class="flex h-full cursor-col-resize"
+    (mousedown)="sliderMouseDown($event)"
+    (mouseup)="sliderMouseUp($event)"
+  >
+    <div class="w-1"></div>
+    <div class="w-[1px] bg-slate-200 dark:bg-slate-700"></div>
+    <div class="w-1"></div>
+  </div>
+  <!-- карта  -->
   <div class="ml-0 flex flex-1">
     <rtu-gis />
   </div>

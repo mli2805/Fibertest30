@@ -61,7 +61,6 @@ export class ShowNodeInfoComponent {
     this.traceTable = traces.map((t) => {
       return this.createTraceLine(t, equipments);
     });
-    console.log(this.traceTable);
   }
 
   createTraceLine(t: GeoTrace, equipments: GeoEquipment[]): TraceElement {

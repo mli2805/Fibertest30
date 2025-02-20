@@ -21,6 +21,9 @@ export class GisMapService {
     [GisMapLayer.AdjustmentPoints, 16]
   ]);
 
+  ////////////////
+  sliderMouseDown: MouseEvent | null = null;
+
   ///////////////////// все узлы и участки для карты root'а
   private geoData!: AllGeoData;
   getGeoData(): AllGeoData {
@@ -115,7 +118,7 @@ export class GisMapService {
   mousePosition = new BehaviorSubject<string>('');
   mousePosition$ = this.mousePosition.asObservable();
 
-  showTraceDefine = new BehaviorSubject<boolean>(false);
+  showTraceDefine = new BehaviorSubject<string | null>(null);
   showTraceDefine$ = this.showTraceDefine.asObservable();
 
   /////////////////////////

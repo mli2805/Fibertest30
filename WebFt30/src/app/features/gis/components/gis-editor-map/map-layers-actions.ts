@@ -29,7 +29,8 @@ export class MapLayersActions {
       center: [userSettings.lat, userSettings.lng],
       zoom: userSettings.zoom,
       contextmenu: true,
-      contextmenuItems: MapMenu.buildMapMenu(hasEditPermissions)
+      contextmenuItems: MapMenu.buildMapMenu(hasEditPermissions),
+      zoomControl: false
     });
 
     map.on('zoomend', (e) => {

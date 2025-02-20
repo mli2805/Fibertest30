@@ -45,11 +45,6 @@ export class GisComponent extends OnDestroyBase implements OnInit {
 
   async ngOnInit() {
     try {
-      // const hasEditPermission = CoreUtils.getCurrentState(
-      //   this.store,
-      //   AuthSelectors.selectHasEditGraphPermission
-      // );
-
       const userSettings = CoreUtils.getCurrentState(this.store, SettingsSelectors.selectSettings);
       this.gisMapService.currentZoom.next(userSettings.zoom);
       // комбик зума для показа узлов
