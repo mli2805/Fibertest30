@@ -12,6 +12,7 @@ import { MapEquipmentActions } from '../../components/gis-editor-map/map-equipme
 interface EquipElement {
   isSelected: boolean;
   equipment: GeoEquipment;
+  usedByTraceWithBase: boolean;
 }
 
 interface TraceElement {
@@ -30,9 +31,7 @@ export class ShowNodeInfoComponent {
   nodeId!: string;
   nodeInWork!: TraceNode;
 
-  // equipments!: GeoEquipment[];
   equipTable!: EquipElement[];
-  // traces!: GeoTrace[];
   traceTable!: TraceElement[];
 
   constructor(public gisMapService: GisMapService, private graphService: GraphService) {
@@ -49,18 +48,30 @@ export class ShowNodeInfoComponent {
 
     if (equipments.length > 0) {
       this.equipTable = equipments.map((e) => {
-        return { isSelected: false, equipment: e };
+        // в этом месте еще не знаем про трассы
+        return { isSelected: false, equipment: e, usedByTraceWithBase: false };
       });
       this.equipTable[0].isSelected = true;
     }
 
-    const traces = gisMapService
+    const tracesInNode = gisMapService
       .getGeoData()
       .traces.filter((t) => t.nodeIds.indexOf(this.nodeId) !== -1);
 
-    this.traceTable = traces.map((t) => {
+    this.traceTable = tracesInNode.map((t) => {
       return this.createTraceLine(t, equipments);
     });
+
+    // помечаем то оборудование, которое используется трассами, для которых заданы базовые
+    for (let i = 0; i < tracesInNode.length; i++) {
+      const trace = tracesInNode[i];
+      if (trace.hasAnyBaseRef) {
+        const equipId = this.traceTable.find((t) => t.trace.id === trace.id)!.equipId;
+        if (equipId !== null) {
+          this.equipTable.find((e) => e.equipment.id === equipId)!.usedByTraceWithBase = true;
+        }
+      }
+    }
   }
 
   createTraceLine(t: GeoTrace, equipments: GeoEquipment[]): TraceElement {
@@ -117,8 +128,9 @@ export class ShowNodeInfoComponent {
   }
 
   // если оборудование входит в трассу для которой заданы базовые, то НЕЛЬЗЯ удалять
-  async removeEquipment(equipment: GeoEquipment) {
-    await MapEquipmentActions.removeEquipment(equipment);
+  async removeEquipment(eqLine: EquipElement) {
+    if (eqLine.usedByTraceWithBase) return;
+    await MapEquipmentActions.removeEquipment(eqLine.equipment);
   }
 
   addEquipment() {
