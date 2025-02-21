@@ -82,6 +82,7 @@ import { EquipmentPipe } from './pipes/equipment.pipe';
 import { RadioButtonComponent } from './components/svg-buttons/radio-button/radio-button.component';
 import { PencilButtonComponent } from './components/svg-buttons/pencil-button.component';
 import { DeleteButtonComponent } from './components/svg-buttons/delete-button.component';
+import { MultiSelectionButtonComponent } from './components/svg-buttons/multi-selection-button/multi-selection-button.component';
 
 @NgModule({
   imports: [
@@ -167,7 +168,8 @@ import { DeleteButtonComponent } from './components/svg-buttons/delete-button.co
     SorIconComponent,
     GisIconComponent,
     GraphSorAvailableActionComponent,
-    RadioButtonComponent
+    RadioButtonComponent,
+    MultiSelectionButtonComponent
   ],
   exports: [
     CommonModule,
@@ -244,7 +246,8 @@ import { DeleteButtonComponent } from './components/svg-buttons/delete-button.co
     GisIconComponent,
     GraphSorAvailableActionComponent,
 
-    RadioButtonComponent
+    RadioButtonComponent,
+    MultiSelectionButtonComponent
   ],
   providers: [RtuDateToDayOfWeekPipe, FrequencyPipe, RtuDateTimePipe, BaseRefTypePipe]
 })

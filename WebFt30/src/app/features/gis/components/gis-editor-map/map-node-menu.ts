@@ -15,7 +15,6 @@ import { GisMapIcons } from '../shared/gis-map-icons';
 import { GisMapLayer } from '../../models/gis-map-layer';
 import { StepModel } from '../../forms/trace-define/step-model';
 import { MapEquipmentActions } from './map-equipment-actions';
-import { Utils } from 'src/app/shared/utils/utils';
 
 export class MapNodeMenu {
   private static ts: TranslateService;
@@ -124,12 +123,12 @@ export class MapNodeMenu {
     this.gisMapService.showNodeInfo.next(nodeId);
   }
 
-  static addEquipment(e: L.ContextMenuItemClickEvent) {
+  static async addEquipment(e: L.ContextMenuItemClickEvent) {
     const nodeId = (<any>e.relatedTarget).id;
-    // this.gisMapService.updateEquipment = null;
-    // this.gisMapService.showAddEquipment.next(nodeId);
 
-    MapEquipmentActions.openEditEquipmentDialog(nodeId, null, true);
+    const forTraces = await MapEquipmentActions.openSelectTracesDialog(nodeId);
+    if (forTraces === null) return;
+    MapEquipmentActions.openEditEquipmentDialog(nodeId, null, true, forTraces);
   }
 
   static async removeNode(e: L.ContextMenuItemClickEvent) {
@@ -143,7 +142,6 @@ export class MapNodeMenu {
     for (let i = 0; i < this.gisMapService.getGeoData().traces.length; i++) {
       const trace = this.gisMapService.getGeoData().traces[i];
       const traceDetours = MapNodeRemove.buildDetoursForTrace(nodeId, trace);
-      // detours = detours.concat(traceDetours);
       detours = [...traceDetours];
     }
 

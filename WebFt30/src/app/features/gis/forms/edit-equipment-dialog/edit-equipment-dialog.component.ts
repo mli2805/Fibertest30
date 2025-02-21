@@ -18,15 +18,16 @@ export class EditEquipmentDialogComponent {
   addMode = true;
   equipmentInWork!: GeoEquipment;
   selectedType!: EquipmentType;
+  tracesForInsertion!: string[];
 
   constructor(@Inject(DIALOG_DATA) private data: any, private ts: TranslateService) {
-    console.log(data);
     this.nodeId = data.nodeId;
     this.addMode = data.addMode;
     this.equipmentInWork = this.addMode
       ? new GeoEquipment(crypto.randomUUID(), '', this.nodeId, EquipmentType.Closure, 0, 0, '')
       : data.equipment;
     this.selectedType = this.addMode ? EquipmentType.Closure : data.equipment.type;
+    this.tracesForInsertion = data.traceForInsertion;
 
     this.form = new FormGroup({
       title: new FormControl(this.equipmentInWork.title),
@@ -82,6 +83,12 @@ export class EditEquipmentDialogComponent {
       CableReserveRight: +this.form.controls['rightReserve'].value,
       Comment: this.form.controls['comment'].value
     };
+
+    if (this.addMode) {
+      // это свойство есть только в команде Добавить
+      (<any>command).TracesForInsertion = this.tracesForInsertion;
+    }
+
     const json = JSON.stringify(command);
 
     this.dialogRef.close(json);

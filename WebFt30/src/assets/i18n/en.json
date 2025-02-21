@@ -632,6 +632,10 @@
   "i18n.ft.to-the-left": "to the left, m:",
   "i18n.ft.to-the-right": "to the right, m:",
 
+  "i18n.ft.select-traces": "Select traces for adding equipment",
+  "i18n.ft.select-traces-which": "Select traces which will use added equimpent",
+  "i18n.ft.if-selected-trace": "If selected trace use some equimpent in this node it will be replaced",
+
   "i18n.ft.step-forward": "Step forward",
   "i18n.ft.step-backward": "Step backward",
   "i18n.ft.cancel-step": "Cancel step",

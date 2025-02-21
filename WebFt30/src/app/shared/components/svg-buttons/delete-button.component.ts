@@ -10,6 +10,13 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       </svg>
     </div>
   `,
+  styles: [
+    `
+      :host {
+        display: inline-block;
+      }
+    `
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DeleteButtonComponent {}

@@ -11,6 +11,7 @@ import { ShowNodeInfoComponent } from './forms/show-node-info/show-node-info.com
 import { AddEquipmentComponent } from './forms/add-equipment/add-equipment.component';
 import { EditEquipmentDialogComponent } from './forms/edit-equipment-dialog/edit-equipment-dialog.component';
 import { EquipmentTypeSelectorComponent } from './forms/equipment-type-selector/equipment-type-selector.component';
+import { SelectTracesDialogComponent } from './forms/select-traces-dialog/select-traces-dialog.component';
 
 @NgModule({
   imports: [GisRoutingModule, SharedModule],
@@ -23,7 +24,8 @@ import { EquipmentTypeSelectorComponent } from './forms/equipment-type-selector/
     ShowNodeInfoComponent,
     AddEquipmentComponent,
     EditEquipmentDialogComponent,
-    EquipmentTypeSelectorComponent
+    EquipmentTypeSelectorComponent,
+    SelectTracesDialogComponent
   ],
   providers: [GisMapService]
 })

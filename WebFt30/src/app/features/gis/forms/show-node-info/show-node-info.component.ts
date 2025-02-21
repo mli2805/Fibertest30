@@ -72,6 +72,9 @@ export class ShowNodeInfoComponent {
         }
       }
     }
+
+    // console.log(this.equipTable);
+    // console.log(this.traceTable);
   }
 
   createTraceLine(t: GeoTrace, equipments: GeoEquipment[]): TraceElement {
@@ -124,7 +127,7 @@ export class ShowNodeInfoComponent {
 
   // если оборудование входит в трассу для которой заданы базовые, то МОЖНО редактировать
   editEquipment(equipment: any) {
-    MapEquipmentActions.openEditEquipmentDialog(this.nodeId, equipment, false);
+    MapEquipmentActions.openEditEquipmentDialog(this.nodeId, equipment, false, []);
   }
 
   // если оборудование входит в трассу для которой заданы базовые, то НЕЛЬЗЯ удалять
@@ -133,12 +136,14 @@ export class ShowNodeInfoComponent {
     await MapEquipmentActions.removeEquipment(eqLine.equipment);
   }
 
-  addEquipment() {
-    MapEquipmentActions.openEditEquipmentDialog(this.nodeId, null, true);
+  async addEquipment() {
+    const forTraces = await MapEquipmentActions.openSelectTracesDialog(this.nodeId);
+    if (forTraces === null) return;
+
+    MapEquipmentActions.openEditEquipmentDialog(this.nodeId, null, true, forTraces);
   }
 
   onEquipLineClick(line: EquipElement) {
-    console.log(line);
     this.equipTable.forEach((l) => {
       l.isSelected = l.equipment.id === line.equipment.id;
     });

@@ -11,6 +11,8 @@ import { EditEquipmentDialogComponent } from '../../forms/edit-equipment-dialog/
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { GisMapLayer } from '../../models/gis-map-layer';
 import { EquipmentType } from 'src/grpc-generated';
+import { MultiSelectionButton } from 'src/app/shared/components/svg-buttons/multi-selection-button/multi-selection-button';
+import { SelectTracesDialogComponent } from '../../forms/select-traces-dialog/select-traces-dialog.component';
 
 export class MapEquipmentActions {
   private static ts: TranslateService;
@@ -25,13 +27,49 @@ export class MapEquipmentActions {
     this.dialog = injector.get(Dialog);
   }
 
-  static openEditEquipmentDialog(nodeId: string, equipment: GeoEquipment | null, addMode: boolean) {
+  static getTraceSelector(nodeId: string): MultiSelectionButton[] {
+    const tracesInNode = this.gisMapService
+      .getGeoData()
+      .traces.filter((t) => t.nodeIds.indexOf(nodeId) !== -1);
+
+    let id = 0;
+    return tracesInNode.map((t) => {
+      id++;
+      return { id, isSelected: false, title: t.title, isDisabled: t.hasAnyBaseRef, traceId: t.id };
+    });
+  }
+
+  static async openSelectTracesDialog(nodeId: string): Promise<string[] | null> {
+    const traceTable = this.getTraceSelector(nodeId);
+    if (traceTable.length === 0) return null;
+
+    const dialogRef = this.dialog.open(SelectTracesDialogComponent, {
+      maxHeight: '95vh',
+      maxWidth: '95vw',
+      disableClose: true,
+      data: { traceTable }
+    });
+
+    // такой подход позволяет дождаться результата
+    // взаимодействия пользователя с диалогом
+    // и только потом продолжить работу программы
+    const result = await firstValueFrom(dialogRef.closed);
+    console.log(result);
+    return <string[] | null>result;
+  }
+
+  static openEditEquipmentDialog(
+    nodeId: string,
+    equipment: GeoEquipment | null,
+    addMode: boolean,
+    traceForInsertion: string[]
+  ) {
     this.dialog
       .open(EditEquipmentDialogComponent, {
         maxHeight: '95vh',
         maxWidth: '95vw',
         disableClose: true,
-        data: { nodeId, equipment, addMode }
+        data: { nodeId, equipment, addMode, traceForInsertion }
       })
       .closed.subscribe((result) => {
         if (result !== null) {
@@ -63,6 +101,14 @@ export class MapEquipmentActions {
           command.Comment
         );
         this.gisMapService.getGeoData().equipments.push(equipment);
+
+        const traceForInsertion = command.TracesForInsertion;
+        for (let i = 0; i < traceForInsertion.length; i++) {
+          const traceId = traceForInsertion[i];
+          const trace = this.gisMapService.getGeoData().traces.find((t) => t.id === traceId)!;
+          const index = trace.nodeIds.indexOf(command.NodeId);
+          trace.equipmentIds[index] = command.EquipmentId;
+        }
       } else {
         const equipment = this.gisMapService
           .getGeoData()

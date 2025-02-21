@@ -1,0 +1,25 @@
+<div class="mb-2 flex items-center">
+  <div style="width: 16px; height: 16px">
+    <ng-container *ngIf="button.isDisabled">
+      <div class="text-gray-300 dark:text-gray-600">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M1 1 h22 v22 h-22 z" />
+        </svg>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!button.isDisabled">
+      <ng-container *ngIf="button.isSelected">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-width="2" fill="none" d="M1 1 h22 v22 h-22 z" />
+          <path fill="currentColor" d="M4 4 h16 v16 h-16 z" />
+        </svg>
+      </ng-container>
+      <ng-container *ngIf="!button.isSelected">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-width="2" fill="none" d="M1 1 h22 v22 h-22 z" />
+        </svg>
+      </ng-container>
+    </ng-container>
+  </div>
+  <div class="ml-2">{{ button.title }}</div>
+</div>
