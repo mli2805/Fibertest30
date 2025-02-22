@@ -41,7 +41,7 @@ export class MapEquipmentActions {
 
   static async openSelectTracesDialog(nodeId: string): Promise<string[] | null> {
     const traceTable = this.getTraceSelector(nodeId);
-    if (traceTable.length === 0) return null;
+    if (traceTable.length === 0) return [];
 
     const dialogRef = this.dialog.open(SelectTracesDialogComponent, {
       maxHeight: '95vh',

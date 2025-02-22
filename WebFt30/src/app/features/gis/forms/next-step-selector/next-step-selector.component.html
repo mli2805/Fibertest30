@@ -1,0 +1,5 @@
+<ng-container *ngFor="let button of buttons; let i = index">
+  <div class="text-sm">
+    <rtu-radio-button [button]="button" (click)="onRadioButtonClick(i)" />
+  </div>
+</ng-container>
