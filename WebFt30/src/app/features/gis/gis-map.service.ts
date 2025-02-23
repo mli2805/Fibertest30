@@ -160,9 +160,14 @@ export class GisMapService {
   showNodeInfo = new BehaviorSubject<string | null>(null);
   showNodeInfo$ = this.showNodeInfo.asObservable();
 
-  // можно использовать для добавления или редактирования существующего
-  // значение - nodeId
-  // showAddEquipment = new BehaviorSubject<string | null>(null);
-  // updateEquipment!: GeoEquipment | null;
-  // showAddEquipment$ = this.showAddEquipment.asObservable();
+  ///////////////////////////
+  previousHighlightNode: string | null = null;
+  private highlightNode = new BehaviorSubject<string | null>(null);
+
+  setHighlightNode(value: string | null) {
+    this.previousHighlightNode = this.highlightNode.value;
+    this.highlightNode.next(value);
+  }
+
+  highlightNode$ = this.highlightNode.asObservable();
 }

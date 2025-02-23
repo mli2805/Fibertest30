@@ -221,17 +221,7 @@ export class MapNodeMenu {
     const nodeId = (<any>e.relatedTarget).id;
     const node = this.gisMapService.getNode(nodeId);
 
-    const icons = new GisMapIcons();
-    const hlIcon = icons.highlightRtu;
-    const options = {
-      icon: hlIcon.icon,
-      contextmenu: false,
-      contextmenuItems: []
-    };
-    const marker = L.marker(node!.coors, options);
-    const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
-    group.addLayer(marker);
-
+    this.gisMapService.setHighlightNode(nodeId);
     this.gisMapService.showTraceDefine.next(nodeId);
 
     this.gisMapService.clearSteps();

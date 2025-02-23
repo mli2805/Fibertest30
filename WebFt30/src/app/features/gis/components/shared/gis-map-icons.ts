@@ -267,20 +267,19 @@ export class GisMapIcons {
 
   createHighlightNodeIcon(): L.DivIcon {
     const colorClass = 'text-green-500';
-    const width = 11;
-    const height = 11;
+    const size = 31;
 
     return L.divIcon({
       className: 'map-marker-wrapper',
       html: `
-              <div class="${colorClass}" style="width: ${width}px; height: ${height}px">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 13">
-                  <circle fill="none" stroke="currentColor" stroke-width="1" cx="6" cy="6" r="5"/>
+              <div class="${colorClass}" style="width: ${size}px; height: ${size}px">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 27">
+                  <circle fill="none" stroke="currentColor" stroke-width="3" cx="13" cy="13" r="11"/>
                 </svg>
               </div>
         `,
-      iconSize: [width, height],
-      iconAnchor: [width / 2, height / 2]
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size / 2]
     });
   }
 

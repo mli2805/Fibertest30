@@ -640,6 +640,8 @@
   "i18n.ft.step-backward": "Step backward",
   "i18n.ft.cancel-step": "Cancel step",
   "i18n.ft.noname-node": "<Noname node>",
+  "i18n.ft.next-step": "Next step",
+  "i18n.ft.select": "Select",
 
   "i18n.validation.incorrect-level-order": "incorrect level order",
   "i18n.validation.not-unique": "must be unique",

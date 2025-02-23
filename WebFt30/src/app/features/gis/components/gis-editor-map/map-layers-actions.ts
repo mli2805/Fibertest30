@@ -270,4 +270,39 @@ export class MapLayersActions {
 
     return marker;
   }
+
+  static changeHighlight(nodeId: string | null) {
+    // погасить старый если был
+    if (this.gisMapService.previousHighlightNode !== null) {
+      this.concealNode(this.gisMapService.previousHighlightNode);
+    }
+    // подсветить новый если не null
+    if (nodeId !== null) {
+      this.highlightNode(nodeId);
+    }
+  }
+
+  static concealNode(nodeId: string) {
+    const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Highlight)!;
+    const marker = group.getLayers().find((m) => (<any>m).id === nodeId);
+    group.removeLayer(marker!);
+  }
+
+  static highlightNode(nodeId: string) {
+    const node = this.gisMapService.getNode(nodeId);
+    const highlightIcon =
+      node.equipmentType === EquipmentType.Rtu ? this.icons.highlightRtu : this.icons.highlightNode;
+
+    const options = {
+      icon: highlightIcon.icon,
+      contextmenu: false,
+      contextmenuItems: []
+    };
+    const marker = L.marker(node!.coors, options);
+    (<any>marker).id = node.id;
+    const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Highlight)!;
+    group.addLayer(marker);
+
+    this.gisMapService.getMap().setView(node.coors);
+  }
 }

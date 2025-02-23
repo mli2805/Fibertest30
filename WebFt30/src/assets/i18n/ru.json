@@ -317,5 +317,8 @@
   "i18n.ft.step-forward": "Шаг вперед",
   "i18n.ft.step-backward": "Шаг назад",
   "i18n.ft.cancel-step": "Отменить шаг",
-  "i18n.ft.noname-node": "<Узел без названия>"
+  "i18n.ft.noname-node": "<Узел без названия>",
+
+  "i18n.ft.next-step": "Следующий шаг",
+  "i18n.ft.select": "Выбрать"
 }

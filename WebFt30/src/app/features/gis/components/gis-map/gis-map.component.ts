@@ -109,6 +109,10 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     this.gisMapService.showNodesFromZoom$
       .pipe(takeUntil(this.ngDestroyed$))
       .subscribe((c) => MapLayersActions.setLayersVisibility());
+
+    this.gisMapService.highlightNode$
+      .pipe(takeUntil(this.ngDestroyed$))
+      .subscribe((c) => MapLayersActions.changeHighlight(c));
   }
 
   override ngOnDestroy(): void {

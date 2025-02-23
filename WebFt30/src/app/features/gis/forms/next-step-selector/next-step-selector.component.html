@@ -1,5 +1,16 @@
-<ng-container *ngFor="let button of buttons; let i = index">
-  <div class="text-sm">
-    <rtu-radio-button [button]="button" (click)="onRadioButtonClick(i)" />
+<div class="dialog grouped-border flex flex-col">
+  <div class="mb-2 text-center">{{ 'i18n.ft.next-step' | translate }}</div>
+  <ng-container *ngFor="let button of buttons; let i = index">
+    <div class="mb-2 text-sm">
+      <rtu-radio-button [button]="button" (click)="onRadioButtonClick(i)" />
+    </div>
+  </ng-container>
+  <div class="flex">
+    <button class="button-extra mr-2 w-36" (click)="onSelect()">
+      {{ 'i18n.ft.select' | translate }}
+    </button>
+    <button class="button-extra w-36" (click)="onDiscard()">
+      {{ 'i18n.ft.discard' | translate }}
+    </button>
   </div>
-</ng-container>
+</div>
