@@ -2,7 +2,7 @@ import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 
 export class StepModel {
   nodeId!: string;
-  title!: string;
+  title!: string; // узел + оборудование
   equipmentId!: string;
   fiberIds: string[] = [];
 }

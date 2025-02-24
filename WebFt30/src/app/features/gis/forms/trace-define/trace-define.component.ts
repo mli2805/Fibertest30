@@ -2,7 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { GisMapService } from '../../gis-map.service';
 import { TraceDefineUtils } from './trace-define-utils';
 import { GisMapUtils } from '../../components/shared/gis-map.utils';
-import { Neighbour } from './step-model';
+import { Neighbour, StepModel } from './step-model';
 import { RadioButton } from 'src/app/shared/components/svg-buttons/radio-button/radio-button';
 import { Dialog, DialogConfig, DialogRef } from '@angular/cdk/dialog';
 import { NextStepSelectorComponent } from '../next-step-selector/next-step-selector.component';
@@ -74,11 +74,34 @@ export class TraceDefineComponent {
     }
 
     // выбрать оборудование из имеющегося в узле (можно редактировать название и каб запас существующего оборудования )
-    // вернет -1 если не включать в трассу никакое оборудование
+    // вернет GUID.empty если не включать в трассу никакое оборудование
     // вернет null если отказался от выбора (значит отказался от уже выбранного узла)
-    const indexOfSelectedEquipment = await this.selectEquipment(
-      neighbours[indexOfSelectedNode].node
-    );
+    const equipmentId = await this.selectEquipment(neighbours[indexOfSelectedNode].node);
+    if (equipmentId === null) {
+      const lastId = this.gisMapService.steps.at(-1)!.nodeId;
+      this.gisMapService.setHighlightNode(lastId);
+      return false;
+    }
+
+    const node = neighbours[indexOfSelectedNode].node;
+    const equipmentTitle =
+      equipmentId === GisMapUtils.emptyGuid
+        ? ''
+        : this.gisMapService.getGeoData().equipments.find((e) => e.id === equipmentId)!.title;
+    const stepModel = new StepModel();
+    stepModel.nodeId = node.id;
+    stepModel.equipmentId = equipmentId;
+    // prettier-ignore
+    stepModel.title =
+      node.title === ''
+        ? equipmentTitle === ''
+          ? this.ts.instant('i18n.ft.noname-node')
+          : '/ ' + equipmentTitle
+        : equipmentTitle === ''
+          ? node.title
+          : node.title + ' / ' + equipmentTitle;
+    stepModel.fiberIds = neighbours[indexOfSelectedNode].fiberIds;
+    this.gisMapService.addStep(stepModel);
 
     return true;
   }
@@ -108,7 +131,7 @@ export class TraceDefineComponent {
     return <number | null>await firstValueFrom(dialogRef.closed);
   }
 
-  private async selectEquipment(node: TraceNode): Promise<number | null> {
+  private async selectEquipment(node: TraceNode): Promise<string | null> {
     const buttons = new Array<RadioButton>();
     const equips = this.gisMapService
       .getGeoData()
@@ -119,10 +142,7 @@ export class TraceDefineComponent {
         id: i,
         isSelected: i === 0,
         title: this.ts.instant(this.equipmentPipe.transform(equipment.type)),
-
-        eqTitle: equipment.title,
-        left: equipment.cableReserveLeft,
-        right: equipment.cableReserveRight
+        equipment
       };
       buttons.push(button);
     }
@@ -130,11 +150,14 @@ export class TraceDefineComponent {
     const dialogConfig = new DialogConfig<unknown, DialogRef>();
     dialogConfig.positionStrategy = new GlobalPositionStrategy().left('120px').top('50px');
     dialogConfig.disableClose = true;
-    dialogConfig.data = { buttons, nodeTitle: node.title, service: this.gisMapService };
+    dialogConfig.data = { buttons, node, gisMapService: this.gisMapService };
     const dialogRef = this.dialog.open(TraceComponentSelectorComponent, dialogConfig);
 
-    // вернет null если отказался от выбора
-    return <number | null>await firstValueFrom(dialogRef.closed);
+    // вернет null если отказался от выбора (нажал Выход)
+    const index = <number | null>await firstValueFrom(dialogRef.closed);
+    if (index === null) return null;
+    if (index === -1) return GisMapUtils.emptyGuid;
+    return equips[index].id;
   }
 
   private justStep(neighbour: Neighbour): boolean {

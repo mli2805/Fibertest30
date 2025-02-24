@@ -322,6 +322,7 @@
   "i18n.ft.next-step": "Следующий шаг",
   "i18n.ft.select": "Выбрать",
   "i18n.ft.trace-component-selection": "Выбор компонента трассы",
+  "i18n.ft.node-title": "Название узла",
   "i18n.ft.exit": "Выход",
   "i18n.ft.next": "Далее",
   "i18n.ft.do-not-use-equipment": "Не использовать оборудование"

@@ -1,22 +1,27 @@
 <div class="dialog">
-  <div class="flex flex-col">
+  <div class="flex flex-col" [formGroup]="form">
     <div class="mb-4 text-center text-base">
       {{ 'i18n.ft.trace-component-selection' | translate }}
     </div>
     <div class="mb-4 flex items-center justify-between">
-      <label>{{ 'i18n.ft.node' | translate }}</label>
-      <div>
-        <input #titleInput type="text" class="input-simple peer" />
+      <label class="w-40">{{ 'i18n.ft.node-title' | translate }}</label>
+      <div class="">
+        <input type="text" formControlName="title" class="input-simple w-[232px]" />
       </div>
     </div>
+    <ng-container *ngIf="buttons.length > 1">
+      <div class="ml-1 flex justify-end">
+        <span class="mr-1 w-32">{{ 'i18n.ft.title' | translate }}</span>
+        <span class="mr-1 w-12">{{ 'i18n.ft.l-m' | translate }}</span>
+        <span class="w-12">{{ 'i18n.ft.r-m' | translate }}</span>
+      </div>
+    </ng-container>
 
     <ng-container *ngFor="let button of buttons; let i = index">
       <ng-container *ngIf="i !== buttons.length - 1">
-        <div class="my-1 flex items-center text-sm">
-          <rtu-radio-button [button]="button" (click)="onRadioButtonClick(i)" />
-          <input #titleInput type="text" class="input-simple peer mx-1 w-32" />
-          <input #leftInput type="text" class="input-simple peer mx-1 w-12" />
-          <input #rightInput type="text" class="input-simple peer w-12" />
+        <div class="mb-1 flex items-center text-sm">
+          <rtu-radio-button [button]="button" (click)="onRadioButtonClick(i)" class="mt-1 w-40" />
+          <rtu-equipment-edit [form]="childForms[i]" />
         </div>
       </ng-container>
       <ng-container *ngIf="i === buttons.length - 1">
