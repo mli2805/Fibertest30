@@ -1,0 +1,38 @@
+<div class="dialog">
+  <div class="flex flex-col">
+    <div class="mb-4 text-center text-base">
+      {{ 'i18n.ft.trace-component-selection' | translate }}
+    </div>
+    <div class="mb-4 flex items-center justify-between">
+      <label>{{ 'i18n.ft.node' | translate }}</label>
+      <div>
+        <input #titleInput type="text" class="input-simple peer" />
+      </div>
+    </div>
+
+    <ng-container *ngFor="let button of buttons; let i = index">
+      <ng-container *ngIf="i !== buttons.length - 1">
+        <div class="my-1 flex items-center text-sm">
+          <rtu-radio-button [button]="button" (click)="onRadioButtonClick(i)" />
+          <input #titleInput type="text" class="input-simple peer mx-1 w-32" />
+          <input #leftInput type="text" class="input-simple peer mx-1 w-12" />
+          <input #rightInput type="text" class="input-simple peer w-12" />
+        </div>
+      </ng-container>
+      <ng-container *ngIf="i === buttons.length - 1">
+        <div class="mt-4 flex items-center text-sm">
+          <rtu-radio-button [button]="button" (click)="onRadioButtonClick(i)" />
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <div class="mt-4 flex">
+      <button class="button-extra mr-2 w-36" (click)="onNext()">
+        {{ 'i18n.ft.next' | translate }}
+      </button>
+      <button class="button-extra w-36" (click)="onExit()">
+        {{ 'i18n.ft.exit' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

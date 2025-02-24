@@ -249,6 +249,12 @@ import { MultiSelectionButtonComponent } from './components/svg-buttons/multi-se
     RadioButtonComponent,
     MultiSelectionButtonComponent
   ],
-  providers: [RtuDateToDayOfWeekPipe, FrequencyPipe, RtuDateTimePipe, BaseRefTypePipe]
+  providers: [
+    RtuDateToDayOfWeekPipe,
+    FrequencyPipe,
+    RtuDateTimePipe,
+    BaseRefTypePipe,
+    EquipmentPipe
+  ]
 })
 export class SharedModule {}

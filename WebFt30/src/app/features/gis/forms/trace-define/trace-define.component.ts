@@ -8,6 +8,11 @@ import { Dialog, DialogConfig, DialogRef } from '@angular/cdk/dialog';
 import { NextStepSelectorComponent } from '../next-step-selector/next-step-selector.component';
 import { GlobalPositionStrategy } from '@angular/cdk/overlay';
 import { firstValueFrom } from 'rxjs';
+import { TraceComponentSelectorComponent } from '../trace-component-selector/trace-component-selector.component';
+import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
+import { TranslateService } from '@ngx-translate/core';
+import { EquipmentPipe } from 'src/app/shared/pipes/equipment.pipe';
+import { EquipmentType } from 'src/grpc-generated';
 
 @Component({
   selector: 'rtu-trace-define',
@@ -20,6 +25,8 @@ export class TraceDefineComponent {
   constructor(
     private injector: Injector,
     public gisMapService: GisMapService,
+    private ts: TranslateService,
+    private equipmentPipe: EquipmentPipe,
     private dialog: Dialog
   ) {
     TraceDefineUtils.initialize(injector);
@@ -57,15 +64,21 @@ export class TraceDefineComponent {
   }
 
   private async forkIt(neighbours: Neighbour[], previousNodeId: string): Promise<boolean> {
+    // выбрать узел из соседних
     // вернет null если отказался от выбора
     const indexOfSelectedNode = await this.selectNeighbour(neighbours);
-    console.log(indexOfSelectedNode);
-
     if (indexOfSelectedNode === null) {
       const lastId = this.gisMapService.steps.at(-1)!.nodeId;
       this.gisMapService.setHighlightNode(lastId);
       return false;
     }
+
+    // выбрать оборудование из имеющегося в узле (можно редактировать название и каб запас существующего оборудования )
+    // вернет -1 если не включать в трассу никакое оборудование
+    // вернет null если отказался от выбора (значит отказался от уже выбранного узла)
+    const indexOfSelectedEquipment = await this.selectEquipment(
+      neighbours[indexOfSelectedNode].node
+    );
 
     return true;
   }
@@ -90,6 +103,35 @@ export class TraceDefineComponent {
     dialogConfig.disableClose = true;
     dialogConfig.data = { buttons, service: this.gisMapService };
     const dialogRef = this.dialog.open(NextStepSelectorComponent, dialogConfig);
+
+    // вернет null если отказался от выбора
+    return <number | null>await firstValueFrom(dialogRef.closed);
+  }
+
+  private async selectEquipment(node: TraceNode): Promise<number | null> {
+    const buttons = new Array<RadioButton>();
+    const equips = this.gisMapService
+      .getGeoData()
+      .equipments.filter((e) => e.nodeId === node.id && e.type !== EquipmentType.EmptyNode);
+    for (let i = 0; i < equips.length; i++) {
+      const equipment = equips[i];
+      const button = {
+        id: i,
+        isSelected: i === 0,
+        title: this.ts.instant(this.equipmentPipe.transform(equipment.type)),
+
+        eqTitle: equipment.title,
+        left: equipment.cableReserveLeft,
+        right: equipment.cableReserveRight
+      };
+      buttons.push(button);
+    }
+
+    const dialogConfig = new DialogConfig<unknown, DialogRef>();
+    dialogConfig.positionStrategy = new GlobalPositionStrategy().left('120px').top('50px');
+    dialogConfig.disableClose = true;
+    dialogConfig.data = { buttons, nodeTitle: node.title, service: this.gisMapService };
+    const dialogRef = this.dialog.open(TraceComponentSelectorComponent, dialogConfig);
 
     // вернет null если отказался от выбора
     return <number | null>await firstValueFrom(dialogRef.closed);
