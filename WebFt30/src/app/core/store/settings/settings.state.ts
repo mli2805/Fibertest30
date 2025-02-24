@@ -3,7 +3,7 @@ import { AppTimezone } from '../models';
 export const AppThemes = ['dark', 'light'] as const;
 export type AppTheme = (typeof AppThemes)[number];
 
-export const AppLanguages = ['en', 'ru', 'ja', 'de', 'fr', 'it', 'pl', 'debug'] as const;
+export const AppLanguages = ['en', 'ru', 'debug'] as const;
 export type AppLanguage = (typeof AppLanguages)[number];
 
 export const AppDateTimeFormats = ['short', 'medium', 'long'] as const;

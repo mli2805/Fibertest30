@@ -62,16 +62,7 @@ export class RtuLanguageSwitcherComponent {
         return 'English';
       case 'ru':
         return 'Russian';
-      case 'ja':
-        return 'Japanese';
-      case 'de':
-        return 'German';
-      case 'fr':
-        return 'French';
-      case 'it':
-        return 'Italian';
-      case 'pl':
-        return 'Polish';
+
       default:
         return language;
     }

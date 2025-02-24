@@ -10,11 +10,7 @@ import { AppLanguage } from '../store/settings/settings.state';
 const StripAgoPatterns: Record<AppLanguage, string> = {
   en: 'ago',
   ru: 'назад',
-  de: 'vor',
-  fr: 'il y a',
-  it: 'fa',
-  pl: 'temu',
-  ja: '前',
+
   debug: 'ago' // we pass 'en' as a language for the debug mode
 };
 
