@@ -7,9 +7,9 @@
       <!-- properties -->
       <div class="grid-container ml-3 gap-y-1 text-sm">
         <ng-container *ngIf="isInCreationMode">
-          <label style="grid-area: userNameLabel" class="my-auto mr-2 text-xs">{{
-            'i18n.common.username' | translate
-          }}</label>
+          <label style="grid-area: userNameLabel" class="my-auto mr-2 text-xs"
+            >{{ 'i18n.common.username' | translate }}*</label
+          >
           <div style="grid-area: userNameValue" class="mb-1 h-9">
             <input
               #userNameInput
@@ -156,9 +156,9 @@
           </div>
         </ng-container>
 
-        <label style="grid-area: userGroupLabel" class="my-auto mr-2 text-xs">{{
-          'i18n.common.user-group' | translate
-        }}</label>
+        <label style="grid-area: userGroupLabel" class="my-auto mr-2 text-xs"
+          >{{ 'i18n.common.user-group' | translate }}*</label
+        >
         <rtu-select style="grid-area: userGroupValue" formControlName="role" [items]="roles">
           <ng-template rtuSelectLabel let-selectedItem>
             <rtu-description-label
@@ -188,28 +188,11 @@
             type="text"
             class="input-simple peer pr-8"
           />
-          <!-- checkmark -->
-          <span *ngIf="isEmailVerified" class="absolute right-2 top-2">
-            <!-- prettier-ignore -->
-            <svg class="ml-1 h-5 w-5 text-green-600" fill="currentColor" viewBox="0 0 96 96">
-              <path
-                d="M78.049,19.015L29.458,67.606c-0.428,0.428-1.121,0.428-1.548,0L0.32,40.015c-0.427-0.426-0.427-1.119,0-1.547l6.704-6.704	c0.428-0.427,1.121-0.427,1.548,0l20.113,20.112l41.113-41.113c0.429-0.427,1.12-0.427,1.548,0l6.703,6.704	C78.477,17.894,78.477,18.586,78.049,19.015z"
-              ></path>
-            </svg>
-          </span>
         </div>
         <label style="grid-area: phoneLabel" class="my-auto mr-2 text-xs">{{
           'i18n.common.phone' | translate
         }}</label>
         <div style="grid-area: phoneValue" class="relative">
-          <span *ngIf="isPhoneVerified" class="absolute right-2 top-2">
-            <!-- prettier-ignore -->
-            <svg class="h-5 w-5 text-green-600" fill="currentColor" viewBox="0 0 96 96">
-              <path
-                d="M78.049,19.015L29.458,67.606c-0.428,0.428-1.121,0.428-1.548,0L0.32,40.015c-0.427-0.426-0.427-1.119,0-1.547l6.704-6.704	c0.428-0.427,1.121-0.427,1.548,0l20.113,20.112l41.113-41.113c0.429-0.427,1.12-0.427,1.548,0l6.703,6.704	C78.477,17.894,78.477,18.586,78.049,19.015z"
-              ></path>
-            </svg>
-          </span>
           <input
             formControlName="phone"
             [ngClass]="{ 'invalid-border': !isPhoneValid() }"
@@ -218,9 +201,9 @@
           />
         </div>
 
-        <label style="grid-area: passwordLabel" class="my-auto mr-2 text-xs">{{
-          'i18n.common.password' | translate
-        }}</label>
+        <label style="grid-area: passwordLabel" class="my-auto mr-2 text-xs"
+          >{{ 'i18n.common.password' | translate }}<span *ngIf="isInCreationMode">*</span></label
+        >
         <div style="grid-area: passwordValue" class="relative">
           <div
             class="absolute right-2 top-2 cursor-pointer"

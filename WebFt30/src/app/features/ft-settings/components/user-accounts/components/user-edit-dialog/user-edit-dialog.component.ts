@@ -38,16 +38,13 @@ export class UserEditDialogComponent {
 
   @ViewChild('userNameInput') userNameInput!: ElementRef;
   isFirstNameEdit: boolean;
-  firstNameValue: string;
+  firstNameValue = '';
   @ViewChild('firstNameInput') firstNameInput!: ElementRef;
   isLastNameEdit: boolean;
-  lastNameValue: string;
+  lastNameValue = '';
   @ViewChild('lastNameInput') lastNameInput!: ElementRef;
 
   roles: string[];
-
-  isPhoneVerified: boolean;
-  isEmailVerified: boolean;
 
   isScheduleOn!: boolean;
   week!: OneDayWorkHours[];
@@ -76,11 +73,11 @@ export class UserEditDialogComponent {
     this.isSelfEdit = this.loggedUser?.name === this.userInWork.name;
 
     this.isFirstNameEdit = false;
-    this.firstNameValue = this.userInWork.firstName;
+    this.firstNameValue = this.userInWork.firstName === undefined ? '' : this.userInWork.firstName;
     this.isLastNameEdit = false;
-    this.lastNameValue = this.userInWork.lastName;
-    this.isEmailVerified = true;
-    this.isPhoneVerified = true;
+    this.lastNameValue = this.userInWork.lastName === undefined ? '' : this.userInWork.lastName;
+    // this.isEmailVerified = true;
+    // this.isPhoneVerified = true;
     this.p1InputType = 'password';
 
     this.userForm = new FormGroup({
@@ -88,14 +85,14 @@ export class UserEditDialogComponent {
         Validators.required,
         this.usernameValidator()
       ]),
-      firstName: new FormControl(this.userInWork.firstName, Validators.required),
-      lastName: new FormControl(this.userInWork.lastName, Validators.required),
+      firstName: new FormControl(this.userInWork.firstName),
+      lastName: new FormControl(this.userInWork.lastName),
       role: new FormControl(
         { value: this.userInWork.role, disabled: this.isSelfEdit },
         Validators.required
       ),
       jobTitle: new FormControl(this.userInWork.jobTitle),
-      email: new FormControl(this.userInWork.email, [Validators.required, Validators.email]),
+      email: new FormControl(this.userInWork.email, [Validators.email]),
       phone: new FormControl(this.userInWork.phoneNumber, [
         Validators.pattern('^\\+?[0-9]{5,15}$')
       ]),
@@ -237,10 +234,7 @@ export class UserEditDialogComponent {
 
     if (this.isInCreationMode || this.adminProfileComplete) {
       return (
-        this.userForm.get('userName')!.value === '' ||
-        this.userForm.get('firstName')!.value === '' ||
-        this.userForm.get('lastName')!.value === '' ||
-        this.userForm.get('password')!.value === ''
+        this.userForm.get('userName')!.value === '' || this.userForm.get('password')!.value === ''
       );
     } else {
       return !this.hasFormChanged();
@@ -251,9 +245,11 @@ export class UserEditDialogComponent {
     if (this.userForm.dirty) {
       if (this.isInCreationMode) {
         const patch = this.collectToCreate();
+        console.log(patch);
         this.store.dispatch(UsersActions.createUser({ patch: patch }));
       } else {
         const patch = this.collectToUpdate();
+        console.log(patch);
         this.store.dispatch(
           UsersActions.updateUser({
             userId: this.userInWork.id,
@@ -270,8 +266,8 @@ export class UserEditDialogComponent {
   collectToCreate(): ApplicationUserPatch {
     const patch = new ApplicationUserPatch();
     patch.userName = this.userForm.get('userName')!.value;
-    patch.firstName = this.firstNameValue;
-    patch.lastName = this.lastNameValue;
+    patch.firstName = this.firstNameValue ? '' : this.firstNameValue;
+    patch.lastName = this.lastNameValue ? '' : this.lastNameValue;
     patch.role = this.userForm.get('role')!.value;
     patch.jobTitle = this.userForm.get('jobTitle')!.value;
     patch.email = this.userForm.get('email')!.value;

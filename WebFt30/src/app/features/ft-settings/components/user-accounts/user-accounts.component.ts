@@ -43,6 +43,7 @@ export class UserAccountsComponent {
 
   async onUserPlusClick() {
     const user = new User();
+    user.email = '';
     user.jobTitle = '';
     user.phoneNumber = '';
     user.role = 'Operator';
