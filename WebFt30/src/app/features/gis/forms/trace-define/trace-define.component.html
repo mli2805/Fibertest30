@@ -1,4 +1,4 @@
-<div class="grouped-border ml-0.5 flex h-full w-80 flex-col justify-between">
+<div class="grouped-border ml-0.5 flex h-full flex-col justify-between">
   <div class="flex h-full w-full flex-col items-start justify-start">
     <p class="my-0.5 self-center">{{ 'i18n.ft.step-by-step-trace-definition' | translate }}</p>
     <div class="mt-0.5">
@@ -12,19 +12,19 @@
 
   <!-- buttons -->
   <div class="flex flex-col">
-    <div class="flex">
-      <button class="button-extra m-1" (click)="onStepForward()">
+    <div class="mb-1 flex">
+      <button class="button-extra mr-1" (click)="onStepForward()">
         {{ 'i18n.ft.step-forward' | translate }}
       </button>
-      <button class="button-extra m-1" (click)="onStepBackward()">
+      <button class="button-extra mr-0" (click)="onStepBackward()">
         {{ 'i18n.ft.step-backward' | translate }}
       </button>
-      <button class="button-extra m-1" (click)="onCancelStep()">
+      <button class="button-extra ml-1" (click)="onCancelStep()">
         {{ 'i18n.ft.cancel-step' | translate }}
       </button>
     </div>
-    <div class="mb-2 flex w-full justify-evenly">
-      <button class="button-extra w-36" (click)="onApply()">
+    <div class="mb-1 flex w-full justify-evenly">
+      <button class="button-extra mr-1 w-36" (click)="onApply()">
         {{ 'i18n.ft.apply' | translate }}
       </button>
       <button class="button-extra w-36" (click)="onDiscard()">
