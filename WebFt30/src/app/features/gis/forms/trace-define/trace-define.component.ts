@@ -16,8 +16,7 @@ import { EquipmentType } from 'src/grpc-generated';
 
 @Component({
   selector: 'rtu-trace-define',
-  templateUrl: './trace-define.component.html',
-  styleUrls: ['./trace-define.component.scss']
+  templateUrl: './trace-define.component.html'
 })
 export class TraceDefineComponent {
   stepList$ = this.gisMapService.stepList.asObservable();
@@ -122,7 +121,7 @@ export class TraceDefineComponent {
     this.gisMapService.setHighlightNode(neighbours[0].node.id);
 
     const dialogConfig = new DialogConfig<unknown, DialogRef>();
-    dialogConfig.positionStrategy = new GlobalPositionStrategy().left('120px').top('50px');
+    dialogConfig.positionStrategy = new GlobalPositionStrategy().right('120px').top('350px');
     dialogConfig.disableClose = true;
     dialogConfig.data = { buttons, service: this.gisMapService };
     const dialogRef = this.dialog.open(NextStepSelectorComponent, dialogConfig);
@@ -148,7 +147,7 @@ export class TraceDefineComponent {
     }
 
     const dialogConfig = new DialogConfig<unknown, DialogRef>();
-    dialogConfig.positionStrategy = new GlobalPositionStrategy().left('120px').top('50px');
+    dialogConfig.positionStrategy = new GlobalPositionStrategy().right('120px').top('350px');
     dialogConfig.disableClose = true;
     dialogConfig.data = { buttons, node, gisMapService: this.gisMapService };
     const dialogRef = this.dialog.open(TraceComponentSelectorComponent, dialogConfig);

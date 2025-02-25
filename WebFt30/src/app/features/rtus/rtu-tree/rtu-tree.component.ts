@@ -15,7 +15,7 @@ export class RtuTreeComponent {
   inProgress$ = this.store.select(RtuMgmtSelectors.selectRtuOperationInProgress);
   loading$ = this.store.select(RtuTreeSelectors.selectLoading);
 
-  treeWidth = 384;
+  treeWidth = 256;
 
   constructor(private store: Store<AppState>, public gisMapService: GisMapService) {}
 
