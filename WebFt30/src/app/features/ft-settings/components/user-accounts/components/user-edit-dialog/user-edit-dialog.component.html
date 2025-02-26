@@ -368,7 +368,7 @@
     <!-- buttons -->
     <div class="flex flex-row justify-between">
       <button
-        *ngIf="!(isInCreationMode || isSelfEdit || environment.production)"
+        *ngIf="!(isInCreationMode || isSelfEdit)"
         class="button-delete mr-2 mt-6 min-w-36"
         (click)="OnDeleteClicked()"
       >

@@ -245,11 +245,9 @@ export class UserEditDialogComponent {
     if (this.userForm.dirty) {
       if (this.isInCreationMode) {
         const patch = this.collectToCreate();
-        console.log(patch);
         this.store.dispatch(UsersActions.createUser({ patch: patch }));
       } else {
         const patch = this.collectToUpdate();
-        console.log(patch);
         this.store.dispatch(
           UsersActions.updateUser({
             userId: this.userInWork.id,
