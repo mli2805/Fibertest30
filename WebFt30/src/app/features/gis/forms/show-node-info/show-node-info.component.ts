@@ -72,9 +72,6 @@ export class ShowNodeInfoComponent {
         }
       }
     }
-
-    // console.log(this.equipTable);
-    // console.log(this.traceTable);
   }
 
   createTraceLine(t: GeoTrace, equipments: GeoEquipment[]): TraceElement {

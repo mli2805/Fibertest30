@@ -4,7 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc';
-import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
+import { GeoEquipment, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { RadioButton } from 'src/app/shared/components/svg-buttons/radio-button/radio-button';
 import { GisMapUtils } from '../../components/shared/gis-map.utils';
 import { GisMapService } from '../../gis-map.service';
@@ -17,7 +17,7 @@ import { MapLayersActions } from '../../components/gis-editor-map/map-layers-act
 export class TraceComponentSelectorComponent {
   public dialogRef: DialogRef<number | null> = inject(DialogRef<number | null>);
   form!: FormGroup;
-  buttons!: RadioButton[];
+  buttons!: any[];
   childForms: FormGroup[] = [];
   node!: TraceNode;
   gisMapService!: GisMapService;
@@ -29,9 +29,9 @@ export class TraceComponentSelectorComponent {
   ) {
     this.gisMapService = data.gisMapService;
     this.buttons = data.buttons;
-    for (let i = 0; i < this.buttons.length; i++) {
-      const button = this.buttons[i];
-      this.childForms.push(this.createChildForm(button));
+
+    for (let i = 0; i < data.buttons.length; i++) {
+      this.childForms.push(this.createChildForm(data.buttons[i]));
     }
 
     // const index = this.buttons.length;
@@ -48,10 +48,11 @@ export class TraceComponentSelectorComponent {
   }
 
   createChildForm(button: any): FormGroup {
+    console.log(button);
     const childFormGroup = new FormGroup({
       title: new FormControl(button.equipment.title),
-      leftReserve: new FormControl(button.equipment.leftCableReserve),
-      rightReserve: new FormControl(button.equipment.rightCableReserve)
+      leftReserve: new FormControl(button.equipment.cableReserveLeft),
+      rightReserve: new FormControl(button.equipment.cableReserveRight)
     });
 
     return childFormGroup;

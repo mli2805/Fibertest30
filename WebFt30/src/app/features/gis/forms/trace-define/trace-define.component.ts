@@ -147,7 +147,7 @@ export class TraceDefineComponent {
     }
 
     const dialogConfig = new DialogConfig<unknown, DialogRef>();
-    dialogConfig.positionStrategy = new GlobalPositionStrategy().right('120px').top('350px');
+    dialogConfig.positionStrategy = new GlobalPositionStrategy().right('120px').top('150px');
     dialogConfig.disableClose = true;
     dialogConfig.data = { buttons, node, gisMapService: this.gisMapService };
     const dialogRef = this.dialog.open(TraceComponentSelectorComponent, dialogConfig);

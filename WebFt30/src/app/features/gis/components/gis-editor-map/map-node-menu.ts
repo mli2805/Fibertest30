@@ -46,7 +46,7 @@ export class MapNodeMenu {
       return [
         {
           text: this.ts.instant('i18n.ft.information'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.showInformation(e)
+          callback: (e: L.ContextMenuItemClickEvent) => this.showRtuInformation(e)
         },
         {
           text: '-',
@@ -116,6 +116,11 @@ export class MapNodeMenu {
         callback: (e: L.ContextMenuItemClickEvent) => this.removeNode(e)
       }
     ];
+  }
+
+  static async showRtuInformation(e: L.ContextMenuItemClickEvent) {
+    const nodeId = (<any>e.relatedTarget).id;
+    console.log(nodeId);
   }
 
   static async showInformation(e: L.ContextMenuItemClickEvent) {
