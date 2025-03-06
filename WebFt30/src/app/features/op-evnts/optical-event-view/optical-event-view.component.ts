@@ -30,7 +30,7 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
   opticalEvent$ = new BehaviorSubject<OpticalEvent | null>(null);
 
   fullScreen = false;
-  isGraphMode = true;
+  isGraphMode = false;
   loading$ = new BehaviorSubject<boolean>(false);
   errorMessageId$ = new BehaviorSubject<string | null>(null);
 

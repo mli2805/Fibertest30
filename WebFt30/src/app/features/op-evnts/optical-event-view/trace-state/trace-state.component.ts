@@ -7,11 +7,11 @@ import { OpticalEvent } from 'src/app/core/store/models/ft30/optical-event';
 import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
 
 @Component({
-  selector: 'rtu-trace-info',
-  templateUrl: './trace-info.component.html',
-  styleUrls: ['./trace-info.component.scss']
+  selector: 'rtu-trace-state',
+  templateUrl: './trace-state.component.html',
+  styleUrls: ['./trace-state.component.scss']
 })
-export class TraceInfoComponent {
+export class TraceStateComponent {
   _opticalEvent!: OpticalEvent;
   @Input() set opticalEvent(value: OpticalEvent) {
     this._opticalEvent = value;
