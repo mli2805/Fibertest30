@@ -1,4 +1,4 @@
-import { Dialog } from '@angular/cdk/dialog';
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { Injector } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GraphService } from 'src/app/core/grpc';
@@ -54,31 +54,27 @@ export class MapEquipmentActions {
     // взаимодействия пользователя с диалогом
     // и только потом продолжить работу программы
     const result = await firstValueFrom(dialogRef.closed);
-    console.log(result);
     return <string[] | null>result;
   }
 
-  static openEditEquipmentDialog(
+  static async openEditEquipmentDialog(
     nodeId: string,
     equipment: GeoEquipment | null,
     addMode: boolean,
     traceForInsertion: string[]
-  ) {
-    this.dialog
-      .open(EditEquipmentDialogComponent, {
-        maxHeight: '95vh',
-        maxWidth: '95vw',
-        disableClose: true,
-        data: { nodeId, equipment, addMode, traceForInsertion }
-      })
-      .closed.subscribe((result) => {
-        if (result !== null) {
-          this.applyEditEquipmentResult(<string>result, addMode);
-        }
-      });
+  ): Promise<DialogRef<unknown, EditEquipmentDialogComponent>> {
+    const dialogRef = this.dialog.open(EditEquipmentDialogComponent, {
+      maxHeight: '95vh',
+      maxWidth: '95vw',
+      disableClose: true,
+      data: { nodeId, equipment, addMode, traceForInsertion }
+    });
+
+    return dialogRef;
   }
 
-  static async applyEditEquipmentResult(json: string, addMode: boolean) {
+  // если не возвращать ничего, то await не ждет исполнения ф-ции
+  static async applyEditEquipmentResult(json: string, addMode: boolean): Promise<boolean> {
     const command = JSON.parse(json);
     const commandType = addMode ? 'AddEquipmentIntoNode' : 'UpdateEquipment';
     const response = await firstValueFrom(this.graphService.sendCommand(json, commandType));
@@ -124,8 +120,9 @@ export class MapEquipmentActions {
       node.equipmentType = command.Type;
       MapLayersActions.addNodeToLayer(node);
 
-      await this.refreshNodeInfoIfOpen();
+      // await this.refreshNodeInfoIfOpen();
     }
+    return true;
   }
 
   static async removeEquipment(equipment: GeoEquipment) {
@@ -163,7 +160,7 @@ export class MapEquipmentActions {
       }
       MapLayersActions.addNodeToLayer(node);
 
-      await this.refreshNodeInfoIfOpen();
+      // await this.refreshNodeInfoIfOpen();
     }
   }
 

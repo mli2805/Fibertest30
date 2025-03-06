@@ -84,7 +84,6 @@ export class MapLayersActions {
   static tileLayer: any = null;
   // https://stackoverflow.com/questions/33343881/leaflet-in-google-maps
   static setTileLayer(mapId: number, map: L.Map) {
-    console.log(mapId);
     if (this.tileLayer !== null) map.removeLayer(this.tileLayer);
 
     switch (mapId) {

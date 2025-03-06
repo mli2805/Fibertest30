@@ -13,16 +13,21 @@ import { MapLayersActions } from './map-layers-actions';
 import { MapNodeRemove } from './map-node-remove';
 import { StepModel } from '../../forms/trace-define/step-model';
 import { MapEquipmentActions } from './map-equipment-actions';
+import { Dialog, DialogConfig, DialogRef } from '@angular/cdk/dialog';
+import { GlobalPositionStrategy } from '@angular/cdk/overlay';
+import { NodeInfoDialogComponent } from '../../forms/node-info-dialog/node-info-dialog.component';
 
 export class MapNodeMenu {
   private static ts: TranslateService;
   private static gisMapService: GisMapService;
   private static graphService: GraphService;
+  private static dialog: Dialog;
 
   static initialize(injector: Injector) {
     this.ts = injector.get(TranslateService);
     this.gisMapService = injector.get(GisMapService);
     this.graphService = injector.get(GraphService);
+    this.dialog = injector.get(Dialog);
   }
 
   static buildMarkerContextMenu(
@@ -123,7 +128,14 @@ export class MapNodeMenu {
 
   static async showInformation(e: L.ContextMenuItemClickEvent) {
     const nodeId = (<any>e.relatedTarget).id;
-    this.gisMapService.showNodeInfo.next(nodeId);
+
+    const dialogConfig = new DialogConfig<unknown, DialogRef>();
+    dialogConfig.positionStrategy = new GlobalPositionStrategy().left('20px').top('50px');
+    dialogConfig.disableClose = true;
+    dialogConfig.data = { nodeId, service: this.gisMapService };
+    const dialogRef = this.dialog.open(NodeInfoDialogComponent, dialogConfig);
+    await firstValueFrom(dialogRef.closed);
+    // this.gisMapService.showNodeInfo.next(nodeId);
   }
 
   static async addEquipment(e: L.ContextMenuItemClickEvent) {
@@ -131,7 +143,18 @@ export class MapNodeMenu {
 
     const forTraces = await MapEquipmentActions.openSelectTracesDialog(nodeId);
     if (forTraces === null) return;
-    MapEquipmentActions.openEditEquipmentDialog(nodeId, null, true, forTraces);
+
+    const dialogRef = await MapEquipmentActions.openEditEquipmentDialog(
+      nodeId,
+      null,
+      true,
+      forTraces
+    );
+    dialogRef.closed.subscribe((result) => {
+      if (result !== null) {
+        MapEquipmentActions.applyEditEquipmentResult(<string>result, true);
+      }
+    });
   }
 
   static async removeNode(e: L.ContextMenuItemClickEvent) {
