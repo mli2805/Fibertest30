@@ -14,7 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { EquipmentPipe } from 'src/app/shared/pipes/equipment.pipe';
 import { EquipmentType } from 'src/grpc-generated';
 import { AcceptTraceDialogComponent } from '../accept-trace-dialog/accept-trace-dialog.component';
-import { MapLayersActions } from '../../components/gis-editor-map/map-layers-actions';
+import { MapLayersActions } from '../../components/gis-actions/map-layers-actions';
 
 @Component({
   selector: 'rtu-trace-define',

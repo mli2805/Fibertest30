@@ -1,5 +1,5 @@
 import { GisMapService } from '../../gis-map.service';
-import { GisMapLayer } from '../../models/gis-map-layer';
+import { GisMapLayer } from './gis-map-layer';
 
 export class GisMapLayers {
   static adjustLayersToZoom(

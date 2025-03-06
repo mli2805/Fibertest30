@@ -3,7 +3,7 @@ import { GisMapService } from '../../gis-map.service';
 import { GeoFiber, GeoTrace, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { EquipmentType } from 'src/grpc-generated';
-import { GisMapLayer } from '../../models/gis-map-layer';
+import { GisMapLayer } from '../shared/gis-map-layer';
 import { MapLayersActions } from './map-layers-actions';
 
 export class MapNodeRemove {

@@ -20,15 +20,15 @@ import { LeafletAngularPopupBinder } from '../shared/leaflet-angular-popup-binde
 import { Store } from '@ngrx/store';
 import { AppState, AuthSelectors, SettingsSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
-import { MapExternalCommands } from '../gis-editor-map/map-external-commands';
-import { MapMouseActions } from '../gis-editor-map/map-mouse-actions';
-import { MapLayersActions } from '../gis-editor-map/map-layers-actions';
-import { MapNodeMenu } from '../gis-editor-map/map-node-menu';
-import { MapActions } from '../gis-editor-map/map-actions';
-import { MapMenu } from '../gis-editor-map/map-menu';
-import { MapFiberMenu } from '../gis-editor-map/map-fiber-menu';
-import { MapNodeRemove } from '../gis-editor-map/map-node-remove';
-import { MapEquipmentActions } from '../gis-editor-map/map-equipment-actions';
+import { MapExternalCommands } from '../gis-actions/map-external-commands';
+import { MapMouseActions } from '../gis-actions/map-mouse-actions';
+import { MapLayersActions } from '../gis-actions/map-layers-actions';
+import { MapNodeMenu } from '../gis-actions/map-node-menu';
+import { MapActions } from '../gis-actions/map-actions';
+import { MapMenu } from '../gis-actions/map-menu';
+import { MapFiberMenu } from '../gis-actions/map-fiber-menu';
+import { MapNodeRemove } from '../gis-actions/map-node-remove';
+import { MapEquipmentActions } from '../gis-actions/map-equipment-actions';
 
 GisMapUtils.fixLeafletMarkers();
 

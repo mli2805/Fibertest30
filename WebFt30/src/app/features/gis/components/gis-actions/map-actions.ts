@@ -7,7 +7,7 @@ import { GisMapService } from '../../gis-map.service';
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { Injector } from '@angular/core';
 import { MapLayersActions } from './map-layers-actions';
-import { GisMapLayer } from '../../models/gis-map-layer';
+import { GisMapLayer } from '../shared/gis-map-layer';
 
 export class MapActions {
   private static gisMapService: GisMapService;

@@ -5,7 +5,7 @@ import { GisMapUtils } from '../shared/gis-map.utils';
 import { Store } from '@ngrx/store';
 import { AppState, SettingsActions } from 'src/app/core';
 import { GisMapLayers } from '../shared/gis-map-layers';
-import { GisMapLayer } from '../../models/gis-map-layer';
+import { GisMapLayer } from '../shared/gis-map-layer';
 import { MapLayersActions } from './map-layers-actions';
 import { firstValueFrom } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc';

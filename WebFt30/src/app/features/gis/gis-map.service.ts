@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GisMapLayer } from './models/gis-map-layer';
+import { GisMapLayer } from './components/shared/gis-map-layer';
 import { BehaviorSubject } from 'rxjs';
 import {
   AllGeoData,

@@ -1,7 +1,7 @@
 import * as L from 'leaflet';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { EquipmentType } from 'src/grpc-generated';
-import { GisMapLayer } from '../../models/gis-map-layer';
+import { GisMapLayer } from './gis-map-layer';
 import { GisMapIcons } from './gis-map-icons';
 
 export class GisMapUtils {

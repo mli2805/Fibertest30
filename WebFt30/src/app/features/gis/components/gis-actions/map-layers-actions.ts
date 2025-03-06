@@ -6,7 +6,7 @@ import { GeoFiber, TraceNode, TraceRouteData } from 'src/app/core/store/models/f
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { ColorUtils } from 'src/app/shared/utils/color-utils';
 import { MapFiberMenu } from './map-fiber-menu';
-import { GisMapLayer } from '../../models/gis-map-layer';
+import { GisMapLayer } from '../shared/gis-map-layer';
 import { EquipmentType } from 'src/grpc-generated/gis';
 import { MapNodeMenu } from './map-node-menu';
 import { GisMapLayers } from '../shared/gis-map-layers';

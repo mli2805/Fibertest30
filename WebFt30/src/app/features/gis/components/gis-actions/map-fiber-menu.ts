@@ -7,7 +7,7 @@ import { firstValueFrom } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc';
 import { GeoFiber, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { MapLayersActions } from './map-layers-actions';
-import { GisMapLayer } from '../../models/gis-map-layer';
+import { GisMapLayer } from '../shared/gis-map-layer';
 
 export class MapFiberMenu {
   private static ts: TranslateService;

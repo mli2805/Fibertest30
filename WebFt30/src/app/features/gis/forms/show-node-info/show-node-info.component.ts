@@ -6,8 +6,8 @@ import { GisMapService } from '../../gis-map.service';
 import { EquipmentType } from 'src/grpc-generated';
 import { firstValueFrom } from 'rxjs';
 import { GisMapUtils } from '../../components/shared/gis-map.utils';
-import { MapLayersActions } from '../../components/gis-editor-map/map-layers-actions';
-import { MapEquipmentActions } from '../../components/gis-editor-map/map-equipment-actions';
+import { MapLayersActions } from '../../components/gis-actions/map-layers-actions';
+import { MapEquipmentActions } from '../../components/gis-actions/map-equipment-actions';
 
 interface EquipElement {
   isSelected: boolean;

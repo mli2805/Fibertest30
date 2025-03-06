@@ -7,7 +7,7 @@ import { GraphService } from 'src/app/core/grpc';
 import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapUtils } from '../../components/shared/gis-map.utils';
 import { GisMapService } from '../../gis-map.service';
-import { MapLayersActions } from '../../components/gis-editor-map/map-layers-actions';
+import { MapLayersActions } from '../../components/gis-actions/map-layers-actions';
 
 @Component({
   selector: 'rtu-trace-component-selector',

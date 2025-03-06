@@ -9,7 +9,7 @@ import { MapLayersActions } from './map-layers-actions';
 import { firstValueFrom } from 'rxjs';
 import { EditEquipmentDialogComponent } from '../../forms/edit-equipment-dialog/edit-equipment-dialog.component';
 import { GisMapUtils } from '../shared/gis-map.utils';
-import { GisMapLayer } from '../../models/gis-map-layer';
+import { GisMapLayer } from '../shared/gis-map-layer';
 import { EquipmentType } from 'src/grpc-generated';
 import { MultiSelectionButton } from 'src/app/shared/components/svg-buttons/multi-selection-button/multi-selection-button';
 import { SelectTracesDialogComponent } from '../../forms/select-traces-dialog/select-traces-dialog.component';
