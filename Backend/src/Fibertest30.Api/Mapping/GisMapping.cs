@@ -97,13 +97,6 @@ public static class GisMapping
         return result;
     }
 
-    public static GraphRoutesData ToProto(this GisData data)
-    {
-        var result = new GraphRoutesData();
-        data.Traces.ForEach(t => result.Traces.Add(t.ToProto()));
-        return result;
-    }
-
     public static AllGeoData ToProto(this AllGisData data)
     {
         var result = new AllGeoData();

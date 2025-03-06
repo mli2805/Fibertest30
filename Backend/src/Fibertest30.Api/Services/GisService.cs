@@ -13,14 +13,6 @@ public class GisService(ISender mediator) : Gis.GisBase
         return new GetTraceRouteResponse() { RouteData = traceGisData.ToProto() };
     }
 
- 
-
-    public override async Task<GetGraphRoutesResponse> GetGraphRoutes(GetGraphRoutesRequest request, ServerCallContext context)
-    {
-        var gisData = await mediator.Send(new GetGisDataQuery(), context.CancellationToken);
-        return new GetGraphRoutesResponse() { Data = gisData.ToProto() };
-    }
-
     public override async Task<GetAllGeoDataResponse> GetAllGeoData(GetAllGeoDataRequest request, ServerCallContext context)
     {
         var allGeoData = await mediator.Send(new GetAllGeoDataQuery(), context.CancellationToken);

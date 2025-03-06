@@ -24,11 +24,6 @@ export class GisService {
     return GrpcUtils.unaryToObservable(this.client.getTraceRoute.bind(this.client), request, {});
   }
 
-  getGraphRoutes(): Observable<grpc.GetGraphRoutesResponse> {
-    const request: grpc.GetGraphRoutesRequest = {};
-    return GrpcUtils.unaryToObservable(this.client.getGraphRoutes.bind(this.client), request, {});
-  }
-
   getAllGeoData(): Observable<grpc.GetAllGeoDataResponse> {
     const request: grpc.GetAllGeoDataRequest = {};
     return GrpcUtils.unaryToObservable(this.client.getAllGeoData.bind(this.client), request, {});

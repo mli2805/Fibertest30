@@ -163,15 +163,6 @@ export interface TraceRouteData {
     traceState: FiberState;
 }
 /**
- * @generated from protobuf message fibertest30.gis.GraphRoutesData
- */
-export interface GraphRoutesData {
-    /**
-     * @generated from protobuf field: repeated fibertest30.gis.TraceRouteData traces = 1;
-     */
-    traces: TraceRouteData[];
-}
-/**
  * @generated from protobuf message fibertest30.gis.AllGeoData
  */
 export interface AllGeoData {
@@ -211,22 +202,6 @@ export interface GetTraceRouteResponse {
      * @generated from protobuf field: fibertest30.gis.TraceRouteData routeData = 1;
      */
     routeData?: TraceRouteData;
-}
-/**
- * GetGraphRoutes
- *
- * @generated from protobuf message fibertest30.gis.GetGraphRoutesRequest
- */
-export interface GetGraphRoutesRequest {
-}
-/**
- * @generated from protobuf message fibertest30.gis.GetGraphRoutesResponse
- */
-export interface GetGraphRoutesResponse {
-    /**
-     * @generated from protobuf field: fibertest30.gis.GraphRoutesData data = 1;
-     */
-    data?: GraphRoutesData;
 }
 /**
  * GetAllGeoData
@@ -392,18 +367,6 @@ class TraceRouteData$Type extends MessageType<TraceRouteData> {
  */
 export const TraceRouteData = new TraceRouteData$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class GraphRoutesData$Type extends MessageType<GraphRoutesData> {
-    constructor() {
-        super("fibertest30.gis.GraphRoutesData", [
-            { no: 1, name: "traces", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => TraceRouteData }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.gis.GraphRoutesData
- */
-export const GraphRoutesData = new GraphRoutesData$Type();
-// @generated message type with reflection information, may provide speed optimized methods
 class AllGeoData$Type extends MessageType<AllGeoData> {
     constructor() {
         super("fibertest30.gis.AllGeoData", [
@@ -443,28 +406,6 @@ class GetTraceRouteResponse$Type extends MessageType<GetTraceRouteResponse> {
  */
 export const GetTraceRouteResponse = new GetTraceRouteResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class GetGraphRoutesRequest$Type extends MessageType<GetGraphRoutesRequest> {
-    constructor() {
-        super("fibertest30.gis.GetGraphRoutesRequest", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.gis.GetGraphRoutesRequest
- */
-export const GetGraphRoutesRequest = new GetGraphRoutesRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetGraphRoutesResponse$Type extends MessageType<GetGraphRoutesResponse> {
-    constructor() {
-        super("fibertest30.gis.GetGraphRoutesResponse", [
-            { no: 1, name: "data", kind: "message", T: () => GraphRoutesData }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.gis.GetGraphRoutesResponse
- */
-export const GetGraphRoutesResponse = new GetGraphRoutesResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
 class GetAllGeoDataRequest$Type extends MessageType<GetAllGeoDataRequest> {
     constructor() {
         super("fibertest30.gis.GetAllGeoDataRequest", []);
@@ -491,6 +432,5 @@ export const GetAllGeoDataResponse = new GetAllGeoDataResponse$Type();
  */
 export const Gis = new ServiceType("fibertest30.gis.Gis", [
     { name: "GetTraceRoute", options: {}, I: GetTraceRouteRequest, O: GetTraceRouteResponse },
-    { name: "GetGraphRoutes", options: {}, I: GetGraphRoutesRequest, O: GetGraphRoutesResponse },
     { name: "GetAllGeoData", options: {}, I: GetAllGeoDataRequest, O: GetAllGeoDataResponse }
 ]);

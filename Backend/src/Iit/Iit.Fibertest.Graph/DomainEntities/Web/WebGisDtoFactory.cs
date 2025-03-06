@@ -50,11 +50,6 @@ public static class WebGisDtoFactory
         return writeModel.GetTraceGisData(trace);
     }
 
-    public static GisData GetGisData(this Model writeModel)
-    {
-        return new GisData() { Traces = writeModel.Traces.Select(writeModel.GetTraceGisData).ToList() };
-    }
-
     private static TraceGisData GetTraceGisData(this Model writeModel, Trace trace)
     {
         return new TraceGisData()
