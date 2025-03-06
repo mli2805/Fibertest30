@@ -24,7 +24,7 @@
     class="min-w-40 rounded-sm border border-gray-300 bg-rtu-second-bg p-2 dark:border-[#575859] dark:bg-rtu-dark-second-bg"
   >
     <!-- prettier-ignore -->
-    <div class="flex flex-col" (click)="onOverlayClick($event)">
+    <div class="flex flex-col " (click)="onOverlayClick($event)" >
       <button class="context-menu-line" (click)="onInformationClicked()">{{ 'i18n.ft.information' | translate }}</button>
       <button class="context-menu-line" (click)="onShowClicked()">{{ 'i18n.ft.show' | translate }}</button>
       <button class="context-menu-line" (click)="onNetworkSettingsClicked()" [disabled]="!canInitialize()">{{ 'i18n.ft.network-settings' | translate }}</button>
