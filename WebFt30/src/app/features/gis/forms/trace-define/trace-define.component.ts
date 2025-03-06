@@ -13,6 +13,8 @@ import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { TranslateService } from '@ngx-translate/core';
 import { EquipmentPipe } from 'src/app/shared/pipes/equipment.pipe';
 import { EquipmentType } from 'src/grpc-generated';
+import { AcceptTraceDialogComponent } from '../accept-trace-dialog/accept-trace-dialog.component';
+import { MapLayersActions } from '../../components/gis-editor-map/map-layers-actions';
 
 @Component({
   selector: 'rtu-trace-define',
@@ -44,6 +46,9 @@ export class TraceDefineComponent {
         : this.gisMapService.steps.at(-2)!.nodeId;
 
     switch (neighbours.length) {
+      case 0:
+        window.alert('There is no available node. /n If you need to continue, press <Cancel Step>');
+        return false;
       case 1:
         if (neighbours[0].node.id !== previousNodeId) return this.justStep(neighbours[0]);
         if (!isButtonPressed) return false;
@@ -55,14 +60,14 @@ export class TraceDefineComponent {
         } else if (previousNodeId === neighbours[1].node.id) {
           return this.justStep(neighbours[0]);
         } else {
-          return await this.forkIt(neighbours, previousNodeId);
+          return await this.forkIt(neighbours);
         }
       default:
-        return await this.forkIt(neighbours, previousNodeId);
+        return await this.forkIt(neighbours);
     }
   }
 
-  private async forkIt(neighbours: Neighbour[], previousNodeId: string): Promise<boolean> {
+  private async forkIt(neighbours: Neighbour[]): Promise<boolean> {
     // выбрать узел из соседних
     // вернет null если отказался от выбора
     const indexOfSelectedNode = await this.selectNeighbour(neighbours);
@@ -82,7 +87,13 @@ export class TraceDefineComponent {
       return false;
     }
 
-    const node = neighbours[indexOfSelectedNode].node;
+    const neighbour = neighbours[indexOfSelectedNode];
+    this.addAndHighlighStep(neighbour, equipmentId);
+    return true;
+  }
+
+  private createStepModel(neighbour: Neighbour, equipmentId: string): StepModel {
+    const node = neighbour.node;
     const equipmentTitle =
       equipmentId === GisMapUtils.emptyGuid
         ? ''
@@ -99,10 +110,8 @@ export class TraceDefineComponent {
         : equipmentTitle === ''
           ? node.title
           : node.title + ' / ' + equipmentTitle;
-    stepModel.fiberIds = neighbours[indexOfSelectedNode].fiberIds;
-    this.gisMapService.addStep(stepModel);
-
-    return true;
+    stepModel.fiberIds = neighbour.fiberIds;
+    return stepModel;
   }
 
   private async selectNeighbour(neighbours: Neighbour[]): Promise<number | null> {
@@ -159,27 +168,84 @@ export class TraceDefineComponent {
     return equips[index].id;
   }
 
-  private justStep(neighbour: Neighbour): boolean {
+  private async justStep(neighbour: Neighbour): Promise<boolean> {
+    this.gisMapService.setHighlightNode(neighbour.node.id);
+
+    // выбрать оборудование из имеющегося в узле (можно редактировать название и каб запас существующего оборудования )
+    // вернет GUID.empty если не включать в трассу никакое оборудование
+    // вернет null если отказался от выбора (значит отказался от уже выбранного узла)
+    const equipmentId = await this.selectEquipment(neighbour.node);
+    if (equipmentId === null) {
+      const lastId = this.gisMapService.steps.at(-1)!.nodeId;
+      this.gisMapService.setHighlightNode(lastId);
+      return false;
+    }
+
+    this.addAndHighlighStep(neighbour, equipmentId);
     return true;
   }
 
-  onStepBackward() {
-    //
+  private addAndHighlighStep(neighbour: Neighbour, equipmentId: string) {
+    const stepModel = this.createStepModel(neighbour, equipmentId);
+    this.gisMapService.addStep(stepModel);
+    for (let i = 0; i < stepModel.fiberIds.length; i++) {
+      const fiberId = stepModel.fiberIds[i];
+      const fiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === fiberId)!;
+      MapLayersActions.highlightFiber(fiber);
+    }
+  }
+
+  async onStepBackward() {
+    // если 1, то мы стоим в RTU,
+    // если 2, то сделали 1 шаг из RTU и возвращаться нельзя
+    if (this.gisMapService.steps.length < 3) return;
+
+    const backwardNodeId = this.gisMapService.steps.at(-2)!.nodeId;
+    const backwardNode = this.gisMapService.getNode(backwardNodeId);
+    const neighbour = new Neighbour();
+    neighbour.node = backwardNode;
+    neighbour.fiberIds = this.gisMapService.steps.at(-2)!.fiberIds;
+
+    await this.justStep(neighbour);
   }
 
   onCancelStep() {
-    //
+    if (this.gisMapService.steps.length === 1) return;
+
+    const stepToRemove = this.gisMapService.steps.at(-1);
+    for (let i = 0; i < stepToRemove!.fiberIds.length; i++) {
+      const fiberId = stepToRemove!.fiberIds[i];
+      const fiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === fiberId)!;
+      MapLayersActions.extinguishFiber(fiber);
+    }
+
+    this.gisMapService.cancelLastStep();
+    const last = this.gisMapService.steps.at(-1);
+    this.gisMapService.setHighlightNode(last!.nodeId);
   }
 
-  onApply() {
-    this.close();
+  async onApply() {
+    const dialogRef = this.dialog.open(AcceptTraceDialogComponent, {
+      disableClose: true,
+      data: { service: this.gisMapService }
+    });
+
+    const result = await firstValueFrom(dialogRef.closed);
+
+    if (result) {
+      MapLayersActions.extinguishAllFibers(true);
+
+      this.close();
+    }
   }
 
   onDiscard() {
+    MapLayersActions.extinguishAllFibers();
     this.close();
   }
 
   close() {
+    this.gisMapService.setHighlightNode(null);
     this.gisMapService.showTraceDefine.next(null);
   }
 }

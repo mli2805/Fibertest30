@@ -1,0 +1,145 @@
+<div>
+  <div [formGroup]="form" class="w-120">
+    <fieldset [disabled]="isDisabled()">
+      <div class="grouped-border mb-2 flex w-120 flex-col">
+        <div class="grid-container ml-0 gap-y-1 text-sm">
+          <label
+            class="my-auto text-sm"
+            [ngClass]="{ 'disabled-label': isDisabled() }"
+            style="grid-area: titleLabel"
+          >
+            {{ 'i18n.ft.title' | translate }}
+          </label>
+          <input
+            id="titleInput"
+            style="grid-area: titleValue"
+            formControlName="title"
+            [ngClass]="{ 'invalid-border': !isTraceTitleValid() }"
+            type="text"
+            class="input-simple w-full"
+          />
+
+          <label
+            class="mt-2 text-xs"
+            [ngClass]="{ 'disabled-label': true }"
+            style="grid-area: idLabel"
+          >
+            ID
+          </label>
+          <label
+            class="ml-1 mt-2 text-nowrap text-xs"
+            [ngClass]="{ 'disabled-label': true }"
+            style="grid-area: idValue"
+          >
+            {{ trace.id }}
+          </label>
+
+          <label
+            class="mt-2 text-sm"
+            [ngClass]="{ 'disabled-label': isDisabled() }"
+            style="grid-area: rtuLabel"
+          >
+            RTU
+          </label>
+          <label
+            class="ml-1 mt-2 text-nowrap text-sm"
+            [ngClass]="{ 'disabled-label': isDisabled() }"
+            style="grid-area: rtuValue"
+          >
+            {{ rtuTitle }}
+          </label>
+
+          <label
+            class="my-2 text-sm"
+            [ngClass]="{ 'disabled-label': isDisabled() }"
+            style="grid-area: portLabel"
+          >
+            {{ 'i18n.ft.port' | translate }}
+          </label>
+          <label
+            class="my-2 ml-1 text-nowrap text-sm"
+            [ngClass]="{ 'disabled-label': isDisabled() }"
+            style="grid-area: portValue"
+          >
+            {{ port }}
+          </label>
+
+          <label
+            class="my-auto text-sm"
+            [ngClass]="{ 'disabled-label': isDisabled() }"
+            style="grid-area: modeLabel"
+          >
+            {{ 'i18n.ft.monitoring-mode' | translate }}
+          </label>
+          <div style="grid-area: modeValue" class="ml-1 mt-2 flex">
+            <ng-container *ngFor="let button of radioButtons; let i = index">
+              <rtu-radio-button class="mr-6" [button]="button" (click)="onRadioButtonClick(i)" />
+            </ng-container>
+          </div>
+
+          <label
+            class="my-auto text-sm"
+            [ngClass]="{ 'disabled-label': isDisabled() }"
+            style="grid-area: commentLabel"
+          >
+            {{ 'i18n.ft.comment' | translate }}
+          </label>
+          <input
+            style="grid-area: commentValue"
+            formControlName="comment"
+            type="text"
+            class="input-simple w-full"
+          />
+        </div>
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="grouped-border mb-2 flex flex-col">
+    <div class="mb-1">{{ 'i18n.ft.equipment' | translate }}:</div>
+
+    <ng-container *ngFor="let el of types">
+      <div class="flex justify-between">
+        <div>{{ el.type | equipmentPipe | translate }}</div>
+        <div class="mr-2">{{ el.count }}</div>
+      </div>
+    </ng-container>
+    <div class="flex justify-between">
+      <div>{{ 'i18n.ft.equipment-including-rtu' | translate }}</div>
+      <div class="mr-2">{{ equipmentCount }}</div>
+    </div>
+  </div>
+
+  <div class="grouped-border mb-2 flex flex-col">
+    <div class="mb-1">{{ 'i18n.ft.nodes' | translate }}:</div>
+
+    <div class="flex justify-between">
+      <div>{{ 'i18n.ft.nodes-without-equipment' | translate }}</div>
+      <div class="mr-2">{{ emptyNodeCount }}</div>
+    </div>
+    <div class="flex justify-between">
+      <div>{{ 'i18n.ft.total-including-rtu' | translate }}</div>
+      <div class="mr-2">{{ nodeCount }}</div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="pointCount !== 0">
+    <div class="ml-2 text-gray-500">
+      {{ 'i18n.ft.to-adjust-trace-drawing-were-used' | translate : { '0': pointCount } }}
+    </div>
+  </ng-container>
+
+  <!-- buttons -->
+  <div class="mt-6 flex flex-row justify-end">
+    <button class="button-cancel mr-2 min-w-36" (click)="onDiscardClicked()" cdkFocusInitial>
+      {{ 'i18n.ft.discard' | translate }}
+    </button>
+    <button
+      class="button-ok mr-2 min-w-36"
+      [disabled]="isApplyDisabled()"
+      (click)="onApplyClicked()"
+    >
+      {{ 'i18n.ft.apply' | translate }}
+    </button>
+  </div>
+</div>

@@ -14,6 +14,7 @@ import { SelectTracesDialogComponent } from './forms/select-traces-dialog/select
 import { NextStepSelectorComponent } from './forms/next-step-selector/next-step-selector.component';
 import { TraceComponentSelectorComponent } from './forms/trace-component-selector/trace-component-selector.component';
 import { EquipmentEditComponent } from './forms/trace-component-selector/equipment-edit/equipment-edit.component';
+import { AcceptTraceDialogComponent } from './forms/accept-trace-dialog/accept-trace-dialog.component';
 
 @NgModule({
   imports: [GisRoutingModule, SharedModule],
@@ -29,7 +30,8 @@ import { EquipmentEditComponent } from './forms/trace-component-selector/equipme
     SelectTracesDialogComponent,
     NextStepSelectorComponent,
     TraceComponentSelectorComponent,
-    EquipmentEditComponent
+    EquipmentEditComponent,
+    AcceptTraceDialogComponent
   ],
   providers: [GisMapService]
 })

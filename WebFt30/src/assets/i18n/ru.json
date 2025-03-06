@@ -149,7 +149,7 @@
   "i18n.ft.obj": "Объект",
 
   "i18n.ft.not-in-trace": "Не в трассе",
-  "i18n.ft.not-joined": "",
+  "i18n.ft.not-joined": "Не присоединена",
   "i18n.ft.unknown": "",
   "i18n.ft.not-in-zone": "",
   "i18n.ft.ok": "Ок",
@@ -325,5 +325,13 @@
   "i18n.ft.node-title": "Название узла",
   "i18n.ft.exit": "Выход",
   "i18n.ft.next": "Далее",
-  "i18n.ft.do-not-use-equipment": "Не использовать оборудование"
+  "i18n.ft.do-not-use-equipment": "Не использовать оборудование",
+  "i18n.ft.nodes": "Узлы",
+  "i18n.ft.nodes-without-equipment": "Узлов без оборудования",
+  "i18n.ft.total-including-rtu": "Всего, включая RTU",
+  "i18n.ft.equipment": "Оборудование",
+  "i18n.ft.equipment-including-rtu": "Оборудование, включая RTU",
+  "i18n.ft.to-adjust-trace-drawing-were-used": "Для уточнения трассы было использовано точек: {{ 0 }}",
+  "i18n.ft.dark": "Темный",
+  "i18n.ft.in-service": "Светлый"
 }

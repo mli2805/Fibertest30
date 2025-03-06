@@ -11,6 +11,12 @@ import {
 import * as L from 'leaflet';
 import { GisMapUtils } from './components/shared/gis-map.utils';
 import { StepModel } from './forms/trace-define/step-model';
+import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
+
+interface HighlightedFiber {
+  fiberId: string;
+  previousState: FiberState;
+}
 
 @Injectable()
 export class GisMapService {
@@ -152,6 +158,11 @@ export class GisMapService {
     this.stepList.next(this.steps);
   }
 
+  cancelLastStep() {
+    this.steps.pop();
+    this.stepList.next(this.steps);
+  }
+
   stepList = new BehaviorSubject<StepModel[]>([]);
   stepList$ = this.stepList.asObservable();
 
@@ -170,4 +181,6 @@ export class GisMapService {
   }
 
   highlightNode$ = this.highlightNode.asObservable();
+  ////////////////////////////
+  highlightedFibers: HighlightedFiber[] = [];
 }

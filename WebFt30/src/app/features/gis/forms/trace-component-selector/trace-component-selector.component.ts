@@ -4,8 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc';
-import { GeoEquipment, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
-import { RadioButton } from 'src/app/shared/components/svg-buttons/radio-button/radio-button';
+import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapUtils } from '../../components/shared/gis-map.utils';
 import { GisMapService } from '../../gis-map.service';
 import { MapLayersActions } from '../../components/gis-editor-map/map-layers-actions';
@@ -17,7 +16,7 @@ import { MapLayersActions } from '../../components/gis-editor-map/map-layers-act
 export class TraceComponentSelectorComponent {
   public dialogRef: DialogRef<number | null> = inject(DialogRef<number | null>);
   form!: FormGroup;
-  buttons!: any[];
+  buttons!: any[]; // не просто RadioButton, там добавлено поле equipment
   childForms: FormGroup[] = [];
   node!: TraceNode;
   gisMapService!: GisMapService;
@@ -48,7 +47,6 @@ export class TraceComponentSelectorComponent {
   }
 
   createChildForm(button: any): FormGroup {
-    console.log(button);
     const childFormGroup = new FormGroup({
       title: new FormControl(button.equipment.title),
       leftReserve: new FormControl(button.equipment.cableReserveLeft),

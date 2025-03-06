@@ -13,6 +13,7 @@ import { GisMapLayers } from '../shared/gis-map-layers';
 import { MapMouseActions } from './map-mouse-actions';
 import { UserSettings } from 'src/app/core/models/user-settings';
 import { MapMenu } from './map-menu';
+import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 
 export class MapLayersActions {
   private static icons = new GisMapIcons();
@@ -304,5 +305,47 @@ export class MapLayersActions {
     group.addLayer(marker);
 
     this.gisMapService.getMap().setView(node.coors);
+  }
+
+  static highlightFiber(fiber: GeoFiber) {
+    const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
+    const previousState = fiber.fiberState;
+
+    const polyline = group.getLayers().find((f) => (<any>f).id === fiber.id);
+    group.removeLayer(polyline!);
+
+    fiber.fiberState = FiberState.HighLighted;
+    this.addFiberToLayer(fiber);
+
+    this.gisMapService.highlightedFibers.push({ fiberId: fiber.id, previousState: previousState });
+  }
+
+  static extinguishFiber(fiber: GeoFiber) {
+    const saved = this.gisMapService.highlightedFibers.find((f) => f.fiberId === fiber.id);
+    if (saved === undefined) return;
+
+    const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
+    const polyline = group.getLayers().find((f) => (<any>f).id === fiber.id);
+    group.removeLayer(polyline!);
+
+    fiber.fiberState = saved.previousState;
+    this.addFiberToLayer(fiber);
+  }
+
+  static extinguishAllFibers(isTraceAccepted = false) {
+    this.gisMapService.highlightedFibers.forEach((s) => {
+      const saved = s;
+
+      const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
+      const polyline = group.getLayers().find((f) => (<any>f).id === saved.fiberId);
+      group.removeLayer(polyline!);
+
+      const fiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === saved.fiberId)!;
+      fiber.fiberState = saved.previousState;
+      if (isTraceAccepted && saved.previousState === FiberState.NotInTrace) {
+        fiber.fiberState = FiberState.NotJoined;
+      }
+      this.addFiberToLayer(fiber);
+    });
   }
 }

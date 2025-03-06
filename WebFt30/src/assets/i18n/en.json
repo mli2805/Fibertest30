@@ -433,7 +433,7 @@
   "i18n.ft.obj": "Object",
 
   "i18n.ft.not-in-trace": "Not in trace",
-  "i18n.ft.not-joined": "Not joined",
+  "i18n.ft.not-joined": "Not attached",
   "i18n.ft.unknown": "Unknown",
   "i18n.ft.not-in-zone": "Not in zone",
   "i18n.ft.ok": "Ok",
@@ -647,6 +647,14 @@
   "i18n.ft.exit": "Exit",
   "i18n.ft.next": "Next",
   "i18n.ft.do-not-use-equipment": "Do not use equimpent",
+  "i18n.ft.nodes": "Nodes",
+  "i18n.ft.nodes-without-equipment": "Nodes without equimpent",
+  "i18n.ft.total-including-rtu": "Total, including RTU",
+  "i18n.ft.equipment": "Equipment",
+  "i18n.ft.equipment-including-rtu": "Equipment, including RTU",
+  "i18n.ft.to-adjust-trace-drawing-were-used": "To adjust trace drawing were used {{ 0 }} point(s)",
+  "i18n.ft.dark": "Dark",
+  "i18n.ft.in-service": "In service",
 
   "i18n.validation.incorrect-level-order": "incorrect level order",
   "i18n.validation.not-unique": "must be unique",

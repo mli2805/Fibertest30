@@ -62,6 +62,6 @@ export class AllGeoData {
     public fibers: GeoFiber[],
     public nodes: TraceNode[],
     public traces: GeoTrace[],
-    public equipments: GeoEquipment[]
+    public equipments: GeoEquipment[] // засунул сюда и RTU чтобы искать также по nodeId
   ) {}
 }

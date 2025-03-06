@@ -11,8 +11,6 @@ import { GeoFiber } from 'src/app/core/store/models/ft30/geo-data';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { MapLayersActions } from './map-layers-actions';
 import { MapNodeRemove } from './map-node-remove';
-import { GisMapIcons } from '../shared/gis-map-icons';
-import { GisMapLayer } from '../../models/gis-map-layer';
 import { StepModel } from '../../forms/trace-define/step-model';
 import { MapEquipmentActions } from './map-equipment-actions';
 
@@ -233,7 +231,9 @@ export class MapNodeMenu {
     const firstStepRtu = new StepModel();
     firstStepRtu.nodeId = nodeId;
     firstStepRtu.title = node!.title;
-    firstStepRtu.equipmentId = ''; // нужно будет взять rtuId
+    firstStepRtu.equipmentId = this.gisMapService
+      .getGeoData()
+      .equipments.find((e) => e.nodeId === nodeId)!.id;
     this.gisMapService.addStep(firstStepRtu);
   }
 }

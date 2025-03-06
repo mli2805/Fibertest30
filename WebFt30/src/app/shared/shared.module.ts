@@ -83,6 +83,7 @@ import { RadioButtonComponent } from './components/svg-buttons/radio-button/radi
 import { PencilButtonComponent } from './components/svg-buttons/pencil-button.component';
 import { DeleteButtonComponent } from './components/svg-buttons/delete-button.component';
 import { MultiSelectionButtonComponent } from './components/svg-buttons/multi-selection-button/multi-selection-button.component';
+import { TraceInfoComponent } from './components/trace-info/trace-info.component';
 
 @NgModule({
   imports: [
@@ -169,7 +170,8 @@ import { MultiSelectionButtonComponent } from './components/svg-buttons/multi-se
     GisIconComponent,
     GraphSorAvailableActionComponent,
     RadioButtonComponent,
-    MultiSelectionButtonComponent
+    MultiSelectionButtonComponent,
+    TraceInfoComponent
   ],
   exports: [
     CommonModule,
@@ -247,7 +249,8 @@ import { MultiSelectionButtonComponent } from './components/svg-buttons/multi-se
     GraphSorAvailableActionComponent,
 
     RadioButtonComponent,
-    MultiSelectionButtonComponent
+    MultiSelectionButtonComponent,
+    TraceInfoComponent
   ],
   providers: [
     RtuDateToDayOfWeekPipe,

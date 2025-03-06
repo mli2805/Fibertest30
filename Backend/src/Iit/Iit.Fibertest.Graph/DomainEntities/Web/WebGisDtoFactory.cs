@@ -1,4 +1,6 @@
-﻿namespace Iit.Fibertest.Graph;
+﻿using Iit.Fibertest.Dto;
+
+namespace Iit.Fibertest.Graph;
 
 public static class WebGisDtoFactory
 {
@@ -9,7 +11,7 @@ public static class WebGisDtoFactory
             Nodes = writeModel
                 .Nodes.Select(node => node.GetNodeGisData()).ToList(),
             Equipments = writeModel.Equipments
-                .Select(e => e.GetEquipmentGisData()).ToList(),
+                .Select(e => e.GetEquipmentGisData()).Union(writeModel.Rtus.Select(r=>r.GetRtuAsEquipmentGisData())).ToList(),
             Fibers = writeModel
                 .Fibers.Select(f => f.GetFiberGisData(writeModel))
                 .Where(fiberGisData => fiberGisData != null).ToList()!,
@@ -88,6 +90,20 @@ public static class WebGisDtoFactory
             CableReserveLeft = equipment.CableReserveLeft,
             CableReserveRight = equipment.CableReserveRight,
             Comment = equipment.Comment ?? ""
+        };
+    }
+
+    private static EquipmentGisData GetRtuAsEquipmentGisData(this Rtu rtu)
+    {
+        return new EquipmentGisData()
+        {
+            Id = rtu.Id,
+            NodeId = rtu.NodeId,
+            Title = rtu.Title ?? "",
+            Type = EquipmentType.Rtu,
+            CableReserveLeft = 0,
+            CableReserveRight = 0,
+            Comment = rtu.Comment ?? ""
         };
     }
 
