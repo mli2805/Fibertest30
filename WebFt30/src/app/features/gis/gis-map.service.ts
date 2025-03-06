@@ -119,6 +119,7 @@ export class GisMapService {
     this.mousePosition.next(GisMapUtils.mouseToString(e));
   }
   moveCenterToMousePos() {
+    if (this.mousePos === undefined) return;
     this.map.setView(this.mousePos);
   }
   mousePosition = new BehaviorSubject<string>('');

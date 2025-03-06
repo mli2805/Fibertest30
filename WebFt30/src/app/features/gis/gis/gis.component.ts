@@ -39,8 +39,8 @@ export class GisComponent extends OnDestroyBase implements OnInit {
     this.mapSources.push({ id: 0, str: 'OpenStreetMap' });
     this.mapSources.push({ id: 1, str: 'GoogleStreets' });
     this.mapSources.push({ id: 2, str: 'GoogleHybrid' });
-    this.mapSources.push({ id: 3, str: 'GoogleSatellite' });
-    this.mapSources.push({ id: 4, str: 'GoogleTerrain' });
+    // this.mapSources.push({ id: 3, str: 'GoogleSatellite' });
+    // this.mapSources.push({ id: 4, str: 'GoogleTerrain' });
   }
 
   async ngOnInit() {

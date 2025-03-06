@@ -8,11 +8,12 @@ import {
 import { GisMapService } from '../../gis-map.service';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/core';
+import { AppState, SettingsSelectors } from 'src/app/core';
 import { GisService } from 'src/app/core/grpc/services/gis.service';
 import { OpticalEvent } from 'src/app/core/store/models/ft30/optical-event';
 import { firstValueFrom } from 'rxjs';
 import { GisMapping } from 'src/app/core/store/mapping/gis-mappings';
+import { CoreUtils } from 'src/app/core/core.utils';
 
 @Component({
   selector: 'rtu-gis-trace-viewer',
@@ -38,11 +39,13 @@ export class GisTraceViewerComponent extends OnDestroyBase implements OnInit {
 
   async ngOnInit() {
     try {
+      const userSettings = CoreUtils.getCurrentState(this.store, SettingsSelectors.selectSettings);
+      this.gisMapService.mapSourceId.next(userSettings.sourceMapId);
+
       const response = await firstValueFrom(
         this.gisService.getTraceRoute(this._optivalEvent.traceId)
       );
       const routeData = GisMapping.fromTraceRouteData(response.routeData!);
-      console.log(routeData);
       this.gisMapService.setRouteData(routeData);
     } catch (error) {
       console.log(error);

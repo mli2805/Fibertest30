@@ -71,7 +71,7 @@ export class MapLayersActions {
     //   }
     // });
 
-    this.setTileLayer(this.gisMapService.mapSourceId.value, map);
+    this.setTileLayer(userSettings.sourceMapId, map);
 
     // hide leaflet own attribution
     map.attributionControl.setPrefix('');
@@ -84,6 +84,7 @@ export class MapLayersActions {
   static tileLayer: any = null;
   // https://stackoverflow.com/questions/33343881/leaflet-in-google-maps
   static setTileLayer(mapId: number, map: L.Map) {
+    console.log(mapId);
     if (this.tileLayer !== null) map.removeLayer(this.tileLayer);
 
     switch (mapId) {
@@ -108,20 +109,20 @@ export class MapLayersActions {
         }).addTo(map);
         break;
       }
-      case 3: {
-        this.tileLayer = L.tileLayer('http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}', {
-          maxZoom: 20,
-          subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-        }).addTo(map);
-        break;
-      }
-      case 4: {
-        this.tileLayer = L.tileLayer('http://{s}.google.com/vt?lyrs=p&x={x}&y={y}&z={z}', {
-          maxZoom: 20,
-          subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-        }).addTo(map);
-        break;
-      }
+      // case 3: {
+      //   this.tileLayer = L.tileLayer('http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}', {
+      //     maxZoom: 20,
+      //     subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+      //   }).addTo(map);
+      //   break;
+      // }
+      // case 4: {
+      //   this.tileLayer = L.tileLayer('http://{s}.google.com/vt?lyrs=p&x={x}&y={y}&z={z}', {
+      //     maxZoom: 20,
+      //     subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+      //   }).addTo(map);
+      //   break;
+      // }
     }
   }
 
