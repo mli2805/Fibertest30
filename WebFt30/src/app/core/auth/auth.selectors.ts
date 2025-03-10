@@ -25,6 +25,10 @@ const selectHasEditGraphPermission = createSelector(selectUser, (user: User | nu
   user ? user.permissions.includes(ApplicationPermission.EditGraph) : false
 );
 
+const selectHasInitializeRtuPermission = createSelector(selectUser, (user: User | null) =>
+  user ? user.permissions.includes(ApplicationPermission.InitializeRtu) : false
+);
+
 const selectHasChangeNotificationSettingsPermission = createSelector(
   selectUser,
   (user: User | null) =>
@@ -45,6 +49,7 @@ export const AuthSelectors = {
   selectUser,
   selectHasEditUsersPermission,
   selectHasEditGraphPermission,
+  selectHasInitializeRtuPermission,
   selectHasChangeNotificationSettingsPermission,
   selectErrorMessageId
 };

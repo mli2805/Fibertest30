@@ -5,11 +5,19 @@ import { ReturnCode } from '../models/ft30/return-code';
 
 export const initialState: RtuMgmtState = {
   rtuOperationInProgress: false,
-  rtuTestAddress: null,
-  rtuTestSuccess: null,
 
   initializing: false,
   rtuInitializationResult: null,
+
+  mainChannelTesting: false,
+  mainChannelAddress: null,
+  mainChannelSuccess: null,
+  mainChannelErrorId: null,
+
+  reserveChannelTesting: false,
+  reserveChannelAddress: null,
+  reserveChannelSuccess: null,
+  reserveChannelErrorId: null,
 
   rtuOperationSuccess: null,
   measurementClientId: null,
@@ -23,7 +31,12 @@ const reducer = createReducer(
     ...state,
     rtuOperationInProgress: false,
     rtuOperationSuccess: null,
-    errorMessageId: null
+    errorMessageId: null,
+
+    mainChannelSuccess: null,
+    mainChannelErrorId: null,
+    reserveChannelSuccess: null,
+    reserveChannelErrorId: null
   })),
 
   on(RtuMgmtActions.setSpinner, (state, { value }) => ({
@@ -31,23 +44,42 @@ const reducer = createReducer(
     rtuOperationInProgress: value
   })),
 
-  on(RtuMgmtActions.testRtuConnection, (state, { netAddress }) => ({
+  on(RtuMgmtActions.testMainChannel, (state, { netAddress }) => ({
     ...state,
-    rtuOperationInProgress: true,
-    rtuConnectionAddress: netAddress,
-    rtuTestSuccess: null,
-    errorMessageId: null
+    mainChannelTesting: true,
+    mainChannelAddress: netAddress,
+    mainChannelSuccess: null,
+    mainChannelErrorId: null
   })),
-  on(RtuMgmtActions.testRtuConnectionSuccess, (state, { netAddress, isConnectionSuccessful }) => ({
+  on(RtuMgmtActions.testMainChannelSuccess, (state, { netAddress, isConnectionSuccessful }) => ({
     ...state,
-    rtuOperationInProgress: false,
-    rtuConnectionAddress: netAddress ?? null,
-    rtuTestSuccess: isConnectionSuccessful
+    mainChannelTesting: false,
+    mainChannelAddress: netAddress ?? null,
+    mainChannelSuccess: isConnectionSuccessful
   })),
-  on(RtuMgmtActions.testRtuConnectionFailure, (state, { errorMessageId }) => ({
+  on(RtuMgmtActions.testMainChannelFailure, (state, { errorMessageId }) => ({
     ...state,
-    rtuOperationInProgress: false,
-    errorMessageId: errorMessageId
+    mainChannelTesting: false,
+    mainChannelErrorId: errorMessageId
+  })),
+
+  on(RtuMgmtActions.testReserveChannel, (state, { netAddress }) => ({
+    ...state,
+    reserveChannelTesting: true,
+    reserveChannelAddress: netAddress,
+    reserveChannelSuccess: null,
+    reserveChannelErrorId: null
+  })),
+  on(RtuMgmtActions.testReserveChannelSuccess, (state, { netAddress, isConnectionSuccessful }) => ({
+    ...state,
+    reserveChannelTesting: false,
+    reserveChannelAddress: netAddress ?? null,
+    reserveChannelSuccess: isConnectionSuccessful
+  })),
+  on(RtuMgmtActions.testReserveChannelFailure, (state, { errorMessageId }) => ({
+    ...state,
+    reserveChannelTesting: false,
+    reserveChannelErrorId: errorMessageId
   })),
 
   on(RtuMgmtActions.initializeRtu, (state, { dto }) => ({

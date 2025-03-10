@@ -6,17 +6,36 @@ import { DoMeasurementClientDto } from '../models/ft30/do-measurement-client-dto
 import { ApplyMonitoringSettingsDto } from '../models/ft30/apply-monitorig-settings-dto';
 import { RequestAnswer } from '../models/ft30/request-answer';
 
-const testRtuConnection = createAction(
-  '[RtuMgmt] Test Rtu Connection',
+const testMainChannel = createAction(
+  '[RtuMgmt] Test Main Channel',
   props<{ netAddress: NetAddress }>()
 );
-const testRtuConnectionSuccess = createAction(
-  '[RtuMgmt] Test Rtu Connection Success',
+
+const testMainChannelSuccess = createAction(
+  '[RtuMgmt] Test Main Channel Success',
   // команда проверить выполнена успешно, а результат м.б. Нет соединения
   props<{ netAddress: NetAddress | undefined; isConnectionSuccessful: boolean }>()
 );
-const testRtuConnectionFailure = createAction(
-  '[RtuMgmt] Test Rtu Connection Failure',
+
+const testMainChannelFailure = createAction(
+  '[RtuMgmt] Test Main Channel Failure',
+  // ошибка во время выполнения команды
+  props<{ errorMessageId: string }>()
+);
+
+const testReserveChannel = createAction(
+  '[RtuMgmt] Test Reserve Channel',
+  props<{ netAddress: NetAddress }>()
+);
+
+const testReserveChannelSuccess = createAction(
+  '[RtuMgmt] Test Reserve Channel Success',
+  // команда проверить выполнена успешно, а результат м.б. Нет соединения
+  props<{ netAddress: NetAddress | undefined; isConnectionSuccessful: boolean }>()
+);
+
+const testReserveChannelFailure = createAction(
+  '[RtuMgmt] Test Reserve Channel Failure',
   // ошибка во время выполнения команды
   props<{ errorMessageId: string }>()
 );
@@ -72,9 +91,13 @@ const cleanMeasurementClient = createAction('[RtuMgmt] Clean Measurement Client'
 const setSpinner = createAction('[RtuMgmt] Set Spinner', props<{ value: boolean }>());
 
 export const RtuMgmtActions = {
-  testRtuConnection,
-  testRtuConnectionSuccess,
-  testRtuConnectionFailure,
+  testMainChannel,
+  testMainChannelSuccess,
+  testMainChannelFailure,
+
+  testReserveChannel,
+  testReserveChannelSuccess,
+  testReserveChannelFailure,
 
   initializeRtu,
   initializeRtuSuccess,

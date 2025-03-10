@@ -89,10 +89,6 @@ export class OneRtuMenuComponent {
     this.gisMapService.externalCommand.next(cmd);
   }
 
-  canInitialize(): boolean {
-    return this.hasPermission(ApplicationPermission.InitializeRtu);
-  }
-
   async onNetworkSettingsClicked() {
     this.open = false;
     await Utils.delay(100);

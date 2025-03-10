@@ -1,0 +1,57 @@
+<div class="grouped-border m-2 flex w-96 flex-col">
+  <div [formGroup]="form">
+    <div class="mb-1 flex items-center justify-between">
+      <div>
+        <span>{{ 'i18n.ft.main' | translate }}</span>
+        {{ 'i18n.ft.channel' | translate }}
+      </div>
+    </div>
+
+    <fieldset [disabled]="isSettingsOff()">
+      <div class="mb-1 flex items-center">
+        <label class="w-20 text-sm" [ngClass]="{ 'disabled-label': isSettingsOff() }">
+          {{ 'i18n.ft.ip' | translate }}
+        </label>
+        <input
+          formControlName="ipAddress"
+          [ngClass]="{ 'invalid-border': !isServerAddressValid() }"
+          type="text"
+          class="input-simple w-full"
+        />
+      </div>
+
+      <div class="flex items-center">
+        <label class="w-20 text-sm" [ngClass]="{ 'disabled-label': isSettingsOff() }">{{
+          'i18n.ft.port' | translate
+        }}</label>
+        <div class="text-sm">{{ networkAddress.port }}</div>
+      </div>
+    </fieldset>
+
+    <div class="mt-3 flex items-center">
+      <button
+        class="button-neutral w-24 self-end"
+        (click)="onTestClicked()"
+        [disabled]="isTestDisabled()"
+      >
+        {{ 'i18n.ft.test' | translate }}
+      </button>
+
+      <div class="ml-4">
+        <div *ngIf="testInProgress$ | async" class="flex items-center">
+          <rtu-loading-spinner class="ml-2 h-4 w-4"></rtu-loading-spinner>
+          <span class="text-data-highlight ml-3">{{ 'i18n.ft.testing' | translate }}</span>
+        </div>
+        <div *ngIf="testSuccess$ | async" class="ml-2 text-green-600">
+          {{ 'i18n.ft.connected-successfully' | translate }}
+        </div>
+        <div *ngIf="(testSuccess$ | async) === false" class="ml-2 text-red-600">
+          {{ 'i18n.ft.failed-to-connect' | translate }}
+        </div>
+        <div *ngIf="testFailure$ | async as message" class="ml-3 text-red-600">
+          {{ message | translate }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -13,18 +13,18 @@ import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors';
 
 @Component({
-  selector: 'rtu-one-channel-test',
-  templateUrl: './one-channel-test.component.html'
+  selector: 'rtu-reserve-channel-test',
+  templateUrl: './reserve-channel-test.component.html'
 })
-export class OneChannelTestComponent implements OnInit {
+export class ReserveChannelTestComponent implements OnInit {
   @Input() networkAddress!: NetAddress;
-  @Input() isMain!: boolean;
-  @Input() isOn!: boolean; // for reserve address
+  @Input() isOn!: boolean; // задан ли резервный канал
+  @Input() disabled!: boolean;
 
   public store: Store<AppState> = inject(Store);
-  testInProgress$ = this.store.select(RtuMgmtSelectors.selectRtuOperationInProgress);
-  testSuccess$ = this.store.select(RtuMgmtSelectors.selectIsTestSuccessful);
-  testFailure$ = this.store.select(RtuMgmtSelectors.selectErrorMessageId);
+  testInProgress$ = this.store.select(RtuMgmtSelectors.selectReserveChannelTesting);
+  testSuccess$ = this.store.select(RtuMgmtSelectors.selectReserveChannelSuccess);
+  testFailure$ = this.store.select(RtuMgmtSelectors.selectReserveChannelErrorId);
 
   form!: FormGroup;
 
@@ -36,7 +36,7 @@ export class OneChannelTestComponent implements OnInit {
 
   ipv4AddressValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      if (control.pristine) return null;
+      if (control.pristine) return null; // чтобы рамка не была красная у пустого адреса
       if (!/^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$/.test(control.value))
         return { invalidIp: { value: '' } };
       return null;
@@ -47,12 +47,12 @@ export class OneChannelTestComponent implements OnInit {
     return this.form.controls['ipAddress'].valid;
   }
 
-  isSlidersDisabled() {
-    return false;
+  onSliderToggle() {
+    this.isOn = !this.isOn;
   }
 
   isSettingsOff() {
-    return !this.isOn;
+    return this.disabled || !this.isOn;
   }
 
   composeInputs(): NetAddress {
@@ -63,7 +63,15 @@ export class OneChannelTestComponent implements OnInit {
     return address;
   }
 
+  isTestDisabled(): boolean {
+    return (
+      this.form.controls['ipAddress'].value === '' ||
+      !this.isServerAddressValid() ||
+      this.isSettingsOff()
+    );
+  }
+
   onTestClicked() {
-    this.store.dispatch(RtuMgmtActions.testRtuConnection({ netAddress: this.composeInputs() }));
+    this.store.dispatch(RtuMgmtActions.testReserveChannel({ netAddress: this.composeInputs() }));
   }
 }

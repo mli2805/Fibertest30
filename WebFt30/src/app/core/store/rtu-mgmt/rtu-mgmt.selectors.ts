@@ -19,14 +19,41 @@ const selectRtuInitializationResult = createSelector(
   (state: RtuMgmtState) => state.rtuInitializationResult
 );
 
-const selectRtuAddress = createSelector(
+///
+const selectMainChannelAddress = createSelector(
   selectRtuMgmtState,
-  (state: RtuMgmtState) => state.rtuTestAddress
+  (state: RtuMgmtState) => state.mainChannelAddress
 );
-const selectIsTestSuccessful = createSelector(
+const selectMainChannelTesting = createSelector(
   selectRtuMgmtState,
-  (state: RtuMgmtState) => state.rtuTestSuccess
+  (state: RtuMgmtState) => state.mainChannelTesting
 );
+const selectMainChannelSuccess = createSelector(
+  selectRtuMgmtState,
+  (state: RtuMgmtState) => state.mainChannelSuccess
+);
+const selectMainChannelErrorId = createSelector(
+  selectRtuMgmtState,
+  (state: RtuMgmtState) => state.mainChannelErrorId
+);
+///
+const selectReserveChannelAddress = createSelector(
+  selectRtuMgmtState,
+  (state: RtuMgmtState) => state.reserveChannelAddress
+);
+const selectReserveChannelTesting = createSelector(
+  selectRtuMgmtState,
+  (state: RtuMgmtState) => state.reserveChannelTesting
+);
+const selectReserveChannelSuccess = createSelector(
+  selectRtuMgmtState,
+  (state: RtuMgmtState) => state.reserveChannelSuccess
+);
+const selectReserveChannelErrorId = createSelector(
+  selectRtuMgmtState,
+  (state: RtuMgmtState) => state.reserveChannelErrorId
+);
+///
 
 const selectMeasurementClientId = createSelector(
   selectRtuMgmtState,
@@ -40,10 +67,19 @@ const selectErrorMessageId = createSelector(
 export const RtuMgmtSelectors = {
   selectRtuOperationInProgress,
   selectRtuOperationSuccess,
+
+  selectMainChannelTesting,
+  selectMainChannelAddress,
+  selectMainChannelSuccess,
+  selectMainChannelErrorId,
+
+  selectReserveChannelTesting,
+  selectReserveChannelAddress,
+  selectReserveChannelSuccess,
+  selectReserveChannelErrorId,
+
   selectInitializing,
   selectRtuInitializationResult,
-  selectRtuAddress,
-  selectIsTestSuccessful,
   selectMeasurementClientId,
   selectErrorMessageId
 };

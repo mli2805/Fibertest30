@@ -24,7 +24,7 @@ import { RtuStateComponent } from './rtu-state/rtu-state.component';
 import { RtuMonitoringSettingsComponent } from './rtu-monitoring-settings/rtu-monitoring-settings.component';
 import { RtuLandmarksComponent } from './rtu-landmarks/rtu-landmarks.component';
 import { RtusComponent } from './rtus/rtus.component';
-import { OneChannelTestComponent } from './rtu-initialization/one-channel-test/one-channel-test.component';
+import { ReserveChannelTestComponent } from './rtu-initialization/one-channel-test/reserve-channel-test.component';
 import { FreePortMenuComponent } from './rtu-tree/free-port/free-port-menu/free-port-menu.component';
 import { AttachedTraceMenuComponent } from './rtu-tree/attached-trace/attached-trace-menu/attached-trace-menu.component';
 import { DetachedTraceMenuComponent } from './rtu-tree/detached-trace/detached-trace-menu/detached-trace-menu.component';
@@ -39,6 +39,7 @@ import { TraceLandmarksComponent } from './trace-landmarks/trace-landmarks.compo
 import { TraceStatisticsComponent } from './trace-statistics/trace-statistics.component';
 import { BaselineViewComponent } from './baseline-view/baseline-view.component';
 import { GisModule } from '../gis/gis.module';
+import { MainChannelTestComponent } from './rtu-initialization/main-channel-test/main-channel-test.component';
 
 @NgModule({
   imports: [
@@ -69,7 +70,7 @@ import { GisModule } from '../gis/gis.module';
     RtuMonitoringSettingsComponent,
     RtuLandmarksComponent,
     RtusComponent,
-    OneChannelTestComponent,
+    ReserveChannelTestComponent,
     FreePortMenuComponent,
     AttachedTraceMenuComponent,
     DetachedTraceMenuComponent,
@@ -82,7 +83,8 @@ import { GisModule } from '../gis/gis.module';
     TraceInformationComponent,
     TraceLandmarksComponent,
     TraceStatisticsComponent,
-    BaselineViewComponent
+    BaselineViewComponent,
+    MainChannelTestComponent
   ],
   providers: []
 })

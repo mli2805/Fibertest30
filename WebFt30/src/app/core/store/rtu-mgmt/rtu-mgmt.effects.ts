@@ -9,19 +9,38 @@ import { FtBaseMapping } from '../mapping/ft-base-mapping';
 
 @Injectable()
 export class RtuMgmtEffects {
-  testRtuConnection = createEffect(() =>
+  testMainChannel = createEffect(() =>
     this.actions$.pipe(
-      ofType(RtuMgmtActions.testRtuConnection),
+      ofType(RtuMgmtActions.testMainChannel),
       switchMap(({ netAddress }) => {
         return this.rtuMgmtService.testRtuConnection(netAddress).pipe(
           map((response) => {
-            return RtuMgmtActions.testRtuConnectionSuccess({
+            return RtuMgmtActions.testMainChannelSuccess({
               netAddress: response.netAddress,
               isConnectionSuccessful: response.isConnectionSuccessful
             });
           }),
           catchError((error) => {
-            return of(RtuMgmtActions.testRtuConnectionFailure({ errorMessageId: error }));
+            return of(RtuMgmtActions.testMainChannelFailure({ errorMessageId: error }));
+          })
+        );
+      })
+    )
+  );
+
+  testReserveChannel = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RtuMgmtActions.testReserveChannel),
+      switchMap(({ netAddress }) => {
+        return this.rtuMgmtService.testRtuConnection(netAddress).pipe(
+          map((response) => {
+            return RtuMgmtActions.testReserveChannelSuccess({
+              netAddress: response.netAddress,
+              isConnectionSuccessful: response.isConnectionSuccessful
+            });
+          }),
+          catchError((error) => {
+            return of(RtuMgmtActions.testReserveChannelFailure({ errorMessageId: error }));
           })
         );
       })
