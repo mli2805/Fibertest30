@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 @Component({
   selector: 'rtu-triangle-pictogram',
   template: `
-    <div>
+    <div style="width:12px; height:12px">
       <svg viewBox="0 0 40 40">
         <polygon [attr.fill]="fillColor" points="0,0 40,40 40,0	" />
       </svg>
