@@ -1,12 +1,14 @@
 import { Component, ElementRef, HostListener, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY, firstValueFrom, Observable } from 'rxjs';
 import { AppState, AuthSelectors, RtuTreeSelectors, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
+import { GraphService } from 'src/app/core/grpc';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
+import { GisMapService } from 'src/app/features/gis/gis-map.service';
 import { Utils } from 'src/app/shared/utils/utils';
 
 @Component({
@@ -29,7 +31,12 @@ export class DetachedTraceMenuComponent {
 
   public open = false;
 
-  constructor(private elementRef: ElementRef, private router: Router) {
+  constructor(
+    private elementRef: ElementRef,
+    private router: Router,
+    public gisMapService: GisMapService,
+    public graphService: GraphService
+  ) {
     this.currentUser = CoreUtils.getCurrentState(this.store, AuthSelectors.selectUser);
   }
   hasPermission(permission: ApplicationPermission): boolean {
@@ -88,15 +95,38 @@ export class DetachedTraceMenuComponent {
   canClean() {
     return this.hasPermission(ApplicationPermission.CleanTrace);
   }
-  onCleanClicked() {
-    //
+  // на команду должны отреагировать все клиенты, не только тот который подал команду
+  // значит, отправляем на сервер, а когда в start-page придет подтв успеха, применяем к графу/карте
+  async onCleanClicked() {
+    const cmd = {
+      TraceId: this.trace.traceId
+    };
+    const json = JSON.stringify(cmd);
+    const response = await firstValueFrom(this.graphService.sendCommand(json, 'CleanTrace'));
+    if (!response.success) return;
+
+    const externalCmd = { name: 'CleanTrace', traceId: this.trace.traceId };
+    console.log(externalCmd);
+    console.log(this.gisMapService.externalCommand.value);
+    this.gisMapService.externalCommand.next(externalCmd);
   }
 
   canRemove() {
     return this.hasPermission(ApplicationPermission.RemoveTrace);
   }
-  onRemoveClicked() {
-    //
+
+  async onRemoveClicked() {
+    const cmd = {
+      TraceId: this.trace.traceId
+    };
+    const json = JSON.stringify(cmd);
+    const response = await firstValueFrom(this.graphService.sendCommand(json, 'RemoveTrace'));
+    if (!response.success) return;
+
+    const externalCmd = { name: 'RemoveTrace', traceId: this.trace.traceId };
+    console.log(externalCmd);
+    console.log(this.gisMapService.externalCommand.value);
+    this.gisMapService.externalCommand.next(externalCmd);
   }
 
   canAssignBaseRefs() {

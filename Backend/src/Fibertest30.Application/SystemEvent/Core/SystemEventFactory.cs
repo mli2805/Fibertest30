@@ -104,6 +104,24 @@ public static class SystemEventFactory
             SystemEventSource.FromUser(userId));
     }
 
+    public static SystemEvent TraceAdded(string userId, Guid traceId, Guid rtuId)
+    {
+        return new SystemEvent(SystemEventType.TraceAdded, SystemEventLevel.Internal,
+            new TraceAddedData(traceId.ToString(), rtuId.ToString()), SystemEventSource.FromUser(userId));
+    } 
+    
+    public static SystemEvent TraceCleaned(string userId, Guid traceId)
+    {
+        return new SystemEvent(SystemEventType.TraceCleaned, SystemEventLevel.Internal,
+            new TraceCleanedData(traceId.ToString()), SystemEventSource.FromUser(userId));
+    }
+
+    public static SystemEvent TraceRemoved(string userId, Guid traceId)
+    {
+        return new SystemEvent(SystemEventType.TraceRemoved, SystemEventLevel.Internal,
+            new TraceRemovedData(traceId.ToString()), SystemEventSource.FromUser(userId));
+    }
+
     public static SystemEvent AnyTypeAccidentAdded(string eventType, int eventId, 
         DateTime registeredAt, string objTitle, string objId, string rtuId, bool isOk)
     {

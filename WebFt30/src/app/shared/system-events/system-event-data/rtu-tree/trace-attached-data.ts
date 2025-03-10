@@ -24,3 +24,16 @@ export interface OtauDetachedData {
   OtauAddress: string;
   RtuId: string;
 }
+
+export interface TraceAddedData {
+  TraceId: string;
+  RtuId: string;
+}
+
+export interface TraceCleanedData {
+  TraceId: string;
+}
+
+export interface TraceRemovedData {
+  TraceId: string;
+}

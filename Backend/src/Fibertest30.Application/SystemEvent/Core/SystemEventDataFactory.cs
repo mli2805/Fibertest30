@@ -22,6 +22,9 @@ public static class SystemEventDataFactory
             SystemEventType.TraceDetached => Deserialize<TraceDetachedData>(jsonData),
             SystemEventType.OtauAttached => Deserialize<OtauAttachedData>(jsonData),
             SystemEventType.OtauDetached => Deserialize<OtauDetachedData>(jsonData),
+            SystemEventType.TraceAdded => Deserialize<TraceAddedData>(jsonData),
+            SystemEventType.TraceCleaned => Deserialize<TraceCleanedData>(jsonData),
+            SystemEventType.TraceRemoved => Deserialize<TraceRemovedData>(jsonData),
             SystemEventType.AnyTypeAccidentAdded => Deserialize<AnyTypeAccidentData>(jsonData),
 
             _ => throw new ArgumentException(@"SystemEventDataFactory: Invalid SystemEventType", nameof(type))

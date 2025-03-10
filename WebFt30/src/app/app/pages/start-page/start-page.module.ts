@@ -7,9 +7,10 @@ import { StartPageRoutingModule } from './start-page-routing.module';
 import { SharedModule } from '../../../shared/shared.module';
 import { SystemNotificationsComponent } from './components/notifications/system-notifications/system-notifications.component';
 import { AccountMenuComponent } from './components/start-page-header/account-menu/account-menu.component';
+import { GisModule } from 'src/app/features/gis/gis.module';
 
 @NgModule({
-  imports: [StartPageRoutingModule, SharedModule],
+  imports: [StartPageRoutingModule, SharedModule, GisModule],
   exports: [],
   declarations: [
     StartPageComponent,

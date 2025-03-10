@@ -45,5 +45,9 @@ public enum SystemEventType
     OtauAttached,
     OtauDetached,
 
+    TraceAdded,
+    TraceCleaned,
+    TraceRemoved,
+
     AnyTypeAccidentAdded,
 }

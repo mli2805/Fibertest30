@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { takeUntil } from 'rxjs';
+import { firstValueFrom, takeUntil } from 'rxjs';
 import {
   AppState,
   AuthActions,
@@ -45,10 +45,14 @@ import { AudioService } from 'src/app/core/services/audio.service';
 import {
   OtauAttachedData,
   OtauDetachedData,
+  TraceAddedData,
   TraceAttachedData,
-  TraceDetachedData
+  TraceCleanedData,
+  TraceDetachedData,
+  TraceRemovedData
 } from 'src/app/shared/system-events/system-event-data/rtu-tree/trace-attached-data';
 import { AnyTypeAccidentAddedData } from 'src/app/shared/system-events/system-event-data/any-type-accident-data';
+import { GisMapService } from 'src/app/features/gis/gis-map.service';
 
 @Component({
   selector: 'rtu-start-page',
@@ -79,7 +83,8 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
     private store: Store<AppState>,
     private actions$: Actions,
     private audioService: AudioService,
-    private coreService: CoreService
+    private coreService: CoreService,
+    private gisMapService: GisMapService
   ) {
     super();
   }
@@ -278,6 +283,30 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       case 'OtauDetached': {
         const data = <OtauDetachedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
+        return;
+      }
+      case 'TraceAdded': {
+        const data = <TraceAddedData>JSON.parse(systemEvent.jsonData);
+
+        this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
+        return;
+      }
+      case 'TraceCleaned': {
+        const data = <TraceCleanedData>JSON.parse(systemEvent.jsonData);
+        const trace = CoreUtils.getCurrentState(
+          this.store,
+          RtuTreeSelectors.selectTrace(data.TraceId)
+        )!;
+        this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: trace.rtuId }));
+        return;
+      }
+      case 'TraceRemoved': {
+        const data = <TraceRemovedData>JSON.parse(systemEvent.jsonData);
+        const trace = CoreUtils.getCurrentState(
+          this.store,
+          RtuTreeSelectors.selectTrace(data.TraceId)
+        )!;
+        this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: trace.rtuId }));
         return;
       }
       case 'AnyTypeAccidentAdded': {
