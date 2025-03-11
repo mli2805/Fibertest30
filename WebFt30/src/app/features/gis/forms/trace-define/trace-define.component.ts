@@ -15,6 +15,7 @@ import { EquipmentPipe } from 'src/app/shared/pipes/equipment.pipe';
 import { EquipmentType } from 'src/grpc-generated';
 import { AcceptTraceDialogComponent } from '../accept-trace-dialog/accept-trace-dialog.component';
 import { MapLayersActions } from '../../components/gis-actions/map-layers-actions';
+import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 
 @Component({
   selector: 'rtu-trace-define',
@@ -33,6 +34,13 @@ export class TraceDefineComponent {
     TraceDefineUtils.initialize(injector);
   }
 
+  async onSemiautomaticMode() {
+    let isButtonPressed = true;
+    while (await this.makeStepForward(isButtonPressed)) {
+      isButtonPressed = false;
+    }
+  }
+
   onStepForward() {
     this.makeStepForward(true);
   }
@@ -47,12 +55,31 @@ export class TraceDefineComponent {
 
     switch (neighbours.length) {
       case 0:
-        window.alert('There is no available node. /n If you need to continue, press <Cancel Step>');
+        MessageBoxUtils.show(this.dialog, 'Error', [
+          {
+            message: 'i18n.ft.trace-cannot-be-terminated-by-or-pass-through-RTU',
+            bold: false,
+            bottomMargin: false
+          }
+        ]);
         return false;
       case 1:
         if (neighbours[0].node.id !== previousNodeId) return this.justStep(neighbours[0]);
         if (!isButtonPressed) return false;
-        window.alert('It is an end node. /n If you need to continue, press <Step backward>');
+
+        MessageBoxUtils.show(this.dialog, 'Error', [
+          {
+            message: 'i18n.ft.it-s-an-end-node',
+            bold: true,
+            bottomMargin: false
+          },
+          {
+            message: 'i18n.ft.if-you-need-to-continue-press-step-backward',
+            bold: true,
+            bottomMargin: false
+          }
+        ]);
+
         return false;
       case 2:
         if (previousNodeId === neighbours[0].node.id) {
@@ -60,14 +87,20 @@ export class TraceDefineComponent {
         } else if (previousNodeId === neighbours[1].node.id) {
           return this.justStep(neighbours[0]);
         } else {
-          return await this.forkIt(neighbours);
+          return await this.forkIt(neighbours, previousNodeId);
         }
       default:
-        return await this.forkIt(neighbours);
+        return await this.forkIt(neighbours, previousNodeId);
     }
   }
 
-  private async forkIt(neighbours: Neighbour[]): Promise<boolean> {
+  private async forkIt(neighbours: Neighbour[], previousNodeId: string): Promise<boolean> {
+    const idx = neighbours.findIndex((n) => n.node.id === previousNodeId);
+    if (idx !== -1) {
+      neighbours[idx].node.title =
+        neighbours[idx].node.title + ' (' + this.ts.instant('i18n.ft.previous') + ')';
+    }
+
     // выбрать узел из соседних
     // вернет null если отказался от выбора
     const indexOfSelectedNode = await this.selectNeighbour(neighbours);
@@ -239,7 +272,12 @@ export class TraceDefineComponent {
     }
   }
 
-  onDiscard() {
+  async onDiscard() {
+    const confirmation = await MessageBoxUtils.show(this.dialog, 'Confirmation', [
+      { message: 'i18n.ft.cancel-trace-definition', bold: true, bottomMargin: false }
+    ]);
+    if (!confirmation) return;
+
     MapLayersActions.extinguishAllFibers();
     this.close();
   }

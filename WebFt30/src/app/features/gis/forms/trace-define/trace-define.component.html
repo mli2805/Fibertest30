@@ -1,4 +1,4 @@
-<div class="grouped-border ml-0.5 flex h-full flex-col justify-between">
+<div class="grouped-border ml-0.5 flex h-full flex-col justify-between text-sm">
   <div class="flex h-full w-full flex-col items-start justify-start">
     <p class="my-0.5 self-center">{{ 'i18n.ft.step-by-step-trace-definition' | translate }}</p>
     <div class="mt-0.5">
@@ -12,6 +12,9 @@
 
   <!-- buttons -->
   <div class="flex flex-col">
+    <button class="button-extra mb-1" (click)="onSemiautomaticMode()">
+      {{ 'i18n.ft.go-to-the-fork' | translate }}
+    </button>
     <div class="mb-1 flex">
       <button class="button-extra mr-1" (click)="onStepForward()">
         {{ 'i18n.ft.step-forward' | translate }}

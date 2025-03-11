@@ -1,0 +1,20 @@
+{
+  "i18n.demo-components.button": "Button",
+  "i18n.demo-components.cancel-discard": "Cancel, Discard",
+  "i18n.demo-components.combobox": "Combobox",
+  "i18n.demo-components.enter-valid-ipv6-address": "Enter valid IPv6 DNS address",
+  "i18n.demo-components.extra": "Extra",
+  "i18n.demo-components.font": "Font",
+  "i18n.demo-components.icon": "Icon",
+  "i18n.demo-components.icon-right": "Icon right",
+  "i18n.demo-components.input": "Input",
+  "i18n.demo-components.left-text": "Left text",
+  "i18n.demo-components.ok-yes": "Ok, Yes",
+  "i18n.demo-components.placeholder": "placeholder",
+  "i18n.demo-components.right-text": "Right text",
+  "i18n.demo-components.simple-name": "Simple name",
+  "i18n.demo-components.toggle": "Toggle",
+  "i18n.demo.components": "Components",
+  "i18n.demo.greeter": "Greeter",
+  "i18n.demo.sor-viewer": "SOR viewer"
+}

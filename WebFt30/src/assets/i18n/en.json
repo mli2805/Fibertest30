@@ -636,6 +636,7 @@
   "i18n.ft.select-traces-which": "Select traces which will use added equimpent",
   "i18n.ft.if-selected-trace": "If selected trace use some equimpent in this node it will be replaced",
 
+  "i18n.ft.go-to-the-fork": "Go to the fork",
   "i18n.ft.step-forward": "Step forward",
   "i18n.ft.step-backward": "Step backward",
   "i18n.ft.cancel-step": "Cancel step",
@@ -655,6 +656,11 @@
   "i18n.ft.to-adjust-trace-drawing-were-used": "To adjust trace drawing were used {{ 0 }} point(s)",
   "i18n.ft.dark": "Dark",
   "i18n.ft.in-service": "In service",
+  "i18n.ft.trace-cannot-be-terminated-by-or-pass-through-RTU": "Trace cannot be terminated by or pass through RTU!",
+  "i18n.ft.it-s-an-end-node": "It's an end node.",
+  "i18n.ft.if-you-need-to-continue-press-step-backward": "If you need to continue, press <Step backward>.",
+  "i18n.ft.cancel-trace-definition": "Cancel trace definition?",
+  "i18n.ft.previous": "previous",
 
   "i18n.ft.confirmation": "Confirmation",
   "i18n.ft.error": "Error",

@@ -68,7 +68,8 @@ export class EditEquipmentDialogComponent {
 
   isApplyDisabled(): boolean {
     // if (this.form.pristine) return true;
-    if (!this.form.valid || this.isRightReserveInvalid()) return true;
+    if (!this.form.valid || this.isleftReserveInvalid() || this.isRightReserveInvalid())
+      return true;
 
     return false;
   }
@@ -100,5 +101,6 @@ export class EditEquipmentDialogComponent {
 
   onEquipmentTypeChanged($event: any) {
     this.selectedType = $event;
+    console.log(this.selectedType);
   }
 }

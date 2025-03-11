@@ -319,6 +319,7 @@
   "i18n.ft.cancel-step": "Отменить шаг",
   "i18n.ft.noname-node": "<Узел без названия>",
 
+  "i18n.ft.go-to-the-fork": "Идти до развилки",
   "i18n.ft.next-step": "Следующий шаг",
   "i18n.ft.select": "Выбрать",
   "i18n.ft.trace-component-selection": "Выбор компонента трассы",
@@ -334,6 +335,11 @@
   "i18n.ft.to-adjust-trace-drawing-were-used": "Для уточнения трассы было использовано точек: {{ 0 }}",
   "i18n.ft.dark": "Темный",
   "i18n.ft.in-service": "Светлый",
+  "i18n.ft.trace-cannot-be-terminated-by-or-pass-through-RTU": "Трасса не может заканчиваться в или проходить через RTU!",
+  "i18n.ft.it-s-an-end-node": "Это конечный узел.",
+  "i18n.ft.if-you-need-to-continue-press-step-backward": "Если Вам необходимо продолжить, нажмите <Шаг назад>.",
+  "i18n.ft.cancel-trace-definition": "Завершить определение трассы?",
+  "i18n.ft.previous": "предыдущий",
 
   "i18n.ft.confirmation": "Подтверждение",
   "i18n.ft.error": "Ошибка",

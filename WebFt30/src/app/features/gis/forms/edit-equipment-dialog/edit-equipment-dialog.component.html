@@ -37,16 +37,22 @@
         />
       </div>
       <div class="flex items-center">
-        <label class="w-28 pl-2">{{ 'i18n.ft.to-the-right' | translate }}</label>
-        <input
-          #titleInput
-          formControlName="rightReserve"
-          type="text"
-          class="input-simple peer w-16"
-          [ngClass]="{
-            'invalid-border': isRightReserveInvalid()
-          }"
-        />
+        <label class="h-[38px] w-28 pl-2">{{ 'i18n.ft.to-the-right' | translate }}</label>
+        <ng-container
+          *ngIf="
+            selectedType !== equipmentType.Terminal && selectedType !== equipmentType.CableReserve
+          "
+        >
+          <input
+            #titleInput
+            formControlName="rightReserve"
+            type="text"
+            class="input-simple peer w-16"
+            [ngClass]="{
+              'invalid-border': isRightReserveInvalid()
+            }"
+          />
+        </ng-container>
       </div>
     </div>
     <div class="flex items-center">

@@ -4,10 +4,11 @@
       <div
         class="mb-4 ml-1 text-sm"
         [ngClass]="{
-        'text-red-500': type === 'Error',
-      }"
+          'text-red-500': type === 'Error',
+          'font-bold': type === 'Error'
+        }"
       >
-        {{ 'i18n.ft.confirmation' | translate }}
+        {{ title }}
       </div>
     </rtu-dialog-header>
     <div *ngFor="let line of lines" class="text-center">
@@ -28,7 +29,14 @@
         </button>
       </ng-container>
 
-      <button class="button-delete ml-2 min-w-36" (click)="onOk()">
+      <button
+        class="ml-2 min-w-36"
+        (click)="onOk()"
+        [ngClass]="{
+          'button-delete': type === 'Confirmation',
+          'button-extra': type !== 'Confirmation',
+        }"
+      >
         {{ 'i18n.ft.ok' | translate }}
       </button>
     </div>
