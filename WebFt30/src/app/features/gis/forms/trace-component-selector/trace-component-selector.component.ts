@@ -2,7 +2,7 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject, inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc';
 import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapUtils } from '../../components/shared/gis-map.utils';
@@ -20,6 +20,9 @@ export class TraceComponentSelectorComponent {
   childForms: FormGroup[] = [];
   node!: TraceNode;
   gisMapService!: GisMapService;
+
+  spinning = new BehaviorSubject<boolean>(false);
+  spinning$ = this.spinning.asObservable();
 
   constructor(
     @Inject(DIALOG_DATA) private data: any,
@@ -64,8 +67,10 @@ export class TraceComponentSelectorComponent {
   }
 
   async onNext() {
+    this.spinning.next(true);
     await this.saveNodeTitleChanges();
     await this.saveEquipmentChanges();
+    this.spinning.next(false);
 
     const result = this.buttons.find((b) => b.isSelected)!.id;
     this.dialogRef.close(result);
@@ -97,11 +102,12 @@ export class TraceComponentSelectorComponent {
   async saveEquipmentChanges() {
     for (let i = 0; i < this.buttons.length - 1; i++) {
       const button = <any>this.buttons[i];
+
       const childForm = this.childForms[i];
       if (
-        button.eqTitle !== childForm.controls['title'].value ||
-        button.left !== childForm.controls['leftReserve'].value ||
-        button.right !== childForm.controls['rightReserve'].value
+        button.equipment.title !== childForm.controls['title'].value ||
+        button.equipment.cableReserveLeft !== childForm.controls['leftReserve'].value ||
+        button.equipment.cableReserveRight !== childForm.controls['rightReserve'].value
       ) {
         const command = {
           EquipmentId: button.equipment.id,

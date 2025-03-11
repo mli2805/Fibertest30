@@ -1,3 +1,5 @@
+<rtu-loading-centered-big-spinner *ngIf="spinning$ | async"></rtu-loading-centered-big-spinner>
+
 <div class="dialog">
   <div class="flex flex-col" [formGroup]="form">
     <div class="mb-4 text-center text-base">
@@ -10,10 +12,10 @@
       </div>
     </div>
     <ng-container *ngIf="buttons.length > 1">
-      <div class="ml-2 flex justify-end">
+      <div class="flex justify-end">
         <span class="mr-1 w-32">{{ 'i18n.ft.title' | translate }}</span>
         <span class="mr-1 w-12">{{ 'i18n.ft.l-m' | translate }}</span>
-        <span class="w-12">{{ 'i18n.ft.r-m' | translate }}</span>
+        <span class="w-11">{{ 'i18n.ft.r-m' | translate }}</span>
       </div>
     </ng-container>
 

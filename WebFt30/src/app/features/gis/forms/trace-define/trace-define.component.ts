@@ -7,7 +7,7 @@ import { RadioButton } from 'src/app/shared/components/svg-buttons/radio-button/
 import { Dialog, DialogConfig, DialogRef } from '@angular/cdk/dialog';
 import { NextStepSelectorComponent } from '../next-step-selector/next-step-selector.component';
 import { GlobalPositionStrategy } from '@angular/cdk/overlay';
-import { firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { TraceComponentSelectorComponent } from '../trace-component-selector/trace-component-selector.component';
 import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,6 +23,8 @@ import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-b
 })
 export class TraceDefineComponent {
   stepList$ = this.gisMapService.stepList.asObservable();
+  spinning = new BehaviorSubject<boolean>(false);
+  spinning$ = this.spinning.asObservable();
 
   constructor(
     private injector: Injector,
@@ -113,14 +115,17 @@ export class TraceDefineComponent {
     // вернет GUID.empty если не включать в трассу никакое оборудование
     // вернет null если отказался от выбора (значит отказался от уже выбранного узла)
     const equipmentId = await this.selectEquipment(neighbours[indexOfSelectedNode].node);
+    this.spinning.next(true);
     if (equipmentId === null) {
       const lastId = this.gisMapService.steps.at(-1)!.nodeId;
       this.gisMapService.setHighlightNode(lastId);
+      this.spinning.next(false);
       return false;
     }
 
     const neighbour = neighbours[indexOfSelectedNode];
     this.addAndHighlighStep(neighbour, equipmentId);
+    this.spinning.next(false);
     return true;
   }
 
@@ -209,13 +214,16 @@ export class TraceDefineComponent {
     // вернет GUID.empty если не включать в трассу никакое оборудование
     // вернет null если отказался от выбора (значит отказался от уже выбранного узла)
     const equipmentId = await this.selectEquipment(neighbour.node);
+    this.spinning.next(true);
     if (equipmentId === null) {
       const lastId = this.gisMapService.steps.at(-1)!.nodeId;
       this.gisMapService.setHighlightNode(lastId);
+      this.spinning.next(false);
       return false;
     }
 
     this.addAndHighlighStep(neighbour, equipmentId);
+    this.spinning.next(false);
     return true;
   }
 
