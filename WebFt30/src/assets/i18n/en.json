@@ -661,6 +661,7 @@
   "i18n.ft.if-you-need-to-continue-press-step-backward": "If you need to continue, press <Step backward>.",
   "i18n.ft.cancel-trace-definition": "Cancel trace definition?",
   "i18n.ft.previous": "previous",
+  "i18n.ft.last-node-of-trace-must-contain-some-equipment": "Last node of trace must contain some equipment",
 
   "i18n.ft.confirmation": "Confirmation",
   "i18n.ft.error": "Error",

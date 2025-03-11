@@ -10,7 +10,7 @@
       </div>
     </div>
     <ng-container *ngIf="buttons.length > 1">
-      <div class="ml-1 flex justify-end">
+      <div class="ml-2 flex justify-end">
         <span class="mr-1 w-32">{{ 'i18n.ft.title' | translate }}</span>
         <span class="mr-1 w-12">{{ 'i18n.ft.l-m' | translate }}</span>
         <span class="w-12">{{ 'i18n.ft.r-m' | translate }}</span>
@@ -26,7 +26,7 @@
       </ng-container>
       <ng-container *ngIf="i === buttons.length - 1">
         <div class="mt-4 flex items-center text-sm">
-          <rtu-radio-button [button]="button" (click)="onRadioButtonClick(i)" />
+          <rtu-radio-button [button]="button" (click)="onRadioButtonClick(-1)" />
         </div>
       </ng-container>
     </ng-container>

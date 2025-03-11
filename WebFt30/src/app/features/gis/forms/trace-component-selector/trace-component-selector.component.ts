@@ -28,6 +28,7 @@ export class TraceComponentSelectorComponent {
   ) {
     this.gisMapService = data.gisMapService;
     this.buttons = data.buttons;
+    console.log(this.buttons);
 
     for (let i = 0; i < data.buttons.length; i++) {
       this.childForms.push(this.createChildForm(data.buttons[i]));

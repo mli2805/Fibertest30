@@ -340,6 +340,7 @@
   "i18n.ft.if-you-need-to-continue-press-step-backward": "Если Вам необходимо продолжить, нажмите <Шаг назад>.",
   "i18n.ft.cancel-trace-definition": "Завершить определение трассы?",
   "i18n.ft.previous": "предыдущий",
+  "i18n.ft.last-node-of-trace-must-contain-some-equipment": "Последний узел трассы должен содержать оборудование",
 
   "i18n.ft.confirmation": "Подтверждение",
   "i18n.ft.error": "Ошибка",

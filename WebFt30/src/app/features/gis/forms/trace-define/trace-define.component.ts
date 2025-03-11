@@ -259,6 +259,20 @@ export class TraceDefineComponent {
   }
 
   async onApply() {
+    if (this.gisMapService.stepList.value.length === 1) return;
+
+    const lastStep = this.gisMapService.stepList.value.at(-1);
+    if (lastStep!.equipmentId === GisMapUtils.emptyGuid) {
+      MessageBoxUtils.show(this.dialog, 'Error', [
+        {
+          message: 'i18n.ft.last-node-of-trace-must-contain-some-equipment',
+          bold: true,
+          bottomMargin: false
+        }
+      ]);
+      return;
+    }
+
     const dialogRef = this.dialog.open(AcceptTraceDialogComponent, {
       disableClose: true,
       data: { service: this.gisMapService }
