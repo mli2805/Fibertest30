@@ -1,14 +1,17 @@
+import { Dialog } from '@angular/cdk/dialog';
 import { Component, ElementRef, HostListener, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { EMPTY, firstValueFrom, Observable } from 'rxjs';
-import { AppState, AuthSelectors, RtuTreeSelectors, User } from 'src/app/core';
+import { TranslateService } from '@ngx-translate/core';
+import { firstValueFrom } from 'rxjs';
+import { AppState, AuthSelectors, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { GraphService } from 'src/app/core/grpc';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
+import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 import { Utils } from 'src/app/shared/utils/utils';
 
 @Component({
@@ -35,7 +38,9 @@ export class DetachedTraceMenuComponent {
     private elementRef: ElementRef,
     private router: Router,
     public gisMapService: GisMapService,
-    public graphService: GraphService
+    public graphService: GraphService,
+    private dialog: Dialog,
+    private ts: TranslateService
   ) {
     this.currentUser = CoreUtils.getCurrentState(this.store, AuthSelectors.selectUser);
   }
@@ -98,17 +103,7 @@ export class DetachedTraceMenuComponent {
   // на команду должны отреагировать все клиенты, не только тот который подал команду
   // значит, отправляем на сервер, а когда в start-page придет подтв успеха, применяем к графу/карте
   async onCleanClicked() {
-    const cmd = {
-      TraceId: this.trace.traceId
-    };
-    const json = JSON.stringify(cmd);
-    const response = await firstValueFrom(this.graphService.sendCommand(json, 'CleanTrace'));
-    if (!response.success) return;
-
-    const externalCmd = { name: 'CleanTrace', traceId: this.trace.traceId };
-    console.log(externalCmd);
-    console.log(this.gisMapService.externalCommand.value);
-    this.gisMapService.externalCommand.next(externalCmd);
+    this.cleanOrRemove('CleanTrace');
   }
 
   canRemove() {
@@ -116,22 +111,36 @@ export class DetachedTraceMenuComponent {
   }
 
   async onRemoveClicked() {
+    await this.cleanOrRemove('RemoveTrace');
+  }
+
+  async cleanOrRemove(command: string) {
+    const confirmation = await MessageBoxUtils.show(this.dialog, 'Confirmation', [
+      { message: 'i18n.ft.attention', bold: false, bottomMargin: false },
+      { message: 'i18n.ft.all-measurements-for-trace', bold: false, bottomMargin: true },
+      { message: this.trace.title, bold: true, bottomMargin: true },
+      { message: 'i18n.ft.will-be-removed', bold: false, bottomMargin: true },
+      { message: 'i18n.ft.are-you-sure', bold: false, bottomMargin: false }
+    ]);
+    if (!confirmation) {
+      return;
+    }
+
     const cmd = {
       TraceId: this.trace.traceId
     };
     const json = JSON.stringify(cmd);
-    const response = await firstValueFrom(this.graphService.sendCommand(json, 'RemoveTrace'));
+    const response = await firstValueFrom(this.graphService.sendCommand(json, command));
     if (!response.success) return;
 
-    const externalCmd = { name: 'RemoveTrace', traceId: this.trace.traceId };
-    console.log(externalCmd);
-    console.log(this.gisMapService.externalCommand.value);
+    const externalCmd = { name: command, traceId: this.trace.traceId };
     this.gisMapService.externalCommand.next(externalCmd);
   }
 
   canAssignBaseRefs() {
     return this.hasPermission(ApplicationPermission.AssignBaseRef);
   }
+
   async onAssignBaseRefsClicked() {
     this.open = false;
     await Utils.delay(100);

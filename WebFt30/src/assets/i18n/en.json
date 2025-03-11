@@ -527,7 +527,7 @@
   "i18n.ft.measurement-ok": "Measurement: OK",
   "i18n.ft.measurement-failed": "Measurement: Failed",
   "i18n.ft.rtu-ok": "RTU: OK",
-  "i18n.ft.rtu-attention-required": "RTU: Attentino required!",
+  "i18n.ft.rtu-attention-required": "RTU: Attention required!",
   "i18n.ft.service-is-working": "Service is working! (RTU Manager)",
   "i18n.ft.frequent-service-restarts": "Frequent service restarts",
   "i18n.ft.failed-to-analyze": "Failed to analyze measured reflectogram",
@@ -655,6 +655,13 @@
   "i18n.ft.to-adjust-trace-drawing-were-used": "To adjust trace drawing were used {{ 0 }} point(s)",
   "i18n.ft.dark": "Dark",
   "i18n.ft.in-service": "In service",
+
+  "i18n.ft.confirmation": "Confirmation",
+  "i18n.ft.error": "Error",
+  "i18n.ft.attention": "Attention!",
+  "i18n.ft.all-measurements-for-trace": "All measurements for trace",
+  "i18n.ft.will-be-removed": "will be removed!",
+  "i18n.ft.are-you-sure": "Are you sure?",
 
   "i18n.validation.incorrect-level-order": "incorrect level order",
   "i18n.validation.not-unique": "must be unique",

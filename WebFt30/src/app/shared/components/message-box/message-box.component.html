@@ -1,0 +1,36 @@
+<div class="dialog">
+  <div class="flex min-w-96 flex-col">
+    <rtu-dialog-header>
+      <div
+        class="mb-4 ml-1 text-sm"
+        [ngClass]="{
+        'text-red-500': type === 'Error',
+      }"
+      >
+        {{ 'i18n.ft.confirmation' | translate }}
+      </div>
+    </rtu-dialog-header>
+    <div *ngFor="let line of lines" class="text-center">
+      <div
+        class="ml-1"
+        [ngClass]="{
+          'font-bold': line.bold,
+          'mb-4': line.bottomMargin
+        }"
+      >
+        {{ line.message | translate }}
+      </div>
+    </div>
+    <div class="mt-12 flex justify-end">
+      <ng-container *ngIf="type === 'Confirmation'">
+        <button class="button-extra min-w-36" (click)="onCancel()">
+          {{ 'i18n.ft.cancel' | translate }}
+        </button>
+      </ng-container>
+
+      <button class="button-delete ml-2 min-w-36" (click)="onOk()">
+        {{ 'i18n.ft.ok' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

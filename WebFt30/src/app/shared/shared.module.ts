@@ -42,7 +42,6 @@ import { UserAvatarComponent } from './components/user-avatar/user-avatar.compon
 import { CheckmarkOrCircleComponent } from './components/overlays/password-validation/checkmark-or-circle/checkmark-or-circle.component';
 import { RelativeTimeRefreshComponent } from './components/relative-time-refresh/relative-time-refresh.component';
 import { LabelWithDiffComponent } from './components/label-with-diff/label-with-diff.component';
-import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 import { EofThresholdHelpComponent } from './components/context-help/components/eof-threshold-help/eof-threshold-help.component';
 import { TestPortHelpComponent } from './components/context-help/components/test-port-help/test-port-help.component';
 import { HelpTooltipComponent } from './components/context-help/help-tooltip.component';
@@ -84,6 +83,7 @@ import { PencilButtonComponent } from './components/svg-buttons/pencil-button.co
 import { DeleteButtonComponent } from './components/svg-buttons/delete-button.component';
 import { MultiSelectionButtonComponent } from './components/svg-buttons/multi-selection-button/multi-selection-button.component';
 import { TraceInfoComponent } from './components/trace-info/trace-info.component';
+import { MessageBoxComponent } from './components/message-box/message-box.component';
 
 @NgModule({
   imports: [
@@ -143,7 +143,6 @@ import { TraceInfoComponent } from './components/trace-info/trace-info.component
     PasswordValidationComponent,
     CheckmarkOrCircleComponent,
     LabelWithDiffComponent,
-    ConfirmationComponent,
     NavigateButtonComponent,
     CollapseBranchComponent,
     ExpandBranchComponent,
@@ -171,7 +170,8 @@ import { TraceInfoComponent } from './components/trace-info/trace-info.component
     GraphSorAvailableActionComponent,
     RadioButtonComponent,
     MultiSelectionButtonComponent,
-    TraceInfoComponent
+    TraceInfoComponent,
+    MessageBoxComponent
   ],
   exports: [
     CommonModule,

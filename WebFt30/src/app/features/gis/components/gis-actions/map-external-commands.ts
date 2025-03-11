@@ -13,7 +13,6 @@ export class MapExternalCommands {
   }
 
   static do(cmd: any) {
-    console.log(cmd);
     switch (cmd.name) {
       case 'ShowRtu':
         this.showRtu(cmd.nodeId);
