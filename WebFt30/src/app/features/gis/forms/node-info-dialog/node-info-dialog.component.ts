@@ -31,6 +31,7 @@ interface TraceElement {
 export class NodeInfoDialogComponent {
   public dialogRef: DialogRef<boolean> = inject(DialogRef<boolean>);
   gisMapService!: GisMapService;
+  hasEditPermission!: boolean;
 
   form!: FormGroup;
   nodeId!: string;
@@ -41,6 +42,7 @@ export class NodeInfoDialogComponent {
 
   constructor(@Inject(DIALOG_DATA) private data: any, private graphService: GraphService) {
     this.gisMapService = data.service;
+    this.hasEditPermission = data.hasEditPermission;
 
     this.nodeId = data.nodeId;
     this.nodeInWork = this.gisMapService.getNode(this.nodeId);
@@ -56,6 +58,7 @@ export class NodeInfoDialogComponent {
     const equipments = this.gisMapService
       .getGeoData()
       .equipments.filter((e) => e.nodeId === this.nodeId && e.type !== EquipmentType.EmptyNode);
+    console.log(equipments);
 
     if (equipments.length > 0) {
       this.equipTable = equipments.map((e) => {

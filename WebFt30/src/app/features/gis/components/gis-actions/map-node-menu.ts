@@ -72,7 +72,7 @@ export class MapNodeMenu {
       return [
         {
           text: this.ts.instant('i18n.ft.information'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.showInformation(e)
+          callback: (e: L.ContextMenuItemClickEvent) => this.showInformation(e, hasEditPermissions)
         }
       ];
     }
@@ -83,7 +83,7 @@ export class MapNodeMenu {
       return [
         {
           text: this.ts.instant('i18n.ft.information'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.showInformation(e)
+          callback: (e: L.ContextMenuItemClickEvent) => this.showInformation(e, hasEditPermissions)
         },
         {
           text: this.ts.instant('i18n.ft.add-equipment'),
@@ -106,7 +106,7 @@ export class MapNodeMenu {
       return [
         {
           text: this.ts.instant('i18n.ft.information'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.showInformation(e)
+          callback: (e: L.ContextMenuItemClickEvent) => this.showInformation(e, hasEditPermissions)
         }
       ];
     }
@@ -126,16 +126,15 @@ export class MapNodeMenu {
     console.log(nodeId);
   }
 
-  static async showInformation(e: L.ContextMenuItemClickEvent) {
+  static async showInformation(e: L.ContextMenuItemClickEvent, hasEditPermission: boolean) {
     const nodeId = (<any>e.relatedTarget).id;
 
     const dialogConfig = new DialogConfig<unknown, DialogRef>();
     dialogConfig.positionStrategy = new GlobalPositionStrategy().left('20px').top('50px');
     dialogConfig.disableClose = true;
-    dialogConfig.data = { nodeId, service: this.gisMapService };
+    dialogConfig.data = { nodeId, service: this.gisMapService, hasEditPermission };
     const dialogRef = this.dialog.open(NodeInfoDialogComponent, dialogConfig);
     await firstValueFrom(dialogRef.closed);
-    // this.gisMapService.showNodeInfo.next(nodeId);
   }
 
   static async addEquipment(e: L.ContextMenuItemClickEvent) {

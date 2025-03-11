@@ -7,7 +7,6 @@ import { GisMapComponent } from './components/gis-map/gis-map.component';
 import { GisMapService } from './gis-map.service';
 import { GisTraceViewerComponent } from './components/gis-trace-viewer/gis-trace-viewer.component';
 import { TraceDefineComponent } from './forms/trace-define/trace-define.component';
-import { ShowNodeInfoComponent } from './forms/show-node-info/show-node-info.component';
 import { EditEquipmentDialogComponent } from './forms/edit-equipment-dialog/edit-equipment-dialog.component';
 import { EquipmentTypeSelectorComponent } from './forms/equipment-type-selector/equipment-type-selector.component';
 import { SelectTracesDialogComponent } from './forms/select-traces-dialog/select-traces-dialog.component';
@@ -25,7 +24,6 @@ import { NodeInfoDialogComponent } from './forms/node-info-dialog/node-info-dial
     GisMapComponent,
     GisTraceViewerComponent,
     TraceDefineComponent,
-    ShowNodeInfoComponent,
     EditEquipmentDialogComponent,
     EquipmentTypeSelectorComponent,
     SelectTracesDialogComponent,

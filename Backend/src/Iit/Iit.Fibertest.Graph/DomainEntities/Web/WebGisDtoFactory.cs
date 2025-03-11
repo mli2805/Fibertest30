@@ -34,7 +34,8 @@ public static class WebGisDtoFactory
             Nodes = nodeIds
                 .Select(id => writeModel.Nodes.First(n => n.NodeId == id))
                 .Select(node => node.GetNodeGisData()).ToList(),
-            Equipments = new List<EquipmentGisData>(),
+            Equipments = writeModel.Equipments
+                .Select(e => e.GetEquipmentGisData()).Union(writeModel.Rtus.Select(r=>r.GetRtuAsEquipmentGisData())).ToList(),
             Fibers = fiberIds
                 .Select(id => writeModel.Fibers.First(f => f.FiberId == id))
                 .Select(fiber => fiber.GetFiberGisData(writeModel))
@@ -42,7 +43,7 @@ public static class WebGisDtoFactory
             Traces = writeModel.Traces
         };
     }
-
+    
     //
     public static TraceGisData GetTraceGisData(this Model writeModel, Guid traceId)
     {
