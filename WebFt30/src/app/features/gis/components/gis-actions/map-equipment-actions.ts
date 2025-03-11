@@ -3,7 +3,6 @@ import { Injector } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GraphService } from 'src/app/core/grpc';
 import { GisMapService } from '../../gis-map.service';
-import { Utils } from 'src/app/shared/utils/utils';
 import { GeoEquipment } from 'src/app/core/store/models/ft30/geo-data';
 import { MapLayersActions } from './map-layers-actions';
 import { firstValueFrom } from 'rxjs';
@@ -73,6 +72,7 @@ export class MapEquipmentActions {
     return dialogRef;
   }
 
+  // послать и если успех - применить к карте и geoData
   // если не возвращать ничего, то await не ждет исполнения ф-ции
   static async applyEditEquipmentResult(json: string, addMode: boolean): Promise<boolean> {
     const command = JSON.parse(json);
@@ -119,8 +119,6 @@ export class MapEquipmentActions {
 
       node.equipmentType = command.Type;
       MapLayersActions.addNodeToLayer(node);
-
-      // await this.refreshNodeInfoIfOpen();
     }
     return true;
   }
@@ -159,17 +157,6 @@ export class MapEquipmentActions {
         node.equipmentType = eqs[index].type;
       }
       MapLayersActions.addNodeToLayer(node);
-
-      // await this.refreshNodeInfoIfOpen();
-    }
-  }
-
-  static async refreshNodeInfoIfOpen() {
-    if (this.gisMapService.showNodeInfo.value !== null) {
-      const nodeId = this.gisMapService.showNodeInfo.value;
-      this.gisMapService.showNodeInfo.next(null);
-      await Utils.delay(50);
-      this.gisMapService.showNodeInfo.next(nodeId);
     }
   }
 }

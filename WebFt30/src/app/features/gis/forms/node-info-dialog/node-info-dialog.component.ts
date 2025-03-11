@@ -51,10 +51,10 @@ export class NodeInfoDialogComponent {
       comment: new FormControl(this.nodeInWork.comment)
     });
 
-    this.updateEquipmentAndTraces();
+    this.updateTablesEquipmentAndTraces();
   }
 
-  updateEquipmentAndTraces() {
+  updateTablesEquipmentAndTraces() {
     const equipments = this.gisMapService
       .getGeoData()
       .equipments.filter((e) => e.nodeId === this.nodeId && e.type !== EquipmentType.EmptyNode);
@@ -129,12 +129,10 @@ export class NodeInfoDialogComponent {
       MapLayersActions.addNodeToLayer(this.nodeInWork);
     }
 
-    // this.gisMapService.showNodeInfo.next(null);
     this.dialogRef.close();
   }
 
   onDiscardClicked() {
-    // this.gisMapService.showNodeInfo.next(null);
     this.dialogRef.close();
   }
 
@@ -150,7 +148,7 @@ export class NodeInfoDialogComponent {
       if (result !== null) {
         const res = await MapEquipmentActions.applyEditEquipmentResult(<string>result, false);
         if (res) {
-          this.updateEquipmentAndTraces();
+          this.updateTablesEquipmentAndTraces();
         }
       }
     });
@@ -160,7 +158,7 @@ export class NodeInfoDialogComponent {
   async removeEquipment(eqLine: EquipElement) {
     if (eqLine.usedByTraceWithBase) return;
     await MapEquipmentActions.removeEquipment(eqLine.equipment);
-    this.updateEquipmentAndTraces();
+    this.updateTablesEquipmentAndTraces();
   }
 
   async addEquipment() {
@@ -177,7 +175,7 @@ export class NodeInfoDialogComponent {
       if (result !== null) {
         const res = await MapEquipmentActions.applyEditEquipmentResult(<string>result, true);
         if (res) {
-          this.updateEquipmentAndTraces();
+          this.updateTablesEquipmentAndTraces();
         }
       }
     });

@@ -10,4 +10,5 @@ export class StepModel {
 export class Neighbour {
   node!: TraceNode;
   fiberIds: string[] = [];
+  previous = false;
 }

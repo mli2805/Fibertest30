@@ -167,11 +167,6 @@ export class GisMapService {
   stepList = new BehaviorSubject<StepModel[]>([]);
   stepList$ = this.stepList.asObservable();
 
-  //////////////////////////
-  // значение - nodeId
-  showNodeInfo = new BehaviorSubject<string | null>(null);
-  showNodeInfo$ = this.showNodeInfo.asObservable();
-
   ///////////////////////////
   previousHighlightNode: string | null = null;
   private highlightNode = new BehaviorSubject<string | null>(null);

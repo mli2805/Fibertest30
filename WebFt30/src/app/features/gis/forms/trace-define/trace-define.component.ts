@@ -97,8 +97,7 @@ export class TraceDefineComponent {
   private async forkIt(neighbours: Neighbour[], previousNodeId: string): Promise<boolean> {
     const idx = neighbours.findIndex((n) => n.node.id === previousNodeId);
     if (idx !== -1) {
-      neighbours[idx].node.title =
-        neighbours[idx].node.title + ' (' + this.ts.instant('i18n.ft.previous') + ')';
+      neighbours[idx].previous = true;
     }
 
     // выбрать узел из соседних
@@ -154,7 +153,9 @@ export class TraceDefineComponent {
       const button = {
         id: i,
         isSelected: i === 0,
-        title: neighbour.node.title,
+        title: neighbour.previous
+          ? neighbour.node.title + ' (' + this.ts.instant('i18n.ft.previous') + ')'
+          : neighbour.node.title,
         nodeId: neighbour.node.id
       };
       buttons.push(button);

@@ -1,7 +1,7 @@
 import * as L from 'leaflet';
 import { firstValueFrom } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc';
-import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
+import { GeoEquipment, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { EquipmentType } from 'src/grpc-generated';
 import { GisMapService } from '../../gis-map.service';
 import { GisMapUtils } from '../shared/gis-map.utils';
@@ -40,6 +40,16 @@ export class MapActions {
       const traceNode = new TraceNode(command.NodeId, '', e.latlng, equipmentType, '');
       MapLayersActions.addNodeToLayer(traceNode);
       this.gisMapService.getGeoData().nodes.push(traceNode);
+      const geoEquipment = new GeoEquipment(
+        command.RequestedEquipmentId,
+        '',
+        command.NodeId,
+        command.Type,
+        0,
+        0,
+        ''
+      );
+      this.gisMapService.getGeoData().equipments.push(geoEquipment);
     }
   }
 
