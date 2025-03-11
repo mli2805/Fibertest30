@@ -8,6 +8,7 @@
     #mainChannel
     [networkAddress]="rtu.mainChannel"
     [disabled]="isDisabled()"
+    [hasTestPermission]="hasTestPermission"
   ></rtu-main-channel-test>
 
   <div class="grouped-border ml-2 flex w-96 flex-col">
@@ -29,6 +30,7 @@
     [networkAddress]="rtu.reserveChannel"
     [isOn]="rtu.isReserveChannelSet"
     [disabled]="isDisabled()"
+    [hasTestPermission]="hasTestPermission"
   ></rtu-reserve-channel-test>
 
   <div class="grouped-border mb-1 ml-2 flex w-96 flex-col">

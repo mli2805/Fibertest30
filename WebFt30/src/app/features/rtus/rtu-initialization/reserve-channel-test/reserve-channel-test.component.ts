@@ -20,6 +20,7 @@ export class ReserveChannelTestComponent implements OnInit {
   @Input() networkAddress!: NetAddress;
   @Input() isOn!: boolean; // задан ли резервный канал
   @Input() disabled!: boolean;
+  @Input() hasTestPermission!: boolean;
 
   public store: Store<AppState> = inject(Store);
   testInProgress$ = this.store.select(RtuMgmtSelectors.selectReserveChannelTesting);
@@ -67,7 +68,7 @@ export class ReserveChannelTestComponent implements OnInit {
     return (
       this.form.controls['ipAddress'].value === '' ||
       !this.isServerAddressValid() ||
-      this.isSettingsOff()
+      !this.hasTestPermission
     );
   }
 

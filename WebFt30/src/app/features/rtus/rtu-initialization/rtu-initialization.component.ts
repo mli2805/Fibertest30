@@ -7,7 +7,7 @@ import { InitializeRtuDto } from 'src/app/core/store/models/ft30/initialize-rtu-
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors';
-import { ReserveChannelTestComponent } from './one-channel-test/reserve-channel-test.component';
+import { ReserveChannelTestComponent } from './reserve-channel-test/reserve-channel-test.component';
 import { DoubleAddress } from 'src/app/core/store/models/ft30/double-address';
 
 @Component({
@@ -23,7 +23,8 @@ export class RtuInitializationComponent implements OnInit, OnDestroy {
   public store: Store<AppState> = inject(Store);
   initializing$ = this.store.select(RtuMgmtSelectors.selectInitializing);
   rtuInitializationResult$ = this.store.select(RtuMgmtSelectors.selectRtuInitializationResult);
-  hasPermission!: boolean;
+  hasInitializePermission!: boolean;
+  hasTestPermission!: boolean;
 
   constructor(private route: ActivatedRoute) {}
 
@@ -31,14 +32,18 @@ export class RtuInitializationComponent implements OnInit, OnDestroy {
     this.rtuId = this.route.snapshot.paramMap.get('id')!;
 
     this.rtu = CoreUtils.getCurrentState(this.store, RtuTreeSelectors.selectRtu(this.rtuId))!;
-    this.hasPermission = CoreUtils.getCurrentState(
+    this.hasInitializePermission = CoreUtils.getCurrentState(
       this.store,
       AuthSelectors.selectHasInitializeRtuPermission
+    );
+    this.hasTestPermission = CoreUtils.getCurrentState(
+      this.store,
+      AuthSelectors.selectHasTestRtuPermission
     );
   }
 
   isDisabled() {
-    return !this.hasPermission;
+    return !this.hasInitializePermission;
   }
 
   onInitializeClicked() {

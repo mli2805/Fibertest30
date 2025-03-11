@@ -29,6 +29,10 @@ const selectHasInitializeRtuPermission = createSelector(selectUser, (user: User 
   user ? user.permissions.includes(ApplicationPermission.InitializeRtu) : false
 );
 
+const selectHasTestRtuPermission = createSelector(selectUser, (user: User | null) =>
+  user ? user.permissions.includes(ApplicationPermission.CheckRtuConnection) : false
+);
+
 const selectHasChangeNotificationSettingsPermission = createSelector(
   selectUser,
   (user: User | null) =>
@@ -50,6 +54,7 @@ export const AuthSelectors = {
   selectHasEditUsersPermission,
   selectHasEditGraphPermission,
   selectHasInitializeRtuPermission,
+  selectHasTestRtuPermission,
   selectHasChangeNotificationSettingsPermission,
   selectErrorMessageId
 };

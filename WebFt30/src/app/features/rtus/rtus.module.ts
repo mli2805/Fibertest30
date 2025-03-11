@@ -24,7 +24,7 @@ import { RtuStateComponent } from './rtu-state/rtu-state.component';
 import { RtuMonitoringSettingsComponent } from './rtu-monitoring-settings/rtu-monitoring-settings.component';
 import { RtuLandmarksComponent } from './rtu-landmarks/rtu-landmarks.component';
 import { RtusComponent } from './rtus/rtus.component';
-import { ReserveChannelTestComponent } from './rtu-initialization/one-channel-test/reserve-channel-test.component';
+import { ReserveChannelTestComponent } from './rtu-initialization/reserve-channel-test/reserve-channel-test.component';
 import { FreePortMenuComponent } from './rtu-tree/free-port/free-port-menu/free-port-menu.component';
 import { AttachedTraceMenuComponent } from './rtu-tree/attached-trace/attached-trace-menu/attached-trace-menu.component';
 import { DetachedTraceMenuComponent } from './rtu-tree/detached-trace/detached-trace-menu/detached-trace-menu.component';
