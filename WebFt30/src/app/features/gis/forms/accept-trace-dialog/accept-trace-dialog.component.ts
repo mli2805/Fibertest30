@@ -27,6 +27,7 @@ export class AcceptTraceDialogComponent {
 
     this.traceInfoData = {
       hasPermission: true,
+      // какого типа оборудования сколько в базе
       types: Array.from(this.types, ([type, value]) => ({ type, count: value.count })),
       trace: this.createTrace(data.service.steps),
       rtuTitle: this.gisMapService.steps[0].title,
@@ -128,6 +129,10 @@ export class AcceptTraceDialogComponent {
     };
     const json = JSON.stringify(command);
     const response = await firstValueFrom(this.graphService.sendCommand(json, 'AddTrace'));
+
+    if (response.success) {
+      this.gisMapService.getGeoData().traces.push(trace);
+    }
 
     this.dialogRef.close(response.success);
   }

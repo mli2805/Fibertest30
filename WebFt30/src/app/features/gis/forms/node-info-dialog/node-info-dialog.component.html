@@ -69,12 +69,8 @@
             </ng-container>
           </td>
           <td class="pl-1 pr-3 pt-1">
-            <ng-container *ngIf="hasEditPermission">
-              <rtu-delete-button
-                class="h-4 w-4"
-                (click)="removeEquipment(line)"
-                [ngClass]="{ 'dark:text-zink-400 text-zinc-400': line.usedByTraceWithBase }"
-              />
+            <ng-container *ngIf="hasEditPermission && !line.removeDisabled">
+              <rtu-delete-button class="h-4 w-4" (click)="removeEquipment(line)" />
             </ng-container>
           </td>
           <td>{{ line.equipment.title }}</td>

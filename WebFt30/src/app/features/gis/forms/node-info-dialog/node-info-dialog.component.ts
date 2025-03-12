@@ -9,12 +9,11 @@ import { firstValueFrom } from 'rxjs';
 import { GisMapUtils } from '../../components/shared/gis-map.utils';
 import { MapLayersActions } from '../../components/gis-actions/map-layers-actions';
 import { MapEquipmentActions } from '../../components/gis-actions/map-equipment-actions';
-import { Utils } from 'src/app/shared/utils/utils';
 
 interface EquipElement {
   isSelected: boolean;
   equipment: GeoEquipment;
-  usedByTraceWithBase: boolean;
+  removeDisabled: boolean;
 }
 
 interface TraceElement {
@@ -58,12 +57,15 @@ export class NodeInfoDialogComponent {
     const equipments = this.gisMapService
       .getGeoData()
       .equipments.filter((e) => e.nodeId === this.nodeId && e.type !== EquipmentType.EmptyNode);
-    console.log(equipments);
 
     if (equipments.length > 0) {
       this.equipTable = equipments.map((e) => {
         // в этом месте еще не знаем про трассы
-        return { isSelected: false, equipment: e, usedByTraceWithBase: false };
+        return {
+          isSelected: false,
+          equipment: e,
+          removeDisabled: false
+        };
       });
       this.equipTable[0].isSelected = true;
     }
@@ -79,10 +81,10 @@ export class NodeInfoDialogComponent {
     // помечаем то оборудование, которое используется трассами, для которых заданы базовые
     for (let i = 0; i < tracesInNode.length; i++) {
       const trace = tracesInNode[i];
-      if (trace.hasAnyBaseRef) {
+      if (trace.hasAnyBaseRef || trace.nodeIds.at(-1) === this.nodeId) {
         const equipId = this.traceTable.find((t) => t.trace.id === trace.id)!.equipId;
         if (equipId !== null) {
-          this.equipTable.find((e) => e.equipment.id === equipId)!.usedByTraceWithBase = true;
+          this.equipTable.find((e) => e.equipment.id === equipId)!.removeDisabled = true;
         }
       }
     }
@@ -154,9 +156,10 @@ export class NodeInfoDialogComponent {
     });
   }
 
-  // если оборудование входит в трассу для которой заданы базовые, то НЕЛЬЗЯ удалять
+  // если оборудование входит в трассу для которой заданы базовые,
+  // или это оборудование в последнем узле, то НЕЛЬЗЯ удалять
   async removeEquipment(eqLine: EquipElement) {
-    if (eqLine.usedByTraceWithBase) return;
+    if (eqLine.removeDisabled) return;
     await MapEquipmentActions.removeEquipment(eqLine.equipment);
     this.updateTablesEquipmentAndTraces();
   }
