@@ -12,6 +12,7 @@ export enum ApplicationPermission {
   EditGraph = 'EditGraph',
   CheckRtuConnection = 'CheckRtuConnection',
   InitializeRtu = 'InitializeRtu',
+  ChangeRtuAddress = 'ChangeRtuAddress',
   EditLandmarks = 'EditLandmarks',
   AssignBaseRef = 'AssignBaseRef',
   DefineTrace = 'DefineTrace',

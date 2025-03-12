@@ -13,6 +13,7 @@ public enum ApplicationPermission
     EditGraph,
     CheckRtuConnection,
     InitializeRtu,
+    ChangeRtuAddress,
     EditLandmarks,
     AssignBaseRef,
     DefineTrace,

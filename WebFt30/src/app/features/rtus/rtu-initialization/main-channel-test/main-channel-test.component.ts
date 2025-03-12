@@ -18,7 +18,7 @@ import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors
 })
 export class MainChannelTestComponent implements OnInit {
   @Input() networkAddress!: NetAddress;
-  @Input() disabled!: boolean;
+  @Input() hasChangeRtuAddressPermission!: boolean;
   @Input() hasTestPermission!: boolean;
 
   public store: Store<AppState> = inject(Store);
@@ -45,10 +45,6 @@ export class MainChannelTestComponent implements OnInit {
 
   isServerAddressValid() {
     return this.form.controls['ipAddress'].valid;
-  }
-
-  isSettingsOff() {
-    return this.disabled;
   }
 
   composeInputs(): NetAddress {

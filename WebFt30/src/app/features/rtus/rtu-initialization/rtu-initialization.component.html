@@ -7,7 +7,7 @@
   <rtu-main-channel-test
     #mainChannel
     [networkAddress]="rtu.mainChannel"
-    [disabled]="isDisabled()"
+    [hasChangeRtuAddressPermission]="hasChangeRtuAddressPermission"
     [hasTestPermission]="hasTestPermission"
   ></rtu-main-channel-test>
 
@@ -29,7 +29,7 @@
     #reserveChannel
     [networkAddress]="rtu.reserveChannel"
     [isOn]="rtu.isReserveChannelSet"
-    [disabled]="isDisabled()"
+    [hasChangeRtuAddressPermission]="hasChangeRtuAddressPermission"
     [hasTestPermission]="hasTestPermission"
   ></rtu-reserve-channel-test>
 
@@ -60,7 +60,7 @@
     <button
       class="button-neutral min-w-48 self-start"
       (click)="onInitializeClicked()"
-      [disabled]="isDisabled()"
+      [disabled]="!hasInitializePermission"
     >
       {{ 'i18n.ft.initialize' | translate }}
     </button>

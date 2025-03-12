@@ -7,9 +7,12 @@
       </div>
     </div>
 
-    <fieldset [disabled]="isSettingsOff()">
+    <fieldset [disabled]="!hasChangeRtuAddressPermission">
       <div class="mb-1 flex items-center">
-        <label class="w-20 text-sm" [ngClass]="{ 'disabled-label': isSettingsOff() }">
+        <label
+          class="w-20 text-sm"
+          [ngClass]="{ 'disabled-label': !hasChangeRtuAddressPermission }"
+        >
           {{ 'i18n.ft.ip' | translate }}
         </label>
         <input
@@ -21,9 +24,11 @@
       </div>
 
       <div class="flex items-center">
-        <label class="w-20 text-sm" [ngClass]="{ 'disabled-label': isSettingsOff() }">{{
-          'i18n.ft.port' | translate
-        }}</label>
+        <label
+          class="w-20 text-sm"
+          [ngClass]="{ 'disabled-label': !hasChangeRtuAddressPermission }"
+          >{{ 'i18n.ft.port' | translate }}</label
+        >
         <div class="text-sm">{{ networkAddress.port }}</div>
       </div>
     </fieldset>

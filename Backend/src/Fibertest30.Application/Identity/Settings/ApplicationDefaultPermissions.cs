@@ -23,7 +23,8 @@ public static class ApplicationDefaultPermissions
 
         AddPermission(P.EditGraph);
         AddPermission(P.CheckRtuConnection, R.Operator);
-        AddPermission(P.InitializeRtu);
+        AddPermission(P.InitializeRtu, R.Operator);
+        AddPermission(P.ChangeRtuAddress);
         AddPermission(P.EditLandmarks, R.Operator);
         AddPermission(P.AssignBaseRef, R.Operator);
         AddPermission(P.DefineTrace);

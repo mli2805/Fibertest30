@@ -6,7 +6,11 @@
         {{ 'i18n.ft.channel' | translate }}
       </div>
       <label class="toggle my-2 place-self-end">
-        <input type="checkbox" [disabled]="disabled" (change)="onSliderToggle()" />
+        <input
+          type="checkbox"
+          [disabled]="!hasChangeRtuAddressPermission"
+          (change)="onSliderToggle()"
+        />
         <div class="slider"></div>
       </label>
     </div>

@@ -19,7 +19,7 @@ import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors
 export class ReserveChannelTestComponent implements OnInit {
   @Input() networkAddress!: NetAddress;
   @Input() isOn!: boolean; // задан ли резервный канал
-  @Input() disabled!: boolean;
+  @Input() hasChangeRtuAddressPermission!: boolean;
   @Input() hasTestPermission!: boolean;
 
   public store: Store<AppState> = inject(Store);
@@ -53,7 +53,7 @@ export class ReserveChannelTestComponent implements OnInit {
   }
 
   isSettingsOff() {
-    return this.disabled || !this.isOn;
+    return !this.hasChangeRtuAddressPermission || !this.isOn;
   }
 
   composeInputs(): NetAddress {
