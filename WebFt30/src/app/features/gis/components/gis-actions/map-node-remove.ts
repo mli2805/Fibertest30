@@ -106,25 +106,25 @@ export class MapNodeRemove {
 
     for (let i = 0; i < hisFibers.length; i++) {
       let fiberForDeletion = hisFibers[i];
-      let nodeForDeletion = node;
+      let nodeForDeletionId = node.id;
 
       // eslint-disable-next-line no-constant-condition
       while (true) {
         const anotherNodeId =
-          fiberForDeletion.node1id === nodeForDeletion.id
+          fiberForDeletion.node1id === nodeForDeletionId
             ? fiberForDeletion.node2id
             : fiberForDeletion.node1id;
+        const anotherNode = this.gisMapService.getNode(anotherNodeId);
+
         this.RemoveFiber(fiberForDeletion);
-        const anotherNode = this.gisMapService
-          .getGeoData()
-          .nodes.find((n) => n.id === anotherNodeId);
+
         if (anotherNode?.equipmentType !== EquipmentType.AdjustmentPoint) break;
 
         fiberForDeletion = fibers.find(
           (f) => f.node1id === anotherNodeId || f.node2id === anotherNodeId
         )!;
-        this.RemoveNode(nodeForDeletion);
-        nodeForDeletion = anotherNode;
+        this.RemoveNode(anotherNode);
+        nodeForDeletionId = anotherNode.id;
       }
     }
 
