@@ -11,14 +11,13 @@ export class WithNodesResult {
 
 @Component({
   selector: 'rtu-section-with-nodes',
-  templateUrl: './section-with-nodes.component.html',
-  styleUrls: ['./section-with-nodes.component.scss']
+  templateUrl: './section-with-nodes.component.html'
 })
 export class SectionWithNodesComponent {
   public dialogRef: DialogRef<WithNodesResult | null> = inject(DialogRef<WithNodesResult | null>);
   form!: FormGroup;
   quantity!: number;
-  quantityLimit = 64;
+  quantityLimit = 60;
 
   buttons = [
     { id: 0, isSelected: false, title: this.ts.instant('i18n.ft.adjustment-point') },
