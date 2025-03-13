@@ -183,6 +183,10 @@ export class TraceDefineComponent {
     const equips = this.gisMapService
       .getGeoData()
       .equipments.filter((e) => e.nodeId === node.id && e.type !== EquipmentType.EmptyNode);
+
+    // если оборудования в узле нету и название узла не пустое, то нефиг спрашивать, применяем
+    if (equips.length === 0 && node.title !== '') return GisMapUtils.emptyGuid;
+
     for (let i = 0; i < equips.length; i++) {
       const equipment = equips[i];
       const button = {
