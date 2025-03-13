@@ -1,0 +1,34 @@
+<div class="dialog">
+  <div class="flex items-center">
+    <span>{{ 'i18n.ft.quantity' | translate }}</span>
+    <span class="mx-2" [formGroup]="form">
+      <input
+        formControlName="quantity"
+        type="text"
+        class="input-simple peer w-16"
+        [ngClass]="{
+          'invalid-border': !isQuantityValid()
+        }"
+    /></span>
+    <span>( {{ 'i18n.ft.maximum' | translate }} {{ quantityLimit }} )</span>
+  </div>
+  <hr class="mb-4 mt-3" style="border-top: 1px solid" />
+  <ng-container *ngFor="let button of buttons; let i = index">
+    <div class="text-sm">
+      <rtu-radio-button [button]="button" (click)="onRadioButtonClick(i)" />
+      <ng-container *ngIf="i === 0 || i === 1">
+        <hr class="mb-4 mt-3" style="border-top: 1px solid" />
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <!-- buttons -->
+  <div class="mt-6 flex flex-row justify-end">
+    <button class="button-cancel mr-2 min-w-36" (click)="onDiscardClicked()" cdkFocusInitial>
+      {{ 'i18n.ft.discard' | translate }}
+    </button>
+    <button class="button-ok mr-2 min-w-36" [disabled]="isAddDisabled()" (click)="onAddClicked()">
+      {{ 'i18n.ft.add' | translate }}
+    </button>
+  </div>
+</div>

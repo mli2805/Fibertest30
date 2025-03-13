@@ -7,7 +7,7 @@ import { EquipmentType } from 'src/grpc-generated';
 import { firstValueFrom } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc/services/graph.service';
 import { GisMapUtils } from '../shared/gis-map.utils';
-import { GeoFiber } from 'src/app/core/store/models/ft30/geo-data';
+import { GeoFiber, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { MapLayersActions } from './map-layers-actions';
 import { MapNodeRemove } from './map-node-remove';
@@ -16,6 +16,12 @@ import { MapEquipmentActions } from './map-equipment-actions';
 import { Dialog, DialogConfig, DialogRef } from '@angular/cdk/dialog';
 import { GlobalPositionStrategy } from '@angular/cdk/overlay';
 import { NodeInfoDialogComponent } from '../../forms/node-info-dialog/node-info-dialog.component';
+import {
+  SectionWithNodesComponent,
+  WithNodesResult
+} from '../../forms/section-with-nodes/section-with-nodes.component';
+import { AddEquipmentAtGpsLocation, AddFiber } from './graph-commands';
+import { FiberCommandsFactory } from './fiber-commands-factory';
 
 export class MapNodeMenu {
   private static ts: TranslateService;
@@ -57,7 +63,11 @@ export class MapNodeMenu {
         },
         {
           text: this.ts.instant('i18n.ft.section'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e)
+          callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e, false)
+        },
+        {
+          text: this.ts.instant('i18n.ft.section-with-nodes'),
+          callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e, true)
         },
         {
           text: '-',
@@ -99,7 +109,11 @@ export class MapNodeMenu {
         },
         {
           text: this.ts.instant('i18n.ft.section'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e)
+          callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e, false)
+        },
+        {
+          text: this.ts.instant('i18n.ft.section-with-nodes'),
+          callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e, true)
         }
       ];
     } else {
@@ -202,44 +216,119 @@ export class MapNodeMenu {
     }
   }
 
-  static drawSection(e: L.ContextMenuItemClickEvent) {
+  static drawSection(e: L.ContextMenuItemClickEvent, withNodes: boolean) {
     const nodeId = (<any>e.relatedTarget).id;
     // это мы только ставим флаги что на данном узле пользователь кликнул добавить волокно
     // само добавление произойдет по клику на другом узле
     this.gisMapService.addSectionMode = true;
+    this.gisMapService.sectionWithNodes = withNodes;
     this.gisMapService.addSectionFromNodeId = nodeId;
     this.gisMapService.addSectionFromCoors = e.latlng;
   }
 
   static async addNewFiber(endNodeId: string) {
+    const beginNode = this.gisMapService.getNode(this.gisMapService.addSectionFromNodeId);
+    const endNode = this.gisMapService.getNode(endNodeId);
+
+    if (this.gisMapService.sectionWithNodes) {
+      // с узлами
+      await this.sendWithNodesApplySuccess(beginNode, endNode);
+    } else {
+      // без узлов
+      await this.sendAddFiberApplySuccess(beginNode, endNode);
+    }
+
+    // сбрасываем флаги в сервисе
+    this.gisMapService.addSectionMode = false;
+    this.gisMapService.sectionWithNodes = false;
+    this.gisMapService.addSectionFromNodeId = GisMapUtils.emptyGuid;
+  }
+
+  static async sendAddFiberApplySuccess(beginNode: TraceNode, endNode: TraceNode) {
+    // создаем команду
     const fiberId = crypto.randomUUID();
     const beginNodeId = this.gisMapService.addSectionFromNodeId;
-    const command = {
-      FiberId: fiberId,
-      NodeId1: beginNodeId,
-      NodeId2: endNodeId
-    };
+    const command = new AddFiber(fiberId, beginNodeId, endNode.id);
 
-    this.gisMapService.addSectionMode = false;
-    this.gisMapService.addSectionFromNodeId = GisMapUtils.emptyGuid;
-
+    // отправляем команду на сервер
     const json = JSON.stringify(command);
     const response = await firstValueFrom(this.graphService.sendCommand(json, 'AddFiber'));
     if (response.success) {
       // добавить новое волокно на карту и в GeoData
-      const node1 = this.gisMapService.getGeoData().nodes.find((n) => n.id === beginNodeId);
-      const node2 = this.gisMapService.getGeoData().nodes.find((n) => n.id === endNodeId);
       const fiber = new GeoFiber(
         fiberId,
-        beginNodeId,
-        node1!.coors,
-        endNodeId,
-        node2!.coors,
+        beginNode.id,
+        beginNode.coors,
+        endNode.id,
+        endNode.coors,
         FiberState.NotInTrace
       );
       MapLayersActions.addFiberToLayer(fiber);
       this.gisMapService.getGeoData().fibers.push(fiber);
     }
+  }
+
+  static async sendWithNodesApplySuccess(beginNode: TraceNode, endNode: TraceNode) {
+    const result = await this.askWithNodes();
+    if (result === null) return;
+    const command = FiberCommandsFactory.createFiberWithNodesCommand(
+      beginNode,
+      endNode,
+      result.quantity,
+      result.type
+    );
+
+    // отправляем команду на сервер
+    const json = JSON.stringify(command);
+    const response = await firstValueFrom(this.graphService.sendCommand(json, 'AddFiberWithNodes'));
+    if (response.success) {
+      // добавить новые волокна и узлы на карту и в GeoData
+      for (let i = 0; i < command.AddEquipments.length; i++) {
+        const cmd = command.AddEquipments[i];
+        const node = new TraceNode(
+          cmd.NodeId,
+          '',
+          L.latLng(cmd.Latitude, cmd.Longitude),
+          cmd.Type,
+          ''
+        );
+        MapLayersActions.addNodeToLayer(node);
+        this.gisMapService.getGeoData().nodes.push(node);
+      }
+
+      for (let i = 0; i < command.AddFibers.length; i++) {
+        const cmd = command.AddFibers[i];
+        const coor1 =
+          i === 0
+            ? beginNode.coors
+            : L.latLng(
+                command.AddEquipments[i - 1].Latitude,
+                command.AddEquipments[i - 1].Longitude
+              );
+        const coor2 =
+          i === command.AddFibers.length - 1
+            ? endNode.coors
+            : L.latLng(command.AddEquipments[i].Latitude, command.AddEquipments[i].Longitude);
+        const fiber = new GeoFiber(
+          cmd.FiberId,
+          cmd.NodeId1,
+          coor1,
+          cmd.NodeId2,
+          coor2,
+          FiberState.NotInTrace
+        );
+        MapLayersActions.addFiberToLayer(fiber);
+        this.gisMapService.getGeoData().fibers.push(fiber);
+      }
+    }
+  }
+
+  static async askWithNodes(): Promise<WithNodesResult | null> {
+    const dialogRef = this.dialog.open(SectionWithNodesComponent, {
+      disableClose: true
+    });
+
+    return <WithNodesResult | null>await firstValueFrom(dialogRef.closed);
   }
 
   static defineTrace(e: L.ContextMenuItemClickEvent) {

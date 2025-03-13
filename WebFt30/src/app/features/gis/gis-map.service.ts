@@ -130,6 +130,7 @@ export class GisMapService {
 
   /////////////////////////
   addSectionMode = false;
+  sectionWithNodes = false; // действует только совместно с addSectionMode
   addSectionFromNodeId = GisMapUtils.emptyGuid;
   addSectionFromCoors!: L.LatLng;
 

@@ -287,12 +287,17 @@
   "i18n.ft.section": "Участок",
   "i18n.ft.section-with-nodes": "Участок с узлами",
   "i18n.ft.remove-section": "Удалить участок",
+  "i18n.ft.quantity": "Количество",
+  "i18n.ft.maximum": "максимум",
+  "i18n.ft.add": "Добавить",
 
   "i18n.ft.terminal": "Оконечный кросс",
   "i18n.ft.cross": "Проключение",
   "i18n.ft.closure": "Муфта",
   "i18n.ft.other": "Другое",
   "i18n.ft.cable-reserve": "Кабельный резерв",
+  "i18n.ft.node-without-equipment": "Узел без оборудования",
+  "i18n.ft.adjustment-point": "Точка привязки",
 
   "i18n.ft.node": "Узел",
   "i18n.ft.equipment-in-node": "Оборудование в узле",

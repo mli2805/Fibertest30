@@ -568,12 +568,17 @@
   "i18n.ft.section": "Section",
   "i18n.ft.section-with-nodes": "Section with nodes",
   "i18n.ft.remove-section": "Remove section",
+  "i18n.ft.quantity": "Quantity",
+  "i18n.ft.maximum": "maximum",
+  "i18n.ft.add": "Add",
 
   "i18n.ft.terminal": "Terminal",
   "i18n.ft.cross": "Cross",
   "i18n.ft.closure": "Closure",
   "i18n.ft.other": "Other",
   "i18n.ft.cable-reserve": "Cable reserve",
+  "i18n.ft.node-without-equipment": "Node without equimpent",
+  "i18n.ft.adjustment-point": "Adjustment point",
 
   "i18n.ft.node": "Node",
   "i18n.ft.equipment-in-node": "Equipment in node",

@@ -15,6 +15,7 @@ import { TraceComponentSelectorComponent } from './forms/trace-component-selecto
 import { EquipmentEditComponent } from './forms/trace-component-selector/equipment-edit/equipment-edit.component';
 import { AcceptTraceDialogComponent } from './forms/accept-trace-dialog/accept-trace-dialog.component';
 import { NodeInfoDialogComponent } from './forms/node-info-dialog/node-info-dialog.component';
+import { SectionWithNodesComponent } from './forms/section-with-nodes/section-with-nodes.component';
 
 @NgModule({
   imports: [GisRoutingModule, SharedModule],
@@ -31,7 +32,8 @@ import { NodeInfoDialogComponent } from './forms/node-info-dialog/node-info-dial
     TraceComponentSelectorComponent,
     EquipmentEditComponent,
     AcceptTraceDialogComponent,
-    NodeInfoDialogComponent
+    NodeInfoDialogComponent,
+    SectionWithNodesComponent
   ],
   providers: [GisMapService]
 })
