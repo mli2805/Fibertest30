@@ -1,0 +1,1 @@
+check git repo hook to teamcity
