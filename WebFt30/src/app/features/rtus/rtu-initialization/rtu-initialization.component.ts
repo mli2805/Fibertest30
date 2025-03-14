@@ -1,14 +1,14 @@
 import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState, AuthSelectors, DeviceSelectors, RtuTreeSelectors } from 'src/app/core';
+import { AppState, AuthSelectors, RtuTreeSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { InitializeRtuDto } from 'src/app/core/store/models/ft30/initialize-rtu-dto';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors';
-import { ReserveChannelTestComponent } from './reserve-channel-test/reserve-channel-test.component';
 import { DoubleAddress } from 'src/app/core/store/models/ft30/double-address';
+import { MainChannelTestComponent } from './main-channel-test/main-channel-test.component';
 
 @Component({
   selector: 'rtu-rtu-initialization',
@@ -18,7 +18,7 @@ export class RtuInitializationComponent implements OnInit, OnDestroy {
   rtuId!: string;
   rtu!: Rtu;
 
-  @ViewChild('mainChannel') mainChannel!: ReserveChannelTestComponent;
+  @ViewChild('mainChannel') mainChannel!: MainChannelTestComponent;
 
   public store: Store<AppState> = inject(Store);
   initializing$ = this.store.select(RtuMgmtSelectors.selectInitializing);

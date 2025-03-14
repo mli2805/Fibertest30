@@ -1,7 +1,7 @@
 <rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
 
 <div class="flex h-full w-full flex-col">
-  <div class="mr-1 flex h-full flex-1">
+  <div #myDiv class="mr-1 flex h-full flex-1">
     <rtu-gis-map />
     <ng-container *ngIf="gisMapService.showTraceDefine$ | async">
       <rtu-trace-define />

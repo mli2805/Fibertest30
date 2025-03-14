@@ -58,7 +58,7 @@ export class TraceDefineUtils {
       }
     });
 
-    return res;
+    return res.reverse();
   }
 
   static getStepTitle(step: StepModel) {

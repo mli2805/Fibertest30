@@ -1,14 +1,17 @@
 <rtu-loading-centered-big-spinner *ngIf="spinning$ | async"></rtu-loading-centered-big-spinner>
 
-<div class="grouped-border ml-0.5 flex h-full flex-col justify-between text-sm">
-  <div class="flex h-full w-full flex-col items-start justify-start">
+<div class="grouped-border ml-0.5 flex h-full w-full flex-col justify-between text-sm">
+  <div class="flex flex-col justify-start">
     <p class="my-0.5 self-center">{{ 'i18n.ft.step-by-step-trace-definition' | translate }}</p>
-    <div class="mt-0.5">
-      <ng-container *ngIf="stepList$ | async as steps">
-        <ng-container *ngFor="let step of steps">
-          <div>{{ step.title }}</div>
+
+    <div class="flex w-full flex-col items-stretch justify-start" style="height: 580px">
+      <div class="mt-0.5 overflow-y-auto">
+        <ng-container *ngIf="stepList$ | async as steps">
+          <ng-container *ngFor="let step of steps">
+            <div>{{ step.title }}</div>
+          </ng-container>
         </ng-container>
-      </ng-container>
+      </div>
     </div>
   </div>
 

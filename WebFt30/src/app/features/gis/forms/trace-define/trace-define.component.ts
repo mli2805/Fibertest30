@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, Input } from '@angular/core';
 import { GisMapService } from '../../gis-map.service';
 import { TraceDefineUtils } from './trace-define-utils';
 import { GisMapUtils } from '../../components/shared/gis-map.utils';

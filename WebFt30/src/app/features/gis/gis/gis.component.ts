@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState, AuthSelectors, SettingsActions, SettingsSelectors } from 'src/app/core';
 import { GisMapService } from '../gis-map.service';
@@ -18,7 +18,10 @@ interface MapSource {
   templateUrl: 'gis.component.html',
   styles: [':host { display: flex; flex-grow: 1; }']
 })
-export class GisComponent extends OnDestroyBase implements OnInit {
+export class GisComponent extends OnDestroyBase implements OnInit, AfterViewInit {
+  @ViewChild('myDiv') myDiv!: ElementRef;
+  mapHeight!: number; // примерная высота карты в пикселях
+
   public store: Store<AppState> = inject(Store);
   hasEditPermission$ = this.store.select(AuthSelectors.selectHasEditGraphPermission);
   loading = new BehaviorSubject<boolean>(false);
@@ -41,6 +44,12 @@ export class GisComponent extends OnDestroyBase implements OnInit {
     this.mapSources.push({ id: 2, str: 'GoogleHybrid' });
     // this.mapSources.push({ id: 3, str: 'GoogleSatellite' });
     // this.mapSources.push({ id: 4, str: 'GoogleTerrain' });
+  }
+
+  ngAfterViewInit(): void {
+    const element = this.myDiv.nativeElement;
+    this.mapHeight = element.offsetHeight;
+    console.log(this.mapHeight);
   }
 
   async ngOnInit() {
