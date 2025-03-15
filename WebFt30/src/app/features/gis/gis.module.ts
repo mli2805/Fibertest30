@@ -16,9 +16,10 @@ import { EquipmentEditComponent } from './forms/trace-component-selector/equipme
 import { AcceptTraceDialogComponent } from './forms/accept-trace-dialog/accept-trace-dialog.component';
 import { NodeInfoDialogComponent } from './forms/node-info-dialog/node-info-dialog.component';
 import { SectionWithNodesComponent } from './forms/section-with-nodes/section-with-nodes.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
-  imports: [GisRoutingModule, SharedModule],
+  imports: [GisRoutingModule, SharedModule, DragDropModule],
   exports: [GisComponent, GisMapComponent, GisTraceViewerComponent],
   declarations: [
     GisComponent,

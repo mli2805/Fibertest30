@@ -114,9 +114,9 @@
     bg-rtu-second-bg
     hover:bg-stone-200
     active:bg-stone-300
-    dark:bg-rtu-dark-second-bg
-    dark:hover:bg-zinc-700
-    dark:active:bg-zinc-600;
+    dark:bg-zinc-700
+    dark:hover:bg-zinc-600
+    dark:active:bg-zinc-500;
   }
 
   .button-extra-primary {
@@ -386,6 +386,10 @@
 
 .dialog {
   @apply h-full w-full border border-gray-300 bg-rtu-primary-bg p-5 text-sm dark:border-[#575859] dark:bg-rtu-dark-primary-bg;
+}
+
+.draggable-window {
+  @apply border border-gray-300 bg-rtu-primary-bg shadow-lg shadow-gray-700 dark:border-[#575859] dark:bg-rtu-dark-primary-bg;
 }
 
 /* scroll bar. Chrome, Edge, and Safari  */

@@ -1,26 +1,31 @@
 <rtu-loading-centered-big-spinner *ngIf="spinning$ | async"></rtu-loading-centered-big-spinner>
 
-<div class="grouped-border ml-0.5 flex h-full w-full flex-col justify-between text-sm">
-  <div class="flex flex-col justify-start">
-    <p class="my-0.5 self-center">{{ 'i18n.ft.step-by-step-trace-definition' | translate }}</p>
+<!-- <div class="grouped-border ml-0.5 flex h-full w-full flex-col justify-between text-sm"> -->
+<div
+  cdkDrag
+  class="draggable-window flex flex-col items-center text-sm"
+  style="position: fixed; left: 150px; top: 110px"
+>
+  <!-- header -->
+  <p class="my-2 ml-2 self-start">{{ 'i18n.ft.step-by-step-trace-definition' | translate }}</p>
 
-    <div class="flex w-full flex-col items-stretch justify-start" style="height: 580px">
-      <div class="mt-0.5 overflow-y-auto">
-        <ng-container *ngIf="stepList$ | async as steps">
-          <ng-container *ngFor="let step of steps">
-            <div>{{ step.title }}</div>
-          </ng-container>
+  <!-- step list -->
+  <div class="m-1.5 flex flex-col border border-gray-500 px-1" style="height: 530px; width: 360px">
+    <div class="mt-0.5 overflow-y-auto">
+      <ng-container *ngIf="stepList$ | async as steps">
+        <ng-container *ngFor="let step of steps">
+          <div class="truncate">{{ step.title }}</div>
         </ng-container>
-      </div>
+      </ng-container>
     </div>
   </div>
 
   <!-- buttons -->
-  <div class="flex flex-col">
+  <div class="mx-2 flex flex-col items-stretch">
     <button class="button-extra mb-1" (click)="onSemiautomaticMode()">
       {{ 'i18n.ft.go-to-the-fork' | translate }}
     </button>
-    <div class="mb-1 flex">
+    <div class="mb-1 grid grid-cols-3">
       <button class="button-extra mr-1" (click)="onStepForward()">
         {{ 'i18n.ft.step-forward' | translate }}
       </button>
@@ -31,11 +36,11 @@
         {{ 'i18n.ft.cancel-step' | translate }}
       </button>
     </div>
-    <div class="mb-1 flex w-full justify-evenly">
-      <button class="button-extra mr-1 w-36" (click)="onApply()">
+    <div class="mb-1 grid grid-cols-2 justify-items-stretch">
+      <button class="button-extra mr-1" (click)="onApply()">
         {{ 'i18n.ft.apply' | translate }}
       </button>
-      <button class="button-extra w-36" (click)="onDiscard()">
+      <button class="button-extra" (click)="onDiscard()">
         {{ 'i18n.ft.discard' | translate }}
       </button>
     </div>
