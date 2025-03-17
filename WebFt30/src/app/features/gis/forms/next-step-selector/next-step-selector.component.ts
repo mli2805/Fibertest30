@@ -1,19 +1,16 @@
-import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { Component, Inject, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RadioButton } from 'src/app/shared/components/svg-buttons/radio-button/radio-button';
+import { GisMapService } from '../../gis-map.service';
 
 @Component({
   selector: 'rtu-next-step-selector',
   templateUrl: './next-step-selector.component.html'
 })
 export class NextStepSelectorComponent {
-  public dialogRef: DialogRef<number | null> = inject(DialogRef<number | null>);
   buttons!: RadioButton[];
-  service!: any;
 
-  constructor(@Inject(DIALOG_DATA) private data: any) {
-    this.buttons = data.buttons;
-    this.service = data.service;
+  constructor(private gisMapService: GisMapService) {
+    this.buttons = this.gisMapService.nextStepButtons;
   }
 
   onRadioButtonClick(id: number) {
@@ -21,15 +18,15 @@ export class NextStepSelectorComponent {
       b.isSelected = b.id === id;
     });
 
-    this.service.setHighlightNode((<any>this.buttons[id]).nodeId);
+    this.gisMapService.setHighlightNode((<any>this.buttons[id]).nodeId);
   }
 
   onSelect() {
     const result = this.buttons.find((b) => b.isSelected)!.id;
-    this.dialogRef.close(result);
+    this.gisMapService.closeNextStepSelector(result);
   }
 
   onDiscard() {
-    this.dialogRef.close(null);
+    this.gisMapService.closeNextStepSelector(null);
   }
 }

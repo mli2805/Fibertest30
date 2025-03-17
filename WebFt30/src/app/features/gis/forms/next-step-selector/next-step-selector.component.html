@@ -1,16 +1,24 @@
-<div class="dialog grouped-border flex flex-col">
-  <div class="mb-2 text-center">{{ 'i18n.ft.next-step' | translate }}</div>
-  <ng-container *ngFor="let button of buttons; let i = index">
-    <div class="mb-2 text-sm">
-      <rtu-radio-button [button]="button" (click)="onRadioButtonClick(i)" />
+<div class="modal-backdrop">
+  <div
+    cdkDrag
+    class="draggable-window absolute left-[190px] top-[80px] flex w-96 flex-col p-2 text-sm"
+  >
+    <div cdkDragHandle class="mb-2 ml-1 text-left">{{ 'i18n.ft.next-step' | translate }}</div>
+    <!-- radio buttons -->
+    <div class="mb-2 max-h-64 overflow-y-auto border border-gray-500 p-2">
+      <ng-container *ngFor="let button of buttons; let i = index">
+        <div class="mb-2 text-sm">
+          <rtu-radio-button [button]="button" (click)="onRadioButtonClick(i)" />
+        </div>
+      </ng-container>
     </div>
-  </ng-container>
-  <div class="flex">
-    <button class="button-extra mr-2 w-36" (click)="onSelect()">
-      {{ 'i18n.ft.select' | translate }}
-    </button>
-    <button class="button-extra w-36" (click)="onDiscard()">
-      {{ 'i18n.ft.discard' | translate }}
-    </button>
+    <div class="flex self-end">
+      <button class="button-extra mr-2 w-36" (click)="onSelect()">
+        {{ 'i18n.ft.select' | translate }}
+      </button>
+      <button class="button-extra mr-2 w-36" (click)="onDiscard()">
+        {{ 'i18n.ft.discard' | translate }}
+      </button>
+    </div>
   </div>
 </div>

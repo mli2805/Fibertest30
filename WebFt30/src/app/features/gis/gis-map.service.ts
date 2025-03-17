@@ -12,6 +12,7 @@ import * as L from 'leaflet';
 import { GisMapUtils } from './components/shared/gis-map.utils';
 import { StepModel } from './forms/trace-define/step-model';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
+import { RadioButton } from 'src/app/shared/components/svg-buttons/radio-button/radio-button';
 
 interface HighlightedFiber {
   fiberId: string;
@@ -127,6 +128,21 @@ export class GisMapService {
 
   showTraceDefine = new BehaviorSubject<string | null>(null);
   showTraceDefine$ = this.showTraceDefine.asObservable();
+
+  //////////////////////////////////////////
+  nextStepButtons!: RadioButton[];
+  nextStepSelectedId = new BehaviorSubject<number | null>(null);
+  prepareNextStepSelector(buttons: RadioButton[], selectedId: number) {
+    this.nextStepButtons = buttons;
+    this.nextStepSelectedId.next(selectedId);
+  }
+  closeNextStepSelector(result: number | null) {
+    this.nextStepSelectedId.next(result);
+    this.showNextStepSelector.next(false);
+  }
+  nextStepSelectedId$ = this.nextStepSelectedId.asObservable();
+  showNextStepSelector = new BehaviorSubject<boolean>(false);
+  showNextStepSelector$ = this.showNextStepSelector.asObservable();
 
   /////////////////////////
   addSectionMode = false;

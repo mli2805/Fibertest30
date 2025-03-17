@@ -7,11 +7,13 @@
   style="position: fixed; left: 150px; top: 110px"
 >
   <!-- header -->
-  <p class="my-2 ml-2 self-start">{{ 'i18n.ft.step-by-step-trace-definition' | translate }}</p>
+  <p cdkDragHandle class="my-2 ml-2 self-start">
+    {{ 'i18n.ft.step-by-step-trace-definition' | translate }}
+  </p>
 
   <!-- step list -->
   <div class="m-1.5 flex flex-col border border-gray-500 px-1" style="height: 530px; width: 360px">
-    <div class="mt-0.5 overflow-y-auto">
+    <div #scrollContainer class="mt-0.5 overflow-y-auto">
       <ng-container *ngIf="stepList$ | async as steps">
         <ng-container *ngFor="let step of steps">
           <div class="truncate">{{ step.title }}</div>

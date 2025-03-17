@@ -1,13 +1,12 @@
-import { Component, Injector, Input } from '@angular/core';
+import { Component, ElementRef, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import { GisMapService } from '../../gis-map.service';
 import { TraceDefineUtils } from './trace-define-utils';
 import { GisMapUtils } from '../../components/shared/gis-map.utils';
 import { Neighbour, StepModel } from './step-model';
 import { RadioButton } from 'src/app/shared/components/svg-buttons/radio-button/radio-button';
 import { Dialog, DialogConfig, DialogRef } from '@angular/cdk/dialog';
-import { NextStepSelectorComponent } from '../next-step-selector/next-step-selector.component';
 import { GlobalPositionStrategy } from '@angular/cdk/overlay';
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, filter, firstValueFrom } from 'rxjs';
 import { TraceComponentSelectorComponent } from '../trace-component-selector/trace-component-selector.component';
 import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { TranslateService } from '@ngx-translate/core';
@@ -21,7 +20,9 @@ import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-b
   selector: 'rtu-trace-define',
   templateUrl: './trace-define.component.html'
 })
-export class TraceDefineComponent {
+export class TraceDefineComponent implements OnInit {
+  @ViewChild('scrollContainer') scrollContainer!: ElementRef;
+
   stepList$ = this.gisMapService.stepList.asObservable();
   spinning = new BehaviorSubject<boolean>(false);
   spinning$ = this.spinning.asObservable();
@@ -34,6 +35,19 @@ export class TraceDefineComponent {
     private dialog: Dialog
   ) {
     TraceDefineUtils.initialize(injector);
+  }
+
+  ngOnInit() {
+    this.stepList$.subscribe(() => {
+      this.scrollToBottom();
+    });
+  }
+
+  scrollToBottom() {
+    setTimeout(() => {
+      const element = this.scrollContainer.nativeElement;
+      element.scrollTop = element.scrollHeight;
+    });
   }
 
   async onSemiautomaticMode() {
@@ -168,14 +182,24 @@ export class TraceDefineComponent {
 
     this.gisMapService.setHighlightNode(neighbours[0].node.id);
 
-    const dialogConfig = new DialogConfig<unknown, DialogRef>();
-    dialogConfig.positionStrategy = new GlobalPositionStrategy().right('120px').top('350px');
-    dialogConfig.disableClose = true;
-    dialogConfig.data = { buttons, service: this.gisMapService };
-    const dialogRef = this.dialog.open(NextStepSelectorComponent, dialogConfig);
+    // const dialogConfig = new DialogConfig<unknown, DialogRef>();
+    // dialogConfig.positionStrategy = new GlobalPositionStrategy().right('120px').top('350px');
+    // dialogConfig.disableClose = true;
+    // dialogConfig.data = { buttons, service: this.gisMapService };
+    // const dialogRef = this.dialog.open(NextStepSelectorComponent, dialogConfig);
+
+    // // вернет null если отказался от выбора
+    // return <number | null>await firstValueFrom(dialogRef.closed);
+
+    this.gisMapService.prepareNextStepSelector(buttons, -666);
+    this.gisMapService.showNextStepSelector.next(true);
 
     // вернет null если отказался от выбора
-    return <number | null>await firstValueFrom(dialogRef.closed);
+    return <number | null>(
+      await firstValueFrom(
+        this.gisMapService.nextStepSelectedId$.pipe(filter((value) => value !== -666))
+      )
+    );
   }
 
   private async selectEquipment(node: TraceNode): Promise<string | null> {

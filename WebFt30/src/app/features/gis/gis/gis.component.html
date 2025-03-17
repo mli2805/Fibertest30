@@ -43,3 +43,7 @@
     </div>
   </div>
 </div>
+
+<ng-container *ngIf="gisMapService.showNextStepSelector$ | async">
+  <rtu-next-step-selector />
+</ng-container>

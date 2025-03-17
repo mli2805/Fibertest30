@@ -392,6 +392,10 @@
   @apply border border-gray-300 bg-rtu-primary-bg shadow-lg shadow-gray-700 dark:border-[#575859] dark:bg-rtu-dark-primary-bg;
 }
 
+.modal-backdrop {
+  @apply fixed inset-0 flex items-center justify-center bg-black bg-opacity-20;
+}
+
 /* scroll bar. Chrome, Edge, and Safari  */
 /* NOTE: Doesn't work in Firefox! */
 
