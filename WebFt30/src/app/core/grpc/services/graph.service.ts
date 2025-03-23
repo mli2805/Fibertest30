@@ -3,7 +3,7 @@ import { AuthInterceptor } from '../auth.interceptor';
 import * as grpc from 'src/grpc-generated';
 import { GrpcUtils } from '../grpc.utils';
 import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +22,16 @@ export class GraphService {
   sendCommand(command: string, commandType: string): Observable<grpc.SendCommandResponse> {
     const request: grpc.SendCommandRequest = { command, commandType };
     return GrpcUtils.unaryToObservable(this.client.sendCommand.bind(this.client), request, {});
+  }
+
+  async sendCommandAsync(command: string, commandType: string): Promise<grpc.SendCommandResponse> {
+    const request: grpc.SendCommandRequest = { command, commandType };
+    const observable = GrpcUtils.unaryToObservable(
+      this.client.sendCommand.bind(this.client),
+      request,
+      {}
+    );
+    const result = await firstValueFrom(observable);
+    return result;
   }
 }

@@ -87,7 +87,8 @@ export class TraceComponentSelectorComponent {
       Comment: this.node.comment
     };
     const json = JSON.stringify(command);
-    const response = await firstValueFrom(this.graphService.sendCommand(json, 'UpdateNode'));
+    // const response = await firstValueFrom(this.graphService.sendCommand(json, 'UpdateNode'));
+    const response = await this.graphService.sendCommandAsync(json, 'UpdateNode');
     if (response.success) {
       this.node.title = this.form.controls['title'].value;
       const layerType = GisMapUtils.equipmentTypeToGisMapLayer(this.node.equipmentType);
@@ -117,9 +118,7 @@ export class TraceComponentSelectorComponent {
           Comment: button.equipment.comment
         };
         const json = JSON.stringify(command);
-        const response = await firstValueFrom(
-          this.graphService.sendCommand(json, 'UpdateEquipment')
-        );
+        const response = await this.graphService.sendCommandAsync(json, 'UpdateEquipment');
         if (response.success) {
           button.equipment.title = childForm.controls['title'].value;
           button.equipment.cableReserveLeft = +childForm.controls['leftReserve'].value;

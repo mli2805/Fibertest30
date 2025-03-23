@@ -1,3 +1,5 @@
+<rtu-loading-centered-big-spinner *ngIf="spinning$ | async"></rtu-loading-centered-big-spinner>
+
 <div class="dialog">
   <rtu-trace-info [data]="traceInfoData" (closeEvent)="onCloseEvent($event)"></rtu-trace-info>
 </div>

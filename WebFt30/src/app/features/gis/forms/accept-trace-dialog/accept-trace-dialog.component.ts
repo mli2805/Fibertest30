@@ -7,7 +7,7 @@ import { GeoEquipment, GeoTrace } from 'src/app/core/store/models/ft30/geo-data'
 import { GisMapService } from '../../gis-map.service';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { GraphService } from 'src/app/core/grpc';
-import { firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'rtu-accept-trace-dialog',
@@ -20,6 +20,9 @@ export class AcceptTraceDialogComponent {
   types!: any;
 
   traceInfoData!: any;
+
+  spinning = new BehaviorSubject<boolean>(false);
+  spinning$ = this.spinning.asObservable();
 
   constructor(@Inject(DIALOG_DATA) private data: any, private graphService: GraphService) {
     this.gisMapService = data.service;
@@ -114,6 +117,8 @@ export class AcceptTraceDialogComponent {
       return;
     }
 
+    this.spinning.next(true);
+
     const rtu = this.gisMapService
       .getGeoData()
       .equipments.find((e) => e.nodeId === trace.nodeIds[0])!;
@@ -128,12 +133,13 @@ export class AcceptTraceDialogComponent {
       Comment: trace.comment
     };
     const json = JSON.stringify(command);
-    const response = await firstValueFrom(this.graphService.sendCommand(json, 'AddTrace'));
+    const response = await this.graphService.sendCommandAsync(json, 'AddTrace');
 
     if (response.success) {
       this.gisMapService.getGeoData().traces.push(trace);
     }
 
+    this.spinning.next(false);
     this.dialogRef.close(response.success);
   }
 }
