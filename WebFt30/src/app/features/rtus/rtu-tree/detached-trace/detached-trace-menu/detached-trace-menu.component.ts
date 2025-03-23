@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
-import { AppState, AuthSelectors, User } from 'src/app/core';
+import { AppState, AuthSelectors, RtuTreeActions, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { GraphService } from 'src/app/core/grpc';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
@@ -126,13 +126,19 @@ export class DetachedTraceMenuComponent {
       return;
     }
 
+    // this.store.dispatch(RtuTreeActions.showLoading());
+    this.gisMapService.geoDataLoading.next(true);
     const cmd = {
       TraceId: this.trace.traceId
     };
     const json = JSON.stringify(cmd);
-    const response = await firstValueFrom(this.graphService.sendCommand(json, command));
-    if (!response.success) return;
+    const response = await this.graphService.sendCommandAsync(json, command);
+    // this.store.dispatch(RtuTreeActions.hideLoading());
 
+    if (!response.success) {
+      this.gisMapService.geoDataLoading.next(false);
+      return;
+    }
     const externalCmd = { name: command, traceId: this.trace.traceId };
     this.gisMapService.externalCommand.next(externalCmd);
   }

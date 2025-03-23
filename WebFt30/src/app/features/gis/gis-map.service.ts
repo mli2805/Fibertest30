@@ -31,6 +31,8 @@ export class GisMapService {
   ////////////////
   sliderMouseDown: MouseEvent | null = null;
 
+  ///////////////////////
+  geoDataLoading = new BehaviorSubject<boolean>(false);
   ///////////////////// все узлы и участки для карты root'а
   private geoData!: AllGeoData;
   getGeoData(): AllGeoData {

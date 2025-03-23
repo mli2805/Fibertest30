@@ -18,10 +18,10 @@ export class MapExternalCommands {
         this.showRtu(cmd.nodeId);
         break;
       case 'CleanTrace':
-        this.cleanTrace(cmd.traceId);
+        this.onCleanOrRemoveTrace(cmd.traceId);
         break;
       case 'RemoveTrace':
-        this.removeTrace(cmd.traceId);
+        this.onCleanOrRemoveTrace(cmd.traceId);
     }
   }
 
@@ -36,15 +36,10 @@ export class MapExternalCommands {
     });
   }
 
-  static async cleanTrace(traceId: string) {
+  static async onCleanOrRemoveTrace(traceId: string) {
     const response = await firstValueFrom(this.gisService.getAllGeoData());
     const geoData = GisMapping.fromGrpcGeoData(response.data!);
     this.gisMapService.setGeoData(geoData);
-  }
-
-  static async removeTrace(traceId: string) {
-    const response = await firstValueFrom(this.gisService.getAllGeoData());
-    const geoData = GisMapping.fromGrpcGeoData(response.data!);
-    this.gisMapService.setGeoData(geoData);
+    this.gisMapService.geoDataLoading.next(false);
   }
 }

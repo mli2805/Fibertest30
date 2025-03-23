@@ -51,8 +51,6 @@ export class MapFiberMenu {
   }
 
   static showSectionInformation(e: L.ContextMenuItemClickEvent) {
-    // console.log(e);
-    // console.log(JSON.stringify(e));
     console.log(e.relatedTarget);
   }
 
@@ -65,6 +63,7 @@ export class MapFiberMenu {
   }
 
   static async addToSection(e: L.ContextMenuItemClickEvent, eqType: EquipmentType) {
+    this.gisMapService.geoDataLoading.next(true);
     const fiberId = (<any>e.relatedTarget).id;
     const oldFiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === fiberId)!;
 
@@ -78,7 +77,7 @@ export class MapFiberMenu {
       NewFiberId2: crypto.randomUUID()
     };
     const json = JSON.stringify(command);
-    const response = await firstValueFrom(this.graphService.sendCommand(json, 'AddNodeIntoFiber'));
+    const response = await this.graphService.sendCommandAsync(json, 'AddNodeIntoFiber');
     if (response.success) {
       // добавить этот узел на карту и в GeoData
       const traceNode = new TraceNode(command.Id, '', e.latlng, eqType, '');
@@ -117,9 +116,11 @@ export class MapFiberMenu {
         this.gisMapService.getGeoData().fibers.splice(indexOfFiber, 1);
       }
     }
+    this.gisMapService.geoDataLoading.next(false);
   }
 
   static async removeSection(e: L.ContextMenuItemClickEvent) {
+    this.gisMapService.geoDataLoading.next(true);
     const fiberId = (<any>e.relatedTarget).id;
     const oldFiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === fiberId)!;
 
@@ -127,7 +128,7 @@ export class MapFiberMenu {
       FiberId: fiberId
     };
     const json = JSON.stringify(command);
-    const response = await firstValueFrom(this.graphService.sendCommand(json, 'RemoveFiber'));
+    const response = await this.graphService.sendCommandAsync(json, 'RemoveFiber');
     if (response.success) {
       // если один из концов волокна - точка привязки, то удаляем её и продолжение после неё и т.д.
 
@@ -140,5 +141,6 @@ export class MapFiberMenu {
         this.gisMapService.getGeoData().fibers.splice(indexOfFiber, 1);
       }
     }
+    this.gisMapService.geoDataLoading.next(false);
   }
 }

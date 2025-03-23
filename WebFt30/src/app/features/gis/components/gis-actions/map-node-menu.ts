@@ -171,6 +171,7 @@ export class MapNodeMenu {
   }
 
   static async removeNode(e: L.ContextMenuItemClickEvent) {
+    this.gisMapService.geoDataLoading.next(true);
     const nodeId = (<any>e.relatedTarget).id;
     const node = this.gisMapService.getGeoData().nodes.find((n) => n.id === nodeId);
 
@@ -214,6 +215,7 @@ export class MapNodeMenu {
         }
       }
     }
+    this.gisMapService.geoDataLoading.next(false);
   }
 
   static drawSection(e: L.ContextMenuItemClickEvent, withNodes: boolean) {
@@ -227,6 +229,7 @@ export class MapNodeMenu {
   }
 
   static async addNewFiber(endNodeId: string) {
+    this.gisMapService.geoDataLoading.next(true);
     const beginNode = this.gisMapService.getNode(this.gisMapService.addSectionFromNodeId);
     const endNode = this.gisMapService.getNode(endNodeId);
 
@@ -242,6 +245,7 @@ export class MapNodeMenu {
     this.gisMapService.addSectionMode = false;
     this.gisMapService.sectionWithNodes = false;
     this.gisMapService.addSectionFromNodeId = GisMapUtils.emptyGuid;
+    this.gisMapService.geoDataLoading.next(false);
   }
 
   static async sendAddFiberApplySuccess(beginNode: TraceNode, endNode: TraceNode) {

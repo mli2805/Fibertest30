@@ -75,6 +75,7 @@ export class MapEquipmentActions {
   // послать и если успех - применить к карте и geoData
   // если не возвращать ничего, то await не ждет исполнения ф-ции
   static async applyEditEquipmentResult(json: string, addMode: boolean): Promise<boolean> {
+    this.gisMapService.geoDataLoading.next(true);
     const command = JSON.parse(json);
     const commandType = addMode ? 'AddEquipmentIntoNode' : 'UpdateEquipment';
     const response = await firstValueFrom(this.graphService.sendCommand(json, commandType));
@@ -120,6 +121,7 @@ export class MapEquipmentActions {
       node.equipmentType = command.Type;
       MapLayersActions.addNodeToLayer(node);
     }
+    this.gisMapService.geoDataLoading.next(false);
     return true;
   }
 

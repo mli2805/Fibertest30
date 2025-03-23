@@ -141,6 +141,7 @@ export class MapNodeRemove {
   }
 
   static RemoveNode(node: TraceNode) {
+    this.gisMapService.geoDataLoading.next(true);
     const layerType = GisMapUtils.equipmentTypeToGisMapLayer(node!.equipmentType);
     const group = this.gisMapService.getLayerGroups().get(layerType);
     const marker = group!.getLayers().find((m) => (<any>m).id === node.id);
@@ -148,6 +149,7 @@ export class MapNodeRemove {
 
     const index = this.gisMapService.getGeoData().nodes.indexOf(node);
     this.gisMapService.getGeoData().nodes.splice(index, 1);
+    this.gisMapService.geoDataLoading.next(false);
   }
 
   static RemoveFiber(fiber: GeoFiber) {

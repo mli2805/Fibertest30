@@ -49,6 +49,9 @@ const detachOtauFailure = createAction(
   props<{ errorMessageId: string }>()
 );
 
+const showLoading = createAction('[RtuTree] Show Loading');
+const hideLoading = createAction('[RtuTree] Hide Loading');
+
 export const RtuTreeActions = {
   refreshRtuTree,
   refreshRtuTreeSuccess,
@@ -72,5 +75,8 @@ export const RtuTreeActions = {
 
   detachOtau,
   detachOtauSuccess,
-  detachOtauFailure
+  detachOtauFailure,
+
+  showLoading,
+  hideLoading
 };

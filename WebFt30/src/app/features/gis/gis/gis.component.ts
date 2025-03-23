@@ -24,8 +24,7 @@ export class GisComponent extends OnDestroyBase implements OnInit, AfterViewInit
 
   public store: Store<AppState> = inject(Store);
   hasEditPermission$ = this.store.select(AuthSelectors.selectHasEditGraphPermission);
-  loading = new BehaviorSubject<boolean>(false);
-  loading$ = this.loading.asObservable();
+  loading$ = this.gisMapService.geoDataLoading.asObservable();
 
   // это про зум с которого начинать показывать узлы
   zooms!: number[];
@@ -76,12 +75,12 @@ export class GisComponent extends OnDestroyBase implements OnInit, AfterViewInit
   // для рута содержит узлы/участки не входящие в трассы
   // для остальных только готовые трассы
   async loadAllGeoData() {
-    this.loading.next(true);
+    this.gisMapService.geoDataLoading.next(true);
     const response = await firstValueFrom(this.gisService.getAllGeoData());
     const geoData = GisMapping.fromGrpcGeoData(response.data!);
 
     this.gisMapService.setGeoData(geoData);
-    this.loading.next(false);
+    this.gisMapService.geoDataLoading.next(false);
   }
 
   // это про зум с которого начинать показывать узлы

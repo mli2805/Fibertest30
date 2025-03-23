@@ -65,11 +65,7 @@ export class FreePortMenuComponent {
     return this.hasPermission(ApplicationPermission.AttachTrace) && this.detachedTraces.length > 0;
   }
 
-  async onAttachTraceClicked() {
-    await this.openAttachTraceDialog();
-  }
-
-  private async openAttachTraceDialog() {
+  onAttachTraceClicked() {
     this.dialog.open(TraceAttachComponent, {
       maxHeight: '95vh',
       maxWidth: '95vw',

@@ -110,6 +110,15 @@ const reducer = createReducer(
     ...state,
     loading: false,
     errorMessageId
+  })),
+
+  on(RtuTreeActions.showLoading, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(RtuTreeActions.hideLoading, (state) => ({
+    ...state,
+    loading: false
   }))
 );
 

@@ -19,6 +19,7 @@ export class MapActions {
   }
 
   static async addNewNode(e: L.ContextMenuItemClickEvent, equipmentType: EquipmentType) {
+    this.gisMapService.geoDataLoading.next(true);
     const guid =
       equipmentType === EquipmentType.EmptyNode || equipmentType === EquipmentType.AdjustmentPoint
         ? GisMapUtils.emptyGuid
@@ -32,9 +33,7 @@ export class MapActions {
       Longitude: e.latlng.lng
     };
     const json = JSON.stringify(command);
-    const response = await firstValueFrom(
-      this.graphService.sendCommand(json, 'AddEquipmentAtGpsLocation')
-    );
+    const response = await this.graphService.sendCommandAsync(json, 'AddEquipmentAtGpsLocation');
     if (response.success) {
       // добавить этот узел на карту и в GeoData
       const traceNode = new TraceNode(command.NodeId, '', e.latlng, equipmentType, '');
@@ -51,6 +50,7 @@ export class MapActions {
       );
       this.gisMapService.getGeoData().equipments.push(geoEquipment);
     }
+    this.gisMapService.geoDataLoading.next(false);
   }
 
   static dragMarkerWithPolylines(e: L.DragEndEvent) {
