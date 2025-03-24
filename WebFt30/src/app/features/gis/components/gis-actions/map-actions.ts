@@ -1,5 +1,4 @@
 import * as L from 'leaflet';
-import { firstValueFrom } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc';
 import { GeoEquipment, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { EquipmentType } from 'src/grpc-generated';
@@ -8,6 +7,7 @@ import { GisMapUtils } from '../shared/gis-map.utils';
 import { Injector } from '@angular/core';
 import { MapLayersActions } from './map-layers-actions';
 import { GisMapLayer } from '../shared/gis-map-layer';
+import { Utils } from 'src/app/shared/utils/utils';
 
 export class MapActions {
   private static gisMapService: GisMapService;
@@ -51,6 +51,13 @@ export class MapActions {
       this.gisMapService.getGeoData().equipments.push(geoEquipment);
     }
     this.gisMapService.geoDataLoading.next(false);
+
+    if (this.gisMapService.showNodesFromZoom.value > this.gisMapService.currentZoom.value) {
+      // за счет этого как раз карта сдвинется чтобы новый узел был по центру
+      this.gisMapService.skipMovingCenter = true;
+      this.gisMapService.getMap().setZoom(this.gisMapService.showNodesFromZoom.value);
+      this.gisMapService.skipMovingCenter = false;
+    }
   }
 
   static dragMarkerWithPolylines(e: L.DragEndEvent) {
