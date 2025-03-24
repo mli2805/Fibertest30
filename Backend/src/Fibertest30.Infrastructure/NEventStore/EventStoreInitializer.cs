@@ -31,10 +31,11 @@ public class EventStoreInitializer
         // этот же шаблон из конфига ещё используется для конфигурации доступа ко 2й части бд,
         // см Fibertest30.Infrastructure.ConfigureServices
         var mySqlAddress = configuration["MySqlServerAddress"] ?? "localhost";
-        var fullDbTemplate = "server={0};port=3306;user id=root;password=root";
-        ConnectionStringForCreation = string.Format(fullDbTemplate, mySqlAddress);
-        var schemeDbTemplate = "server={0};port=3306;user id=root;password=root;database={1}";
-        EventSourcingConnectionString = string.Format(schemeDbTemplate, mySqlAddress, EventSourcingScheme);
+        var mySqlPort = configuration["MySqlServerPort"] ?? "3306";
+        var fullDbTemplate = "server={0};port={1};user id=root;password=root";
+        ConnectionStringForCreation = string.Format(fullDbTemplate, mySqlAddress, mySqlPort);
+        var schemeDbTemplate = "server={0};port={1};user id=root;password=root;database={2}";
+        EventSourcingConnectionString = string.Format(schemeDbTemplate, mySqlAddress, mySqlPort, EventSourcingScheme);
 
         LinuxMysqlPath = configuration["LinuxMysqlPath"] ?? "";
     }

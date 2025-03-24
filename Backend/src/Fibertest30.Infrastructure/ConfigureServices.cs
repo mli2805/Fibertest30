@@ -34,8 +34,9 @@ public static class ConfigureServices
 
                 string serverDbScheme = "ft30server";
                 var mySqlAddress = configuration["MySqlServerAddress"] ?? "localhost";
-                var conStrTemplate = "server={0};port=3306;user id=root;password=root;database={1}";
-                var conString = string.Format(conStrTemplate, mySqlAddress, serverDbScheme);
+                var mySqlPort = configuration["MySqlServerPort"] ?? "3306";
+                var conStrTemplate = "server={0};port={1};user id=root;password=root;database={2}";
+                var conString = string.Format(conStrTemplate, mySqlAddress, mySqlPort, serverDbScheme);
                 c.UseMySql(conString, ServerVersion.AutoDetect(conString));
             }
         });
@@ -51,8 +52,9 @@ public static class ConfigureServices
         {
             string myTablesScheme = "ft20efcore";
             var mySqlAddress = configuration["MySqlServerAddress"] ?? "localhost";
-            var conStrTemplate = "server={0};port=3306;user id=root;password=root;database={1}";
-            var connectionString = string.Format(conStrTemplate, mySqlAddress, myTablesScheme);
+            var mySqlPort = configuration["MySqlServerPort"] ?? "3306";
+            var conStrTemplate = "server={0};port={1};user id=root;password=root;database={2}";
+            var connectionString = string.Format(conStrTemplate, mySqlAddress, mySqlPort, myTablesScheme);
             c.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         });
         services.AddScoped<FtDbContextInitializer>();
