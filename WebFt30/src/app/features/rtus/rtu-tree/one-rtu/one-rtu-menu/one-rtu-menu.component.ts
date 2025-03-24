@@ -138,7 +138,9 @@ export class OneRtuMenuComponent {
 
   canManualMode() {
     return (
-      this.hasPermission(ApplicationPermission.ChangeMonitoringSettings) && this.rtu.isRtuAvailable
+      this.hasPermission(ApplicationPermission.ChangeMonitoringSettings) &&
+      this.rtu.isRtuAvailable &&
+      this.rtu.isMonitoringOn
     );
   }
 
@@ -149,7 +151,9 @@ export class OneRtuMenuComponent {
 
   canAutomaticMode() {
     return (
-      this.hasPermission(ApplicationPermission.ChangeMonitoringSettings) && this.rtu.isRtuAvailable
+      this.hasPermission(ApplicationPermission.ChangeMonitoringSettings) &&
+      this.rtu.isRtuAvailable &&
+      !this.rtu.isMonitoringOn
     );
   }
 
