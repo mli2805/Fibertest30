@@ -28,7 +28,6 @@ public class GetDeviceInfoQueryHandler : IRequestHandler<GetDeviceInfoQuery, Dev
     public async Task<DeviceInfo> Handle(GetDeviceInfoQuery request, CancellationToken ct)
     {
         var notificationSettings = await _notificationSettingsRepository.GetSettingsWithoutPasswords(ct);
-      
 
         var userId = _currentUserService.UserId!;
         User user = _model.Users.FirstOrDefault(u => u.Title == userId) ?? _model.Users.First(u => u.Title == "root");

@@ -99,9 +99,9 @@ public class EventStoreService : IEventStoreService
         ////////////
 
 
-        var eventStream = _eventStoreInitializer.StoreEvents.OpenStream(_eventStoreInitializer.StreamIdOriginal);
+        // var eventStream = _eventStoreInitializer.StoreEvents.OpenStream(_eventStoreInitializer.StreamIdOriginal);
 
-        if (LastEventNumberInSnapshot == 0 && eventStream.CommittedEvents.FirstOrDefault() == null)
+        if (LastEventNumberInSnapshot == 0 && _eventStoreInitializer.EventStream.CommittedEvents.FirstOrDefault() == null)
         {
             // если бд пустая задаем ID
             _eventStoreInitializer.StreamIdOriginal = Guid.NewGuid();
@@ -111,7 +111,7 @@ public class EventStoreService : IEventStoreService
             _logger.LogInformation("Empty graph is seeded with default zone and users.");
         }
 
-        var eventMessages = eventStream.CommittedEvents.ToList();
+        var eventMessages = _eventStoreInitializer.EventStream.CommittedEvents.ToList();
         _logger.LogInformation($"{eventMessages.Count} events should be applied...");
         foreach (var eventMessage in eventMessages)
         {
@@ -121,7 +121,7 @@ public class EventStoreService : IEventStoreService
         _logger.LogInformation("Events applied successfully.");
         _logger.LogInformation($"Last event number is {LastEventNumberInSnapshot + eventMessages.Count}");
 
-        var msg = eventStream.CommittedEvents.LastOrDefault();
+        var msg = _eventStoreInitializer.EventStream.CommittedEvents.LastOrDefault();
         if (msg != null)
             _logger.LogInformation($@"Last applied event has timestamp {msg.Headers["Timestamp"]:O}");
 
@@ -150,24 +150,30 @@ public class EventStoreService : IEventStoreService
         // and if so, transforms command into event and passes it to WriteModel
         // WriteModel applies event and returns whether event was applied successfully
 
+        _logger.LogInformation($"Validated successfully {DateTime.Now}");
         if (result == null)                                   // if command was valid and applied successfully it should be persisted
             StoreEventsInDb(username, clientIp);
+        _logger.LogInformation($"Command stored as event {DateTime.Now}");
         return Task.FromResult(result);
     }
 
     private void StoreEventsInDb(string? username, string clientIp)
     {
-        var eventStream = _eventStoreInitializer.StoreEvents.OpenStream(_eventStoreInitializer.StreamIdOriginal);
+        // var eventStream = _eventStoreInitializer.StoreEvents.OpenStream(_eventStoreInitializer.StreamIdOriginal);
+        _logger.LogInformation($"Stream opened {DateTime.Now}");
         foreach (var e in _eventsQueue.EventsWaitingForCommit)   // takes already applied event(s) from WriteModel's list
         {
             var eventMessage = WrapEvent(e, username, clientIp);
-            eventStream.Add(eventMessage);   // and stores this event in BD
+            _eventStoreInitializer.EventStream.Add(eventMessage);   // and stores this event in BD
+        _logger.LogInformation($"added to stream {DateTime.Now}");
             AddEventToLog(eventMessage);
+        _logger.LogInformation($"added to event log {DateTime.Now}");
         }
 
         _eventsQueue.Commit();                                     // now cleans WriteModel's list
+        _logger.LogInformation($"Commited to queue {DateTime.Now}");
 
-        eventStream.CommitChanges(Guid.NewGuid());
+        _eventStoreInitializer.EventStream.CommitChanges(Guid.NewGuid());
     }
 
     private void AddEventToLog(EventMessage msg)

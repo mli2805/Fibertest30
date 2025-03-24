@@ -22,6 +22,8 @@ public class EventStoreInitializer
     public Guid StreamIdOriginal { get; set; } = Guid.Empty;
     public IStoreEvents? StoreEvents { get; set; }
 
+    public IEventStream EventStream { get; set; } = null!;
+
 
     public EventStoreInitializer(ILogger<EventStoreInitializer> logger, IConfiguration configuration, MySerializer mySerializer)
     {
@@ -54,6 +56,8 @@ public class EventStoreInitializer
                 .InitializeStorageEngine()
                 .UsingCustomSerialization(_mySerializer)
                 .Build();
+
+            EventStream = StoreEvents.OpenStream(StreamIdOriginal);
         }
         catch (Exception e)
         {
