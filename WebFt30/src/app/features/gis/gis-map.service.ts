@@ -102,6 +102,8 @@ export class GisMapService {
   getLayerGroups(): Map<GisMapLayer, L.FeatureGroup> {
     return this.layerGroups;
   }
+
+  zoomByFitBounds = false;
   //////////////////
   showNodesFromZoom = new BehaviorSubject<number>(16);
   showNodesFromZoom$ = this.showNodesFromZoom.asObservable();

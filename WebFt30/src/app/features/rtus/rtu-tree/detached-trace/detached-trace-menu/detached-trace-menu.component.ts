@@ -77,6 +77,11 @@ export class DetachedTraceMenuComponent {
     this.router.navigate([path]);
   }
 
+  onShowClicked() {
+    const externalCmd = { name: 'ShowTrace', traceId: this.trace.traceId };
+    this.gisMapService.externalCommand.next(externalCmd);
+  }
+
   onStateClicked() {
     //
   }
@@ -126,14 +131,12 @@ export class DetachedTraceMenuComponent {
       return;
     }
 
-    // this.store.dispatch(RtuTreeActions.showLoading());
     this.gisMapService.geoDataLoading.next(true);
     const cmd = {
       TraceId: this.trace.traceId
     };
     const json = JSON.stringify(cmd);
     const response = await this.graphService.sendCommandAsync(json, command);
-    // this.store.dispatch(RtuTreeActions.hideLoading());
 
     if (!response.success) {
       this.gisMapService.geoDataLoading.next(false);

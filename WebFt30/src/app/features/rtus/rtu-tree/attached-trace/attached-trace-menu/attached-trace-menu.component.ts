@@ -1,13 +1,14 @@
 import { Component, ElementRef, HostListener, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { delay, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { AppState, AuthSelectors, RtuTreeActions, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { RtuTreeService } from 'src/app/core/grpc';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
+import { GisMapService } from 'src/app/features/gis/gis-map.service';
 import { Utils } from 'src/app/shared/utils/utils';
 
 @Component({
@@ -47,7 +48,8 @@ export class AttachedTraceMenuComponent {
   constructor(
     private elementRef: ElementRef,
     private router: Router,
-    private rtuTreeService: RtuTreeService
+    private rtuTreeService: RtuTreeService,
+    private gisMapService: GisMapService
   ) {
     this.currentUser = CoreUtils.getCurrentState(this.store, AuthSelectors.selectUser);
   }
@@ -86,7 +88,8 @@ export class AttachedTraceMenuComponent {
   }
 
   onShowClicked() {
-    //
+    const externalCmd = { name: 'ShowTrace', traceId: this.trace.traceId };
+    this.gisMapService.externalCommand.next(externalCmd);
   }
 
   lastMeasurementId!: number;

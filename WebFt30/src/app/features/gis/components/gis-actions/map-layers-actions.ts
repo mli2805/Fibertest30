@@ -326,10 +326,7 @@ export class MapLayersActions {
     const polyline = group.getLayers().find((f) => (<any>f).id === fiber.id);
     group.removeLayer(polyline!);
 
-    const idx = fiber.states.findIndex((s) => s.traceState === FiberState.HighLighted);
-    if (idx !== -1) {
-      fiber.states.splice(idx, 1);
-    }
+    fiber.states = fiber.states.filter((s) => s.traceState !== FiberState.HighLighted);
     this.addFiberToLayer(fiber);
   }
 
@@ -354,23 +351,11 @@ export class MapLayersActions {
       const fiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === i);
       if (fiber === undefined) return;
 
-      const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
-      const polyline = group.getLayers().find((f) => (<any>f).id === fiber.id);
-      group.removeLayer(polyline!);
-
       if (highlight) {
-        const idx = fiber.states.findIndex((t) => t.traceId === traceId);
-        if (idx !== -1) {
-          fiber.states[idx].traceState = FiberState.HighLighted;
-        }
+        this.highlightFiber(fiber);
       } else {
-        const idx = fiber.states.findIndex((s) => s.traceState === FiberState.HighLighted);
-        if (idx !== -1) {
-          fiber.states.splice(idx, 1);
-        }
+        this.extinguishFiber(fiber);
       }
-
-      this.addFiberToLayer(fiber);
     });
   }
 }

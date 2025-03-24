@@ -64,6 +64,8 @@ export class MapMouseActions {
   }
 
   static onZoom(e: L.LeafletEvent) {
+    if (this.gisMapService.zoomByFitBounds) return;
+
     this.gisMapService.moveCenterToMousePos();
     const newZoom = this.gisMapService.getMap().getZoom();
     GisMapLayers.adjustLayersToZoom(
