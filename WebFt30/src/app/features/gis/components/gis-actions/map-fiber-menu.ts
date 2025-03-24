@@ -91,7 +91,7 @@ export class MapFiberMenu {
         oldFiber.coors1,
         command.Id,
         e.latlng,
-        oldFiber.fiberState
+        oldFiber.states
       );
       const newFiber2 = new GeoFiber(
         command.NewFiberId2,
@@ -99,7 +99,7 @@ export class MapFiberMenu {
         e.latlng,
         oldFiber.node2id,
         oldFiber.coors2,
-        oldFiber.fiberState
+        oldFiber.states
       );
 
       MapLayersActions.addFiberToLayer(newFiber1);

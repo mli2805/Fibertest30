@@ -28,6 +28,12 @@ enum EquipmentType {
     AccidentPlace = 501;
 }
 
+// if dictionary is empty - fiber is not in trace (NotInTrace)
+message FiberStateDictionaryItem {
+	string traceId = 1; // key
+	ft.enums.FiberState traceState = 2; // value
+}
+
 message GeoCoordinate {
   double latitude = 1;
   double longitude = 2;
@@ -57,7 +63,7 @@ message GeoFiber {
 	GeoCoordinate coors1 = 3;
 	string node2id = 4;
 	GeoCoordinate coors2 = 5;
-	ft.enums.FiberState fiberState = 6;
+	repeated FiberStateDictionaryItem states = 7;
 }
 
 message GeoTrace {

@@ -1,6 +1,16 @@
 import { EquipmentType } from 'src/grpc-generated';
 import { FiberState } from './ft-enums';
 
+export class NodeDetour {
+  constructor(
+    public FiberId: string,
+    public NodeId1: string,
+    public NodeId2: string,
+    public TraceState: FiberState,
+    public TraceId: string
+  ) {}
+}
+
 export class TraceNode {
   constructor(
     public id: string,
@@ -27,6 +37,10 @@ export class GeoEquipment {
   ) {}
 }
 
+export class FiberStateDictionaryItem {
+  constructor(public traceId: string, public traceState: FiberState) {}
+}
+
 export class GeoFiber {
   constructor(
     public id: string,
@@ -34,8 +48,15 @@ export class GeoFiber {
     public coors1: L.LatLng,
     public node2id: string,
     public coors2: L.LatLng,
-    public fiberState: FiberState
+    public states: FiberStateDictionaryItem[]
   ) {}
+
+  public getState(): FiberState {
+    if (this.states.length === 0) return FiberState.NotInTrace;
+
+    const state = Math.max(...this.states.map((e) => e.traceState));
+    return state;
+  }
 }
 
 export class GeoTrace {

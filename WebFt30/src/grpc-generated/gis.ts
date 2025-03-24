@@ -5,6 +5,21 @@ import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
 import { FiberState } from "./ft.enums";
 /**
+ * if dictionary is empty - fiber is not in trace (NotInTrace)
+ *
+ * @generated from protobuf message fibertest30.gis.FiberStateDictionaryItem
+ */
+export interface FiberStateDictionaryItem {
+    /**
+     * @generated from protobuf field: string traceId = 1;
+     */
+    traceId: string; // key
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.FiberState traceState = 2;
+     */
+    traceState: FiberState; // value
+}
+/**
  * @generated from protobuf message fibertest30.gis.GeoCoordinate
  */
 export interface GeoCoordinate {
@@ -100,9 +115,9 @@ export interface GeoFiber {
      */
     coors2?: GeoCoordinate;
     /**
-     * @generated from protobuf field: fibertest30.ft.enums.FiberState fiberState = 6;
+     * @generated from protobuf field: repeated fibertest30.gis.FiberStateDictionaryItem states = 7;
      */
-    fiberState: FiberState;
+    states: FiberStateDictionaryItem[];
 }
 /**
  * @generated from protobuf message fibertest30.gis.GeoTrace
@@ -269,6 +284,19 @@ export enum EquipmentType {
     AccidentPlace = 501
 }
 // @generated message type with reflection information, may provide speed optimized methods
+class FiberStateDictionaryItem$Type extends MessageType<FiberStateDictionaryItem> {
+    constructor() {
+        super("fibertest30.gis.FiberStateDictionaryItem", [
+            { no: 1, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "traceState", kind: "enum", T: () => ["fibertest30.ft.enums.FiberState", FiberState] }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.gis.FiberStateDictionaryItem
+ */
+export const FiberStateDictionaryItem = new FiberStateDictionaryItem$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class GeoCoordinate$Type extends MessageType<GeoCoordinate> {
     constructor() {
         super("fibertest30.gis.GeoCoordinate", [
@@ -324,7 +352,7 @@ class GeoFiber$Type extends MessageType<GeoFiber> {
             { no: 3, name: "coors1", kind: "message", T: () => GeoCoordinate },
             { no: 4, name: "node2id", kind: "scalar", jsonName: "node2id", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "coors2", kind: "message", T: () => GeoCoordinate },
-            { no: 6, name: "fiberState", kind: "enum", T: () => ["fibertest30.ft.enums.FiberState", FiberState] }
+            { no: 7, name: "states", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => FiberStateDictionaryItem }
         ]);
     }
 }

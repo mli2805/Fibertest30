@@ -196,6 +196,4 @@ export class GisMapService {
   }
 
   highlightNode$ = this.highlightNode.asObservable();
-  ////////////////////////////
-  highlightedFibers: HighlightedFiber[] = [];
 }

@@ -181,16 +181,6 @@ export class TraceDefineComponent implements OnInit {
     }
 
     this.gisMapService.setHighlightNode(neighbours[0].node.id);
-
-    // const dialogConfig = new DialogConfig<unknown, DialogRef>();
-    // dialogConfig.positionStrategy = new GlobalPositionStrategy().right('120px').top('350px');
-    // dialogConfig.disableClose = true;
-    // dialogConfig.data = { buttons, service: this.gisMapService };
-    // const dialogRef = this.dialog.open(NextStepSelectorComponent, dialogConfig);
-
-    // // вернет null если отказался от выбора
-    // return <number | null>await firstValueFrom(dialogRef.closed);
-
     this.gisMapService.prepareNextStepSelector(buttons, -666);
     this.gisMapService.showNextStepSelector.next(true);
 
@@ -249,8 +239,8 @@ export class TraceDefineComponent implements OnInit {
       this.spinning.next(false);
       return false;
     }
-
     this.addAndHighlighStep(neighbour, equipmentId);
+
     this.spinning.next(false);
     return true;
   }
@@ -315,9 +305,8 @@ export class TraceDefineComponent implements OnInit {
     });
 
     const result = await firstValueFrom(dialogRef.closed);
-
     if (result) {
-      MapLayersActions.extinguishAllFibers(true);
+      MapLayersActions.traceOnOff(<string>result, false);
 
       this.close();
     }

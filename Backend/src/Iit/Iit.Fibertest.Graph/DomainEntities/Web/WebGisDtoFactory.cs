@@ -116,7 +116,7 @@ public static class WebGisDtoFactory
                 Coors1 = node1.Position,
                 Node2Id = fiber.NodeId2,
                 Coors2 = node2.Position,
-                FiberState = fiber.GetState()
+                States = fiber.States
             };
         }
         else

@@ -1,6 +1,6 @@
 import { Injector } from '@angular/core';
 import { GisMapService } from '../../gis-map.service';
-import { GeoFiber, GeoTrace, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
+import { GeoFiber, GeoTrace, NodeDetour, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { EquipmentType } from 'src/grpc-generated';
 import { GisMapLayer } from '../shared/gis-map-layer';
@@ -36,7 +36,7 @@ export class MapNodeRemove {
     }
   }
 
-  static CreateDetourFiberIfAbsent(detour: any) {
+  static CreateDetourFiberIfAbsent(detour: NodeDetour) {
     const fiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === detour.FiberId);
     if (fiber === undefined) {
       const nodeBefore = this.gisMapService.getGeoData().nodes.find((n) => n.id === detour.NodeId1);
@@ -47,7 +47,7 @@ export class MapNodeRemove {
         nodeBefore!.coors,
         detour.NodeId2,
         nodeAfter!.coors,
-        detour.TraceSTate
+        [{ traceId: detour.TraceId, traceState: detour.TraceState }]
       );
       MapLayersActions.addFiberToLayer(newFiber);
     } else {
@@ -82,7 +82,7 @@ export class MapNodeRemove {
       leftNode!.coors,
       rightNodeId,
       rightNode!.coors,
-      leftFiber!.fiberState
+      []
     );
     geoFibers.push(newFiber);
 
@@ -232,13 +232,13 @@ export class MapNodeRemove {
     const result = [];
     for (let i = 0; i < trace.nodeIds.length; i++) {
       if (trace.nodeIds[i] !== nodeId) continue;
-      const detour = {
-        FiberId: crypto.randomUUID(),
-        NodeId1: trace.nodeIds[i - 1],
-        NodeId2: trace.nodeIds[i + 1],
-        TraceState: trace.state,
-        TraceId: trace.id
-      };
+      const detour = new NodeDetour(
+        crypto.randomUUID(),
+        trace.nodeIds[i - 1],
+        trace.nodeIds[i + 1],
+        trace.state,
+        trace.id
+      );
       result.push(detour);
     }
     return result;

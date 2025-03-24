@@ -58,15 +58,22 @@ public static class GisMapping
 
     private static GeoFiber ToProto(this FiberGisData fiber)
     {
-        return new GeoFiber()
+        var result = new GeoFiber()
         {
             Id = fiber.Id.ToString(),
             Node1Id = fiber.Node1Id.ToString(),
             Coors1 = fiber.Coors1.ToProto(),
             Node2Id = fiber.Node2Id.ToString(),
             Coors2 = fiber.Coors2.ToProto(),
-            FiberState = fiber.FiberState.ToProto(),
         };
+        fiber.States.ForEach(s=>
+        {
+            result.States.Add(new FiberStateDictionaryItem
+            {
+                TraceId = s.Key.ToString(), TraceState = s.Value.ToProto()
+            });
+        });
+        return result;
     }
 
     private static GeoTrace ToProto(this Iit.Fibertest.Graph.Trace trace)

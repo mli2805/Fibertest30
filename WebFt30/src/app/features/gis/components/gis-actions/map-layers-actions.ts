@@ -2,7 +2,12 @@ import * as L from 'leaflet';
 import { Injector } from '@angular/core';
 import { GisMapService } from '../../gis-map.service';
 import { GisIconWithZIndex, GisMapIcons } from '../shared/gis-map-icons';
-import { GeoFiber, TraceNode, TraceRouteData } from 'src/app/core/store/models/ft30/geo-data';
+import {
+  FiberStateDictionaryItem,
+  GeoFiber,
+  TraceNode,
+  TraceRouteData
+} from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { ColorUtils } from 'src/app/shared/utils/color-utils';
 import { MapFiberMenu } from './map-fiber-menu';
@@ -197,7 +202,7 @@ export class MapLayersActions {
 
   static createMyLine(fiber: GeoFiber) {
     const options = {
-      color: ColorUtils.routeStateToColor(fiber.fiberState),
+      color: ColorUtils.routeStateToColor(fiber.getState()),
       weight: 3,
       contextmenu: true,
       contextmenuInheritItems: false,
@@ -309,42 +314,62 @@ export class MapLayersActions {
 
   static highlightFiber(fiber: GeoFiber) {
     const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
-    const previousState = fiber.fiberState;
-
     const polyline = group.getLayers().find((f) => (<any>f).id === fiber.id);
     group.removeLayer(polyline!);
 
-    fiber.fiberState = FiberState.HighLighted;
+    fiber.states.push(new FiberStateDictionaryItem(GisMapUtils.emptyGuid, FiberState.HighLighted));
     this.addFiberToLayer(fiber);
-
-    this.gisMapService.highlightedFibers.push({ fiberId: fiber.id, previousState: previousState });
   }
 
   static extinguishFiber(fiber: GeoFiber) {
-    const saved = this.gisMapService.highlightedFibers.find((f) => f.fiberId === fiber.id);
-    if (saved === undefined) return;
-
     const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
     const polyline = group.getLayers().find((f) => (<any>f).id === fiber.id);
     group.removeLayer(polyline!);
 
-    fiber.fiberState = saved.previousState;
+    const idx = fiber.states.findIndex((s) => s.traceState === FiberState.HighLighted);
+    if (idx !== -1) {
+      fiber.states.splice(idx, 1);
+    }
     this.addFiberToLayer(fiber);
   }
 
-  static extinguishAllFibers(isTraceAccepted = false) {
-    this.gisMapService.highlightedFibers.forEach((s) => {
-      const saved = s;
+  static extinguishAllFibers() {
+    this.gisMapService.getGeoData().fibers.forEach((f) => {
+      const l = f.states.length;
+      f.states = f.states.filter((s) => s.traceState !== FiberState.HighLighted);
+      if (l !== f.states.length) {
+        const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
+        const polyline = group.getLayers().find((l) => (<any>l).id === f.id);
+        group.removeLayer(polyline!);
+        this.addFiberToLayer(f);
+      }
+    });
+  }
+
+  static traceOnOff(traceId: string, highlight: boolean) {
+    const trace = this.gisMapService.getGeoData().traces.find((t) => t.id === traceId);
+    if (trace === undefined) return;
+
+    trace.fiberIds.forEach((i) => {
+      const fiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === i);
+      if (fiber === undefined) return;
 
       const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
-      const polyline = group.getLayers().find((f) => (<any>f).id === saved.fiberId);
+      const polyline = group.getLayers().find((f) => (<any>f).id === fiber.id);
       group.removeLayer(polyline!);
 
-      const fiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === saved.fiberId)!;
-      fiber.fiberState = saved.previousState;
-      if (isTraceAccepted && saved.previousState === FiberState.NotInTrace) {
-        fiber.fiberState = FiberState.NotJoined;
+      if (highlight) {
+        const idx = fiber.states.findIndex((t) => t.traceId === traceId);
+        if (idx !== -1) {
+          fiber.states[idx].traceState = FiberState.HighLighted;
+        }
+      } else {
+        const idx = fiber.states.findIndex((s) => s.traceState === FiberState.HighLighted);
+        if (idx !== -1) {
+          fiber.states.splice(idx, 1);
+        }
       }
+
       this.addFiberToLayer(fiber);
     });
   }

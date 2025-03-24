@@ -265,7 +265,7 @@ export class MapNodeMenu {
         beginNode.coors,
         endNode.id,
         endNode.coors,
-        FiberState.NotInTrace
+        []
       );
       MapLayersActions.addFiberToLayer(fiber);
       this.gisMapService.getGeoData().fibers.push(fiber);
@@ -313,14 +313,7 @@ export class MapNodeMenu {
           i === command.AddFibers.length - 1
             ? endNode.coors
             : L.latLng(command.AddEquipments[i].Latitude, command.AddEquipments[i].Longitude);
-        const fiber = new GeoFiber(
-          cmd.FiberId,
-          cmd.NodeId1,
-          coor1,
-          cmd.NodeId2,
-          coor2,
-          FiberState.NotInTrace
-        );
+        const fiber = new GeoFiber(cmd.FiberId, cmd.NodeId1, coor1, cmd.NodeId2, coor2, []);
         MapLayersActions.addFiberToLayer(fiber);
         this.gisMapService.getGeoData().fibers.push(fiber);
       }

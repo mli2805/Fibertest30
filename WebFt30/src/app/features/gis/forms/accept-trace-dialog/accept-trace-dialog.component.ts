@@ -3,18 +3,18 @@ import { Component, inject, Inject } from '@angular/core';
 import { StepModel } from '../trace-define/step-model';
 import { EquipmentType } from 'src/grpc-generated';
 import { GisMapUtils } from '../../components/shared/gis-map.utils';
-import { GeoEquipment, GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
+import { FiberStateDictionaryItem, GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapService } from '../../gis-map.service';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { GraphService } from 'src/app/core/grpc';
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'rtu-accept-trace-dialog',
   templateUrl: './accept-trace-dialog.component.html'
 })
 export class AcceptTraceDialogComponent {
-  public dialogRef: DialogRef<boolean> = inject(DialogRef<boolean>);
+  public dialogRef: DialogRef<string | null> = inject(DialogRef<string | null>);
   gisMapService!: GisMapService;
 
   types!: any;
@@ -113,7 +113,7 @@ export class AcceptTraceDialogComponent {
   // кнопка нажата в trace-info
   async onCloseEvent(trace: GeoTrace | null) {
     if (trace === null) {
-      this.dialogRef.close(false);
+      this.dialogRef.close(null);
       return;
     }
 
@@ -137,9 +137,14 @@ export class AcceptTraceDialogComponent {
 
     if (response.success) {
       this.gisMapService.getGeoData().traces.push(trace);
+      trace.fiberIds.forEach((i) => {
+        const fiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === i);
+        if (fiber === undefined) return;
+        fiber.states.push(new FiberStateDictionaryItem(trace.id, FiberState.NotJoined));
+      });
     }
 
     this.spinning.next(false);
-    this.dialogRef.close(response.success);
+    this.dialogRef.close(trace.id);
   }
 }
