@@ -25,10 +25,11 @@ export class MapExternalCommands {
         this.showTrace(cmd.traceId);
         break;
       case 'CleanTrace':
-        this.onCleanOrRemoveTrace(cmd.traceId);
-        break;
       case 'RemoveTrace':
-        this.onCleanOrRemoveTrace(cmd.traceId);
+      case 'TraceAttached':
+      case 'TraceDetached':
+        this.reloadAllGeoData();
+        break;
     }
   }
 
@@ -64,7 +65,7 @@ export class MapExternalCommands {
     this.gisMapService.skipMovingCenter = false;
   }
 
-  static async onCleanOrRemoveTrace(traceId: string) {
+  static async reloadAllGeoData() {
     const response = await firstValueFrom(this.gisService.getAllGeoData());
     const geoData = GisMapping.fromGrpcGeoData(response.data!);
     this.gisMapService.setGeoData(geoData);

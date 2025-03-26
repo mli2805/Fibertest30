@@ -83,7 +83,8 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
     private store: Store<AppState>,
     private actions$: Actions,
     private audioService: AudioService,
-    private coreService: CoreService
+    private coreService: CoreService,
+    private gisMapService: GisMapService
   ) {
     super();
   }
@@ -267,11 +268,13 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       case 'TraceAttached': {
         const data = <TraceAttachedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
+        this.gisMapService.externalCommand.next({ name: 'TraceAttached' });
         return;
       }
       case 'TraceDetached': {
         const data = <TraceDetachedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
+        this.gisMapService.externalCommand.next({ name: 'TraceDetached' });
         return;
       }
       case 'OtauAttached': {
