@@ -17,7 +17,7 @@ export class AcceptTraceDialogComponent {
   public dialogRef: DialogRef<string | null> = inject(DialogRef<string | null>);
   gisMapService!: GisMapService;
 
-  types!: any;
+  types!: Map<EquipmentType, any>;
 
   traceInfoData!: any;
 

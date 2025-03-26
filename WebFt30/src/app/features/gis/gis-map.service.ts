@@ -3,7 +3,6 @@ import { GisMapLayer } from './components/shared/gis-map-layer';
 import { BehaviorSubject } from 'rxjs';
 import {
   AllGeoData,
-  GeoEquipment,
   GeoFiber,
   TraceNode,
   TraceRouteData
@@ -11,15 +10,11 @@ import {
 import * as L from 'leaflet';
 import { GisMapUtils } from './components/shared/gis-map.utils';
 import { StepModel } from './forms/trace-define/step-model';
-import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { RadioButton } from 'src/app/shared/components/svg-buttons/radio-button/radio-button';
 
-interface HighlightedFiber {
-  fiberId: string;
-  previousState: FiberState;
-}
-
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class GisMapService {
   public static GisMapLayerZoom = new Map<GisMapLayer, number>([
     [GisMapLayer.Route, 0],

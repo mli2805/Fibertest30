@@ -48,7 +48,6 @@ export class GisComponent extends OnDestroyBase implements OnInit, AfterViewInit
   ngAfterViewInit(): void {
     const element = this.myDiv.nativeElement;
     this.mapHeight = element.offsetHeight;
-    console.log(this.mapHeight);
   }
 
   async ngOnInit() {

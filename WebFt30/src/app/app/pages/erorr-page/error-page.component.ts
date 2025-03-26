@@ -17,10 +17,12 @@ import { AppState, GlobalUiSelectors, WindowRefService } from 'src/app/core';
   ]
 })
 export class ErrorPageComponent {
-    error$: Observable<string | null>;
-  constructor(private store: Store<AppState>
-    , private router: Router
-    , private windowRef: WindowRefService) {
+  error$: Observable<string | null>;
+  constructor(
+    private store: Store<AppState>,
+    private router: Router,
+    private windowRef: WindowRefService
+  ) {
     this.error$ = this.store.select(GlobalUiSelectors.selectError);
   }
 

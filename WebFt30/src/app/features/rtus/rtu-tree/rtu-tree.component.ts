@@ -7,7 +7,6 @@ import { GisMapService } from '../../gis/gis-map.service';
 @Component({
   selector: 'rtu-rtu-tree',
   templateUrl: './rtu-tree.component.html',
-  providers: [GisMapService],
   styles: [':host { overflow-y: auto; display: flex; width: 100%; height: 100%; }']
 })
 export class RtuTreeComponent {
@@ -15,7 +14,7 @@ export class RtuTreeComponent {
   inProgress$ = this.store.select(RtuMgmtSelectors.selectRtuOperationInProgress);
   loading$ = this.store.select(RtuTreeSelectors.selectLoading);
 
-  treeWidth = 256;
+  treeWidth = 423;
 
   constructor(private store: Store<AppState>, public gisMapService: GisMapService) {}
 

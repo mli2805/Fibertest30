@@ -11,6 +11,7 @@ import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
 import { EquipmentType } from 'src/grpc-generated';
 import { RadioButton } from '../svg-buttons/radio-button/radio-button';
+import { GisMapService } from 'src/app/features/gis/gis-map.service';
 
 interface EquipmentTypeItem {
   type: EquipmentType;
@@ -43,7 +44,7 @@ export class TraceInfoComponent implements OnInit {
     this.port =
       value.trace.state === FiberState.NotJoined
         ? this.ts.instant('i18n.ft.not-joined')
-        : 'взять порт';
+        : value.port;
     this.radioButtons = [];
     const dark = new RadioButton();
     dark.id = 0;
@@ -81,7 +82,7 @@ export class TraceInfoComponent implements OnInit {
 
   @Output() closeEvent = new EventEmitter<GeoTrace | null>();
 
-  constructor(private ts: TranslateService) {}
+  constructor(private gisMapService: GisMapService, private ts: TranslateService) {}
   ngOnInit(): void {
     document.getElementById('titleInput')!.focus();
   }
@@ -95,6 +96,12 @@ export class TraceInfoComponent implements OnInit {
       // if (control.pristine) return null;
       if (control.value === '') return { invalidTitle: { value: 'required' } };
       // еще надо проверить уникальность
+      const traces = this.gisMapService
+        .getGeoData()
+        .traces.filter((t) => t.title === control.value);
+      if (traces.length > 1) return { invalidTitle: { value: 'not unique' } };
+      if (traces.length === 1 && traces[0].id !== this.trace.id)
+        return { invalidTitle: { value: 'not unique' } };
       return null;
     };
   }
@@ -104,12 +111,15 @@ export class TraceInfoComponent implements OnInit {
   }
 
   onRadioButtonClick(id: number) {
+    if (this.isDisabled()) return;
+
     this.radioButtons.forEach((b) => {
       b.isSelected = b.id === id;
     });
   }
 
   isApplyDisabled() {
+    if (this.form.pristine) return true;
     return !this.isTraceTitleValid();
   }
 
@@ -117,6 +127,7 @@ export class TraceInfoComponent implements OnInit {
     this.trace.title = this.form.controls['title'].value;
     this.trace.darkMode = this.radioButtons[0].isSelected;
     this.trace.comment = this.form.controls['comment'].value;
+    this.form.markAsPristine();
     this.closeEvent.emit(this.trace);
   }
   onDiscardClicked() {

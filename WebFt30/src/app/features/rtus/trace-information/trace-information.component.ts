@@ -1,113 +1,119 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  AbstractControl,
-  ValidationErrors,
-  ValidatorFn
-} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
-import { AppState, RtuTreeSelectors, AuthSelectors, RtuTreeActions } from 'src/app/core';
+import {
+  AppState,
+  RtuTreeSelectors,
+  AuthSelectors,
+  RtuTreeActions,
+  WindowRefService
+} from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { ExtensionUtils } from 'src/app/core/extension.utils';
 import { GraphService } from 'src/app/core/grpc';
-import { Rtu } from 'src/app/core/store/models/ft30/rtu';
-import { Trace } from 'src/app/core/store/models/ft30/trace';
+import { GisMapService } from '../../gis/gis-map.service';
+import { GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
+import { EquipmentType } from 'src/grpc-generated';
 
 @Component({
   selector: 'rtu-trace-information',
-  templateUrl: './trace-information.component.html',
-  styleUrls: ['./trace-information.component.scss']
+  templateUrl: './trace-information.component.html'
 })
 export class TraceInformationComponent implements OnInit {
   traceId!: string;
-  trace!: Trace;
   rtuId!: string;
-  rtu!: Rtu;
-  port!: string;
 
+  traceInfoData!: any;
   hasPermission!: boolean;
-  form!: FormGroup;
 
-  loading$ = new BehaviorSubject<boolean>(false);
+  loading = new BehaviorSubject<boolean>(false);
+  loading$ = this.loading.asObservable();
 
   public store: Store<AppState> = inject(Store);
   constructor(
+    private windowRef: WindowRefService,
     private route: ActivatedRoute,
     private router: Router,
-    private graphService: GraphService,
-    private cdr: ChangeDetectorRef
+    public gisMapService: GisMapService,
+    private graphService: GraphService
   ) {}
 
   ngOnInit(): void {
     this.traceId = this.route.snapshot.paramMap.get('id')!;
-    this.trace = CoreUtils.getCurrentState(this.store, RtuTreeSelectors.selectTrace(this.traceId))!;
-    this.rtuId = this.trace.rtuId;
-    this.rtu = CoreUtils.getCurrentState(this.store, RtuTreeSelectors.selectRtu(this.rtuId))!;
-    this.port = ExtensionUtils.PortOfOtauToString(this.trace.port);
+    const trace = CoreUtils.getCurrentState(
+      this.store,
+      RtuTreeSelectors.selectTrace(this.traceId)
+    )!;
+    this.rtuId = trace.rtuId;
+    const rtu = CoreUtils.getCurrentState(this.store, RtuTreeSelectors.selectRtu(this.rtuId))!;
     this.hasPermission = CoreUtils.getCurrentState(
       this.store,
       AuthSelectors.selectHasEditGraphPermission
     );
 
-    this.form = new FormGroup({
-      title: new FormControl(this.trace.title, [this.traceTitleValidator()]),
-      comment: new FormControl(this.trace.comment)
+    const geoData = this.gisMapService.getGeoData();
+    if (geoData === undefined) {
+      this.windowRef.reload();
+      return;
+    }
+    const geoTrace = geoData.traces.find((t) => t.id === this.traceId);
+    this.prepareStatForInnerComponent(geoTrace!);
+
+    this.traceInfoData = {
+      hasPermission: this.hasPermission,
+      types: Array.from(this.types, ([type, value]) => ({ type, count: value.count })),
+      trace: geoTrace,
+      rtuTitle: rtu.title,
+      port: ExtensionUtils.PortOfOtauToString(trace.port),
+      length: null
+    };
+  }
+
+  types!: Map<EquipmentType, any>;
+  prepareStatForInnerComponent(trace: GeoTrace) {
+    this.types = new Map();
+
+    trace.nodeIds.forEach((i) => {
+      const node = this.gisMapService.getNode(i);
+      this.setOrIncrement(node.equipmentType, 1);
     });
+  }
+
+  setOrIncrement(type: EquipmentType, inc = 1) {
+    if (this.types.has(type)) {
+      this.types.get(type).count++;
+    } else {
+      this.types.set(type, { count: inc });
+    }
+  }
+
+  async onCloseEvent(trace: GeoTrace | null) {
+    if (trace !== null) {
+      await this.onApplyClicked(trace);
+    } else {
+      this.router.navigate(['rtus/rtu-tree']);
+    }
   }
 
   isDisabled() {
     return !this.hasPermission;
   }
 
-  traceTitleValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      if (control.pristine) return null;
-      if (control.value === '') return { invalidTitle: { value: 'required' } };
-      // еще надо проверить уникальность
-      return null;
-    };
-  }
-
-  isTraceTitleValid() {
-    return this.form.controls['title'].valid;
-  }
-
-  isApplyDisabled() {
-    if (this.form.pristine) return true;
-    if (!this.form.valid) return true;
-
-    return false;
-  }
-
-  async onApplyClicked() {
-    this.loading$.next(true);
+  async onApplyClicked(trace: GeoTrace) {
+    console.log(trace);
+    this.loading.next(true);
     const cmd = {
       Id: this.traceId,
-      Title: this.form.controls['title'].value,
-      Comment: this.form.controls['comment'].value
+      Title: trace.title,
+      Mode: trace.darkMode ? 0 : 1,
+      Comment: trace.comment
     };
     const json = JSON.stringify(cmd);
     const response = await firstValueFrom(this.graphService.sendCommand(json, 'UpdateTrace'));
     if (response.success) {
       this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: this.rtuId }));
-      this.form.markAsPristine();
-      this.cdr.markForCheck();
     }
-    this.loading$.next(false);
-  }
-
-  isDiscardDisabled() {
-    if (this.form.pristine) return true;
-
-    return false;
-  }
-
-  onDiscardClicked() {
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['rtus/trace-information', this.traceId]);
-    });
+    this.loading.next(false);
   }
 }

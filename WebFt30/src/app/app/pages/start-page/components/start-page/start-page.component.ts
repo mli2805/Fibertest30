@@ -83,8 +83,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
     private store: Store<AppState>,
     private actions$: Actions,
     private audioService: AudioService,
-    private coreService: CoreService,
-    private gisMapService: GisMapService
+    private coreService: CoreService
   ) {
     super();
   }

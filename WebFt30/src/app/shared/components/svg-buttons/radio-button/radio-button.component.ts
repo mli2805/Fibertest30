@@ -7,4 +7,5 @@ import { RadioButton } from './radio-button';
 })
 export class RadioButtonComponent {
   @Input() button!: RadioButton;
+  @Input() disabled = false;
 }

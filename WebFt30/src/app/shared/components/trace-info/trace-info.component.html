@@ -73,7 +73,12 @@
           </label>
           <div style="grid-area: modeValue" class="ml-1 mt-2 flex">
             <ng-container *ngFor="let button of radioButtons; let i = index">
-              <rtu-radio-button class="mr-6" [button]="button" (click)="onRadioButtonClick(i)" />
+              <rtu-radio-button
+                class="mr-6"
+                [button]="button"
+                (click)="onRadioButtonClick(i)"
+                [disabled]="isDisabled()"
+              />
             </ng-container>
           </div>
 
@@ -95,7 +100,7 @@
     </fieldset>
   </div>
 
-  <div class="grouped-border mb-2 flex flex-col">
+  <div class="grouped-border mb-2 flex flex-col text-sm">
     <div class="mb-1">{{ 'i18n.ft.equipment' | translate }}:</div>
 
     <ng-container *ngFor="let el of types">
@@ -110,7 +115,7 @@
     </div>
   </div>
 
-  <div class="grouped-border mb-2 flex flex-col">
+  <div class="grouped-border mb-2 flex flex-col text-sm">
     <div class="mb-1">{{ 'i18n.ft.nodes' | translate }}:</div>
 
     <div class="flex justify-between">
@@ -124,22 +129,24 @@
   </div>
 
   <ng-container *ngIf="pointCount !== 0">
-    <div class="ml-2 text-gray-500">
+    <div class="ml-2 text-sm text-gray-500">
       {{ 'i18n.ft.to-adjust-trace-drawing-were-used' | translate : { '0': pointCount } }}
     </div>
   </ng-container>
 
   <!-- buttons -->
-  <div class="mt-6 flex flex-row justify-end">
-    <button class="button-cancel mr-2 min-w-36" (click)="onDiscardClicked()" cdkFocusInitial>
-      {{ 'i18n.ft.discard' | translate }}
-    </button>
-    <button
-      class="button-ok mr-2 min-w-36"
-      [disabled]="isApplyDisabled()"
-      (click)="onApplyClicked()"
-    >
-      {{ 'i18n.ft.apply' | translate }}
-    </button>
-  </div>
+  <ng-container *ngIf="!isDisabled()">
+    <div class="mt-6 flex flex-row justify-end">
+      <button class="button-cancel mr-2 min-w-36" (click)="onDiscardClicked()" cdkFocusInitial>
+        {{ 'i18n.ft.discard' | translate }}
+      </button>
+      <button
+        class="button-ok mr-2 min-w-36"
+        [disabled]="isApplyDisabled()"
+        (click)="onApplyClicked()"
+      >
+        {{ 'i18n.ft.apply' | translate }}
+      </button>
+    </div>
+  </ng-container>
 </div>
