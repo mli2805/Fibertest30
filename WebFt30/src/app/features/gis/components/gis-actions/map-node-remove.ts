@@ -5,6 +5,7 @@ import { GisMapUtils } from '../shared/gis-map.utils';
 import { EquipmentType } from 'src/grpc-generated';
 import { GisMapLayer } from '../shared/gis-map-layer';
 import { MapLayersActions } from './map-layers-actions';
+import { MapFiberMenu } from './map-fiber-menu';
 
 export class MapNodeRemove {
   private static gisMapService: GisMapService;
@@ -116,31 +117,31 @@ export class MapNodeRemove {
             : fiberForDeletion.node1id;
         const anotherNode = this.gisMapService.getNode(anotherNodeId);
 
-        this.RemoveFiber(fiberForDeletion);
+        MapFiberMenu.removeFiberFromMapAndGeoData(fiberForDeletion);
 
         if (anotherNode?.equipmentType !== EquipmentType.AdjustmentPoint) break;
 
         fiberForDeletion = fibers.find(
           (f) => f.node1id === anotherNodeId || f.node2id === anotherNodeId
         )!;
-        this.RemoveNode(anotherNode);
+        this.removeNodeFromMapAndGeoData(anotherNode);
         nodeForDeletionId = anotherNode.id;
       }
     }
 
-    this.RemoveNode(node);
+    this.removeNodeFromMapAndGeoData(node);
   }
 
   static RemoveNodeWithAllHisFibers(node: TraceNode) {
     const hisFibers = this.gisMapService
       .getGeoData()
       .fibers.filter((f) => f.node1id === node.id || f.node2id === node.id);
-    hisFibers.forEach((f) => this.RemoveFiber(f));
+    hisFibers.forEach((f) => MapFiberMenu.removeFiberFromMapAndGeoData(f));
 
-    this.RemoveNode(node);
+    this.removeNodeFromMapAndGeoData(node);
   }
 
-  static RemoveNode(node: TraceNode) {
+  static removeNodeFromMapAndGeoData(node: TraceNode) {
     this.gisMapService.geoDataLoading.next(true);
     const layerType = GisMapUtils.equipmentTypeToGisMapLayer(node!.equipmentType);
     const group = this.gisMapService.getLayerGroups().get(layerType);
@@ -150,15 +151,6 @@ export class MapNodeRemove {
     const index = this.gisMapService.getGeoData().nodes.indexOf(node);
     this.gisMapService.getGeoData().nodes.splice(index, 1);
     this.gisMapService.geoDataLoading.next(false);
-  }
-
-  static RemoveFiber(fiber: GeoFiber) {
-    const routeGroup = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
-    const routeLayer = routeGroup.getLayers().find((r) => (<any>r).id === fiber.id);
-    routeGroup.removeLayer(routeLayer!);
-
-    const index = this.gisMapService.getGeoData().fibers.indexOf(fiber);
-    this.gisMapService.getGeoData().fibers.splice(index, 1);
   }
 
   ///////////////////////////////////////////////////////////
@@ -228,7 +220,8 @@ export class MapNodeRemove {
     return false;
   }
 
-  static buildDetoursForTrace(nodeId: string, trace: GeoTrace) {
+  // может быть несколько, если проходит через узел несколько раз
+  static buildDetoursForTrace(nodeId: string, trace: GeoTrace): NodeDetour[] {
     const result = [];
     for (let i = 0; i < trace.nodeIds.length; i++) {
       if (trace.nodeIds[i] !== nodeId) continue;

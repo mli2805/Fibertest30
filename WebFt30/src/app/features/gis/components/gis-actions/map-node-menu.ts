@@ -7,7 +7,7 @@ import { EquipmentType } from 'src/grpc-generated';
 import { firstValueFrom } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc/services/graph.service';
 import { GisMapUtils } from '../shared/gis-map.utils';
-import { GeoFiber, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
+import { GeoEquipment, GeoFiber, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { MapLayersActions } from './map-layers-actions';
 import { MapNodeRemove } from './map-node-remove';
@@ -191,17 +191,16 @@ export class MapNodeMenu {
     if (!MapNodeRemove.isRemoveThisNodePermitted(nodeId, node!.equipmentType)) return;
     if (!MapNodeRemove.isPossibleToRemove(nodeId)) return;
 
-    let detours: any[] = [];
+    const detours = [];
     for (let i = 0; i < this.gisMapService.getGeoData().traces.length; i++) {
       const trace = this.gisMapService.getGeoData().traces[i];
       const traceDetours = MapNodeRemove.buildDetoursForTrace(nodeId, trace);
-      detours = [...traceDetours];
+      detours.push(...traceDetours);
     }
-
+    console.log(detours);
     const isAdjustmentPoint = node?.equipmentType === EquipmentType.AdjustmentPoint;
-    const fiberIdToDetourAdjustmentPoint = isAdjustmentPoint
-      ? crypto.randomUUID()
-      : GisMapUtils.emptyGuid;
+    const fiberIdToDetourAdjustmentPoint =
+      isAdjustmentPoint && detours.length === 0 ? crypto.randomUUID() : GisMapUtils.emptyGuid;
 
     const command = {
       NodeId: nodeId,
@@ -246,12 +245,14 @@ export class MapNodeMenu {
     const beginNode = this.gisMapService.getNode(this.gisMapService.addSectionFromNodeId);
     const endNode = this.gisMapService.getNode(endNodeId);
 
-    if (this.gisMapService.sectionWithNodes) {
-      // с узлами
-      await this.sendWithNodesApplySuccess(beginNode, endNode);
-    } else {
-      // без узлов
-      await this.sendAddFiberApplySuccess(beginNode, endNode);
+    if (endNode.equipmentType !== EquipmentType.AdjustmentPoint) {
+      if (this.gisMapService.sectionWithNodes) {
+        // с узлами
+        await this.sendWithNodesApplySuccess(beginNode, endNode);
+      } else {
+        // без узлов
+        await this.sendAddFiberApplySuccess(beginNode, endNode);
+      }
     }
 
     // сбрасываем флаги в сервисе
@@ -311,6 +312,16 @@ export class MapNodeMenu {
         );
         MapLayersActions.addNodeToLayer(node);
         this.gisMapService.getGeoData().nodes.push(node);
+        const equipment = new GeoEquipment(
+          cmd.RequestedEquipmentId,
+          '',
+          cmd.NodeId,
+          cmd.Type,
+          0,
+          0,
+          ''
+        );
+        this.gisMapService.getGeoData().equipments.push(equipment);
       }
 
       for (let i = 0; i < command.AddFibers.length; i++) {

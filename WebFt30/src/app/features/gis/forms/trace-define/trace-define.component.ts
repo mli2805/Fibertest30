@@ -266,11 +266,13 @@ export class TraceDefineComponent implements OnInit {
     // если 2, то сделали 1 шаг из RTU и возвращаться нельзя
     if (this.gisMapService.steps.length < 3) return;
 
+    // шагаем назад в предпоследний узел, поэтому -2
     const backwardNodeId = this.gisMapService.steps.at(-2)!.nodeId;
     const backwardNode = this.gisMapService.getNode(backwardNodeId);
     const neighbour = new Neighbour();
     neighbour.node = backwardNode;
-    neighbour.fiberIds = this.gisMapService.steps.at(-2)!.fiberIds.slice().reverse();
+    // а волокна для шага назад лежат в последнем шаге, поэтому -1 и переворачиваем их на случай точек привязки
+    neighbour.fiberIds = this.gisMapService.steps.at(-1)!.fiberIds.slice().reverse();
 
     await this.justStep(neighbour);
   }

@@ -326,6 +326,7 @@ export class MapLayersActions {
     for (let i = fiber.states.length - 1; i >= 0; i--) {
       if (fiber.states[i].traceState === FiberState.HighLighted) {
         fiber.states.splice(i, 1);
+        break;
       }
     }
     this.reDrawFiber(fiber);

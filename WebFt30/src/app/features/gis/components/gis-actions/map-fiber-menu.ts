@@ -10,6 +10,8 @@ import { MapLayersActions } from './map-layers-actions';
 import { GisMapLayer } from '../shared/gis-map-layer';
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 import { Dialog } from '@angular/cdk/dialog';
+import { MapNodeMenu } from './map-node-menu';
+import { MapNodeRemove } from './map-node-remove';
 
 export class MapFiberMenu {
   private static ts: TranslateService;
@@ -214,15 +216,47 @@ export class MapFiberMenu {
     const response = await this.graphService.sendCommandAsync(json, 'RemoveFiber');
     if (response.success) {
       // если один из концов волокна - точка привязки, то удаляем её и продолжение после неё и т.д.
+      const toTheLeft = this.toOneSide(oldFiber.node1id, oldFiber.id);
+      const toTheRight = this.toOneSide(oldFiber.node2id, oldFiber.id);
 
-      // удалить волокно с карты и из GeoData
-      const routeGroup = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
-      const oldRouteLayer = routeGroup.getLayers().find((r) => (<any>r).id === fiberId);
-      routeGroup.removeLayer(oldRouteLayer!);
-      const indexOfFiber = this.gisMapService.getGeoData().fibers.indexOf(oldFiber);
-      if (indexOfFiber > -1) {
-        this.gisMapService.getGeoData().fibers.splice(indexOfFiber, 1);
-      }
+      const fibersToRemove = [oldFiber, toTheLeft.fibers, toTheRight.fibers].flat();
+      const nodesToRemove = [toTheLeft.adjustmentPoints, toTheRight.adjustmentPoints].flat();
+
+      fibersToRemove.forEach((f) => {
+        this.removeFiberFromMapAndGeoData(f);
+      });
+      nodesToRemove.forEach((n) => {
+        MapNodeRemove.removeNodeFromMapAndGeoData(n);
+      });
     }
+    this.gisMapService.geoDataLoading.next(false);
+  }
+
+  static removeFiberFromMapAndGeoData(oldFiber: GeoFiber) {
+    const routeGroup = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
+    const oldRouteLayer = routeGroup.getLayers().find((r) => (<any>r).id === oldFiber.id);
+    routeGroup.removeLayer(oldRouteLayer!);
+    const indexOfFiber = this.gisMapService.getGeoData().fibers.indexOf(oldFiber);
+    if (indexOfFiber > -1) {
+      this.gisMapService.getGeoData().fibers.splice(indexOfFiber, 1);
+    }
+  }
+
+  static toOneSide(nodeId: string, fromFiberId: string) {
+    const fibers = [];
+    const adjustmentPoints = [];
+
+    let node = this.gisMapService.getNode(nodeId);
+    while (node.equipmentType === EquipmentType.AdjustmentPoint) {
+      const moreFiber = this.gisMapService.getAnotherFiberOfAdjustmentPoint(node.id, fromFiberId);
+      fibers.push(moreFiber);
+      adjustmentPoints.push(node);
+      node = this.gisMapService.getNode(
+        moreFiber.node1id === node.id ? moreFiber.node2id : moreFiber.node1id
+      );
+      fromFiberId = moreFiber.id;
+    }
+
+    return { fibers, adjustmentPoints };
   }
 }
