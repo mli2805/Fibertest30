@@ -5,19 +5,23 @@ import { GisMapService } from '../../gis-map.service';
 import { EquipmentType } from 'src/grpc-generated';
 import { firstValueFrom } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc';
-import { GeoFiber, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
+import { GeoEquipment, GeoFiber, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { MapLayersActions } from './map-layers-actions';
 import { GisMapLayer } from '../shared/gis-map-layer';
+import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
+import { Dialog } from '@angular/cdk/dialog';
 
 export class MapFiberMenu {
   private static ts: TranslateService;
   private static gisMapService: GisMapService;
   private static graphService: GraphService;
+  private static dialog: Dialog;
 
   static initialize(injector: Injector) {
     this.ts = injector.get(TranslateService);
     this.gisMapService = injector.get(GisMapService);
     this.graphService = injector.get(GraphService);
+    this.dialog = injector.get(Dialog);
   }
 
   static buildFiberContextMenu(hasEditPermissions: boolean): L.ContextMenuItem[] {
@@ -54,10 +58,24 @@ export class MapFiberMenu {
     console.log(e.relatedTarget);
   }
 
+  // только если трассы без базовых
   static async addNodeToSection(e: L.ContextMenuItemClickEvent) {
+    const fiberId = (<any>e.relatedTarget).id;
+    const idx = this.gisMapService
+      .getGeoData()
+      .traces.findIndex((t) => t.fiberIds.includes(fiberId) && t.hasAnyBaseRef);
+    if (idx !== -1) {
+      MessageBoxUtils.show(this.dialog, 'Error', [
+        { message: 'i18n.ft.cant-add-node', bold: true, bottomMargin: true },
+        { message: 'i18n.ft.base-refs-assigned', bold: false, bottomMargin: false }
+      ]);
+      return;
+    }
+
     await this.addToSection(e, EquipmentType.EmptyNode);
   }
 
+  // можно всегда, даже если есть базовые в трассах
   static async addPointToSection(e: L.ContextMenuItemClickEvent) {
     await this.addToSection(e, EquipmentType.AdjustmentPoint);
   }
@@ -83,6 +101,8 @@ export class MapFiberMenu {
       const traceNode = new TraceNode(command.Id, '', e.latlng, eqType, '');
       MapLayersActions.addNodeToLayer(traceNode);
       this.gisMapService.getGeoData().nodes.push(traceNode);
+      const equipment = new GeoEquipment(command.EquipmentId, '', command.Id, eqType, 0, 0, '');
+      this.gisMapService.getGeoData().equipments.push(equipment);
 
       // добавить 2 новых волокна на карту и в GeoData
       const newFiber1 = new GeoFiber(
@@ -115,13 +135,76 @@ export class MapFiberMenu {
       if (indexOfFiber > -1) {
         this.gisMapService.getGeoData().fibers.splice(indexOfFiber, 1);
       }
+
+      this.fixTracesPassingOldFiber(
+        oldFiber,
+        newFiber1,
+        newFiber2,
+        command.Id,
+        command.EquipmentId
+      );
     }
     this.gisMapService.geoDataLoading.next(false);
+  }
+
+  static fixTracesPassingOldFiber(
+    oldFiber: GeoFiber,
+    newFiber1: GeoFiber,
+    newFiber2: GeoFiber,
+    nodeId: string,
+    equipmentId: string
+  ) {
+    oldFiber.states.forEach((s) => {
+      const trace = this.gisMapService.getGeoData().traces.find((t) => t.id === s.traceId);
+      if (trace === undefined) return;
+
+      const oldNodesArray = trace.nodeIds.slice();
+      const oldFibersArray = trace.fiberIds.slice();
+      const oldEquipmentsArray = trace.equipmentIds.slice();
+
+      trace.fiberIds.length = 0;
+      trace.nodeIds.length = 0;
+      trace.nodeIds.push(oldNodesArray[0]);
+      trace.equipmentIds.length = 0;
+      trace.equipmentIds.push(oldEquipmentsArray[0]);
+
+      for (let i = 0; i < oldFibersArray.length; i++) {
+        if (oldFibersArray[i] !== oldFiber.id) {
+          trace.fiberIds.push(oldFibersArray[i]);
+          trace.nodeIds.push(oldNodesArray[i + 1]);
+          trace.equipmentIds.push(oldEquipmentsArray[i + 1]);
+        } else {
+          const first =
+            newFiber1.node1id === trace.nodeIds.at(-1) || newFiber2.node1id === trace.nodeIds.at(-1)
+              ? newFiber1
+              : newFiber2;
+          const second = first.id === newFiber1.id ? newFiber2 : newFiber1;
+          trace.fiberIds.push(first.id);
+          trace.fiberIds.push(second.id);
+          trace.nodeIds.push(nodeId);
+          trace.nodeIds.push(oldNodesArray[i + 1]);
+          trace.equipmentIds.push(equipmentId);
+          trace.equipmentIds.push(oldEquipmentsArray[i + 1]);
+        }
+      }
+    });
   }
 
   static async removeSection(e: L.ContextMenuItemClickEvent) {
     this.gisMapService.geoDataLoading.next(true);
     const fiberId = (<any>e.relatedTarget).id;
+
+    const idx = this.gisMapService
+      .getGeoData()
+      .traces.findIndex((t) => t.fiberIds.includes(fiberId));
+    if (idx !== -1) {
+      MessageBoxUtils.show(this.dialog, 'Error', [
+        { message: 'i18n.ft.cant-remove-section', bold: true, bottomMargin: true }
+      ]);
+      this.gisMapService.geoDataLoading.next(false);
+      return;
+    }
+
     const oldFiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === fiberId)!;
 
     const command = {
@@ -141,6 +224,5 @@ export class MapFiberMenu {
         this.gisMapService.getGeoData().fibers.splice(indexOfFiber, 1);
       }
     }
-    this.gisMapService.geoDataLoading.next(false);
   }
 }

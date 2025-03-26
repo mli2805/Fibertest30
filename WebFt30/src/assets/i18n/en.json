@@ -589,6 +589,11 @@
   "i18n.ft.r-m": "R, m",
   "i18n.ft.traces": "Traces",
 
+  "i18n.ft.cant-add-node": "Can't add node",
+  "i18n.ft.cant-remove-node": "Can't remove node",
+  "i18n.ft.base-refs-assigned": "Base refs assigned",
+  "i18n.ft.cant-remove-section": "Can't remove section where trace exists",
+
   "i18n.ft.step-by-step-trace-definition": "Step by step trace definition",
 
   "i18n.start-page.gis": "Gis",

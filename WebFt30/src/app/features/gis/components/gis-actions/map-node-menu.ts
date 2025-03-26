@@ -22,6 +22,7 @@ import {
 } from '../../forms/section-with-nodes/section-with-nodes.component';
 import { AddEquipmentAtGpsLocation, AddFiber } from './graph-commands';
 import { FiberCommandsFactory } from './fiber-commands-factory';
+import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 
 export class MapNodeMenu {
   private static ts: TranslateService;
@@ -173,6 +174,18 @@ export class MapNodeMenu {
   static async removeNode(e: L.ContextMenuItemClickEvent) {
     this.gisMapService.geoDataLoading.next(true);
     const nodeId = (<any>e.relatedTarget).id;
+
+    const idx = this.gisMapService
+      .getGeoData()
+      .traces.findIndex((t) => t.nodeIds.includes(nodeId) && t.hasAnyBaseRef);
+    if (idx !== -1) {
+      MessageBoxUtils.show(this.dialog, 'Error', [
+        { message: 'i18n.ft.cant-remove-node', bold: true, bottomMargin: true },
+        { message: 'i18n.ft.base-refs-assigned', bold: false, bottomMargin: false }
+      ]);
+      return;
+    }
+
     const node = this.gisMapService.getGeoData().nodes.find((n) => n.id === nodeId);
 
     if (!MapNodeRemove.isRemoveThisNodePermitted(nodeId, node!.equipmentType)) return;

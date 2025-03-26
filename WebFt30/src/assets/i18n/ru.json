@@ -308,6 +308,11 @@
   "i18n.ft.r-m": "П, м",
   "i18n.ft.traces": "Трассы",
 
+  "i18n.ft.cant-add-node": "Нельзя добавить узел",
+  "i18n.ft.cant-remove-node": "Can't remove node",
+  "i18n.ft.base-refs-assigned": "Заданы базовые рефлектограммы",
+  "i18n.ft.cant-remove-section": "Нельзя удалить участок, по которому проходит трасса",
+
   "i18n.ft.add-equimpent": "Добавить оборудование",
   "i18n.ft.update-equimpent": "Изменить оборудование",
   "i18n.ft.with-cable-reserve": "С кабельным резервом",
