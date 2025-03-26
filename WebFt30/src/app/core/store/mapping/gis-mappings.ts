@@ -2,7 +2,7 @@ import * as grpc from 'src/grpc-generated';
 import * as L from 'leaflet';
 import {
   AllGeoData,
-  FiberStateDictionaryItem,
+  FiberStateItem,
   GeoEquipment,
   GeoFiber,
   GeoTrace,
@@ -48,8 +48,7 @@ export class GisMapping {
       grpcGeoFiber.node2Id,
       this.fromGeoCoordinate(grpcGeoFiber.coors2!),
       grpcGeoFiber.states.map(
-        (s) =>
-          new FiberStateDictionaryItem(s.traceId, FtEnumsMapping.fromGrpcFiberState(s.traceState))
+        (s) => new FiberStateItem(s.traceId, FtEnumsMapping.fromGrpcFiberState(s.traceState))
       )
     );
     return fiber;

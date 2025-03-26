@@ -3,11 +3,12 @@ import { Component, inject, Inject } from '@angular/core';
 import { StepModel } from '../trace-define/step-model';
 import { EquipmentType } from 'src/grpc-generated';
 import { GisMapUtils } from '../../components/shared/gis-map.utils';
-import { FiberStateDictionaryItem, GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
+import { FiberStateItem, GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapService } from '../../gis-map.service';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { GraphService } from 'src/app/core/grpc';
 import { BehaviorSubject } from 'rxjs';
+import { TraceDefineUtils } from '../trace-define/trace-define-utils';
 
 @Component({
   selector: 'rtu-accept-trace-dialog',
@@ -32,55 +33,10 @@ export class AcceptTraceDialogComponent {
       hasPermission: true,
       // какого типа оборудования сколько в базе
       types: Array.from(this.types, ([type, value]) => ({ type, count: value.count })),
-      trace: this.createTrace(data.service.steps),
+      trace: TraceDefineUtils.createTrace(),
       rtuTitle: this.gisMapService.steps[0].title,
       lengths: null // для создаваемой трассы null
     };
-  }
-
-  createTrace(steps: StepModel[]): GeoTrace {
-    const nodeIds: string[] = [];
-    const equipmentIds: string[] = [];
-    const fiberIds: string[] = [];
-    for (let i = 0; i < steps.length; i++) {
-      const step = steps[i];
-
-      // к очередному узлу может вести несколько участков с точками привязки
-      // 1) на первом шаге (RTU) step.fiberIds пустой, в цикл не попадаем
-      // 2) если step.fiberIds.length === 1 - нету точек привязки, просто шаг,  в цикл не попадаем
-      for (let j = 0; j < step.fiberIds.length - 1; j++) {
-        const fiberId = step.fiberIds[j];
-        const fiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === fiberId)!;
-        const anotherNodeId = fiber.node1id === nodeIds.at(-1) ? fiber.node2id : fiber.node1id;
-        const adjustmentPointId = this.gisMapService
-          .getGeoData()
-          .equipments.find(
-            (e) => e.nodeId === anotherNodeId && e.type === EquipmentType.AdjustmentPoint
-          )!.id;
-        fiberIds.push(fiberId);
-        nodeIds.push(anotherNodeId);
-        equipmentIds.push(adjustmentPointId);
-      }
-
-      if (i > 0) {
-        fiberIds.push(step.fiberIds.at(-1)!);
-      }
-
-      nodeIds.push(step.nodeId);
-      equipmentIds.push(step.equipmentId);
-    }
-
-    return new GeoTrace(
-      crypto.randomUUID(),
-      '',
-      nodeIds,
-      equipmentIds,
-      fiberIds,
-      false,
-      FiberState.NotJoined,
-      true,
-      ''
-    );
   }
 
   prepareStatForInnerComponent(steps: StepModel[]) {
@@ -140,7 +96,7 @@ export class AcceptTraceDialogComponent {
       trace.fiberIds.forEach((i) => {
         const fiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === i);
         if (fiber === undefined) return;
-        fiber.states.push(new FiberStateDictionaryItem(trace.id, FiberState.NotJoined));
+        fiber.states.push(new FiberStateItem(trace.id, FiberState.NotJoined));
       });
     }
 

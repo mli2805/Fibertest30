@@ -3,7 +3,7 @@ import { Injector } from '@angular/core';
 import { GisMapService } from '../../gis-map.service';
 import { GisIconWithZIndex, GisMapIcons } from '../shared/gis-map-icons';
 import {
-  FiberStateDictionaryItem,
+  FiberStateItem,
   GeoFiber,
   TraceNode,
   TraceRouteData
@@ -312,38 +312,41 @@ export class MapLayersActions {
     this.gisMapService.getMap().setView(node.coors);
   }
 
-  static highlightFiber(fiber: GeoFiber) {
-    const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
-    const polyline = group.getLayers().find((f) => (<any>f).id === fiber.id);
-    group.removeLayer(polyline!);
-
-    fiber.states.push(new FiberStateDictionaryItem(GisMapUtils.emptyGuid, FiberState.HighLighted));
-    this.addFiberToLayer(fiber);
+  // использовать только при определении трассы:
+  // добавляет state с emptyGuid
+  static highlightStepThroughFiber(fiber: GeoFiber) {
+    fiber.states.push(new FiberStateItem(GisMapUtils.emptyGuid, FiberState.HighLighted));
+    this.reDrawFiber(fiber);
   }
 
-  static extinguishFiber(fiber: GeoFiber) {
-    const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
-    const polyline = group.getLayers().find((f) => (<any>f).id === fiber.id);
-    group.removeLayer(polyline!);
-
-    fiber.states = fiber.states.filter((s) => s.traceState !== FiberState.HighLighted);
-    this.addFiberToLayer(fiber);
+  // использовать только при определении трассы:
+  // трасса может проходить по волокну несколько раз
+  // поэтому надо убрать один, последний проход
+  static extinguishLastStepThroughFiber(fiber: GeoFiber) {
+    for (let i = fiber.states.length - 1; i >= 0; i--) {
+      if (fiber.states[i].traceState === FiberState.HighLighted) {
+        fiber.states.splice(i, 1);
+      }
+    }
+    this.reDrawFiber(fiber);
   }
 
+  // использовать только после определения трассы:
+  // гасит всё убирая все записи с FiberState.HighLighted и emptyGuid
   static extinguishAllFibers() {
     this.gisMapService.getGeoData().fibers.forEach((f) => {
       const l = f.states.length;
-      f.states = f.states.filter((s) => s.traceState !== FiberState.HighLighted);
+      f.states = f.states.filter(
+        (s) => s.traceState !== FiberState.HighLighted || s.traceId !== GisMapUtils.emptyGuid
+      );
       if (l !== f.states.length) {
-        const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
-        const polyline = group.getLayers().find((l) => (<any>l).id === f.id);
-        group.removeLayer(polyline!);
-        this.addFiberToLayer(f);
+        this.reDrawFiber(f);
       }
     });
   }
 
-  static traceOnOff(traceId: string, highlight: boolean) {
+  // изменить цвет существующей трассы РеальноеСостояние / Подсветка
+  static drawTraceWith(traceId: string, state: FiberState) {
     const trace = this.gisMapService.getGeoData().traces.find((t) => t.id === traceId);
     if (trace === undefined) return;
 
@@ -351,11 +354,22 @@ export class MapLayersActions {
       const fiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === i);
       if (fiber === undefined) return;
 
-      if (highlight) {
-        this.highlightFiber(fiber);
-      } else {
-        this.extinguishFiber(fiber);
-      }
+      // трасса может проходить по волокну несколько раз
+      fiber.states
+        .filter((s) => s.traceId === traceId)
+        .forEach((s) => {
+          s.traceState = state;
+        });
+      this.reDrawFiber(fiber);
     });
+  }
+
+  // перерисовать волокно
+  // удалит из leaflet старую отрисовку участка и нарисует по новой
+  static reDrawFiber(fiber: GeoFiber) {
+    const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
+    const polyline = group.getLayers().find((f) => (<any>f).id === fiber.id);
+    group.removeLayer(polyline!);
+    this.addFiberToLayer(fiber);
   }
 }

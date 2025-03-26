@@ -37,7 +37,7 @@ export class GeoEquipment {
   ) {}
 }
 
-export class FiberStateDictionaryItem {
+export class FiberStateItem {
   constructor(public traceId: string, public traceState: FiberState) {}
 }
 
@@ -48,7 +48,9 @@ export class GeoFiber {
     public coors1: L.LatLng,
     public node2id: string,
     public coors2: L.LatLng,
-    public states: FiberStateDictionaryItem[]
+    // состояния трасс, проходящих через участок
+    // трасса может проходить через участок несколько раз
+    public states: FiberStateItem[]
   ) {}
 
   public getState(): FiberState {

@@ -6,6 +6,7 @@ import { GisMapping } from 'src/app/core/store/mapping/gis-mappings';
 import * as L from 'leaflet';
 import { MapLayersActions } from './map-layers-actions';
 import { Utils } from 'src/app/shared/utils/utils';
+import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 export class MapExternalCommands {
   private static gisMapService: GisMapService;
   private static gisService: GisService;
@@ -53,10 +54,10 @@ export class MapExternalCommands {
     this.gisMapService.getMap().fitBounds(bounds);
 
     for (let i = 0; i < 5; i++) {
-      MapLayersActions.traceOnOff(traceId, true);
+      MapLayersActions.drawTraceWith(traceId, FiberState.HighLighted);
       await Utils.delay(500);
 
-      MapLayersActions.traceOnOff(traceId, false);
+      MapLayersActions.drawTraceWith(traceId, trace.state);
       await Utils.delay(500);
     }
 

@@ -15,6 +15,7 @@ import { EquipmentType } from 'src/grpc-generated';
 import { AcceptTraceDialogComponent } from '../accept-trace-dialog/accept-trace-dialog.component';
 import { MapLayersActions } from '../../components/gis-actions/map-layers-actions';
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
+import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 
 @Component({
   selector: 'rtu-trace-define',
@@ -27,6 +28,8 @@ export class TraceDefineComponent implements OnInit {
   spinning = new BehaviorSubject<boolean>(false);
   spinning$ = this.spinning.asObservable();
 
+  sSteps!: StepModel[];
+
   constructor(
     private injector: Injector,
     public gisMapService: GisMapService,
@@ -35,6 +38,7 @@ export class TraceDefineComponent implements OnInit {
     private dialog: Dialog
   ) {
     TraceDefineUtils.initialize(injector);
+    this.sSteps = gisMapService.steps;
   }
 
   ngOnInit() {
@@ -242,6 +246,8 @@ export class TraceDefineComponent implements OnInit {
     this.addAndHighlighStep(neighbour, equipmentId);
 
     this.spinning.next(false);
+
+    const steps = this.gisMapService.steps;
     return true;
   }
 
@@ -251,7 +257,7 @@ export class TraceDefineComponent implements OnInit {
     for (let i = 0; i < stepModel.fiberIds.length; i++) {
       const fiberId = stepModel.fiberIds[i];
       const fiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === fiberId)!;
-      MapLayersActions.highlightFiber(fiber);
+      MapLayersActions.highlightStepThroughFiber(fiber);
     }
   }
 
@@ -264,7 +270,7 @@ export class TraceDefineComponent implements OnInit {
     const backwardNode = this.gisMapService.getNode(backwardNodeId);
     const neighbour = new Neighbour();
     neighbour.node = backwardNode;
-    neighbour.fiberIds = this.gisMapService.steps.at(-2)!.fiberIds;
+    neighbour.fiberIds = this.gisMapService.steps.at(-2)!.fiberIds.slice().reverse();
 
     await this.justStep(neighbour);
   }
@@ -276,7 +282,7 @@ export class TraceDefineComponent implements OnInit {
     for (let i = 0; i < stepToRemove!.fiberIds.length; i++) {
       const fiberId = stepToRemove!.fiberIds[i];
       const fiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === fiberId)!;
-      MapLayersActions.extinguishFiber(fiber);
+      MapLayersActions.extinguishLastStepThroughFiber(fiber);
     }
 
     this.gisMapService.cancelLastStep();
@@ -306,7 +312,8 @@ export class TraceDefineComponent implements OnInit {
 
     const result = await firstValueFrom(dialogRef.closed);
     if (result) {
-      MapLayersActions.traceOnOff(<string>result, false);
+      MapLayersActions.extinguishAllFibers();
+      MapLayersActions.drawTraceWith(<string>result, FiberState.NotJoined);
 
       this.close();
     }

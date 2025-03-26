@@ -16,6 +16,7 @@ import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 import { SecUtil } from '../../../rtu-monitoring-settings/sec-util';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
 import { Utils } from 'src/app/shared/utils/utils';
+import { StepModel } from 'src/app/features/gis/forms/trace-define/step-model';
 
 @Component({
   selector: 'rtu-one-rtu-menu',
@@ -184,6 +185,16 @@ export class OneRtuMenuComponent {
   }
 
   onDefineTraceClicked() {
-    //
+    this.gisMapService.setHighlightNode(this.rtu.nodeId);
+    this.gisMapService.showTraceDefine.next(this.rtu.nodeId);
+
+    this.gisMapService.clearSteps();
+    const firstStepRtu = new StepModel();
+    firstStepRtu.nodeId = this.rtu.nodeId;
+    firstStepRtu.title = this.rtu.title;
+    firstStepRtu.equipmentId = this.gisMapService
+      .getGeoData()
+      .equipments.find((e) => e.nodeId === this.rtu.nodeId)!.id;
+    this.gisMapService.addStep(firstStepRtu);
   }
 }
