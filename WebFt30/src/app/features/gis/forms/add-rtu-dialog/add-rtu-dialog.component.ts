@@ -1,0 +1,100 @@
+import { Component } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { EquipmentType, SendCommandResponse } from 'src/grpc-generated';
+import { GisMapService } from '../../gis-map.service';
+import { GraphService } from 'src/app/core/grpc';
+import { GeoEquipment, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
+import { MapLayersActions } from '../../components/gis-actions/map-layers-actions';
+import { RtuInfoMode } from 'src/app/shared/components/rtu-info/rtu-info.component';
+import { GisMapUtils } from '../../components/shared/gis-map.utils';
+import { GisMapLayer } from '../../components/shared/gis-map-layer';
+
+@Component({
+  selector: 'rtu-add-rtu-dialog',
+  templateUrl: './add-rtu-dialog.component.html'
+})
+export class AddRtuDialogComponent {
+  rtuInfoMode = RtuInfoMode;
+  mode!: RtuInfoMode;
+  rtuInfoData!: any;
+
+  spinning = new BehaviorSubject<boolean>(false);
+  spinning$ = this.spinning.asObservable();
+
+  constructor(private graphService: GraphService, private gisMapService: GisMapService) {
+    this.mode = gisMapService.showRtuDialogMode;
+    const rtuId =
+      this.mode === RtuInfoMode.AddRtu
+        ? crypto.randomUUID()
+        : gisMapService
+            .getGeoData()
+            .equipments.find((e) => e.nodeId === gisMapService.rtuNodeToShowDialog.id)!.id;
+    this.rtuInfoData = {
+      hasPermission: true,
+      mode: this.mode,
+      rtuId: rtuId,
+      rtuNode: gisMapService.rtuNodeToShowDialog
+    };
+  }
+
+  // кнопка нажата в rtu-info
+  async onCloseEvent(node: TraceNode | null) {
+    if (node === null) {
+      this.gisMapService.showRtuAddOrEditDialog.next(false);
+      return;
+    }
+
+    this.mode === RtuInfoMode.AddRtu
+      ? await this.onCloseAddRtu(node)
+      : await this.onCloseUpdateRtu(node);
+
+    this.gisMapService.showRtuAddOrEditDialog.next(false);
+  }
+
+  async onCloseAddRtu(node: TraceNode) {
+    const command = {
+      Id: this.rtuInfoData.rtuId,
+      NodeId: node.id,
+      Latitude: node.coors.lat,
+      Longitude: node.coors.lng,
+      Title: node.title,
+      Comment: node.comment
+    };
+    const json = JSON.stringify(command);
+    const response = await this.graphService.sendCommandAsync(json, 'AddRtuAtGpsLocation');
+    if (response.success) {
+      const geoData = this.gisMapService.getGeoData();
+      geoData.nodes.push(node);
+      MapLayersActions.addNodeToLayer(node);
+      geoData.equipments.push(
+        new GeoEquipment(
+          this.rtuInfoData.rtuId,
+          node.title,
+          node.id,
+          EquipmentType.Rtu,
+          0,
+          0,
+          node.comment
+        )
+      );
+    }
+  }
+
+  async onCloseUpdateRtu(node: TraceNode) {
+    const command = {
+      RtuId: this.rtuInfoData.rtuId,
+      Title: node.title,
+      Position: { lat: node.coors.lat, lng: node.coors.lng },
+      Comment: node.comment
+    };
+    const json = JSON.stringify(command);
+    const response = await this.graphService.sendCommandAsync(json, 'UpdateRtu');
+    if (response.success) {
+      const layerType = GisMapLayer.Route;
+      const group = this.gisMapService.getLayerGroups().get(layerType)!;
+      const marker = group.getLayers().find((m) => (<any>m).id === node.id);
+      group.removeLayer(marker!);
+      MapLayersActions.addNodeToLayer(node);
+    }
+  }
+}

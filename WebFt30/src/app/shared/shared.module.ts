@@ -84,6 +84,7 @@ import { DeleteButtonComponent } from './components/svg-buttons/delete-button.co
 import { MultiSelectionButtonComponent } from './components/svg-buttons/multi-selection-button/multi-selection-button.component';
 import { TraceInfoComponent } from './components/trace-info/trace-info.component';
 import { MessageBoxComponent } from './components/message-box/message-box.component';
+import { RtuInfoComponent } from './components/rtu-info/rtu-info.component';
 
 @NgModule({
   imports: [
@@ -171,7 +172,8 @@ import { MessageBoxComponent } from './components/message-box/message-box.compon
     RadioButtonComponent,
     MultiSelectionButtonComponent,
     TraceInfoComponent,
-    MessageBoxComponent
+    MessageBoxComponent,
+    RtuInfoComponent
   ],
   exports: [
     CommonModule,
@@ -250,7 +252,8 @@ import { MessageBoxComponent } from './components/message-box/message-box.compon
 
     RadioButtonComponent,
     MultiSelectionButtonComponent,
-    TraceInfoComponent
+    TraceInfoComponent,
+    RtuInfoComponent
   ],
   providers: [
     RtuDateToDayOfWeekPipe,

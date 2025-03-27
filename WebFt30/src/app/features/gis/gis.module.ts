@@ -16,6 +16,7 @@ import { AcceptTraceDialogComponent } from './forms/accept-trace-dialog/accept-t
 import { NodeInfoDialogComponent } from './forms/node-info-dialog/node-info-dialog.component';
 import { SectionWithNodesComponent } from './forms/section-with-nodes/section-with-nodes.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { AddRtuDialogComponent } from './forms/add-rtu-dialog/add-rtu-dialog.component';
 
 @NgModule({
   imports: [GisRoutingModule, SharedModule, DragDropModule],
@@ -33,7 +34,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     EquipmentEditComponent,
     AcceptTraceDialogComponent,
     NodeInfoDialogComponent,
-    SectionWithNodesComponent
+    SectionWithNodesComponent,
+    AddRtuDialogComponent
   ],
   providers: []
 })

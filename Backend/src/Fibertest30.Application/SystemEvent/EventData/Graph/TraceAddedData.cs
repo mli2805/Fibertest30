@@ -2,16 +2,10 @@
 
 namespace Fibertest30.Application;
 
-public class TraceAddedData : ISystemEventData
+public class TraceAddedData(string traceId, string rtuId) : ISystemEventData
 {
-    public string TraceId { get; init; }
-    public string RtuId { get; init; }
-
-    public TraceAddedData(string traceId, string rtuId)
-    {
-        TraceId = traceId;
-        RtuId = rtuId;
-    }
+    public string TraceId { get; init; } = traceId;
+    public string RtuId { get; init; } = rtuId;
 
     public string ToJsonData()
     {

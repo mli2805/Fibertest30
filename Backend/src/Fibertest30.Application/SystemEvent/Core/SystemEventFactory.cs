@@ -108,8 +108,8 @@ public static class SystemEventFactory
     {
         return new SystemEvent(SystemEventType.TraceAdded, SystemEventLevel.Internal,
             new TraceAddedData(traceId.ToString(), rtuId.ToString()), SystemEventSource.FromUser(userId));
-    } 
-    
+    }
+
     public static SystemEvent TraceCleaned(string userId, Guid traceId)
     {
         return new SystemEvent(SystemEventType.TraceCleaned, SystemEventLevel.Internal,
@@ -122,11 +122,29 @@ public static class SystemEventFactory
             new TraceRemovedData(traceId.ToString()), SystemEventSource.FromUser(userId));
     }
 
-    public static SystemEvent AnyTypeAccidentAdded(string eventType, int eventId, 
+    public static SystemEvent RtuAdded(string userId, Guid traceId)
+    {
+        return new SystemEvent(SystemEventType.RtuAdded, SystemEventLevel.Internal,
+            new RtuAddedData(traceId.ToString()), SystemEventSource.FromUser(userId));
+    }
+
+    public static SystemEvent RtuUpdated(string userId, Guid traceId)
+    {
+        return new SystemEvent(SystemEventType.RtuUpdated, SystemEventLevel.Internal,
+            new RtuUpdatedData(traceId.ToString()), SystemEventSource.FromUser(userId));
+    }
+
+    public static SystemEvent RtuRemoved(string userId, Guid traceId)
+    {
+        return new SystemEvent(SystemEventType.RtuRemoved, SystemEventLevel.Internal,
+            new RtuRemovedData(traceId.ToString()), SystemEventSource.FromUser(userId));
+    }
+
+    public static SystemEvent AnyTypeAccidentAdded(string eventType, int eventId,
         DateTime registeredAt, string objTitle, string objId, string rtuId, bool isOk)
     {
         return new SystemEvent(SystemEventType.AnyTypeAccidentAdded, SystemEventLevel.Critical,
-            new AnyTypeAccidentData(eventType, eventId, registeredAt, objTitle, objId, rtuId, isOk), 
+            new AnyTypeAccidentData(eventType, eventId, registeredAt, objTitle, objId, rtuId, isOk),
             SystemEventSource.FromSource("DataCenter"));
     }
 }

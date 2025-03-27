@@ -37,3 +37,7 @@ export interface TraceCleanedData {
 export interface TraceRemovedData {
   TraceId: string;
 }
+
+export interface RtuAddedData {
+  RtuId: string;
+}

@@ -130,6 +130,7 @@ export class TraceInfoComponent implements OnInit {
     this.form.markAsPristine();
     this.closeEvent.emit(this.trace);
   }
+
   onDiscardClicked() {
     this.closeEvent.emit(null);
   }

@@ -1,0 +1,78 @@
+<div [formGroup]="form">
+  <fieldset [disabled]="isDisabled()">
+    <div class="grouped-border m-2 flex flex-col">
+      <div class="grid-container ml-1 gap-y-1 text-sm">
+        <label
+          class="my-auto text-sm"
+          [ngClass]="{ 'disabled-label': isDisabled() }"
+          style="grid-area: titleLabel"
+        >
+          {{ 'i18n.ft.title' | translate }}
+        </label>
+        <input
+          style="grid-area: titleValue"
+          formControlName="title"
+          [ngClass]="{ 'invalid-border': !isRtuTitleValid() }"
+          type="text"
+          class="input-simple w-full"
+        />
+
+        <label
+          class="my-auto text-xs"
+          [ngClass]="{ 'disabled-label': true }"
+          style="grid-area: idLabel"
+        >
+          ID
+        </label>
+        <label
+          class="my-2 ml-3 text-nowrap text-xs"
+          [ngClass]="{ 'disabled-label': true }"
+          style="grid-area: idValue"
+        >
+          {{ rtuId }}
+        </label>
+
+        <label
+          class="my-auto text-sm"
+          [ngClass]="{ 'disabled-label': isDisabled() }"
+          style="grid-area: coorsLabel"
+        >
+          {{ 'i18n.ft.coordinates' | translate }}
+        </label>
+        <label
+          class="my-2 ml-3 text-nowrap text-sm"
+          [ngClass]="{ 'disabled-label': isDisabled() }"
+          style="grid-area: coorsValue"
+        >
+          {{ rtuNode.coors | coordinatesPipe }}
+        </label>
+
+        <label
+          class="my-auto text-sm"
+          [ngClass]="{ 'disabled-label': isDisabled() }"
+          style="grid-area: commentLabel"
+        >
+          {{ 'i18n.ft.comment' | translate }}
+        </label>
+        <input
+          style="grid-area: commentValue"
+          formControlName="comment"
+          type="text"
+          class="input-simple w-full"
+        />
+      </div>
+    </div>
+    <div class="mt-6 flex flex-row justify-end">
+      <button class="button-cancel mr-2 min-w-36" (click)="onDiscardClicked()" cdkFocusInitial>
+        {{ 'i18n.ft.discard' | translate }}
+      </button>
+      <button
+        class="button-ok mr-2 min-w-36"
+        [disabled]="isApplyDisabled()"
+        (click)="onApplyClicked()"
+      >
+        {{ 'i18n.ft.apply' | translate }}
+      </button>
+    </div>
+  </fieldset>
+</div>

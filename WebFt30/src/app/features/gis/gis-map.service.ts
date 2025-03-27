@@ -11,6 +11,7 @@ import * as L from 'leaflet';
 import { GisMapUtils } from './components/shared/gis-map.utils';
 import { StepModel } from './forms/trace-define/step-model';
 import { RadioButton } from 'src/app/shared/components/svg-buttons/radio-button/radio-button';
+import { RtuInfoMode } from 'src/app/shared/components/rtu-info/rtu-info.component';
 
 @Injectable({
   providedIn: 'root'
@@ -142,6 +143,18 @@ export class GisMapService {
   nextStepSelectedId$ = this.nextStepSelectedId.asObservable();
   showNextStepSelector = new BehaviorSubject<boolean>(false);
   showNextStepSelector$ = this.showNextStepSelector.asObservable();
+
+  /////////////////////////
+  showRtuDialogMode!: RtuInfoMode;
+  rtuNodeToShowDialog!: TraceNode;
+  setRtuNodeForDialog(node: TraceNode, mode: RtuInfoMode) {
+    this.rtuNodeToShowDialog = node;
+    this.showRtuDialogMode = mode;
+    this.showRtuAddOrEditDialog.next(true);
+  }
+
+  showRtuAddOrEditDialog = new BehaviorSubject<boolean>(false);
+  showRtuAddOrEditDialog$ = this.showRtuAddOrEditDialog.asObservable();
 
   /////////////////////////
   addSectionMode = false;

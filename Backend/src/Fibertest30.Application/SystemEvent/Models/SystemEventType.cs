@@ -49,5 +49,9 @@ public enum SystemEventType
     TraceCleaned,
     TraceRemoved,
 
+    RtuAdded,
+    RtuUpdated,
+    RtuRemoved,
+
     AnyTypeAccidentAdded,
 }

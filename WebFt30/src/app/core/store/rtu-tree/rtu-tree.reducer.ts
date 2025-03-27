@@ -34,6 +34,18 @@ const reducer = createReducer(
     loading: true,
     errorMessageId: null
   })),
+  on(RtuTreeActions.refreshRtuTreeSuccess, (state, { rtus }) => {
+    return RtuTreeStateAdapter.setAll(rtus, {
+      ...state,
+      loaded: true,
+      loading: false
+    });
+  }),
+  on(RtuTreeActions.refreshRtuTreeFailure, (state, { errorMessageId }) => ({
+    ...state,
+    loading: false,
+    errorMessageId
+  })),
 
   on(RtuTreeActions.getOneRtu, (state) => ({
     ...state,

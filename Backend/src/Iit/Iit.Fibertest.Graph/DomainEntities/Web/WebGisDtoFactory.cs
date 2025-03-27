@@ -21,25 +21,37 @@ public static class WebGisDtoFactory
 
     public static AllGisData GetAllReadOnly(this Model writeModel)
     {
-        var nodeIds = new List<Guid>();
+        var nodeIds = writeModel.Rtus.Select(r=>r.NodeId).ToList();
         var fiberIds = new List<Guid>();
+        
         foreach (var trace in writeModel.Traces)
         {
             nodeIds = nodeIds.Union(trace.NodeIds).ToList();
             fiberIds = fiberIds.Union(trace.FiberIds).ToList();
         }
 
+        // находит какой-то мусор, приходится делать FirstOrDefault и фильтровать
+        IEnumerable<Node> nodes = nodeIds
+            .Select(id => writeModel.Nodes.FirstOrDefault(n => n.NodeId == id)).Where(r=>r!=null).ToList()!;
+        List<NodeGisData> nodeGisDatas = nodes
+            .Select(node => node.GetNodeGisData()).ToList();
+
+        List<EquipmentGisData> equipmentGisDatas = writeModel.Equipments
+            .Select(e => e.GetEquipmentGisData()).Union(writeModel.Rtus.Select(r=>r.GetRtuAsEquipmentGisData())).ToList();
+
+
+        // находит какой-то мусор, приходится делать FirstOrDefault и фильтровать
+        IEnumerable<Fiber> fibers = fiberIds
+            .Select(id => writeModel.Fibers.FirstOrDefault(f => f.FiberId == id)).Where(r=>r!=null)!;
+        List<FiberGisData> fiberGisDatas = fibers
+            .Select(fiber => fiber.GetFiberGisData(writeModel))
+            .Where(fiberGisData => fiberGisData != null).ToList()!;
+
         return new AllGisData()
         {
-            Nodes = nodeIds
-                .Select(id => writeModel.Nodes.First(n => n.NodeId == id))
-                .Select(node => node.GetNodeGisData()).ToList(),
-            Equipments = writeModel.Equipments
-                .Select(e => e.GetEquipmentGisData()).Union(writeModel.Rtus.Select(r=>r.GetRtuAsEquipmentGisData())).ToList(),
-            Fibers = fiberIds
-                .Select(id => writeModel.Fibers.First(f => f.FiberId == id))
-                .Select(fiber => fiber.GetFiberGisData(writeModel))
-                .Where(fiberGisData => fiberGisData != null).ToList()!,
+            Nodes = nodeGisDatas,
+            Equipments = equipmentGisDatas,
+            Fibers = fiberGisDatas,
             Traces = writeModel.Traces
         };
     }

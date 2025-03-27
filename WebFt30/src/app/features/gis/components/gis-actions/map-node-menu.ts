@@ -8,10 +8,8 @@ import { firstValueFrom } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc/services/graph.service';
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { GeoEquipment, GeoFiber, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
-import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { MapLayersActions } from './map-layers-actions';
 import { MapNodeRemove } from './map-node-remove';
-import { StepModel } from '../../forms/trace-define/step-model';
 import { MapEquipmentActions } from './map-equipment-actions';
 import { Dialog, DialogConfig, DialogRef } from '@angular/cdk/dialog';
 import { GlobalPositionStrategy } from '@angular/cdk/overlay';
@@ -20,9 +18,10 @@ import {
   SectionWithNodesComponent,
   WithNodesResult
 } from '../../forms/section-with-nodes/section-with-nodes.component';
-import { AddEquipmentAtGpsLocation, AddFiber } from './graph-commands';
+import { AddFiber } from './graph-commands';
 import { FiberCommandsFactory } from './fiber-commands-factory';
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
+import { MapRtuMenu } from './map-rtu-menu';
 
 export class MapNodeMenu {
   private static ts: TranslateService;
@@ -43,49 +42,11 @@ export class MapNodeMenu {
   ): L.ContextMenuItem[] {
     switch (equipmentType) {
       case EquipmentType.Rtu:
-        return MapNodeMenu.buildRtuContextMenu(hasEditPermissions);
+        return MapRtuMenu.buildRtuContextMenu(hasEditPermissions);
       case EquipmentType.AdjustmentPoint:
         return MapNodeMenu.buildAdjustmentPointContextMenu();
       default:
         return MapNodeMenu.buildNodeContextMenu(hasEditPermissions);
-    }
-  }
-
-  static buildRtuContextMenu(hasEditPermissions: boolean): L.ContextMenuItem[] {
-    if (hasEditPermissions) {
-      return [
-        {
-          text: this.ts.instant('i18n.ft.information'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.showRtuInformation(e)
-        },
-        {
-          text: '-',
-          separator: true
-        },
-        {
-          text: this.ts.instant('i18n.ft.section'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e, false)
-        },
-        {
-          text: this.ts.instant('i18n.ft.section-with-nodes'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e, true)
-        },
-        {
-          text: '-',
-          separator: true
-        },
-        {
-          text: this.ts.instant('i18n.ft.define-trace'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.defineTrace(e)
-        }
-      ];
-    } else {
-      return [
-        {
-          text: this.ts.instant('i18n.ft.information'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.showInformation(e, hasEditPermissions)
-        }
-      ];
     }
   }
 
@@ -134,11 +95,6 @@ export class MapNodeMenu {
         callback: (e: L.ContextMenuItemClickEvent) => this.removeNode(e)
       }
     ];
-  }
-
-  static async showRtuInformation(e: L.ContextMenuItemClickEvent) {
-    const nodeId = (<any>e.relatedTarget).id;
-    console.log(nodeId);
   }
 
   static async showInformation(e: L.ContextMenuItemClickEvent, hasEditPermission: boolean) {
@@ -197,7 +153,6 @@ export class MapNodeMenu {
       const traceDetours = MapNodeRemove.buildDetoursForTrace(nodeId, trace);
       detours.push(...traceDetours);
     }
-    console.log(detours);
     const isAdjustmentPoint = node?.equipmentType === EquipmentType.AdjustmentPoint;
     const fiberIdToDetourAdjustmentPoint =
       isAdjustmentPoint && detours.length === 0 ? crypto.randomUUID() : GisMapUtils.emptyGuid;
@@ -350,22 +305,5 @@ export class MapNodeMenu {
     });
 
     return <WithNodesResult | null>await firstValueFrom(dialogRef.closed);
-  }
-
-  static defineTrace(e: L.ContextMenuItemClickEvent) {
-    const nodeId = (<any>e.relatedTarget).id;
-    const node = this.gisMapService.getNode(nodeId);
-
-    this.gisMapService.setHighlightNode(nodeId);
-    this.gisMapService.showTraceDefine.next(nodeId);
-
-    this.gisMapService.clearSteps();
-    const firstStepRtu = new StepModel();
-    firstStepRtu.nodeId = nodeId;
-    firstStepRtu.title = node!.title;
-    firstStepRtu.equipmentId = this.gisMapService
-      .getGeoData()
-      .equipments.find((e) => e.nodeId === nodeId)!.id;
-    this.gisMapService.addStep(firstStepRtu);
   }
 }

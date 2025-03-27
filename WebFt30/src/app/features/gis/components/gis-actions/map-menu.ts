@@ -48,7 +48,7 @@ export class MapMenu {
         },
         {
           text: this.ts.instant('i18n.ft.add-rtu'),
-          callback: (e) => MapActions.addNewNode(e, EquipmentType.Rtu)
+          callback: (e) => MapActions.addNewRtu(e)
         }
         // {
         //   text: '-',

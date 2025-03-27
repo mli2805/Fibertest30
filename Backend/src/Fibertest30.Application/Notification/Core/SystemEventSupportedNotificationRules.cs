@@ -152,7 +152,7 @@ public static class SystemEventSupportedNotificationRules
         {
             SystemEventType.TraceDetached,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
-        }, 
+        },
         {
             SystemEventType.OtauAttached,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
@@ -160,17 +160,29 @@ public static class SystemEventSupportedNotificationRules
         {
             SystemEventType.OtauDetached,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
-        }, 
+        },
         {
             SystemEventType.TraceAdded,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
-        }, 
+        },
         {
             SystemEventType.TraceCleaned,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         },
         {
             SystemEventType.TraceRemoved,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },
+        {
+            SystemEventType.RtuAdded,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },
+        {
+            SystemEventType.RtuUpdated,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },
+        {
+            SystemEventType.RtuRemoved,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         },
         {

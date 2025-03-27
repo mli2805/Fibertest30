@@ -6,10 +6,10 @@
   'bg-rtu-second-bg dark:bg-rtu-dark-second-bg': i % 2 === 0,
 }"
   >
-    <div *ngIf="rtu.ownPortCount === 0">
-      <div class="ml-8"></div>
+    <div *ngIf="rtu.children.length === 0">
+      <div class="ml-5"></div>
     </div>
-    <div *ngIf="rtu.ownPortCount !== 0" class="ml-0 h-5 w-5">
+    <div *ngIf="rtu.children.length !== 0" class="ml-0 h-5 w-5">
       <rtu-expand-branch
         *ngIf="!isExpanded"
         class="h-full w-full"

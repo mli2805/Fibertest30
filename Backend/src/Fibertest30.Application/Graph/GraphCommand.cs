@@ -24,7 +24,9 @@ public class GraphCommandHandler(ICurrentUserService currentUserService,
             throw new GraphException(result);
         }
 
-        await SendSystemEvent(cmd);
+        var systemEvent = Create(cmd);
+        if (systemEvent != null)
+            await systemEventSender.Send(systemEvent);
         return null;
     }
 
@@ -36,27 +38,21 @@ public class GraphCommandHandler(ICurrentUserService currentUserService,
         return type != null ? JsonSerializer.Deserialize(json, type) : null;
     }
 
-    private async Task SendSystemEvent(object cmd)
+    private SystemEvent? Create(object cmd)
     {
-        SystemEvent systemEvent;
-        switch (cmd)
+        return cmd switch
         {
-            case AddTrace c:
-                var trace = writeModel.Traces.First(t => t.TraceId == c.TraceId);
-                systemEvent = SystemEventFactory.TraceAdded(currentUserService.UserId!, c.TraceId, trace.RtuId);
-                await systemEventSender.Send(systemEvent);
-                break;
-            case CleanTrace c:
-                systemEvent = SystemEventFactory.TraceCleaned(currentUserService.UserId!, c.TraceId);
-                await systemEventSender.Send(systemEvent);
-                break;
-            case RemoveTrace c:
-                systemEvent = SystemEventFactory.TraceRemoved(currentUserService.UserId!, c.TraceId);
-                await systemEventSender.Send(systemEvent);
-                break;
-        }
+            AddTrace c => SystemEventFactory
+                .TraceAdded(currentUserService.UserId!, c.TraceId,
+                    writeModel.Traces.First(t => t.TraceId == c.TraceId).RtuId),
+            CleanTrace c => SystemEventFactory.TraceCleaned(currentUserService.UserId!, c.TraceId),
+            RemoveTrace c => SystemEventFactory.TraceRemoved(currentUserService.UserId!, c.TraceId),
+            AddRtuAtGpsLocation c => SystemEventFactory.RtuAdded(currentUserService.UserId!, c.Id),
+            UpdateRtu c => SystemEventFactory.RtuUpdated(currentUserService.UserId!, c.RtuId),
+            RemoveRtu c => SystemEventFactory.RtuRemoved(currentUserService.UserId!, c.RtuId),
 
-
+            _ => null
+        };
     }
 
 }

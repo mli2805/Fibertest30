@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { firstValueFrom, takeUntil } from 'rxjs';
+import { firstValueFrom, retry, takeUntil } from 'rxjs';
 import {
   AppState,
   AuthActions,
@@ -45,6 +45,7 @@ import { AudioService } from 'src/app/core/services/audio.service';
 import {
   OtauAttachedData,
   OtauDetachedData,
+  RtuAddedData,
   TraceAddedData,
   TraceAttachedData,
   TraceCleanedData,
@@ -289,7 +290,6 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       }
       case 'TraceAdded': {
         const data = <TraceAddedData>JSON.parse(systemEvent.jsonData);
-
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
         return;
       }
@@ -309,6 +309,13 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
           RtuTreeSelectors.selectTrace(data.TraceId)
         )!;
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: trace.rtuId }));
+        return;
+      }
+      case 'RtuAdded':
+      case 'RtuUpdated':
+      case 'RtuRemoved': {
+        const data = <RtuAddedData>JSON.parse(systemEvent.jsonData);
+        this.store.dispatch(RtuTreeActions.refreshRtuTree());
         return;
       }
       case 'AnyTypeAccidentAdded': {

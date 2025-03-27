@@ -7,7 +7,7 @@ import { GisMapUtils } from '../shared/gis-map.utils';
 import { Injector } from '@angular/core';
 import { MapLayersActions } from './map-layers-actions';
 import { GisMapLayer } from '../shared/gis-map-layer';
-import { Utils } from 'src/app/shared/utils/utils';
+import { RtuInfoMode } from 'src/app/shared/components/rtu-info/rtu-info.component';
 
 export class MapActions {
   private static gisMapService: GisMapService;
@@ -58,6 +58,11 @@ export class MapActions {
       this.gisMapService.getMap().setZoom(this.gisMapService.showNodesFromZoom.value);
       this.gisMapService.skipMovingCenter = false;
     }
+  }
+
+  static addNewRtu(e: L.ContextMenuItemClickEvent) {
+    const node = new TraceNode(crypto.randomUUID(), '', e.latlng, EquipmentType.Rtu, '');
+    this.gisMapService.setRtuNodeForDialog(node, RtuInfoMode.AddRtu);
   }
 
   static dragMarkerWithPolylines(e: L.DragEndEvent) {

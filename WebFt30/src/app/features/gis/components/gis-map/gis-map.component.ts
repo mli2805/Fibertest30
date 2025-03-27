@@ -16,7 +16,6 @@ import { takeUntil } from 'rxjs';
 import { AllGeoData, TraceRouteData } from 'src/app/core/store/models/ft30/geo-data';
 import { TranslateService } from '@ngx-translate/core';
 import { GisMapUtils } from '../shared/gis-map.utils';
-import { LeafletAngularPopupBinder } from '../shared/leaflet-angular-popup-binder';
 import { Store } from '@ngrx/store';
 import { AppState, AuthSelectors, SettingsSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -29,6 +28,7 @@ import { MapMenu } from '../gis-actions/map-menu';
 import { MapFiberMenu } from '../gis-actions/map-fiber-menu';
 import { MapNodeRemove } from '../gis-actions/map-node-remove';
 import { MapEquipmentActions } from '../gis-actions/map-equipment-actions';
+import { MapRtuMenu } from '../gis-actions/map-rtu-menu';
 
 GisMapUtils.fixLeafletMarkers();
 
@@ -59,6 +59,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     MapNodeRemove.initialize(injector);
     MapEquipmentActions.initialize(injector);
     MapNodeMenu.initialize(injector);
+    MapRtuMenu.initialize(injector);
     MapFiberMenu.initialize(injector);
     MapExternalCommands.initialize(injector);
     // this.popupBinder = new LeafletAngularPopupBinder(appRef, envInjector);

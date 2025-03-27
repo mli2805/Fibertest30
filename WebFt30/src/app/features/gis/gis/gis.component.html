@@ -47,3 +47,7 @@
 <ng-container *ngIf="gisMapService.showNextStepSelector$ | async">
   <rtu-next-step-selector />
 </ng-container>
+
+<ng-container *ngIf="gisMapService.showRtuAddOrEditDialog$ | async">
+  <rtu-add-rtu-dialog />
+</ng-container>
