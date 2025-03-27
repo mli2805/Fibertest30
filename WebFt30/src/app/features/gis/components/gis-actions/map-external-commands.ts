@@ -33,7 +33,7 @@ export class MapExternalCommands {
     }
   }
 
-  static showRtu(nodeId: string) {
+  static async showRtu(nodeId: string) {
     const map = this.gisMapService.getMap();
     map.eachLayer((l) => {
       const id = (<any>l).id;
@@ -42,6 +42,13 @@ export class MapExternalCommands {
         map.setView(pos);
       }
     });
+
+    for (let i = 0; i < 5; i++) {
+      this.gisMapService.setHighlightNode(nodeId);
+      await Utils.delay(500);
+      this.gisMapService.setHighlightNode(null);
+      await Utils.delay(500);
+    }
   }
 
   static async showTrace(traceId: string) {
