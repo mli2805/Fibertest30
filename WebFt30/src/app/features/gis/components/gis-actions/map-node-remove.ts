@@ -50,6 +50,7 @@ export class MapNodeRemove {
         nodeAfter!.coors,
         [{ traceId: detour.TraceId, traceState: detour.TraceState }]
       );
+      this.gisMapService.getGeoData().fibers.push(newFiber);
       MapLayersActions.addFiberToLayer(newFiber);
     } else {
       // уже кто-то прошёл по этому волокну
