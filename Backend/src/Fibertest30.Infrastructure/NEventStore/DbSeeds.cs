@@ -15,20 +15,20 @@ public static class DbSeeds
         new AddUser
         { UserId = Guid.NewGuid(), Title = "root",
             EncodedPassword = "root".GetHashString(), Role = Role.Root, ZoneId = Guid.Empty },
-        new AddUser
-        { UserId = Guid.NewGuid(), Title = "operator", 
-            EncodedPassword = "operator".GetHashString(), Role = Role.Operator, ZoneId = Guid.Empty },
-        new AddUser
-        { UserId = Guid.NewGuid(), Title = "supervisor", 
-            EncodedPassword = "supervisor".GetHashString(), Role = Role.Supervisor, ZoneId = Guid.Empty },
-        new AddUser
-        { UserId = Guid.NewGuid(), Title = "weboperator", 
-            EncodedPassword = "weboperator".GetHashString(), Role = Role.WebOperator, ZoneId = Guid.Empty },
-        new AddUser
-        { UserId = Guid.NewGuid(), Title = "websupervisor", 
-            EncodedPassword = "websupervisor".GetHashString(), Role = Role.WebSupervisor, ZoneId = Guid.Empty },
-        new AddUser
-        { UserId = Guid.NewGuid(), Title = "superclient", 
-            EncodedPassword = "superclient".GetHashString(), Role = Role.SuperClient, ZoneId = Guid.Empty },
+        // new AddUser
+        // { UserId = Guid.NewGuid(), Title = "operator", 
+        //     EncodedPassword = "operator".GetHashString(), Role = Role.Operator, ZoneId = Guid.Empty },
+        // new AddUser
+        // { UserId = Guid.NewGuid(), Title = "supervisor", 
+        //     EncodedPassword = "supervisor".GetHashString(), Role = Role.Supervisor, ZoneId = Guid.Empty },
+        // new AddUser
+        // { UserId = Guid.NewGuid(), Title = "weboperator", 
+        //     EncodedPassword = "weboperator".GetHashString(), Role = Role.WebOperator, ZoneId = Guid.Empty },
+        // new AddUser
+        // { UserId = Guid.NewGuid(), Title = "websupervisor", 
+        //     EncodedPassword = "websupervisor".GetHashString(), Role = Role.WebSupervisor, ZoneId = Guid.Empty },
+        // new AddUser
+        // { UserId = Guid.NewGuid(), Title = "superclient", 
+        //     EncodedPassword = "superclient".GetHashString(), Role = Role.SuperClient, ZoneId = Guid.Empty },
     };
 }

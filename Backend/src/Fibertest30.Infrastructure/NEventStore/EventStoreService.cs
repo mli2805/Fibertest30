@@ -150,29 +150,22 @@ public class EventStoreService : IEventStoreService
         // and if so, transforms command into event and passes it to WriteModel
         // WriteModel applies event and returns whether event was applied successfully
 
-        _logger.LogInformation($"Validated successfully {DateTime.Now}");
         if (result == null)                                   // if command was valid and applied successfully it should be persisted
             StoreEventsInDb(username, clientIp);
-        _logger.LogInformation($"Command stored as event {DateTime.Now}");
         return Task.FromResult(result);
     }
 
     private void StoreEventsInDb(string? username, string clientIp)
     {
         // var eventStream = _eventStoreInitializer.StoreEvents.OpenStream(_eventStoreInitializer.StreamIdOriginal);
-        _logger.LogInformation($"Stream opened {DateTime.Now}");
         foreach (var e in _eventsQueue.EventsWaitingForCommit)   // takes already applied event(s) from WriteModel's list
         {
             var eventMessage = WrapEvent(e, username, clientIp);
             _eventStoreInitializer.EventStream.Add(eventMessage);   // and stores this event in BD
-        _logger.LogInformation($"added to stream {DateTime.Now}");
             AddEventToLog(eventMessage);
-        _logger.LogInformation($"added to event log {DateTime.Now}");
         }
 
         _eventsQueue.Commit();                                     // now cleans WriteModel's list
-        _logger.LogInformation($"Commited to queue {DateTime.Now}");
-
         _eventStoreInitializer.EventStream.CommitChanges(Guid.NewGuid());
     }
 
