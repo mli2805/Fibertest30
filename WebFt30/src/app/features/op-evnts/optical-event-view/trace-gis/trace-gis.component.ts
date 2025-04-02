@@ -9,8 +9,12 @@ import { GisMapUtils } from 'src/app/features/gis/components/shared/gis-map.util
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
 import { TraceNode, TraceRouteData } from 'src/app/core/store/models/ft30/geo-data';
 import { ColorUtils } from 'src/app/shared/utils/color-utils';
-import { MapLayersActions } from 'src/app/features/gis/components/gis-actions/map-layers-actions';
-import { GisMapIcons } from 'src/app/features/gis/components/shared/gis-map-icons';
+import {
+  GisIconWithZIndex,
+  GisMapIcons
+} from 'src/app/features/gis/components/shared/gis-map-icons';
+import { EquipmentType } from 'src/grpc-generated';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'rtu-trace-gis',
@@ -27,9 +31,15 @@ export class TraceGisComponent implements OnInit {
   private map!: L.Map;
   private layerGroups = new Map();
 
-  constructor(private gisMapService: GisMapService) {}
+  constructor(private gisMapService: GisMapService, private router: Router) {}
 
   ngOnInit(): void {
+    const geoData = this.gisMapService.getGeoData();
+    if (geoData === undefined) {
+      this.router.navigate(['rtus/rtu-tree']);
+      return;
+    }
+
     const userSettings = CoreUtils.getCurrentState(this.store, SettingsSelectors.selectSettings);
 
     const traceId = this._optivalEvent.traceId;
@@ -42,6 +52,7 @@ export class TraceGisComponent implements OnInit {
     this.map = L.map('map', {
       center: [51.505, -0.09],
       zoom: 7,
+      zoomSnap: 0.1,
       contextmenu: false,
       contextmenuItems: []
     });
@@ -92,16 +103,15 @@ export class TraceGisComponent implements OnInit {
 
     if (toBounds) {
       const bounds = new L.LatLngBounds(latLngs);
-      this.map.fitBounds(bounds);
+      this.map.fitBounds(bounds, { padding: [40, 40] });
     }
   }
 
   addNodeToLayer(node: TraceNode): L.Marker {
-    const marker = MapLayersActions.createMarker(
+    const marker = this.createMarker(
       node.coors,
       node.equipmentType,
       this.icons.getIcon(node),
-      node.id,
       node.title
     );
     (<any>marker).id = node.id;
@@ -109,6 +119,43 @@ export class TraceGisComponent implements OnInit {
     const layerType = GisMapUtils.equipmentTypeToGisMapLayer(node.equipmentType);
     const group = this.layerGroups.get(layerType)!;
     group.addLayer(marker);
+    return marker;
+  }
+
+  createMarker(
+    coordinate: L.LatLng,
+    equipmentType: EquipmentType,
+    iconWithIndex: GisIconWithZIndex,
+    nodeTitle: string
+  ): L.Marker {
+    const options = {
+      icon: iconWithIndex.icon,
+      draggable: false,
+      contextmenu: true,
+      contextmenuInheritItems: false,
+      contextmenuItems: []
+    };
+    const marker = L.marker(coordinate, options);
+
+    if (iconWithIndex?.zIndex) {
+      marker.setZIndexOffset(iconWithIndex.zIndex * 1000);
+    }
+
+    let popup: any = null;
+    // надо сдвигать popup потому что если мышь оказывается над popup'ом то он пропадает
+    const popupShift = equipmentType === EquipmentType.Rtu ? -40 : -4;
+    marker.on('mouseover', (e) => {
+      if (nodeTitle === '') return;
+      popup = L.popup({ offset: L.point(popupShift, popupShift) });
+      popup.setContent(nodeTitle);
+      popup.setLatLng(e.target.getLatLng());
+      popup.openOn(this.map);
+    });
+
+    marker.on('mouseout', (e) => {
+      this.map.closePopup(popup);
+    });
+
     return marker;
   }
 }
