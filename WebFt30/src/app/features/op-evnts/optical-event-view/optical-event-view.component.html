@@ -19,7 +19,7 @@
     <div class="ml-1 h-full w-full">
       <ng-container *ngIf="opticalEvent$ | async as opticalEvent">
         <ng-container *ngIf="isGraphMode">
-          <rtu-gis-trace-viewer [opticalEvent]="opticalEvent"></rtu-gis-trace-viewer>
+          <rtu-trace-gis [opticalEvent]="opticalEvent"></rtu-trace-gis>
         </ng-container>
       </ng-container>
       <ng-container *ngIf="!isGraphMode">

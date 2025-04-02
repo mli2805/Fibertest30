@@ -7,6 +7,7 @@ import { OpticalEventViewComponent } from './optical-event-view/optical-event-vi
 import { FiberizerCoreModule } from '../fiberizer-core/fiberizer-core.module';
 import { TraceStateComponent } from './optical-event-view/trace-state/trace-state.component';
 import { GisModule } from '../gis/gis.module';
+import { TraceGisComponent } from './optical-event-view/trace-gis/trace-gis.component';
 
 @NgModule({
   imports: [OpEvntsRoutingModule, SharedModule, FiberizerCoreModule, GisModule],
@@ -15,7 +16,8 @@ import { GisModule } from '../gis/gis.module';
     OpEvntsComponent,
     OpticalEventsComponent,
     OpticalEventViewComponent,
-    TraceStateComponent
+    TraceStateComponent,
+    TraceGisComponent
   ],
   providers: []
 })
