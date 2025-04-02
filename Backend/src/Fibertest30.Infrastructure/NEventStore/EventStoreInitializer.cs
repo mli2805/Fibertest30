@@ -139,7 +139,8 @@ public class EventStoreInitializer
     // запускать под виндой (под линуксом не срабатывает)
     private Guid GetByMysqlCommand()
     {
-        string commandText = $"SELECT StreamIdOriginal FROM {EventSourcingScheme}.Commits LIMIT 1;";
+        // string commandText = $"SELECT StreamIdOriginal FROM {EventSourcingScheme}.Commits LIMIT 1;";
+        string commandText = $"SELECT StreamIdOriginal FROM Commits LIMIT 1;";
         try
         {
             MySqlConnection connection = new MySqlConnection(EventSourcingConnectionString);
