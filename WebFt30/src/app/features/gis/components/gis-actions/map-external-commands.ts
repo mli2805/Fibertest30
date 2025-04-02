@@ -56,7 +56,7 @@ export class MapExternalCommands {
     if (trace === undefined) return;
 
     // чтобы не отрабытывал мой обработчик onZoom
-    this.gisMapService.skipMovingCenter = true;
+    // this.gisMapService.skipMovingCenter = true;
     const latLngs = trace.nodeIds.map((i) => this.gisMapService.getNode(i).coors);
     const bounds = new L.LatLngBounds(latLngs);
     this.gisMapService.getMap().fitBounds(bounds);
@@ -69,7 +69,7 @@ export class MapExternalCommands {
       await Utils.delay(500);
     }
 
-    this.gisMapService.skipMovingCenter = false;
+    // this.gisMapService.skipMovingCenter = false;
   }
 
   static async reloadAllGeoData() {

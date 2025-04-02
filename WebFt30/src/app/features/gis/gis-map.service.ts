@@ -99,7 +99,7 @@ export class GisMapService {
     return this.layerGroups;
   }
 
-  skipMovingCenter = false;
+  // skipMovingCenter = false;
   //////////////////
   showNodesFromZoom = new BehaviorSubject<number>(16);
   showNodesFromZoom$ = this.showNodesFromZoom.asObservable();

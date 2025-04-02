@@ -54,9 +54,10 @@ export class MapActions {
 
     if (this.gisMapService.showNodesFromZoom.value > this.gisMapService.currentZoom.value) {
       // за счет этого как раз карта сдвинется чтобы новый узел был по центру
-      this.gisMapService.skipMovingCenter = true;
-      this.gisMapService.getMap().setZoom(this.gisMapService.showNodesFromZoom.value);
-      this.gisMapService.skipMovingCenter = false;
+      // this.gisMapService.skipMovingCenter = true;
+      // this.gisMapService.getMap().setZoom(this.gisMapService.showNodesFromZoom.value);
+      this.gisMapService.getMap().setView(e.latlng, this.gisMapService.showNodesFromZoom.value);
+      // this.gisMapService.skipMovingCenter = false;
     }
   }
 
