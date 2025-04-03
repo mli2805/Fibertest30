@@ -20,6 +20,8 @@ import { UserSettings } from 'src/app/core/models/user-settings';
 import { MapMenu } from './map-menu';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 
+import { environment } from 'src/environments/environment';
+
 export class MapLayersActions {
   private static icons = new GisMapIcons();
   private static gisMapService: GisMapService;
@@ -114,9 +116,17 @@ export class MapLayersActions {
         break;
       }
       case 3: {
+        const api = <any>environment.api;
+        const host = api.host || window.location.hostname;
+
         const httpAddress = 'http://localhost:5289/gis/{x}/{y}/{z}';
         const httpsAddress = 'https://localhost:7151/gis/{x}/{y}/{z}';
-        this.tileLayer = L.tileLayer(httpsAddress, {
+
+        const ccc = `https://${host}:7151/gis/{x}/{y}/{z}`;
+        const ddd = `https://192.168.96.128:7151/gis/{x}/{y}/{z}`;
+        const pc = `https://192.168.96.21:7151/gis/{x}/{y}/{z}`;
+
+        this.tileLayer = L.tileLayer(ccc, {
           minZoom: 8,
           maxZoom: 17
         }).addTo(map);
