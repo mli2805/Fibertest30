@@ -113,13 +113,15 @@ export class MapLayersActions {
         }).addTo(map);
         break;
       }
-      // case 3: {
-      //   this.tileLayer = L.tileLayer('http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}', {
-      //     maxZoom: 20,
-      //     subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-      //   }).addTo(map);
-      //   break;
-      // }
+      case 3: {
+        const httpAddress = 'http://localhost:5289/gis/{x}/{y}/{z}';
+        const httpsAddress = 'https://localhost:7151/gis/{x}/{y}/{z}';
+        this.tileLayer = L.tileLayer(httpsAddress, {
+          minZoom: 8,
+          maxZoom: 17
+        }).addTo(map);
+        break;
+      }
       // case 4: {
       //   this.tileLayer = L.tileLayer('http://{s}.google.com/vt?lyrs=p&x={x}&y={y}&z={z}', {
       //     maxZoom: 20,
