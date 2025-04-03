@@ -126,6 +126,7 @@ export class MapLayersActions {
         const ddd = `https://192.168.96.128:7151/gis/{x}/{y}/{z}`;
         const pc = `https://192.168.96.21:7151/gis/{x}/{y}/{z}`;
 
+        console.log(ccc);
         this.tileLayer = L.tileLayer(ccc, {
           minZoom: 8,
           maxZoom: 17
