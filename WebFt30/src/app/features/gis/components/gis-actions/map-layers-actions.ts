@@ -117,17 +117,40 @@ export class MapLayersActions {
       }
       case 3: {
         const api = <any>environment.api;
-        const host = api.host || window.location.hostname;
 
-        const httpAddress = 'http://localhost:5289/gis/{x}/{y}/{z}';
-        const httpsAddress = 'https://localhost:7151/gis/{x}/{y}/{z}';
+        // если все крутится на моей машине, а не за nginx,
+        // (конфигурация по умолчанию environment.development.ts)
+        // то в адресе GisApi надо явно указать порт localhost:7151
+        // иначе на GisApi будет перенаправлять nginx видя что запрос начинается с /gis
+        const gisApiPort = api.gisApiPort;
+        const host =
+          gisApiPort !== undefined
+            ? `localhost:${gisApiPort}`
+            : api.host || window.location.hostname;
 
-        const ccc = `https://${host}/gis/{x}/{y}/{z}`;
+        // выражение api.host || window.location.hostname;
+        // возвращает адрес удаленного сервера, к которому обращается браузер
+        // либо localhost если браузер на той же машине где сервер (и это не отладочная конфигурация)
 
-        console.log(ccc);
-        this.tileLayer = L.tileLayer(ccc, {
-          minZoom: 8,
-          maxZoom: 17
+        // GisApi сервис слушает эти порты http: :5289 и https: :7151
+
+        // если делать запрос к машине с nginx с номером порта, то запрос проходит, но в случае устаревших сертификатов крэшится,
+        // можно устранить один раз зайдя браузером https://<serverAddress>:7151/ -
+        // браузер ругнется на сертификаты, но можно прокликать что согласен на небезопасно,
+        // и дальше программу за кадром будет пускать по этому порту и будет получать карту
+        // (это приходится делать даже при локальном запуске приложения)
+
+        // если же делать запрос без номера порта, то он попадает в nginx,
+        // если https то это 443 порт, а дальше там стоит перенаправление
+        // location /gis/ {
+        //   proxy_pass https://localhost:7151;
+        // }
+        // означающее, что все запросы начинающиеся с /gis надо перенаправлять на порт 7151
+
+        const gisApiAddress = `https://${host}/gis/{x}/{y}/{z}`;
+        this.tileLayer = L.tileLayer(gisApiAddress, {
+          minZoom: 1,
+          maxZoom: 21
         }).addTo(map);
         break;
       }
