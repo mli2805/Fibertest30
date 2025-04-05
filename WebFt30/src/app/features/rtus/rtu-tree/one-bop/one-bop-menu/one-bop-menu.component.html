@@ -4,7 +4,6 @@
   #selectButton="cdkOverlayOrigin"
   type="button"
   (click)="onBopNameClicked($event)"
-  (mouseleave)="onMouseLeave()"
   (contextmenu)="onBopNameClicked($event)"
 >
   <div class="flex items-center">
@@ -22,8 +21,6 @@
 >
   <div
     class="min-w-40 rounded-sm border border-gray-300 bg-rtu-second-bg p-2 dark:border-[#575859] dark:bg-rtu-dark-second-bg"
-    (mouseenter)="onMouseEnter()"
-    (mouseleave)="onMouseLeave()"
     (click)="onOverlayClick($event)"
   >
     <!-- prettier-ignore -->

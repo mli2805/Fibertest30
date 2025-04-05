@@ -61,32 +61,14 @@ export class FreePortMenuComponent {
     this.open = false;
   }
 
-  // @HostListener('document:click', ['$event']) // левая кнопка
-  // @HostListener('document:contextmenu', ['$event']) // правая кнопка
-  // onClickEverywhere(event: MouseEvent) {
-  //   // this means Outside overlay
-  //   if (!this.elementRef.nativeElement.contains(event.target)) {
-  //     this.open = false;
-  //   }
-  // }
-
-  // когда мышка покидает саму полоску и оверлей с меню - закрывает меню
-  mouseOver = 0;
-
-  async onMouseLeave() {
-    await Utils.delay(200);
-
-    this.mouseOver = this.mouseOver - 1;
-    if (this.mouseOver === -1) {
-      this.mouseOver = 0;
+  @HostListener('document:click', ['$event']) // левая кнопка
+  @HostListener('document:contextmenu', ['$event']) // правая кнопка
+  onClickEverywhere(event: MouseEvent) {
+    // this means Outside overlay
+    if (!this.elementRef.nativeElement.contains(event.target)) {
       this.open = false;
     }
   }
-
-  onMouseEnter() {
-    this.mouseOver = this.mouseOver + 1;
-  }
-  ////////////////
 
   canAttachTrace() {
     return this.hasPermission(ApplicationPermission.AttachTrace) && this.detachedTraces.length > 0;

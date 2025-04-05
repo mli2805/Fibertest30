@@ -38,7 +38,6 @@
   <div
     class="hover-link m-2 flex cursor-pointer flex-col items-center text-xs"
     (click)="onNewEventsClicked()"
-    [routerLink]="['./evnts-new']"
     routerLinkActive
     #rlaNewEvents="routerLinkActive"
     [ngClass]="rlaNewEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
@@ -101,7 +100,7 @@
 
   <div
     class="hover-link m-2 flex cursor-pointer flex-col items-center text-xs"
-    [routerLink]="['./op-evnts']"
+    (click)="onOptEventsClicked()"
     routerLinkActive
     #rlaOpticalEvents="routerLinkActive"
     [ngClass]="rlaOpticalEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
@@ -118,7 +117,7 @@
 
   <div
     class="hover-link m-2 flex cursor-pointer flex-col items-center text-xs"
-    [routerLink]="['./net-evnts']"
+    (click)="onNetEventsClicked()"
     routerLinkActive
     #rlaNetworkEvents="routerLinkActive"
     [ngClass]="rlaNetworkEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
@@ -135,7 +134,7 @@
 
   <div
     class="hover-link m-2 flex cursor-pointer flex-col items-center text-xs"
-    [routerLink]="['./bop-net-evnts']"
+    (click)="onBopEventsClicked()"
     routerLinkActive
     #rlaBopNetworkEvents="routerLinkActive"
     [ngClass]="rlaBopNetworkEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
@@ -152,7 +151,7 @@
 
   <div
     class="hover-link m-2 flex cursor-pointer flex-col items-center text-xs"
-    [routerLink]="['./sts-evnts']"
+    (click)="onRtuStatusEventsClicked()"
     routerLinkActive
     #rlaRtuStatusEvents="routerLinkActive"
     [ngClass]="rlaRtuStatusEvents.isActive ? 'action-active font-bold' : 'action-non-active'"
@@ -169,7 +168,7 @@
 
   <div
     class="hover-link m-2 flex cursor-pointer flex-col items-center text-xs"
-    [routerLink]="['./ft-settings']"
+    (click)="onSettinsClicked()"
     routerLinkActive
     #rlaRftsSetup="routerLinkActive"
     [ngClass]="rlaRftsSetup.isActive ? 'action-active font-bold' : 'action-non-active'"
@@ -185,7 +184,7 @@
 
   <div
     class="hover-link m-2 flex cursor-pointer flex-col items-center text-xs"
-    [routerLink]="['./reports']"
+    (click)="onReportsClicked()"
     routerLinkActive
     #rlaReports="routerLinkActive"
     [ngClass]="rlaReports.isActive ? 'action-active font-bold' : 'action-non-active'"

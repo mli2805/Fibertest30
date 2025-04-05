@@ -68,32 +68,14 @@ export class DetachedTraceMenuComponent {
     this.open = false;
   }
 
-  // @HostListener('document:click', ['$event']) // левая кнопка
-  // @HostListener('document:contextmenu', ['$event']) // правая кнопка
-  // onClickEverywhere(event: MouseEvent) {
-  //   // this means Outside overlay
-  //   if (!this.elementRef.nativeElement.contains(event.target)) {
-  //     this.open = false;
-  //   }
-  // }
-
-  // когда мышка покидает саму полоску и оверлей с меню - закрывает меню
-  mouseOver = 0;
-
-  async onMouseLeave() {
-    this.mouseOver = this.mouseOver - 1;
-    await Utils.delay(200);
-
-    if (this.mouseOver < 0) {
-      this.mouseOver = 0;
+  @HostListener('document:click', ['$event']) // левая кнопка
+  @HostListener('document:contextmenu', ['$event']) // правая кнопка
+  onClickEverywhere(event: MouseEvent) {
+    // this means Outside overlay
+    if (!this.elementRef.nativeElement.contains(event.target)) {
       this.open = false;
     }
   }
-
-  onMouseEnter() {
-    this.mouseOver = this.mouseOver + 1;
-  }
-  ////////////////
 
   async onInformationClicked() {
     this.open = false;

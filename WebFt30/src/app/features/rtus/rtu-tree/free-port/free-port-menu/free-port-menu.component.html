@@ -4,7 +4,6 @@
   #selectButton="cdkOverlayOrigin"
   type="button"
   (click)="onFreePortNameClicked($event)"
-  (mouseleave)="onMouseLeave()"
   (contextmenu)="onFreePortNameClicked($event)"
 >
   <span class="ml-1">N{{ portOfOtau.opticalPort }}</span>
@@ -19,8 +18,6 @@
 >
   <div
     class="min-w-40 rounded-sm border border-gray-300 bg-rtu-second-bg p-2 dark:border-[#575859] dark:bg-rtu-dark-second-bg"
-    (mouseenter)="onMouseEnter()"
-    (mouseleave)="onMouseLeave()"
     (click)="onOverlayClick($event)"
   >
     <!-- prettier-ignore -->
