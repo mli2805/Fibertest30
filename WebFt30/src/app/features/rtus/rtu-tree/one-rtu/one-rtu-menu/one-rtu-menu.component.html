@@ -3,8 +3,9 @@
   cdkOverlayOrigin
   #selectButton="cdkOverlayOrigin"
   type="button"
-  (click)="onRtuNameClicked()"
-  (contextmenu)="onRtuNameClicked()"
+  (click)="onRtuNameClicked($event)"
+  (mouseleave)="onMouseLeave()"
+  (contextmenu)="onRtuNameClicked($event)"
 >
   <div class="flex items-center">
     <rtu-monitoring-mode-pictogram [mode]="rtu.monitoringMode"></rtu-monitoring-mode-pictogram>
@@ -19,9 +20,13 @@
   cdkConnectedOverlay
   [cdkConnectedOverlayOrigin]="selectButton"
   [cdkConnectedOverlayOpen]="open"
+  [cdkConnectedOverlayOffsetX]="overlayX"
+  [cdkConnectedOverlayOffsetY]="overlayY"
 >
   <div
     class="min-w-40 rounded-sm border border-gray-300 bg-rtu-second-bg p-2 dark:border-[#575859] dark:bg-rtu-dark-second-bg"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
   >
     <!-- prettier-ignore -->
     <div class="flex flex-col " (click)="onOverlayClick($event)" >

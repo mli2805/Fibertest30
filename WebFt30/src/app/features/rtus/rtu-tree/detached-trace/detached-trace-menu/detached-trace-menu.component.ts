@@ -48,10 +48,18 @@ export class DetachedTraceMenuComponent {
     return this.currentUser ? this.currentUser.permissions.includes(permission) : false;
   }
 
-  onTraceNameClicked() {
+  overlayX = 0;
+  overlayY = 0;
+
+  // left & right mouse button
+  onTraceNameClicked(event: MouseEvent) {
     if (this.open === false) {
       this.open = true;
     }
+    // event.offsetX - смещение от каждого элементика внутри полосы - квадратика, строки
+    this.overlayX = event.clientX - 184; // поэтому приходится брать clientX
+    this.overlayY = event.offsetY - 10;
+
     return false; // prevent browser menu
   }
 
@@ -60,14 +68,32 @@ export class DetachedTraceMenuComponent {
     this.open = false;
   }
 
-  @HostListener('document:click', ['$event']) // левая кнопка
-  @HostListener('document:contextmenu', ['$event']) // правая кнопка
-  onClickEverywhere(event: MouseEvent) {
-    // this means Outside overlay
-    if (!this.elementRef.nativeElement.contains(event.target)) {
+  // @HostListener('document:click', ['$event']) // левая кнопка
+  // @HostListener('document:contextmenu', ['$event']) // правая кнопка
+  // onClickEverywhere(event: MouseEvent) {
+  //   // this means Outside overlay
+  //   if (!this.elementRef.nativeElement.contains(event.target)) {
+  //     this.open = false;
+  //   }
+  // }
+
+  // когда мышка покидает саму полоску и оверлей с меню - закрывает меню
+  mouseOver = 0;
+
+  async onMouseLeave() {
+    this.mouseOver = this.mouseOver - 1;
+    await Utils.delay(200);
+
+    if (this.mouseOver < 0) {
+      this.mouseOver = 0;
       this.open = false;
     }
   }
+
+  onMouseEnter() {
+    this.mouseOver = this.mouseOver + 1;
+  }
+  ////////////////
 
   async onInformationClicked() {
     this.open = false;
