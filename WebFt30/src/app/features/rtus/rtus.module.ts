@@ -19,7 +19,6 @@ import { FiberStatePictogramComponent } from './rtu-tree/pictograms/fiber-state-
 import { TceLinkPictogramComponent } from './rtu-tree/pictograms/tce-link-pictogram/tce-link-pictogram.component';
 import { RtuInitializationComponent } from './rtu-initialization/rtu-initialization.component';
 import { OneRtuMenuComponent } from './rtu-tree/one-rtu/one-rtu-menu/one-rtu-menu.component';
-import { RtuInformationComponent } from './rtu-information/rtu-information.component';
 import { RtuStateComponent } from './rtu-state/rtu-state.component';
 import { RtuMonitoringSettingsComponent } from './rtu-monitoring-settings/rtu-monitoring-settings.component';
 import { RtuLandmarksComponent } from './rtu-landmarks/rtu-landmarks.component';
@@ -65,7 +64,6 @@ import { MainChannelTestComponent } from './rtu-initialization/main-channel-test
     TceLinkPictogramComponent,
     RtuInitializationComponent,
     OneRtuMenuComponent,
-    RtuInformationComponent,
     RtuStateComponent,
     RtuMonitoringSettingsComponent,
     RtuLandmarksComponent,

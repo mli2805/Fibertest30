@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { RtuTreeComponent } from './rtu-tree/rtu-tree.component';
-import { RtuInformationComponent } from './rtu-information/rtu-information.component';
 import { RtuInitializationComponent } from './rtu-initialization/rtu-initialization.component';
 import { RtusComponent } from './rtus/rtus.component';
 import { MeasurementClientComponent } from './measurement-client/measurement-client.component';
@@ -30,12 +29,6 @@ export const routes: Routes = [
         pathMatch: 'full',
         component: RtuTreeComponent,
         data: { reuseRouteId: 'rtu-tree' }
-      },
-      {
-        path: 'information/:id',
-        pathMatch: 'full',
-        component: RtuInformationComponent,
-        data: { navigateToParent: 2 }
       },
       {
         path: 'trace-information/:id',

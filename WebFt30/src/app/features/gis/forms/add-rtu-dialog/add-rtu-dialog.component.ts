@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { EquipmentType, SendCommandResponse } from 'src/grpc-generated';
+import { EquipmentType } from 'src/grpc-generated';
 import { GisMapService } from '../../gis-map.service';
 import { GraphService } from 'src/app/core/grpc';
 import { GeoEquipment, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { MapLayersActions } from '../../components/gis-actions/map-layers-actions';
 import { RtuInfoMode } from 'src/app/shared/components/rtu-info/rtu-info.component';
-import { GisMapUtils } from '../../components/shared/gis-map.utils';
 import { GisMapLayer } from '../../components/shared/gis-map-layer';
 
 @Component({

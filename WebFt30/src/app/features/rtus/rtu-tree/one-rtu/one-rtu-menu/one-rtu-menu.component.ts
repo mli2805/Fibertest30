@@ -17,6 +17,7 @@ import { SecUtil } from '../../../rtu-monitoring-settings/sec-util';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
 import { Utils } from 'src/app/shared/utils/utils';
 import { StepModel } from 'src/app/features/gis/forms/trace-define/step-model';
+import { RtuInfoMode } from 'src/app/shared/components/rtu-info/rtu-info.component';
 
 @Component({
   selector: 'rtu-one-rtu-menu',
@@ -75,11 +76,8 @@ export class OneRtuMenuComponent {
   }
 
   async onInformationClicked() {
-    this.open = false;
-    await Utils.delay(100);
-
-    const path = `rtus/information/${this.rtu.rtuId}`;
-    this.router.navigate([path]);
+    const node = this.gisMapService.getNode(this.rtu.nodeId);
+    this.gisMapService.setRtuNodeForDialog(node, RtuInfoMode.ShowInformation);
   }
 
   onShowClicked() {
