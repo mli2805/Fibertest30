@@ -4,7 +4,6 @@ import { GisComponent } from './gis/gis.component';
 import { GisRoutingModule } from './gis-routing';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { GisMapComponent } from './components/gis-map/gis-map.component';
-import { GisTraceViewerComponent } from './components/gis-trace-viewer/gis-trace-viewer.component';
 import { TraceDefineComponent } from './forms/trace-define/trace-define.component';
 import { EditEquipmentDialogComponent } from './forms/edit-equipment-dialog/edit-equipment-dialog.component';
 import { EquipmentTypeSelectorComponent } from './forms/equipment-type-selector/equipment-type-selector.component';
@@ -20,11 +19,10 @@ import { AddRtuDialogComponent } from './forms/add-rtu-dialog/add-rtu-dialog.com
 
 @NgModule({
   imports: [GisRoutingModule, SharedModule, DragDropModule],
-  exports: [GisComponent, GisMapComponent, GisTraceViewerComponent],
+  exports: [GisComponent, GisMapComponent],
   declarations: [
     GisComponent,
     GisMapComponent,
-    GisTraceViewerComponent,
     TraceDefineComponent,
     EditEquipmentDialogComponent,
     EquipmentTypeSelectorComponent,
