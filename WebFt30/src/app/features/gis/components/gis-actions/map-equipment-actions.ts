@@ -151,7 +151,6 @@ export class MapEquipmentActions {
         .getGeoData()
         .equipments.filter((e) => e.nodeId === command.NodeId);
 
-      console.log(eqs);
       if (eqs.length === 1) {
         node.equipmentType = EquipmentType.EmptyNode;
       } else {

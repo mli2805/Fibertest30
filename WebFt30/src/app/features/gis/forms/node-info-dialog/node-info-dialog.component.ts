@@ -58,15 +58,16 @@ export class NodeInfoDialogComponent {
       .getGeoData()
       .equipments.filter((e) => e.nodeId === this.nodeId && e.type !== EquipmentType.EmptyNode);
 
+    this.equipTable = equipments.map((e) => {
+      // в этом месте еще не знаем про трассы
+      return {
+        isSelected: false,
+        equipment: e,
+        removeDisabled: false
+      };
+    });
+
     if (equipments.length > 0) {
-      this.equipTable = equipments.map((e) => {
-        // в этом месте еще не знаем про трассы
-        return {
-          isSelected: false,
-          equipment: e,
-          removeDisabled: false
-        };
-      });
       this.equipTable[0].isSelected = true;
     }
 

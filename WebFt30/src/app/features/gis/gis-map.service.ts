@@ -206,4 +206,6 @@ export class GisMapService {
   }
 
   highlightNode$ = this.highlightNode.asObservable();
+  ////////////////////////
+  menuOwnerId = '';
 }

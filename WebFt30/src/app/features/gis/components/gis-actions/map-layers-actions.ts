@@ -240,11 +240,25 @@ export class MapLayersActions {
       weight: 3,
       contextmenu: true,
       contextmenuInheritItems: false,
-      contextmenuItems: MapFiberMenu.buildFiberContextMenu(this.hasEditPermissions)
+      contextmenuItems: []
     };
     const line = L.polyline([fiber.coors1, fiber.coors2], options);
+
     line.on('contextmenu', (e) => {
-      // чтобы не приходил этот же ивент от карты (портит ивент от линии)
+      const id = (<any>line).id;
+      if (id === this.gisMapService.menuOwnerId) {
+        this.gisMapService.menuOwnerId = '';
+        return;
+      }
+      this.gisMapService.menuOwnerId = id;
+
+      (<any>line.options).contextmenuItems = MapFiberMenu.buildFiberContextMenu(
+        this.hasEditPermissions
+      );
+
+      line.fire('contextmenu', e);
+
+      // чтобы не приходил этот же ивент от карты (портит ивент от линии)  в ивенте нету e.relatedTarget
       L.DomEvent.stopPropagation(e);
     });
     return line;
@@ -261,8 +275,8 @@ export class MapLayersActions {
       icon: iconWithIndex.icon,
       draggable: false,
       contextmenu: true,
-      contextmenuInheritItems: false,
-      contextmenuItems: MapNodeMenu.buildMarkerContextMenu(equipmentType, this.hasEditPermissions)
+      contextmenuItems: [],
+      contextmenuInheritItems: false
     };
     const marker = L.marker(coordinate, options);
 
@@ -306,6 +320,28 @@ export class MapLayersActions {
     marker.on('mouseup', (e) => {
       MapMouseActions.onMouseUpOnNode(e, nodeId);
       L.DomEvent.stopPropagation(e);
+    });
+
+    marker.on('contextmenu', (e) => {
+      // строим контекстное меню в момент клика на узле
+      // чтобы показать его мы принудительно сделаем fire
+      // чтобы не зациклиться сохраняем id узла и когда повторно попадем сюда из-за fire,
+      // то ничего делать не надо - меню уже построено и будет показано за счет либки
+      const id = (<any>marker).id;
+      if (id === this.gisMapService.menuOwnerId) {
+        this.gisMapService.menuOwnerId = '';
+        return;
+      }
+      this.gisMapService.menuOwnerId = id;
+
+      const node = this.gisMapService.getNode(id);
+
+      marker.options.contextmenuItems = MapNodeMenu.buildMarkerContextMenu(
+        node.equipmentType,
+        this.hasEditPermissions
+      );
+
+      marker.fire('contextmenu', e);
     });
 
     return marker;

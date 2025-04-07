@@ -101,6 +101,5 @@ export class EditEquipmentDialogComponent {
 
   onEquipmentTypeChanged($event: any) {
     this.selectedType = $event;
-    console.log(this.selectedType);
   }
 }
