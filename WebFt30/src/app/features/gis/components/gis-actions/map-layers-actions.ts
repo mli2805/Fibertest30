@@ -65,6 +65,24 @@ export class MapLayersActions {
       MapMouseActions.onDragEnd();
     });
 
+    map.on('contextmenu', (e) => {
+      // из-за возможной смены языка при каждом вызове строим меню заново
+      const dynamicItems = MapMenu.buildMapMenu(hasEditPermissions);
+
+      // на подмену всего меню не реагирует,
+      // но если взять недокументированное свойство карты contextmenu
+      // и в нем для каждого пункта меню поменять текст, срабатывает
+      for (let i = 0; i < (map as any).contextmenu._items.length; i++) {
+        const item = (map as any).contextmenu._items[i];
+        if (item.el.className !== 'leaflet-contextmenu-separator') {
+          item.el.childNodes[0].data = dynamicItems[i].text;
+        }
+      }
+
+      console.log((map as any).contextmenu);
+      (map as any).contextmenu.showAllItems();
+    });
+
     // не реагирует почему-то
     // map.on('keydown', (e) => {
     //   console.log(e);
