@@ -3,57 +3,45 @@ import { TranslateService } from '@ngx-translate/core';
 import { Injector } from '@angular/core';
 import { GisMapService } from '../../gis-map.service';
 import { EquipmentType } from 'src/grpc-generated';
-import { firstValueFrom } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc';
 import { GeoEquipment, GeoFiber, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { MapLayersActions } from './map-layers-actions';
 import { GisMapLayer } from '../shared/gis-map-layer';
-import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
-import { Dialog } from '@angular/cdk/dialog';
-import { MapNodeMenu } from './map-node-menu';
 import { MapNodeRemove } from './map-node-remove';
 
 export class MapFiberMenu {
   private static ts: TranslateService;
   private static gisMapService: GisMapService;
   private static graphService: GraphService;
-  private static dialog: Dialog;
 
   static initialize(injector: Injector) {
     this.ts = injector.get(TranslateService);
     this.gisMapService = injector.get(GisMapService);
     this.graphService = injector.get(GraphService);
-    this.dialog = injector.get(Dialog);
   }
 
-  static buildFiberContextMenu(hasEditPermissions: boolean): L.ContextMenuItem[] {
-    if (hasEditPermissions) {
-      return [
-        {
-          text: this.ts.instant('i18n.ft.information'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.showSectionInformation(e)
-        },
-        {
-          text: this.ts.instant('i18n.ft.add-node'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.addNodeToSection(e)
-        },
-        {
-          text: this.ts.instant('i18n.ft.add-adjustment-point'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.addPointToSection(e)
-        },
-        {
-          text: this.ts.instant('i18n.ft.remove-section'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.removeSection(e)
-        }
-      ];
-    } else {
-      return [
-        {
-          text: this.ts.instant('i18n.ft.information'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.showSectionInformation(e)
-        }
-      ];
-    }
+  static buildFiberContextMenu(hasEditPermissions: boolean, fiberId: string): L.ContextMenuItem[] {
+    return [
+      {
+        text: this.ts.instant('i18n.ft.information'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.showSectionInformation(e)
+      },
+      {
+        text: this.ts.instant('i18n.ft.add-node'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.addNodeToSection(e),
+        disabled: !hasEditPermissions || !this.canAddNodeToSection(fiberId)
+      },
+      {
+        text: this.ts.instant('i18n.ft.add-adjustment-point'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.addPointToSection(e),
+        disabled: !hasEditPermissions
+      },
+      {
+        text: this.ts.instant('i18n.ft.remove-section'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.removeSection(e),
+        disabled: !hasEditPermissions || !this.canRemoveSection(fiberId)
+      }
+    ];
   }
 
   static showSectionInformation(e: L.ContextMenuItemClickEvent) {
@@ -61,19 +49,14 @@ export class MapFiberMenu {
   }
 
   // только если трассы без базовых
-  static async addNodeToSection(e: L.ContextMenuItemClickEvent) {
-    const fiberId = (<any>e.relatedTarget).id;
+  static canAddNodeToSection(fiberId: string): boolean {
     const idx = this.gisMapService
       .getGeoData()
       .traces.findIndex((t) => t.fiberIds.includes(fiberId) && t.hasAnyBaseRef);
-    if (idx !== -1) {
-      MessageBoxUtils.show(this.dialog, 'Error', [
-        { message: 'i18n.ft.cant-add-node', bold: true, bottomMargin: true },
-        { message: 'i18n.ft.base-refs-assigned', bold: false, bottomMargin: false }
-      ]);
-      return;
-    }
+    return idx === -1;
+  }
 
+  static async addNodeToSection(e: L.ContextMenuItemClickEvent) {
     await this.addToSection(e, EquipmentType.EmptyNode);
   }
 
@@ -192,20 +175,17 @@ export class MapFiberMenu {
     });
   }
 
-  static async removeSection(e: L.ContextMenuItemClickEvent) {
-    this.gisMapService.geoDataLoading.next(true);
-    const fiberId = (<any>e.relatedTarget).id;
-
+  // если не проходят трассы
+  static canRemoveSection(fiberId: string): boolean {
     const idx = this.gisMapService
       .getGeoData()
       .traces.findIndex((t) => t.fiberIds.includes(fiberId));
-    if (idx !== -1) {
-      MessageBoxUtils.show(this.dialog, 'Error', [
-        { message: 'i18n.ft.cant-remove-section', bold: true, bottomMargin: true }
-      ]);
-      this.gisMapService.geoDataLoading.next(false);
-      return;
-    }
+    return idx === -1;
+  }
+
+  static async removeSection(e: L.ContextMenuItemClickEvent) {
+    this.gisMapService.geoDataLoading.next(true);
+    const fiberId = (<any>e.relatedTarget).id;
 
     const oldFiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === fiberId)!;
 

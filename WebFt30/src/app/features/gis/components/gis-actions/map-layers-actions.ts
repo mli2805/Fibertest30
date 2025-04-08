@@ -271,7 +271,8 @@ export class MapLayersActions {
       this.gisMapService.menuOwnerId = id;
 
       (<any>line.options).contextmenuItems = MapFiberMenu.buildFiberContextMenu(
-        this.hasEditPermissions
+        this.hasEditPermissions,
+        id
       );
 
       line.fire('contextmenu', e);
