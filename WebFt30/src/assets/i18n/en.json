@@ -593,6 +593,8 @@
   "i18n.ft.cant-remove-node": "Can't remove node",
   "i18n.ft.base-refs-assigned": "Base refs assigned",
   "i18n.ft.cant-remove-section": "Can't remove section where trace exists",
+  "i18n.ft.remove-adjustment-points-or-add-nodes": "Remove adjustment points or add nodes",
+  "i18n.ft.next-to-the-node-your-are-going-to-remove": "next to the node your are going to remove",
 
   "i18n.ft.step-by-step-trace-definition": "Step by step trace definition",
 

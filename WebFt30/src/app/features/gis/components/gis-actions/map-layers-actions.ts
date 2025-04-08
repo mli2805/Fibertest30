@@ -79,7 +79,6 @@ export class MapLayersActions {
         }
       }
 
-      console.log((map as any).contextmenu);
       (map as any).contextmenu.showAllItems();
     });
 
@@ -318,6 +317,29 @@ export class MapLayersActions {
       this.gisMapService.getMap().closePopup(popup);
     });
 
+    marker.on('contextmenu', (e) => {
+      // строим контекстное меню в момент клика на узле
+      // чтобы показать его мы принудительно сделаем fire
+      // чтобы не зациклиться сохраняем id узла и когда повторно попадем сюда из-за fire,
+      // то ничего делать не надо - меню уже построено и будет показано за счет либки
+      const id = (<any>marker).id;
+      if (id === this.gisMapService.menuOwnerId) {
+        this.gisMapService.menuOwnerId = '';
+        return;
+      }
+      this.gisMapService.menuOwnerId = id;
+
+      const node = this.gisMapService.getNode(id);
+
+      marker.options.contextmenuItems = MapNodeMenu.buildMarkerContextMenu(
+        node.id,
+        node.equipmentType,
+        this.hasEditPermissions
+      );
+
+      marker.fire('contextmenu', e);
+    });
+
     if (!this.hasEditPermissions) return marker;
     // остальные обработчики нужны только руту
 
@@ -339,28 +361,6 @@ export class MapLayersActions {
     marker.on('mouseup', (e) => {
       MapMouseActions.onMouseUpOnNode(e, nodeId);
       L.DomEvent.stopPropagation(e);
-    });
-
-    marker.on('contextmenu', (e) => {
-      // строим контекстное меню в момент клика на узле
-      // чтобы показать его мы принудительно сделаем fire
-      // чтобы не зациклиться сохраняем id узла и когда повторно попадем сюда из-за fire,
-      // то ничего делать не надо - меню уже построено и будет показано за счет либки
-      const id = (<any>marker).id;
-      if (id === this.gisMapService.menuOwnerId) {
-        this.gisMapService.menuOwnerId = '';
-        return;
-      }
-      this.gisMapService.menuOwnerId = id;
-
-      const node = this.gisMapService.getNode(id);
-
-      marker.options.contextmenuItems = MapNodeMenu.buildMarkerContextMenu(
-        node.equipmentType,
-        this.hasEditPermissions
-      );
-
-      marker.fire('contextmenu', e);
     });
 
     return marker;

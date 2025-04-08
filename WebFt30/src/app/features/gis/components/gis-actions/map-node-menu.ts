@@ -37,55 +37,51 @@ export class MapNodeMenu {
   }
 
   static buildMarkerContextMenu(
+    nodeId: string,
     equipmentType: EquipmentType,
     hasEditPermissions: boolean
   ): L.ContextMenuItem[] {
     switch (equipmentType) {
       case EquipmentType.Rtu:
-        return MapRtuMenu.buildRtuContextMenu(hasEditPermissions);
+        return MapRtuMenu.buildRtuContextMenu(hasEditPermissions, nodeId);
       case EquipmentType.AdjustmentPoint:
         return MapNodeMenu.buildAdjustmentPointContextMenu();
       default:
-        return MapNodeMenu.buildNodeContextMenu(hasEditPermissions);
+        return MapNodeMenu.buildNodeContextMenu(hasEditPermissions, nodeId);
     }
   }
 
-  static buildNodeContextMenu(hasEditPermissions: boolean): L.ContextMenuItem[] {
-    if (hasEditPermissions) {
-      return [
-        {
-          text: this.ts.instant('i18n.ft.information'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.showInformation(e, hasEditPermissions)
-        },
-        {
-          text: this.ts.instant('i18n.ft.add-equipment'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.addEquipment(e)
-        },
-        {
-          text: this.ts.instant('i18n.ft.remove-node'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.removeNode(e)
-        },
-        {
-          text: '-',
-          separator: true
-        },
-        {
-          text: this.ts.instant('i18n.ft.section'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e, false)
-        },
-        {
-          text: this.ts.instant('i18n.ft.section-with-nodes'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e, true)
-        }
-      ];
-    } else {
-      return [
-        {
-          text: this.ts.instant('i18n.ft.information'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.showInformation(e, hasEditPermissions)
-        }
-      ];
-    }
+  static buildNodeContextMenu(hasEditPermissions: boolean, nodeId: string): L.ContextMenuItem[] {
+    return [
+      {
+        text: this.ts.instant('i18n.ft.information'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.showInformation(e, hasEditPermissions)
+      },
+      {
+        text: this.ts.instant('i18n.ft.add-equipment'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.addEquipment(e),
+        disabled: !hasEditPermissions
+      },
+      {
+        text: this.ts.instant('i18n.ft.remove-node'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.removeNode(e),
+        disabled: !hasEditPermissions || !this.canRemoveNode(nodeId)
+      },
+      {
+        text: '-',
+        separator: true
+      },
+      {
+        text: this.ts.instant('i18n.ft.section'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e, false),
+        disabled: !hasEditPermissions
+      },
+      {
+        text: this.ts.instant('i18n.ft.section-with-nodes'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.drawSection(e, true),
+        disabled: !hasEditPermissions
+      }
+    ];
   }
 
   static buildAdjustmentPointContextMenu(): L.ContextMenuItem[] {
@@ -127,21 +123,53 @@ export class MapNodeMenu {
     });
   }
 
-  static async removeNode(e: L.ContextMenuItemClickEvent) {
-    this.gisMapService.geoDataLoading.next(true);
-    const nodeId = (<any>e.relatedTarget).id;
-
+  // 1 не должно быть базовых
+  // 2 не последний узел в трассе
+  static canRemoveNode(nodeId: string): boolean {
     const idx = this.gisMapService
       .getGeoData()
-      .traces.findIndex((t) => t.nodeIds.includes(nodeId) && t.hasAnyBaseRef);
-    if (idx !== -1) {
-      MessageBoxUtils.show(this.dialog, 'Error', [
-        { message: 'i18n.ft.cant-remove-node', bold: true, bottomMargin: true },
-        { message: 'i18n.ft.base-refs-assigned', bold: false, bottomMargin: false }
+      .traces.findIndex(
+        (t) => t.nodeIds.includes(nodeId) && (t.hasAnyBaseRef || t.nodeIds.at(-1) === nodeId)
+      );
+    return idx === -1;
+  }
+
+  static hasAdjustmentPointNeighbour(nodeId: string): boolean {
+    const fibers = this.gisMapService
+      .getGeoData()
+      .fibers.filter((f) => f.node1id === nodeId || f.node2id === nodeId);
+
+    for (const f of fibers) {
+      const neighbourId = f.node1id === nodeId ? f.node2id : f.node1id;
+      if (this.gisMapService.getNode(neighbourId).equipmentType === EquipmentType.AdjustmentPoint)
+        return true;
+    }
+
+    return false;
+  }
+
+  // из трассы можно удалять не последний узел - будет построен обход
+  // но рядом с узлом не должно быть точек привязки - в этом случае выводится сообщение и выходим
+  static async removeNode(e: L.ContextMenuItemClickEvent) {
+    const nodeId = (<any>e.relatedTarget).id;
+
+    if (this.hasAdjustmentPointNeighbour(nodeId)) {
+      MessageBoxUtils.show(this.dialog, 'Information', [
+        {
+          message: 'i18n.ft.remove-adjustment-points-or-add-nodes',
+          bold: true,
+          bottomMargin: true
+        },
+        {
+          message: 'i18n.ft.next-to-the-node-your-are-going-to-remove',
+          bold: true,
+          bottomMargin: false
+        }
       ]);
       return;
     }
 
+    this.gisMapService.geoDataLoading.next(true);
     const node = this.gisMapService.getGeoData().nodes.find((n) => n.id === nodeId);
 
     if (!MapNodeRemove.isRemoveThisNodePermitted(nodeId, node!.equipmentType)) return;

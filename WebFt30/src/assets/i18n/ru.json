@@ -312,6 +312,8 @@
   "i18n.ft.cant-remove-node": "Can't remove node",
   "i18n.ft.base-refs-assigned": "Заданы базовые рефлектограммы",
   "i18n.ft.cant-remove-section": "Нельзя удалить участок, по которому проходит трасса",
+  "i18n.ft.remove-adjustment-points-or-add-nodes": "Удалите точки привязки или добавьте узлы",
+  "i18n.ft.next-to-the-node-your-are-going-to-remove": "рядом с удаляемым узлом",
 
   "i18n.ft.add-equimpent": "Добавить оборудование",
   "i18n.ft.update-equimpent": "Изменить оборудование",

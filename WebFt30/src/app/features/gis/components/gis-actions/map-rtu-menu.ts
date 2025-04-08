@@ -24,47 +24,41 @@ export class MapRtuMenu {
     this.dialog = injector.get(Dialog);
   }
 
-  static buildRtuContextMenu(hasEditPermissions: boolean): L.ContextMenuItem[] {
-    if (hasEditPermissions) {
-      return [
-        {
-          text: this.ts.instant('i18n.ft.information'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.showRtuInformation(e)
-        },
-        {
-          text: this.ts.instant('i18n.ft.remove'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.removeRtu(e)
-        },
-        {
-          text: '-',
-          separator: true
-        },
-        {
-          text: this.ts.instant('i18n.ft.section'),
-          callback: (e: L.ContextMenuItemClickEvent) => MapNodeMenu.drawSection(e, false)
-        },
-        {
-          text: this.ts.instant('i18n.ft.section-with-nodes'),
-          callback: (e: L.ContextMenuItemClickEvent) => MapNodeMenu.drawSection(e, true)
-        },
-        {
-          text: '-',
-          separator: true
-        },
-        {
-          text: this.ts.instant('i18n.ft.define-trace'),
-          callback: (e: L.ContextMenuItemClickEvent) => this.defineTrace(e)
-        }
-      ];
-    } else {
-      return [
-        {
-          text: this.ts.instant('i18n.ft.information'),
-          callback: (e: L.ContextMenuItemClickEvent) =>
-            MapNodeMenu.showInformation(e, hasEditPermissions)
-        }
-      ];
-    }
+  static buildRtuContextMenu(hasEditPermissions: boolean, nodeId: string): L.ContextMenuItem[] {
+    return [
+      {
+        text: this.ts.instant('i18n.ft.information'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.showRtuInformation(e)
+      },
+      {
+        text: this.ts.instant('i18n.ft.remove'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.removeRtu(e),
+        disabled: !hasEditPermissions || !this.canRemoveRtu(nodeId)
+      },
+      {
+        text: '-',
+        separator: true
+      },
+      {
+        text: this.ts.instant('i18n.ft.section'),
+        callback: (e: L.ContextMenuItemClickEvent) => MapNodeMenu.drawSection(e, false),
+        disabled: !hasEditPermissions
+      },
+      {
+        text: this.ts.instant('i18n.ft.section-with-nodes'),
+        callback: (e: L.ContextMenuItemClickEvent) => MapNodeMenu.drawSection(e, true),
+        disabled: !hasEditPermissions
+      },
+      {
+        text: '-',
+        separator: true
+      },
+      {
+        text: this.ts.instant('i18n.ft.define-trace'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.defineTrace(e),
+        disabled: !hasEditPermissions
+      }
+    ];
   }
 
   static async showRtuInformation(e: L.ContextMenuItemClickEvent) {
@@ -72,6 +66,12 @@ export class MapRtuMenu {
     const node = this.gisMapService.getNode(nodeId);
 
     this.gisMapService.setRtuNodeForDialog(node, RtuInfoMode.ShowInformation);
+  }
+
+  // если нету трасс
+  static canRemoveRtu(nodeId: string): boolean {
+    const idx = this.gisMapService.getGeoData().traces.findIndex((t) => t.nodeIds.includes(nodeId));
+    return idx === -1;
   }
 
   static async removeRtu(e: L.ContextMenuItemClickEvent) {
