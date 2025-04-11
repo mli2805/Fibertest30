@@ -92,7 +92,7 @@ export class MapRtuMenu {
     const response = await this.graphService.sendCommandAsync(json, 'RemoveRtu');
     if (response.success) {
       const node = this.gisMapService.getNode(nodeId);
-      MapNodeRemove.removeNodeFromMapAndGeoData(node);
+      MapNodeRemove.RemoveNodeWithAllHisFibersUptoRealNode(node);
     }
   }
 
