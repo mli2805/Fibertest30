@@ -60,9 +60,9 @@ public class RtuStationsRepository : IRtuStationsRepository
                 return null;
             }
 
-            var message = $"RTU with id {rtuId.First6()} not found";
-            _logger.LogInformation(message);
-            return message;
+            // это нормально, пока не проинитили первый раз, нету записи в RtuStations
+            _logger.LogInformation($"RTU with id {rtuId.First6()} not found in RtuStations");
+            return null;
         }
         catch (Exception e)
         {

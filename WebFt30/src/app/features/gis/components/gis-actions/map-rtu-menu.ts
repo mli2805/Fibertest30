@@ -76,6 +76,11 @@ export class MapRtuMenu {
 
   static async removeRtu(e: L.ContextMenuItemClickEvent) {
     const nodeId = (<any>e.relatedTarget).id;
+    this.removeRtuInner(nodeId);
+  }
+
+  // эта функция вызывается из дерева тоже
+  static async removeRtuInner(nodeId: string) {
     const rtu = this.gisMapService.getGeoData().equipments.find((e) => e.nodeId === nodeId)!;
 
     const confirmation = await MessageBoxUtils.show(this.dialog, 'Confirmation', [
