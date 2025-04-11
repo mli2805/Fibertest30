@@ -15,6 +15,7 @@ import {
   TreeOfAcceptableMeasurementParameters,
   UnitMeasParam
 } from 'src/app/core/store/models/ft30/acceptable-measurement-parameters';
+import { Bop } from 'src/app/core/store/models/ft30/bop';
 import { DoMeasurementClientDto } from 'src/app/core/store/models/ft30/do-measurement-client-dto';
 import {
   FtMeasurementSettings,
@@ -36,6 +37,8 @@ import { ValidationUtils } from 'src/app/shared/utils/validation-utils';
 })
 export class MeasurementClientComponent extends OnDestroyBase implements OnInit, OnDestroy {
   rtu!: Rtu;
+  portName!: string;
+  traceName!: string;
   portOfOtau!: PortOfOtau[]; // 2 ports if on bop
   acceptableParameters!: TreeOfAcceptableMeasurementParameters;
 
@@ -142,8 +145,25 @@ export class MeasurementClientComponent extends OnDestroyBase implements OnInit,
     if (this.rtu!.acceptableParams === undefined) return;
     this.acceptableParameters = this.rtu!.acceptableParams;
 
-    const portName = parts[4];
-    this.portOfOtau = this.portOfOtauByName(portName);
+    this.portName = parts[4];
+    this.portOfOtau = this.portOfOtauByName(parts[4]);
+    this.getTraceByPortName(parts[4]);
+  }
+
+  getTraceByPortName(portName: string) {
+    const parts = portName.split('-');
+    let child = null;
+    if (parts.length > 1) {
+      const bop = <Bop>(<any>this.rtu.children[+parts[0] - 1]).payload;
+      child = bop.children[+parts[1] - 1];
+    } else {
+      child = this.rtu.children[+parts[0] - 1];
+    }
+    if (child.type === 'attached-trace') {
+      this.traceName = child.payload.title;
+    } else {
+      this.traceName = '-';
+    }
   }
 
   portOfOtauByName(portName: string): PortOfOtau[] {

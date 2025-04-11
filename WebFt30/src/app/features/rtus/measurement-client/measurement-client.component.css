@@ -1,3 +1,12 @@
+.header-grid {
+  grid-template-columns: 8rem minmax(0, 1fr);
+
+  grid-template-areas:
+    'rtuLabel rtuValue'
+    'portLabel portValue'
+    'traceLabel traceValue';
+}
+
 .settings-grid {
   grid-template-columns: 16rem minmax(0, 1fr);
 
@@ -7,6 +16,6 @@
     'refractiveIndexLabel refractiveIndexValue'
     'distanceLabel distanceValue'
     'resolutionLabel resolutionValue'
-    'pulseLable pulseValue'
+    'pulseLabel pulseValue'
     'averagingTimeLabel averagingTimeValue';
 }

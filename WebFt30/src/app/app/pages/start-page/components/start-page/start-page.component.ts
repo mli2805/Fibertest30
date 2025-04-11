@@ -323,7 +323,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       case 'RtuRemoved': {
         const data = <RtuAddedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(RtuTreeActions.refreshRtuTree());
-        this.gisMapService.externalCommand.next({ name: 'TraceDetached' }); // чтобы перечитать граф
+        this.gisMapService.externalCommand.next({ name: 'RtuAdded' }); // чтобы перечитать граф
         return;
       }
       case 'AnyTypeAccidentAdded': {

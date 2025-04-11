@@ -2,6 +2,28 @@
   <ng-container *ngIf="!fullScreen">
     <div class="mt-12 flex min-w-120 flex-col">
       <div class="grouped-border m-2">
+        <div class="header-grid grid gap-y-2 text-sm">
+          <label style="grid-area: rtuLabel" class="m-2 my-auto">
+            {{ 'RTU' }}
+          </label>
+          <label style="grid-area: rtuValue" class="m-2 my-auto">
+            {{ rtu.title }}
+          </label>
+          <label style="grid-area: portLabel" class="m-2 my-auto">
+            {{ 'i18n.ft.port' | translate }}
+          </label>
+          <label style="grid-area: portValue" class="m-2 my-auto">
+            {{ portName }}
+          </label>
+          <label style="grid-area: traceLabel" class="m-2 my-auto">
+            {{ 'i18n.ft.trace' | translate }}
+          </label>
+          <label style="grid-area: traceValue" class="m-2 my-auto">
+            {{ traceName }}
+          </label>
+        </div>
+      </div>
+      <div class="grouped-border m-2">
         <div class="label-color mb-2">{{ 'i18n.ft.measurement-settings' | translate }}</div>
         <div [formGroup]="form" class="settings-grid grid gap-y-1 text-sm">
           <ng-container>
@@ -112,7 +134,7 @@
           </ng-container>
 
           <ng-container>
-            <label style="grid-area: pulseLable" class="m-2 my-auto">
+            <label style="grid-area: pulseLabel" class="m-2 my-auto">
               {{ 'i18n.ft.pulse-width-ns' | translate }}
             </label>
 
