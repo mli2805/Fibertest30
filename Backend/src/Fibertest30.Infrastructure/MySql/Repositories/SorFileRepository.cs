@@ -49,19 +49,19 @@ namespace Fibertest30.Infrastructure
             }
         }
 
-        public async Task<int> UpdateSorBytesAsync(int sorFileId, byte[] sorBytes)
+        public async Task<string?> UpdateSorBytesAsync(int sorFileId, byte[] sorBytes)
         {
             try
             {
-                var record = await _ftDbContext.SorFiles.Where(s => s.Id == sorFileId).FirstOrDefaultAsync();
-                if (record == null) return -1;
+                var record = await _ftDbContext.SorFiles.Where(s => s.Id == sorFileId).FirstAsync();
                 record.SorBytes = sorBytes;
-                return await _ftDbContext.SaveChangesAsync();
+                await _ftDbContext.SaveChangesAsync();
+                return null;
             }
             catch (Exception e)
             {
                 _logger.LogError("UpdateSorBytesAsync: " + e.Message);
-                return -1;
+                return e.Message;
             }
         }
 

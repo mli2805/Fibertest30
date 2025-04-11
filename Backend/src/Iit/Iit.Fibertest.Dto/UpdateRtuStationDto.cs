@@ -1,4 +1,4 @@
-﻿namespace Fibertest30.Infrastructure;
+﻿namespace Iit.Fibertest.Dto;
 public class UpdateRtuStationDto
 {
     public Guid RtuGuid { get; set; }

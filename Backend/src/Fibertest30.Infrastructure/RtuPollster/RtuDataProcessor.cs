@@ -11,7 +11,7 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
     public async Task ProcessBopStateChanges(BopStateChangedDto dto)
     {
         using var scope = serviceScopeFactory.CreateScope();
-        var rtuStationsRepository = scope.ServiceProvider.GetRequiredService<RtuStationsRepository>();
+        var rtuStationsRepository = scope.ServiceProvider.GetRequiredService<IRtuStationsRepository>();
         if (await rtuStationsRepository.IsRtuExist(dto.RtuId))
             await CheckAndSendBopNetworkEventIfNeeded(dto);
     }
@@ -19,7 +19,7 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
     public async Task ProcessMonitoringResult(MonitoringResultDto dto, CancellationToken ct)
     {
         using var scope = serviceScopeFactory.CreateScope();
-        var rtuStationsRepository = scope.ServiceProvider.GetRequiredService<RtuStationsRepository>();
+        var rtuStationsRepository = scope.ServiceProvider.GetRequiredService<IRtuStationsRepository>();
         if (!await rtuStationsRepository.IsRtuExist(dto.RtuId)) return;
 
         var rtu = writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);

@@ -179,7 +179,10 @@ export class OneRtuMenuComponent {
   }
 
   canRemove() {
-    return this.hasPermission(ApplicationPermission.RemoveRtu);
+    return (
+      this.hasPermission(ApplicationPermission.RemoveRtu) &&
+      this.rtu.children.findIndex((c) => c.type !== 'free-port') === -1
+    );
   }
 
   onRemoveClicked() {

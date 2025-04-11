@@ -6,7 +6,8 @@ namespace Fibertest30.Application;
 
 public record GraphCommand(string Command, string CommandType) : IRequest<string?>;
 
-public class GraphCommandHandler(ICurrentUserService currentUserService,
+public class GraphCommandHandler(ICurrentUserService currentUserService, 
+    IRtuStationsRepository rtuStationsRepository, IBaseRefRepairman baseRefRepairman,
         IEventStoreService eventStoreService, ISystemEventSender systemEventSender, Model writeModel)
     : IRequestHandler<GraphCommand, string?>
 {
@@ -22,6 +23,12 @@ public class GraphCommandHandler(ICurrentUserService currentUserService,
         if (!string.IsNullOrEmpty(result))
         {
             throw new GraphException(result);
+        }
+
+        var postProcessingResult = await PostProcessing(cmd);
+        if (!string.IsNullOrEmpty(postProcessingResult))
+        {
+            throw new GraphException(postProcessingResult);
         }
 
         var systemEvent = Create(cmd);
@@ -53,6 +60,34 @@ public class GraphCommandHandler(ICurrentUserService currentUserService,
 
             _ => null
         };
+    }
+
+    private async Task<string?> PostProcessing(object cmd)
+    {
+        if (cmd is RemoveRtu removeRtu)
+            return await rtuStationsRepository.RemoveRtuAsync(removeRtu.RtuId);
+
+        #region Base ref amend
+        if (cmd is UpdateAndMoveNode updateAndMoveNode)
+            return await baseRefRepairman.AmendForTracesWhichUseThisNode(updateAndMoveNode.NodeId);
+        if (cmd is UpdateRtu updateRtu)
+            return await baseRefRepairman.AmendForTracesFromRtu(updateRtu.RtuId);
+        if (cmd is UpdateNode updateNode)
+            return await baseRefRepairman.AmendForTracesWhichUseThisNode(updateNode.NodeId);
+        if (cmd is MoveNode moveNode)
+            return await baseRefRepairman.AmendForTracesWhichUseThisNode(moveNode.NodeId);
+        if (cmd is UpdateEquipment updateEquipment)
+            return await baseRefRepairman.ProcessUpdateEquipment(updateEquipment.EquipmentId);
+        if (cmd is UpdateFiber updateFiber)
+            return await baseRefRepairman.ProcessUpdateFiber(updateFiber.Id);
+        if (cmd is AddNodeIntoFiber addNodeIntoFiber)
+            return await baseRefRepairman.AmendForTracesWhichUseThisNode(addNodeIntoFiber.Id);
+        if (cmd is RemoveNode removeNode && removeNode.IsAdjustmentPoint)
+            return await baseRefRepairman.ProcessNodeRemoved(removeNode.DetoursForGraph.Select(d => d.TraceId)
+                .ToList());
+        #endregion
+
+        return null;
     }
 
 }

@@ -67,9 +67,8 @@ public static class ConfigureServices
 
         services.AddMemoryCache();
 
-
-
-        services.AddScoped<RtuStationsRepository>();
+        services.AddScoped<IBaseRefRepairman, BaseRefRepairman>();
+        services.AddScoped<IRtuStationsRepository, RtuStationsRepository>();
         services.AddScoped<SnapshotRepository>();
         services.AddScoped<SorFileRepository>();
         services.AddScoped<EventLogComposer>();

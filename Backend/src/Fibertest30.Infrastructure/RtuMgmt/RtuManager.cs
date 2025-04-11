@@ -9,14 +9,14 @@ public partial class RtuManager : IRtuManager
     private readonly IRtuTransmitter _rtuTransmitter;
     private readonly Model _writeModel;
     private readonly IEventStoreService _eventStoreService;
-    private readonly RtuStationsRepository _rtuStationsRepository;
+    private readonly IRtuStationsRepository _rtuStationsRepository;
     private readonly IRtuOccupationService _rtuOccupationService;
     private readonly ICurrentUserService _currentUserService;
     private readonly BaseRefsCheckerOnServer _baseRefsCheckerOnServer;
     private readonly SorFileRepository _sorFileRepository;
 
     public RtuManager(ILogger<RtuManager> logger, Model writeModel, 
-        IRtuTransmitter rtuTransmitter, IEventStoreService eventStoreService, RtuStationsRepository rtuStationsRepository,
+        IRtuTransmitter rtuTransmitter, IEventStoreService eventStoreService, IRtuStationsRepository rtuStationsRepository,
         IRtuOccupationService rtuOccupationService, ICurrentUserService currentUserService,
         BaseRefsCheckerOnServer baseRefsCheckerOnServer, SorFileRepository sorFileRepository)
     {

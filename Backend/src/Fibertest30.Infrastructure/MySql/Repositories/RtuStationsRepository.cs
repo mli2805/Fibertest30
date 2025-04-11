@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Fibertest30.Infrastructure;
 
-public class RtuStationsRepository
+public class RtuStationsRepository : IRtuStationsRepository
 {
     private readonly ILogger<RtuStationsRepository> _logger;
     private readonly FtDbContext _ftDbContext;

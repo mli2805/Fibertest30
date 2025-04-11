@@ -49,7 +49,7 @@ public class RtuLinuxPollster(IConfiguration configuration, ILogger<RtuLinuxPoll
     private async Task PollRtu(Rtu rtu, CancellationToken ct)
     {
         using var scope = serviceScopeFactory.CreateScope();
-        var rtuStationsRepository = scope.ServiceProvider.GetRequiredService<RtuStationsRepository>();
+        var rtuStationsRepository = scope.ServiceProvider.GetRequiredService<IRtuStationsRepository>();
         var station = await rtuStationsRepository.GetRtuStation(rtu.Id);  // при каждом запросе вычитываем из БД
         if (station == null) return;
 
@@ -132,7 +132,7 @@ public class RtuLinuxPollster(IConfiguration configuration, ILogger<RtuLinuxPoll
 
 
     private async Task<bool> SaveConnectionResult(RtuCurrentStateDto state, Rtu makLinuxRtu,
-        RtuStation station, RtuStationsRepository rtuStationsRepository, CancellationToken ct)
+        RtuStation station, IRtuStationsRepository rtuStationsRepository, CancellationToken ct)
     {
         var previousState = station.IsMainAddressOkDuePreviousCheck;
         bool success = state.ReturnCode != ReturnCode.D2RHttpError;
