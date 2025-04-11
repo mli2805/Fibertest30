@@ -18,6 +18,7 @@ import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors
 })
 export class MainChannelTestComponent implements OnInit {
   @Input() networkAddress!: NetAddress;
+  @Input() otherAddresses!: string[];
   @Input() hasChangeRtuAddressPermission!: boolean;
   @Input() hasTestPermission!: boolean;
 
@@ -39,6 +40,8 @@ export class MainChannelTestComponent implements OnInit {
       if (control.pristine) return null; // чтобы рамка не была красная у пустого адреса
       if (!/^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$/.test(control.value))
         return { invalidIp: { value: '' } };
+      if (this.otherAddresses.findIndex((a) => a === control.value) !== -1)
+        return { invalidIp: { value: 'must be unique' } };
       return null;
     };
   }

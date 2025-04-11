@@ -31,6 +31,21 @@ const selectBop = (bopId: string) =>
     return null;
   });
 
+const selectAdresses = () =>
+  createSelector(selectRtuArray, (rtus: Rtu[] | null) => {
+    if (rtus === null) return null;
+    const result = [];
+    for (const rtu of rtus) {
+      if (rtu.mainChannel.ip4Address !== '') {
+        result.push(rtu.mainChannel.ip4Address);
+      }
+      if (rtu.isReserveChannelSet && rtu.reserveChannel.ip4Address !== '') {
+        result.push(rtu.reserveChannel.ip4Address);
+      }
+    }
+    return result;
+  });
+
 const selectTrace = (traceId: string) =>
   createSelector(selectRtuArray, (rtus: Rtu[] | null) => {
     if (rtus === null) return null;
@@ -54,5 +69,6 @@ export const RtuTreeSelectors = {
 
   selectRtu,
   selectBop,
-  selectTrace
+  selectTrace,
+  selectAdresses
 };

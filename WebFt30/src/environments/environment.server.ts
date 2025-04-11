@@ -3,7 +3,7 @@
 export const environment = {
   production: true,
   api: {
-    host: '192.168.96.128',
+    host: '172.16.4.117',
     port: 5234
   }
 };

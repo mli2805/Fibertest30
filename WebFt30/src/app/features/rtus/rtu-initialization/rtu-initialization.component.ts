@@ -26,6 +26,7 @@ export class RtuInitializationComponent implements OnInit, OnDestroy {
   hasInitializePermission!: boolean;
   hasTestPermission!: boolean;
   hasChangeRtuAddressPermission!: boolean;
+  otherRtuAddresses!: string[];
 
   constructor(private route: ActivatedRoute) {}
 
@@ -45,6 +46,11 @@ export class RtuInitializationComponent implements OnInit, OnDestroy {
       this.store,
       AuthSelectors.selectHasChangeRtuAddressPermission
     );
+
+    this.otherRtuAddresses = CoreUtils.getCurrentState(
+      this.store,
+      RtuTreeSelectors.selectAdresses()
+    )!;
   }
 
   onInitializeClicked() {
