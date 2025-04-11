@@ -21,6 +21,7 @@ import { MapMenu } from './map-menu';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 
 import { environment } from 'src/environments/environment';
+import { MapNodeRemove } from './map-node-remove';
 
 export class MapLayersActions {
   private static icons = new GisMapIcons();
@@ -452,6 +453,55 @@ export class MapLayersActions {
         });
       this.reDrawFiber(fiber);
     });
+  }
+
+  static cleanTrace(traceId: string) {
+    const trace = this.gisMapService.getGeoData().traces.find((t) => t.id === traceId);
+    if (trace === undefined) return;
+
+    trace.fiberIds.forEach((i) => {
+      const fiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === i);
+      if (fiber === undefined) return;
+
+      // трасса может проходить по волокну несколько раз
+      fiber.states = fiber.states.filter((s) => s.traceId !== traceId);
+
+      this.reDrawFiber(fiber);
+    });
+
+    const idx = this.gisMapService.getGeoData().traces.findIndex((t) => t.id == traceId);
+    this.gisMapService.getGeoData().traces.splice(idx, 1);
+  }
+
+  static removeTrace(traceId: string) {
+    const trace = this.gisMapService.getGeoData().traces.find((t) => t.id === traceId);
+    if (trace === undefined) return;
+
+    trace.fiberIds.forEach((i) => {
+      const fiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === i);
+      if (fiber === undefined) return;
+
+      // трасса может проходить по волокну несколько раз
+      fiber.states = fiber.states.filter((s) => s.traceId !== traceId);
+
+      if (fiber.states.length === 0) {
+        MapFiberMenu.removeFiberFromMapAndGeoData(fiber);
+      }
+    });
+
+    trace.nodeIds.forEach((i) => {
+      const idx = this.gisMapService
+        .getGeoData()
+        .fibers.findIndex((f) => f.node1id === i || f.node2id === i);
+      if (idx === -1) {
+        const node = this.gisMapService.getNode(i);
+        if (node.equipmentType !== EquipmentType.Rtu)
+          MapNodeRemove.removeNodeFromMapAndGeoData(node);
+      }
+    });
+
+    const idx = this.gisMapService.getGeoData().traces.findIndex((t) => t.id == traceId);
+    this.gisMapService.getGeoData().traces.splice(idx, 1);
   }
 
   // перерисовать волокно

@@ -36,7 +36,8 @@ public class AssignBaseRefsCommandHandler : IRequestHandler<AssignBaseRefsComman
         if (result.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully)
         {
             var trace = _writeModel.Traces.First(t => t.TraceId == request.Dto.TraceId);
-            var systemEvent = SystemEventFactory.BaseRefsAssigned(_currentUserService.UserId!, request.Dto.RtuId, trace.Title);
+            var systemEvent = SystemEventFactory
+                .BaseRefsAssigned(_currentUserService.UserId!, request.Dto.RtuId, trace.TraceId, trace.Title, trace.HasAnyBaseRef);
             await _systemEventSender.Send(systemEvent);
         }
 

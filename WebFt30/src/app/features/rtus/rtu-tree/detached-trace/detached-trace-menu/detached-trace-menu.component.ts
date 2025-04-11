@@ -145,13 +145,7 @@ export class DetachedTraceMenuComponent {
     };
     const json = JSON.stringify(cmd);
     const response = await this.graphService.sendCommandAsync(json, command);
-
-    if (!response.success) {
-      this.gisMapService.geoDataLoading.next(false);
-      return;
-    }
-    const externalCmd = { name: command, traceId: this.trace.traceId };
-    this.gisMapService.externalCommand.next(externalCmd);
+    this.gisMapService.geoDataLoading.next(false);
   }
 
   canAssignBaseRefs() {

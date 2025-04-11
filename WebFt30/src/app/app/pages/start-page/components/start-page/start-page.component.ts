@@ -264,18 +264,23 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       case 'BaseRefsAssigned': {
         const data = <BaseRefsAssignedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
+        this.gisMapService.externalCommand.next({
+          name: 'BaseRefsAssigned',
+          traceId: data.TraceId,
+          hasBaseRefs: data.HasBaseRefs
+        });
         return;
       }
       case 'TraceAttached': {
         const data = <TraceAttachedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
-        this.gisMapService.externalCommand.next({ name: 'TraceAttached' });
+        this.gisMapService.externalCommand.next({ name: 'TraceAttached', traceId: data.TraceId });
         return;
       }
       case 'TraceDetached': {
         const data = <TraceDetachedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
-        this.gisMapService.externalCommand.next({ name: 'TraceDetached' });
+        this.gisMapService.externalCommand.next({ name: 'TraceDetached', traceId: data.TraceId });
         return;
       }
       case 'OtauAttached': {
@@ -300,6 +305,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
           RtuTreeSelectors.selectTrace(data.TraceId)
         )!;
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: trace.rtuId }));
+        this.gisMapService.externalCommand.next({ name: 'TraceCleaned', traceId: data.TraceId });
         return;
       }
       case 'TraceRemoved': {
@@ -309,6 +315,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
           RtuTreeSelectors.selectTrace(data.TraceId)
         )!;
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: trace.rtuId }));
+        this.gisMapService.externalCommand.next({ name: 'TraceRemoved', traceId: data.TraceId });
         return;
       }
       case 'RtuAdded':
@@ -316,6 +323,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       case 'RtuRemoved': {
         const data = <RtuAddedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(RtuTreeActions.refreshRtuTree());
+        this.gisMapService.externalCommand.next({ name: 'TraceDetached' }); // чтобы перечитать граф
         return;
       }
       case 'AnyTypeAccidentAdded': {

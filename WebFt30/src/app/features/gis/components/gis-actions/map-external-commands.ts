@@ -24,11 +24,26 @@ export class MapExternalCommands {
       case 'ShowTrace':
         this.showTrace(cmd.traceId);
         break;
-      case 'CleanTrace':
-      case 'RemoveTrace':
-      case 'TraceAttached':
-      case 'TraceDetached':
+      case 'TraceCleaned':
+        MapLayersActions.cleanTrace(cmd.traceId);
+        break;
+      case 'TraceRemoved':
+        MapLayersActions.removeTrace(cmd.traceId);
+        break;
+      case 'RtuAdded':
+      case 'RtuUpdated':
+      case 'RtuRemoved':
         this.reloadAllGeoData();
+        break;
+      case 'BaseRefsAssigned':
+        console.log(cmd);
+        this.setTraceHasBaseRefs(cmd.traceId, cmd.hasBaseRef);
+        break;
+      case 'TraceAttached':
+        MapLayersActions.drawTraceWith(cmd.traceId, FiberState.Ok);
+        break;
+      case 'TraceDetached':
+        MapLayersActions.drawTraceWith(cmd.traceId, FiberState.NotJoined);
         break;
     }
   }
@@ -55,8 +70,6 @@ export class MapExternalCommands {
     const trace = this.gisMapService.getGeoData().traces.find((t) => t.id === traceId);
     if (trace === undefined) return;
 
-    // чтобы не отрабытывал мой обработчик onZoom
-    // this.gisMapService.skipMovingCenter = true;
     const latLngs = trace.nodeIds.map((i) => this.gisMapService.getNode(i).coors);
     const bounds = new L.LatLngBounds(latLngs);
     this.gisMapService.getMap().fitBounds(bounds);
@@ -68,11 +81,17 @@ export class MapExternalCommands {
       MapLayersActions.drawTraceWith(traceId, trace.state);
       await Utils.delay(500);
     }
+  }
 
-    // this.gisMapService.skipMovingCenter = false;
+  static setTraceHasBaseRefs(traceId: string, hasAnyBaseRef: boolean) {
+    const trace = this.gisMapService.getGeoData().traces.find((t) => t.id === traceId);
+    if (trace) {
+      trace.hasAnyBaseRef = hasAnyBaseRef;
+    }
   }
 
   static async reloadAllGeoData() {
+    console.log(`reload`);
     const response = await firstValueFrom(this.gisService.getAllGeoData());
     const geoData = GisMapping.fromGrpcGeoData(response.data!);
     this.gisMapService.setGeoData(geoData);
