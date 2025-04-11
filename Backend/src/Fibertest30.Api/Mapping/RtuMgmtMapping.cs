@@ -85,11 +85,15 @@ public static class RtuMgmtMapping
             RtuMaker = dto.RtuMaker.FromProto(),
 
             TraceId = Guid.Parse(dto.TraceId),
-            OtauPortDto = dto.PortOfOtau.FromProto(),
 
             BaseRefs = dto.BaseRefFiles.Where(b=> b.HasFileBytes || b.IsForDelete).Select(f=> f.FromProto()).ToList(),
             DeleteOldSorFileIds = dto.DeleteSors.ToList()
         };
+
+        if (dto.PortOfOtau != null)
+        {
+            result.OtauPortDto = dto.PortOfOtau.FromProto();
+        }
         return result;
     }
 
