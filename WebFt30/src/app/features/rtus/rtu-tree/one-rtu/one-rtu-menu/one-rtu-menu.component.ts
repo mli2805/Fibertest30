@@ -19,6 +19,7 @@ import { Utils } from 'src/app/shared/utils/utils';
 import { StepModel } from 'src/app/features/gis/forms/trace-define/step-model';
 import { RtuInfoMode } from 'src/app/shared/components/rtu-info/rtu-info.component';
 import { MapRtuMenu } from 'src/app/features/gis/components/gis-actions/map-rtu-menu';
+import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 
 @Component({
   selector: 'rtu-one-rtu-menu',
@@ -42,6 +43,7 @@ export class OneRtuMenuComponent {
 
   constructor(
     public gisMapService: GisMapService,
+    private windowService: WindowService,
     private elementRef: ElementRef,
     private router: Router,
     private cdr: ChangeDetectorRef
@@ -109,8 +111,10 @@ export class OneRtuMenuComponent {
     this.open = false;
     await Utils.delay(100);
 
-    const path = `rtus/state/${this.rtu.rtuId}`;
-    this.router.navigate([path]);
+    this.windowService.showRtuState.next(this.rtu.rtuId);
+
+    // const path = `rtus/state/${this.rtu.rtuId}`;
+    // this.router.navigate([path]);
   }
 
   async onLandmarksClicked() {

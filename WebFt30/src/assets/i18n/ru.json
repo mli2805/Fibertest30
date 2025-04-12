@@ -223,6 +223,7 @@
   "i18n.ft.wrong-landmarks-count": "Неверное количество ориентиров",
   "i18n.ft.wrong-edge-landmarks": "Неверные крайние ориентиры",
 
+  "i18n.ft.rtu-state": "Состояние RTU",
   "i18n.ft.available": "Доступен",
   "i18n.ft.not-available": "Не доступен",
   "i18n.ft.broken": "Авария",

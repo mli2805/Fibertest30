@@ -8,9 +8,11 @@ import { SharedModule } from '../../../shared/shared.module';
 import { SystemNotificationsComponent } from './components/notifications/system-notifications/system-notifications.component';
 import { AccountMenuComponent } from './components/start-page-header/account-menu/account-menu.component';
 import { GisModule } from 'src/app/features/gis/gis.module';
+import { RtusModule } from 'src/app/features/rtus/rtus.module';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
-  imports: [StartPageRoutingModule, SharedModule, GisModule],
+  imports: [StartPageRoutingModule, SharedModule, GisModule, RtusModule, DragDropModule],
   exports: [],
   declarations: [
     StartPageComponent,

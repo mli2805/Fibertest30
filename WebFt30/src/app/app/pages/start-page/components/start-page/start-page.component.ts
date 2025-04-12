@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { firstValueFrom, retry, takeUntil } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import {
   AppState,
   AuthActions,
@@ -11,10 +11,6 @@ import {
   GlobalUiSelectors,
   RtuTreeActions,
   AnyTypeEventsActions,
-  RtuAccidentsActions,
-  OpticalEventsActions,
-  NetworkEventsActions,
-  BopEventsActions,
   AnyTypeEventsSelectors,
   DeviceActions,
   RtuTreeSelectors
@@ -54,6 +50,7 @@ import {
 } from 'src/app/shared/system-events/system-event-data/rtu-tree/trace-attached-data';
 import { AnyTypeAccidentAddedData } from 'src/app/shared/system-events/system-event-data/any-type-accident-data';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
+import { WindowService } from '../window.service';
 
 @Component({
   selector: 'rtu-start-page',
@@ -85,7 +82,8 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
     private actions$: Actions,
     private audioService: AudioService,
     private coreService: CoreService,
-    private gisMapService: GisMapService
+    private gisMapService: GisMapService,
+    public windowService: WindowService
   ) {
     super();
   }

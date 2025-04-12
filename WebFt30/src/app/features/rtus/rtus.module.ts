@@ -39,6 +39,8 @@ import { TraceStatisticsComponent } from './trace-statistics/trace-statistics.co
 import { BaselineViewComponent } from './baseline-view/baseline-view.component';
 import { GisModule } from '../gis/gis.module';
 import { MainChannelTestComponent } from './rtu-initialization/main-channel-test/main-channel-test.component';
+import { RtuStateWindowComponent } from './rtu-state-window/rtu-state-window.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   imports: [
@@ -47,9 +49,10 @@ import { MainChannelTestComponent } from './rtu-initialization/main-channel-test
     FiberizerCoreModule,
     ScrollingModule,
     GisModule,
+    DragDropModule,
     TranslateModule.forChild()
   ],
-  exports: [],
+  exports: [RtuStateWindowComponent],
   declarations: [
     RtuTreeComponent,
     OneRtuComponent,
@@ -82,7 +85,8 @@ import { MainChannelTestComponent } from './rtu-initialization/main-channel-test
     TraceLandmarksComponent,
     TraceStatisticsComponent,
     BaselineViewComponent,
-    MainChannelTestComponent
+    MainChannelTestComponent,
+    RtuStateWindowComponent
   ],
   providers: []
 })
