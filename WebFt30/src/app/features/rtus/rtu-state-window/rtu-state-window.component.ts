@@ -156,7 +156,21 @@ export class RtuStateWindowComponent implements OnInit, OnDestroy {
       }
   }
 
+  zIndex = 1;
+  bringToFront() {
+    this.windowService.bringToFront(this.rtuId, 'RtuState');
+    this.updateZIndex();
+  }
+
+  private updateZIndex() {
+    const windowData = this.windowService.getWindows().find((w) => w.id === this.rtuId);
+    // Обновляем только если значение изменилось
+    if (windowData?.zIndex !== this.zIndex) {
+      this.zIndex = windowData?.zIndex || 1;
+    }
+  }
+
   close() {
-    this.windowService.showRtuState.next(null);
+    this.windowService.unregisterWindow(this.rtuId, 'RtuState');
   }
 }

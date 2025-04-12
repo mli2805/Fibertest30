@@ -50,8 +50,14 @@
 
     <router-outlet></router-outlet>
 
-    <div *ngIf="windowService.showRtuState$ | async as rtuId">
-      <rtu-rtu-state-window [rtuId]="rtuId" />
-    </div>
+    <ng-container *ngFor="let window of windowService.getWindows()">
+      <ng-container *ngIf="window.type === 'RtuState'">
+        <rtu-rtu-state-window [rtuId]="window.id" />
+      </ng-container>
+      <ng-container *ngIf="window.type === 'TraceState'">
+        <!-- <rtu-trace-state-window [rtuId]="window.id" /> -->
+      </ng-container>
+      <!-- и т.д. -->
+    </ng-container>
   </div>
 </div>
