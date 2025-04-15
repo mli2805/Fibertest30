@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState, AuthSelectors, SettingsActions, SettingsSelectors, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
+import { AudioService } from 'src/app/core/services/audio.service';
 
 @Component({
   selector: 'rtu-user-settings-dialog',
@@ -26,7 +27,7 @@ export class UserSettingsDialogComponent implements OnInit {
   isSuspicionSignallingChecked!: boolean;
   isRtuStatusSignallingChecked!: boolean;
 
-  constructor() {
+  constructor(private audioService: AudioService) {
     this.user$ = this.store.select(AuthSelectors.selectUser);
     this.saveUserSettingsError$ = this.store.select(SettingsSelectors.selectSaveUserSettingsError);
   }
@@ -60,7 +61,14 @@ export class UserSettingsDialogComponent implements OnInit {
     );
   }
 
+  isAudioOn = false;
   testAudio() {
     console.log(`testAudio`);
+    this.isAudioOn = !this.isAudioOn;
+    if (this.isAudioOn) {
+      this.audioService.playAlarm();
+    } else {
+      this.audioService.stopAlarm();
+    }
   }
 }

@@ -75,13 +75,15 @@ export class AudioService {
     }
   }
 
-  private playAlarm() {
+  // public ради теста
+  public playAlarm() {
     if (this.isPlayingNow) return;
     this.alarmMp3.play();
     this.isPlayingNow = true;
   }
 
-  private stopAlarm() {
+  // public ради теста
+  public stopAlarm() {
     this.alarmMp3.pause();
     this.isPlayingNow = false;
   }

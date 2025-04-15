@@ -21,6 +21,7 @@
   "i18n.ft.switch-off-audio-and-video-signalling-of-Suspicion-level-events": "Выключить звуковую и видео сигнализацию о событиях уровня Подозрение",
   "i18n.ft.switch-off-audio-and-video-signalling-of-RTU-status-events": "Выключить звуковую и видео сигнализацию о событиях состояния RTU",
   "i18n.ft.test-audio-signalling": "Тестировать звуковую сигнализацию",
+  "i18n.ft.switch-off-audio-signalling": "Выключить звуковую сигнализацию",
 
   "i18n.ft.save-error": "Ошибка. Настройки не сохранены",
   "i18n.ft.theme": "Тема",

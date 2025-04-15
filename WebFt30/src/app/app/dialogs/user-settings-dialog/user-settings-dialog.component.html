@@ -53,7 +53,12 @@
         {{ 'i18n.ft.switch-off-audio-and-video-signalling-of-RTU-status-events' | translate }}
       </div>
       <button class="button-extra mt-2" (click)="testAudio()">
-        {{ 'i18n.ft.test-audio-signalling' | translate }}
+        <ng-container *ngIf="isAudioOn">
+          {{ 'i18n.ft.switch-off-audio-signalling' | translate }}
+        </ng-container>
+        <ng-container *ngIf="!isAudioOn">
+          {{ 'i18n.ft.test-audio-signalling' | translate }}
+        </ng-container>
       </button>
     </div>
 
