@@ -7,4 +7,6 @@ export class UserSettings {
   lng!: number;
   showNodesFromZoom!: number;
   sourceMapId!: number;
+  switchOffSuspicionSignalling!: boolean;
+  switchOffRtuStatusEventsSignalling!: boolean;
 }

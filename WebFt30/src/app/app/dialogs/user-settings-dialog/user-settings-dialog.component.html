@@ -29,6 +29,34 @@
       </div>
     </div>
 
+    <div class="m-2 mt-2">
+      <div class="my-2 flex items-center">
+        <label class="toggle mr-2">
+          <input
+            type="checkbox"
+            [(ngModel)]="isSuspicionSignallingChecked"
+            (change)="onChangeSuspicionSignalling()"
+          />
+          <div class="slider"></div>
+        </label>
+        {{ 'i18n.ft.switch-off-audio-and-video-signalling-of-Suspicion-level-events' | translate }}
+      </div>
+      <div class="my-2 flex items-center">
+        <label class="toggle mr-2">
+          <input
+            type="checkbox"
+            [(ngModel)]="isRtuStatusSignallingChecked"
+            (change)="onChangeRtuStatusSignalling()"
+          />
+          <div class="slider"></div>
+        </label>
+        {{ 'i18n.ft.switch-off-audio-and-video-signalling-of-RTU-status-events' | translate }}
+      </div>
+      <button class="button-extra mt-2" (click)="testAudio()">
+        {{ 'i18n.ft.test-audio-signalling' | translate }}
+      </button>
+    </div>
+
     <rtu-simple-error
       *ngIf="saveUserSettingsError$ | async as error"
       class="mt-5"

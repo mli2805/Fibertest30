@@ -623,6 +623,10 @@
   "i18n.ft.language": "Language",
   "i18n.ft.member-of": "member of",
   "i18n.ft.my-settings": "My Settings",
+  "i18n.ft.switch-off-audio-and-video-signalling-of-Suspicion-level-events": "Switch off audio and video signalling of Suspicion level events",
+  "i18n.ft.switch-off-audio-and-video-signalling-of-RTU-status-events": "Switch off audio and video signalling of RTU status events",
+  "i18n.ft.test-audio-signalling": "Test audio signalling",
+
   "i18n.ft.save-error": "An error occurred. Settings were not saved.",
   "i18n.ft.theme": "Theme",
   "i18n.ft.cant-create-user": "Can't create user",

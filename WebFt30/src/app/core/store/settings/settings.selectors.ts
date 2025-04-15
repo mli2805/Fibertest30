@@ -14,6 +14,15 @@ const selectDateTimeFormat = createSelector(
   (state: SettingsState) => state.dateTimeFormat
 );
 
+const selectSwitchOffSuspicionSignalling = createSelector(
+  selectSettings,
+  (state: SettingsState) => state.switchOffSuspicionSignalling
+);
+const selectSwitchOffRtuStatusEventsSignalling = createSelector(
+  selectSettings,
+  (state: SettingsState) => state.switchOffRtuStatusEventsSignalling
+);
+
 const selectTimeZone = createSelector(selectSettings, (state: SettingsState) => {
   return { dateTimeFormat: state.dateTimeFormat, timeZone: state.timeZone };
 });
@@ -28,6 +37,8 @@ export const SettingsSelectors = {
   selectTheme,
   selectLanguage,
   selectDateTimeFormat,
+  selectSwitchOffSuspicionSignalling,
+  selectSwitchOffRtuStatusEventsSignalling,
   selectTimeZone,
   selectSaveUserSettingsError
 };

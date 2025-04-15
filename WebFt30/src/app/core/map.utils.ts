@@ -188,7 +188,9 @@ export class MapUtils {
       lat: user.lat,
       lng: user.lng,
       showNodesFromZoom: user.showNodesFromZoom,
-      sourceMapId: user.sourceMapId
+      sourceMapId: user.sourceMapId,
+      switchOffSuspicionSignalling: user.switchOffSuspicionSignalling,
+      switchOffRtuStatusEventsSignalling: user.switchOffRtuStatusEventsSignalling
     };
   }
 
@@ -201,7 +203,9 @@ export class MapUtils {
       lat: user.lat,
       lng: user.lng,
       showNodesFromZoom: user.showNodesFromZoom,
-      sourceMapId: user.sourceMapId
+      sourceMapId: user.sourceMapId,
+      switchOffSuspicionSignalling: user.switchOffSuspicionSignalling,
+      switchOffRtuStatusEventsSignalling: user.switchOffRtuStatusEventsSignalling
     };
   }
 

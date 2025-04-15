@@ -59,7 +59,8 @@ message UserSettings {
   double lng = 9;
   int32 showNodesFromZoom = 10;
   int32 sourceMapId = 11;
-
+  bool switchOffSuspicionSignalling = 12;
+  bool switchOffRtuStatusEventsSignalling = 13;
 }
 
 // Login

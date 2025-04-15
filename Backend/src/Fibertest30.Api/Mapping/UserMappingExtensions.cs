@@ -47,7 +47,9 @@ public static class UserMappingExtensions
             Lat = settings.Lat,
             Lng = settings.Lng,
             ShowNodesFromZoom = settings.ShowNodesFromZoom,
-            SourceMapId = settings.SourceMapId
+            SourceMapId = settings.SourceMapId,
+            SwitchOffSuspicionSignalling = settings.SwitchOffSuspicionSignalling,
+            SwitchOffRtuStatusEventsSignalling = settings.SwitchOffRtuStatusEventsSignalling,
         };
     }
 
@@ -62,7 +64,9 @@ public static class UserMappingExtensions
             Lat = settings.Lat,
             Lng = settings.Lng,
             ShowNodesFromZoom = settings.ShowNodesFromZoom,
-            SourceMapId = settings.SourceMapId
+            SourceMapId = settings.SourceMapId,
+            SwitchOffSuspicionSignalling = settings.SwitchOffSuspicionSignalling,
+            SwitchOffRtuStatusEventsSignalling = settings.SwitchOffRtuStatusEventsSignalling,
         };
     }
 }

@@ -1,8 +1,9 @@
 import { DialogRef } from '@angular/cdk/dialog';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AppState, AuthSelectors, SettingsSelectors, User } from 'src/app/core';
+import { AppState, AuthSelectors, SettingsActions, SettingsSelectors, User } from 'src/app/core';
+import { CoreUtils } from 'src/app/core/core.utils';
 
 @Component({
   selector: 'rtu-user-settings-dialog',
@@ -16,14 +17,50 @@ import { AppState, AuthSelectors, SettingsSelectors, User } from 'src/app/core';
     `
   ]
 })
-export class UserSettingsDialogComponent {
+export class UserSettingsDialogComponent implements OnInit {
   public dialogRef: DialogRef<boolean> = inject(DialogRef<boolean>);
   public store: Store<AppState> = inject(Store);
   user$!: Observable<User | null>;
   saveUserSettingsError$!: Observable<string | null>;
 
+  isSuspicionSignallingChecked!: boolean;
+  isRtuStatusSignallingChecked!: boolean;
+
   constructor() {
     this.user$ = this.store.select(AuthSelectors.selectUser);
     this.saveUserSettingsError$ = this.store.select(SettingsSelectors.selectSaveUserSettingsError);
+  }
+
+  async ngOnInit() {
+    this.isSuspicionSignallingChecked = CoreUtils.getCurrentState(
+      this.store,
+      SettingsSelectors.selectSwitchOffSuspicionSignalling
+    );
+    this.isRtuStatusSignallingChecked = CoreUtils.getCurrentState(
+      this.store,
+      SettingsSelectors.selectSwitchOffRtuStatusEventsSignalling
+    );
+  }
+
+  onChangeSuspicionSignalling() {
+    console.log(this.isSuspicionSignallingChecked);
+    this.store.dispatch(
+      SettingsActions.changeSwitchOffSuspicionSignalling({
+        value: this.isSuspicionSignallingChecked
+      })
+    );
+  }
+
+  onChangeRtuStatusSignalling() {
+    console.log(this.isRtuStatusSignallingChecked);
+    this.store.dispatch(
+      SettingsActions.changeSwitchOffRtuStatusEventsSignalling({
+        value: this.isRtuStatusSignallingChecked
+      })
+    );
+  }
+
+  testAudio() {
+    console.log(`testAudio`);
   }
 }

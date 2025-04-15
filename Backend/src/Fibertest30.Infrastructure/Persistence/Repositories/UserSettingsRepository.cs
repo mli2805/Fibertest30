@@ -35,6 +35,8 @@ public class UserSettingsRepository : IUserSettingsRepository
             userSettings.Lng = settings.Lng;
             userSettings.ShowNodesFromZoom = settings.ShowNodesFromZoom;
             userSettings.SourceMapId = settings.SourceMapId;
+            userSettings.SwitchOffSuspicionSignalling = settings.SwitchOffSuspicionSignalling;
+            userSettings.SwitchOffRtuStatusEventsSignalling = settings.SwitchOffRtuStatusEventsSignalling;
         }
         
         await _serverDbContext.SaveChangesAsync();

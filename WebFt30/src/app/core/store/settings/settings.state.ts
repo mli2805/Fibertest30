@@ -23,4 +23,6 @@ export interface SettingsState {
   showNodesFromZoom: number;
   sourceMapId: number;
   saveUserSettingsError: string | null;
+  switchOffSuspicionSignalling: boolean;
+  switchOffRtuStatusEventsSignalling: boolean;
 }

@@ -21,7 +21,9 @@ export const initialState: SettingsState = {
   lng: 27.51,
   showNodesFromZoom: 16,
   sourceMapId: 1,
-  saveUserSettingsError: null
+  saveUserSettingsError: null,
+  switchOffSuspicionSignalling: false,
+  switchOffRtuStatusEventsSignalling: false
 };
 
 const reducer = createReducer(
@@ -31,6 +33,14 @@ const reducer = createReducer(
   on(SettingsActions.changeDateTimeFormat, (state, { dateTimeFormat }) => ({
     ...state,
     dateTimeFormat
+  })),
+  on(SettingsActions.changeSwitchOffSuspicionSignalling, (state, { value }) => ({
+    ...state,
+    switchOffSuspicionSignalling: value
+  })),
+  on(SettingsActions.changeSwitchOffRtuStatusEventsSignalling, (state, { value }) => ({
+    ...state,
+    switchOffRtuStatusEventsSignalling: value
   })),
   on(SettingsActions.changeZoom, (state, { zoom }) => ({ ...state, zoom })),
   on(SettingsActions.changeShowNodesFromZoom, (state, { zoom }) => ({
@@ -60,7 +70,9 @@ const reducer = createReducer(
       lat: settings.lat,
       lng: settings.lng,
       showNodesFromZoom: settings.showNodesFromZoom,
-      sourceMapId: settings.sourceMapId
+      sourceMapId: settings.sourceMapId,
+      switchOffSuspicionSignalling: settings.switchOffSuspicionSignalling,
+      switchOffRtuStatusEventsSignalling: settings.switchOffRtuStatusEventsSignalling
     };
   }),
   on(AuthActions.loadCurrentUserSuccess, (state, { settings }) => {
@@ -77,7 +89,9 @@ const reducer = createReducer(
       lat: settings.lat,
       lng: settings.lng,
       showNodesFromZoom: settings.showNodesFromZoom,
-      sourceMapId: settings.sourceMapId
+      sourceMapId: settings.sourceMapId,
+      switchOffSuspicionSignalling: settings.switchOffSuspicionSignalling,
+      switchOffRtuStatusEventsSignalling: settings.switchOffRtuStatusEventsSignalling
     };
   }),
   on(SettingsActions.saveUserSettings, (state) => ({

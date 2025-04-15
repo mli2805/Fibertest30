@@ -34,6 +34,8 @@ export class SettingsEffects {
           SettingsActions.changeTheme,
           SettingsActions.changeLanguage,
           SettingsActions.changeDateTimeFormat,
+          SettingsActions.changeSwitchOffSuspicionSignalling,
+          SettingsActions.changeSwitchOffRtuStatusEventsSignalling,
           SettingsActions.changeTimeZone
         ),
         withLatestFrom(this.store.pipe(select(SettingsSelectors.selectSettings))),
@@ -42,7 +44,9 @@ export class SettingsEffects {
             theme: settings.theme,
             language: settings.language,
             dateTimeFormat: settings.dateTimeFormat,
-            timeZone: settings.timeZone
+            timeZone: settings.timeZone,
+            switchOffSuspicionSignalling: settings.switchOffSuspicionSignalling,
+            switchOffRtuStatusEventsSignalling: settings.switchOffRtuStatusEventsSignalling
           });
         })
       ),
@@ -58,7 +62,9 @@ export class SettingsEffects {
           this.localStorageService.setSettings({
             theme: <AppTheme>settings!.theme,
             language: <AppLanguage>settings!.language,
-            dateTimeFormat: <AppDateTimeLanguageFormat>settings!.dateTimeFormat
+            dateTimeFormat: <AppDateTimeLanguageFormat>settings!.dateTimeFormat,
+            switchOffSuspicionSignalling: settings!.switchOffSuspicionSignalling,
+            switchOffRtuStatusEventsSignalling: settings!.switchOffRtuStatusEventsSignalling
           });
         })
       ),
@@ -71,6 +77,8 @@ export class SettingsEffects {
         SettingsActions.changeTheme,
         SettingsActions.changeLanguage,
         SettingsActions.changeDateTimeFormat,
+        SettingsActions.changeSwitchOffSuspicionSignalling,
+        SettingsActions.changeSwitchOffRtuStatusEventsSignalling,
         SettingsActions.changeTimeZone
       ),
       withLatestFrom(
@@ -100,8 +108,8 @@ export class SettingsEffects {
     this.actions$.pipe(
       ofType(SettingsActions.saveUserSettings),
       switchMap(({ settings }) => {
-        const gRpcUserSettings = MapUtils.toGprcUserSettings(settings);
-        return this.identityService.saveUserSettings(gRpcUserSettings).pipe(
+        const grpcUserSettings = MapUtils.toGprcUserSettings(settings);
+        return this.identityService.saveUserSettings(grpcUserSettings).pipe(
           map((response) => {
             return SettingsActions.saveUserSettingsSuccess();
           }),

@@ -130,6 +130,14 @@ export interface UserSettings {
      * @generated from protobuf field: int32 sourceMapId = 11;
      */
     sourceMapId: number;
+    /**
+     * @generated from protobuf field: bool switchOffSuspicionSignalling = 12;
+     */
+    switchOffSuspicionSignalling: boolean;
+    /**
+     * @generated from protobuf field: bool switchOffRtuStatusEventsSignalling = 13;
+     */
+    switchOffRtuStatusEventsSignalling: boolean;
 }
 /**
  * Login
@@ -402,7 +410,9 @@ class UserSettings$Type extends MessageType<UserSettings> {
             { no: 8, name: "lat", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
             { no: 9, name: "lng", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
             { no: 10, name: "showNodesFromZoom", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 11, name: "sourceMapId", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+            { no: 11, name: "sourceMapId", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 12, name: "switchOffSuspicionSignalling", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 13, name: "switchOffRtuStatusEventsSignalling", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
 }

@@ -15,4 +15,7 @@ public class UserSettings
     public int ShowNodesFromZoom { get; set; } = 16;
     public int SourceMapId { get; set; } = 1;
 
+    public bool SwitchOffSuspicionSignalling { get; set; } = false;
+    public bool SwitchOffRtuStatusEventsSignalling { get; set; } = false;
+
 }

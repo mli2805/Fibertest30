@@ -27,6 +27,14 @@ const changeShowNodesFromZoom = createAction(
   props<{ zoom: number }>()
 );
 const changeSourceMapId = createAction('[Settings] Change SourceMapId', props<{ id: number }>());
+const changeSwitchOffSuspicionSignalling = createAction(
+  '[Settings] Change SwitchOffSuspicionSignalling',
+  props<{ value: boolean }>()
+);
+const changeSwitchOffRtuStatusEventsSignalling = createAction(
+  '[Settings] Change SwitchOffRtuStatusEventsSignalling',
+  props<{ value: boolean }>()
+);
 
 const saveUserSettings = createAction(
   '[Settings] Save User Settings',
@@ -49,6 +57,8 @@ export const SettingsActions = {
   changeCenter,
   changeShowNodesFromZoom,
   changeSourceMapId,
+  changeSwitchOffSuspicionSignalling,
+  changeSwitchOffRtuStatusEventsSignalling,
 
   saveUserSettings,
   saveUserSettingsSuccess,
