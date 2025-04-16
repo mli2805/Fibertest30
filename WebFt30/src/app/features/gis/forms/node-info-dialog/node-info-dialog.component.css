@@ -1,7 +1,9 @@
 .grid-container {
   display: grid;
 
-  grid-template-columns: auto_minmax(0, 1fr);
+  grid-template-columns:
+    minmax(min-content, auto) /* Левая колонка */
+    minmax(0, 1fr); /* Правая колонка */
 
   grid-template-areas:
     'titleLabel titleValue'

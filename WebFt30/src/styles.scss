@@ -388,6 +388,10 @@
   @apply h-full w-full border border-gray-300 bg-rtu-primary-bg p-5 text-sm dark:border-[#575859] dark:bg-rtu-dark-primary-bg;
 }
 
+.my-dialog {
+  @apply h-full w-full border border-gray-300 bg-rtu-primary-bg text-sm dark:border-[#575859] dark:bg-rtu-dark-primary-bg;
+}
+
 .draggable-window {
   @apply border border-gray-300 bg-rtu-primary-bg shadow-lg shadow-gray-700 dark:border-[#575859] dark:bg-rtu-dark-primary-bg;
 }

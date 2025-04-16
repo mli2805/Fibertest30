@@ -139,6 +139,10 @@ export class NodeInfoDialogComponent {
     this.dialogRef.close();
   }
 
+  close() {
+    this.dialogRef.close();
+  }
+
   // если оборудование входит в трассу для которой заданы базовые, то МОЖНО редактировать
   async editEquipment(equipment: any) {
     const dialogRef = await MapEquipmentActions.openEditEquipmentDialog(
