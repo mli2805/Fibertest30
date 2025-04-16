@@ -44,7 +44,6 @@ export class UserSettingsDialogComponent implements OnInit {
   }
 
   onChangeSuspicionSignalling() {
-    console.log(this.isSuspicionSignallingChecked);
     this.store.dispatch(
       SettingsActions.changeSwitchOffSuspicionSignalling({
         value: this.isSuspicionSignallingChecked
@@ -53,7 +52,6 @@ export class UserSettingsDialogComponent implements OnInit {
   }
 
   onChangeRtuStatusSignalling() {
-    console.log(this.isRtuStatusSignallingChecked);
     this.store.dispatch(
       SettingsActions.changeSwitchOffRtuStatusEventsSignalling({
         value: this.isRtuStatusSignallingChecked
@@ -63,7 +61,6 @@ export class UserSettingsDialogComponent implements OnInit {
 
   isAudioOn = false;
   testAudio() {
-    console.log(`testAudio`);
     this.isAudioOn = !this.isAudioOn;
     if (this.isAudioOn) {
       this.audioService.playAlarm();

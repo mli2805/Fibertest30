@@ -4,8 +4,8 @@
       <tr>
         <th class="w-8"></th>
         <th class="w-12 font-thin">{{ 'i18n.ft.port' | translate }}</th>
-        <th class="font-thin">{{ 'i18n.ft.trace' | translate }}</th>
         <th class="w-40 font-thin">{{ 'i18n.ft.fast-precise' | translate }}</th>
+        <th class="font-thin">{{ 'i18n.ft.trace' | translate }}</th>
       </tr>
     </thead>
     <tbody>
@@ -30,12 +30,12 @@
             </label>
           </td>
           <td class="text-center">{{ trace.port!.opticalPort }}</td>
-          <td class="text-center">{{ trace.title }}</td>
           <td class="text-center">
             <span class="mr-1">{{ trace.fastDuration }}</span
             >/<span class="mx-1">{{ trace.preciseDuration }}</span
             >{{ 'i18n.ft.sec' | translate }}
           </td>
+          <td class="text-center">{{ trace.title }}</td>
         </ng-container>
         <ng-container *ngIf="!trace">
           <td>
