@@ -140,6 +140,14 @@ public static class SystemEventFactory
             new RtuRemovedData(traceId.ToString()), SystemEventSource.FromUser(userId));
     }
 
+    public static SystemEvent TraceStateChanged(int eventId, DateTime registeredAt, string traceId, 
+        string traceTitle, string rtuId, BaseRefType baseRefType, FiberState traceState)
+    {
+        return new SystemEvent(SystemEventType.TraceStateChanged, SystemEventLevel.Critical,
+            new TraceStateChangedData( eventId, registeredAt, traceId, traceTitle, rtuId, baseRefType, traceState),
+            SystemEventSource.FromSource("DataCenter"));
+    }
+
     public static SystemEvent AnyTypeAccidentAdded(string eventType, int eventId,
         DateTime registeredAt, string objTitle, string objId, string rtuId, bool isOk)
     {

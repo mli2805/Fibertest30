@@ -13,7 +13,8 @@ import {
   AnyTypeEventsActions,
   AnyTypeEventsSelectors,
   DeviceActions,
-  RtuTreeSelectors
+  RtuTreeSelectors,
+  SettingsSelectors
 } from 'src/app/core';
 import { AuthUtils } from 'src/app/core/auth/auth.utils';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -48,9 +49,11 @@ import {
   TraceDetachedData,
   TraceRemovedData
 } from 'src/app/shared/system-events/system-event-data/rtu-tree/trace-attached-data';
-import { AnyTypeAccidentAddedData } from 'src/app/shared/system-events/system-event-data/any-type-accident-data';
+import { AnyTypeAccidentAddedData } from 'src/app/shared/system-events/system-event-data/accidents/any-type-accident-data';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
 import { WindowService } from '../window.service';
+import { TraceStateChangedData } from 'src/app/shared/system-events/system-event-data/accidents/any-type-accident-data';
+import { BaseRefType, FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 
 @Component({
   selector: 'rtu-start-page',
@@ -324,6 +327,32 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         this.gisMapService.externalCommand.next({ name: 'RtuAdded' }); // чтобы перечитать граф
         return;
       }
+      case 'TraceStateChanged': {
+        const data = <TraceStateChangedData>JSON.parse(systemEvent.jsonData);
+        if (data.BaseRefType === BaseRefType.Fast) {
+          const switchOfSignalling = CoreUtils.getCurrentState(
+            this.store,
+            SettingsSelectors.selectSwitchOffSuspicionSignalling
+          );
+          if (switchOfSignalling) {
+            console.log(`Current user switched off Suspicion signalling!`);
+            return;
+          }
+        }
+
+        const anyTypeEvent = this.mapFromTraceStateChanged(data);
+        this.addOrReplace(anyTypeEvent);
+        this.store.dispatch(DeviceActions.getHasCurrentEvents());
+        this.audioService.play(anyTypeEvent);
+        this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: anyTypeEvent.rtuId }));
+
+        this.gisMapService.externalCommand.next({
+          name: 'TraceStateChanged',
+          traceId: data.TraceId,
+          traceState: data.TraceState
+        });
+        return;
+      }
       case 'AnyTypeAccidentAdded': {
         const anyTypeEvent = this.map(systemEvent.jsonData);
         this.addOrReplace(anyTypeEvent);
@@ -341,11 +370,22 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
     anyTypeEvent.eventType = data.EventType;
     anyTypeEvent.eventId = data.EventId;
     anyTypeEvent.registeredAt = new Date(data.RegisteredAt);
-    anyTypeEvent.eventType = data.EventType;
     anyTypeEvent.objTitle = data.ObjTitle;
     anyTypeEvent.objId = data.ObjId;
     anyTypeEvent.rtuId = data.RtuId;
     anyTypeEvent.isOk = data.IsOk;
+    return anyTypeEvent;
+  }
+
+  private mapFromTraceStateChanged(data: TraceStateChangedData): AnyTypeEvent {
+    const anyTypeEvent = new AnyTypeEvent();
+    anyTypeEvent.eventType = 'OpticalEvent';
+    anyTypeEvent.eventId = data.EventId;
+    anyTypeEvent.registeredAt = new Date(data.RegisteredAt);
+    anyTypeEvent.objTitle = data.TraceTitle;
+    anyTypeEvent.objId = data.TraceId;
+    anyTypeEvent.rtuId = data.RtuId;
+    anyTypeEvent.isOk = data.TraceState === FiberState.Ok;
     return anyTypeEvent;
   }
 

@@ -38,10 +38,9 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
             if (addMeasurement != null && addMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent)
             {
                 await systemEventSender
-                    .Send(SystemEventFactory.AnyTypeAccidentAdded("OpticalEvent",
-                        addMeasurement.SorFileId, addMeasurement.EventRegistrationTimestamp, trace!.Title,
-                        trace.TraceId.ToString(), trace.RtuId.ToString(),
-                        addMeasurement.TraceState == FiberState.Ok));
+                    .Send(SystemEventFactory.TraceStateChanged(
+                        addMeasurement.SorFileId, addMeasurement.EventRegistrationTimestamp, trace!.TraceId.ToString(),
+                        trace!.Title, trace.RtuId.ToString(), addMeasurement.BaseRefType, addMeasurement.TraceState));
             }
 
             await CheckAndSendBopNetworkIfNeeded(dto);

@@ -184,6 +184,10 @@ public static class SystemEventSupportedNotificationRules
         {
             SystemEventType.RtuRemoved,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        }, 
+        {
+            SystemEventType.TraceStateChanged,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         },
         {
             SystemEventType.AnyTypeAccidentAdded,

@@ -53,5 +53,6 @@ public enum SystemEventType
     RtuUpdated,
     RtuRemoved,
 
+    TraceStateChanged,
     AnyTypeAccidentAdded,
 }

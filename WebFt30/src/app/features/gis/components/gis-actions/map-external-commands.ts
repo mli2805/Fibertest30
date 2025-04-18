@@ -45,6 +45,9 @@ export class MapExternalCommands {
       case 'TraceDetached':
         MapLayersActions.drawTraceWith(cmd.traceId, FiberState.NotJoined);
         break;
+      case 'TraceStateChanged':
+        MapLayersActions.drawTraceWith(cmd.traceId, cmd.traceState);
+        break;
     }
   }
 
