@@ -75,6 +75,8 @@ public static class ConfigureServices
 
         services.AddScoped<CommandAggregator>();
         services.AddScoped<EventsQueue>(); // Singleton?
+        
+        services.AddScoped<IShellCommandRt, ShellCommandRt>();
 
         services.AddSingleton<EventToLogLineParser>();
         services.AddSingleton<MySerializer>();

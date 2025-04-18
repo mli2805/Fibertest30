@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 using NEventStore;
@@ -11,6 +12,7 @@ public class EventStoreInitializer
 {
     private readonly ILogger<EventStoreInitializer> _logger;
     private readonly MySerializer _mySerializer;
+    private readonly IServiceProvider _serviceProvider;
     private string EventSourcingScheme => "ft20graph";
     public string EventSourcingConnectionString { get; init; }
 
@@ -25,10 +27,12 @@ public class EventStoreInitializer
     public IEventStream EventStream { get; set; } = null!;
 
 
-    public EventStoreInitializer(ILogger<EventStoreInitializer> logger, IConfiguration configuration, MySerializer mySerializer)
+    public EventStoreInitializer(ILogger<EventStoreInitializer> logger, IConfiguration configuration, 
+        MySerializer mySerializer, IServiceProvider serviceProvider)
     {
         _logger = logger;
         _mySerializer = mySerializer;
+        _serviceProvider = serviceProvider;
 
         // этот же шаблон из конфига ещё используется для конфигурации доступа ко 2й части бд,
         // см Fibertest30.Infrastructure.ConfigureServices
@@ -108,6 +112,20 @@ public class EventStoreInitializer
 
         var res1 = ShellCommand.GetCommandLineOutput("echo $PATH");
         _logger.LogInformation($" {res1}");
+
+
+        // эксперимент с "асинхронным" получением результатов выполнения скрипта
+        // т.е. вывод скрипта получается прогой не в конце а по мере появления нового
+        // try
+        // {
+        //     var service = _serviceProvider.GetRequiredService<IShellCommandRt>();
+        //     var script = "./verify.sh";
+        //     service.LogScriptOutputInRealTime(script);
+        // }
+        // catch (Exception e)
+        // {
+        //     _logger.LogError(e.Message);
+        // }
 
 
         string scriptFilename = "getStreamId.sh";
