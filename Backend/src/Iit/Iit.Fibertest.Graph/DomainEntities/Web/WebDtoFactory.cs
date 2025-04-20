@@ -204,7 +204,7 @@ namespace Iit.Fibertest.Graph
 
         public static OpticalEventDto CreateOpticalEventDto(this Measurement m, Model writeModel)
         {
-            return new OpticalEventDto()
+            OpticalEventDto opticalEventDto = new OpticalEventDto()
             {
                 EventId = m.SorFileId,
                 RtuId = m.RtuId,
@@ -221,6 +221,39 @@ namespace Iit.Fibertest.Graph
                 StatusChangedByUser = m.StatusChangedByUser,
 
                 Comment = m.Comment,
+                Accidents = m.Accidents.Select(a=>a.ToAccidentOnTraceV2Dto()).ToList()
+            };
+
+            return opticalEventDto;
+        }
+
+        private static AccidentOnTraceV2Dto ToAccidentOnTraceV2Dto(this AccidentOnTraceV2 accident)
+        {
+            return new AccidentOnTraceV2Dto()
+            {
+                BrokenRftsEventNumber = accident.BrokenRftsEventNumber,
+                AccidentSeriousness = accident.AccidentSeriousness,
+                OpticalTypeOfAccident = accident.OpticalTypeOfAccident,
+                IsAccidentInOldEvent = accident.IsAccidentInOldEvent,
+                IsAccidentInLastNode = accident.IsAccidentInLastNode,
+                AccidentCoors = accident.AccidentCoors,
+                AccidentLandmarkIndex = accident.AccidentLandmarkIndex,
+                AccidentToRtuOpticalDistanceKm = accident.AccidentToRtuOpticalDistanceKm,
+                AccidentTitle = accident.AccidentTitle,
+                Left = accident.Left?.ToAccidentNeighbourDto() ?? null,
+                Right = accident.Right?.ToAccidentNeighbourDto() ?? null,
+            };
+        }
+
+        private static AccidentNeighbourDto ToAccidentNeighbourDto(this AccidentNeighbour neighbour)
+        {
+            return new AccidentNeighbourDto()
+            {
+                LandmarkIndex = neighbour.LandmarkIndex,
+                Title = neighbour.Title,
+                Coors = neighbour.Coors,
+                ToRtuOpticalDistanceKm = neighbour.ToRtuOpticalDistanceKm,
+                ToRtuPhysicalDistanceKm = neighbour.ToRtuPhysicalDistanceKm,
             };
         }
 

@@ -2,10 +2,11 @@ import * as grpc from 'src/grpc-generated';
 import { HasCurrentEvents } from '../models/ft30/has-current-events';
 import { BopEvent } from '../models/ft30/bop-event';
 import { Timestamp } from 'src/grpc-generated/google/protobuf/timestamp';
-import { OpticalEvent } from '../models/ft30/optical-event';
+import { AccidentNeighbour, AccidentOnTraceV2, OpticalEvent } from '../models/ft30/optical-event';
 import { FtEnumsMapping } from './ft-enums-mapping';
 import { NetworkEvent } from '../models/ft30/network-event';
 import { RtuAccident } from '../models/ft30/rtu-accident';
+import { GisMapping } from './gis-mappings';
 
 export class EventTablesMapping {
   static fromGrpcHasCurrentEvents(grpcHas: grpc.HasCurrentEvents): HasCurrentEvents {
@@ -41,8 +42,54 @@ export class EventTablesMapping {
     opticalEvent.statusChangedByUser = grpcOpticalEvent.statusChangedByUser;
 
     opticalEvent.comment = grpcOpticalEvent.comment;
-
+    opticalEvent.accidents = grpcOpticalEvent.accidents.map((a) => this.toAccidentOnTraceV2(a));
     return opticalEvent;
+  }
+
+  static toAccidentOnTraceV2(grpcAccident: grpc.AccidentOnTraceV2): AccidentOnTraceV2 {
+    const accidentOnTrace = new AccidentOnTraceV2();
+    accidentOnTrace.brokenRftsEventNumber = grpcAccident.brokenRftsEventNumber;
+
+    accidentOnTrace.accidentSeriousness = FtEnumsMapping.fromGrpcFiberState(
+      grpcAccident.accidentSeriousness
+    );
+    accidentOnTrace.opticalTypeOfAccident = FtEnumsMapping.fromGrpcOpticalAccidentType(
+      grpcAccident.opticalTypeOfAccident
+    );
+
+    accidentOnTrace.isAccidentInOldEvent = grpcAccident.isAccidentInOldEvent;
+    accidentOnTrace.isAccidentInLastNode = grpcAccident.isAccidentInLastNode;
+    accidentOnTrace.accidentCoors = GisMapping.fromGeoCoordinate(grpcAccident.accidentCoors!);
+
+    accidentOnTrace.accidentLandmarkIndex = grpcAccident.accidentLandmarkIndex;
+    accidentOnTrace.accidentToRtuOpticalDistanceKm = grpcAccident.accidentToRtuOpticalDistanceKm;
+    accidentOnTrace.accidentTitle = grpcAccident.accidentTitle;
+    accidentOnTrace.accidentToRtuPhysicalDistanceKm = grpcAccident.accidentToRtuPhysicalDistanceKm;
+
+    accidentOnTrace.accidentToLeftOpticalDistanceKm = grpcAccident.accidentToLeftOpticalDistanceKm;
+    accidentOnTrace.accidentToLeftPhysicalDistanceKm =
+      grpcAccident.accidentToLeftPhysicalDistanceKm;
+    accidentOnTrace.accidentToRightOpticalDistanceKm =
+      grpcAccident.accidentToRightOpticalDistanceKm;
+    accidentOnTrace.accidentToRightPhysicalDistanceKm =
+      grpcAccident.accidentToRightPhysicalDistanceKm;
+
+    accidentOnTrace.eventCode = grpcAccident.eventCode;
+    accidentOnTrace.deltaLen = grpcAccident.deltaLen;
+
+    if (grpcAccident.left) accidentOnTrace.left = this.toAccidentNeighbour(grpcAccident.left);
+    if (grpcAccident.right) accidentOnTrace.right = this.toAccidentNeighbour(grpcAccident.right);
+    return accidentOnTrace;
+  }
+
+  static toAccidentNeighbour(grpcNeighbour: grpc.AccidentNeighbour): AccidentNeighbour {
+    const accidentNeighbour = new AccidentNeighbour();
+    accidentNeighbour.landmarkIndex = grpcNeighbour.landmarkIndex;
+    accidentNeighbour.title = grpcNeighbour.title;
+    accidentNeighbour.coors = GisMapping.fromGeoCoordinate(grpcNeighbour.coors!);
+    accidentNeighbour.toRtuOpticalDistanceKm = grpcNeighbour.toRtuOpticalDistanceKm;
+    accidentNeighbour.toRtuPhysicalDistanceKm = grpcNeighbour.toRtuPhysicalDistanceKm;
+    return accidentNeighbour;
   }
 
   static toNetworkEvents(grpcNetworkEvents: grpc.NetworkEvent[]): NetworkEvent[] {

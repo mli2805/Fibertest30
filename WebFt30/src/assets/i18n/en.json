@@ -628,6 +628,11 @@
   "i18n.ft.test-audio-signalling": "Test audio signalling",
   "i18n.ft.switch-off-audio-signalling": "Switch off audio signalling",
 
+  "i18n.ft.accident-count": "Accident count",
+  "i18n.ft.in-the-node": "in the node",
+  "i18n.ft.between-nodes": "between nodes",
+  "i18n.ft.exceeded-total-fiber-loss": "Exceeded total fiber loss",
+
   "i18n.ft.save-error": "An error occurred. Settings were not saved.",
   "i18n.ft.theme": "Theme",
   "i18n.ft.cant-create-user": "Can't create user",

@@ -4,8 +4,10 @@
 import { MessageType } from "@protobuf-ts/runtime";
 import { ChannelEvent } from "./ft.enums";
 import { EventStatus } from "./ft.enums";
-import { FiberState } from "./ft.enums";
 import { BaseRefType } from "./ft.enums";
+import { OpticalAccidentType } from "./ft.enums";
+import { FiberState } from "./ft.enums";
+import { GeoCoordinate } from "./gis";
 import { Duration } from "./google/protobuf/duration";
 import { Timestamp } from "./google/protobuf/timestamp";
 /**
@@ -41,6 +43,108 @@ export interface DateTimeFilter {
      * @generated from protobuf field: bool orderDescending = 4;
      */
     orderDescending: boolean;
+}
+/**
+ * @generated from protobuf message fibertest30.events.data.AccidentNeighbour
+ */
+export interface AccidentNeighbour {
+    /**
+     * @generated from protobuf field: int32 LandmarkIndex = 1 [json_name = "LandmarkIndex"];
+     */
+    landmarkIndex: number;
+    /**
+     * @generated from protobuf field: string Title = 2 [json_name = "Title"];
+     */
+    title: string;
+    /**
+     * @generated from protobuf field: fibertest30.gis.GeoCoordinate Coors = 3 [json_name = "Coors"];
+     */
+    coors?: GeoCoordinate;
+    /**
+     * @generated from protobuf field: double ToRtuOpticalDistanceKm = 4 [json_name = "ToRtuOpticalDistanceKm"];
+     */
+    toRtuOpticalDistanceKm: number;
+    /**
+     * @generated from protobuf field: double ToRtuPhysicalDistanceKm = 5 [json_name = "ToRtuPhysicalDistanceKm"];
+     */
+    toRtuPhysicalDistanceKm: number;
+}
+/**
+ * @generated from protobuf message fibertest30.events.data.AccidentOnTraceV2
+ */
+export interface AccidentOnTraceV2 {
+    /**
+     * @generated from protobuf field: int32 BrokenRftsEventNumber = 1 [json_name = "BrokenRftsEventNumber"];
+     */
+    brokenRftsEventNumber: number;
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.FiberState AccidentSeriousness = 2 [json_name = "AccidentSeriousness"];
+     */
+    accidentSeriousness: FiberState;
+    /**
+     * @generated from protobuf field: fibertest30.ft.enums.OpticalAccidentType OpticalTypeOfAccident = 3 [json_name = "OpticalTypeOfAccident"];
+     */
+    opticalTypeOfAccident: OpticalAccidentType;
+    /**
+     * @generated from protobuf field: bool IsAccidentInOldEvent = 4 [json_name = "IsAccidentInOldEvent"];
+     */
+    isAccidentInOldEvent: boolean;
+    /**
+     * @generated from protobuf field: bool IsAccidentInLastNode = 5 [json_name = "IsAccidentInLastNode"];
+     */
+    isAccidentInLastNode: boolean;
+    /**
+     * @generated from protobuf field: fibertest30.gis.GeoCoordinate AccidentCoors = 6 [json_name = "AccidentCoors"];
+     */
+    accidentCoors?: GeoCoordinate;
+    /**
+     * @generated from protobuf field: int32 AccidentLandmarkIndex = 7 [json_name = "AccidentLandmarkIndex"];
+     */
+    accidentLandmarkIndex: number;
+    /**
+     * @generated from protobuf field: double AccidentToRtuOpticalDistanceKm = 8 [json_name = "AccidentToRtuOpticalDistanceKm"];
+     */
+    accidentToRtuOpticalDistanceKm: number;
+    /**
+     * @generated from protobuf field: string AccidentTitle = 9 [json_name = "AccidentTitle"];
+     */
+    accidentTitle: string;
+    /**
+     * @generated from protobuf field: double AccidentToRtuPhysicalDistanceKm = 10 [json_name = "AccidentToRtuPhysicalDistanceKm"];
+     */
+    accidentToRtuPhysicalDistanceKm: number;
+    /**
+     * @generated from protobuf field: double AccidentToLeftOpticalDistanceKm = 11 [json_name = "AccidentToLeftOpticalDistanceKm"];
+     */
+    accidentToLeftOpticalDistanceKm: number;
+    /**
+     * @generated from protobuf field: double AccidentToLeftPhysicalDistanceKm = 12 [json_name = "AccidentToLeftPhysicalDistanceKm"];
+     */
+    accidentToLeftPhysicalDistanceKm: number;
+    /**
+     * @generated from protobuf field: double AccidentToRightOpticalDistanceKm = 13 [json_name = "AccidentToRightOpticalDistanceKm"];
+     */
+    accidentToRightOpticalDistanceKm: number;
+    /**
+     * @generated from protobuf field: double AccidentToRightPhysicalDistanceKm = 14 [json_name = "AccidentToRightPhysicalDistanceKm"];
+     */
+    accidentToRightPhysicalDistanceKm: number;
+    /**
+     * @generated from protobuf field: string EventCode = 15 [json_name = "EventCode"];
+     */
+    eventCode: string;
+    /**
+     * @generated from protobuf field: double DeltaLen = 16 [json_name = "DeltaLen"];
+     */
+    deltaLen: number;
+    /**
+     * @generated from protobuf field: optional fibertest30.events.data.AccidentNeighbour Left = 17 [json_name = "Left"];
+     */
+    left?: AccidentNeighbour;
+    /**
+     * @generated from protobuf field: optional fibertest30.events.data.AccidentNeighbour Right = 18 [json_name = "Right"];
+     */
+    right?: AccidentNeighbour;
 }
 /**
  * @generated from protobuf message fibertest30.events.data.OpticalEvent
@@ -98,6 +202,10 @@ export interface OpticalEvent {
      * @generated from protobuf field: string comment = 13;
      */
     comment: string;
+    /**
+     * @generated from protobuf field: repeated fibertest30.events.data.AccidentOnTraceV2 accidents = 14;
+     */
+    accidents: AccidentOnTraceV2[];
 }
 /**
  * @generated from protobuf message fibertest30.events.data.NetworkEvent
@@ -243,6 +351,51 @@ class DateTimeFilter$Type extends MessageType<DateTimeFilter> {
  */
 export const DateTimeFilter = new DateTimeFilter$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class AccidentNeighbour$Type extends MessageType<AccidentNeighbour> {
+    constructor() {
+        super("fibertest30.events.data.AccidentNeighbour", [
+            { no: 1, name: "LandmarkIndex", kind: "scalar", jsonName: "LandmarkIndex", T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "Title", kind: "scalar", jsonName: "Title", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "Coors", kind: "message", jsonName: "Coors", T: () => GeoCoordinate },
+            { no: 4, name: "ToRtuOpticalDistanceKm", kind: "scalar", jsonName: "ToRtuOpticalDistanceKm", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 5, name: "ToRtuPhysicalDistanceKm", kind: "scalar", jsonName: "ToRtuPhysicalDistanceKm", T: 1 /*ScalarType.DOUBLE*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.events.data.AccidentNeighbour
+ */
+export const AccidentNeighbour = new AccidentNeighbour$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AccidentOnTraceV2$Type extends MessageType<AccidentOnTraceV2> {
+    constructor() {
+        super("fibertest30.events.data.AccidentOnTraceV2", [
+            { no: 1, name: "BrokenRftsEventNumber", kind: "scalar", jsonName: "BrokenRftsEventNumber", T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "AccidentSeriousness", kind: "enum", jsonName: "AccidentSeriousness", T: () => ["fibertest30.ft.enums.FiberState", FiberState] },
+            { no: 3, name: "OpticalTypeOfAccident", kind: "enum", jsonName: "OpticalTypeOfAccident", T: () => ["fibertest30.ft.enums.OpticalAccidentType", OpticalAccidentType] },
+            { no: 4, name: "IsAccidentInOldEvent", kind: "scalar", jsonName: "IsAccidentInOldEvent", T: 8 /*ScalarType.BOOL*/ },
+            { no: 5, name: "IsAccidentInLastNode", kind: "scalar", jsonName: "IsAccidentInLastNode", T: 8 /*ScalarType.BOOL*/ },
+            { no: 6, name: "AccidentCoors", kind: "message", jsonName: "AccidentCoors", T: () => GeoCoordinate },
+            { no: 7, name: "AccidentLandmarkIndex", kind: "scalar", jsonName: "AccidentLandmarkIndex", T: 5 /*ScalarType.INT32*/ },
+            { no: 8, name: "AccidentToRtuOpticalDistanceKm", kind: "scalar", jsonName: "AccidentToRtuOpticalDistanceKm", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 9, name: "AccidentTitle", kind: "scalar", jsonName: "AccidentTitle", T: 9 /*ScalarType.STRING*/ },
+            { no: 10, name: "AccidentToRtuPhysicalDistanceKm", kind: "scalar", jsonName: "AccidentToRtuPhysicalDistanceKm", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 11, name: "AccidentToLeftOpticalDistanceKm", kind: "scalar", jsonName: "AccidentToLeftOpticalDistanceKm", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 12, name: "AccidentToLeftPhysicalDistanceKm", kind: "scalar", jsonName: "AccidentToLeftPhysicalDistanceKm", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 13, name: "AccidentToRightOpticalDistanceKm", kind: "scalar", jsonName: "AccidentToRightOpticalDistanceKm", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 14, name: "AccidentToRightPhysicalDistanceKm", kind: "scalar", jsonName: "AccidentToRightPhysicalDistanceKm", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 15, name: "EventCode", kind: "scalar", jsonName: "EventCode", T: 9 /*ScalarType.STRING*/ },
+            { no: 16, name: "DeltaLen", kind: "scalar", jsonName: "DeltaLen", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 17, name: "Left", kind: "message", jsonName: "Left", T: () => AccidentNeighbour },
+            { no: 18, name: "Right", kind: "message", jsonName: "Right", T: () => AccidentNeighbour }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.events.data.AccidentOnTraceV2
+ */
+export const AccidentOnTraceV2 = new AccidentOnTraceV2$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class OpticalEvent$Type extends MessageType<OpticalEvent> {
     constructor() {
         super("fibertest30.events.data.OpticalEvent", [
@@ -258,7 +411,8 @@ class OpticalEvent$Type extends MessageType<OpticalEvent> {
             { no: 10, name: "eventStatus", kind: "enum", T: () => ["fibertest30.ft.enums.EventStatus", EventStatus] },
             { no: 11, name: "statusChangedAt", kind: "message", T: () => Timestamp },
             { no: 12, name: "statusChangedByUser", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 13, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 13, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 14, name: "accidents", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => AccidentOnTraceV2 }
         ]);
     }
 }

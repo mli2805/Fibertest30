@@ -14,7 +14,7 @@
   </div>
   <div class="flex h-full w-full">
     <ng-container *ngIf="opticalEvent && !fullScreen">
-      <rtu-trace-state class="w-96" [opticalEvent]="opticalEvent"></rtu-trace-state>
+      <rtu-trace-state class="w-120" [opticalEvent]="opticalEvent"></rtu-trace-state>
     </ng-container>
     <div class="ml-1 h-full w-full">
       <ng-container *ngIf="opticalEvent$ | async as opticalEvent">

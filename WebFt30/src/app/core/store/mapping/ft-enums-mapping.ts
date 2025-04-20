@@ -1,11 +1,11 @@
 import * as grpc from 'src/grpc-generated';
 import {
-  BaseRefType,
   ChannelEvent,
   EventStatus,
   FiberState,
   MonitoringCurrentStep,
   MonitoringState,
+  OpticalAccidentType,
   RtuMaker,
   RtuPartState,
   TceLinkState
@@ -166,6 +166,18 @@ export class FtEnumsMapping {
       case grpc.MonitoringCurrentStep.MeasurementFinished: return MonitoringCurrentStep.MeasurementFinished;
       default:
         throw new Error(`Unknown grpc.MonitoringCurrentStep: ${grpcStep}`);
+    }
+  }
+
+  static fromGrpcOpticalAccidentType(grpcType: grpc.OpticalAccidentType): OpticalAccidentType {
+    // prettier-ignore
+    switch(grpcType) {
+      case grpc.OpticalAccidentType.Break: return OpticalAccidentType.Break;
+      case grpc.OpticalAccidentType.Loss: return OpticalAccidentType.Loss;
+      case grpc.OpticalAccidentType.Reflectance: return OpticalAccidentType.Reflectace;
+      case grpc.OpticalAccidentType.LossCoeff: return OpticalAccidentType.LossCoef;
+      case grpc.OpticalAccidentType.TotalLoss: return OpticalAccidentType.TotalLoss;
+      case grpc.OpticalAccidentType.OpticalAccidentType_None: return OpticalAccidentType.None;
     }
   }
 }

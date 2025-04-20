@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { AppState, RtuTreeSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
-import { OpticalEvent } from 'src/app/core/store/models/ft30/optical-event';
+import { AccidentLine, OpticalEvent } from 'src/app/core/store/models/ft30/optical-event';
 import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
+import { AccidentConvertor } from './accident-convertor';
 
 @Component({
   selector: 'rtu-trace-state',
@@ -13,6 +14,7 @@ import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
 })
 export class TraceStateComponent {
   _opticalEvent!: OpticalEvent;
+
   @Input() set opticalEvent(value: OpticalEvent) {
     this._opticalEvent = value;
     const trace = CoreUtils.getCurrentState(
@@ -28,7 +30,16 @@ export class TraceStateComponent {
       0: value.registeredAt,
       1: value.eventId
     });
+
+    value.accidents.forEach((a, i) => {
+      const line = this.accidentConvertor.toAccidentLine(a, i + 1);
+      this.accidents.push(line);
+    });
+
+    console.log(this.accidents);
   }
+
+  accidents: AccidentLine[] = [];
 
   //
   traceTitle!: string;
@@ -38,7 +49,11 @@ export class TraceStateComponent {
   traceState!: string;
   //
 
-  constructor(private store: Store<AppState>, private ts: TranslateService) {}
+  constructor(
+    private store: Store<AppState>,
+    private ts: TranslateService,
+    private accidentConvertor: AccidentConvertor
+  ) {}
 
   getTracePort(port: PortOfOtau | null) {
     if (port === null) return this.ts.instant('i18n.ft.not-attached');

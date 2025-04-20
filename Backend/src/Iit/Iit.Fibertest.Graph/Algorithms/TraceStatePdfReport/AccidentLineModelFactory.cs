@@ -70,9 +70,9 @@ namespace Iit.Fibertest.Graph
                 AccidentTypeLetter = accidentAsNewEvent.OpticalTypeOfAccident.ToLetter(),
                 AccidentPlace = AccidentPlace.BetweenNodes,
 
-                TopLeft = accidentAsNewEvent.Left.Title,
+                TopLeft = accidentAsNewEvent.Left!.Title,
                 TopCenter = $@"RTU {LeftArrow} {accidentAsNewEvent.AccidentToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
-                TopRight = accidentAsNewEvent.Right.Title,
+                TopRight = accidentAsNewEvent.Right!.Title,
                 Bottom1 = $@"{accidentAsNewEvent.AccidentToLeftOpticalDistanceKm:0.000} {Resources.SID_km}",
                 Bottom2 = _isGisOn
                              ? accidentAsNewEvent.AccidentCoors.ToDetailedString(_gpsInputMode)
@@ -99,8 +99,8 @@ namespace Iit.Fibertest.Graph
                 AccidentTypeLetter = @"C",
                 AccidentPlace = AccidentPlace.BadSegment,
 
-                TopLeft = accidentInOldEvent.Left.Title,
-                TopRight = accidentInOldEvent.Right.Title,
+                TopLeft = accidentInOldEvent.Left!.Title,
+                TopRight = accidentInOldEvent.Right!.Title,
                 Bottom1 = $@"RTU {LeftArrow} {accidentInOldEvent.Left.ToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
                 Bottom3 = $@"RTU {LeftArrow} {accidentInOldEvent.Right.ToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
                 PngPath = BuildPath(@"BadSegment.png"),
@@ -123,10 +123,10 @@ namespace Iit.Fibertest.Graph
                 AccidentTypeLetter = @"",
                 AccidentPlace = AccidentPlace.BadSegment,
 
-                TopLeft = accidentInOldEvent.Left.Title,
-                TopRight = accidentInOldEvent.Right.Title,
+                TopLeft = accidentInOldEvent.Left?.Title ?? "",
+                TopRight = accidentInOldEvent.Right?.Title ?? "",
                 PngPath = BuildPath(@"BadSegment.png"),
-                Position = accidentInOldEvent.Left.Coors,
+                Position = null,
             };
 
             return model;

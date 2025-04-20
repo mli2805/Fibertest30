@@ -258,3 +258,32 @@ export enum MonitoringCurrentStep {
      */
     Unknown = -1
 }
+/**
+ * @generated from protobuf enum fibertest30.ft.enums.OpticalAccidentType
+ */
+export enum OpticalAccidentType {
+    /**
+     * @generated from protobuf enum value: Break = 0;
+     */
+    Break = 0,
+    /**
+     * @generated from protobuf enum value: Loss = 1;
+     */
+    Loss = 1,
+    /**
+     * @generated from protobuf enum value: Reflectance = 2;
+     */
+    Reflectance = 2,
+    /**
+     * @generated from protobuf enum value: LossCoeff = 3;
+     */
+    LossCoeff = 3,
+    /**
+     * @generated from protobuf enum value: TotalLoss = 4;
+     */
+    TotalLoss = 4,
+    /**
+     * @generated from protobuf enum value: OpticalAccidentType_None = 5;
+     */
+    OpticalAccidentType_None = 5
+}

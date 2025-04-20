@@ -99,3 +99,19 @@ export enum MonitoringCurrentStep {
   Analysis,
   MeasurementFinished
 }
+
+export enum AccidentPlace {
+  InNode = 0,
+  BetweenNodes = 1,
+  BadSegment = 2
+}
+
+export enum OpticalAccidentType {
+  Break = 0,
+  Loss = 1,
+  Reflectace = 2,
+  LossCoef = 3,
+  TotalLoss = 4,
+
+  None = 5
+}

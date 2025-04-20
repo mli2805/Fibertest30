@@ -329,6 +329,17 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       }
       case 'TraceStateChanged': {
         const data = <TraceStateChangedData>JSON.parse(systemEvent.jsonData);
+
+        // перерисовать в дереве
+        this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
+        // перерисовать на карте
+        this.gisMapService.externalCommand.next({
+          name: 'TraceStateChanged',
+          traceId: data.TraceId,
+          traceState: data.TraceState
+        });
+
+        // а вот сигнализация Подозрений по флагу
         if (data.BaseRefType === BaseRefType.Fast) {
           const switchOfSignalling = CoreUtils.getCurrentState(
             this.store,
@@ -344,13 +355,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         this.addOrReplace(anyTypeEvent);
         this.store.dispatch(DeviceActions.getHasCurrentEvents());
         this.audioService.play(anyTypeEvent);
-        this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: anyTypeEvent.rtuId }));
 
-        this.gisMapService.externalCommand.next({
-          name: 'TraceStateChanged',
-          traceId: data.TraceId,
-          traceState: data.TraceState
-        });
         return;
       }
       case 'AnyTypeAccidentAdded': {

@@ -1,24 +1,26 @@
-﻿namespace Iit.Fibertest.Dto
+﻿using GMap.NET;
+
+namespace Iit.Fibertest.Dto
 {
     public class AccidentLineDto
     {
-        public string Caption { get; set; }
+        public string Caption = string.Empty;
      
-        public int Number { get; set; }
-        public FiberState AccidentSeriousness { get; set; }
-        public string AccidentTypeLetter { get; set; }
-        public AccidentPlace AccidentPlace { get; set; }
+        public int Number;
+        public FiberState AccidentSeriousness;
+        public string AccidentTypeLetter = string.Empty;
+        public AccidentPlace AccidentPlace;
 
-        public string TopLeft { get; set; }
-        public string TopCenter { get; set; }
-        public string TopRight { get; set; }
-        public string Bottom0 { get; set; }
-        public string Bottom1 { get; set; }
-        public string Bottom2 { get; set; }
-        public string Bottom3 { get; set; }
-        public string Bottom4 { get; set; }
-        public string PngPath { get; set; } 
+        public string TopLeft = string.Empty;
+        public string TopCenter = string.Empty;
+        public string TopRight = string.Empty;
+        public string Bottom0 = string.Empty;
+        public string Bottom1 = string.Empty;
+        public string Bottom2 = string.Empty;
+        public string Bottom3 = string.Empty;
+        public string Bottom4 = string.Empty;
+        public string PngPath = string.Empty; 
 
-        public GeoPoint Position { get; set; }
+        public PointLatLng? Position;
     }
 }

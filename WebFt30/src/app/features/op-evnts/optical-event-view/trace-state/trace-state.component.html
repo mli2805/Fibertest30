@@ -1,3 +1,4 @@
+<!-- инвормация о трассе -->
 <div class="grouped-border flex-1">
   <div class="grid-container ml-1 gap-y-1 text-sm">
     <label style="grid-area: traceTitleLabel" class="my-auto mr-2">{{
@@ -14,6 +15,7 @@
     <div style="grid-area: rtuValue" class="mb-1">{{ rtuTitle }}</div>
   </div>
 </div>
+<!-- состояние -->
 <div class="grouped-border mt-1 flex-1">
   <div class="inline whitespace-nowrap text-sm">
     <span class="ml-1">{{ 'i18n.ft.state-at' | translate }}</span>
@@ -33,3 +35,28 @@
     {{ _opticalEvent.traceState | traceStatePipe : _opticalEvent.baseRefType | translate }}
   </div>
 </div>
+<!-- неисправности -->
+<ng-container *ngIf="accidents.length > 0">
+  <div class="grouped-border mt-1 w-120">
+    {{ 'i18n.ft.accident-count' | translate }}
+    <span class="ml-2"> {{ accidents.length }}</span>
+    <ng-container *ngFor="let accident of accidents">
+      <div class="ml-1">
+        <div class="text-sm font-semibold">{{ accident.caption }}</div>
+        <div class="flex w-full justify-between text-xs">
+          <div>{{ accident.topLeft }}</div>
+          <div>{{ accident.topCenter }}</div>
+          <div>{{ accident.topRight }}</div>
+        </div>
+
+        <div class="flex w-full justify-between text-xs">
+          <div>{{ accident.bottom0 }}</div>
+          <div>{{ accident.bottom1 }}</div>
+          <div>{{ accident.bottom2 }}</div>
+          <div>{{ accident.bottom3 }}</div>
+          <div>{{ accident.bottom4 }}</div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

@@ -2,6 +2,7 @@ syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/duration.proto";
 import "ft.enums.proto";
+import "gis.proto";
 
 option csharp_namespace = "Fibertest30.Api";
 package fibertest30.events.data;
@@ -16,6 +17,41 @@ message DateTimeFilter {
   google.protobuf.Duration relativeFromNow = 2;
   google.protobuf.Timestamp loadSince = 3;
   bool orderDescending = 4;
+}
+
+message AccidentNeighbour {
+	int32 LandmarkIndex = 1;
+	string Title = 2;
+    gis.GeoCoordinate Coors = 3;
+	double ToRtuOpticalDistanceKm = 4;
+	double ToRtuPhysicalDistanceKm = 5;
+}
+
+message AccidentOnTraceV2 {
+	int32 BrokenRftsEventNumber = 1;
+
+    ft.enums.FiberState AccidentSeriousness = 2;
+	ft.enums.OpticalAccidentType OpticalTypeOfAccident = 3;
+
+	bool IsAccidentInOldEvent = 4;
+	bool IsAccidentInLastNode = 5;
+    gis.GeoCoordinate AccidentCoors = 6;
+
+	int32 AccidentLandmarkIndex = 7;
+	double AccidentToRtuOpticalDistanceKm = 8;
+	string AccidentTitle = 9;
+	double AccidentToRtuPhysicalDistanceKm = 10;
+
+	double AccidentToLeftOpticalDistanceKm = 11;
+	double AccidentToLeftPhysicalDistanceKm = 12;
+	double AccidentToRightOpticalDistanceKm = 13;
+	double AccidentToRightPhysicalDistanceKm = 14;
+
+	string EventCode = 15;
+	double DeltaLen = 16;
+
+	optional AccidentNeighbour Left = 17;
+	optional AccidentNeighbour Right = 18;
 }
 
 message OpticalEvent {
@@ -36,6 +72,7 @@ message OpticalEvent {
 	string statusChangedByUser = 12;
 
 	string comment = 13;
+	repeated AccidentOnTraceV2 accidents = 14;
 }
 
 message NetworkEvent {

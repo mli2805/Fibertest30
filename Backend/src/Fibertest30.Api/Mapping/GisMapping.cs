@@ -23,7 +23,7 @@ public static class GisMapping
         };
     }
 
-    private static GeoCoordinate ToProto(this PointLatLng point)
+    public static GeoCoordinate ToProto(this PointLatLng point)
     {
         return new GeoCoordinate() { Latitude = point.Lat, Longitude = point.Lng };
     }

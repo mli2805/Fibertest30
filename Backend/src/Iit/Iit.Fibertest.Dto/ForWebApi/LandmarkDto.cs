@@ -1,4 +1,6 @@
-﻿namespace Iit.Fibertest.Dto
+﻿using GMap.NET;
+
+namespace Iit.Fibertest.Dto
 {
     public class LandmarkDto
     {
@@ -15,6 +17,6 @@
         public string OpticalSection;
 
         public int EventOrdinal;
-        public GeoPoint Coors;
+        public PointLatLng Coors;
     }
 }

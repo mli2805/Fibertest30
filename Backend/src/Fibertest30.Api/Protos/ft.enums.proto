@@ -87,3 +87,12 @@ enum MonitoringCurrentStep {
     Unknown = -1;
 }
 
+enum OpticalAccidentType {
+    Break = 0;
+    Loss = 1;
+    Reflectance = 2;
+    LossCoeff = 3;
+    TotalLoss = 4;
+
+    OpticalAccidentType_None = 5;
+}

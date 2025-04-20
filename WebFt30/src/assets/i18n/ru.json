@@ -23,6 +23,11 @@
   "i18n.ft.test-audio-signalling": "Тестировать звуковую сигнализацию",
   "i18n.ft.switch-off-audio-signalling": "Выключить звуковую сигнализацию",
 
+  "i18n.ft.accident-count": "Количество неисправностей",
+  "i18n.ft.in-the-node": "в узле",
+  "i18n.ft.between-nodes": "между узлами",
+  "i18n.ft.exceeded-total-fiber-loss": "Превышено полное затухание в линии",
+
   "i18n.ft.save-error": "Ошибка. Настройки не сохранены",
   "i18n.ft.theme": "Тема",
   "i18n.ft.cant-create-user": "Не удалось создать пользователя",

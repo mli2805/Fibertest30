@@ -47,7 +47,7 @@ export class TraceGisComponent implements OnInit {
     const nodes = geoTrace.nodeIds.map((n) => {
       return this.gisMapService.getNode(n);
     });
-    const route = new TraceRouteData(traceId, nodes, geoTrace.state);
+    const route = new TraceRouteData(traceId, nodes, this._optivalEvent.traceState);
 
     this.map = L.map('map', {
       center: [51.505, -0.09],

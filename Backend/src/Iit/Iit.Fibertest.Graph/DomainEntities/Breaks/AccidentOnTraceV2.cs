@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Graph
 
         public int AccidentLandmarkIndex { get; set; }
         public double AccidentToRtuOpticalDistanceKm { get; set; }
-        public string AccidentTitle { get; set; }
+        public string AccidentTitle { get; set; } = string.Empty;
         public double AccidentToRtuPhysicalDistanceKm { get; set; }
 
         public double AccidentToLeftOpticalDistanceKm { get; set; }
@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Graph
         public double AccidentToRightOpticalDistanceKm { get; set; }
         public double AccidentToRightPhysicalDistanceKm { get; set; }
 
-        public string EventCode { get; set; }
+        public string EventCode { get; set; } = string.Empty;
         public double DeltaLen { get; set; }
 
         public AccidentNeighbour? Left { get; set; }
