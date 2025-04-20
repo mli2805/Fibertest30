@@ -14,6 +14,11 @@ const selectDateTimeFormat = createSelector(
   (state: SettingsState) => state.dateTimeFormat
 );
 
+const selectLatLngFormat = createSelector(
+  selectSettings,
+  (state: SettingsState) => state.latLngFormat
+);
+
 const selectSwitchOffSuspicionSignalling = createSelector(
   selectSettings,
   (state: SettingsState) => state.switchOffSuspicionSignalling
@@ -37,6 +42,7 @@ export const SettingsSelectors = {
   selectTheme,
   selectLanguage,
   selectDateTimeFormat,
+  selectLatLngFormat,
   selectSwitchOffSuspicionSignalling,
   selectSwitchOffRtuStatusEventsSignalling,
   selectTimeZone,

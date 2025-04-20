@@ -1,0 +1,13 @@
+<rtu-select
+  #latLngFormatSelect
+  [items]="latLngFormats"
+  [selectedItem]="selectedLatLngFormat$ | async"
+  (selectedItemChange)="setLatLngFormat($event)"
+>
+  <ng-template rtuSelectLabel let-selectedItem>
+    <div class="pl-1">{{ selectedItem }}</div>
+  </ng-template>
+  <ng-template rtuSelectItem let-item>
+    {{ item }}
+  </ng-template>
+</rtu-select>

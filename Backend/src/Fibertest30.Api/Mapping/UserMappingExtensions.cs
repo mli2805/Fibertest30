@@ -50,6 +50,7 @@ public static class UserMappingExtensions
             SourceMapId = settings.SourceMapId,
             SwitchOffSuspicionSignalling = settings.SwitchOffSuspicionSignalling,
             SwitchOffRtuStatusEventsSignalling = settings.SwitchOffRtuStatusEventsSignalling,
+            LatLngFormat = settings.LatLngFormat,
         };
     }
 
@@ -67,6 +68,7 @@ public static class UserMappingExtensions
             SourceMapId = settings.SourceMapId,
             SwitchOffSuspicionSignalling = settings.SwitchOffSuspicionSignalling,
             SwitchOffRtuStatusEventsSignalling = settings.SwitchOffRtuStatusEventsSignalling,
+            LatLngFormat = settings.LatLngFormat,
         };
     }
 }

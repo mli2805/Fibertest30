@@ -1,6 +1,12 @@
 import { createAction, props } from '@ngrx/store';
 
-import { AppLanguage, AppTheme, SettingsState, AppDateTimeLanguageFormat } from './settings.state';
+import {
+  AppLanguage,
+  AppTheme,
+  SettingsState,
+  AppDateTimeLanguageFormat,
+  LatLngFormat
+} from './settings.state';
 import { AppTimezone } from '../models';
 
 const changeTheme = createAction('[Settings] Change Theme', props<{ theme: AppTheme }>());
@@ -13,6 +19,11 @@ const changeLanguage = createAction(
 const changeDateTimeFormat = createAction(
   '[Settings] Change Date Time Format',
   props<{ dateTimeFormat: AppDateTimeLanguageFormat }>()
+);
+
+const changeLatLngFormat = createAction(
+  '[Settings] Change LatLngFormat',
+  props<{ latLngFormat: LatLngFormat }>()
 );
 
 const changeTimeZone = createAction(
@@ -52,6 +63,7 @@ export const SettingsActions = {
   changeTheme,
   changeLanguage,
   changeDateTimeFormat,
+  changeLatLngFormat,
   changeTimeZone,
   changeZoom,
   changeCenter,

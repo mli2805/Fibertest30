@@ -2,6 +2,7 @@ export class UserSettings {
   language!: string;
   theme!: string;
   dateTimeFormat!: string;
+  latLngFormat!: string;
   zoom!: number;
   lat!: number;
   lng!: number;

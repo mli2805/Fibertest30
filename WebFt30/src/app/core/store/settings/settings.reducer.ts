@@ -5,6 +5,7 @@ import {
   AppDateTimeLanguageFormat,
   AppLanguage,
   AppTheme,
+  LatLngFormat,
   SettingsState
 } from './settings.state';
 import { SettingsActions } from './settings.actions';
@@ -15,6 +16,7 @@ export const initialState: SettingsState = {
   theme: 'light', // the very first theme is based on 'prefers-color-scheme' media query (see loadInitialSettingsState)
   language: 'en', // user navigator's language will be used if supported (see loadInitialSettingsState)
   dateTimeFormat: 'en',
+  latLngFormat: `ddd.dddddd\u00B0`,
   timeZone: AppTimezone.GetUtcTimeZone(), // т.е. показываем время как оно есть на сервере, возможно когда-нибудь будем хранить на сервере в UTC, тогда надо будет здесь реальная зона
   zoom: 16,
   lat: 53.88,
@@ -33,6 +35,10 @@ const reducer = createReducer(
   on(SettingsActions.changeDateTimeFormat, (state, { dateTimeFormat }) => ({
     ...state,
     dateTimeFormat
+  })),
+  on(SettingsActions.changeLatLngFormat, (state, { latLngFormat }) => ({
+    ...state,
+    latLngFormat
   })),
   on(SettingsActions.changeSwitchOffSuspicionSignalling, (state, { value }) => ({
     ...state,
@@ -66,6 +72,7 @@ const reducer = createReducer(
       theme: <AppTheme>settings.theme,
       language: <AppLanguage>settings.language,
       dateTimeFormat: <AppDateTimeLanguageFormat>settings.dateTimeFormat,
+      latLngFormat: <LatLngFormat>settings.latLngFormat,
       zoom: settings.zoom,
       lat: settings.lat,
       lng: settings.lng,
@@ -85,6 +92,7 @@ const reducer = createReducer(
       theme: <AppTheme>settings.theme,
       language: <AppLanguage>settings.language,
       dateTimeFormat: <AppDateTimeLanguageFormat>settings.dateTimeFormat,
+      latLngFormat: <LatLngFormat>settings.latLngFormat,
       zoom: settings.zoom,
       lat: settings.lat,
       lng: settings.lng,

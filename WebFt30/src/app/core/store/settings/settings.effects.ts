@@ -21,7 +21,7 @@ import { MapUtils } from '../../map.utils';
 import { AuthActions } from '../../auth/auth.actions';
 import { of } from 'rxjs';
 import { AuthSelectors } from '../../auth/auth.selectors';
-import { AppDateTimeLanguageFormat, AppLanguage, AppTheme } from './settings.state';
+import { AppDateTimeLanguageFormat, AppLanguage, AppTheme, LatLngFormat } from './settings.state';
 
 @Injectable()
 export class SettingsEffects {
@@ -34,6 +34,7 @@ export class SettingsEffects {
           SettingsActions.changeTheme,
           SettingsActions.changeLanguage,
           SettingsActions.changeDateTimeFormat,
+          SettingsActions.changeLatLngFormat,
           SettingsActions.changeSwitchOffSuspicionSignalling,
           SettingsActions.changeSwitchOffRtuStatusEventsSignalling,
           SettingsActions.changeTimeZone
@@ -44,6 +45,7 @@ export class SettingsEffects {
             theme: settings.theme,
             language: settings.language,
             dateTimeFormat: settings.dateTimeFormat,
+            latLngFormat: settings.latLngFormat,
             timeZone: settings.timeZone,
             switchOffSuspicionSignalling: settings.switchOffSuspicionSignalling,
             switchOffRtuStatusEventsSignalling: settings.switchOffRtuStatusEventsSignalling
@@ -63,6 +65,7 @@ export class SettingsEffects {
             theme: <AppTheme>settings!.theme,
             language: <AppLanguage>settings!.language,
             dateTimeFormat: <AppDateTimeLanguageFormat>settings!.dateTimeFormat,
+            latLngFormat: <LatLngFormat>settings!.latLngFormat,
             switchOffSuspicionSignalling: settings!.switchOffSuspicionSignalling,
             switchOffRtuStatusEventsSignalling: settings!.switchOffRtuStatusEventsSignalling
           });
@@ -77,6 +80,7 @@ export class SettingsEffects {
         SettingsActions.changeTheme,
         SettingsActions.changeLanguage,
         SettingsActions.changeDateTimeFormat,
+        SettingsActions.changeLatLngFormat,
         SettingsActions.changeSwitchOffSuspicionSignalling,
         SettingsActions.changeSwitchOffRtuStatusEventsSignalling,
         SettingsActions.changeTimeZone

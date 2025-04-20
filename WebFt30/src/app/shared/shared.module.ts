@@ -85,6 +85,7 @@ import { MultiSelectionButtonComponent } from './components/svg-buttons/multi-se
 import { TraceInfoComponent } from './components/trace-info/trace-info.component';
 import { MessageBoxComponent } from './components/message-box/message-box.component';
 import { RtuInfoComponent } from './components/rtu-info/rtu-info.component';
+import { LatlngFormatSwitcherComponent } from './components/latlng-format-switcher/latlng-format-switcher.component';
 
 @NgModule({
   imports: [
@@ -99,6 +100,7 @@ import { RtuInfoComponent } from './components/rtu-info/rtu-info.component';
     RtuThemeSwitcherComponent,
     RtuThemeSwitcherSimpleComponent,
     RtuLanguageSwitcherComponent,
+    LatlngFormatSwitcherComponent,
     RtuRouterLinkComponent,
     DummyComponent,
     SelectComponent,
@@ -183,6 +185,7 @@ import { RtuInfoComponent } from './components/rtu-info/rtu-info.component';
     RtuThemeSwitcherComponent,
     RtuThemeSwitcherSimpleComponent,
     RtuLanguageSwitcherComponent,
+    LatlngFormatSwitcherComponent,
     RtuRouterLinkComponent,
     DummyComponent,
     SelectComponent,

@@ -16,10 +16,13 @@ public class UserSettingsConfiguration : IEntityTypeConfiguration<UserSettings>
 
         builder.Property(b => b.Language)
             .HasMaxLength(100);
-        
+
         builder.Property(b => b.DateTimeFormat)
             .HasMaxLength(100);
-        
+
+        builder.Property(b => b.LatLngFormat)
+                   .HasMaxLength(100);
+
         builder
             .HasOne(us => us.User)
             .WithOne(u => u.UserSettings)

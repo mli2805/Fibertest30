@@ -30,6 +30,7 @@ public class UserSettingsRepository : IUserSettingsRepository
             userSettings.Theme = settings.Theme;
             userSettings.Language = settings.Language;
             userSettings.DateTimeFormat = settings.DateTimeFormat;
+            userSettings.LatLngFormat = settings.LatLngFormat;
             userSettings.Zoom = settings.Zoom;
             userSettings.Lat = settings.Lat;
             userSettings.Lng = settings.Lng;

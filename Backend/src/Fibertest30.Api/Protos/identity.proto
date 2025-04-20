@@ -61,6 +61,7 @@ message UserSettings {
   int32 sourceMapId = 11;
   bool switchOffSuspicionSignalling = 12;
   bool switchOffRtuStatusEventsSignalling = 13;
+  string latLngFormat = 14;
 }
 
 // Login
