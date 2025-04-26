@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom, forkJoin, Observable, ReplaySubject, Subscription, takeUntil } from 'rxjs';
 import { AppState, RtuTreeSelectors } from 'src/app/core';
+import { ExtensionUtils } from 'src/app/core/extension.utils';
 import { RtuMgmtService } from 'src/app/core/grpc';
 import { RtuMgmtMapping } from 'src/app/core/store/mapping/rtu-mgmt-mapping';
 import {
@@ -86,7 +87,7 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
 
   initializeControls() {
     this.trace = this.findTrace()!;
-    this.portName = this.getPortName(this.trace);
+    this.portName = ExtensionUtils.PortOfOtauToString(this.trace.port);
 
     this.preciseFileInitialValue =
       this.trace.preciseDuration > 0 ? this.ts.instant('i18n.ft.saved-in-db') : '';
@@ -109,12 +110,6 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
       .map((b) => b.traces)
       .flat()
       .find((t) => t.traceId === this.traceId);
-  }
-
-  getPortName(trace: Trace): string {
-    if (trace.port === null) return 'i18n.ft.not-attached';
-    if (trace.port.isPortOnMainCharon) return trace.port.opticalPort.toString();
-    return trace.port.mainCharonPort!.toString() + '-' + trace.port.opticalPort.toString();
   }
 
   getFileInputAccept(): string {

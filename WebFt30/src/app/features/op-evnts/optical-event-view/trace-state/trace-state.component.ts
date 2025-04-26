@@ -6,6 +6,7 @@ import { CoreUtils } from 'src/app/core/core.utils';
 import { AccidentLine, OpticalEvent } from 'src/app/core/store/models/ft30/optical-event';
 import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
 import { AccidentConvertor } from './accident-convertor';
+import { ExtensionUtils } from 'src/app/core/extension.utils';
 
 @Component({
   selector: 'rtu-trace-state',
@@ -23,7 +24,7 @@ export class TraceStateComponent {
     );
 
     this.traceTitle = trace!.title;
-    this.port = this.getTracePort(trace!.port);
+    this.port = ExtensionUtils.PortOfOtauToString(trace!.port);
     const rtu = CoreUtils.getCurrentState(this.store, RtuTreeSelectors.selectRtu(trace!.rtuId));
     this.rtuTitle = rtu!.title;
     this.stateAt = this.ts.instant('i18n.ft.trace-state-at', {
@@ -52,12 +53,4 @@ export class TraceStateComponent {
     private ts: TranslateService,
     private accidentConvertor: AccidentConvertor
   ) {}
-
-  getTracePort(port: PortOfOtau | null) {
-    if (port === null) return this.ts.instant('i18n.ft.not-attached');
-
-    return port.isPortOnMainCharon
-      ? port.opticalPort
-      : `${port.mainCharonPort} - ${port.opticalPort}`;
-  }
 }
