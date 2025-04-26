@@ -83,7 +83,6 @@ import { DeleteButtonComponent } from './components/svg-buttons/delete-button.co
 import { MultiSelectionButtonComponent } from './components/svg-buttons/multi-selection-button/multi-selection-button.component';
 import { TraceInfoComponent } from './components/trace-info/trace-info.component';
 import { MessageBoxComponent } from './components/message-box/message-box.component';
-import { RtuInfoComponent } from './components/rtu-info/rtu-info.component';
 import { LatlngFormatSwitcherComponent } from './components/latlng-format-switcher/latlng-format-switcher.component';
 import { GeoCoordinatesPipe } from './pipes/geo-coordinates.pipe';
 
@@ -174,8 +173,7 @@ import { GeoCoordinatesPipe } from './pipes/geo-coordinates.pipe';
     RadioButtonComponent,
     MultiSelectionButtonComponent,
     TraceInfoComponent,
-    MessageBoxComponent,
-    RtuInfoComponent
+    MessageBoxComponent
   ],
   exports: [
     CommonModule,
@@ -255,8 +253,7 @@ import { GeoCoordinatesPipe } from './pipes/geo-coordinates.pipe';
 
     RadioButtonComponent,
     MultiSelectionButtonComponent,
-    TraceInfoComponent,
-    RtuInfoComponent
+    TraceInfoComponent
   ],
   providers: [
     RtuDateToDayOfWeekPipe,

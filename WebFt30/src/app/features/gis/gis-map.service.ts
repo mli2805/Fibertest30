@@ -11,7 +11,7 @@ import * as L from 'leaflet';
 import { GisMapUtils } from './components/shared/gis-map.utils';
 import { StepModel } from './forms/trace-define/step-model';
 import { RadioButton } from 'src/app/shared/components/svg-buttons/radio-button/radio-button';
-import { RtuInfoMode } from 'src/app/shared/components/rtu-info/rtu-info.component';
+import { RtuInfoMode } from './forms/add-rtu-dialog/rtu-info/rtu-info.component';
 
 @Injectable({
   providedIn: 'root'

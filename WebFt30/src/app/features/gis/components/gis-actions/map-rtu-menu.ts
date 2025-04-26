@@ -9,7 +9,7 @@ import { MapNodeMenu } from './map-node-menu';
 import { StepModel } from '../../forms/trace-define/step-model';
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 import { MapNodeRemove } from './map-node-remove';
-import { RtuInfoMode } from 'src/app/shared/components/rtu-info/rtu-info.component';
+import { RtuInfoMode } from '../../forms/add-rtu-dialog/rtu-info/rtu-info.component';
 
 export class MapRtuMenu {
   private static ts: TranslateService;

@@ -7,7 +7,7 @@ import { GisMapUtils } from '../shared/gis-map.utils';
 import { Injector } from '@angular/core';
 import { MapLayersActions } from './map-layers-actions';
 import { GisMapLayer } from '../shared/gis-map-layer';
-import { RtuInfoMode } from 'src/app/shared/components/rtu-info/rtu-info.component';
+import { RtuInfoMode } from '../../forms/add-rtu-dialog/rtu-info/rtu-info.component';
 
 export class MapActions {
   private static gisMapService: GisMapService;

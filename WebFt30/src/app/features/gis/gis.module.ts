@@ -16,6 +16,7 @@ import { NodeInfoDialogComponent } from './forms/node-info-dialog/node-info-dial
 import { SectionWithNodesComponent } from './forms/section-with-nodes/section-with-nodes.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AddRtuDialogComponent } from './forms/add-rtu-dialog/add-rtu-dialog.component';
+import { RtuInfoComponent } from './forms/add-rtu-dialog/rtu-info/rtu-info.component';
 
 @NgModule({
   imports: [GisRoutingModule, SharedModule, DragDropModule],
@@ -33,7 +34,8 @@ import { AddRtuDialogComponent } from './forms/add-rtu-dialog/add-rtu-dialog.com
     AcceptTraceDialogComponent,
     NodeInfoDialogComponent,
     SectionWithNodesComponent,
-    AddRtuDialogComponent
+    AddRtuDialogComponent,
+    RtuInfoComponent
   ],
   providers: []
 })
