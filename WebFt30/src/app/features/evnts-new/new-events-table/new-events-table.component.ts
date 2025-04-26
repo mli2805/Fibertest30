@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AnyTypeEventsActions, AnyTypeEventsSelectors, AppState } from 'src/app/core';
+import { CoreUtils } from 'src/app/core/core.utils';
 import { AudioService } from 'src/app/core/services/audio.service';
 import { HowShowTablesService } from 'src/app/core/services/how-show-tables.service';
 import { AnyTypeEvent } from 'src/app/core/store/models/ft30/any-type-event';
@@ -75,5 +76,10 @@ export class NewEventsTableComponent {
   dismissEvent(evnt: AnyTypeEvent) {
     this.store.dispatch(AnyTypeEventsActions.removeEvent({ removeEvent: evnt }));
     if (!evnt.isOk) this.audioService.dismissEvent(evnt);
+  }
+
+  cleanAll() {
+    const all = CoreUtils.getCurrentState(this.store, AnyTypeEventsSelectors.selectAnyTypeEvents);
+    all.forEach((e) => this.dismissEvent(e));
   }
 }

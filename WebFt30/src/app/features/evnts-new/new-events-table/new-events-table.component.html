@@ -4,11 +4,22 @@
       <table class="events-table min-w-full text-sm">
         <thead class="text-center text-gray-600 dark:text-zinc-400">
           <tr class="">
-            <th></th>
-            <th></th>
+            <ng-container *ngIf="anyTypeEvents$ | async as anyTypeEvents">
+              <ng-container *ngIf="anyTypeEvents.length > 0">
+                <th colspan="2" class="w-12">
+                  <button class="button-extra m-1 text-xs" (click)="cleanAll()">
+                    {{ 'i18n.ft.clean' | translate }}
+                  </button>
+                </th>
+              </ng-container>
+              <ng-container *ngIf="anyTypeEvents.length === 0">
+                <th></th>
+                <th></th>
+              </ng-container>
+            </ng-container>
             <th class="w-16 font-thin">{{ 'i18n.ft.event-id' | translate }}</th>
             <th class="w-40 font-thin">{{ 'i18n.ft.event-registered-at' | translate }}</th>
-            <th class="w-32 font-thin">{{ 'i18n.ft.event-type' | translate }}</th>
+            <th class="w-64 font-thin">{{ 'i18n.ft.event-type' | translate }}</th>
             <th class="font-thin">{{ 'i18n.ft.obj' | translate }}</th>
             <th class="w-32 font-thin">{{ 'i18n.ft.state' | translate }}</th>
           </tr>
