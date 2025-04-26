@@ -4,16 +4,25 @@ import { BehaviorSubject, firstValueFrom, Observable, Subscription } from 'rxjs'
 import { AppState, RtuTreeSelectors } from 'src/app/core';
 import {
   BaseRefType,
+  FiberState,
   MonitoringCurrentStep,
   RtuPartState
 } from 'src/app/core/store/models/ft30/ft-enums';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { GetRtuCurrentStepResponse } from 'src/grpc-generated';
-import { PortInTable } from '../rtu-state/rtu-state.component';
 import { TranslateService } from '@ngx-translate/core';
 import { RtuTreeService } from 'src/app/core/grpc';
 import { Bop } from 'src/app/core/store/models/ft30/bop';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
+
+export interface PortInTable {
+  port: string;
+  title: string;
+  state: FiberState | null;
+  baseRefType: BaseRefType;
+  sorFileId: number;
+  registeredAt: Date | null;
+}
 
 @Component({
   selector: 'rtu-rtu-state-window',
