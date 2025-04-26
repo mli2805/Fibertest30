@@ -3,11 +3,14 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   inject,
+  Input,
   OnInit,
+  Output,
   ViewChild
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom, forkJoin, Observable, ReplaySubject, Subscription, takeUntil } from 'rxjs';
@@ -41,8 +44,9 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
   errorMessageId$ = this.store.select(RtuMgmtSelectors.selectErrorMessageId);
   inProgress$ = this.store.select(RtuMgmtSelectors.selectRtuOperationInProgress);
 
+  rtuId!: string;
   rtu!: Rtu;
-  rtu$;
+  rtu$ = this.store.select(RtuTreeSelectors.selectRtu(this.rtuId));
   traceId!: string;
   trace!: Trace;
   portName!: string;
@@ -58,19 +62,21 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
   @ViewChild('fastFileBox') fastFileBox!: ElementRef;
   @ViewChild('additionalFileBox') additionalFileBox!: ElementRef;
 
+  @Input() set data(value: any) {
+    this.trace = value;
+    this.traceId = value.traceId;
+    this.rtuId = value.rtuId;
+    this.rtu$ = this.store.select(RtuTreeSelectors.selectRtu(this.rtuId));
+  }
+  @Output() closeEvent = new EventEmitter();
+
   constructor(
-    private route: ActivatedRoute,
     private ts: TranslateService,
     private router: Router,
     private cdr: ChangeDetectorRef,
     private rtuMgmtService: RtuMgmtService
   ) {
     super();
-
-    const rtuId = this.route.snapshot.paramMap.get('rtuId')!;
-    this.traceId = this.route.snapshot.paramMap.get('traceId')!;
-    // подписка на рту. если подписаться пока rtuId не определен ничего не получишь
-    this.rtu$ = this.store.select(RtuTreeSelectors.selectRtu(rtuId));
   }
 
   ngOnInit(): void {
@@ -229,6 +235,8 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
           // написать что неправильно
           this.composeErrorLines(answer);
         }
+
+        this.closeEvent.emit();
       });
   }
 

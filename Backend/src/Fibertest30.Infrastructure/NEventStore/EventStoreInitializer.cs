@@ -114,18 +114,20 @@ public class EventStoreInitializer
         _logger.LogInformation($" {res1}");
 
 
-        // эксперимент с "асинхронным" получением результатов выполнения скрипта
-        // т.е. вывод скрипта получается прогой не в конце а по мере появления нового
-        // try
-        // {
-        //     var service = _serviceProvider.GetRequiredService<IShellCommandRt>();
-        //     var script = "./verify.sh";
-        //     service.LogScriptOutputInRealTime(script);
-        // }
-        // catch (Exception e)
-        // {
-        //     _logger.LogError(e.Message);
-        // }
+        // эксперимент с "апгрейдом сервиса"
+        // т.е. вывод скрипта идет в отдельный файл, 
+        //  прога читает по мере появления нового в файле
+        // в какой-то момент скрип погасит прогу
+        try
+        {
+            var upgradeService = _serviceProvider.GetRequiredService<IUpgradeService>();
+            upgradeService.Start();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
+        }
+
 
 
         string scriptFilename = "getStreamId.sh";

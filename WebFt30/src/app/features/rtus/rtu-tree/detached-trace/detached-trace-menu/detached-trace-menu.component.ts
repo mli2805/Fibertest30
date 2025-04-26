@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
+import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 import { AppState, AuthSelectors, RtuTreeActions, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { GraphService } from 'src/app/core/grpc';
@@ -39,6 +40,7 @@ export class DetachedTraceMenuComponent {
     private router: Router,
     public gisMapService: GisMapService,
     public graphService: GraphService,
+    private windowService: WindowService,
     private dialog: Dialog,
     private ts: TranslateService
   ) {
@@ -154,8 +156,6 @@ export class DetachedTraceMenuComponent {
 
   async onAssignBaseRefsClicked() {
     this.open = false;
-    await Utils.delay(100);
-
-    this.router.navigate([`rtus/assign-base/`, this.trace.rtuId, this.trace.traceId]);
+    this.windowService.registerWindow(this.trace.traceId, 'TraceAssignBaseRefs');
   }
 }

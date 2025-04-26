@@ -2,6 +2,7 @@ import { Component, ElementRef, HostListener, inject, Input } from '@angular/cor
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { firstValueFrom } from 'rxjs';
+import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 import { AppState, AuthSelectors, RtuTreeActions, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { RtuTreeService } from 'src/app/core/grpc';
@@ -49,7 +50,8 @@ export class AttachedTraceMenuComponent {
     private elementRef: ElementRef,
     private router: Router,
     private rtuTreeService: RtuTreeService,
-    private gisMapService: GisMapService
+    private gisMapService: GisMapService,
+    private windowService: WindowService
   ) {
     this.currentUser = CoreUtils.getCurrentState(this.store, AuthSelectors.selectUser);
   }
@@ -155,9 +157,7 @@ export class AttachedTraceMenuComponent {
 
   async onAssignBaseRefsClicked() {
     this.open = false;
-    await Utils.delay(100);
-
-    this.router.navigate([`rtus/assign-base/`, this._trace.rtuId, this._trace.traceId]);
+    this.windowService.registerWindow(this._trace.traceId, 'TraceAssignBaseRefs');
   }
 
   canAutomaticBaseRefs() {

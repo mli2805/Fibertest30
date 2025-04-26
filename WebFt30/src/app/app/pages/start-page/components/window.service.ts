@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-type ManagedWindow = 'RtuState' | 'TraceState' | 'Landmarks';
+type ManagedWindow = 'RtuState' | 'TraceState' | 'Landmarks' | 'TraceAssignBaseRefs';
 
 interface WindowData {
   id: string;
@@ -45,7 +45,6 @@ export class WindowService {
   }
 
   unregisterWindow(id: string, type: ManagedWindow) {
-    console.log(`unregisterWindow`);
     this.windows = this.windows.filter((w) => w.id !== id || w.type !== type);
   }
 }

@@ -30,7 +30,6 @@ import { DetachedTraceMenuComponent } from './rtu-tree/detached-trace/detached-t
 import { OneBopMenuComponent } from './rtu-tree/one-bop/one-bop-menu/one-bop-menu.component';
 import { MeasurementClientComponent } from './measurement-client/measurement-client.component';
 import { OtauMonitoringSettingsComponent } from './rtu-monitoring-settings/otau-monitoring-settings/otau-monitoring-settings.component';
-import { TraceAssignBaseComponent } from './trace-assign-base/trace-assign-base.component';
 import { TraceAttachComponent } from './trace-attach/trace-attach.component';
 import { BopAttachComponent } from './bop-attach/bop-attach.component';
 import { TraceInformationComponent } from './trace-information/trace-information.component';
@@ -41,6 +40,8 @@ import { GisModule } from '../gis/gis.module';
 import { MainChannelTestComponent } from './rtu-initialization/main-channel-test/main-channel-test.component';
 import { RtuStateWindowComponent } from './rtu-state-window/rtu-state-window.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { TraceAssignBaseDialogComponent } from './trace-assign-base-dialog/trace-assign-base-dialog.component';
+import { TraceAssignBaseComponent } from './trace-assign-base-dialog/trace-assign-base/trace-assign-base.component';
 
 @NgModule({
   imports: [
@@ -52,7 +53,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     DragDropModule,
     TranslateModule.forChild()
   ],
-  exports: [RtuStateWindowComponent],
+  exports: [RtuStateWindowComponent, TraceAssignBaseDialogComponent],
   declarations: [
     RtuTreeComponent,
     OneRtuComponent,
@@ -78,7 +79,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     OneBopMenuComponent,
     MeasurementClientComponent,
     OtauMonitoringSettingsComponent,
-    TraceAssignBaseComponent,
     TraceAttachComponent,
     BopAttachComponent,
     TraceInformationComponent,
@@ -86,7 +86,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     TraceStatisticsComponent,
     BaselineViewComponent,
     MainChannelTestComponent,
-    RtuStateWindowComponent
+    RtuStateWindowComponent,
+    TraceAssignBaseDialogComponent,
+    TraceAssignBaseComponent
   ],
   providers: []
 })

@@ -57,7 +57,9 @@
       <ng-container *ngIf="window.type === 'TraceState'">
         <!-- <rtu-trace-state-window [rtuId]="window.id" /> -->
       </ng-container>
-      <!-- и т.д. -->
+      <ng-container *ngIf="window.type === 'TraceAssignBaseRefs'">
+        <rtu-trace-assign-base-dialog [traceId]="window.id" />
+      </ng-container>
     </ng-container>
   </div>
 </div>

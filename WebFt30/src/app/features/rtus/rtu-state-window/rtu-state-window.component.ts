@@ -4,7 +4,6 @@ import { BehaviorSubject, firstValueFrom, Observable, Subscription } from 'rxjs'
 import { AppState, RtuTreeSelectors } from 'src/app/core';
 import {
   BaseRefType,
-  FiberState,
   MonitoringCurrentStep,
   RtuPartState
 } from 'src/app/core/store/models/ft30/ft-enums';

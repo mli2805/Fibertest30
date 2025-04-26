@@ -1,0 +1,20 @@
+<div class="modal-backdrop">
+  <div
+    cdkDrag
+    class="draggable-window absolute left-[190px] top-[80px] flex w-96 flex-col p-2 text-sm"
+  >
+    <!-- draggable header -->
+    <div cdkDragHandle class="mb-2 flex items-center justify-between">
+      <div class="ml-1 text-left">
+        {{ 'i18n.ft.assign-base-refs' | translate }}
+      </div>
+      <rtu-close-button class="mr-1 h-6 w-6" (click)="close()" />
+    </div>
+    <!-- content -->
+    <rtu-trace-assign-base
+      *ngIf="traceInfoData$ | async as traceInfoData"
+      [data]="traceInfoData"
+      (closeEvent)="onCloseEvent()"
+    ></rtu-trace-assign-base>
+  </div>
+</div>

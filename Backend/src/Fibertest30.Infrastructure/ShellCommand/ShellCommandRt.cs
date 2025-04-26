@@ -10,11 +10,12 @@ public interface IShellCommandRt
 
 public class ShellCommandRt(ILogger<ShellCommandRt> logger) : IShellCommandRt
 {
+    // это работает, если только скрипт не останавливает вызвавшую его программу (например для апгрейда)
     public Task LogScriptOutputInRealTime(string scriptFilename)
     {
         ProcessStartInfo psi = new ProcessStartInfo
         {
-            FileName = "/bin/bash",
+            FileName = "/bin/sh",
 
             // The -c flag in Bash expects the script path to be absolute or explicitly relative
             // (e.g., ./verify.sh if the script is in the current working directory).
