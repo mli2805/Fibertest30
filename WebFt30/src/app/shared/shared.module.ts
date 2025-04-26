@@ -76,7 +76,6 @@ import { GraphSorAvailableActionComponent } from './components/svg-buttons/avail
 import { GraphIconComponent } from './components/svg-buttons/graph-icon.component';
 import { SorIconComponent } from './components/svg-buttons/sor-icon.component';
 import { GisIconComponent } from './components/svg-buttons/gis-icon.component';
-import { CoordinatesPipe } from './pipes/coordinates.pipe';
 import { EquipmentPipe } from './pipes/equipment.pipe';
 import { RadioButtonComponent } from './components/svg-buttons/radio-button/radio-button.component';
 import { PencilButtonComponent } from './components/svg-buttons/pencil-button.component';
@@ -119,7 +118,6 @@ import { GeoCoordinatesPipe } from './pipes/geo-coordinates.pipe';
     SignedNumberPipe,
     FiberStatePipe,
     TraceStatePipe,
-    CoordinatesPipe,
     FrequencyPipe,
     EventStatusPipe,
     ChannelEventPipe,
@@ -205,7 +203,6 @@ import { GeoCoordinatesPipe } from './pipes/geo-coordinates.pipe';
     SignedNumberPipe,
     FiberStatePipe,
     TraceStatePipe,
-    CoordinatesPipe,
     FrequencyPipe,
     EventStatusPipe,
     ChannelEventPipe,

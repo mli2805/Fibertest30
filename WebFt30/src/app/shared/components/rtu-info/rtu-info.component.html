@@ -44,7 +44,7 @@
           [ngClass]="{ 'disabled-label': isDisabled() }"
           style="grid-area: coorsValue"
         >
-          {{ rtuNode.coors | coordinatesPipe }}
+          {{ rtuNode.coors | geoCoordinates }}
         </label>
 
         <label
