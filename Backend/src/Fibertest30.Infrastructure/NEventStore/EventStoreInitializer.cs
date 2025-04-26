@@ -118,15 +118,15 @@ public class EventStoreInitializer
         // т.е. вывод скрипта идет в отдельный файл, 
         //  прога читает по мере появления нового в файле
         // в какой-то момент скрип погасит прогу
-        try
-        {
-            var upgradeService = _serviceProvider.GetRequiredService<IUpgradeService>();
-            upgradeService.Start();
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e.Message);
-        }
+        // try
+        // {
+        //     var upgradeService = _serviceProvider.GetRequiredService<IUpgradeService>();
+        //     upgradeService.Start();
+        // }
+        // catch (Exception e)
+        // {
+        //     _logger.LogError(e.Message);
+        // }
 
 
 
