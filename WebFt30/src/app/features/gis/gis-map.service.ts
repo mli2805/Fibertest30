@@ -117,13 +117,13 @@ export class GisMapService {
   mousePos!: L.LatLng;
   setMousePos(e: L.LatLng) {
     this.mousePos = e;
-    this.mousePosition.next(GisMapUtils.mouseToString(e));
+    this.mousePosition.next(e);
   }
   moveCenterToMousePos() {
     if (this.mousePos === undefined) return;
     this.map.setView(this.mousePos);
   }
-  mousePosition = new BehaviorSubject<string>('');
+  mousePosition = new BehaviorSubject<L.LatLng | null>(null);
   mousePosition$ = this.mousePosition.asObservable();
 
   showTraceDefine = new BehaviorSubject<string | null>(null);

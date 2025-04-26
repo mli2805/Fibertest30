@@ -75,7 +75,7 @@ export class AccidentLine {
   topRight = '';
   bottom0 = '';
   bottom1 = '';
-  bottom2 = '';
+  // bottom2 = ''; // всегда координаты авария, используем сразу position
   bottom3 = '';
   bottom4 = '';
   pngPath!: string;

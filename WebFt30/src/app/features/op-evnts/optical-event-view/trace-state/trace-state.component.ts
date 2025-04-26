@@ -35,8 +35,6 @@ export class TraceStateComponent {
       const line = this.accidentConvertor.toAccidentLine(a, i + 1);
       this.accidents.push(line);
     });
-
-    console.log(this.accidents);
   }
 
   accidents: AccidentLine[] = [];

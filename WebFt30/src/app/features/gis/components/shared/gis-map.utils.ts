@@ -80,14 +80,4 @@ export class GisMapUtils {
         throw new Error(`No matching color class found for fiber state ${fiberstate}`);
     }
   }
-
-  static latLngToString(latlng: L.LatLng): string {
-    const lat = Math.round(latlng.lat * 1000000) / 1000000;
-    const lng = Math.round(latlng.lng * 1000000) / 1000000;
-    return `${lat} : ${lng}`;
-  }
-
-  static mouseToString(mouse: L.LatLng): string {
-    return `mouse: ${GisMapUtils.latLngToString(mouse)}`;
-  }
 }

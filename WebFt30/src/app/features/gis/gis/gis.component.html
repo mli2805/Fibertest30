@@ -12,7 +12,9 @@
   <div class="mx-2 mb-1 mt-0.5 flex items-center justify-between text-sm">
     <div>
       <span>{{ 'zoom: ' }}{{ gisMapService.currentZoom$ | async }}</span
-      ><span class="ml-3">{{ gisMapService.mousePosition$ | async }}</span>
+      ><ng-container *ngIf="gisMapService.mousePosition$ | async as coors">
+        <span class="ml-3">{{ coors | geoCoordinates }}</span></ng-container
+      >
     </div>
     <div class="flex">
       <rtu-select

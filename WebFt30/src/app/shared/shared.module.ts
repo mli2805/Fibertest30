@@ -86,6 +86,7 @@ import { TraceInfoComponent } from './components/trace-info/trace-info.component
 import { MessageBoxComponent } from './components/message-box/message-box.component';
 import { RtuInfoComponent } from './components/rtu-info/rtu-info.component';
 import { LatlngFormatSwitcherComponent } from './components/latlng-format-switcher/latlng-format-switcher.component';
+import { GeoCoordinatesPipe } from './pipes/geo-coordinates.pipe';
 
 @NgModule({
   imports: [
@@ -125,6 +126,7 @@ import { LatlngFormatSwitcherComponent } from './components/latlng-format-switch
     BaseRefTypePipe,
     EquipmentPipe,
     RtuPartStatePipe,
+    GeoCoordinatesPipe,
     SimpleErrorComponent,
     DescriptionLabelComponent,
     LoadingSpinnerComponent,
@@ -210,6 +212,7 @@ import { LatlngFormatSwitcherComponent } from './components/latlng-format-switch
     BaseRefTypePipe,
     EquipmentPipe,
     RtuPartStatePipe,
+    GeoCoordinatesPipe,
     SimpleErrorComponent,
     DescriptionLabelComponent,
     LoadingSpinnerComponent,
@@ -263,7 +266,8 @@ import { LatlngFormatSwitcherComponent } from './components/latlng-format-switch
     FrequencyPipe,
     RtuDateTimePipe,
     BaseRefTypePipe,
-    EquipmentPipe
+    EquipmentPipe,
+    GeoCoordinatesPipe
   ]
 })
 export class SharedModule {}

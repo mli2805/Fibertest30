@@ -11,8 +11,6 @@ export class AccidentConvertor {
   constructor(private ts: TranslateService, private fiberStatePipe: FiberStatePipe) {}
 
   toAccidentLine(accident: AccidentOnTraceV2, lineNumber: number): AccidentLine {
-    console.log(accident);
-
     if (accident.opticalTypeOfAccident === OpticalAccidentType.TotalLoss)
       return this.createBadLine(accident, lineNumber);
 
@@ -39,10 +37,11 @@ export class AccidentConvertor {
     line.caption = `${lineNumber}. ${seriousness} (${line.accidentTypeLetter}) ${accidentWords}`;
 
     line.topCenter = accidentInOldEvent.accidentTitle;
-    line.topLeft = `RTU ${this.leftArrow} ${
-      accidentInOldEvent.accidentToRtuOpticalDistanceKm
-    } ${this.ts.instant('i18n.common.units.km')}`;
-    line.bottom2 = `${accidentInOldEvent.accidentCoors}`;
+    line.topLeft = `RTU ${
+      this.leftArrow
+    } ${accidentInOldEvent.accidentToRtuOpticalDistanceKm.toFixed(3)} ${this.ts.instant(
+      'i18n.common.units.km'
+    )}`;
 
     line.pngPath = ''; //
     line.position = accidentInOldEvent.accidentCoors;
@@ -66,18 +65,19 @@ export class AccidentConvertor {
     line.caption = `${lineNumber}. ${seriousness} (${line.accidentTypeLetter}) ${accidentWords}`;
 
     line.topLeft = accidentAsNewEvent.left.title;
-    line.topCenter = `RTU ${this.leftArrow} ${
-      accidentAsNewEvent.left.toRtuOpticalDistanceKm
-    } ${this.ts.instant('i18n.common.units.km')}`;
+    line.topCenter = `RTU ${
+      this.leftArrow
+    } ${accidentAsNewEvent.left.toRtuOpticalDistanceKm.toFixed(3)} ${this.ts.instant(
+      'i18n.common.units.km'
+    )}`;
     line.topRight = accidentAsNewEvent.right.title;
 
-    line.bottom1 = `${accidentAsNewEvent.accidentToLeftOpticalDistanceKm} ${this.ts.instant(
-      'i18n.common.units.km'
-    )}`;
-    line.bottom2 = `${accidentAsNewEvent.accidentCoors}`;
-    line.bottom3 = `${accidentAsNewEvent.accidentToRightOpticalDistanceKm} ${this.ts.instant(
-      'i18n.common.units.km'
-    )}`;
+    line.bottom1 = `${accidentAsNewEvent.accidentToLeftOpticalDistanceKm.toFixed(
+      3
+    )} ${this.ts.instant('i18n.common.units.km')}`;
+    line.bottom3 = `${accidentAsNewEvent.accidentToRightOpticalDistanceKm.toFixed(
+      3
+    )} ${this.ts.instant('i18n.common.units.km')}`;
 
     line.pngPath = ''; //
     line.position = accidentAsNewEvent.accidentCoors;
@@ -102,12 +102,12 @@ export class AccidentConvertor {
 
     line.topLeft = accidentInOldEvent.left.title;
     line.topRight = accidentInOldEvent.right.title;
-    line.bottom1 = `RTU ${this.leftArrow} ${
-      accidentInOldEvent.left.toRtuOpticalDistanceKm
-    } ${this.ts.instant('i18n.common.units.km')}`;
-    line.bottom1 = `RTU ${this.leftArrow} ${
-      accidentInOldEvent.right.toRtuOpticalDistanceKm
-    } ${this.ts.instant('i18n.common.units.km')}`;
+    line.bottom1 = `RTU ${this.leftArrow} ${accidentInOldEvent.left.toRtuOpticalDistanceKm.toFixed(
+      3
+    )} ${this.ts.instant('i18n.common.units.km')}`;
+    line.bottom1 = `RTU ${this.leftArrow} ${accidentInOldEvent.right.toRtuOpticalDistanceKm.toFixed(
+      3
+    )} ${this.ts.instant('i18n.common.units.km')}`;
     line.pngPath = ''; //
     line.position = accidentInOldEvent.left.coors;
 
