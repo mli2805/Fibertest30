@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { filter } from 'rxjs';
 
 import { AnyTypeEventsSelectors, AppState, DeviceSelectors, SettingsSelectors } from 'src/app/core';
 import { AudioService } from 'src/app/core/services/audio.service';
@@ -17,8 +18,22 @@ export class StartPageSidebarComponent {
   hasCurrent$ = this.store.select(DeviceSelectors.selectHasCurrent);
   hasNew$ = this.store.select(AnyTypeEventsSelectors.selectHasAny);
 
-  private router: Router = inject(Router);
-  constructor(private store: Store<AppState>, private audioService: AudioService) {}
+  rootOfActiveLink = '';
+
+  constructor(
+    private store: Store<AppState>,
+    private audioService: AudioService,
+    private router: Router
+  ) {
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+      this.rootOfActiveLink = router.url.split('/')[1];
+    });
+  }
+
+  async onRtuTreeClicked() {
+    this.audioService.stopAll();
+    this.router.navigate(['./rtus']);
+  }
 
   async onNewEventsClicked() {
     await Utils.delay(100);
@@ -30,7 +45,7 @@ export class StartPageSidebarComponent {
   // перенес все клики на кнопка бокового меню в код вместо строк в html типа
   // [routerLink]="['./op-evnts']"
   // чтобы можно было задать задержку и контекстное меню на первой форме успевали закрыться
-  async onOptEventsClicked() {
+  async onOptEventsClicked(event?: Event) {
     await Utils.delay(100);
 
     this.audioService.stopAll();
