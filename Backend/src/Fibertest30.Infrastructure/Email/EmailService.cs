@@ -110,7 +110,7 @@ public class EmailService : IEmailService
     
     private MailboxAddress GetFromAddress(string outgoingAddress)
     {
-        return new MailboxAddress("VeEX RFTS-400", outgoingAddress);
+        return new MailboxAddress("IIT Fibertest30", outgoingAddress);
     }
 
     // file attachments
@@ -146,7 +146,7 @@ public class EmailService : IEmailService
     {
         var emailMessage = new MimeMessage();
 
-        emailMessage.From.Add(new MailboxAddress("RFTS400", emailServer.OutgoingAddress));
+        emailMessage.From.Add(new MailboxAddress("Fibertest30", emailServer.OutgoingAddress));
         foreach (var emailTo in emailsTo)
         {
             emailMessage.To.Add(new MailboxAddress(emailTo.Item1, emailTo.Item2));

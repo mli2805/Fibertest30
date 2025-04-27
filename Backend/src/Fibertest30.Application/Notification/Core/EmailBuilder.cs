@@ -50,7 +50,7 @@ public class EmailBuilder : IEmailBuilder
 <!DOCTYPE html>
 <html>
 <head>
-    <title>RFTS-400 test email</title>
+    <title>Fibertest30 test email</title>
 </head>
 <body>
     <div style=""padding: 20px;"">

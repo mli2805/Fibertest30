@@ -30,7 +30,7 @@ public class TestEmailServerSettingsCommandHandler : IRequestHandler<TestEmailSe
         }
 
         var emailsTo = new List<Tuple<string, string>>() { new("",newServer.OutgoingAddress) };
-        var subject = "RFTS-400 test email";
+        var subject = "Fibertest30 test email";
         var htmlMessage = _emailBuilder.GetTestHtmlBody();
         await _emailService.SendEmailAsync(newServer, emailsTo, subject, htmlMessage, null, cancellationToken);
 
