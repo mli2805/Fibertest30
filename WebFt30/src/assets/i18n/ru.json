@@ -371,5 +371,7 @@
   "i18n.ft.attention": "Внимание!",
   "i18n.ft.all-measurements-for-trace": "Все измерения по трассе",
   "i18n.ft.will-be-removed": "будут удалены!",
-  "i18n.ft.are-you-sure": "Вы уверены?"
+  "i18n.ft.are-you-sure": "Вы уверены?",
+
+  "i18n.ft.rfts-events": "RFTS События"
 }

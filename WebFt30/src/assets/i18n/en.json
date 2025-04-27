@@ -694,6 +694,8 @@
   "i18n.ft.will-be-removed": "will be removed!",
   "i18n.ft.are-you-sure": "Are you sure?",
 
+  "i18n.ft.rfts-events": "RFTS Events",
+
   "i18n.validation.incorrect-level-order": "incorrect level order",
   "i18n.validation.not-unique": "must be unique",
   "i18n.validation.precision-limit": "precision limit"

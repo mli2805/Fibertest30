@@ -3,6 +3,12 @@
 
 <div class="flex h-full w-full flex-col">
   <div class="flex items-center justify-end gap-x-1">
+    <div class="available-action action-non-active mr-2" (click)="showRftsEvents()">
+      <rtu-rfts-events-button class="h-8 w-8" />
+      <div class="my-auto text-center text-xs">
+        {{ 'i18n.ft.rfts-events' | translate }}
+      </div>
+    </div>
     <rtu-graph-sor-avaiable-action (click)="toggleGraphSor()" [isGraphMode]="isGraphMode" />
     <div class="available-action action-non-active mr-2" (click)="saveSor()">
       <rtu-save-button class="h-8 w-8" />

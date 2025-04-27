@@ -119,4 +119,8 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
   toggleGraphSor() {
     this.isGraphMode = !this.isGraphMode;
   }
+
+  showRftsEvents() {
+    console.log(`showRftsEvents`);
+  }
 }

@@ -85,6 +85,7 @@ import { TraceInfoComponent } from './components/trace-info/trace-info.component
 import { MessageBoxComponent } from './components/message-box/message-box.component';
 import { LatlngFormatSwitcherComponent } from './components/latlng-format-switcher/latlng-format-switcher.component';
 import { GeoCoordinatesPipe } from './pipes/geo-coordinates.pipe';
+import { RftsEventsButtonComponent } from './components/svg-buttons/rfts-events-button.component';
 
 @NgModule({
   imports: [
@@ -156,6 +157,7 @@ import { GeoCoordinatesPipe } from './pipes/geo-coordinates.pipe';
     IitLogoComponent,
     PencilButtonComponent,
     DeleteButtonComponent,
+    RftsEventsButtonComponent,
 
     HelpTooltipComponent,
     EofThresholdHelpComponent,
@@ -237,6 +239,7 @@ import { GeoCoordinatesPipe } from './pipes/geo-coordinates.pipe';
     IitLogoComponent,
     PencilButtonComponent,
     DeleteButtonComponent,
+    RftsEventsButtonComponent,
 
     HelpTooltipComponent,
     EofThresholdHelpComponent,
