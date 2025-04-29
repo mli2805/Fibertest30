@@ -373,5 +373,24 @@
   "i18n.ft.will-be-removed": "будут удалены!",
   "i18n.ft.are-you-sure": "Вы уверены?",
 
-  "i18n.ft.rfts-events": "RFTS События"
+  "i18n.ft.rfts-events": "RFTS События",
+  "i18n.ft.landmark_name": "Название ориентира",
+  "i18n.ft.landmark_type": "Тип ориентира",
+  "i18n.ft.damage_type": "Тип повреждения",
+  "i18n.ft.distance__km": "Расстояние, км",
+  "i18n.ft.enabled": "Разрешено",
+  "i18n.ft.event_type": "Тип события",
+  "i18n.ft.current_measurement": "Текущее измерение",
+  "i18n.ft.reflectance_coefficient__dB": "Коэффициент отражения, дБ",
+  "i18n.ft.attenuation_in_closure__dB": "Затухание в соединении, дБ",
+  "i18n.ft.attenuation_coefficient__dB_km": "Коэффициент затухания, дБ/км",
+  "i18n.ft.monitoring_thresholds": "Пороги мониторинга",
+  "i18n.ft.deviations_from_base": "Отклонения от базовой",
+  "i18n.ft.event__": "Событие №",
+  "i18n.ft.total_fiber_loss": "Полное затухание в линии",
+  "i18n.ft.new": "новое",
+  "i18n.ft.pass": "в норме",
+  "i18n.ft.fail": "плохо",
+  "i18n.ft.abs": "(абс.)",
+  "i18n.ft.rel": "(отн.)"
 }

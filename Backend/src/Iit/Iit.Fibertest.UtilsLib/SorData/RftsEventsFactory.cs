@@ -7,22 +7,24 @@ namespace Iit.Fibertest.UtilsLib
 {
     public static class RftsEventsFactory
     {
-        public static RftsEventsDto GetRftsEvents(this OtdrDataKnownBlocks sorData)
-        {
-            var rftsEventsDto = new RftsEventsDto { ReturnCode = ReturnCode.Ok };
-
-            rftsEventsDto.IsNoFiber = sorData.RftsEvents.MonitoringResult == (int)ComparisonReturns.NoFiber;
-            if (rftsEventsDto.IsNoFiber) return rftsEventsDto;
-
-            rftsEventsDto.LevelArray = CreateLevelArray(sorData).ToArray();
-            rftsEventsDto.Summary = new RftsEventsSummaryDto(){Orl = sorData.KeyEvents.OpticalReturnLoss};
-            return rftsEventsDto;
-        }
-
         public static RftsEventsDto Create(byte[] sorBytes)
         {
             var sorData = SorData.FromBytes(sorBytes);
             return sorData.GetRftsEvents();
+        }
+
+        private static RftsEventsDto GetRftsEvents(this OtdrDataKnownBlocks sorData)
+        {
+            var rftsEventsDto = new RftsEventsDto
+            {
+                IsNoFiber = sorData.RftsEvents.MonitoringResult == (int)ComparisonReturns.NoFiber
+            };
+
+            if (rftsEventsDto.IsNoFiber) return rftsEventsDto;
+
+            rftsEventsDto.LevelArray = CreateLevelArray(sorData).ToArray();
+            rftsEventsDto.Summary = new RftsEventsSummaryDto(){ Orl = sorData.KeyEvents.OpticalReturnLoss };
+            return rftsEventsDto;
         }
 
         private static IEnumerable<RftsLevelDto> CreateLevelArray(OtdrDataKnownBlocks sorData)

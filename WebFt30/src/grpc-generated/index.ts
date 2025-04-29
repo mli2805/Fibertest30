@@ -19,3 +19,5 @@ export * from './graph';
 export * from './graph.client';
 export * from './gis';
 export * from './gis.client';
+export * from './rfts_events';
+export * from './rfts_events.client';

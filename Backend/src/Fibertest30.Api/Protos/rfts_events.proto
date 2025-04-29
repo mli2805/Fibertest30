@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+option csharp_namespace = "Fibertest30.Api";
+package fibertest30.rfts_events;
+
+service RftsEvents {
+    rpc GetRftsEvents (GetRftsEventsRequest) returns (GetRftsEventsResponse);
+}
+
+message GetRftsEventsRequest {
+    int32 SorFileId = 1;
+}
+
+message GetRftsEventsResponse {
+    RftsEventsData RftsEventsData = 1;
+}
+
+message RftsEventsData {
+    string ErrorMessage = 1;
+    bool IsNoFiber = 2;
+    repeated RftsLevel LevelArray = 3;
+    RftsEventsSummary Summary = 4;
+}
+
+message RftsLevel {
+    string Title = 1;
+    bool IsFailed = 2;
+    string FirstProblemLocation = 3;
+    repeated RftsEvent EventArray = 4;
+    TotalFiberLoss TotalFiberLoss = 5;
+}
+
+message RftsEvent {
+    int32 Ordinal = 1;
+    bool IsNew = 2;
+    bool IsFailed = 3;
+    
+    string LandmarkTitle = 4;
+    string LandmarkType = 5;
+    string State = 6;
+    string DamageType = 7;
+    string DistanceKm = 8;
+    string Enabled = 9;
+    string EventType = 10;
+    
+    string ReflectanceCoeff = 11;
+    string AttenuationInClosure = 12;
+    string AttenuationCoeff = 13;
+    
+    MonitoringThreshold ReflectanceCoeffThreshold = 14;
+    MonitoringThreshold AttenuationInClosureThreshold = 15;
+    MonitoringThreshold AttenuationCoeffThreshold = 16;
+    
+    string ReflectanceCoeffDeviation = 17;
+    string AttenuationInClosureDeviation = 18;
+    string AttenuationCoeffDeviation = 19;
+}
+
+message TotalFiberLoss {
+    double Value = 1;
+    MonitoringThreshold Threshold = 2;
+    double Deviation = 3;
+    bool IsPassed = 4;
+}
+
+message MonitoringThreshold {
+    double Value = 1;
+    bool IsAbsolute = 2;
+}
+
+message RftsEventsSummary {
+    string TraceState = 1;
+    double Orl = 2;
+    repeated LevelState LevelStates = 3;
+}
+
+message LevelState {
+    string LevelTitle = 1;
+    string State = 2;
+}

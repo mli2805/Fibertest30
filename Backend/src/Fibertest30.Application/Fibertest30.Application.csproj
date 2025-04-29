@@ -62,4 +62,8 @@
 		</Reference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="RftsEvents\" />
+	</ItemGroup>
+
 </Project>

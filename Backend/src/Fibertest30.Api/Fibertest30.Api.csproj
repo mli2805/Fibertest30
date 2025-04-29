@@ -31,6 +31,7 @@
 		<Protobuf Include="Protos\measurement.proto" ProtoRoot="Protos" GrpcServices="Server" />
 		<Protobuf Include="Protos\events.data.proto" ProtoRoot="Protos" GrpcServices="Server" />
 		<Protobuf Include="Protos\event_tables.proto" ProtoRoot="Protos" GrpcServices="Server" />
+		<Protobuf Include="Protos\rfts_events.proto" ProtoRoot="Protos" GrpcServices="Server" />
 		<Protobuf Include="Protos\rtu_tree.proto" ProtoRoot="Protos" GrpcServices="Server" />
 		<Protobuf Include="Protos\rtu_mgmt.proto" ProtoRoot="Protos" GrpcServices="Server" />
 		<Protobuf Include="Protos\graph.proto" ProtoRoot="Protos" GrpcServices="Server" />

@@ -14,6 +14,8 @@ import { SorResultBaselineComponent } from '../../fiberizer-core/components/view
 import { EventTablesMapping } from 'src/app/core/store/mapping/event-tables-mapping';
 import { FileSaverService } from 'src/app/core/grpc/services/file-saver.service';
 import { RtuDateTimePipe } from 'src/app/shared/pipes/datetime.pipe';
+import { RftsEventsService } from 'src/app/core/grpc/services/rfts-events.service';
+import { RftsEventsMapping } from 'src/app/core/store/mapping/rfts-events-mapping';
 
 @Component({
   selector: 'rtu-optical-event-view',
@@ -43,6 +45,7 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
     private route: ActivatedRoute,
     private eventTableService: EventTablesService,
     private rtuMgmtService: RtuMgmtService,
+    private rftsEventsService: RftsEventsService,
     private fileSaverService: FileSaverService,
     private dtPipe: RtuDateTimePipe
   ) {
@@ -120,7 +123,12 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
     this.isGraphMode = !this.isGraphMode;
   }
 
-  showRftsEvents() {
+  async showRftsEvents() {
     console.log(`showRftsEvents`);
+    const response = await firstValueFrom(
+      this.rftsEventsService.getRftsEvents(this.opticalEvent!.eventId)
+    );
+    const rftsEvents = RftsEventsMapping.fromRftsEventsDto(response.rftsEventsData!);
+    console.log(rftsEvents);
   }
 }

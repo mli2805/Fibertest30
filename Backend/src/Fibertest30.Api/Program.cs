@@ -221,6 +221,9 @@ void MapGrpcServices(WebApplication app, bool startGrpcReflectionService)
           .RequireCors("AllowAll");
     app.MapGrpcService<GisService>()
           .EnableGrpcWeb()
+          .RequireCors("AllowAll"); 
+    app.MapGrpcService<RftsEventsService>()
+          .EnableGrpcWeb()
           .RequireCors("AllowAll");
 
     if (startGrpcReflectionService)
