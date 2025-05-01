@@ -19,38 +19,58 @@ public static class RftsEventsMapping
     {
         return new RftsLevel
         {
-            Title = dto.Title,
+            Level = dto.Level.ToProto(),
             IsFailed = dto.IsFailed,
-            FirstProblemLocation = dto.FirstProblemLocation,
+            FirstProblemLocation = dto.FirstProblemLocation ?? "",
             EventArray = { dto.EventArray.Select(e => e.ToProto()) },
             TotalFiberLoss = dto.TotalFiberLoss.ToProto(),
         };
     }
 
+    private static RftsWords ToProto(this Iit.Fibertest.Dto.RftsWords word)
+    {
+        return word switch
+        {
+            Iit.Fibertest.Dto.RftsWords.yes => RftsWords.Yes,
+            Iit.Fibertest.Dto.RftsWords.fail => RftsWords.Fail,
+            Iit.Fibertest.Dto.RftsWords.pass => RftsWords.Pass,
+            Iit.Fibertest.Dto.RftsWords.newEvent => RftsWords.NewEvent,
+            Iit.Fibertest.Dto.RftsWords.fiberBreak => RftsWords.FiberBreak,
+            Iit.Fibertest.Dto.RftsWords.empty => RftsWords.Empty,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
+
     private static RftsEvent ToProto(this Iit.Fibertest.Dto.RftsEventDto dto)
     {
-        return new RftsEvent
+        var rftsEvent = new RftsEvent
         {
             Ordinal = dto.Ordinal,
             IsNew = dto.IsNew,
             IsFailed = dto.IsFailed,
             LandmarkTitle = dto.LandmarkTitle,
-            LandmarkType = dto.LandmarkType,
-            State = dto.State,
+            LandmarkType = dto.LandmarkType.ToProto(),
+            State = dto.State.ToProto(),
             DamageType = dto.DamageType,
             DistanceKm = dto.DistanceKm,
-            Enabled = dto.Enabled,
+            Enabled = dto.Enabled.ToProto(),
             EventType = dto.EventType,
             ReflectanceCoeff = dto.ReflectanceCoeff ?? "",
             AttenuationInClosure = dto.AttenuationInClosure ?? "",
             AttenuationCoeff = dto.AttenuationCoeff ?? "",
-            ReflectanceCoeffThreshold = dto.ReflectanceCoeffThreshold.ToProto(),
-            AttenuationInClosureThreshold = dto.AttenuationInClosureThreshold.ToProto(),
-            AttenuationCoeffThreshold = dto.AttenuationCoeffThreshold.ToProto(),
             ReflectanceCoeffDeviation = dto.ReflectanceCoeffDeviation ?? "",
             AttenuationInClosureDeviation = dto.AttenuationInClosureDeviation ?? "",
             AttenuationCoeffDeviation = dto.AttenuationCoeffDeviation ?? "",
         };
+
+        if (dto.ReflectanceCoeffThreshold != null)
+            rftsEvent.ReflectanceCoeffThreshold = dto.ReflectanceCoeffThreshold.ToProto();
+        if (dto.AttenuationInClosureThreshold != null)
+            rftsEvent.AttenuationInClosureThreshold = dto.AttenuationInClosureThreshold.ToProto();
+        if (dto.AttenuationCoeffThreshold != null)
+            rftsEvent.AttenuationCoeffThreshold = dto.AttenuationCoeffThreshold.ToProto();
+
+        return rftsEvent;
     }
 
     private static TotalFiberLoss ToProto(this Iit.Fibertest.Dto.TotalFiberLossDto dto)
@@ -71,13 +91,15 @@ public static class RftsEventsMapping
             Value = dto.Value,
             IsAbsolute = dto.IsAbsolute,
         };
+
     }
 
     private static RftsEventsSummary ToProto(this Iit.Fibertest.Dto.RftsEventsSummaryDto dto)
     {
         return new RftsEventsSummary
         {
-            TraceState = dto.TraceState ?? "",
+            TraceState = dto.TraceState.ToProto(),
+            BreakLocation = dto.BreakLocation,
             Orl = dto.Orl,
             LevelStates = { dto.LevelStates?.Select(ls => ls.ToProto()) ?? [] },
         };

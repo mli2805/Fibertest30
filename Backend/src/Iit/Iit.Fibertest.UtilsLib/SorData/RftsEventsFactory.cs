@@ -23,8 +23,43 @@ namespace Iit.Fibertest.UtilsLib
             if (rftsEventsDto.IsNoFiber) return rftsEventsDto;
 
             rftsEventsDto.LevelArray = CreateLevelArray(sorData).ToArray();
-            rftsEventsDto.Summary = new RftsEventsSummaryDto(){ Orl = sorData.KeyEvents.OpticalReturnLoss };
+            rftsEventsDto.Summary = new RftsEventsSummaryDto() { Orl = sorData.KeyEvents.OpticalReturnLoss };
+            var ts = GetTraceState(sorData, rftsEventsDto.LevelArray);
+            rftsEventsDto.Summary.TraceState = ts.Item1;
+            rftsEventsDto.Summary.BreakLocation = ts.Item2;
             return rftsEventsDto;
+        }
+
+        private static (FiberState, double) GetTraceState(OtdrDataKnownBlocks sorData, RftsLevelDto[] levels)
+        {
+            var traceState = FiberState.Ok;
+            var breakLocation = 0.0;
+
+            var minor = levels.FirstOrDefault(l => l.Level == FiberState.Minor);
+            if (minor != null && minor.IsFailed)
+                traceState = FiberState.Minor;
+
+            var major = levels.FirstOrDefault(l => l.Level == FiberState.Major);
+            if (major != null && major.IsFailed)
+                traceState = FiberState.Major;
+
+            var critical = levels.FirstOrDefault(l => l.Level == FiberState.Critical);
+            if (critical != null && critical.IsFailed)
+                traceState = FiberState.Critical;
+
+            var users = levels.FirstOrDefault(l => l.Level == FiberState.User);
+            if (users != null && users.IsFailed)
+                traceState = FiberState.User;
+
+           
+            if (sorData.RftsEvents.MonitoringResult == (int)ComparisonReturns.FiberBreak)
+            {
+                traceState = FiberState.FiberBreak;
+                var owt = sorData.KeyEvents.KeyEvents[sorData.KeyEvents.KeyEventsCount - 1].EventPropagationTime;
+                breakLocation = sorData.OwtToLenKm(owt);
+            }
+
+            return (traceState, breakLocation);
         }
 
         private static IEnumerable<RftsLevelDto> CreateLevelArray(OtdrDataKnownBlocks sorData)
@@ -48,7 +83,7 @@ namespace Iit.Fibertest.UtilsLib
         {
             var rftsLevelDto = new RftsLevelDto
             {
-                Title = level.LevelName.ToSid(), 
+                Level = level.LevelName.ToFiberState(),
                 EventArray = CreateEventArray(sorData, eventBlock, level).ToArray()
             };
             var firstFailedEvent = rftsLevelDto.EventArray.FirstOrDefault(e => e.IsNew || e.IsFailed);
@@ -71,14 +106,19 @@ namespace Iit.Fibertest.UtilsLib
                 var landmark = sorData.LinkParameters.LandmarkBlocks.FirstOrDefault(b => b.RelatedEventNumber == i + 1);
                 if (landmark != null)
                 {
-                    rftsEventDto.LandmarkTitle = landmark.Comment;
-                    rftsEventDto.LandmarkType = landmark.Code.ForTable();
+                    rftsEventDto.LandmarkTitle = landmark.Comment ?? "";
+                    rftsEventDto.LandmarkType = landmark.Code.ForDto();
+                }
+                else
+                {
+                    rftsEventDto.LandmarkTitle = "";
+                    rftsEventDto.LandmarkType = EquipmentType.AccidentPlace;
                 }
 
                 rftsEventDto.DistanceKm = $@"{sorData.OwtToLenKm(sorData.KeyEvents.KeyEvents[i].EventPropagationTime):0.00000}";
                 if ((rftsEventsBlock.Events[i].EventTypes & RftsEventTypes.IsNew) != 0)
                     rftsEventDto.IsNew = true;
-                rftsEventDto.Enabled = rftsEventsBlock.Events[i].EventTypes.ForEnabledInTable();
+                rftsEventDto.Enabled = rftsEventsBlock.Events[i].EventTypes.ForEnabledInDto();
                 rftsEventDto.EventType = sorData.KeyEvents.KeyEvents[i].EventCode.EventCodeForTable();
 
 
@@ -120,12 +160,12 @@ namespace Iit.Fibertest.UtilsLib
                 rftsEventDto.AttenuationCoeffDeviation
                     = rftsEventDto.ForDeviationInTable(rftsEventsBlock.Events[i].AttenuationCoefThreshold, @"C");
 
-                rftsEventDto.State = rftsEventsBlock.Events[i].EventTypes.ForStateInTable(rftsEventDto.IsFailed);
+                rftsEventDto.State = rftsEventsBlock.Events[i].EventTypes.ForStateInDto(rftsEventDto.IsFailed);
                 yield return rftsEventDto;
             }
         }
 
-      
+
         private static MonitoringThreshold Convert(this ShortThreshold threshold)
         {
             return new MonitoringThreshold

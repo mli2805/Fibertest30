@@ -3,6 +3,8 @@
 // tslint:disable
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
+import { EquipmentType } from "./gis";
+import { FiberState } from "./ft.enums";
 /**
  * @generated from protobuf message fibertest30.rfts_events.GetRftsEventsRequest
  */
@@ -47,9 +49,9 @@ export interface RftsEventsData {
  */
 export interface RftsLevel {
     /**
-     * @generated from protobuf field: string Title = 1 [json_name = "Title"];
+     * @generated from protobuf field: fibertest30.ft.enums.FiberState Level = 1 [json_name = "Level"];
      */
-    title: string;
+    level: FiberState;
     /**
      * @generated from protobuf field: bool IsFailed = 2 [json_name = "IsFailed"];
      */
@@ -88,13 +90,13 @@ export interface RftsEvent {
      */
     landmarkTitle: string;
     /**
-     * @generated from protobuf field: string LandmarkType = 5 [json_name = "LandmarkType"];
+     * @generated from protobuf field: fibertest30.gis.EquipmentType LandmarkType = 5 [json_name = "LandmarkType"];
      */
-    landmarkType: string;
+    landmarkType: EquipmentType;
     /**
-     * @generated from protobuf field: string State = 6 [json_name = "State"];
+     * @generated from protobuf field: fibertest30.rfts_events.RftsWords State = 6 [json_name = "State"];
      */
-    state: string;
+    state: RftsWords;
     /**
      * @generated from protobuf field: string DamageType = 7 [json_name = "DamageType"];
      */
@@ -104,9 +106,9 @@ export interface RftsEvent {
      */
     distanceKm: string;
     /**
-     * @generated from protobuf field: string Enabled = 9 [json_name = "Enabled"];
+     * @generated from protobuf field: fibertest30.rfts_events.RftsWords Enabled = 9 [json_name = "Enabled"];
      */
-    enabled: string;
+    enabled: RftsWords;
     /**
      * @generated from protobuf field: string EventType = 10 [json_name = "EventType"];
      */
@@ -124,15 +126,15 @@ export interface RftsEvent {
      */
     attenuationCoeff: string;
     /**
-     * @generated from protobuf field: fibertest30.rfts_events.MonitoringThreshold ReflectanceCoeffThreshold = 14 [json_name = "ReflectanceCoeffThreshold"];
+     * @generated from protobuf field: optional fibertest30.rfts_events.MonitoringThreshold ReflectanceCoeffThreshold = 14 [json_name = "ReflectanceCoeffThreshold"];
      */
     reflectanceCoeffThreshold?: MonitoringThreshold;
     /**
-     * @generated from protobuf field: fibertest30.rfts_events.MonitoringThreshold AttenuationInClosureThreshold = 15 [json_name = "AttenuationInClosureThreshold"];
+     * @generated from protobuf field: optional fibertest30.rfts_events.MonitoringThreshold AttenuationInClosureThreshold = 15 [json_name = "AttenuationInClosureThreshold"];
      */
     attenuationInClosureThreshold?: MonitoringThreshold;
     /**
-     * @generated from protobuf field: fibertest30.rfts_events.MonitoringThreshold AttenuationCoeffThreshold = 16 [json_name = "AttenuationCoeffThreshold"];
+     * @generated from protobuf field: optional fibertest30.rfts_events.MonitoringThreshold AttenuationCoeffThreshold = 16 [json_name = "AttenuationCoeffThreshold"];
      */
     attenuationCoeffThreshold?: MonitoringThreshold;
     /**
@@ -187,15 +189,19 @@ export interface MonitoringThreshold {
  */
 export interface RftsEventsSummary {
     /**
-     * @generated from protobuf field: string TraceState = 1 [json_name = "TraceState"];
+     * @generated from protobuf field: fibertest30.ft.enums.FiberState TraceState = 1 [json_name = "TraceState"];
      */
-    traceState: string;
+    traceState: FiberState;
     /**
-     * @generated from protobuf field: double Orl = 2 [json_name = "Orl"];
+     * @generated from protobuf field: double BreakLocation = 2 [json_name = "BreakLocation"];
+     */
+    breakLocation: number;
+    /**
+     * @generated from protobuf field: double Orl = 3 [json_name = "Orl"];
      */
     orl: number;
     /**
-     * @generated from protobuf field: repeated fibertest30.rfts_events.LevelState LevelStates = 3 [json_name = "LevelStates"];
+     * @generated from protobuf field: repeated fibertest30.rfts_events.LevelState LevelStates = 4 [json_name = "LevelStates"];
      */
     levelStates: LevelState[];
 }
@@ -211,6 +217,35 @@ export interface LevelState {
      * @generated from protobuf field: string State = 2 [json_name = "State"];
      */
     state: string;
+}
+/**
+ * @generated from protobuf enum fibertest30.rfts_events.RftsWords
+ */
+export enum RftsWords {
+    /**
+     * @generated from protobuf enum value: Yes = 0;
+     */
+    Yes = 0,
+    /**
+     * @generated from protobuf enum value: Fail = 1;
+     */
+    Fail = 1,
+    /**
+     * @generated from protobuf enum value: Pass = 2;
+     */
+    Pass = 2,
+    /**
+     * @generated from protobuf enum value: NewEvent = 3;
+     */
+    NewEvent = 3,
+    /**
+     * @generated from protobuf enum value: FiberBreak = 4;
+     */
+    FiberBreak = 4,
+    /**
+     * @generated from protobuf enum value: Empty = 5;
+     */
+    Empty = 5
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class GetRftsEventsRequest$Type extends MessageType<GetRftsEventsRequest> {
@@ -255,7 +290,7 @@ export const RftsEventsData = new RftsEventsData$Type();
 class RftsLevel$Type extends MessageType<RftsLevel> {
     constructor() {
         super("fibertest30.rfts_events.RftsLevel", [
-            { no: 1, name: "Title", kind: "scalar", jsonName: "Title", T: 9 /*ScalarType.STRING*/ },
+            { no: 1, name: "Level", kind: "enum", jsonName: "Level", T: () => ["fibertest30.ft.enums.FiberState", FiberState] },
             { no: 2, name: "IsFailed", kind: "scalar", jsonName: "IsFailed", T: 8 /*ScalarType.BOOL*/ },
             { no: 3, name: "FirstProblemLocation", kind: "scalar", jsonName: "FirstProblemLocation", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "EventArray", kind: "message", jsonName: "EventArray", repeat: 1 /*RepeatType.PACKED*/, T: () => RftsEvent },
@@ -275,11 +310,11 @@ class RftsEvent$Type extends MessageType<RftsEvent> {
             { no: 2, name: "IsNew", kind: "scalar", jsonName: "IsNew", T: 8 /*ScalarType.BOOL*/ },
             { no: 3, name: "IsFailed", kind: "scalar", jsonName: "IsFailed", T: 8 /*ScalarType.BOOL*/ },
             { no: 4, name: "LandmarkTitle", kind: "scalar", jsonName: "LandmarkTitle", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "LandmarkType", kind: "scalar", jsonName: "LandmarkType", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "State", kind: "scalar", jsonName: "State", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "LandmarkType", kind: "enum", jsonName: "LandmarkType", T: () => ["fibertest30.gis.EquipmentType", EquipmentType] },
+            { no: 6, name: "State", kind: "enum", jsonName: "State", T: () => ["fibertest30.rfts_events.RftsWords", RftsWords] },
             { no: 7, name: "DamageType", kind: "scalar", jsonName: "DamageType", T: 9 /*ScalarType.STRING*/ },
             { no: 8, name: "DistanceKm", kind: "scalar", jsonName: "DistanceKm", T: 9 /*ScalarType.STRING*/ },
-            { no: 9, name: "Enabled", kind: "scalar", jsonName: "Enabled", T: 9 /*ScalarType.STRING*/ },
+            { no: 9, name: "Enabled", kind: "enum", jsonName: "Enabled", T: () => ["fibertest30.rfts_events.RftsWords", RftsWords] },
             { no: 10, name: "EventType", kind: "scalar", jsonName: "EventType", T: 9 /*ScalarType.STRING*/ },
             { no: 11, name: "ReflectanceCoeff", kind: "scalar", jsonName: "ReflectanceCoeff", T: 9 /*ScalarType.STRING*/ },
             { no: 12, name: "AttenuationInClosure", kind: "scalar", jsonName: "AttenuationInClosure", T: 9 /*ScalarType.STRING*/ },
@@ -329,9 +364,10 @@ export const MonitoringThreshold = new MonitoringThreshold$Type();
 class RftsEventsSummary$Type extends MessageType<RftsEventsSummary> {
     constructor() {
         super("fibertest30.rfts_events.RftsEventsSummary", [
-            { no: 1, name: "TraceState", kind: "scalar", jsonName: "TraceState", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "Orl", kind: "scalar", jsonName: "Orl", T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 3, name: "LevelStates", kind: "message", jsonName: "LevelStates", repeat: 1 /*RepeatType.PACKED*/, T: () => LevelState }
+            { no: 1, name: "TraceState", kind: "enum", jsonName: "TraceState", T: () => ["fibertest30.ft.enums.FiberState", FiberState] },
+            { no: 2, name: "BreakLocation", kind: "scalar", jsonName: "BreakLocation", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 3, name: "Orl", kind: "scalar", jsonName: "Orl", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 4, name: "LevelStates", kind: "message", jsonName: "LevelStates", repeat: 1 /*RepeatType.PACKED*/, T: () => LevelState }
         ]);
     }
 }

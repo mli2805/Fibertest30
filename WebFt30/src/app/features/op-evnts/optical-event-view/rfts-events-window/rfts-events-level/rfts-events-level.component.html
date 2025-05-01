@@ -1,0 +1,216 @@
+<div class="m-1 border border-gray-500 px-1 text-xs">
+  <!-- таблица -->
+  <div class="w-full">
+    <div class="overflow-y-auto">
+      <table class="ml-0 min-w-full">
+        <thead>
+          <tr class="font-thin">
+            <th
+              class="sticky left-0 z-10 h-1 min-w-48 bg-rtu-second-bg dark:bg-rtu-dark-second-bg"
+            ></th>
+            <th
+              *ngFor="let evnt of level.eventArray; let i = index"
+              class="min-w-24 text-left"
+            ></th>
+          </tr>
+        </thead>
+        <tbody class="">
+          <tr>
+            <td class="sticky left-0 z-10 h-6 bg-rtu-second-bg dark:bg-rtu-dark-second-bg">
+              {{ 'i18n.ft.parameters' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray; let i = index">
+              {{ 'i18n.ft.event_#' | translate }}{{ i }}
+            </td>
+          </tr>
+          <!-- общая информация -->
+          <tr class="bg-[#97F2F7] font-bold dark:bg-[#001661]">
+            <td class="sticky left-0 z-10 text-center">
+              {{ 'i18n.ft.common-information' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray"></td>
+          </tr>
+          <tr class="mt-1">
+            <td class="sticky left-0 z-10 bg-rtu-second-bg dark:bg-rtu-dark-second-bg">
+              {{ 'i18n.ft.landmark_name' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray">
+              {{ evnt.landmarkTitle }}
+            </td>
+          </tr>
+          <tr class="mt-1">
+            <td class="sticky left-0 z-10 bg-rtu-second-bg dark:bg-rtu-dark-second-bg">
+              {{ 'i18n.ft.landmark_type' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray">
+              {{ evnt.landmarkType | equipmentPipe | translate }}
+            </td>
+          </tr>
+          <tr class="mt-1">
+            <td class="sticky left-0 z-10 bg-rtu-second-bg dark:bg-rtu-dark-second-bg">
+              {{ 'i18n.ft.state' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray">
+              <div [ngClass]="{ 'text-red-500': evnt.state !== 'i18n.ft.pass' }">
+                {{ evnt.state | translate | lowercase }}
+              </div>
+            </td>
+          </tr>
+          <tr class="mt-1">
+            <td class="sticky left-0 z-10 bg-rtu-second-bg dark:bg-rtu-dark-second-bg">
+              {{ 'i18n.ft.damage_type' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray">
+              {{ evnt.damageType }}
+            </td>
+          </tr>
+          <tr class="mt-1">
+            <td class="sticky left-0 z-10 bg-rtu-second-bg dark:bg-rtu-dark-second-bg">
+              {{ 'i18n.ft.distance__km' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray">
+              {{ evnt.distanceKm }}
+            </td>
+          </tr>
+          <tr class="mt-1">
+            <td class="sticky left-0 z-10 bg-rtu-second-bg dark:bg-rtu-dark-second-bg">
+              {{ 'i18n.ft.enabled' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray">
+              {{ evnt.enabled | translate }}
+            </td>
+          </tr>
+          <tr class="mt-1">
+            <td class="sticky left-0 z-10 bg-rtu-second-bg dark:bg-rtu-dark-second-bg">
+              {{ 'i18n.ft.event_type' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray">
+              {{ evnt.eventType }}
+            </td>
+          </tr>
+          <!-- текущее измерение -->
+          <tr class="bg-[#97F2F7] font-bold dark:bg-[#001661]">
+            <td class="sticky left-0 z-10 text-center">
+              {{ 'i18n.ft.current_measurement' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray"></td>
+          </tr>
+          <tr class="mt-1">
+            <td class="sticky left-0 z-10 bg-rtu-second-bg dark:bg-rtu-dark-second-bg">
+              {{ 'i18n.ft.reflectance_coefficient__dB' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray">
+              {{ evnt.reflectanceCoeff }}
+            </td>
+          </tr>
+          <tr class="mt-1">
+            <td class="sticky left-0 z-10 bg-rtu-second-bg dark:bg-rtu-dark-second-bg">
+              {{ 'i18n.ft.attenuation_in_closure__dB' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray">
+              {{ evnt.attenuationInClosure }}
+            </td>
+          </tr>
+          <tr class="mt-1">
+            <td class="sticky left-0 z-10 bg-rtu-second-bg dark:bg-rtu-dark-second-bg">
+              {{ 'i18n.ft.attenuation_coefficient__dB_km' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray">
+              {{ evnt.attenuationCoeff }}
+            </td>
+          </tr>
+          <!-- пороги -->
+          <tr class="bg-[#97F2F7] font-bold dark:bg-[#001661]">
+            <td class="sticky left-0 z-10 text-center">
+              {{ 'i18n.ft.monitoring_thresholds' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray"></td>
+          </tr>
+          <tr class="mt-1">
+            <td class="sticky left-0 z-10 bg-rtu-second-bg dark:bg-rtu-dark-second-bg">
+              {{ 'i18n.ft.reflectance_coefficient__dB' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray">
+              <rtu-threshold [threshold]="evnt.reflectanceCoeffThreshold"></rtu-threshold>
+            </td>
+          </tr>
+          <tr class="mt-1">
+            <td class="sticky left-0 z-10 bg-rtu-second-bg dark:bg-rtu-dark-second-bg">
+              {{ 'i18n.ft.attenuation_in_closure__dB' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray">
+              <rtu-threshold [threshold]="evnt.attenuationInClosureThreshold"></rtu-threshold>
+            </td>
+          </tr>
+          <tr class="mt-1">
+            <td class="sticky left-0 z-10 bg-rtu-second-bg dark:bg-rtu-dark-second-bg">
+              {{ 'i18n.ft.attenuation_coefficient__dB_km' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray">
+              <rtu-threshold [threshold]="evnt.attenuationCoeffThreshold"></rtu-threshold>
+            </td>
+          </tr>
+          <!-- отклонение от базовой -->
+          <tr class="bg-[#97F2F7] font-bold dark:bg-[#001661]">
+            <td class="sticky left-0 z-10 text-center">
+              {{ 'i18n.ft.deviations_from_base' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray"></td>
+          </tr>
+          <tr class="mt-1">
+            <td class="sticky left-0 z-10 bg-rtu-second-bg dark:bg-rtu-dark-second-bg">
+              {{ 'i18n.ft.reflectance_coefficient__dB' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray">
+              {{ evnt.reflectanceCoeffDeviation }}
+            </td>
+          </tr>
+          <tr class="mt-1">
+            <td class="sticky left-0 z-10 bg-rtu-second-bg dark:bg-rtu-dark-second-bg">
+              {{ 'i18n.ft.attenuation_in_closure__dB' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray">
+              {{ evnt.attenuationInClosureDeviation }}
+            </td>
+          </tr>
+          <tr class="mt-1">
+            <td class="sticky left-0 z-10 bg-rtu-second-bg dark:bg-rtu-dark-second-bg">
+              {{ 'i18n.ft.attenuation_coefficient__dB_km' | translate }}
+            </td>
+            <td *ngFor="let evnt of level.eventArray">
+              {{ evnt.attenuationCoeffDeviation }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- total fiber loss -->
+  <div class="my-1 flex flex-col border-t border-gray-500">
+    <div class="my-1">{{ 'i18n.ft.total_fiber_loss' | translate }}</div>
+    <div class="flex">
+      <div class="mr-2 flex">
+        {{ 'i18n.ft.value__db' | translate }}:
+        <span class="ml-1">{{ level.totalFiberLoss.value }}</span>
+      </div>
+      <div class="mr-2 flex">
+        {{ 'i18n.ft.threshold__db' | translate }}:
+        <rtu-threshold [threshold]="level.totalFiberLoss.threshold"></rtu-threshold>
+      </div>
+      <div class="mr-2 flex">
+        {{ 'i18n.ft.deviation__db' | translate }}:
+        <span class="ml-1">{{ level.totalFiberLoss.deviation }}</span>
+      </div>
+      <div class="flex">
+        {{ 'i18n.ft.state' | translate }}:
+        <div class="ml-1" *ngIf="level.totalFiberLoss.isPassed">
+          {{ 'i18n.ft.pass' | translate }}
+        </div>
+        <div class="ml-1 text-red-500" *ngIf="!level.totalFiberLoss.isPassed">
+          {{ 'i18n.ft.fail' | translate }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

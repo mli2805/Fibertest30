@@ -5,7 +5,7 @@ namespace Fibertest30.Api;
 
 public static class GisMapping
 {
-    private static EquipmentType ToProto(this Iit.Fibertest.Dto.EquipmentType type)
+    public static EquipmentType ToProto(this Iit.Fibertest.Dto.EquipmentType type)
     {
         return type switch
         {

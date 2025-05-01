@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using Microsoft.Extensions.Hosting;
-using System.Security.Cryptography;
 
 namespace Fibertest30.Infrastructure
 {
@@ -63,21 +62,18 @@ namespace Fibertest30.Infrastructure
                 await using var stream = new FileStream(logFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
                 using var reader = new StreamReader(stream);
-                // Start reading from the beginning or end
-                reader.BaseStream.Seek(0, SeekOrigin.Begin);  // Tail from the end
+                reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
                 while (!stoppingToken.IsCancellationRequested)
                 {
                     string? line = await reader.ReadLineAsync(stoppingToken);
                     if (line != null)
                     {
-                        // Process the line (e.g., log it or send to a UI)
                         logger.LogInformation($@"Script Output: {line}");
                     }
                     else
                     {
                         logger.LogInformation("nothing to log");
-                        // Wait for new content
                         await Task.Delay(1000, stoppingToken);
                     }
                 }
@@ -110,7 +106,7 @@ namespace Fibertest30.Infrastructure
         /// </summary>
         /// <param name="script">Absolute path!</param>
         /// <param name="scriptLog">Absolute path!</param>
-        public void StartDetachedAndRedirectOutput(string script, string scriptLog)
+        private void StartDetachedAndRedirectOutput(string script, string scriptLog)
         {
             ProcessStartInfo startInfo = new()
             {

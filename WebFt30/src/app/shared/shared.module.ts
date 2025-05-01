@@ -86,6 +86,7 @@ import { MessageBoxComponent } from './components/message-box/message-box.compon
 import { LatlngFormatSwitcherComponent } from './components/latlng-format-switcher/latlng-format-switcher.component';
 import { GeoCoordinatesPipe } from './pipes/geo-coordinates.pipe';
 import { RftsEventsButtonComponent } from './components/svg-buttons/rfts-events-button.component';
+import { TabHeaderComponent } from './components/svg-buttons/tab-header/tab-header.component';
 
 @NgModule({
   imports: [
@@ -175,7 +176,8 @@ import { RftsEventsButtonComponent } from './components/svg-buttons/rfts-events-
     RadioButtonComponent,
     MultiSelectionButtonComponent,
     TraceInfoComponent,
-    MessageBoxComponent
+    MessageBoxComponent,
+    TabHeaderComponent
   ],
   exports: [
     CommonModule,
@@ -256,7 +258,8 @@ import { RftsEventsButtonComponent } from './components/svg-buttons/rfts-events-
 
     RadioButtonComponent,
     MultiSelectionButtonComponent,
-    TraceInfoComponent
+    TraceInfoComponent,
+    TabHeaderComponent
   ],
   providers: [
     RtuDateToDayOfWeekPipe,

@@ -161,7 +161,7 @@
 
   "i18n.ft.not-in-trace": "Не в трассе",
   "i18n.ft.not-joined": "Не присоединена",
-  "i18n.ft.unknown": "",
+  "i18n.ft.unknown": "Неизвестно",
   "i18n.ft.not-in-zone": "",
   "i18n.ft.ok": "Ок",
   "i18n.ft.suspicion": "Подозрение",
@@ -374,6 +374,7 @@
   "i18n.ft.are-you-sure": "Вы уверены?",
 
   "i18n.ft.rfts-events": "RFTS События",
+  "i18n.ft.common-information": "Общая информация",
   "i18n.ft.landmark_name": "Название ориентира",
   "i18n.ft.landmark_type": "Тип ориентира",
   "i18n.ft.damage_type": "Тип повреждения",
@@ -386,11 +387,17 @@
   "i18n.ft.attenuation_coefficient__dB_km": "Коэффициент затухания, дБ/км",
   "i18n.ft.monitoring_thresholds": "Пороги мониторинга",
   "i18n.ft.deviations_from_base": "Отклонения от базовой",
-  "i18n.ft.event__": "Событие №",
+  "i18n.ft.parameters": "Параметры",
+  "i18n.ft.event_#": "Событие №",
   "i18n.ft.total_fiber_loss": "Полное затухание в линии",
+  "i18n.ft.value__db": "Значение, дБ",
+  "i18n.ft.threshold__db": "Порог, дБ",
+  "i18n.ft.deviation__db": "Отклонение, дБ",
   "i18n.ft.new": "новое",
   "i18n.ft.pass": "в норме",
+  "i18n.ft.yes": "да",
   "i18n.ft.fail": "плохо",
   "i18n.ft.abs": "(абс.)",
-  "i18n.ft.rel": "(отн.)"
+  "i18n.ft.rel": "(отн.)",
+  "i18n.ft.km": "км"
 }

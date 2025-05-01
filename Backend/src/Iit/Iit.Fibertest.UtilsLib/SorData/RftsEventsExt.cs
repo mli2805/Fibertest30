@@ -4,47 +4,47 @@ using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
 namespace Iit.Fibertest.UtilsLib
 {
-    // for WebClient
+    // for WebFt30
     public static class RftsEventsExt
     {
-        public static string ForStateInTable(this RftsEventTypes rftsEventType, bool isFailed)
+        public static RftsWords ForStateInDto(this RftsEventTypes rftsEventType, bool isFailed)
         {
             if ((rftsEventType & RftsEventTypes.IsFiberBreak) != 0)
-                return "SID_fiber_break";
+                return RftsWords.fiberBreak;
             if ((rftsEventType & RftsEventTypes.IsNew) != 0)
-                return "SID_new";
+                return RftsWords.newEvent;
             if ((rftsEventType & RftsEventTypes.IsFailed) != 0)
-                return "SID_fail";
+                return RftsWords.fail;
             if ((rftsEventType & RftsEventTypes.IsMonitored) != 0)
-                return isFailed ? "SID_fail" : "SID_pass";
+                return isFailed ? RftsWords.fail : RftsWords.pass;
             if (rftsEventType == RftsEventTypes.None)
-                return "";
-            return "SID_unexpected_input";
-        }
-
-        public static string ForEnabledInTable(this RftsEventTypes rftsEventType)
+                return RftsWords.empty;
+            return RftsWords.empty;
+        } 
+       
+        public static RftsWords ForEnabledInDto(this RftsEventTypes rftsEventType)
         {
             if ((rftsEventType & RftsEventTypes.IsNew) != 0)
-                return "SID_new";
+                return RftsWords.newEvent;
             if ((rftsEventType & RftsEventTypes.IsMonitored) != 0)
-                return "SID_yes";
+                return RftsWords.yes;
             if (rftsEventType == RftsEventTypes.None)
-                return "SID_pass";
-            return "SID_unexpected_input";
+                return RftsWords.pass;
+            return RftsWords.empty;
         }
-
-        public static string ForTable(this LandmarkCode landmarkCode)
+        
+        public static EquipmentType ForDto(this LandmarkCode landmarkCode)
         {
             switch (landmarkCode)
             {
-                case LandmarkCode.FiberDistributingFrame: return "SID_Rtu";
-                case LandmarkCode.Coupler: return "SID_Closure";
-                case LandmarkCode.WiringCloset: return "SID_Cross";
-                case LandmarkCode.Manhole: return "SID_Node";
-                case LandmarkCode.RemoteTerminal: return "SID_Terminal";
-                case LandmarkCode.Other: return "SID_Other";
+                case LandmarkCode.FiberDistributingFrame: return EquipmentType.Rtu;
+                case LandmarkCode.Coupler: return EquipmentType.Closure;
+                case LandmarkCode.WiringCloset: return EquipmentType.Cross;
+                case LandmarkCode.Manhole: return EquipmentType.EmptyNode;
+                case LandmarkCode.RemoteTerminal: return EquipmentType.Terminal;
+                case LandmarkCode.Other: return EquipmentType.Other;
             }
-            return "SID_unexpected_input";
+            return EquipmentType.Other;
         }
 
         public static string EventCodeForTable(this string eventCode)
@@ -64,16 +64,15 @@ namespace Iit.Fibertest.UtilsLib
             }
             return formattedValue;
         }
-
-
-        public static string ToSid(this RftsLevelType level)
+      
+        public static FiberState ToFiberState(this RftsLevelType level)
         {
             switch (level)
             {
-                case RftsLevelType.Minor: return @"SID_Minor";
-                case RftsLevelType.Major: return @"SID_Major";
-                case RftsLevelType.Critical: return @"SID_Critical";
-                default: return @"SID_User_s";
+                case RftsLevelType.Minor: return FiberState.Minor;
+                case RftsLevelType.Major: return FiberState.Major;
+                case RftsLevelType.Critical: return FiberState.Critical;
+                default: return FiberState.User;
             }
         }
     }

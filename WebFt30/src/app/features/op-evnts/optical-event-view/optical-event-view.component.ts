@@ -16,6 +16,7 @@ import { FileSaverService } from 'src/app/core/grpc/services/file-saver.service'
 import { RtuDateTimePipe } from 'src/app/shared/pipes/datetime.pipe';
 import { RftsEventsService } from 'src/app/core/grpc/services/rfts-events.service';
 import { RftsEventsMapping } from 'src/app/core/store/mapping/rfts-events-mapping';
+import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 
 @Component({
   selector: 'rtu-optical-event-view',
@@ -43,6 +44,7 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
   constructor(
     private store: Store<AppState>,
     private route: ActivatedRoute,
+    private windowService: WindowService,
     private eventTableService: EventTablesService,
     private rtuMgmtService: RtuMgmtService,
     private rftsEventsService: RftsEventsService,
@@ -124,11 +126,10 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
   }
 
   async showRftsEvents() {
-    console.log(`showRftsEvents`);
     const response = await firstValueFrom(
       this.rftsEventsService.getRftsEvents(this.opticalEvent!.eventId)
     );
     const rftsEvents = RftsEventsMapping.fromRftsEventsDto(response.rftsEventsData!);
-    console.log(rftsEvents);
+    this.windowService.registerWindow(crypto.randomUUID(), 'RftsEvents', rftsEvents);
   }
 }

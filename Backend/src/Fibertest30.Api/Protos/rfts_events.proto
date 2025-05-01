@@ -1,4 +1,6 @@
 syntax = "proto3";
+import "ft.enums.proto";
+import "gis.proto";
 
 option csharp_namespace = "Fibertest30.Api";
 package fibertest30.rfts_events;
@@ -23,11 +25,20 @@ message RftsEventsData {
 }
 
 message RftsLevel {
-    string Title = 1;
+    ft.enums.FiberState Level = 1;
     bool IsFailed = 2;
     string FirstProblemLocation = 3;
     repeated RftsEvent EventArray = 4;
     TotalFiberLoss TotalFiberLoss = 5;
+}
+
+enum RftsWords {
+    Yes = 0;
+    Fail = 1;
+    Pass = 2;
+    NewEvent = 3;
+    FiberBreak = 4;
+    Empty = 5;
 }
 
 message RftsEvent {
@@ -36,20 +47,20 @@ message RftsEvent {
     bool IsFailed = 3;
     
     string LandmarkTitle = 4;
-    string LandmarkType = 5;
-    string State = 6;
+    gis.EquipmentType LandmarkType = 5;
+    RftsWords State = 6;
     string DamageType = 7;
     string DistanceKm = 8;
-    string Enabled = 9;
+    RftsWords Enabled = 9;
     string EventType = 10;
     
     string ReflectanceCoeff = 11;
     string AttenuationInClosure = 12;
     string AttenuationCoeff = 13;
     
-    MonitoringThreshold ReflectanceCoeffThreshold = 14;
-    MonitoringThreshold AttenuationInClosureThreshold = 15;
-    MonitoringThreshold AttenuationCoeffThreshold = 16;
+    optional MonitoringThreshold ReflectanceCoeffThreshold = 14;
+    optional MonitoringThreshold AttenuationInClosureThreshold = 15;
+    optional MonitoringThreshold AttenuationCoeffThreshold = 16;
     
     string ReflectanceCoeffDeviation = 17;
     string AttenuationInClosureDeviation = 18;
@@ -69,9 +80,10 @@ message MonitoringThreshold {
 }
 
 message RftsEventsSummary {
-    string TraceState = 1;
-    double Orl = 2;
-    repeated LevelState LevelStates = 3;
+    ft.enums.FiberState TraceState = 1;
+    double BreakLocation = 2;
+    double Orl = 3;
+    repeated LevelState LevelStates = 4;
 }
 
 message LevelState {

@@ -156,6 +156,6 @@ export class DetachedTraceMenuComponent {
 
   async onAssignBaseRefsClicked() {
     this.open = false;
-    this.windowService.registerWindow(this.trace.traceId, 'TraceAssignBaseRefs');
+    this.windowService.registerWindow(this.trace.traceId, 'TraceAssignBaseRefs', this.trace);
   }
 }

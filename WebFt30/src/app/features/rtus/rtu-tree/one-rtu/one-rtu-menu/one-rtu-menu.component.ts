@@ -111,7 +111,7 @@ export class OneRtuMenuComponent {
     this.open = false;
     await Utils.delay(100);
 
-    this.windowService.registerWindow(this.rtu.rtuId, 'RtuState');
+    this.windowService.registerWindow(this.rtu.rtuId, 'RtuState', this.rtu);
 
     // const path = `rtus/state/${this.rtu.rtuId}`;
     // this.router.navigate([path]);

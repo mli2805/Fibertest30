@@ -1,0 +1,6 @@
+<ng-container *ngIf="_threshold !== null">
+  <span class="ml-1">{{ valueStr }}</span>
+  <span class="ml-0.25">
+    {{ _threshold.isAbsolute ? ('i18n.ft.abs' | translate) : ('i18n.ft.rel' | translate) }}
+  </span>
+</ng-container>

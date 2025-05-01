@@ -1,0 +1,16 @@
+<div class="flex h-full w-full items-stretch">
+  <ng-container *ngIf="isSelected">
+    <div
+      class="flex w-full items-center border-l border-r border-t border-gray-500 bg-rtu-primary-bg dark:bg-rtu-dark-primary-bg"
+    >
+      <span class="ml-2">{{ content }}</span>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!isSelected">
+    <div
+      class="mt-0.5 flex w-full items-center border border-gray-500 bg-rtu-second-bg dark:bg-rtu-dark-second-bg"
+    >
+      <span class="ml-2">{{ content }}</span>
+    </div>
+  </ng-container>
+</div>

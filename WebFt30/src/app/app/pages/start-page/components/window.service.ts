@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 
-type ManagedWindow = 'RtuState' | 'TraceState' | 'Landmarks' | 'TraceAssignBaseRefs';
+type ManagedWindow = 'RtuState' | 'TraceState' | 'Landmarks' | 'TraceAssignBaseRefs' | 'RftsEvents';
 
 interface WindowData {
   id: string;
+  payload: any;
   zIndex: number;
   type: ManagedWindow;
 }
@@ -32,7 +33,7 @@ export class WindowService {
     this.windows = [...this.windows];
   }
 
-  registerWindow(id: string, type: ManagedWindow) {
+  registerWindow(id: string, type: ManagedWindow, payload: any) {
     this.maxZIndex += 1;
 
     const idx = this.windows.findIndex((w) => w.id === id && w.type === type);
@@ -41,7 +42,7 @@ export class WindowService {
       this.windows.splice(idx, 1);
     }
 
-    this.windows.push({ id: id, type: type, zIndex: this.maxZIndex });
+    this.windows.push({ id: id, type: type, zIndex: this.maxZIndex, payload: payload });
   }
 
   unregisterWindow(id: string, type: ManagedWindow) {

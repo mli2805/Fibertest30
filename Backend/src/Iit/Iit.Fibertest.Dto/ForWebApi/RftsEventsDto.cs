@@ -11,11 +11,21 @@ namespace Iit.Fibertest.Dto
 
     public class RftsLevelDto
     {
-        public string Title = null!;
+        public FiberState Level;
         public bool IsFailed;
-        public string FirstProblemLocation = null!;
+        public string? FirstProblemLocation;
         public RftsEventDto[] EventArray = null!;
         public TotalFiberLossDto TotalFiberLoss = null!;
+    }
+
+    public enum RftsWords
+    {
+        yes,
+        fail,
+        pass,
+        newEvent,
+        fiberBreak,
+        empty
     }
 
     public class RftsEventDto
@@ -25,20 +35,21 @@ namespace Iit.Fibertest.Dto
         public bool IsFailed;
 
         public string LandmarkTitle = null!;
-        public string LandmarkType = null!;
-        public string State = null!;
+        public EquipmentType LandmarkType;
+        public RftsWords State;
         public string DamageType = "";
         public string DistanceKm = null!;
-        public string Enabled = null!;
+        public RftsWords Enabled;
         public string EventType = null!;
 
         public string? ReflectanceCoeff;
         public string? AttenuationInClosure;
         public string? AttenuationCoeff;
 
-        public MonitoringThreshold ReflectanceCoeffThreshold = null!;
-        public MonitoringThreshold AttenuationInClosureThreshold = null!;
-        public MonitoringThreshold AttenuationCoeffThreshold = null!;
+        // для нового события не может быть порогов
+        public MonitoringThreshold? ReflectanceCoeffThreshold;
+        public MonitoringThreshold? AttenuationInClosureThreshold;
+        public MonitoringThreshold? AttenuationCoeffThreshold;
 
         public string? ReflectanceCoeffDeviation;
         public string? AttenuationInClosureDeviation;
@@ -61,8 +72,10 @@ namespace Iit.Fibertest.Dto
 
     public class RftsEventsSummaryDto
     {
-        public string? TraceState; // на русском, заполнить в клиенте
+        public FiberState TraceState;
+        public double BreakLocation; // только для FiberBreak для остальных 0.0
         public double Orl;
+
         public LevelState[]? LevelStates; // на русском, заполнить в клиенте
     }
 

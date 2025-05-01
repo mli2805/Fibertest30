@@ -157,7 +157,7 @@ export class AttachedTraceMenuComponent {
 
   async onAssignBaseRefsClicked() {
     this.open = false;
-    this.windowService.registerWindow(this._trace.traceId, 'TraceAssignBaseRefs');
+    this.windowService.registerWindow(this._trace.traceId, 'TraceAssignBaseRefs', this._trace);
   }
 
   canAutomaticBaseRefs() {

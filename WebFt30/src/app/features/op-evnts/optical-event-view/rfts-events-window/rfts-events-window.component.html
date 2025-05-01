@@ -1,0 +1,78 @@
+<div
+  cdkDrag
+  class="draggable-window flex flex-col items-center text-sm"
+  (mousedown)="bringToFront()"
+  style="position: fixed; left: 150px; top: 110px"
+  [style.z-index]="zIndex"
+>
+  <!-- header -->
+  <div cdrDragHandle class="my-2 w-full">
+    <div class="flex items-center justify-between">
+      <div class="ml-3">
+        {{ 'i18n.ft.rfts-events' | translate }}
+      </div>
+      <rtu-close-button class="mr-2 h-6 w-6" (click)="close()" />
+    </div>
+  </div>
+  <!-- content -->
+  <div class="flex w-[720px] flex-col text-xs">
+    <ng-container *ngIf="rftsEvents.isNoFiber">
+      <div class="justify-center text-3xl">{{ 'i18n.ft.no-fiber' | translate }}</div>
+    </ng-container>
+
+    <ng-container *ngIf="!rftsEvents.isNoFiber">
+      <!-- выбор tabitem'a -->
+      <div class="ml-1 flex">
+        <ng-container *ngFor="let level of rftsEvents.levelArray; let i = index">
+          <rtu-tab-header
+            class="h-7 w-36 text-xs"
+            [isSelected]="i === selectedLevel"
+            [content]="level.level | fiberStatePipe | translate"
+            (click)="selectTab(i)"
+          />
+        </ng-container>
+      </div>
+
+      <!-- tabitem -->
+      <rtu-rfts-events-level [level]="rftsEvents.levelArray[selectedLevel]"></rtu-rfts-events-level>
+      <!-- footer -->
+      <div class="flex">
+        <!-- саммари трассы -->
+        <div class="m-1 grid flex-1 grid-cols-[auto_1fr] gap-3 border border-gray-500 p-2">
+          <div>{{ 'i18n.ft.trace-state' | translate }}</div>
+          <div>
+            <ng-container *ngIf="rftsEvents.summary.traceState === fiberState.Ok">
+              <div>{{ 'i18n.ft.pass' | translate }}</div>
+            </ng-container>
+            <ng-container *ngIf="rftsEvents.summary.traceState !== fiberState.Ok">
+              <div class="text-red-500">
+                {{ rftsEvents.summary.traceState | fiberStatePipe | translate }}
+                <ng-container *ngIf="rftsEvents.summary.traceState === fiberState.FiberBreak">
+                  <span class="ml-1">{{ rftsEvents.summary.breakLocation | number : '1.3-3' }}</span
+                  ><span class="ml-1">{{ 'i18n.ft.km' | translate }}</span>
+                </ng-container>
+              </div>
+            </ng-container>
+          </div>
+          <div>{{ 'i18n.ft.orl__db' | translate }}</div>
+          <div>{{ rftsEvents.summary.orl }}</div>
+        </div>
+        <!-- результат по уровням -->
+        <div class="m-1 grid grid-cols-2 gap-3 border border-gray-500 p-2">
+          <ng-container *ngFor="let level of rftsEvents.levelArray">
+            <div>{{ level.level | fiberStatePipe | translate }}</div>
+            <div>
+              <div *ngIf="level.isFailed">
+                {{ 'i18n.ft.fail' | translate }}
+                <span class="ml-1 text-red-500"
+                  >({{ level.firstProblemLocation }} {{ 'i18n.ft.km' | translate }})</span
+                >
+              </div>
+              <div *ngIf="!level.isFailed">{{ 'i18n.ft.pass' | translate }}</div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

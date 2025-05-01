@@ -60,6 +60,9 @@
       <ng-container *ngIf="window.type === 'TraceAssignBaseRefs'">
         <rtu-trace-assign-base-dialog [traceId]="window.id" />
       </ng-container>
+      <ng-container *ngIf="window.type === 'RftsEvents'">
+        <rtu-rfts-events-window [windowId]="window.id" [rftsEvents]="window.payload" />
+      </ng-container>
     </ng-container>
   </div>
 </div>

@@ -8,16 +8,23 @@ import { FiberizerCoreModule } from '../fiberizer-core/fiberizer-core.module';
 import { TraceStateComponent } from './optical-event-view/trace-state/trace-state.component';
 import { GisModule } from '../gis/gis.module';
 import { TraceGisComponent } from './optical-event-view/trace-gis/trace-gis.component';
+import { RftsEventsWindowComponent } from './optical-event-view/rfts-events-window/rfts-events-window.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { RftsEventsLevelComponent } from './optical-event-view/rfts-events-window/rfts-events-level/rfts-events-level.component';
+import { ThresholdComponent } from './optical-event-view/rfts-events-window/rfts-events-level/threshold/threshold.component';
 
 @NgModule({
-  imports: [OpEvntsRoutingModule, SharedModule, FiberizerCoreModule, GisModule],
-  exports: [],
+  imports: [OpEvntsRoutingModule, DragDropModule, SharedModule, FiberizerCoreModule, GisModule],
+  exports: [RftsEventsWindowComponent],
   declarations: [
     OpEvntsComponent,
     OpticalEventsComponent,
     OpticalEventViewComponent,
     TraceStateComponent,
-    TraceGisComponent
+    TraceGisComponent,
+    RftsEventsWindowComponent,
+    RftsEventsLevelComponent,
+    ThresholdComponent
   ],
   providers: []
 })

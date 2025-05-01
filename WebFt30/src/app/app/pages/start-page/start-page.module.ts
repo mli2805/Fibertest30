@@ -10,9 +10,17 @@ import { AccountMenuComponent } from './components/start-page-header/account-men
 import { GisModule } from 'src/app/features/gis/gis.module';
 import { RtusModule } from 'src/app/features/rtus/rtus.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { OpEvntsModule } from 'src/app/features/op-evnts/op-evnts.module';
 
 @NgModule({
-  imports: [StartPageRoutingModule, SharedModule, GisModule, RtusModule, DragDropModule],
+  imports: [
+    StartPageRoutingModule,
+    SharedModule,
+    OpEvntsModule,
+    GisModule,
+    RtusModule,
+    DragDropModule
+  ],
   exports: [],
   declarations: [
     StartPageComponent,

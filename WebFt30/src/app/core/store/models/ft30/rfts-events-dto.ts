@@ -1,3 +1,6 @@
+import { EquipmentType } from 'src/grpc-generated';
+import { FiberState } from './ft-enums';
+
 export class GetRftsEventsRequest {
   sorFileId!: number;
 }
@@ -14,7 +17,7 @@ export class RftsEvents {
 }
 
 export class RftsLevel {
-  title!: string;
+  level!: FiberState;
   isFailed!: boolean;
   firstProblemLocation!: string;
   eventArray!: RftsEvent[];
@@ -26,7 +29,7 @@ export class RftsEvent {
   isNew!: boolean;
   isFailed!: boolean;
   landmarkTitle!: string;
-  landmarkType!: string;
+  landmarkType!: EquipmentType;
   state!: string;
   damageType!: string;
   distanceKm!: string;
@@ -35,9 +38,9 @@ export class RftsEvent {
   reflectanceCoeff!: string;
   attenuationInClosure!: string;
   attenuationCoeff!: string;
-  reflectanceCoeffThreshold!: MonitoringThreshold;
-  attenuationInClosureThreshold!: MonitoringThreshold;
-  attenuationCoeffThreshold!: MonitoringThreshold;
+  reflectanceCoeffThreshold!: MonitoringThreshold | null;
+  attenuationInClosureThreshold!: MonitoringThreshold | null;
+  attenuationCoeffThreshold!: MonitoringThreshold | null;
   reflectanceCoeffDeviation!: string;
   attenuationInClosureDeviation!: string;
   attenuationCoeffDeviation!: string;
@@ -56,7 +59,8 @@ export class MonitoringThreshold {
 }
 
 export class RftsEventsSummary {
-  traceState!: string;
+  traceState!: FiberState;
+  breakLocation!: number;
   orl!: number;
   levelStates!: LevelState[];
 }

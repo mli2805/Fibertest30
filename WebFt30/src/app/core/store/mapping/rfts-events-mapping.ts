@@ -8,6 +8,7 @@ import {
   RftsLevel,
   TotalFiberLoss
 } from '../models/ft30/rfts-events-dto';
+import { FtEnumsMapping } from './ft-enums-mapping';
 
 export class RftsEventsMapping {
   static fromRftsEventsDto(grpcRftsEvents: grpc.RftsEventsData): RftsEvents {
@@ -23,7 +24,7 @@ export class RftsEventsMapping {
 
   static fromRftsLevelDto(grpcLevel: grpc.RftsLevel): RftsLevel {
     return {
-      title: grpcLevel.title,
+      level: FtEnumsMapping.fromGrpcFiberState(grpcLevel.level),
       isFailed: grpcLevel.isFailed,
       firstProblemLocation: grpcLevel.firstProblemLocation,
       eventArray: grpcLevel.eventArray?.map((event) => this.fromRftsEventDto(event)) || [],
@@ -33,6 +34,19 @@ export class RftsEventsMapping {
     };
   }
 
+  static fromGrpcRftsWords(grpcRftsWord: grpc.RftsWords): string {
+    // prettier-ignore
+    switch(grpcRftsWord) {
+        case grpc.RftsWords.Yes: return "i18n.ft.yes";
+        case grpc.RftsWords.Fail: return "i18n.ft.fail";
+        case grpc.RftsWords.Pass: return "i18n.ft.pass";
+        case grpc.RftsWords.NewEvent: return "i18n.ft.new";
+        case grpc.RftsWords.FiberBreak: return "i18n.ft.fiber-break";
+        case grpc.RftsWords.Empty: return "";
+        default:
+          throw new Error(`Unknown grpc.RftsWords: ${grpcRftsWord}`);  }
+  }
+
   static fromRftsEventDto(grpcEvent: grpc.RftsEvent): RftsEvent {
     return {
       ordinal: grpcEvent.ordinal,
@@ -40,23 +54,23 @@ export class RftsEventsMapping {
       isFailed: grpcEvent.isFailed,
       landmarkTitle: grpcEvent.landmarkTitle,
       landmarkType: grpcEvent.landmarkType,
-      state: grpcEvent.state,
+      state: this.fromGrpcRftsWords(grpcEvent.state),
       damageType: grpcEvent.damageType,
       distanceKm: grpcEvent.distanceKm,
-      enabled: grpcEvent.enabled,
+      enabled: this.fromGrpcRftsWords(grpcEvent.enabled),
       eventType: grpcEvent.eventType,
       reflectanceCoeff: grpcEvent.reflectanceCoeff,
       attenuationInClosure: grpcEvent.attenuationInClosure,
       attenuationCoeff: grpcEvent.attenuationCoeff,
       reflectanceCoeffThreshold: grpcEvent.reflectanceCoeffThreshold
         ? this.fromMonitoringThresholdDto(grpcEvent.reflectanceCoeffThreshold)
-        : new MonitoringThreshold(),
+        : null,
       attenuationInClosureThreshold: grpcEvent.attenuationInClosureThreshold
         ? this.fromMonitoringThresholdDto(grpcEvent.attenuationInClosureThreshold)
-        : new MonitoringThreshold(),
+        : null,
       attenuationCoeffThreshold: grpcEvent.attenuationCoeffThreshold
         ? this.fromMonitoringThresholdDto(grpcEvent.attenuationCoeffThreshold)
-        : new MonitoringThreshold(),
+        : null,
       reflectanceCoeffDeviation: grpcEvent.reflectanceCoeffDeviation,
       attenuationInClosureDeviation: grpcEvent.attenuationInClosureDeviation,
       attenuationCoeffDeviation: grpcEvent.attenuationCoeffDeviation
@@ -83,7 +97,8 @@ export class RftsEventsMapping {
 
   static fromRftsEventsSummaryDto(grpcSummary: grpc.RftsEventsSummary): RftsEventsSummary {
     return {
-      traceState: grpcSummary.traceState,
+      traceState: FtEnumsMapping.fromGrpcFiberState(grpcSummary.traceState),
+      breakLocation: grpcSummary.breakLocation,
       orl: grpcSummary.orl,
       levelStates:
         grpcSummary.levelStates?.map((levelState) => this.fromLevelStateDto(levelState)) || []
