@@ -29,7 +29,9 @@ public static class SystemEventDataFactory
             SystemEventType.RtuUpdated => Deserialize<RtuUpdatedData>(jsonData),
             SystemEventType.RtuRemoved => Deserialize<RtuRemovedData>(jsonData),
             SystemEventType.TraceStateChanged => Deserialize<TraceStateChangedData>(jsonData),
-            SystemEventType.AnyTypeAccidentAdded => Deserialize<AnyTypeAccidentData>(jsonData),
+            SystemEventType.NetworkEventAdded => Deserialize<NetworkEventAddedData>(jsonData),
+            SystemEventType.BopNetworkEventAdded => Deserialize<BopNetworkEventAddedData>(jsonData),
+            SystemEventType.RtuStateAccidentAdded => Deserialize<RtuStateAccidentAddedData>(jsonData),
 
             _ => throw new ArgumentException(@"SystemEventDataFactory: Invalid SystemEventType", nameof(type))
         };

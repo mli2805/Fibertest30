@@ -54,5 +54,7 @@ public enum SystemEventType
     RtuRemoved,
 
     TraceStateChanged,
-    AnyTypeAccidentAdded,
+    NetworkEventAdded,
+    BopNetworkEventAdded,
+    RtuStateAccidentAdded,
 }

@@ -57,7 +57,7 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
                 var objTitle = rtuAccident.IsMeasurementProblem ? trace!.Title : rtu!.Title;
                 var objId = rtuAccident.IsMeasurementProblem ? trace!.TraceId : rtu!.Id;
                 var rtuId = rtuAccident.IsMeasurementProblem ? trace!.RtuId : rtu!.Id;
-                await systemEventSender.Send(SystemEventFactory.AnyTypeAccidentAdded("RtuAccident",
+                await systemEventSender.Send(SystemEventFactory.RtuStateAccidentAdded(
                     rtuAccident.Id, rtuAccident.EventRegistrationTimestamp, objTitle, objId.ToString(), 
                     rtuId.ToString(), rtuAccident.IsGoodAccident));
 
@@ -158,7 +158,7 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
         if (bopNetworkEvent != null)
         {
             var bop = writeModel.Otaus.First(o => o.Serial == bopNetworkEvent.Serial);
-            await systemEventSender.Send(SystemEventFactory.AnyTypeAccidentAdded("BopNetworkEvent",
+            await systemEventSender.Send(SystemEventFactory.BopNetworkEventAdded(
                 bopNetworkEvent.Ordinal, bopNetworkEvent.EventTimestamp, bopNetworkEvent.OtauIp,
                 bop.Id.ToString(), bop.RtuId.ToString(), bopNetworkEvent.IsOk));
         }
@@ -182,8 +182,8 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
         var evnt = writeModel.NetworkEvents.Last();
         var rtu = writeModel.Rtus.First(r => r.Id == dto.RtuId);
 
-        await systemEventSender.Send(SystemEventFactory.AnyTypeAccidentAdded("NetworkEvent",
-            evnt.Ordinal, evnt.EventTimestamp, rtu.Title, rtu.Id.ToString(), rtu.Id.ToString(),
+        await systemEventSender.Send(SystemEventFactory.NetworkEventAdded(
+            evnt.Ordinal, evnt.EventTimestamp, rtu.Title, rtu.Id.ToString(), 
             dto.OnMainChannel == ChannelEvent.Repaired));
     }
 

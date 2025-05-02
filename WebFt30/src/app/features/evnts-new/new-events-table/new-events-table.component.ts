@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AnyTypeEventsActions, AnyTypeEventsSelectors, AppState } from 'src/app/core';
+import { AudioEventsActions, AudioEventsSelectors, AppState } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { AudioService } from 'src/app/core/services/audio.service';
 import { HowShowTablesService } from 'src/app/core/services/how-show-tables.service';
-import { AnyTypeEvent } from 'src/app/core/store/models/ft30/any-type-event';
+import { AudioEvent } from 'src/app/core/store/models/ft30/audio-event';
 
 @Component({
   selector: 'rtu-new-events-table',
@@ -14,7 +14,7 @@ import { AnyTypeEvent } from 'src/app/core/store/models/ft30/any-type-event';
 export class NewEventsTableComponent {
   private store: Store<AppState> = inject(Store<AppState>);
 
-  anyTypeEvents$ = this.store.select(AnyTypeEventsSelectors.selectOrderedEvents);
+  anyTypeEvents$ = this.store.select(AudioEventsSelectors.selectOrderedEvents);
 
   constructor(
     private audioService: AudioService,
@@ -22,7 +22,7 @@ export class NewEventsTableComponent {
     private router: Router
   ) {}
 
-  navigateEvent(evnt: AnyTypeEvent) {
+  navigateEvent(evnt: AudioEvent) {
     // раз новое событие, его еще может не быть в соотв табл - перечитать ????????
 
     // в сервис отдать как нужно установить перекл Текущие/Все и ID события
@@ -52,7 +52,7 @@ export class NewEventsTableComponent {
     // если новые соб были открыты, звучит сирена и пользователь жмет переход - надо выкл сирену
     if (!evnt.isOk) this.audioService.dismissEvent(evnt);
     // удалить из новых событий строку
-    this.store.dispatch(AnyTypeEventsActions.removeEvent({ removeEvent: evnt }));
+    this.store.dispatch(AudioEventsActions.removeEvent({ removeEvent: evnt }));
   }
 
   getEventTypeName(evntType: string) {
@@ -73,13 +73,13 @@ export class NewEventsTableComponent {
     return 'i18n.ft.unknown';
   }
 
-  dismissEvent(evnt: AnyTypeEvent) {
-    this.store.dispatch(AnyTypeEventsActions.removeEvent({ removeEvent: evnt }));
+  dismissEvent(evnt: AudioEvent) {
+    this.store.dispatch(AudioEventsActions.removeEvent({ removeEvent: evnt }));
     if (!evnt.isOk) this.audioService.dismissEvent(evnt);
   }
 
   cleanAll() {
-    const all = CoreUtils.getCurrentState(this.store, AnyTypeEventsSelectors.selectAnyTypeEvents);
+    const all = CoreUtils.getCurrentState(this.store, AudioEventsSelectors.selectAnyTypeEvents);
     all.forEach((e) => this.dismissEvent(e));
   }
 }

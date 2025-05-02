@@ -188,9 +188,14 @@ public static class SystemEventSupportedNotificationRules
         {
             SystemEventType.TraceStateChanged,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
-        },
-        {
-            SystemEventType.AnyTypeAccidentAdded,
+        },{
+            SystemEventType.NetworkEventAdded,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },{
+            SystemEventType.BopNetworkEventAdded,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },{
+            SystemEventType.RtuStateAccidentAdded,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         }
     };

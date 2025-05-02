@@ -148,11 +148,27 @@ public static class SystemEventFactory
             SystemEventSource.FromSource("DataCenter"));
     }
 
-    public static SystemEvent AnyTypeAccidentAdded(string eventType, int eventId,
+    public static SystemEvent NetworkEventAdded(int eventId,
+        DateTime registeredAt, string rtuTitle, string rtuId, bool isOk)
+    {
+        return new SystemEvent(SystemEventType.NetworkEventAdded, SystemEventLevel.Critical,
+            new NetworkEventAddedData(eventId, registeredAt, rtuTitle, rtuId, isOk), 
+            SystemEventSource.FromSource("DataCenter"));
+    }
+
+    public static SystemEvent BopNetworkEventAdded(int eventId,
+        DateTime registeredAt, string bopIp, string bopId, string rtuId, bool isOk)
+    {
+        return new SystemEvent(SystemEventType.BopNetworkEventAdded, SystemEventLevel.Critical,
+            new BopNetworkEventAddedData(eventId, registeredAt, bopIp, bopId, rtuId, isOk),
+            SystemEventSource.FromSource("DataCenter"));
+    }
+
+    public static SystemEvent RtuStateAccidentAdded(int eventId,
         DateTime registeredAt, string objTitle, string objId, string rtuId, bool isOk)
     {
-        return new SystemEvent(SystemEventType.AnyTypeAccidentAdded, SystemEventLevel.Critical,
-            new AnyTypeAccidentData(eventType, eventId, registeredAt, objTitle, objId, rtuId, isOk),
+        return new SystemEvent(SystemEventType.RtuStateAccidentAdded, SystemEventLevel.Critical,
+            new RtuStateAccidentAddedData(eventId, registeredAt, objTitle, objId, rtuId, isOk),
             SystemEventSource.FromSource("DataCenter"));
     }
 }

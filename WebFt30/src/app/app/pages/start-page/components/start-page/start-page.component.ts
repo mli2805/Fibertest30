@@ -10,8 +10,8 @@ import {
   GlobalUiActions,
   GlobalUiSelectors,
   RtuTreeActions,
-  AnyTypeEventsActions,
-  AnyTypeEventsSelectors,
+  AudioEventsActions,
+  AudioEventsSelectors,
   DeviceActions,
   RtuTreeSelectors,
   SettingsSelectors
@@ -37,7 +37,7 @@ import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 import { MonitoringStoppedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/monitoring-stopped-data';
 import { MonitoringSettingsAppliedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/monitoring-settings-applied-data';
 import { BaseRefsAssignedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/base-refs-assigned-data';
-import { AnyTypeEvent } from 'src/app/core/store/models/ft30/any-type-event';
+import { AudioEvent } from 'src/app/core/store/models/ft30/audio-event';
 import { AudioService } from 'src/app/core/services/audio.service';
 import {
   OtauAttachedData,
@@ -49,11 +49,16 @@ import {
   TraceDetachedData,
   TraceRemovedData
 } from 'src/app/shared/system-events/system-event-data/rtu-tree/trace-attached-data';
-import { AnyTypeAccidentAddedData } from 'src/app/shared/system-events/system-event-data/accidents/any-type-accident-data';
+import {
+  BopNetworkEventAddedData,
+  NetworkEventAddedData,
+  RtuStateAccidentAddedData,
+  TraceStateChangedData
+} from 'src/app/shared/system-events/system-event-data/accidents/accidents-data';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
 import { WindowService } from '../window.service';
-import { TraceStateChangedData } from 'src/app/shared/system-events/system-event-data/accidents/any-type-accident-data';
 import { BaseRefType, FiberState } from 'src/app/core/store/models/ft30/ft-enums';
+import { AudioEventsMapping } from './audio-events-mapping';
 
 @Component({
   selector: 'rtu-start-page',
@@ -351,60 +356,60 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
           }
         }
 
-        const anyTypeEvent = this.mapFromTraceStateChanged(data);
+        // если не вышли по отключенной сигнализации, то добавляем в Новые события
+        const anyTypeEvent = AudioEventsMapping.mapFromTraceStateChanged(data);
         this.addOrReplace(anyTypeEvent);
         this.store.dispatch(DeviceActions.getHasCurrentEvents());
         this.audioService.play(anyTypeEvent);
 
         return;
       }
-      case 'AnyTypeAccidentAdded': {
-        const anyTypeEvent = this.map(systemEvent.jsonData);
+      case 'NetworkEventAdded': {
+        const data = <NetworkEventAddedData>JSON.parse(systemEvent.jsonData);
+        const anyTypeEvent = AudioEventsMapping.mapFromNetworkEventAdded(data);
         this.addOrReplace(anyTypeEvent);
         this.store.dispatch(DeviceActions.getHasCurrentEvents());
         this.audioService.play(anyTypeEvent);
-        this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: anyTypeEvent.rtuId }));
+        return;
+      }
+      case 'BopNetworkEventAdded': {
+        const data = <BopNetworkEventAddedData>JSON.parse(systemEvent.jsonData);
+        const anyTypeEvent = AudioEventsMapping.mapFromBopNetworkEventAdded(data);
+        this.addOrReplace(anyTypeEvent);
+        this.store.dispatch(DeviceActions.getHasCurrentEvents());
+        this.audioService.play(anyTypeEvent);
+        return;
+      }
+      case 'RtuStateAccidentAdded': {
+        const data = <RtuStateAccidentAddedData>JSON.parse(systemEvent.jsonData);
+
+        const switchOfSignalling = CoreUtils.getCurrentState(
+          this.store,
+          SettingsSelectors.selectSwitchOffRtuStatusEventsSignalling
+        );
+        if (switchOfSignalling) {
+          console.log(`Current user switched off RTU state accidents signalling!`);
+          return;
+        }
+
+        // если не вышли по отключенной сигнализации, то добавляем в Новые события
+        const anyTypeEvent = AudioEventsMapping.mapFromRtuStateAccidentAdded(data);
+        this.addOrReplace(anyTypeEvent);
+        this.store.dispatch(DeviceActions.getHasCurrentEvents());
+        this.audioService.play(anyTypeEvent);
         return;
       }
     }
   }
 
-  private map(json: string): AnyTypeEvent {
-    const data = <AnyTypeAccidentAddedData>JSON.parse(json);
-    const anyTypeEvent = new AnyTypeEvent();
-    anyTypeEvent.eventType = data.EventType;
-    anyTypeEvent.eventId = data.EventId;
-    anyTypeEvent.registeredAt = new Date(data.RegisteredAt);
-    anyTypeEvent.objTitle = data.ObjTitle;
-    anyTypeEvent.objId = data.ObjId;
-    anyTypeEvent.rtuId = data.RtuId;
-    anyTypeEvent.isOk = data.IsOk;
-    return anyTypeEvent;
-  }
-
-  private mapFromTraceStateChanged(data: TraceStateChangedData): AnyTypeEvent {
-    const anyTypeEvent = new AnyTypeEvent();
-    anyTypeEvent.eventType = 'OpticalEvent';
-    anyTypeEvent.eventId = data.EventId;
-    anyTypeEvent.registeredAt = new Date(data.RegisteredAt);
-    anyTypeEvent.objTitle = data.TraceTitle;
-    anyTypeEvent.objId = data.TraceId;
-    anyTypeEvent.rtuId = data.RtuId;
-    anyTypeEvent.isOk = data.TraceState === FiberState.Ok;
-    return anyTypeEvent;
-  }
-
-  private addOrReplace(newEvent: AnyTypeEvent) {
-    const events = CoreUtils.getCurrentState(
-      this.store,
-      AnyTypeEventsSelectors.selectAnyTypeEvents
-    );
+  private addOrReplace(newEvent: AudioEvent) {
+    const events = CoreUtils.getCurrentState(this.store, AudioEventsSelectors.selectAnyTypeEvents);
     const oldEvent = events.find(
       (e) => e.eventType === newEvent.eventType && e.objId === newEvent.objId
     );
     if (oldEvent !== undefined) {
-      this.store.dispatch(AnyTypeEventsActions.removeEvent({ removeEvent: oldEvent }));
+      this.store.dispatch(AudioEventsActions.removeEvent({ removeEvent: oldEvent }));
     }
-    this.store.dispatch(AnyTypeEventsActions.addEvent({ newEvent: newEvent }));
+    this.store.dispatch(AudioEventsActions.addEvent({ newEvent: newEvent }));
   }
 }

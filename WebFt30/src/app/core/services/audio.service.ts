@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AnyTypeEvent } from '../store/models/ft30/any-type-event';
+import { AudioEvent } from '../store/models/ft30/audio-event';
 
 // храним только события плохие - OK здесь не нужны
 // и если "просмотрено", то isOn = false
@@ -36,7 +36,7 @@ export class AudioService {
     this.allAlarms.push({ eventType: 'RtuAccident', alarms: [] });
   }
 
-  play(anyTypeEvent: AnyTypeEvent) {
+  play(anyTypeEvent: AudioEvent) {
     this.updateAllAlarms(anyTypeEvent);
 
     if (anyTypeEvent.isOk) {
@@ -66,7 +66,7 @@ export class AudioService {
   }
 
   // dismissEvent (убрали из таблицы новых 1 ивент)
-  dismissEvent(anyTypeEvent: AnyTypeEvent) {
+  dismissEvent(anyTypeEvent: AudioEvent) {
     this.removeOldIfExists(anyTypeEvent);
 
     // если была сирена и пользователь удалил последний аларм - выключить
@@ -89,13 +89,13 @@ export class AudioService {
   }
 
   // пришёл новый ивент
-  private updateAllAlarms(anyTypeEvent: AnyTypeEvent) {
+  private updateAllAlarms(anyTypeEvent: AudioEvent) {
     const subArray = this.allAlarms.find((el) => el.eventType === anyTypeEvent.eventType);
     this.updateOneTypeArray(subArray!.alarms, anyTypeEvent);
   }
 
   // обновить подмассив нужного типа событий
-  private updateOneTypeArray(alarms: SoundAlarm[], anyTypeEvent: AnyTypeEvent) {
+  private updateOneTypeArray(alarms: SoundAlarm[], anyTypeEvent: AudioEvent) {
     this.removeOldIfExists(anyTypeEvent);
 
     if (!anyTypeEvent.isOk) {
@@ -103,7 +103,7 @@ export class AudioService {
     }
   }
 
-  private removeOldIfExists(anyTypeEvent: AnyTypeEvent) {
+  private removeOldIfExists(anyTypeEvent: AudioEvent) {
     const pair = this.allAlarms.find((el) => el.eventType === anyTypeEvent.eventType);
     const idx = pair!.alarms.findIndex((el) => el.objId === anyTypeEvent.objId);
     if (idx > -1) {

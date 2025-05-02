@@ -3,7 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter } from 'rxjs';
 
-import { AnyTypeEventsSelectors, AppState, DeviceSelectors, SettingsSelectors } from 'src/app/core';
+import { AudioEventsSelectors, AppState, DeviceSelectors, SettingsSelectors } from 'src/app/core';
 import { AudioService } from 'src/app/core/services/audio.service';
 import { Utils } from 'src/app/shared/utils/utils';
 
@@ -16,7 +16,7 @@ export class StartPageSidebarComponent {
   version$ = this.store.select(DeviceSelectors.selectApiVersion);
 
   hasCurrent$ = this.store.select(DeviceSelectors.selectHasCurrent);
-  hasNew$ = this.store.select(AnyTypeEventsSelectors.selectHasAny);
+  hasNew$ = this.store.select(AudioEventsSelectors.selectHasAny);
 
   rootOfActiveLink = '';
 
