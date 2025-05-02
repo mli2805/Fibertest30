@@ -16,7 +16,7 @@ export class EventTablesService {
   private authInterceptor = inject(AuthInterceptor);
   private client: gprc.EventTablesClient;
 
-  portionSize = 150;
+  portionSize = 40;
 
   constructor() {
     const interceptors = [this.authInterceptor.toRpcInterceptor()];
@@ -68,7 +68,8 @@ export class EventTablesService {
         relativeFromNow: searchWindow ? undefined : tmpRelativeFromNow, // tmp set to make filtering work
         loadSince: lastLoaded ? Timestamp.fromDate(lastLoaded) : undefined,
         orderDescending: orderDescending
-      }
+      },
+      portionSize: this.portionSize
     };
     return GrpcUtils.unaryToObservable(this.client.getOpticalEvents.bind(this.client), request, {});
   }
@@ -101,7 +102,8 @@ export class EventTablesService {
         relativeFromNow: searchWindow ? undefined : tmpRelativeFromNow, // tmp set to make filtering work
         loadSince: lastLoaded ? Timestamp.fromDate(lastLoaded) : undefined,
         orderDescending: orderDescending
-      }
+      },
+      portionSize: this.portionSize
     };
     return GrpcUtils.unaryToObservable(this.client.getNetworkEvents.bind(this.client), request, {});
   }
@@ -134,7 +136,8 @@ export class EventTablesService {
         relativeFromNow: searchWindow ? undefined : tmpRelativeFromNow, // tmp set to make filtering work
         loadSince: lastLoaded ? Timestamp.fromDate(lastLoaded) : undefined,
         orderDescending: orderDescending
-      }
+      },
+      portionSize: this.portionSize
     };
     return GrpcUtils.unaryToObservable(this.client.getBopEvents.bind(this.client), request, {});
   }
@@ -167,7 +170,8 @@ export class EventTablesService {
         relativeFromNow: searchWindow ? undefined : tmpRelativeFromNow, // tmp set to make filtering work
         loadSince: lastLoaded ? Timestamp.fromDate(lastLoaded) : undefined,
         orderDescending: orderDescending
-      }
+      },
+      portionSize: this.portionSize
     };
     return GrpcUtils.unaryToObservable(this.client.getRtuAccidents.bind(this.client), request, {});
   }

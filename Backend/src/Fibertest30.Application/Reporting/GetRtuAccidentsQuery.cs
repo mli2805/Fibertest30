@@ -2,7 +2,7 @@
 using MediatR;
 
 namespace Fibertest30.Application;
-public record GetRtuAccidentsQuery(bool Current, DateTimeFilter DateTimeFilter) : IRequest<List<RtuAccidentDto>>;
+public record GetRtuAccidentsQuery(bool Current, DateTimeFilter DateTimeFilter, int PortionSize) : IRequest<List<RtuAccidentDto>>;
 
 public class GetRtuAccidentsQueryHandler : IRequestHandler<GetRtuAccidentsQuery, List<RtuAccidentDto>>
 {
@@ -18,7 +18,8 @@ public class GetRtuAccidentsQueryHandler : IRequestHandler<GetRtuAccidentsQuery,
     public Task<List<RtuAccidentDto>> Handle(GetRtuAccidentsQuery request, CancellationToken cancellationToken)
     {
         var userId = _currentUserService.UserId;
-        var portion = _tableProvider.GetRtuAccidents(Guid.Parse(userId!), request.Current, request.DateTimeFilter);
+        var portion = _tableProvider
+            .GetRtuAccidents(Guid.Parse(userId!), request.Current, request.DateTimeFilter, request.PortionSize);
         return Task.FromResult(portion);
     }
 }

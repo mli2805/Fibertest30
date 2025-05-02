@@ -6,7 +6,6 @@ namespace Fibertest30.Application;
 public class TableProvider
 {
     // в случаем изменения - исправить константу в EventTablesService на web стороне
-    private readonly int _pageSize = 150;
     private readonly Model _writeModel;
 
     public TableProvider(Model writeModel)
@@ -42,7 +41,7 @@ public class TableProvider
         return measurement.CreateOpticalEventDto(_writeModel);
     }
 
-    public List<OpticalEventDto> GetOpticalEvents(Guid userId, bool current, DateTimeFilter dateTimeFilter)
+    public List<OpticalEventDto> GetOpticalEvents(Guid userId, bool current, DateTimeFilter dateTimeFilter, int portionSize)
     {
         // var user = _writeModel.Users.First(u => u.UserId == userId);
         // в модели другие юзеры , не те что в sqlite базе бэкенда
@@ -64,12 +63,12 @@ public class TableProvider
             ? since.OrderByDescending(o => o.MeasurementTimestamp)
             : since.OrderBy(o => o.MeasurementTimestamp);
 
-        var portion = ordered.Take(_pageSize);
+        var portion = ordered.Take(portionSize);
 
         return portion.Select(m => m.CreateOpticalEventDto(_writeModel)).ToList();
     }
 
-    public List<NetworkEventDto> GetNetworkEvents(Guid userId, bool current, DateTimeFilter dateTimeFilter)
+    public List<NetworkEventDto> GetNetworkEvents(Guid userId, bool current, DateTimeFilter dateTimeFilter, int portionSize)
     {
         var collection = current
             ? _writeModel.Rtus.Where(r => !r.IsAllRight)
@@ -90,12 +89,12 @@ public class TableProvider
             ? since.OrderByDescending(o => o!.EventTimestamp)
             : since.OrderBy(o => o!.EventTimestamp);
 
-        var portion = ordered.Take(_pageSize);
+        var portion = ordered.Take(portionSize);
 
         return portion.Select(n => n!.CreateNetworkEventDto(_writeModel)).ToList();
     }
 
-    public List<BopEventDto> GetBopEvents(Guid userId, bool current, DateTimeFilter dateTimeFilter)
+    public List<BopEventDto> GetBopEvents(Guid userId, bool current, DateTimeFilter dateTimeFilter, int portionSize)
     {
         var collection = current
             ? _writeModel.BopNetworkEvents
@@ -118,12 +117,12 @@ public class TableProvider
             ? since.OrderByDescending(o => o.EventTimestamp)
             : since.OrderBy(o => o.EventTimestamp);
 
-        var portion = ordered.Take(_pageSize);
+        var portion = ordered.Take(portionSize);
 
         return portion.Select(b => b.CreateBopEventDto(_writeModel)).ToList();
     }
 
-    public List<RtuAccidentDto> GetRtuAccidents(Guid userId, bool current, DateTimeFilter dateTimeFilter)
+    public List<RtuAccidentDto> GetRtuAccidents(Guid userId, bool current, DateTimeFilter dateTimeFilter, int portionSize)
     {
         var collection = current ? GetCurrentStateAccidents() : _writeModel.RtuAccidents;
 
@@ -141,7 +140,7 @@ public class TableProvider
             ? since.OrderByDescending(o => o.EventRegistrationTimestamp)
             : since.OrderBy(o => o.EventRegistrationTimestamp);
 
-        var portion = ordered.Take(_pageSize);
+        var portion = ordered.Take(portionSize);
 
         return portion.Select(a => a.CreateAccidentDto(_writeModel)).ToList();
     }

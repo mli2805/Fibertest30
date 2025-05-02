@@ -54,6 +54,10 @@ export interface GetOpticalEventsRequest {
      * @generated from protobuf field: fibertest30.events.data.DateTimeFilter dateTimeFilter = 2;
      */
     dateTimeFilter?: DateTimeFilter;
+    /**
+     * @generated from protobuf field: int32 portionSize = 3;
+     */
+    portionSize: number;
 }
 /**
  * @generated from protobuf message fibertest30.event_tables.GetOpticalEventsResponse
@@ -76,6 +80,10 @@ export interface GetNetworkEventsRequest {
      * @generated from protobuf field: fibertest30.events.data.DateTimeFilter dateTimeFilter = 2;
      */
     dateTimeFilter?: DateTimeFilter;
+    /**
+     * @generated from protobuf field: int32 portionSize = 3;
+     */
+    portionSize: number;
 }
 /**
  * @generated from protobuf message fibertest30.event_tables.GetNetworkEventsResponse
@@ -98,6 +106,10 @@ export interface GetBopEventsRequest {
      * @generated from protobuf field: fibertest30.events.data.DateTimeFilter dateTimeFilter = 2;
      */
     dateTimeFilter?: DateTimeFilter;
+    /**
+     * @generated from protobuf field: int32 portionSize = 3;
+     */
+    portionSize: number;
 }
 /**
  * @generated from protobuf message fibertest30.event_tables.GetBopEventsResponse
@@ -120,6 +132,10 @@ export interface GetRtuAccidentsRequest {
      * @generated from protobuf field: fibertest30.events.data.DateTimeFilter dateTimeFilter = 2;
      */
     dateTimeFilter?: DateTimeFilter;
+    /**
+     * @generated from protobuf field: int32 portionSize = 3;
+     */
+    portionSize: number;
 }
 /**
  * @generated from protobuf message fibertest30.event_tables.GetRtuAccidentsResponse
@@ -195,7 +211,8 @@ class GetOpticalEventsRequest$Type extends MessageType<GetOpticalEventsRequest> 
     constructor() {
         super("fibertest30.event_tables.GetOpticalEventsRequest", [
             { no: 1, name: "currentEvents", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 2, name: "dateTimeFilter", kind: "message", T: () => DateTimeFilter }
+            { no: 2, name: "dateTimeFilter", kind: "message", T: () => DateTimeFilter },
+            { no: 3, name: "portionSize", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
 }
@@ -220,7 +237,8 @@ class GetNetworkEventsRequest$Type extends MessageType<GetNetworkEventsRequest> 
     constructor() {
         super("fibertest30.event_tables.GetNetworkEventsRequest", [
             { no: 1, name: "currentEvents", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 2, name: "dateTimeFilter", kind: "message", T: () => DateTimeFilter }
+            { no: 2, name: "dateTimeFilter", kind: "message", T: () => DateTimeFilter },
+            { no: 3, name: "portionSize", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
 }
@@ -245,7 +263,8 @@ class GetBopEventsRequest$Type extends MessageType<GetBopEventsRequest> {
     constructor() {
         super("fibertest30.event_tables.GetBopEventsRequest", [
             { no: 1, name: "currentEvents", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 2, name: "dateTimeFilter", kind: "message", T: () => DateTimeFilter }
+            { no: 2, name: "dateTimeFilter", kind: "message", T: () => DateTimeFilter },
+            { no: 3, name: "portionSize", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
 }
@@ -270,7 +289,8 @@ class GetRtuAccidentsRequest$Type extends MessageType<GetRtuAccidentsRequest> {
     constructor() {
         super("fibertest30.event_tables.GetRtuAccidentsRequest", [
             { no: 1, name: "currentAccidents", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 2, name: "dateTimeFilter", kind: "message", T: () => DateTimeFilter }
+            { no: 2, name: "dateTimeFilter", kind: "message", T: () => DateTimeFilter },
+            { no: 3, name: "portionSize", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
 }
