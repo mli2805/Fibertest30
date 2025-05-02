@@ -357,27 +357,27 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         }
 
         // если не вышли по отключенной сигнализации, то добавляем в Новые события
-        const anyTypeEvent = AudioEventsMapping.mapFromTraceStateChanged(data);
-        this.addOrReplace(anyTypeEvent);
+        const audioEvent = AudioEventsMapping.mapFromTraceStateChanged(data);
+        this.addOrReplace(audioEvent);
         this.store.dispatch(DeviceActions.getHasCurrentEvents());
-        this.audioService.play(anyTypeEvent);
+        this.audioService.play(audioEvent);
 
         return;
       }
       case 'NetworkEventAdded': {
         const data = <NetworkEventAddedData>JSON.parse(systemEvent.jsonData);
-        const anyTypeEvent = AudioEventsMapping.mapFromNetworkEventAdded(data);
-        this.addOrReplace(anyTypeEvent);
+        const audioEvent = AudioEventsMapping.mapFromNetworkEventAdded(data);
+        this.addOrReplace(audioEvent);
         this.store.dispatch(DeviceActions.getHasCurrentEvents());
-        this.audioService.play(anyTypeEvent);
+        this.audioService.play(audioEvent);
         return;
       }
       case 'BopNetworkEventAdded': {
         const data = <BopNetworkEventAddedData>JSON.parse(systemEvent.jsonData);
-        const anyTypeEvent = AudioEventsMapping.mapFromBopNetworkEventAdded(data);
-        this.addOrReplace(anyTypeEvent);
+        const audioEvent = AudioEventsMapping.mapFromBopNetworkEventAdded(data);
+        this.addOrReplace(audioEvent);
         this.store.dispatch(DeviceActions.getHasCurrentEvents());
-        this.audioService.play(anyTypeEvent);
+        this.audioService.play(audioEvent);
         return;
       }
       case 'RtuStateAccidentAdded': {
@@ -393,17 +393,17 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         }
 
         // если не вышли по отключенной сигнализации, то добавляем в Новые события
-        const anyTypeEvent = AudioEventsMapping.mapFromRtuStateAccidentAdded(data);
-        this.addOrReplace(anyTypeEvent);
+        const audioEvent = AudioEventsMapping.mapFromRtuStateAccidentAdded(data);
+        this.addOrReplace(audioEvent);
         this.store.dispatch(DeviceActions.getHasCurrentEvents());
-        this.audioService.play(anyTypeEvent);
+        this.audioService.play(audioEvent);
         return;
       }
     }
   }
 
   private addOrReplace(newEvent: AudioEvent) {
-    const events = CoreUtils.getCurrentState(this.store, AudioEventsSelectors.selectAnyTypeEvents);
+    const events = CoreUtils.getCurrentState(this.store, AudioEventsSelectors.selectAudioEvents);
     const oldEvent = events.find(
       (e) => e.eventType === newEvent.eventType && e.objId === newEvent.objId
     );

@@ -34,8 +34,8 @@ import { RtuAccidentsState } from './store/rtu-accidents/rtu-accidents.state';
 import { networkEventsReducer } from './store/network-events/network-events.reducer';
 import { bopEventsReducer } from './store/bop-events/bop-events.reduces';
 import { rtuAccidentsReducer } from './store/rtu-accidents/rtu-accidents.reducer';
-import { AudioEventsState } from './store/any-type-events/audio-events.state';
-import { audioEventsReducer } from './store/any-type-events/audio-events.reducer';
+import { AudioEventsState } from './store/audio-events/audio-events.state';
+import { audioEventsReducer } from './store/audio-events/audio-events.reducer';
 
 export interface AppState {
   auth: AuthState;

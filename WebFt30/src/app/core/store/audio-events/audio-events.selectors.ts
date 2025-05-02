@@ -15,11 +15,11 @@ const selectOrderedEvents = createSelector(selectAudioEventsState, (state: Audio
 
 const selectHasAny = createSelector(
   selectAudioEvents,
-  (anyTypeEvents: AudioEvent[]) => anyTypeEvents.length > 0
+  (audioEvent: AudioEvent[]) => audioEvent.length > 0
 );
 
 export const AudioEventsSelectors = {
-  selectAnyTypeEvents: selectAudioEvents,
+  selectAudioEvents,
   selectOrderedEvents,
   selectHasAny
 };

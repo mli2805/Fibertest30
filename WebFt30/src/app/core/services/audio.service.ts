@@ -36,10 +36,10 @@ export class AudioService {
     this.allAlarms.push({ eventType: 'RtuAccident', alarms: [] });
   }
 
-  play(anyTypeEvent: AudioEvent) {
-    this.updateAllAlarms(anyTypeEvent);
+  play(audioEvent: AudioEvent) {
+    this.updateAllAlarms(audioEvent);
 
-    if (anyTypeEvent.isOk) {
+    if (audioEvent.isOk) {
       // если была сирена и мы удалили последний аларм - выключить
       if (this.isPlayingNow && !this.hasAnyAlarmOn()) {
         this.stopAlarm();
@@ -66,8 +66,8 @@ export class AudioService {
   }
 
   // dismissEvent (убрали из таблицы новых 1 ивент)
-  dismissEvent(anyTypeEvent: AudioEvent) {
-    this.removeOldIfExists(anyTypeEvent);
+  dismissEvent(audioEvent: AudioEvent) {
+    this.removeOldIfExists(audioEvent);
 
     // если была сирена и пользователь удалил последний аларм - выключить
     if (this.isPlayingNow && !this.hasAnyAlarmOn()) {
@@ -89,23 +89,23 @@ export class AudioService {
   }
 
   // пришёл новый ивент
-  private updateAllAlarms(anyTypeEvent: AudioEvent) {
-    const subArray = this.allAlarms.find((el) => el.eventType === anyTypeEvent.eventType);
-    this.updateOneTypeArray(subArray!.alarms, anyTypeEvent);
+  private updateAllAlarms(audioEvent: AudioEvent) {
+    const subArray = this.allAlarms.find((el) => el.eventType === audioEvent.eventType);
+    this.updateOneTypeArray(subArray!.alarms, audioEvent);
   }
 
   // обновить подмассив нужного типа событий
-  private updateOneTypeArray(alarms: SoundAlarm[], anyTypeEvent: AudioEvent) {
-    this.removeOldIfExists(anyTypeEvent);
+  private updateOneTypeArray(alarms: SoundAlarm[], audioEvent: AudioEvent) {
+    this.removeOldIfExists(audioEvent);
 
-    if (!anyTypeEvent.isOk) {
-      alarms.push({ objId: anyTypeEvent.objId, isOn: true });
+    if (!audioEvent.isOk) {
+      alarms.push({ objId: audioEvent.objId, isOn: true });
     }
   }
 
-  private removeOldIfExists(anyTypeEvent: AudioEvent) {
-    const pair = this.allAlarms.find((el) => el.eventType === anyTypeEvent.eventType);
-    const idx = pair!.alarms.findIndex((el) => el.objId === anyTypeEvent.objId);
+  private removeOldIfExists(audioEvent: AudioEvent) {
+    const pair = this.allAlarms.find((el) => el.eventType === audioEvent.eventType);
+    const idx = pair!.alarms.findIndex((el) => el.objId === audioEvent.objId);
     if (idx > -1) {
       // ok вообще нету,ну и на всякий случай
       pair!.alarms.splice(idx, 1);

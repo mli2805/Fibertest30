@@ -6,15 +6,17 @@ import { CoreUtils } from 'src/app/core/core.utils';
 import { AudioService } from 'src/app/core/services/audio.service';
 import { HowShowTablesService } from 'src/app/core/services/how-show-tables.service';
 import { AudioEvent } from 'src/app/core/store/models/ft30/audio-event';
+import { BaseRefType } from 'src/app/core/store/models/ft30/ft-enums';
 
 @Component({
   selector: 'rtu-new-events-table',
   templateUrl: './new-events-table.component.html'
 })
 export class NewEventsTableComponent {
+  baseRefType = BaseRefType;
   private store: Store<AppState> = inject(Store<AppState>);
 
-  anyTypeEvents$ = this.store.select(AudioEventsSelectors.selectOrderedEvents);
+  newEvents$ = this.store.select(AudioEventsSelectors.selectOrderedEvents);
 
   constructor(
     private audioService: AudioService,
@@ -79,7 +81,7 @@ export class NewEventsTableComponent {
   }
 
   cleanAll() {
-    const all = CoreUtils.getCurrentState(this.store, AudioEventsSelectors.selectAnyTypeEvents);
+    const all = CoreUtils.getCurrentState(this.store, AudioEventsSelectors.selectAudioEvents);
     all.forEach((e) => this.dismissEvent(e));
   }
 }

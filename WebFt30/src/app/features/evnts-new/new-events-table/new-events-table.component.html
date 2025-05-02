@@ -4,15 +4,15 @@
       <table class="events-table min-w-full text-sm">
         <thead class="text-center text-gray-600 dark:text-zinc-400">
           <tr class="">
-            <ng-container *ngIf="anyTypeEvents$ | async as anyTypeEvents">
-              <ng-container *ngIf="anyTypeEvents.length > 0">
+            <ng-container *ngIf="newEvents$ | async as newEvents">
+              <ng-container *ngIf="newEvents.length > 0">
                 <th colspan="2" class="w-12">
                   <button class="button-extra m-1 text-xs" (click)="cleanAll()">
                     {{ 'i18n.ft.clean' | translate }}
                   </button>
                 </th>
               </ng-container>
-              <ng-container *ngIf="anyTypeEvents.length === 0">
+              <ng-container *ngIf="newEvents.length === 0">
                 <th></th>
                 <th></th>
               </ng-container>
@@ -24,35 +24,46 @@
             <th class="w-32 font-thin">{{ 'i18n.ft.state' | translate }}</th>
           </tr>
         </thead>
-        <tbody *ngIf="anyTypeEvents$ | async as anyTypeEvents">
+        <tbody *ngIf="newEvents$ | async as newEvents">
           <tr
-            *ngFor="let anyTypeEvent of anyTypeEvents"
+            *ngFor="let newEvent of newEvents"
             class="odd:bg-rtu-second-bg dark:odd:bg-rtu-dark-second-bg"
           >
             <td class="w-0 py-3 pl-3 pr-1">
               <div class="flex items-center">
                 <rtu-navigate-button
-                  (click)="navigateEvent(anyTypeEvent)"
+                  (click)="navigateEvent(newEvent)"
                   class="h-6 w-6 text-blue-500"
                 />
               </div>
             </td>
             <td class="w-0 py-3 pl-3 pr-1">
               <div class="flex items-center">
-                <rtu-close-button (click)="dismissEvent(anyTypeEvent)" class="h-6 w-6" />
+                <rtu-close-button (click)="dismissEvent(newEvent)" class="h-6 w-6" />
               </div>
             </td>
-            <td class="text-center">{{ anyTypeEvent.eventId }}</td>
-            <td class="text-center">{{ anyTypeEvent.registeredAt | rtuDateTime : 'medium' }}</td>
-            <td class="text-center">{{ getEventTypeName(anyTypeEvent.eventType) | translate }}</td>
-            <td class="text-center">{{ anyTypeEvent.objTitle }}</td>
+            <td class="text-center">{{ newEvent.eventId }}</td>
+            <td class="text-center">{{ newEvent.registeredAt | rtuDateTime : 'medium' }}</td>
+            <td class="text-center">{{ getEventTypeName(newEvent.eventType) | translate }}</td>
+            <td class="text-center">{{ newEvent.objTitle }}</td>
             <td class="text-center">
-              <div *ngIf="anyTypeEvent.isOk" class="text-green-500">
+              <div *ngIf="newEvent.isOk" class="text-green-500">
                 {{ 'i18n.ft.ok' | translate }}
               </div>
-              <div *ngIf="!anyTypeEvent.isOk" class="text-red-500">
-                {{ 'i18n.ft.alarm' | translate }}
-              </div>
+              <ng-container *ngIf="!newEvent.isOk">
+                <div
+                  *ngIf="newEvent.baseRefType && newEvent.baseRefType === baseRefType.Fast"
+                  class="text-yellow-500"
+                >
+                  {{ 'i18n.ft.suspicion' | translate }}
+                </div>
+                <div
+                  *ngIf="!newEvent.baseRefType || newEvent.baseRefType !== baseRefType.Fast"
+                  class="text-red-500"
+                >
+                  {{ 'i18n.ft.alarm' | translate }}
+                </div>
+              </ng-container>
             </td>
           </tr>
         </tbody>
