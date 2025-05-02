@@ -1,3 +1,4 @@
+import { Dialog } from '@angular/cdk/dialog';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -29,6 +30,7 @@ import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
 import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors';
+import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
 
 @Component({
@@ -74,7 +76,8 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
     private ts: TranslateService,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private rtuMgmtService: RtuMgmtService
+    private rtuMgmtService: RtuMgmtService,
+    private dialog: Dialog
   ) {
     super();
   }
@@ -208,10 +211,6 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
   }
 
   async onApplyClicked() {
-    this.errorLine1 = '';
-    this.errorLine2 = '';
-    this.cdr.markForCheck;
-
     const dto = this.composeDto();
 
     this.store.dispatch(RtuMgmtActions.setSpinner({ value: true }));
@@ -240,26 +239,38 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
       });
   }
 
-  errorLine1 = '';
-  errorLine2 = '';
-
   // prettier-ignore
   composeErrorLines(answer: BaseRefsAssignedDto){
+    let errorLine1 = '';
+    let errorLine2 = '';
+
     switch (answer.baseRefType) {
-      case BaseRefType.Precise: this.errorLine1 = "i18n.ft.precise-base"; break;
-      case BaseRefType.Fast: this.errorLine1 = "i18n.ft.fast-base"; break;
-      case BaseRefType.Additional: this.errorLine1 = "i18n.ft.additional-base"; break;
+      case BaseRefType.Precise: errorLine1 = "i18n.ft.precise-base"; break;
+      case BaseRefType.Fast: errorLine1 = "i18n.ft.fast-base"; break;
+      case BaseRefType.Additional: errorLine1 = "i18n.ft.additional-base"; break;
     }
 
     switch (answer.returnCode) {
-      case ReturnCode.BaseRefAssignmentFailed: this.errorLine2 =  "i18n.ft.failed-to-assign-base-refs"; break;
-      case ReturnCode.BaseRefAssignmentParamNotAcceptable: this.errorLine2 =  "i18n.ft.parameters-not-acceptable"; break;
-      case ReturnCode.BaseRefAssignmentNoThresholds: this.errorLine2 =  "i18n.ft.no-thresholds-set"; break;
-      case ReturnCode.BaseRefAssignmentLandmarkCountWrong: this.errorLine2 =  "i18n.ft.wrong-landmarks-count"; break;
-      case ReturnCode.BaseRefAssignmentEdgeLandmarksWrong: this.errorLine2 =  "i18n.ft.wrong-edge-landmarks"; break;
-      default: this.errorLine2 = "i18n.ft.failed"; break;
+      case ReturnCode.BaseRefAssignmentFailed: errorLine2 =  "i18n.ft.failed-to-assign-base-refs"; break;
+      case ReturnCode.BaseRefAssignmentParamNotAcceptable: errorLine2 =  "i18n.ft.parameters-not-acceptable"; break;
+      case ReturnCode.BaseRefAssignmentNoThresholds: errorLine2 =  "i18n.ft.no-thresholds-set"; break;
+      case ReturnCode.BaseRefAssignmentLandmarkCountWrong: errorLine2 =  "i18n.ft.wrong-landmarks-count"; break;
+      case ReturnCode.BaseRefAssignmentEdgeLandmarksWrong: errorLine2 =  "i18n.ft.wrong-edge-landmarks"; break;
+      default: errorLine2 = "i18n.ft.failed"; break;
     }
-    this.cdr.markForCheck();
+
+     MessageBoxUtils.show(this.dialog, 'Error', [
+              {
+                message: errorLine1,
+                bold: true,
+                bottomMargin: true
+              },
+              {
+                message: errorLine2,
+                bold: false,
+                bottomMargin: false
+              }
+            ]);
   }
 
   composeBaseFiles(files: any, dto: AssignBaseRefsDto) {
