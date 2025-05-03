@@ -70,6 +70,8 @@ export class AccidentLine {
   accidentTypeLetter!: string;
   accidentPlace!: AccidentPlace;
 
+  scheme!: string;
+
   topLeft = '';
   topCenter = '';
   topRight = '';
@@ -78,7 +80,6 @@ export class AccidentLine {
   // bottom2 = ''; // всегда координаты авария, используем сразу position
   bottom3 = '';
   bottom4 = '';
-  pngPath!: string;
 
   position!: L.LatLng;
 }

@@ -40,14 +40,16 @@
   <div class="grouped-border mt-1 w-120">
     {{ 'i18n.ft.accident-count' | translate }}
     <span class="ml-2"> {{ accidents.length }}</span>
-    <ng-container *ngFor="let accident of accidents">
-      <div class="ml-1">
-        <div class="text-sm font-semibold">{{ accident.caption }}</div>
+    <ng-container *ngFor="let accident of accidents; let i = index">
+      <div class="ml-1 mt-2">
+        <div class="mb-1 text-sm font-semibold">{{ accident.caption }}</div>
         <div class="flex w-full justify-between text-xs">
           <div>{{ accident.topLeft }}</div>
           <div>{{ accident.topCenter }}</div>
           <div>{{ accident.topRight }}</div>
         </div>
+
+        <rtu-accident-scheme [scheme]="accident.scheme"></rtu-accident-scheme>
 
         <div class="flex w-full justify-between text-xs">
           <div>{{ accident.bottom0 }}</div>
@@ -57,6 +59,7 @@
           <div>{{ accident.bottom4 }}</div>
         </div>
       </div>
+      <div *ngIf="i !== accidents.length - 1" class="mt-3 border-t border-gray-500"></div>
     </ng-container>
   </div>
 </ng-container>

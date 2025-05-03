@@ -1,0 +1,92 @@
+<div *ngIf="scheme === 'accident-between-nodes'">
+  <svg xmlns="http://www.w3.org/2000/svg" width="450" height="22" viewBox="0 0 450 22">
+    <!-- Main horizontal line (broken for circles) -->
+    <line x1="0" y1="11" x2="15" y2="11" stroke="currentColor" stroke-width="4" />
+    <line x1="31" y1="11" x2="225" y2="11" stroke="currentColor" stroke-width="4" />
+    <line x1="225" y1="11" x2="419" y2="11" stroke="currentColor" stroke-width="4" />
+    <line x1="435" y1="11" x2="450" y2="11" stroke="currentColor" stroke-width="4" />
+
+    <!-- Left circle -->
+    <circle cx="23" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="4" />
+
+    <!-- Right circle -->
+    <circle cx="427" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="4" />
+
+    <!-- Red cross (centered) -->
+    <line x1="217" y1="3" x2="233" y2="19" stroke="red" stroke-width="4" stroke-linecap="round" />
+    <line x1="217" y1="19" x2="233" y2="3" stroke="red" stroke-width="4" stroke-linecap="round" />
+  </svg>
+</div>
+
+<div *ngIf="scheme === 'accident-in-last-node'">
+  <svg xmlns="http://www.w3.org/2000/svg" width="450" height="22" viewBox="0 0 450 22">
+    <!-- Line from start to edge of circle -->
+    <line x1="0" y1="11" x2="217" y2="11" stroke="currentColor" stroke-width="4" />
+
+    <!-- Red circle in center (16px diameter, 4px stroke) -->
+    <circle cx="225" cy="11" r="8" fill="none" stroke="red" stroke-width="4" />
+  </svg>
+</div>
+
+<div *ngIf="scheme === 'accident-in-node'">
+  <svg xmlns="http://www.w3.org/2000/svg" width="450" height="22" viewBox="0 0 450 22">
+    <!-- Split line segments -->
+    <line x1="0" y1="11" x2="215" y2="11" stroke="currentColor" stroke-width="4" />
+    <line x1="235" y1="11" x2="450" y2="11" stroke="currentColor" stroke-width="4" />
+
+    <!-- Red circle -->
+    <circle cx="225" cy="11" r="8" fill="none" stroke="red" stroke-width="4" />
+  </svg>
+</div>
+
+<div *ngIf="scheme === 'bad-segment'">
+  <svg xmlns="http://www.w3.org/2000/svg" width="450" height="22" viewBox="0 0 450 22">
+    <!-- Starting 15px segment -->
+    <line x1="0" y1="11" x2="15" y2="11" stroke="currentColor" stroke-width="4" />
+
+    <!-- Ending 15px segment -->
+    <line x1="435" y1="11" x2="450" y2="11" stroke="currentColor" stroke-width="4" />
+
+    <!-- Left circle (positioned after first segment) -->
+    <circle cx="23" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="4" />
+
+    <!-- Right circle (positioned before last segment) -->
+    <circle cx="427" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="4" />
+
+    <!-- Red connecting line between circles -->
+    <line x1="31" y1="11" x2="419" y2="11" stroke="red" stroke-width="4" />
+  </svg>
+</div>
+
+<div *ngIf="scheme === 'fiber-broken-between-nodes'">
+  <svg xmlns="http://www.w3.org/2000/svg" width="450" height="22" viewBox="0 0 450 22">
+    <!-- Main horizontal line (broken for circles) -->
+    <line x1="0" y1="11" x2="15" y2="11" stroke="currentColor" stroke-width="4" />
+    <line x1="31" y1="11" x2="225" y2="11" stroke="currentColor" stroke-width="4" />
+    <line x1="225" y1="11" x2="419" y2="11" stroke="red" stroke-width="4" stroke-dasharray="17,4" />
+    <line x1="435" y1="11" x2="450" y2="11" stroke="red" stroke-width="4" />
+
+    <!-- Left circle -->
+    <circle cx="23" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="4" />
+
+    <!-- Right circle -->
+    <circle cx="427" cy="11" r="8" fill="none" stroke="red" stroke-width="4" />
+
+    <!-- Red cross (centered) -->
+    <line x1="217" y1="3" x2="233" y2="19" stroke="red" stroke-width="4" stroke-linecap="round" />
+    <line x1="217" y1="19" x2="233" y2="3" stroke="red" stroke-width="4" stroke-linecap="round" />
+  </svg>
+</div>
+
+<div *ngIf="scheme === 'fiber-broken-in-node'">
+  <svg xmlns="http://www.w3.org/2000/svg" width="450" height="22" viewBox="0 0 450 22">
+    <!-- Left solid line (inherits parent color) -->
+    <line x1="0" y1="11" x2="215" y2="11" stroke="currentColor" stroke-width="4" />
+
+    <!-- Right dashed red line -->
+    <line x1="235" y1="11" x2="450" y2="11" stroke="red" stroke-width="4" stroke-dasharray="17,4" />
+
+    <!-- Red circle -->
+    <circle cx="225" cy="11" r="8" fill="none" stroke="red" stroke-width="4" />
+  </svg>
+</div>

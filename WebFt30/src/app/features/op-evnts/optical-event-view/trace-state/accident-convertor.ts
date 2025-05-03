@@ -1,7 +1,11 @@
 import { TranslateService } from '@ngx-translate/core';
 import { FiberStatePipe } from 'src/app/shared/pipes/fiberstate.pipe';
 import { AccidentLine, AccidentOnTraceV2 } from 'src/app/core/store/models/ft30/optical-event';
-import { AccidentPlace, OpticalAccidentType } from 'src/app/core/store/models/ft30/ft-enums';
+import {
+  AccidentPlace,
+  FiberState,
+  OpticalAccidentType
+} from 'src/app/core/store/models/ft30/ft-enums';
 import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
@@ -43,7 +47,10 @@ export class AccidentConvertor {
       'i18n.common.units.km'
     )}`;
 
-    line.pngPath = ''; //
+    line.scheme =
+      accidentInOldEvent.accidentSeriousness === FiberState.FiberBreak
+        ? 'fiber-broken-in-node'
+        : 'accident-in-node';
     line.position = accidentInOldEvent.accidentCoors;
 
     return line;
@@ -79,7 +86,10 @@ export class AccidentConvertor {
       3
     )} ${this.ts.instant('i18n.common.units.km')}`;
 
-    line.pngPath = ''; //
+    line.scheme =
+      accidentAsNewEvent.accidentSeriousness === FiberState.FiberBreak
+        ? 'fiber-broken-between-nodes'
+        : 'accident-between-nodes';
     line.position = accidentAsNewEvent.accidentCoors;
     return line;
   }
@@ -108,7 +118,8 @@ export class AccidentConvertor {
     line.bottom1 = `RTU ${this.leftArrow} ${accidentInOldEvent.right.toRtuOpticalDistanceKm.toFixed(
       3
     )} ${this.ts.instant('i18n.common.units.km')}`;
-    line.pngPath = ''; //
+
+    line.scheme = 'bad-segment';
     line.position = accidentInOldEvent.left.coors;
 
     return line;
@@ -129,7 +140,8 @@ export class AccidentConvertor {
 
     line.topLeft = accidentInOldEvent.left.title;
     line.topRight = accidentInOldEvent.right.title;
-    line.pngPath = ''; //
+
+    line.scheme = 'bad-segment';
     return line;
   }
 

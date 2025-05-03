@@ -239,6 +239,8 @@ namespace Iit.Fibertest.Graph
                 AccidentCoors = accident.AccidentCoors,
                 AccidentLandmarkIndex = accident.AccidentLandmarkIndex,
                 AccidentToRtuOpticalDistanceKm = accident.AccidentToRtuOpticalDistanceKm,
+                AccidentToLeftOpticalDistanceKm = accident.AccidentToLeftOpticalDistanceKm,
+                AccidentToRightOpticalDistanceKm = accident.AccidentToRightOpticalDistanceKm,
                 AccidentTitle = accident.AccidentTitle,
                 Left = accident.Left?.ToAccidentNeighbourDto() ?? null,
                 Right = accident.Right?.ToAccidentNeighbourDto() ?? null,

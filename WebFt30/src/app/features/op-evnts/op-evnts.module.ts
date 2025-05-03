@@ -12,6 +12,7 @@ import { RftsEventsWindowComponent } from './optical-event-view/rfts-events-wind
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { RftsEventsLevelComponent } from './optical-event-view/rfts-events-window/rfts-events-level/rfts-events-level.component';
 import { ThresholdComponent } from './optical-event-view/rfts-events-window/rfts-events-level/threshold/threshold.component';
+import { AccidentSchemeComponent } from './optical-event-view/trace-state/accident-scheme/accident-scheme.component';
 
 @NgModule({
   imports: [OpEvntsRoutingModule, DragDropModule, SharedModule, FiberizerCoreModule, GisModule],
@@ -24,7 +25,8 @@ import { ThresholdComponent } from './optical-event-view/rfts-events-window/rfts
     TraceGisComponent,
     RftsEventsWindowComponent,
     RftsEventsLevelComponent,
-    ThresholdComponent
+    ThresholdComponent,
+    AccidentSchemeComponent
   ],
   providers: []
 })
