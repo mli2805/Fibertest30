@@ -3,6 +3,7 @@ import * as grpc from 'src/grpc-generated';
 import { AppState, DeviceInfo } from '../core';
 import { ServerError } from '../core/models/server-error';
 import { MapUtils } from '../core/map.utils';
+import { AppTimezone } from '../core/store/models';
 
 export class TestUtils {
   static InitialAppState: Partial<AppState> = {
@@ -16,7 +17,16 @@ export class TestUtils {
       theme: 'dark',
       language: 'en',
       dateTimeFormat: 'en',
-      saveUserSettingsError: null
+      saveUserSettingsError: null,
+      timeZone: new AppTimezone(),
+      zoom: 12,
+      lat: 53,
+      lng: 29,
+      showNodesFromZoom: 14,
+      sourceMapId: 1,
+      switchOffSuspicionSignalling: false,
+      switchOffRtuStatusEventsSignalling: false,
+      latLngFormat: 'ddd.dddddd°'
     }
   };
 
@@ -38,7 +48,15 @@ export class TestUtils {
   static ValidUserSettings: grpc.UserSettings = {
     language: 'en',
     theme: 'dark',
-    dateTimeFormat: 'short'
+    dateTimeFormat: 'short',
+    zoom: 12,
+    lat: 53,
+    lng: 29,
+    showNodesFromZoom: 14,
+    sourceMapId: 1,
+    switchOffSuspicionSignalling: false,
+    switchOffRtuStatusEventsSignalling: false,
+    latLngFormat: ''
   };
 
   static ValidDeviceInfoResponse = TestUtils.getDeviceInfoResponse();
@@ -56,9 +74,9 @@ export class TestUtils {
           enabled: true,
           serverAddress: '192.168.0.1',
           serverPort: 587,
-          outgoingAddress: 'rfts400@email.com',
+          outgoingAddress: 'Fibertest30@email.com',
           isAuthenticationOn: true,
-          serverUserName: 'RFTS400',
+          serverUserName: 'Fibertest30',
           isPasswordSet: true,
           serverPassword: '123456',
           verifyCertificate: false,

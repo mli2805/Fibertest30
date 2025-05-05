@@ -260,8 +260,8 @@ export class SnmpNotificationSettingsComponent implements OnInit {
   }
 
   saveMib() {
-    this.hc.get('assets/snmp/Rfts400.mib', { responseType: 'text' }).subscribe((data) => {
-      this.fs.saveAs(new TextEncoder().encode(data), 'Rfts400.mib');
+    this.hc.get('assets/snmp/Fibertest30.mib', { responseType: 'text' }).subscribe((data) => {
+      this.fs.saveAs(new TextEncoder().encode(data), 'Fibertest30.mib');
     });
   }
 }

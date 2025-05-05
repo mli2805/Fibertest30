@@ -58,7 +58,7 @@ export class EventTablesService {
         // in searchWindow pass Utc datetimes
 
         // It could be handy to create DateTimeFilter class and pass all related props together,
-        // in a similar way like Backend utilizes it (see Rfts400.Application.DateTimeFilter)
+        // in a similar way like Backend utilizes it (see Fibertest30.Application.DateTimeFilter)
 
         // Looks like this DateTimeFilter will be reused for all reporting pages
         // All the hints from backend's DateTimeFilter class (about inclusive, exclusive)
@@ -92,7 +92,7 @@ export class EventTablesService {
         // in searchWindow pass Utc datetimes
 
         // It could be handy to create DateTimeFilter class and pass all related props together,
-        // in a similar way like Backend utilizes it (see Rfts400.Application.DateTimeFilter)
+        // in a similar way like Backend utilizes it (see Fibertest30.Application.DateTimeFilter)
 
         // Looks like this DateTimeFilter will be reused for all reporting pages
         // All the hints from backend's DateTimeFilter class (about inclusive, exclusive)
@@ -126,7 +126,7 @@ export class EventTablesService {
         // in searchWindow pass Utc datetimes
 
         // It could be handy to create DateTimeFilter class and pass all related props together,
-        // in a similar way like Backend utilizes it (see Rfts400.Application.DateTimeFilter)
+        // in a similar way like Backend utilizes it (see Fibertest30.Application.DateTimeFilter)
 
         // Looks like this DateTimeFilter will be reused for all reporting pages
         // All the hints from backend's DateTimeFilter class (about inclusive, exclusive)
@@ -160,7 +160,7 @@ export class EventTablesService {
         // in searchWindow pass Utc datetimes
 
         // It could be handy to create DateTimeFilter class and pass all related props together,
-        // in a similar way like Backend utilizes it (see Rfts400.Application.DateTimeFilter)
+        // in a similar way like Backend utilizes it (see Fibertest30.Application.DateTimeFilter)
 
         // Looks like this DateTimeFilter will be reused for all reporting pages
         // All the hints from backend's DateTimeFilter class (about inclusive, exclusive)

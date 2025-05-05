@@ -57,6 +57,7 @@ export class TraceGisComponent implements OnInit {
       contextmenuItems: []
     });
 
+    // настройка источника карты
     switch (userSettings.sourceMapId) {
       case 0: {
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
