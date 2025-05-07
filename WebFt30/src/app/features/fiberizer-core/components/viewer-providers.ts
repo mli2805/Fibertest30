@@ -57,6 +57,7 @@ export class SorAreaProviderComponent extends OnDestroyBase {
       });
 
     service.settings.higlightSpan = false;
+    service.showLandmarksDock = true;
     service.sorViewer.showTracesOffset = true;
     service.sorViewer.chartMargin = 10;
   }
@@ -131,7 +132,7 @@ export class SorViewerRealtimeProviderComponent extends OnDestroyBase {
     service.sorViewer.showZoomPanel = false;
     service.sorViewer.enableVerticalOffset = false;
     service.showEventsDock = false;
-    service.showLandmarksDock = false;
+    service.showLandmarksDock = true;
     service.showPropertiesDock = false;
     service.showAnalysisDock = false;
     service.showSummaryDock = false;
