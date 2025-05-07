@@ -17,6 +17,8 @@ import { takeUntil } from 'rxjs';
 import { AppState, SettingsSelectors } from 'src/app/core';
 import { SorUtils } from '../sor-utils';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
+import { VX_DIALOG_SERVICE } from '@veex/common';
+import { DialogService } from 'src/app/core/services/dialog.service';
 
 @Component({
   selector: 'rtu-sor-area-provider',
@@ -26,7 +28,8 @@ import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-dest
     SorAreaViewerService,
     EventTableService,
     ChartDataService,
-    ChartMatrixesService
+    ChartMatrixesService,
+    { provide: VX_DIALOG_SERVICE, useExisting: DialogService }
     // { provide: VX_DIALOG_SERVICE, useExisting: MessageBoxService }
   ]
 })
@@ -58,6 +61,7 @@ export class SorAreaProviderComponent extends OnDestroyBase {
 
     service.settings.higlightSpan = false;
     service.showLandmarksDock = true;
+    service.isEditMode = true;
     service.sorViewer.showTracesOffset = true;
     service.sorViewer.chartMargin = 10;
   }
