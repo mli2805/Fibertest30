@@ -133,7 +133,8 @@ public static class WebGisDtoFactory
                 Coors1 = node1.Position,
                 Node2Id = fiber.NodeId2,
                 Coors2 = node2.Position,
-                States = fiber.States
+                States = fiber.States,
+                TracesWithExceededLossCoeff = fiber.TracesWithExceededLossCoeff
             };
         }
         else

@@ -35,6 +35,7 @@ public class FiberGisData
     public Guid Node2Id;
     public PointLatLng Coors2;
     public Dictionary<Guid, FiberState> States = null!;
+    public Dictionary<Guid, FiberState> TracesWithExceededLossCoeff = null!;
 }
 
 public class TraceGisData

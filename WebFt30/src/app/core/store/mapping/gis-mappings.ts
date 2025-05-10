@@ -53,6 +53,9 @@ export class GisMapping {
       this.fromGeoCoordinate(grpcGeoFiber.coors2!),
       grpcGeoFiber.states.map(
         (s) => new FiberStateItem(s.traceId, FtEnumsMapping.fromGrpcFiberState(s.traceState))
+      ),
+      grpcGeoFiber.tracesWithExceededLossCoeff.map(
+        (s) => new FiberStateItem(s.traceId, FtEnumsMapping.fromGrpcFiberState(s.traceState))
       )
     );
     return fiber;

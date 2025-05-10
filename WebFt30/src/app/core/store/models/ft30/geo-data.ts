@@ -52,7 +52,8 @@ export class GeoFiber {
     public coors2: L.LatLng,
     // состояния трасс, проходящих через участок
     // трасса может проходить через участок несколько раз
-    public states: FiberStateItem[]
+    public states: FiberStateItem[],
+    public tracesWithExceededLossCoeff: FiberStateItem[] = []
   ) {}
 
   public getState(): FiberState {

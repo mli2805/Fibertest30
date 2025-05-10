@@ -51,6 +51,17 @@ export class TraceGisComponent implements OnInit {
     const accidentsOnTrace = this.gisMapService
       .getGeoData()
       .nodes.filter((n) => n.accidentOnTraceId === traceId);
+
+    const badSegments = this.gisMapService
+      .getGeoData()
+      .fibers.filter(
+        (f) =>
+          f.tracesWithExceededLossCoeff.findIndex(
+            (t) => t.traceId === this._optivalEvent.traceId
+          ) !== -1
+      );
+    console.log(badSegments);
+
     const route = new TraceRouteData(
       traceId,
       nodes,

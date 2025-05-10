@@ -126,6 +126,10 @@ export interface GeoFiber {
      * @generated from protobuf field: repeated fibertest30.gis.FiberStateDictionaryItem states = 7;
      */
     states: FiberStateDictionaryItem[];
+    /**
+     * @generated from protobuf field: repeated fibertest30.gis.FiberStateDictionaryItem tracesWithExceededLossCoeff = 8;
+     */
+    tracesWithExceededLossCoeff: FiberStateDictionaryItem[];
 }
 /**
  * @generated from protobuf message fibertest30.gis.GeoTrace
@@ -362,7 +366,8 @@ class GeoFiber$Type extends MessageType<GeoFiber> {
             { no: 3, name: "coors1", kind: "message", T: () => GeoCoordinate },
             { no: 4, name: "node2id", kind: "scalar", jsonName: "node2id", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "coors2", kind: "message", T: () => GeoCoordinate },
-            { no: 7, name: "states", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => FiberStateDictionaryItem }
+            { no: 7, name: "states", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => FiberStateDictionaryItem },
+            { no: 8, name: "tracesWithExceededLossCoeff", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => FiberStateDictionaryItem }
         ]);
     }
 }

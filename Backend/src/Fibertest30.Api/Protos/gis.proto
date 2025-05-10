@@ -67,6 +67,7 @@ message GeoFiber {
 	string node2id = 4;
 	GeoCoordinate coors2 = 5;
 	repeated FiberStateDictionaryItem states = 7;
+	repeated FiberStateDictionaryItem tracesWithExceededLossCoeff = 8;
 }
 
 message GeoTrace {

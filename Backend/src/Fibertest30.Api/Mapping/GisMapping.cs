@@ -81,6 +81,14 @@ public static class GisMapping
                 TraceId = s.Key.ToString(), TraceState = s.Value.ToProto()
             });
         });
+        fiber.TracesWithExceededLossCoeff.ForEach(t =>
+        {
+            result.TracesWithExceededLossCoeff.Add(new FiberStateDictionaryItem
+            {
+                TraceId = t.Key.ToString(), TraceState = t.Value.ToProto()
+            });
+        });
+
         return result;
     }
 
