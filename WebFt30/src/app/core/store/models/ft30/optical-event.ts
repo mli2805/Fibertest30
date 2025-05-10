@@ -68,6 +68,7 @@ export class AccidentLine {
   numberOfAccident!: number;
   accidentSeriousness!: FiberState;
   accidentTypeLetter!: string;
+  accidentTypeWords!: string;
   accidentPlace!: AccidentPlace;
 
   scheme!: string;
@@ -77,9 +78,7 @@ export class AccidentLine {
   topRight = '';
   bottom0 = '';
   bottom1 = '';
-  // bottom2 = ''; // всегда координаты авария, используем сразу position
+  position!: L.LatLng;
   bottom3 = '';
   bottom4 = '';
-
-  position!: L.LatLng;
 }

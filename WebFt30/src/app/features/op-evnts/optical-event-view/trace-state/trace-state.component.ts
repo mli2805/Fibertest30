@@ -4,9 +4,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppState, RtuTreeSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { AccidentLine, OpticalEvent } from 'src/app/core/store/models/ft30/optical-event';
-import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
 import { AccidentConvertor } from './accident-convertor';
 import { ExtensionUtils } from 'src/app/core/extension.utils';
+import { AccidentPlace } from 'src/app/core/store/models/ft30/ft-enums';
 
 @Component({
   selector: 'rtu-trace-state',
@@ -14,6 +14,7 @@ import { ExtensionUtils } from 'src/app/core/extension.utils';
   styleUrls: ['./trace-state.component.scss']
 })
 export class TraceStateComponent {
+  accidentPlace = AccidentPlace;
   _opticalEvent!: OpticalEvent;
 
   @Input() set opticalEvent(value: OpticalEvent) {

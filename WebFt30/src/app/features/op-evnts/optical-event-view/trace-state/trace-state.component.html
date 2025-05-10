@@ -42,10 +42,27 @@
     <span class="ml-2"> {{ accidents.length }}</span>
     <ng-container *ngFor="let accident of accidents; let i = index">
       <div class="ml-1 mt-2">
-        <div class="mb-1 text-sm font-semibold">{{ accident.caption }}</div>
+        <div class="mb-1 text-sm font-semibold">
+          {{ accident.numberOfAccident }}.
+          {{ accident.accidentSeriousness | fiberStatePipe | translate }}
+          <span *ngIf="accident.accidentTypeLetter !== ' '"
+            >({{ accident.accidentTypeLetter }})
+          </span>
+          {{ accident.accidentTypeWords | translate }}
+        </div>
         <div class="flex w-full justify-between text-xs">
-          <div>{{ accident.topLeft }}</div>
-          <div>{{ accident.topCenter }}</div>
+          <div>
+            {{ accident.topLeft
+            }}<span *ngIf="accident.accidentPlace === accidentPlace.InNode">{{
+              'i18n.ft.km' | translate
+            }}</span>
+          </div>
+          <div>
+            {{ accident.topCenter
+            }}<span *ngIf="accident.accidentPlace === accidentPlace.BetweenNodes">{{
+              'i18n.ft.km' | translate
+            }}</span>
+          </div>
           <div>{{ accident.topRight }}</div>
         </div>
 
@@ -53,9 +70,15 @@
 
         <div class="flex w-full justify-between text-xs">
           <div>{{ accident.bottom0 }}</div>
-          <div>{{ accident.bottom1 }}</div>
-          <div>{{ accident.position | geoCoordinates }}</div>
-          <div>{{ accident.bottom3 }}</div>
+          <div>
+            {{ accident.bottom1 }}
+            <span *ngIf="accident.bottom1">{{ 'i18n.ft.km' | translate }}</span>
+          </div>
+          <div *ngIf="accident.position">{{ accident.position | geoCoordinates }}</div>
+          <div>
+            {{ accident.bottom3
+            }}<span *ngIf="accident.bottom3">{{ 'i18n.ft.km' | translate }}</span>
+          </div>
           <div>{{ accident.bottom4 }}</div>
         </div>
       </div>

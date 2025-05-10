@@ -1,5 +1,3 @@
-import { TranslateService } from '@ngx-translate/core';
-import { FiberStatePipe } from 'src/app/shared/pipes/fiberstate.pipe';
 import { AccidentLine, AccidentOnTraceV2 } from 'src/app/core/store/models/ft30/optical-event';
 import {
   AccidentPlace,
@@ -11,8 +9,6 @@ import { Injectable } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class AccidentConvertor {
   leftArrow = '<-';
-
-  constructor(private ts: TranslateService, private fiberStatePipe: FiberStatePipe) {}
 
   toAccidentLine(accident: AccidentOnTraceV2, lineNumber: number): AccidentLine {
     if (accident.opticalTypeOfAccident === OpticalAccidentType.TotalLoss)
@@ -30,22 +26,16 @@ export class AccidentConvertor {
   private createInNode(accidentInOldEvent: AccidentOnTraceV2, lineNumber: number): AccidentLine {
     const line = new AccidentLine();
 
-    const seriousness = this.ts.instant(
-      this.fiberStatePipe.transform(accidentInOldEvent.accidentSeriousness)
-    );
-    const accidentWords = this.ts.instant('i18n.ft.in-the-node');
     line.numberOfAccident = lineNumber;
     line.accidentSeriousness = accidentInOldEvent.accidentSeriousness;
     line.accidentTypeLetter = this.toLetter(accidentInOldEvent.opticalTypeOfAccident);
     line.accidentPlace = AccidentPlace.InNode;
-    line.caption = `${lineNumber}. ${seriousness} (${line.accidentTypeLetter}) ${accidentWords}`;
+    line.accidentTypeWords = 'i18n.ft.in-the-node';
 
     line.topCenter = accidentInOldEvent.accidentTitle;
     line.topLeft = `RTU ${
       this.leftArrow
-    } ${accidentInOldEvent.accidentToRtuOpticalDistanceKm.toFixed(3)} ${this.ts.instant(
-      'i18n.common.units.km'
-    )}`;
+    } ${accidentInOldEvent.accidentToRtuOpticalDistanceKm.toFixed(3)} `;
 
     line.scheme =
       accidentInOldEvent.accidentSeriousness === FiberState.FiberBreak
@@ -61,30 +51,21 @@ export class AccidentConvertor {
     lineNumber: number
   ): AccidentLine {
     const line = new AccidentLine();
-    const seriousness = this.ts.instant(
-      this.fiberStatePipe.transform(accidentAsNewEvent.accidentSeriousness)
-    );
-    const accidentWords = this.ts.instant('i18n.ft.between-nodes');
+
     line.numberOfAccident = lineNumber;
     line.accidentSeriousness = accidentAsNewEvent.accidentSeriousness;
     line.accidentTypeLetter = this.toLetter(accidentAsNewEvent.opticalTypeOfAccident);
     line.accidentPlace = AccidentPlace.BetweenNodes;
-    line.caption = `${lineNumber}. ${seriousness} (${line.accidentTypeLetter}) ${accidentWords}`;
+    line.accidentTypeWords = 'i18n.ft.between-nodes';
 
     line.topLeft = accidentAsNewEvent.left.title;
     line.topCenter = `RTU ${
       this.leftArrow
-    } ${accidentAsNewEvent.left.toRtuOpticalDistanceKm.toFixed(3)} ${this.ts.instant(
-      'i18n.common.units.km'
-    )}`;
+    } ${accidentAsNewEvent.left.toRtuOpticalDistanceKm.toFixed(3)} `;
     line.topRight = accidentAsNewEvent.right.title;
 
-    line.bottom1 = `${accidentAsNewEvent.accidentToLeftOpticalDistanceKm.toFixed(
-      3
-    )} ${this.ts.instant('i18n.common.units.km')}`;
-    line.bottom3 = `${accidentAsNewEvent.accidentToRightOpticalDistanceKm.toFixed(
-      3
-    )} ${this.ts.instant('i18n.common.units.km')}`;
+    line.bottom1 = `${accidentAsNewEvent.accidentToLeftOpticalDistanceKm.toFixed(3)} `;
+    line.bottom3 = `${accidentAsNewEvent.accidentToRightOpticalDistanceKm.toFixed(3)} `;
 
     line.scheme =
       accidentAsNewEvent.accidentSeriousness === FiberState.FiberBreak
@@ -100,24 +81,20 @@ export class AccidentConvertor {
   ): AccidentLine {
     const line = new AccidentLine();
 
-    const seriousness = this.ts.instant(
-      this.fiberStatePipe.transform(accidentInOldEvent.accidentSeriousness)
-    );
-    const accidentWords = this.ts.instant('i18n.ft.between-nodes');
     line.numberOfAccident = lineNumber;
     line.accidentSeriousness = accidentInOldEvent.accidentSeriousness;
     line.accidentTypeLetter = this.toLetter(accidentInOldEvent.opticalTypeOfAccident);
     line.accidentPlace = AccidentPlace.BadSegment;
-    line.caption = `${lineNumber}. ${seriousness} ${accidentWords}`;
+    line.accidentTypeWords = 'i18n.ft.between-nodes';
 
     line.topLeft = accidentInOldEvent.left.title;
     line.topRight = accidentInOldEvent.right.title;
     line.bottom1 = `RTU ${this.leftArrow} ${accidentInOldEvent.left.toRtuOpticalDistanceKm.toFixed(
       3
-    )} ${this.ts.instant('i18n.common.units.km')}`;
-    line.bottom1 = `RTU ${this.leftArrow} ${accidentInOldEvent.right.toRtuOpticalDistanceKm.toFixed(
+    )} `;
+    line.bottom3 = `RTU ${this.leftArrow} ${accidentInOldEvent.right.toRtuOpticalDistanceKm.toFixed(
       3
-    )} ${this.ts.instant('i18n.common.units.km')}`;
+    )} `;
 
     line.scheme = 'bad-segment';
     line.position = accidentInOldEvent.left.coors;
@@ -128,15 +105,11 @@ export class AccidentConvertor {
   private createBadLine(accidentInOldEvent: AccidentOnTraceV2, lineNumber: number): AccidentLine {
     const line = new AccidentLine();
 
-    const seriousness = this.ts.instant(
-      this.fiberStatePipe.transform(accidentInOldEvent.accidentSeriousness)
-    );
-    const accidentWords = this.ts.instant('i18n.ft.exceeded-total-fiber-loss');
     line.numberOfAccident = lineNumber;
     line.accidentSeriousness = accidentInOldEvent.accidentSeriousness;
     line.accidentTypeLetter = this.toLetter(accidentInOldEvent.opticalTypeOfAccident);
     line.accidentPlace = AccidentPlace.BadSegment;
-    line.caption = `${lineNumber}. ${seriousness} ${accidentWords}`;
+    line.accidentTypeWords = 'i18n.ft.exceeded-total-fiber-loss';
 
     line.topLeft = accidentInOldEvent.left.title;
     line.topRight = accidentInOldEvent.right.title;
