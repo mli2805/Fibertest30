@@ -14,12 +14,34 @@ export class GisMapIcons {
   emptyNode!: GisIconWithZIndex;
   cableReserve!: GisIconWithZIndex;
   other!: GisIconWithZIndex;
-  closure!: GisIconWithZIndex;
-  cross!: GisIconWithZIndex;
+
+  closureOk!: GisIconWithZIndex;
+  closureMinor!: GisIconWithZIndex;
+  closureMajor!: GisIconWithZIndex;
+  closureCritical!: GisIconWithZIndex;
+  closureUser!: GisIconWithZIndex;
+
+  crossOk!: GisIconWithZIndex;
+  crossMinor!: GisIconWithZIndex;
+  crossMajor!: GisIconWithZIndex;
+  crossCritical!: GisIconWithZIndex;
+  crossUser!: GisIconWithZIndex;
+
   well!: GisIconWithZIndex;
-  terminal!: GisIconWithZIndex;
+
+  terminalOk!: GisIconWithZIndex;
+  terminalMinor!: GisIconWithZIndex;
+  terminalMajor!: GisIconWithZIndex;
+  terminalCritical!: GisIconWithZIndex;
+  terminalUser!: GisIconWithZIndex;
+
   rtu!: GisIconWithZIndex;
-  accidentPlace!: GisIconWithZIndex;
+
+  minorAccidentPlace!: GisIconWithZIndex;
+  majorAccidentPlace!: GisIconWithZIndex;
+  criticalAccidentPlace!: GisIconWithZIndex;
+  userAccidentPlace!: GisIconWithZIndex;
+
   highlightRtu!: GisIconWithZIndex;
   highlightNode!: GisIconWithZIndex;
 
@@ -35,29 +57,87 @@ export class GisMapIcons {
       case EquipmentType.EmptyNode: return this.emptyNode;
       case EquipmentType.CableReserve: return this.cableReserve;
       case EquipmentType.Other: return this.other;
-      case EquipmentType.Closure: return this.closure;
-      case EquipmentType.Cross: return this.cross;
+      case EquipmentType.Closure: 
+        switch (node.state) {
+          case FiberState.Ok: return this.closureOk
+          case FiberState.Minor: return this.closureMinor;
+          case FiberState.Major: return this.closureMajor;
+          case FiberState.Critical: return this.closureCritical;
+          case FiberState.User: return this.closureUser;
+        }; break;
+      case EquipmentType.Cross:  
+      switch (node.state) {
+          case FiberState.Ok: return this.crossOk
+          case FiberState.Minor: return this.crossMinor;
+          case FiberState.Major: return this.crossMajor;
+          case FiberState.Critical: return this.crossCritical;
+          case FiberState.User: return this.crossUser;
+        }; break;
       case EquipmentType.Well: return this.well;
-      case EquipmentType.Terminal: return this.terminal;
+      case EquipmentType.Terminal: 
+       switch (node.state) {
+          case FiberState.Ok: return this.terminalOk
+          case FiberState.Minor: return this.terminalMinor;
+          case FiberState.Major: return this.terminalMajor;
+          case FiberState.Critical: return this.terminalCritical;
+          case FiberState.User: return this.terminalUser;
+        }; break;
       case EquipmentType.Rtu: return this.rtu;
-      case EquipmentType.AccidentPlace: return this.accidentPlace;
+      case EquipmentType.AccidentPlace:
+        switch (node.state) {
+          case FiberState.Minor: return this.minorAccidentPlace;
+          case FiberState.Major: return this.majorAccidentPlace;
+          case FiberState.Critical: return this.criticalAccidentPlace;
+          case FiberState.User: return this.userAccidentPlace;
+        }
     }
+
+    // чтобы не было ворнинга
+    return this.emptyNode;
   }
 
+  // prettier-ignore
   private initMapIcons(): void {
     // надо инитить каждый тип оборудования со всеми цветами, пока сделаем только черные
-    const colorClass = ColorUtils.fiberStateToTextColor(FiberState.Ok);
+    const colorOk = ColorUtils.fiberStateToTextColor(FiberState.Ok);
+    const colorMinor = ColorUtils.fiberStateToTextColor(FiberState.Minor);
+    const colorMajor = ColorUtils.fiberStateToTextColor(FiberState.Major);
+    const colorCritical = ColorUtils.fiberStateToTextColor(FiberState.Critical);
+    const colorUser = ColorUtils.fiberStateToTextColor(FiberState.User);
 
-    this.adjustmentPoint = { icon: this.createAdjustmentPointIcon(colorClass), zIndex: 38 };
-    this.emptyNode = { icon: this.createEmptyNodeIcon(colorClass), zIndex: 35 };
-    this.well = { icon: this.createEmptyNodeIcon(colorClass), zIndex: 35 }; // не используется?
-    this.cableReserve = { icon: this.createCableReserveIcon(colorClass), zIndex: 32 };
-    this.closure = { icon: this.createClosureIcon(colorClass), zIndex: 28 };
-    this.cross = { icon: this.createCrossIcon(colorClass), zIndex: 28 };
-    this.other = { icon: this.createOtherIcon(colorClass), zIndex: 28 };
-    this.terminal = { icon: this.createTerminalIcon(colorClass), zIndex: 28 };
-    this.rtu = { icon: this.createRtuIcon(colorClass), zIndex: 20 };
-    this.accidentPlace = { icon: this.createAccidentPlaceIcon(colorClass), zIndex: 15 };
+    this.adjustmentPoint = { icon: this.createAdjustmentPointIcon(colorOk), zIndex: 38 };
+    this.emptyNode = { icon: this.createEmptyNodeIcon(colorOk), zIndex: 35 };
+    this.well = { icon: this.createEmptyNodeIcon(colorOk), zIndex: 35 }; // не используется?
+    this.cableReserve = { icon: this.createCableReserveIcon(colorOk), zIndex: 32 };
+    
+    this.closureOk = { icon: this.createClosureIcon(colorOk), zIndex: 28 };
+    this.closureMinor = { icon: this.createClosureIcon(colorMinor), zIndex: 28 };
+    this.closureMajor = { icon: this.createClosureIcon(colorMajor), zIndex: 28 };
+    this.closureCritical = { icon: this.createClosureIcon(colorCritical), zIndex: 28 };
+    this.closureUser = { icon: this.createClosureIcon(colorUser), zIndex: 28 };
+
+    this.crossOk = { icon: this.createCrossIcon(colorOk), zIndex: 28 };
+    this.crossMinor = { icon: this.createCrossIcon(colorMinor), zIndex: 28 };
+    this.crossMajor = { icon: this.createCrossIcon(colorMajor), zIndex: 28 };
+    this.crossCritical = { icon: this.createCrossIcon(colorCritical), zIndex: 28 };
+    this.crossUser = { icon: this.createCrossIcon(colorUser), zIndex: 28 };
+
+
+    this.other = { icon: this.createOtherIcon(colorOk), zIndex: 28 };
+
+    this.terminalOk = { icon: this.createTerminalIcon(colorOk), zIndex: 28 };
+    this.terminalMinor = { icon: this.createTerminalIcon(colorMinor), zIndex: 28 };
+    this.terminalMajor = { icon: this.createTerminalIcon(colorMajor), zIndex: 28 };
+    this.terminalCritical = { icon: this.createTerminalIcon(colorCritical), zIndex: 28 };
+    this.terminalUser = { icon: this.createTerminalIcon(colorUser), zIndex: 28 };
+
+    
+    this.rtu = { icon: this.createRtuIcon(colorOk), zIndex: 20 };
+
+    this.minorAccidentPlace = { icon: this.createAccidentPlaceIcon(ColorUtils.fiberStateToTextColor(FiberState.Minor)), zIndex: 15 };
+    this.majorAccidentPlace = { icon: this.createAccidentPlaceIcon(ColorUtils.fiberStateToTextColor(FiberState.Major)), zIndex: 15 };
+    this.criticalAccidentPlace = { icon: this.createAccidentPlaceIcon(ColorUtils.fiberStateToTextColor(FiberState.Critical)), zIndex: 15 };
+    this.userAccidentPlace = { icon: this.createAccidentPlaceIcon(ColorUtils.fiberStateToTextColor(FiberState.User)), zIndex: 15 };
 
     this.highlightRtu = { icon: this.createHighlightRtuIcon(), zIndex: 12 };
     this.highlightNode = { icon: this.createHighlightNodeIcon(), zIndex: 12 };
@@ -103,20 +183,21 @@ export class GisMapIcons {
   }
 
   createAccidentPlaceIcon(colorClass: string): L.DivIcon {
-    const width = 64;
-    const height = 64;
+    const width = 36;
+    const height = 36;
 
     return L.divIcon({
       className: 'map-marker-wrapper',
       html: `
               <div class="${colorClass}" style="width: ${width}px; height: ${height}px">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path fill="currentColor" d="M512.481 421.906L850.682 84.621c25.023-24.964 65.545-24.917 90.51.105s24.917 65.545-.105 90.51L603.03 512.377 940.94 850c25.003 24.984 25.017 65.507.033 90.51s-65.507 25.017-90.51.033L512.397 602.764 174.215 940.03c-25.023 24.964-65.545 24.917-90.51-.105s-24.917-65.545.105-90.51l338.038-337.122L84.14 174.872c-25.003-24.984-25.017-65.507-.033-90.51s65.507-25.017 90.51-.033L512.48 421.906z"/>
+                <svg  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="4" y1="4" x2="20" y2="20" stroke="currentColor" stroke-width="4"/>
+                  <line x1="4" y1="20" x2="20" y2="4" stroke="currentColor" stroke-width="4"/>
                 </svg>
               </div>
         `,
       iconSize: [width, height],
-      iconAnchor: [39, 54]
+      iconAnchor: [width / 2, height / 2]
     });
   }
 

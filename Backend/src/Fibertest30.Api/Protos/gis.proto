@@ -45,6 +45,9 @@ message TraceNode {
 	GeoCoordinate coors = 3;
 	EquipmentType equipmentType = 4;
 	string comment = 5;
+
+	optional ft.enums.FiberState state = 6;
+	optional string accidentOnTraceId = 7;
 }
 
 message GeoEquipment {

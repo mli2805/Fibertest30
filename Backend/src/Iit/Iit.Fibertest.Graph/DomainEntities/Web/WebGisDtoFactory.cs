@@ -6,6 +6,8 @@ public static class WebGisDtoFactory
 {
     public static AllGisData GetAllGisData(this Model writeModel)
     {
+        var aaa = writeModel.Nodes.Where(n => n.TypeOfLastAddedEquipment == EquipmentType.AccidentPlace).ToList();
+
         return new AllGisData()
         {
             Nodes = writeModel
@@ -84,6 +86,9 @@ public static class WebGisDtoFactory
             Coors = node.Position,
             EquipmentType = node.TypeOfLastAddedEquipment,
             Comment = node.Comment ?? "",
+
+            State = node.State,
+            AccidentOnTraceId = node.AccidentOnTraceId,
         };
     }
 

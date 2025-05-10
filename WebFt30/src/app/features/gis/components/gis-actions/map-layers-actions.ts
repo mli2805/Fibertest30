@@ -231,7 +231,7 @@ export class MapLayersActions {
     const marker = this.createMarker(
       node.coors,
       node.equipmentType,
-      this.icons.getIcon(node),
+      this.icons.getIcon(node)!,
       node.id,
       node.title
     );
@@ -299,9 +299,11 @@ export class MapLayersActions {
     };
     const marker = L.marker(coordinate, options);
 
-    if (iconWithIndex?.zIndex) {
+    if (iconWithIndex.zIndex) {
       marker.setZIndexOffset(iconWithIndex.zIndex * 1000);
     }
+
+    if (equipmentType === EquipmentType.AccidentPlace) return marker; // дальше обработчики, которые  крестику не нужны
 
     let popup: any = null;
     // надо сдвигать popup потому что если мышь оказывается над popup'ом то он пропадает

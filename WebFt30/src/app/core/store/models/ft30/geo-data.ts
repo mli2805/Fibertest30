@@ -17,7 +17,9 @@ export class TraceNode {
     public title: string,
     public coors: L.LatLng,
     public equipmentType: EquipmentType,
-    public comment: string
+    public comment: string,
+    public state: FiberState = FiberState.Ok,
+    public accidentOnTraceId: string = ''
   ) {}
 
   setCoors(coors: L.LatLng) {
@@ -76,7 +78,12 @@ export class GeoTrace {
 }
 
 export class TraceRouteData {
-  constructor(public traceId: string, public nodes: TraceNode[], public traceState: FiberState) {}
+  constructor(
+    public traceId: string,
+    public nodes: TraceNode[],
+    public accidents: TraceNode[],
+    public traceState: FiberState
+  ) {}
 }
 
 // узлы и участки для карты root'а

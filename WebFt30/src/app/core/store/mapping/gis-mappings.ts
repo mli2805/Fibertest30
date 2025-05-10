@@ -24,6 +24,10 @@ export class GisMapping {
       grpcTraceNode.equipmentType,
       grpcTraceNode.comment
     );
+
+    if (grpcTraceNode.state) node.state = FtEnumsMapping.fromGrpcFiberState(grpcTraceNode.state);
+    if (grpcTraceNode.accidentOnTraceId) node.accidentOnTraceId = grpcTraceNode.accidentOnTraceId;
+
     return node;
   }
 
@@ -69,15 +73,16 @@ export class GisMapping {
     return trace;
   }
 
-  static fromTraceRouteData(grpcTraceRoute: grpc.TraceRouteData): TraceRouteData {
-    const nodes = grpcTraceRoute.nodes.map((n) => this.fromTraceNode(n));
-    const route = new TraceRouteData(
-      grpcTraceRoute.traceId,
-      nodes,
-      FtEnumsMapping.fromGrpcFiberState(grpcTraceRoute.traceState)
-    );
-    return route;
-  }
+  // static fromTraceRouteData(grpcTraceRoute: grpc.TraceRouteData): TraceRouteData {
+  //   const nodes = grpcTraceRoute.nodes.map((n) => this.fromTraceNode(n));
+  //   const route = new TraceRouteData(
+  //     grpcTraceRoute.traceId,
+  //     nodes,
+  //     [],
+  //     FtEnumsMapping.fromGrpcFiberState(grpcTraceRoute.traceState)
+  //   );
+  //   return route;
+  // }
 
   static fromGrpcGeoData(grpcGeoData: grpc.AllGeoData): AllGeoData {
     const nodes = grpcGeoData.nodes.map((n) => this.fromTraceNode(n));

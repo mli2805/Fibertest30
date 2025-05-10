@@ -56,6 +56,14 @@ export interface TraceNode {
      * @generated from protobuf field: string comment = 5;
      */
     comment: string;
+    /**
+     * @generated from protobuf field: optional fibertest30.ft.enums.FiberState state = 6;
+     */
+    state?: FiberState;
+    /**
+     * @generated from protobuf field: optional string accidentOnTraceId = 7;
+     */
+    accidentOnTraceId?: string;
 }
 /**
  * @generated from protobuf message fibertest30.gis.GeoEquipment
@@ -317,7 +325,9 @@ class TraceNode$Type extends MessageType<TraceNode> {
             { no: 2, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "coors", kind: "message", T: () => GeoCoordinate },
             { no: 4, name: "equipmentType", kind: "enum", T: () => ["fibertest30.gis.EquipmentType", EquipmentType] },
-            { no: 5, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 5, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "state", kind: "enum", opt: true, T: () => ["fibertest30.ft.enums.FiberState", FiberState] },
+            { no: 7, name: "accidentOnTraceId", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

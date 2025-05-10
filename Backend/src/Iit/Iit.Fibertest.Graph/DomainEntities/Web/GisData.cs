@@ -10,6 +10,9 @@ public class NodeGisData
     public PointLatLng Coors;
     public EquipmentType EquipmentType;
     public string Comment = "";
+
+    public FiberState State;
+    public Guid AccidentOnTraceId;
 }
 
 public class EquipmentGisData

@@ -22,6 +22,7 @@ import { AddFiber } from './graph-commands';
 import { FiberCommandsFactory } from './fiber-commands-factory';
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 import { MapRtuMenu } from './map-rtu-menu';
+import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 
 export class MapNodeMenu {
   private static ts: TranslateService;

@@ -37,7 +37,15 @@ public static class GisMapping
             Coors = node.Coors.ToProto(),
             EquipmentType = node.EquipmentType.ToProto(),
             Comment = node.Comment,
+
+           
         };
+
+        if (node.EquipmentType == Iit.Fibertest.Dto.EquipmentType.AccidentPlace)
+        {
+            traceNode.State = node.State.ToProto();
+            traceNode.AccidentOnTraceId = node.AccidentOnTraceId.ToString();
+        }
         return traceNode;
     }
 

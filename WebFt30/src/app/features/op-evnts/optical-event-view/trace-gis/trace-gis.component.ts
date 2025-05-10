@@ -15,6 +15,7 @@ import {
 } from 'src/app/features/gis/components/shared/gis-map-icons';
 import { EquipmentType } from 'src/grpc-generated';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'rtu-trace-gis',
@@ -47,7 +48,15 @@ export class TraceGisComponent implements OnInit {
     const nodes = geoTrace.nodeIds.map((n) => {
       return this.gisMapService.getNode(n);
     });
-    const route = new TraceRouteData(traceId, nodes, this._optivalEvent.traceState);
+    const accidentsOnTrace = this.gisMapService
+      .getGeoData()
+      .nodes.filter((n) => n.accidentOnTraceId === traceId);
+    const route = new TraceRouteData(
+      traceId,
+      nodes,
+      accidentsOnTrace,
+      this._optivalEvent.traceState
+    );
 
     this.map = L.map('map', {
       center: [51.505, -0.09],
@@ -80,7 +89,23 @@ export class TraceGisComponent implements OnInit {
         }).addTo(this.map);
         break;
       }
+      case 3: {
+        const api = <any>environment.api;
+        const gisApiPort = api.gisApiPort;
+        const host =
+          gisApiPort !== undefined
+            ? `localhost:${gisApiPort}`
+            : api.host || window.location.hostname;
+        const gisApiAddress = `https://${host}/gis/{x}/{y}/{z}`;
+        L.tileLayer(gisApiAddress, {
+          minZoom: 1,
+          maxZoom: 21
+        }).addTo(this.map);
+        break;
+      }
     }
+    // hide leaflet own attribution
+    this.map.attributionControl.setPrefix('');
 
     for (const layerTypeKey in GisMapLayer) {
       const layerType = GisMapLayer[layerTypeKey as keyof typeof GisMapLayer];
@@ -98,7 +123,7 @@ export class TraceGisComponent implements OnInit {
     const group = this.layerGroups.get(GisMapLayer.Route)!;
     group.addLayer(polyline);
 
-    route.nodes.forEach((node) => {
+    [...route.nodes, ...route.accidents].forEach((node) => {
       this.addNodeToLayer(node);
     });
 

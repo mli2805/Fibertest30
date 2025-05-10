@@ -1,10 +1,8 @@
 import 'leaflet-contextmenu';
 import 'leaflet.markercluster';
 import {
-  ApplicationRef,
   ChangeDetectionStrategy,
   Component,
-  EnvironmentInjector,
   inject,
   Injector,
   OnDestroy,
@@ -14,7 +12,6 @@ import { GisMapService } from '../../gis-map.service';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
 import { takeUntil } from 'rxjs';
 import { AllGeoData, TraceRouteData } from 'src/app/core/store/models/ft30/geo-data';
-import { TranslateService } from '@ngx-translate/core';
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { Store } from '@ngrx/store';
 import { AppState, AuthSelectors, SettingsSelectors } from 'src/app/core';
@@ -43,13 +40,7 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
 
   // private popupBinder!: LeafletAngularPopupBinder;
 
-  constructor(
-    private injector: Injector,
-    public gisMapService: GisMapService,
-    private ts: TranslateService,
-    appRef: ApplicationRef,
-    envInjector: EnvironmentInjector
-  ) {
+  constructor(private injector: Injector, public gisMapService: GisMapService) {
     super();
     MapActions.initialize(injector);
     MapMenu.initialize(injector);
