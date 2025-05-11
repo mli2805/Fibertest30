@@ -81,7 +81,7 @@ import { RadioButtonComponent } from './components/svg-buttons/radio-button/radi
 import { PencilButtonComponent } from './components/svg-buttons/pencil-button.component';
 import { DeleteButtonComponent } from './components/svg-buttons/delete-button.component';
 import { MultiSelectionButtonComponent } from './components/svg-buttons/multi-selection-button/multi-selection-button.component';
-import { TraceInfoComponent } from '../features/gis/forms/accept-trace-dialog/trace-info/trace-info.component';
+import { TraceInfoComponent } from '../features/gis/forms/trace-info-dialog/trace-info/trace-info.component';
 import { MessageBoxComponent } from './components/message-box/message-box.component';
 import { LatlngFormatSwitcherComponent } from './components/latlng-format-switcher/latlng-format-switcher.component';
 import { GeoCoordinatesPipe } from './pipes/geo-coordinates.pipe';

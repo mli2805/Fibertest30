@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { TraceInfoMode } from '../accept-trace-dialog/trace-info/trace-info.component';
+import { TraceInfoMode } from './trace-info/trace-info.component';
 import { FiberStateItem, GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapService } from '../../gis-map.service';
 import { EquipmentType } from 'src/grpc-generated';

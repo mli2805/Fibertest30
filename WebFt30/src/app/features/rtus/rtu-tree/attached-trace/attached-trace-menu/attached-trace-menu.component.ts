@@ -9,7 +9,7 @@ import { RtuTreeService } from 'src/app/core/grpc';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
-import { TraceInfoMode } from 'src/app/features/gis/forms/accept-trace-dialog/trace-info/trace-info.component';
+import { TraceInfoMode } from 'src/app/features/gis/forms/trace-info-dialog/trace-info/trace-info.component';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
 import { Utils } from 'src/app/shared/utils/utils';
 

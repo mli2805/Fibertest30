@@ -11,7 +11,6 @@ import { SelectTracesDialogComponent } from './forms/select-traces-dialog/select
 import { NextStepSelectorComponent } from './forms/next-step-selector/next-step-selector.component';
 import { TraceComponentSelectorComponent } from './forms/trace-component-selector/trace-component-selector.component';
 import { EquipmentEditComponent } from './forms/trace-component-selector/equipment-edit/equipment-edit.component';
-import { AcceptTraceDialogComponent } from './forms/accept-trace-dialog/accept-trace-dialog.component';
 import { NodeInfoDialogComponent } from './forms/node-info-dialog/node-info-dialog.component';
 import { SectionWithNodesComponent } from './forms/section-with-nodes/section-with-nodes.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -32,7 +31,6 @@ import { TraceInfoDialogComponent } from './forms/trace-info-dialog/trace-info-d
     NextStepSelectorComponent,
     TraceComponentSelectorComponent,
     EquipmentEditComponent,
-    AcceptTraceDialogComponent,
     NodeInfoDialogComponent,
     SectionWithNodesComponent,
     AddRtuDialogComponent,

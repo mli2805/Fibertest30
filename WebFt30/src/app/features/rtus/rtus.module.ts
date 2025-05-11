@@ -31,7 +31,6 @@ import { MeasurementClientComponent } from './measurement-client/measurement-cli
 import { OtauMonitoringSettingsComponent } from './rtu-monitoring-settings/otau-monitoring-settings/otau-monitoring-settings.component';
 import { TraceAttachComponent } from './trace-attach/trace-attach.component';
 import { BopAttachComponent } from './bop-attach/bop-attach.component';
-import { TraceInformationComponent } from './trace-information/trace-information.component';
 import { TraceLandmarksComponent } from './trace-landmarks/trace-landmarks.component';
 import { TraceStatisticsComponent } from './trace-statistics/trace-statistics.component';
 import { BaselineViewComponent } from './baseline-view/baseline-view.component';
@@ -79,7 +78,6 @@ import { TraceAssignBaseComponent } from './trace-assign-base-dialog/trace-assig
     OtauMonitoringSettingsComponent,
     TraceAttachComponent,
     BopAttachComponent,
-    TraceInformationComponent,
     TraceLandmarksComponent,
     TraceStatisticsComponent,
     BaselineViewComponent,

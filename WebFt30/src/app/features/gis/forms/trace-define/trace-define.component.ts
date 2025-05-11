@@ -1,4 +1,4 @@
-import { Component, ElementRef, Injector, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
 import { GisMapService } from '../../gis-map.service';
 import { TraceDefineUtils } from './trace-define-utils';
 import { GisMapUtils } from '../../components/shared/gis-map.utils';
@@ -12,12 +12,10 @@ import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { TranslateService } from '@ngx-translate/core';
 import { EquipmentPipe } from 'src/app/shared/pipes/equipment.pipe';
 import { EquipmentType } from 'src/grpc-generated';
-import { AcceptTraceDialogComponent } from '../accept-trace-dialog/accept-trace-dialog.component';
 import { MapLayersActions } from '../../components/gis-actions/map-layers-actions';
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
-import { TraceInfoMode } from '../accept-trace-dialog/trace-info/trace-info.component';
-import { TraceInfoDialogComponent } from '../trace-info-dialog/trace-info-dialog.component';
+import { TraceInfoMode } from '../trace-info-dialog/trace-info/trace-info.component';
 
 @Component({
   selector: 'rtu-trace-define',

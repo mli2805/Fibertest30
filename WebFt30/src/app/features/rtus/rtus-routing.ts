@@ -6,7 +6,6 @@ import { RtuInitializationComponent } from './rtu-initialization/rtu-initializat
 import { RtusComponent } from './rtus/rtus.component';
 import { MeasurementClientComponent } from './measurement-client/measurement-client.component';
 import { RtuMonitoringSettingsComponent } from './rtu-monitoring-settings/rtu-monitoring-settings.component';
-import { TraceInformationComponent } from './trace-information/trace-information.component';
 import { RtuLandmarksComponent } from './rtu-landmarks/rtu-landmarks.component';
 import { TraceLandmarksComponent } from './trace-landmarks/trace-landmarks.component';
 import { TraceStatisticsComponent } from './trace-statistics/trace-statistics.component';
@@ -27,12 +26,6 @@ export const routes: Routes = [
         pathMatch: 'full',
         component: RtuTreeComponent,
         data: { reuseRouteId: 'rtu-tree' }
-      },
-      {
-        path: 'trace-information/:id',
-        pathMatch: 'full',
-        component: TraceInformationComponent,
-        data: { navigateToParent: 2 }
       },
       {
         path: 'initialization/:id',

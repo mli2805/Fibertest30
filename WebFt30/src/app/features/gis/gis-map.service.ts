@@ -13,7 +13,7 @@ import { GisMapUtils } from './components/shared/gis-map.utils';
 import { StepModel } from './forms/trace-define/step-model';
 import { RadioButton } from 'src/app/shared/components/svg-buttons/radio-button/radio-button';
 import { RtuInfoMode } from './forms/add-rtu-dialog/rtu-info/rtu-info.component';
-import { TraceInfoMode } from './forms/accept-trace-dialog/trace-info/trace-info.component';
+import { TraceInfoMode } from './forms/trace-info-dialog/trace-info/trace-info.component';
 
 @Injectable({
   providedIn: 'root'
