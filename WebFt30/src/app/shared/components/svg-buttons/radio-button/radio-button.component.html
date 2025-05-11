@@ -1,5 +1,5 @@
 <div class="mb-2 flex items-center" [ngClass]="{ 'text-gray-500': disabled }">
-  <div style="width: 16px; height: 16px" class="mt-1 min-h-4 min-w-4">
+  <div style="width: 16px; height: 16px" class="mt-0.5 min-h-4 min-w-4">
     <ng-container *ngIf="button.isSelected">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15">
         <circle fill="none" stroke="currentColor" stroke-width="1" cx="7" cy="7" r="6" />
@@ -7,10 +7,10 @@
       </svg>
     </ng-container>
     <ng-container *ngIf="!button.isSelected">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 17">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15">
         <circle fill="none" stroke="currentColor" stroke-width="1" cx="7" cy="7" r="6" />
       </svg>
     </ng-container>
   </div>
-  <div class="ml-1 truncate">{{ button.title }}</div>
+  <div class="ml-1 truncate">{{ button.title | translate }}</div>
 </div>

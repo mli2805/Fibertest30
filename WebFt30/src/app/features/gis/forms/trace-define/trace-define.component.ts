@@ -16,6 +16,8 @@ import { AcceptTraceDialogComponent } from '../accept-trace-dialog/accept-trace-
 import { MapLayersActions } from '../../components/gis-actions/map-layers-actions';
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
+import { TraceInfoMode } from '../accept-trace-dialog/trace-info/trace-info.component';
+import { TraceInfoDialogComponent } from '../trace-info-dialog/trace-info-dialog.component';
 
 @Component({
   selector: 'rtu-trace-define',
@@ -307,18 +309,20 @@ export class TraceDefineComponent implements OnInit {
       return;
     }
 
-    const dialogRef = this.dialog.open(AcceptTraceDialogComponent, {
-      disableClose: true,
-      data: { service: this.gisMapService }
+    this.gisMapService.showTraceInfoDialogMode = TraceInfoMode.CreateTrace;
+    this.gisMapService.showTraceInfoDialog.next(true);
+
+    this.gisMapService.applyDefinedTraceId$.pipe().subscribe((result) => {
+      // если значение не null пользователь нажал применить и получил результат
+      if (result) {
+        MapLayersActions.extinguishAllFibers();
+        MapLayersActions.drawTraceWith(<string>result, FiberState.NotJoined);
+        this.close();
+      }
+
+      // в любом случае (отмена или применить) диалог применения трассы закрываем
+      this.gisMapService.showTraceInfoDialog.next(false);
     });
-
-    const result = await firstValueFrom(dialogRef.closed);
-    if (result) {
-      MapLayersActions.extinguishAllFibers();
-      MapLayersActions.drawTraceWith(<string>result, FiberState.NotJoined);
-
-      this.close();
-    }
   }
 
   async onDiscard() {

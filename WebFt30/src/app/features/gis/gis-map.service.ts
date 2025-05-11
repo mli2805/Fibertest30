@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { GisMapLayer } from './components/shared/gis-map-layer';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import {
   AllGeoData,
   GeoFiber,
+  GeoTrace,
   TraceNode,
   TraceRouteData
 } from 'src/app/core/store/models/ft30/geo-data';
@@ -12,6 +13,7 @@ import { GisMapUtils } from './components/shared/gis-map.utils';
 import { StepModel } from './forms/trace-define/step-model';
 import { RadioButton } from 'src/app/shared/components/svg-buttons/radio-button/radio-button';
 import { RtuInfoMode } from './forms/add-rtu-dialog/rtu-info/rtu-info.component';
+import { TraceInfoMode } from './forms/accept-trace-dialog/trace-info/trace-info.component';
 
 @Injectable({
   providedIn: 'root'
@@ -155,6 +157,16 @@ export class GisMapService {
 
   showRtuAddOrEditDialog = new BehaviorSubject<boolean>(false);
   showRtuAddOrEditDialog$ = this.showRtuAddOrEditDialog.asObservable();
+
+  /////////////////////////
+  showTraceInfoDialogMode!: TraceInfoMode;
+  traceIdToShowInfo!: string;
+
+  showTraceInfoDialog = new BehaviorSubject<boolean>(false);
+  showTraceInfoDialog$ = this.showTraceInfoDialog.asObservable();
+
+  applyDefinedTraceId = new Subject<string | null>();
+  applyDefinedTraceId$ = this.applyDefinedTraceId.asObservable();
 
   /////////////////////////
   addSectionMode = false;

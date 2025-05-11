@@ -374,6 +374,7 @@
   "i18n.ft.ip": "IP",
   "i18n.ft.port": "Port",
   "i18n.ft.define-trace": "Define trace",
+  "i18n.ft.create-trace": "Create trace",
   "i18n.ft.connected-successfully": "Connected successfully!",
   "i18n.ft.failed-to-connect": "Failed to connect!",
   "i18n.ft.testing": "testing...",

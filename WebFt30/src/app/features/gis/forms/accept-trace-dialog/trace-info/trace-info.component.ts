@@ -6,16 +6,20 @@ import {
   ValidationErrors,
   ValidatorFn
 } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
 import { EquipmentType } from 'src/grpc-generated';
-import { RadioButton } from '../svg-buttons/radio-button/radio-button';
+import { RadioButton } from '../../../../../shared/components/svg-buttons/radio-button/radio-button';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
 
 interface EquipmentTypeItem {
   type: EquipmentType;
   count: number;
+}
+
+export enum TraceInfoMode {
+  'CreateTrace',
+  'ShowInformation'
 }
 
 @Component({
@@ -41,20 +45,17 @@ export class TraceInfoComponent implements OnInit {
     this.hasPermission = value.hasPermission;
     this.trace = value.trace;
     this.rtuTitle = value.rtuTitle;
-    this.port =
-      value.trace.state === FiberState.NotJoined
-        ? this.ts.instant('i18n.ft.not-joined')
-        : value.port;
+    this.port = value.trace.state === FiberState.NotJoined ? 'i18n.ft.not-joined' : value.port;
     this.radioButtons = [];
     const dark = new RadioButton();
     dark.id = 0;
     dark.isSelected = this.trace.darkMode;
-    dark.title = this.ts.instant('i18n.ft.dark');
+    dark.title = 'i18n.ft.dark'; // RadioButton переводит свои титлы
     this.radioButtons.push(dark);
     const inService = new RadioButton();
     inService.id = 1;
     inService.isSelected = !this.trace.darkMode;
-    inService.title = this.ts.instant('i18n.ft.in-service');
+    inService.title = 'i18n.ft.in-service';
     this.radioButtons.push(inService);
 
     this.form = new FormGroup({
@@ -82,7 +83,7 @@ export class TraceInfoComponent implements OnInit {
 
   @Output() closeEvent = new EventEmitter<GeoTrace | null>();
 
-  constructor(private gisMapService: GisMapService, private ts: TranslateService) {}
+  constructor(private gisMapService: GisMapService) {}
   ngOnInit(): void {
     document.getElementById('titleInput')!.focus();
   }
@@ -116,6 +117,7 @@ export class TraceInfoComponent implements OnInit {
     this.radioButtons.forEach((b) => {
       b.isSelected = b.id === id;
     });
+    this.form.markAsDirty();
   }
 
   isApplyDisabled() {

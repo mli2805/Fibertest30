@@ -11,6 +11,7 @@ import { GraphService } from 'src/app/core/grpc';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
+import { TraceInfoMode } from 'src/app/features/gis/forms/accept-trace-dialog/trace-info/trace-info.component';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 import { Utils } from 'src/app/shared/utils/utils';
@@ -80,11 +81,9 @@ export class DetachedTraceMenuComponent {
   }
 
   async onInformationClicked() {
-    this.open = false;
-    await Utils.delay(100);
-
-    const path = `rtus/trace-information/${this.trace.traceId}`;
-    this.router.navigate([path]);
+    this.gisMapService.showTraceInfoDialogMode = TraceInfoMode.ShowInformation;
+    this.gisMapService.traceIdToShowInfo = this.trace.traceId;
+    this.gisMapService.showTraceInfoDialog.next(true);
   }
 
   onShowClicked() {

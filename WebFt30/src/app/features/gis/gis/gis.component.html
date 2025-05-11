@@ -53,3 +53,7 @@
 <ng-container *ngIf="gisMapService.showRtuAddOrEditDialog$ | async">
   <rtu-add-rtu-dialog />
 </ng-container>
+
+<ng-container *ngIf="gisMapService.showTraceInfoDialog$ | async">
+  <rtu-trace-info-dialog />
+</ng-container>

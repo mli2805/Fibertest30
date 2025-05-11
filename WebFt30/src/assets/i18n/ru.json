@@ -73,6 +73,7 @@
   "i18n.ft.channel": "канал",
   "i18n.ft.connected-successfully": "Соединение успешно!",
   "i18n.ft.define-trace": "Определить трассу",
+  "i18n.ft.create-trace": "Создать трассу",
   "i18n.ft.detach-all-traces": "Отключить все трассы",
   "i18n.ft.detach-trace": "Отключить трассу",
   "i18n.ft.failed-to-connect": "Не удалось подключиться!",

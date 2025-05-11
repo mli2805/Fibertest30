@@ -1,7 +1,7 @@
 <div>
-  <div [formGroup]="form" class="w-120">
+  <div [formGroup]="form" class="">
     <fieldset [disabled]="isDisabled()">
-      <div class="grouped-border mb-2 flex w-120 flex-col">
+      <div class="grouped-border mb-2 flex flex-col">
         <div class="grid-container ml-0 gap-y-1 text-sm">
           <label
             class="my-auto text-sm"
@@ -61,7 +61,7 @@
             [ngClass]="{ 'disabled-label': isDisabled() }"
             style="grid-area: portValue"
           >
-            {{ port }}
+            {{ port | translate }}
           </label>
 
           <label

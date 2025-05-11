@@ -7,7 +7,12 @@
   >
     <!-- draggable header -->
     <div cdkDragHandle class="mb-2 ml-1 text-left">
-      {{ 'i18n.ft.create-trace' | translate }}
+      <ng-container *ngIf="mode === traceInfoMode.CreateTrace">
+        {{ 'i18n.ft.create-trace' | translate }}
+      </ng-container>
+      <ng-container *ngIf="mode !== traceInfoMode.CreateTrace">
+        {{ 'i18n.ft.information' | translate }}
+      </ng-container>
     </div>
     <!-- content -->
     <rtu-trace-info [data]="traceInfoData" (closeEvent)="onCloseEvent($event)"></rtu-trace-info>
