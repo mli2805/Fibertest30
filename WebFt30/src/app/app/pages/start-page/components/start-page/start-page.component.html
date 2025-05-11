@@ -54,14 +54,14 @@
       <ng-container *ngIf="window.type === 'RtuState'">
         <rtu-rtu-state-window [rtuId]="window.id" />
       </ng-container>
-      <ng-container *ngIf="window.type === 'TraceState'">
-        <!-- <rtu-trace-state-window [rtuId]="window.id" /> -->
-      </ng-container>
       <ng-container *ngIf="window.type === 'TraceAssignBaseRefs'">
         <rtu-trace-assign-base-dialog [traceId]="window.id" />
       </ng-container>
       <ng-container *ngIf="window.type === 'RftsEvents'">
         <rtu-rfts-events-window [windowId]="window.id" [rftsEvents]="window.payload" />
+      </ng-container>
+      <ng-container *ngIf="window.type === 'NetworkSettings'">
+        <rtu-rtu-initialization [rtuId]="window.id" />
       </ng-container>
     </ng-container>
   </div>

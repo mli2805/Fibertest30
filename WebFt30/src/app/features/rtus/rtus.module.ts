@@ -51,7 +51,7 @@ import { TraceAssignBaseComponent } from './trace-assign-base-dialog/trace-assig
     DragDropModule,
     TranslateModule.forChild()
   ],
-  exports: [RtuStateWindowComponent, TraceAssignBaseDialogComponent],
+  exports: [RtuStateWindowComponent, RtuInitializationComponent, TraceAssignBaseDialogComponent],
   declarations: [
     RtuTreeComponent,
     OneRtuComponent,

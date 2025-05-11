@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState, AuthSelectors, RtuTreeActions, User } from 'src/app/core';
+import { AppState, AuthSelectors, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
@@ -100,21 +100,11 @@ export class OneRtuMenuComponent {
   }
 
   async onNetworkSettingsClicked() {
-    this.open = false;
-    await Utils.delay(100);
-
-    const path = `rtus/initialization/${this.rtu.rtuId}`;
-    this.router.navigate([path]);
+    this.windowService.registerWindow(this.rtu.rtuId, 'NetworkSettings', this.rtu);
   }
 
   async onStateClicked() {
-    this.open = false;
-    await Utils.delay(100);
-
     this.windowService.registerWindow(this.rtu.rtuId, 'RtuState', this.rtu);
-
-    // const path = `rtus/state/${this.rtu.rtuId}`;
-    // this.router.navigate([path]);
   }
 
   async onLandmarksClicked() {

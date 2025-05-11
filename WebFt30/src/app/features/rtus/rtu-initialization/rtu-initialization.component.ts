@@ -1,5 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState, AuthSelectors, RtuTreeSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -9,14 +8,17 @@ import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors';
 import { DoubleAddress } from 'src/app/core/store/models/ft30/double-address';
 import { MainChannelTestComponent } from './main-channel-test/main-channel-test.component';
+import { Observable, Subscription } from 'rxjs';
+import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 
 @Component({
   selector: 'rtu-rtu-initialization',
   templateUrl: './rtu-initialization.component.html'
 })
 export class RtuInitializationComponent implements OnInit, OnDestroy {
-  rtuId!: string;
-  rtu!: Rtu;
+  @Input() rtuId!: string;
+  rtu$!: Observable<Rtu | null>;
+  subscription!: Subscription;
 
   @ViewChild('mainChannel') mainChannel!: MainChannelTestComponent;
 
@@ -28,12 +30,11 @@ export class RtuInitializationComponent implements OnInit, OnDestroy {
   hasChangeRtuAddressPermission!: boolean;
   otherRtuAddresses!: string[];
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private windowService: WindowService) {}
 
   ngOnInit(): void {
-    this.rtuId = this.route.snapshot.paramMap.get('id')!;
+    this.rtu$ = this.store.select(RtuTreeSelectors.selectRtu(this.rtuId));
 
-    this.rtu = CoreUtils.getCurrentState(this.store, RtuTreeSelectors.selectRtu(this.rtuId))!;
     this.hasInitializePermission = CoreUtils.getCurrentState(
       this.store,
       AuthSelectors.selectHasInitializeRtuPermission
@@ -55,7 +56,7 @@ export class RtuInitializationComponent implements OnInit, OnDestroy {
 
   onInitializeClicked() {
     const dto = new InitializeRtuDto();
-    dto.rtuId = this.rtu.rtuId;
+    dto.rtuId = this.rtuId;
     const da = new DoubleAddress();
     da.main = this.mainChannel.composeInputs();
     da.hasReserveAddress = false;
@@ -65,5 +66,23 @@ export class RtuInitializationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.store.dispatch(RtuMgmtActions.reset());
+  }
+
+  zIndex = 1;
+  bringToFront() {
+    this.windowService.bringToFront(this.rtuId, 'NetworkSettings');
+    this.updateZIndex();
+  }
+
+  private updateZIndex() {
+    const windowData = this.windowService.getWindows().find((w) => w.id === this.rtuId);
+    // Обновляем только если значение изменилось
+    if (windowData?.zIndex !== this.zIndex) {
+      this.zIndex = windowData?.zIndex || 1;
+    }
+  }
+
+  close() {
+    this.windowService.unregisterWindow(this.rtuId, 'NetworkSettings');
   }
 }

@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 
-type ManagedWindow = 'RtuState' | 'TraceState' | 'Landmarks' | 'TraceAssignBaseRefs' | 'RftsEvents';
+type ManagedWindow =
+  | 'RtuState'
+  | 'Landmarks'
+  | 'TraceAssignBaseRefs'
+  | 'RftsEvents'
+  | 'NetworkSettings';
 
 interface WindowData {
   id: string;
