@@ -370,6 +370,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         this.addOrReplace(audioEvent);
         this.store.dispatch(DeviceActions.getHasCurrentEvents());
         this.audioService.play(audioEvent);
+        this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
         return;
       }
       case 'BopNetworkEventAdded': {
@@ -378,6 +379,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         this.addOrReplace(audioEvent);
         this.store.dispatch(DeviceActions.getHasCurrentEvents());
         this.audioService.play(audioEvent);
+        this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
         return;
       }
       case 'RtuStateAccidentAdded': {

@@ -87,7 +87,12 @@
         <div class="grouped-border ml-2 flex flex-col">
           <div class="my-1 flex justify-between text-sm">
             <div>{{ 'i18n.ft.bop' | translate }}</div>
-            <div>{{ rtu.bopsState | rtuPartStatePipe | translate }}</div>
+            <div
+              class="px-2"
+              [ngClass]="{ 'bg-red-500 text-white': rtu.bopsState === rtuPartState.Broken }"
+            >
+              {{ rtu.bopsState | rtuPartStatePipe | translate }}
+            </div>
           </div>
           <div class="my-1 flex justify-between text-sm">
             <div>{{ 'i18n.ft.traces-state' | translate }}</div>
