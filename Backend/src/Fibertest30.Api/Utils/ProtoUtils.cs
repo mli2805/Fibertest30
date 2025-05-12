@@ -23,7 +23,8 @@ public static class ProtoUtils
 
         if (baseline != null)
             response.Baseline = ByteString.CopyFrom(baseline);
-
+        if (baselineBytes != null)
+            response.BaselineBytes = ByteString.CopyFrom(baselineBytes);
         return response;
     }
 

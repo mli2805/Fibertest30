@@ -40,6 +40,8 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
   measurementTrace: SorTrace | null = null;
   baselineTrace: SorTrace | null = null;
   sorFile: Uint8Array | null = null;
+  measurementBytes: Uint8Array | null = null;
+  baselineBytes: Uint8Array | null = null;
 
   constructor(
     private store: Store<AppState>,
@@ -79,9 +81,14 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
 
     try {
       const response = await firstValueFrom(
+        // этот запрос берет сорку измерения со встроенной базовой (так мы храним в бд)
+        // на сервере разделяет ее на 3 набора байт:
+        // весь исходный файл, [ измерение и базовая - это не полные сорки, а только new MeasurementTrace(sorBytes).OtdrData.ToSorDataBuf() ]
         this.rtuMgmtService.getMeasurementSor(this.opticalEventId)
       );
+      this.measurementBytes = response.measurement;
       this.measurementTrace = await ConvertUtils.buildSorTrace(response.measurement);
+      this.baselineBytes = response.baselineBytes!; // это уже 4й набор
       this.baselineTrace = await ConvertUtils.buildSorTrace(response.baseline!, SorColors.Baseline);
       this.sorFile = response.file;
 
@@ -113,8 +120,13 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
 
     const dt = this.dtPipe.getDateTimeForFileName(this.opticalEvent.registeredAt);
     const filename = `${this.opticalEvent.traceTitle} - ID${this.opticalEventId} - ${dt}.sor`;
-
     this.fileSaverService.saveAs(this.sorFile!, filename);
+
+    const filenameBase = `${this.opticalEvent.traceTitle} - ID${this.opticalEventId} - ${dt}-base.sor`;
+    this.fileSaverService.saveAs(this.baselineBytes!, filenameBase);
+
+    // const filenameMeas = `${this.opticalEvent.traceTitle} - ID${this.opticalEventId} - ${dt}-meas.sor`;
+    // this.fileSaverService.saveAs(this.measurementBytes!, filenameMeas);
   }
 
   toggleFullScreen() {

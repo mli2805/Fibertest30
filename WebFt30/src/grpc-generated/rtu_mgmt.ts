@@ -299,6 +299,10 @@ export interface GetSorResponse {
      * @generated from protobuf field: bytes file = 3;
      */
     file: Uint8Array;
+    /**
+     * @generated from protobuf field: optional bytes baselineBytes = 4;
+     */
+    baselineBytes?: Uint8Array;
 }
 /**
  * @generated from protobuf message fibertest30.rtu_mgmt.GetMeasurementSorRequest
@@ -598,7 +602,8 @@ class GetSorResponse$Type extends MessageType<GetSorResponse> {
         super("fibertest30.rtu_mgmt.GetSorResponse", [
             { no: 1, name: "measurement", kind: "scalar", T: 12 /*ScalarType.BYTES*/ },
             { no: 2, name: "baseline", kind: "scalar", opt: true, T: 12 /*ScalarType.BYTES*/ },
-            { no: 3, name: "file", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
+            { no: 3, name: "file", kind: "scalar", T: 12 /*ScalarType.BYTES*/ },
+            { no: 4, name: "baselineBytes", kind: "scalar", opt: true, T: 12 /*ScalarType.BYTES*/ }
         ]);
     }
 }
