@@ -128,7 +128,6 @@ message GetSorResponse {
 	//  there is no baseline in sor for measurementClient
 	optional bytes baseline = 2; 
 	bytes file = 3;
-	optional bytes baselineBytes = 4;
 }
 
 message GetMeasurementSorRequest {

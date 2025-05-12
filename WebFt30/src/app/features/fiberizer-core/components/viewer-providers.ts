@@ -63,6 +63,10 @@ export class SorAreaProviderComponent extends OnDestroyBase {
     service.showLandmarksDock = true;
     service.isEditMode = true;
     service.sorViewer.showTracesOffset = true;
+
+    service.sorViewer.traceOffsetMode = 'noiseFloor';
+    service.sorViewer.setTracesOffset(0);
+
     service.sorViewer.chartMargin = 10;
   }
 }
