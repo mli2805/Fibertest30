@@ -7,12 +7,7 @@ import { AppState, SettingsSelectors } from 'src/app/core';
 import { GisMapLayer } from 'src/app/features/gis/components/shared/gis-map-layer';
 import { GisMapUtils } from 'src/app/features/gis/components/shared/gis-map.utils';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
-import {
-  GeoFiber,
-  GeoTrace,
-  TraceNode,
-  TraceRouteData
-} from 'src/app/core/store/models/ft30/geo-data';
+import { GeoFiber, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { ColorUtils } from 'src/app/shared/utils/color-utils';
 import {
   GisIconWithZIndex,

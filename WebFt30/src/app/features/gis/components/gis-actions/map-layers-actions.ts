@@ -2,12 +2,7 @@ import * as L from 'leaflet';
 import { Injector } from '@angular/core';
 import { GisMapService } from '../../gis-map.service';
 import { GisIconWithZIndex, GisMapIcons } from '../shared/gis-map-icons';
-import {
-  FiberStateItem,
-  GeoFiber,
-  TraceNode,
-  TraceRouteData
-} from 'src/app/core/store/models/ft30/geo-data';
+import { FiberStateItem, GeoFiber, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { ColorUtils } from 'src/app/shared/utils/color-utils';
 import { MapFiberMenu } from './map-fiber-menu';
@@ -209,22 +204,6 @@ export class MapLayersActions {
         this.gisMapService.currentZoom.value >= value
       );
     });
-  }
-
-  static addTraceRoute(route: TraceRouteData, toBounds: boolean): void {
-    const latLngs = route.nodes.map((n) => n.coors);
-    const polyline = L.polyline(latLngs, { color: ColorUtils.routeStateToColor(route.traceState) });
-    const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
-    group.addLayer(polyline);
-
-    route.nodes.forEach((node) => {
-      MapLayersActions.addNodeToLayer(node);
-    });
-
-    if (toBounds) {
-      const bounds = new L.LatLngBounds(latLngs);
-      this.gisMapService.getMap().fitBounds(bounds);
-    }
   }
 
   static addNodeToLayer(node: TraceNode): L.Marker {

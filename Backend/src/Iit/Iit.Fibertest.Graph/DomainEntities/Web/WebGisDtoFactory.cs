@@ -58,25 +58,6 @@ public static class WebGisDtoFactory
         };
     }
     
-    //
-    public static TraceGisData GetTraceGisData(this Model writeModel, Guid traceId)
-    {
-        var trace = writeModel.Traces.First(t => t.TraceId == traceId);
-        return writeModel.GetTraceGisData(trace);
-    }
-
-    private static TraceGisData GetTraceGisData(this Model writeModel, Trace trace)
-    {
-        return new TraceGisData()
-        {
-            TraceId = trace.TraceId,
-            TraceState = trace.State,
-            Nodes = trace.NodeIds
-                .Select(nodeId => writeModel.Nodes.First(n => n.NodeId == nodeId).GetNodeGisData())
-                .ToList(),
-        };
-    }
-
     private static NodeGisData GetNodeGisData(this Node node)
     {
         return new NodeGisData()

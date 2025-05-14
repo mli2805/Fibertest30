@@ -11,7 +11,7 @@ import {
 import { GisMapService } from '../../gis-map.service';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
 import { takeUntil } from 'rxjs';
-import { AllGeoData, TraceRouteData } from 'src/app/core/store/models/ft30/geo-data';
+import { AllGeoData } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { Store } from '@ngrx/store';
 import { AppState, AuthSelectors, SettingsSelectors } from 'src/app/core';
@@ -85,10 +85,6 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
       .pipe(takeUntil(this.ngDestroyed$))
       .subscribe((d) => this.onGeoData(d));
 
-    this.gisMapService.traceRouteData$
-      .pipe(takeUntil(this.ngDestroyed$))
-      .subscribe((x) => this.onTraceRouteData(x));
-
     this.gisMapService.externalCommand$
       .pipe(takeUntil(this.ngDestroyed$))
       .subscribe((c) => MapExternalCommands.do(c));
@@ -118,11 +114,5 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
 
     data.geoData.fibers.forEach((f) => MapLayersActions.addFiberToLayer(f));
     data.geoData.nodes.forEach((n) => MapLayersActions.addNodeToLayer(n));
-  }
-
-  onTraceRouteData(data: { traceRouteData: TraceRouteData } | null): void {
-    this.gisMapService.getLayerGroups().forEach((group) => group.clearLayers());
-    if (!data) return;
-    MapLayersActions.addTraceRoute(data.traceRouteData, true);
   }
 }

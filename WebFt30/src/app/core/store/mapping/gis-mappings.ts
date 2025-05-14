@@ -91,17 +91,6 @@ export class GisMapping {
     return trace;
   }
 
-  // static fromTraceRouteData(grpcTraceRoute: grpc.TraceRouteData): TraceRouteData {
-  //   const nodes = grpcTraceRoute.nodes.map((n) => this.fromTraceNode(n));
-  //   const route = new TraceRouteData(
-  //     grpcTraceRoute.traceId,
-  //     nodes,
-  //     [],
-  //     FtEnumsMapping.fromGrpcFiberState(grpcTraceRoute.traceState)
-  //   );
-  //   return route;
-  // }
-
   static fromGrpcGeoData(grpcGeoData: grpc.AllGeoData): AllGeoData {
     const nodes = grpcGeoData.nodes.map((n) => this.fromTraceNode(n));
     const fibers = grpcGeoData.fibers.map((f) => this.fromGeoFiber(f));

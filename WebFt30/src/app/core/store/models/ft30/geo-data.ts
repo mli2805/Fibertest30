@@ -92,15 +92,6 @@ export class GeoTrace {
   ) {}
 }
 
-export class TraceRouteData {
-  constructor(
-    public traceId: string,
-    public nodes: TraceNode[],
-    public accidents: TraceNode[],
-    public traceState: FiberState
-  ) {}
-}
-
 // узлы и участки для карты root'а
 export class AllGeoData {
   constructor(

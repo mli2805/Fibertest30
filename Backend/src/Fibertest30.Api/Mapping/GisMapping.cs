@@ -131,17 +131,6 @@ public static class GisMapping
         return result;
     }
 
-    public static TraceRouteData ToProto(this TraceGisData trace)
-    {
-        var result = new TraceRouteData
-        {
-            TraceId = trace.TraceId.ToString(),
-            TraceState = trace.TraceState.ToProto()
-        };
-        trace.Nodes.ForEach(n => result.Nodes.Add(n.ToProto()));
-        return result;
-    }
-
     public static AllGeoData ToProto(this AllGisData data)
     {
         var result = new AllGeoData();

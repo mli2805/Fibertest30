@@ -211,23 +211,6 @@ export interface GeoTrace {
     comment: string;
 }
 /**
- * @generated from protobuf message fibertest30.gis.TraceRouteData
- */
-export interface TraceRouteData {
-    /**
-     * @generated from protobuf field: string traceId = 1;
-     */
-    traceId: string;
-    /**
-     * @generated from protobuf field: repeated fibertest30.gis.TraceNode nodes = 2;
-     */
-    nodes: TraceNode[];
-    /**
-     * @generated from protobuf field: fibertest30.ft.enums.FiberState traceState = 3;
-     */
-    traceState: FiberState;
-}
-/**
  * @generated from protobuf message fibertest30.gis.AllGeoData
  */
 export interface AllGeoData {
@@ -247,26 +230,6 @@ export interface AllGeoData {
      * @generated from protobuf field: repeated fibertest30.gis.GeoEquipment equipments = 4;
      */
     equipments: GeoEquipment[];
-}
-/**
- * GetTraceRoute
- *
- * @generated from protobuf message fibertest30.gis.GetTraceRouteRequest
- */
-export interface GetTraceRouteRequest {
-    /**
-     * @generated from protobuf field: string traceId = 1;
-     */
-    traceId: string;
-}
-/**
- * @generated from protobuf message fibertest30.gis.GetTraceRouteResponse
- */
-export interface GetTraceRouteResponse {
-    /**
-     * @generated from protobuf field: fibertest30.gis.TraceRouteData routeData = 1;
-     */
-    routeData?: TraceRouteData;
 }
 /**
  * GetAllGeoData
@@ -483,20 +446,6 @@ class GeoTrace$Type extends MessageType<GeoTrace> {
  */
 export const GeoTrace = new GeoTrace$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class TraceRouteData$Type extends MessageType<TraceRouteData> {
-    constructor() {
-        super("fibertest30.gis.TraceRouteData", [
-            { no: 1, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "nodes", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => TraceNode },
-            { no: 3, name: "traceState", kind: "enum", T: () => ["fibertest30.ft.enums.FiberState", FiberState] }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.gis.TraceRouteData
- */
-export const TraceRouteData = new TraceRouteData$Type();
-// @generated message type with reflection information, may provide speed optimized methods
 class AllGeoData$Type extends MessageType<AllGeoData> {
     constructor() {
         super("fibertest30.gis.AllGeoData", [
@@ -511,30 +460,6 @@ class AllGeoData$Type extends MessageType<AllGeoData> {
  * @generated MessageType for protobuf message fibertest30.gis.AllGeoData
  */
 export const AllGeoData = new AllGeoData$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetTraceRouteRequest$Type extends MessageType<GetTraceRouteRequest> {
-    constructor() {
-        super("fibertest30.gis.GetTraceRouteRequest", [
-            { no: 1, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.gis.GetTraceRouteRequest
- */
-export const GetTraceRouteRequest = new GetTraceRouteRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetTraceRouteResponse$Type extends MessageType<GetTraceRouteResponse> {
-    constructor() {
-        super("fibertest30.gis.GetTraceRouteResponse", [
-            { no: 1, name: "routeData", kind: "message", T: () => TraceRouteData }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.gis.GetTraceRouteResponse
- */
-export const GetTraceRouteResponse = new GetTraceRouteResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GetAllGeoDataRequest$Type extends MessageType<GetAllGeoDataRequest> {
     constructor() {
@@ -585,7 +510,6 @@ export const GetFiberInfoResponse = new GetFiberInfoResponse$Type();
  * @generated ServiceType for protobuf service fibertest30.gis.Gis
  */
 export const Gis = new ServiceType("fibertest30.gis.Gis", [
-    { name: "GetTraceRoute", options: {}, I: GetTraceRouteRequest, O: GetTraceRouteResponse },
     { name: "GetAllGeoData", options: {}, I: GetAllGeoDataRequest, O: GetAllGeoDataResponse },
     { name: "GetFiberInfo", options: {}, I: GetFiberInfoRequest, O: GetFiberInfoResponse }
 ]);

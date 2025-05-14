@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GisMapLayer } from './components/shared/gis-map-layer';
 import { BehaviorSubject, Subject } from 'rxjs';
-import {
-  AllGeoData,
-  GeoFiber,
-  GeoTrace,
-  TraceNode,
-  TraceRouteData
-} from 'src/app/core/store/models/ft30/geo-data';
+import { AllGeoData, GeoFiber, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import * as L from 'leaflet';
 import { GisMapUtils } from './components/shared/gis-map.utils';
 import { StepModel } from './forms/trace-define/step-model';
@@ -60,21 +54,6 @@ export class GisMapService {
       (f) =>
         (f.node1id === adjustmentPointId || f.node2id === adjustmentPointId) && f.id !== fiberId
     )!;
-  }
-
-  //
-
-  //////////////////// одна трасса для показа на форме опт соб
-  private traceRouteDataSubject = new BehaviorSubject<{
-    traceRouteData: TraceRouteData;
-  } | null>(null);
-
-  traceRouteData$ = this.traceRouteDataSubject.asObservable();
-
-  setRouteData(traceRouteData: TraceRouteData): void {
-    this.traceRouteDataSubject.next({
-      traceRouteData: traceRouteData
-    });
   }
 
   ///////////////////////

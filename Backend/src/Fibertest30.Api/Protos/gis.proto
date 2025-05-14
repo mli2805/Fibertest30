@@ -5,7 +5,6 @@ option csharp_namespace = "Fibertest30.Api";
 package fibertest30.gis;
 
 service Gis {
-	rpc GetTraceRoute(GetTraceRouteRequest) returns (GetTraceRouteResponse);
 	rpc GetAllGeoData(GetAllGeoDataRequest) returns (GetAllGeoDataResponse);
 	rpc GetFiberInfo(GetFiberInfoRequest) returns (GetFiberInfoResponse);
 }
@@ -98,26 +97,11 @@ message GeoTrace {
 
 }
 
-message TraceRouteData {
-	string traceId = 1;
-	repeated TraceNode nodes = 2;
-	ft.enums.FiberState traceState = 3;
-}
-
 message AllGeoData {
 	repeated GeoFiber fibers = 1;
 	repeated TraceNode nodes = 2;
 	repeated GeoTrace traces = 3;
 	repeated GeoEquipment equipments = 4;
-}
-
-// GetTraceRoute
-message GetTraceRouteRequest {
-	string traceId = 1;
-}
-
-message GetTraceRouteResponse {
-	TraceRouteData routeData = 1;
 }
 
 // GetAllGeoData
