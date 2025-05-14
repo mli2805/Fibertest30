@@ -153,7 +153,7 @@ public static class FtEnumsMapping
             Iit.Fibertest.Dto.OpticalAccidentType.Break => OpticalAccidentType.Break,
             Iit.Fibertest.Dto.OpticalAccidentType.Loss => OpticalAccidentType.Loss,
             Iit.Fibertest.Dto.OpticalAccidentType.Reflectance => OpticalAccidentType.Reflectance,
-            Iit.Fibertest.Dto.OpticalAccidentType.LossCoeff => OpticalAccidentType.TotalLoss,
+            Iit.Fibertest.Dto.OpticalAccidentType.LossCoeff => OpticalAccidentType.LossCoeff,
             Iit.Fibertest.Dto.OpticalAccidentType.TotalLoss => OpticalAccidentType.TotalLoss,
             Iit.Fibertest.Dto.OpticalAccidentType.None => OpticalAccidentType.None,
             _ => throw new ArgumentOutOfRangeException()
