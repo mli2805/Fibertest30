@@ -57,3 +57,7 @@
 <ng-container *ngIf="gisMapService.showTraceInfoDialog$ | async">
   <rtu-trace-info-dialog />
 </ng-container>
+
+<ng-container *ngIf="gisMapService.showSectionInfoDialog$ | async">
+  <rtu-fiber-info />
+</ng-container>

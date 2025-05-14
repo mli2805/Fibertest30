@@ -2,12 +2,13 @@ import * as grpc from 'src/grpc-generated';
 import * as L from 'leaflet';
 import {
   AllGeoData,
+  FiberInfo,
   FiberStateItem,
   GeoEquipment,
   GeoFiber,
   GeoTrace,
-  TraceNode,
-  TraceRouteData
+  OpticalLength,
+  TraceNode
 } from '../models/ft30/geo-data';
 import { FtEnumsMapping } from './ft-enums-mapping';
 
@@ -59,6 +60,20 @@ export class GisMapping {
       )
     );
     return fiber;
+  }
+
+  static fromOpticalLength(grpcOpticalLength: grpc.OpticalLength): OpticalLength {
+    return new OpticalLength(grpcOpticalLength.traceId, grpcOpticalLength.length);
+  }
+
+  static fromFiberInfo(grpcFiberInfo: grpc.FiberInfo): FiberInfo {
+    return new FiberInfo(
+      grpcFiberInfo.fiberId,
+      grpcFiberInfo.gpsLength,
+      grpcFiberInfo.userInputedLength,
+      grpcFiberInfo.tracesThrough.map((t) => this.fromOpticalLength(t)),
+      grpcFiberInfo.hasTraceUnderMonitoring
+    );
   }
 
   static fromGeoTrace(grpcGeoTrace: grpc.GeoTrace): GeoTrace {

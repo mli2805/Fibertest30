@@ -132,6 +132,44 @@ export interface GeoFiber {
     tracesWithExceededLossCoeff: FiberStateDictionaryItem[];
 }
 /**
+ * @generated from protobuf message fibertest30.gis.OpticalLength
+ */
+export interface OpticalLength {
+    /**
+     * @generated from protobuf field: string traceId = 1;
+     */
+    traceId: string;
+    /**
+     * @generated from protobuf field: double length = 2;
+     */
+    length: number;
+}
+/**
+ * @generated from protobuf message fibertest30.gis.FiberInfo
+ */
+export interface FiberInfo {
+    /**
+     * @generated from protobuf field: string fiberId = 1;
+     */
+    fiberId: string;
+    /**
+     * @generated from protobuf field: double gpsLength = 2;
+     */
+    gpsLength: number;
+    /**
+     * @generated from protobuf field: double userInputedLength = 3;
+     */
+    userInputedLength: number;
+    /**
+     * @generated from protobuf field: repeated fibertest30.gis.OpticalLength tracesThrough = 4;
+     */
+    tracesThrough: OpticalLength[];
+    /**
+     * @generated from protobuf field: bool hasTraceUnderMonitoring = 5;
+     */
+    hasTraceUnderMonitoring: boolean;
+}
+/**
  * @generated from protobuf message fibertest30.gis.GeoTrace
  */
 export interface GeoTrace {
@@ -245,6 +283,26 @@ export interface GetAllGeoDataResponse {
      * @generated from protobuf field: fibertest30.gis.AllGeoData data = 1;
      */
     data?: AllGeoData;
+}
+/**
+ * GetFiberInfo
+ *
+ * @generated from protobuf message fibertest30.gis.GetFiberInfoRequest
+ */
+export interface GetFiberInfoRequest {
+    /**
+     * @generated from protobuf field: string fiberId = 1;
+     */
+    fiberId: string;
+}
+/**
+ * @generated from protobuf message fibertest30.gis.GetFiberInfoResponse
+ */
+export interface GetFiberInfoResponse {
+    /**
+     * @generated from protobuf field: fibertest30.gis.FiberInfo fiberInfo = 1;
+     */
+    fiberInfo?: FiberInfo;
 }
 /**
  * @generated from protobuf enum fibertest30.gis.EquipmentType
@@ -376,6 +434,35 @@ class GeoFiber$Type extends MessageType<GeoFiber> {
  */
 export const GeoFiber = new GeoFiber$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class OpticalLength$Type extends MessageType<OpticalLength> {
+    constructor() {
+        super("fibertest30.gis.OpticalLength", [
+            { no: 1, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "length", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.gis.OpticalLength
+ */
+export const OpticalLength = new OpticalLength$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class FiberInfo$Type extends MessageType<FiberInfo> {
+    constructor() {
+        super("fibertest30.gis.FiberInfo", [
+            { no: 1, name: "fiberId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "gpsLength", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 3, name: "userInputedLength", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 4, name: "tracesThrough", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => OpticalLength },
+            { no: 5, name: "hasTraceUnderMonitoring", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.gis.FiberInfo
+ */
+export const FiberInfo = new FiberInfo$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class GeoTrace$Type extends MessageType<GeoTrace> {
     constructor() {
         super("fibertest30.gis.GeoTrace", [
@@ -470,10 +557,35 @@ class GetAllGeoDataResponse$Type extends MessageType<GetAllGeoDataResponse> {
  * @generated MessageType for protobuf message fibertest30.gis.GetAllGeoDataResponse
  */
 export const GetAllGeoDataResponse = new GetAllGeoDataResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetFiberInfoRequest$Type extends MessageType<GetFiberInfoRequest> {
+    constructor() {
+        super("fibertest30.gis.GetFiberInfoRequest", [
+            { no: 1, name: "fiberId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.gis.GetFiberInfoRequest
+ */
+export const GetFiberInfoRequest = new GetFiberInfoRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetFiberInfoResponse$Type extends MessageType<GetFiberInfoResponse> {
+    constructor() {
+        super("fibertest30.gis.GetFiberInfoResponse", [
+            { no: 1, name: "fiberInfo", kind: "message", T: () => FiberInfo }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.gis.GetFiberInfoResponse
+ */
+export const GetFiberInfoResponse = new GetFiberInfoResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.gis.Gis
  */
 export const Gis = new ServiceType("fibertest30.gis.Gis", [
     { name: "GetTraceRoute", options: {}, I: GetTraceRouteRequest, O: GetTraceRouteResponse },
-    { name: "GetAllGeoData", options: {}, I: GetAllGeoDataRequest, O: GetAllGeoDataResponse }
+    { name: "GetAllGeoData", options: {}, I: GetAllGeoDataRequest, O: GetAllGeoDataResponse },
+    { name: "GetFiberInfo", options: {}, I: GetFiberInfoRequest, O: GetFiberInfoResponse }
 ]);

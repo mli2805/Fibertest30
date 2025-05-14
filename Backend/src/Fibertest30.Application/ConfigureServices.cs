@@ -35,6 +35,7 @@ public static class ConfigureServices
         services.AddScoped<IUserRolePermissionProvider, UserRolePermissionProvider>();
         services.AddScoped<BaseRefLandmarksTool>();
         services.AddScoped<BaseRefsCheckerOnServer>();
+        services.AddScoped<FiberInfoProvider>();
 
         services.AddSingleton<TableProvider>();
         services.AddSingleton<Model>();

@@ -45,7 +45,8 @@ export class MapFiberMenu {
   }
 
   static showSectionInformation(e: L.ContextMenuItemClickEvent) {
-    console.log(e.relatedTarget);
+    const fiberId = (<any>e.relatedTarget).id;
+    this.gisMapService.showSectionInfoDialog.next(fiberId);
   }
 
   // только если трассы без базовых

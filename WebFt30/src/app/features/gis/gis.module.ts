@@ -17,6 +17,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AddRtuDialogComponent } from './forms/add-rtu-dialog/add-rtu-dialog.component';
 import { RtuInfoComponent } from './forms/add-rtu-dialog/rtu-info/rtu-info.component';
 import { TraceInfoDialogComponent } from './forms/trace-info-dialog/trace-info-dialog.component';
+import { FiberInfoComponent } from './forms/fiber-info/fiber-info.component';
 
 @NgModule({
   imports: [GisRoutingModule, SharedModule, DragDropModule],
@@ -35,7 +36,8 @@ import { TraceInfoDialogComponent } from './forms/trace-info-dialog/trace-info-d
     SectionWithNodesComponent,
     AddRtuDialogComponent,
     RtuInfoComponent,
-    TraceInfoDialogComponent
+    TraceInfoDialogComponent,
+    FiberInfoComponent
   ],
   providers: []
 })

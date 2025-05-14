@@ -724,6 +724,13 @@
   "i18n.ft.orl__db": "ORL, db",
   "i18n.ft.km": "km",
 
+  "i18n.ft.nodes-of-section": "Nodes of section",
+  "i18n.ft.physical-length": "Physical length",
+  "i18n.ft.gps-length": "GPS length, m",
+  "i18n.ft.user-length": "User length, m",
+  "i18n.ft.opt-length-m": "Opt. length, m",
+  "i18n.ft.no-base": "no base",
+
   "i18n.validation.incorrect-level-order": "incorrect level order",
   "i18n.validation.not-unique": "must be unique",
   "i18n.validation.precision-limit": "precision limit"

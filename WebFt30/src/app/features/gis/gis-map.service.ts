@@ -169,6 +169,10 @@ export class GisMapService {
   applyDefinedTraceId$ = this.applyDefinedTraceId.asObservable();
 
   /////////////////////////
+  showSectionInfoDialog = new BehaviorSubject<string | null>(null);
+  showSectionInfoDialog$ = this.showSectionInfoDialog.asObservable();
+
+  /////////////////////////
   addSectionMode = false;
   sectionWithNodes = false; // действует только совместно с addSectionMode
   addSectionFromNodeId = GisMapUtils.emptyGuid;

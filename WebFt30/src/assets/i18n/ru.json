@@ -400,5 +400,12 @@
   "i18n.ft.fail": "плохо",
   "i18n.ft.abs": "(абс.)",
   "i18n.ft.rel": "(отн.)",
-  "i18n.ft.km": "км"
+  "i18n.ft.km": "км",
+
+  "i18n.ft.nodes-of-section": "Узлы участка",
+  "i18n.ft.physical-length": "Физическая длина",
+  "i18n.ft.gps-length": "Длина по GPS, м",
+  "i18n.ft.user-length": "Пользовательская длина, м",
+  "i18n.ft.opt-length-m": "Опт. длина, м",
+  "i18n.ft.no-base": "нет базовой"
 }

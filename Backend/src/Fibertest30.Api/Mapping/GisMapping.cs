@@ -38,7 +38,7 @@ public static class GisMapping
             EquipmentType = node.EquipmentType.ToProto(),
             Comment = node.Comment,
 
-           
+
         };
 
         if (node.EquipmentType == Iit.Fibertest.Dto.EquipmentType.AccidentPlace)
@@ -74,18 +74,20 @@ public static class GisMapping
             Node2Id = fiber.Node2Id.ToString(),
             Coors2 = fiber.Coors2.ToProto(),
         };
-        fiber.States.ForEach(s=>
+        fiber.States.ForEach(s =>
         {
             result.States.Add(new FiberStateDictionaryItem
             {
-                TraceId = s.Key.ToString(), TraceState = s.Value.ToProto()
+                TraceId = s.Key.ToString(),
+                TraceState = s.Value.ToProto()
             });
         });
         fiber.TracesWithExceededLossCoeff.ForEach(t =>
         {
             result.TracesWithExceededLossCoeff.Add(new FiberStateDictionaryItem
             {
-                TraceId = t.Key.ToString(), TraceState = t.Value.ToProto()
+                TraceId = t.Key.ToString(),
+                TraceState = t.Value.ToProto()
             });
         });
 
@@ -106,6 +108,26 @@ public static class GisMapping
         trace.NodeIds.ForEach(n => result.NodeIds.Add(n.ToString()));
         trace.EquipmentIds.ForEach(n => result.EquipmentIds.Add(n.ToString()));
         trace.FiberIds.ForEach(n => result.FiberIds.Add(n.ToString()));
+        return result;
+    }
+
+    private static OpticalLength ToProto(this Application.OpticalLength opticalLength)
+    {
+        return new OpticalLength() { TraceId = opticalLength.TraceId.ToString(), Length = opticalLength.Length };
+    }
+
+    public static FiberInfo ToProto(this Application.FiberInfo fiberInfo)
+    {
+        var result = new FiberInfo()
+        {
+            FiberId = fiberInfo.FiberId.ToString(),
+            GpsLength = fiberInfo.GpsLength,
+            UserInputedLength = fiberInfo.UserInputedLength,
+
+            HasTraceUnderMonitoring = fiberInfo.HasTraceUnderMonitoring
+        };
+        fiberInfo.TracesThrough.ForEach(t => result.TracesThrough.Add(t.ToProto()));
+
         return result;
     }
 

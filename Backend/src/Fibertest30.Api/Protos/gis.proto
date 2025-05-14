@@ -7,6 +7,7 @@ package fibertest30.gis;
 service Gis {
 	rpc GetTraceRoute(GetTraceRouteRequest) returns (GetTraceRouteResponse);
 	rpc GetAllGeoData(GetAllGeoDataRequest) returns (GetAllGeoDataResponse);
+	rpc GetFiberInfo(GetFiberInfoRequest) returns (GetFiberInfoResponse);
 }
 
 enum EquipmentType {
@@ -70,6 +71,20 @@ message GeoFiber {
 	repeated FiberStateDictionaryItem tracesWithExceededLossCoeff = 8;
 }
 
+message OpticalLength {
+	string traceId = 1;
+	double length = 2;
+}
+
+message FiberInfo {
+	string fiberId = 1;
+	double gpsLength = 2;
+	double userInputedLength = 3;
+
+	repeated OpticalLength tracesThrough = 4;
+	bool hasTraceUnderMonitoring = 5;
+}
+
 message GeoTrace {
 	string id = 1;
 	string title = 2;
@@ -110,4 +125,13 @@ message GetAllGeoDataRequest {}
 
 message GetAllGeoDataResponse {
 	AllGeoData data = 1;
+}
+
+// GetFiberInfo
+message GetFiberInfoRequest {
+	string fiberId = 1;
+}
+
+message GetFiberInfoResponse {
+	FiberInfo fiberInfo = 1;
 }

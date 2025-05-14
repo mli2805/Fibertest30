@@ -64,6 +64,20 @@ export class GeoFiber {
   }
 }
 
+export class OpticalLength {
+  constructor(public traceId: string, public length: number) {}
+}
+
+export class FiberInfo {
+  constructor(
+    public fiberId: string,
+    public gpsLength: number,
+    public userInputedLength: number,
+    public tracesThrough: OpticalLength[],
+    public hasTraceUnderMonitoring: boolean
+  ) {}
+}
+
 export class GeoTrace {
   constructor(
     public id: string,
