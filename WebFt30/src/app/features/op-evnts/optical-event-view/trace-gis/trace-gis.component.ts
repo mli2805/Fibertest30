@@ -7,7 +7,12 @@ import { AppState, SettingsSelectors } from 'src/app/core';
 import { GisMapLayer } from 'src/app/features/gis/components/shared/gis-map-layer';
 import { GisMapUtils } from 'src/app/features/gis/components/shared/gis-map.utils';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
-import { TraceNode, TraceRouteData } from 'src/app/core/store/models/ft30/geo-data';
+import {
+  GeoFiber,
+  GeoTrace,
+  TraceNode,
+  TraceRouteData
+} from 'src/app/core/store/models/ft30/geo-data';
 import { ColorUtils } from 'src/app/shared/utils/color-utils';
 import {
   GisIconWithZIndex,
@@ -42,32 +47,6 @@ export class TraceGisComponent implements OnInit {
     }
 
     const userSettings = CoreUtils.getCurrentState(this.store, SettingsSelectors.selectSettings);
-
-    const traceId = this._optivalEvent.traceId;
-    const geoTrace = this.gisMapService.getGeoData().traces.find((t) => t.id === traceId)!;
-    const nodes = geoTrace.nodeIds.map((n) => {
-      return this.gisMapService.getNode(n);
-    });
-    const accidentsOnTrace = this.gisMapService
-      .getGeoData()
-      .nodes.filter((n) => n.accidentOnTraceId === traceId);
-
-    const badSegments = this.gisMapService
-      .getGeoData()
-      .fibers.filter(
-        (f) =>
-          f.tracesWithExceededLossCoeff.findIndex(
-            (t) => t.traceId === this._optivalEvent.traceId
-          ) !== -1
-      );
-    console.log(badSegments);
-
-    const route = new TraceRouteData(
-      traceId,
-      nodes,
-      accidentsOnTrace,
-      this._optivalEvent.traceState
-    );
 
     this.map = L.map('map', {
       center: [51.505, -0.09],
@@ -125,23 +104,49 @@ export class TraceGisComponent implements OnInit {
       this.map.addLayer(group);
     }
 
-    this.addTraceRoute(route, true);
+    this.addTrace();
   }
 
-  addTraceRoute(route: TraceRouteData, toBounds: boolean): void {
-    const latLngs = route.nodes.map((n) => n.coors);
-    const polyline = L.polyline(latLngs, { color: ColorUtils.routeStateToColor(route.traceState) });
-    const group = this.layerGroups.get(GisMapLayer.Route)!;
-    group.addLayer(polyline);
+  addTrace() {
+    const traceId = this._optivalEvent.traceId;
+    const trace = this.gisMapService.getGeoData().traces.find((t) => t.id === traceId)!;
 
-    [...route.nodes, ...route.accidents].forEach((node) => {
+    const accidentsOnTrace = this.gisMapService
+      .getGeoData()
+      .nodes.filter((n) => n.accidentOnTraceId === traceId);
+
+    const nodes = trace.nodeIds.map((n) => {
+      return this.gisMapService.getNode(n);
+    });
+
+    [...nodes, ...accidentsOnTrace].forEach((node) => {
       this.addNodeToLayer(node);
     });
 
-    if (toBounds) {
-      const bounds = new L.LatLngBounds(latLngs);
-      this.map.fitBounds(bounds, { padding: [40, 40] });
-    }
+    const fibers = trace.fiberIds.map((i) => {
+      return this.gisMapService.getGeoData().fibers.find((f) => f.id === i)!;
+    });
+    fibers.forEach((f) => this.addFiberToLayer(f!));
+
+    const latLngs = nodes.map((n) => n.coors);
+    const bounds = new L.LatLngBounds(latLngs);
+    this.map.fitBounds(bounds, { padding: [40, 40] });
+  }
+
+  addFiberToLayer(fiber: GeoFiber): L.Polyline {
+    const options = {
+      color: ColorUtils.routeStateToColor(fiber.getState()),
+      weight: fiber.tracesWithExceededLossCoeff.length > 0 ? 7 : 3,
+      contextmenu: true,
+      contextmenuInheritItems: false,
+      contextmenuItems: []
+    };
+    const polyline = L.polyline([fiber.coors1, fiber.coors2], options);
+    (<any>polyline).id = fiber.id;
+
+    const group = this.layerGroups.get(GisMapLayer.Route)!;
+    group.addLayer(polyline);
+    return polyline;
   }
 
   addNodeToLayer(node: TraceNode): L.Marker {

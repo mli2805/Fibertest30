@@ -244,7 +244,7 @@ export class MapLayersActions {
   }
 
   static addFiberToLayer(fiber: GeoFiber): L.Polyline {
-    const polyline = this.createMyLine(fiber);
+    const polyline = this.createMyLine(fiber, fiber.tracesWithExceededLossCoeff.length > 0);
     (<any>polyline).id = fiber.id;
 
     const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Route)!;
@@ -252,10 +252,10 @@ export class MapLayersActions {
     return polyline;
   }
 
-  static createMyLine(fiber: GeoFiber) {
+  static createMyLine(fiber: GeoFiber, exceededLossCoeff: boolean) {
     const options = {
       color: ColorUtils.routeStateToColor(fiber.getState()),
-      weight: 3,
+      weight: exceededLossCoeff ? 7 : 3,
       contextmenu: true,
       contextmenuInheritItems: false,
       contextmenuItems: []
