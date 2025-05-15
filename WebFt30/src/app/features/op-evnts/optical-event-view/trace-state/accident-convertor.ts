@@ -89,15 +89,15 @@ export class AccidentConvertor {
 
     line.topLeft = accidentInOldEvent.left.title;
     line.topRight = accidentInOldEvent.right.title;
-    line.bottom1 = `RTU ${this.leftArrow} ${accidentInOldEvent.left.toRtuOpticalDistanceKm.toFixed(
+    line.bottom0 = `RTU ${this.leftArrow} ${accidentInOldEvent.left.toRtuOpticalDistanceKm.toFixed(
       3
     )} `;
-    line.bottom3 = `RTU ${this.leftArrow} ${accidentInOldEvent.right.toRtuOpticalDistanceKm.toFixed(
+    line.bottom4 = `RTU ${this.leftArrow} ${accidentInOldEvent.right.toRtuOpticalDistanceKm.toFixed(
       3
     )} `;
 
     line.scheme = 'bad-segment';
-    line.position = accidentInOldEvent.left.coors;
+    // line.position = accidentInOldEvent.left.coors;
 
     return line;
   }

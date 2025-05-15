@@ -16,6 +16,7 @@ import {
 import { EquipmentType } from 'src/grpc-generated';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { FiberState, OpticalAccidentType } from 'src/app/core/store/models/ft30/ft-enums';
 
 @Component({
   selector: 'rtu-trace-gis',
@@ -106,9 +107,29 @@ export class TraceGisComponent implements OnInit {
     const traceId = this._optivalEvent.traceId;
     const trace = this.gisMapService.getGeoData().traces.find((t) => t.id === traceId)!;
 
-    const accidentsOnTrace = this.gisMapService
-      .getGeoData()
-      .nodes.filter((n) => n.accidentOnTraceId === traceId);
+    // этих аварий может уже не быть - добавляем маркеры для точечных аварий
+    const accidentsOnTrace: TraceNode[] = [];
+
+    console.log(this._optivalEvent.accidents);
+    this._optivalEvent.accidents.forEach((a) => {
+      if (
+        a.opticalTypeOfAccident === OpticalAccidentType.Break ||
+        a.opticalTypeOfAccident === OpticalAccidentType.Loss ||
+        a.opticalTypeOfAccident === OpticalAccidentType.Reflectace
+      ) {
+        accidentsOnTrace.push(
+          new TraceNode(
+            GisMapUtils.emptyGuid,
+            '',
+            a.accidentCoors,
+            EquipmentType.AccidentPlace,
+            '',
+            a.accidentSeriousness,
+            traceId
+          )
+        );
+      }
+    });
 
     const nodes = trace.nodeIds.map((n) => {
       return this.gisMapService.getNode(n);
@@ -130,8 +151,14 @@ export class TraceGisComponent implements OnInit {
 
   addFiberToLayer(fiber: GeoFiber): L.Polyline {
     const options = {
-      color: ColorUtils.routeStateToColor(fiber.getState()),
-      weight: fiber.tracesWithExceededLossCoeff.length > 0 ? 7 : 3,
+      // color: ColorUtils.routeStateToColor(fiber.getState()),
+      // weight: fiber.tracesWithExceededLossCoeff.length > 0 ? 7 : 3,
+
+      // договорились на форме состояния трассы показывать трассу всегда черным
+      //  и не показывать толстым аварии по километрическому затуханию
+      color: ColorUtils.routeStateToColor(FiberState.Ok),
+      weight: 3,
+
       contextmenu: true,
       contextmenuInheritItems: false,
       contextmenuItems: []

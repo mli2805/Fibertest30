@@ -11,15 +11,30 @@ export interface GisIconWithZIndex {
 
 export class GisMapIcons {
   adjustmentPoint!: GisIconWithZIndex;
-  emptyNode!: GisIconWithZIndex;
-  cableReserve!: GisIconWithZIndex;
-  other!: GisIconWithZIndex;
 
   closureOk!: GisIconWithZIndex;
   closureMinor!: GisIconWithZIndex;
   closureMajor!: GisIconWithZIndex;
   closureCritical!: GisIconWithZIndex;
   closureUser!: GisIconWithZIndex;
+
+  emptyNodeOk!: GisIconWithZIndex;
+  emptyNodeMinor!: GisIconWithZIndex;
+  emptyNodeMajor!: GisIconWithZIndex;
+  emptyNodeCritical!: GisIconWithZIndex;
+  emptyNodeUser!: GisIconWithZIndex;
+
+  otherOk!: GisIconWithZIndex;
+  otherMinor!: GisIconWithZIndex;
+  otherMajor!: GisIconWithZIndex;
+  otherCritical!: GisIconWithZIndex;
+  otherUser!: GisIconWithZIndex;
+
+  cableReserveOk!: GisIconWithZIndex;
+  cableReserveMinor!: GisIconWithZIndex;
+  cableReserveMajor!: GisIconWithZIndex;
+  cableReserveCritical!: GisIconWithZIndex;
+  cableReserveUser!: GisIconWithZIndex;
 
   crossOk!: GisIconWithZIndex;
   crossMinor!: GisIconWithZIndex;
@@ -49,20 +64,50 @@ export class GisMapIcons {
     this.initMapIcons();
   }
 
+  // узлы всех типов всегда черные, по цветам только AccidentPlace отличаются, но может когда-нибудь пригодится
   // prettier-ignore
   public getIcon(node: TraceNode) {
     switch (node.equipmentType) {
-      case EquipmentType.Nothing: return this.emptyNode;
+      case EquipmentType.Nothing: return this.well;
       case EquipmentType.AdjustmentPoint: return this.adjustmentPoint;
-      case EquipmentType.EmptyNode: return this.emptyNode;
-      case EquipmentType.CableReserve: return this.cableReserve;
-      case EquipmentType.Other: return this.other;
+      case EquipmentType.EmptyNode:
+       switch (node.state) {
+          case FiberState.Ok: return this.emptyNodeOk
+          case FiberState.Minor: return this.emptyNodeMinor;
+          case FiberState.Major: return this.emptyNodeMajor;
+          case FiberState.Critical:
+          case FiberState.FiberBreak:
+             return this.emptyNodeCritical;
+          case FiberState.User: return this.emptyNodeUser;
+        }; break;
+      case EquipmentType.CableReserve:
+         switch (node.state) {
+          case FiberState.Ok: return this.cableReserveOk
+          case FiberState.Minor: return this.cableReserveMinor;
+          case FiberState.Major: return this.cableReserveMajor;
+          case FiberState.Critical:
+          case FiberState.FiberBreak:
+             return this.cableReserveCritical;
+          case FiberState.User: return this.cableReserveUser;
+        }; break;
+      case EquipmentType.Other: 
+      switch (node.state) {
+          case FiberState.Ok: return this.otherOk
+          case FiberState.Minor: return this.otherMinor;
+          case FiberState.Major: return this.otherMajor;
+          case FiberState.Critical:
+          case FiberState.FiberBreak:
+             return this.otherCritical;
+          case FiberState.User: return this.otherUser;
+        }; break;
       case EquipmentType.Closure: 
         switch (node.state) {
           case FiberState.Ok: return this.closureOk
           case FiberState.Minor: return this.closureMinor;
           case FiberState.Major: return this.closureMajor;
-          case FiberState.Critical: return this.closureCritical;
+          case FiberState.Critical:
+          case FiberState.FiberBreak:
+             return this.closureCritical;
           case FiberState.User: return this.closureUser;
         }; break;
       case EquipmentType.Cross:  
@@ -70,7 +115,9 @@ export class GisMapIcons {
           case FiberState.Ok: return this.crossOk
           case FiberState.Minor: return this.crossMinor;
           case FiberState.Major: return this.crossMajor;
-          case FiberState.Critical: return this.crossCritical;
+          case FiberState.Critical: 
+          case FiberState.FiberBreak:
+          return this.crossCritical;
           case FiberState.User: return this.crossUser;
         }; break;
       case EquipmentType.Well: return this.well;
@@ -79,7 +126,9 @@ export class GisMapIcons {
           case FiberState.Ok: return this.terminalOk
           case FiberState.Minor: return this.terminalMinor;
           case FiberState.Major: return this.terminalMajor;
-          case FiberState.Critical: return this.terminalCritical;
+          case FiberState.Critical: 
+          case FiberState.FiberBreak:
+          return this.terminalCritical;
           case FiberState.User: return this.terminalUser;
         }; break;
       case EquipmentType.Rtu: return this.rtu;
@@ -87,13 +136,15 @@ export class GisMapIcons {
         switch (node.state) {
           case FiberState.Minor: return this.minorAccidentPlace;
           case FiberState.Major: return this.majorAccidentPlace;
-          case FiberState.Critical: return this.criticalAccidentPlace;
+          case FiberState.Critical:
+          case FiberState.FiberBreak:
+             return this.criticalAccidentPlace;
           case FiberState.User: return this.userAccidentPlace;
         }
     }
 
     // чтобы не было ворнинга
-    return this.emptyNode;
+    return this.well;
   }
 
   // prettier-ignore
@@ -106,10 +157,26 @@ export class GisMapIcons {
     const colorUser = ColorUtils.fiberStateToTextColor(FiberState.User);
 
     this.adjustmentPoint = { icon: this.createAdjustmentPointIcon(colorOk), zIndex: 38 };
-    this.emptyNode = { icon: this.createEmptyNodeIcon(colorOk), zIndex: 35 };
     this.well = { icon: this.createEmptyNodeIcon(colorOk), zIndex: 35 }; // не используется?
-    this.cableReserve = { icon: this.createCableReserveIcon(colorOk), zIndex: 32 };
     
+    this.cableReserveOk = { icon: this.createCableReserveIcon(colorOk), zIndex: 28 };
+    this.cableReserveMinor = { icon: this.createCableReserveIcon(colorMinor), zIndex: 28 };
+    this.cableReserveMajor = { icon: this.createCableReserveIcon(colorMajor), zIndex: 28 };
+    this.cableReserveCritical = { icon: this.createCableReserveIcon(colorCritical), zIndex: 28 };
+    this.cableReserveUser = { icon: this.createCableReserveIcon(colorUser), zIndex: 28 };
+
+    this.emptyNodeOk = { icon: this.createEmptyNodeIcon(colorOk), zIndex: 28 };
+    this.emptyNodeMinor = { icon: this.createEmptyNodeIcon(colorMinor), zIndex: 28 };
+    this.emptyNodeMajor = { icon: this.createEmptyNodeIcon(colorMajor), zIndex: 28 };
+    this.emptyNodeCritical = { icon: this.createEmptyNodeIcon(colorCritical), zIndex: 28 };
+    this.emptyNodeUser = { icon: this.createEmptyNodeIcon(colorUser), zIndex: 28 };
+
+    this.otherOk = { icon: this.createOtherIcon(colorOk), zIndex: 28 };
+    this.otherMinor = { icon: this.createOtherIcon(colorMinor), zIndex: 28 };
+    this.otherMajor = { icon: this.createOtherIcon(colorMajor), zIndex: 28 };
+    this.otherCritical = { icon: this.createOtherIcon(colorCritical), zIndex: 28 };
+    this.otherUser = { icon: this.createOtherIcon(colorUser), zIndex: 28 };
+
     this.closureOk = { icon: this.createClosureIcon(colorOk), zIndex: 28 };
     this.closureMinor = { icon: this.createClosureIcon(colorMinor), zIndex: 28 };
     this.closureMajor = { icon: this.createClosureIcon(colorMajor), zIndex: 28 };
@@ -121,9 +188,6 @@ export class GisMapIcons {
     this.crossMajor = { icon: this.createCrossIcon(colorMajor), zIndex: 28 };
     this.crossCritical = { icon: this.createCrossIcon(colorCritical), zIndex: 28 };
     this.crossUser = { icon: this.createCrossIcon(colorUser), zIndex: 28 };
-
-
-    this.other = { icon: this.createOtherIcon(colorOk), zIndex: 28 };
 
     this.terminalOk = { icon: this.createTerminalIcon(colorOk), zIndex: 28 };
     this.terminalMinor = { icon: this.createTerminalIcon(colorMinor), zIndex: 28 };
