@@ -64,7 +64,7 @@ export class SorAreaProviderComponent extends OnDestroyBase {
     service.isEditMode = true;
     service.sorViewer.showTracesOffset = true;
 
-    service.sorViewer.traceOffsetMode = 'noiseFloor';
+    service.sorViewer.traceOffsetMode = 'original';
     service.sorViewer.setTracesOffset(0);
 
     service.sorViewer.chartMargin = 10;
