@@ -78,13 +78,9 @@ export class FiberInfoComponent implements OnInit {
   }
 
   toModel(fiberInfo: FiberInfo): FiberInfoModel {
-    const fiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === fiberInfo.fiberId);
-    const node1 = this.gisMapService.getNode(fiber!.node1id);
-    const node2 = this.gisMapService.getNode(fiber!.node2id);
-
     return {
-      node1: node1.title,
-      node2: node2.title,
+      node1: fiberInfo.leftNodeTitle,
+      node2: fiberInfo.rightNodeTitle,
       gpsLength: fiberInfo.gpsLength.toFixed(0),
       userInputedLength: fiberInfo.userInputedLength,
       tracesThrough: fiberInfo.tracesThrough.map((t) => this.toOpticalLengthModel(t)),

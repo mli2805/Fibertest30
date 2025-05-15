@@ -121,6 +121,8 @@ public static class GisMapping
         var result = new FiberInfo()
         {
             FiberId = fiberInfo.FiberId.ToString(),
+            LeftNodeTitle = fiberInfo.LeftNodeTitle,
+            RightNodeTitle = fiberInfo.RightNodeTitle,
             GpsLength = fiberInfo.GpsLength,
             UserInputedLength = fiberInfo.UserInputedLength,
 

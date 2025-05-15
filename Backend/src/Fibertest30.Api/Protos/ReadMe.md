@@ -13,5 +13,9 @@ if you import any data.*.proto files
 
 
 To generate gRpc clients for Web application:
-- cd Web
+- cd c:\VsGitProjects\Fibertest30\WebFt30\
 - npx ts-node .\scripts\generate-grpc.ts 
+
+создал инструмент Tools > External Tools > Add для выполнения ps1 скриптов
+назначил шорткат Tools > Options > Keyboard   Ctrl+Shift+G
+: выбрать в дереве скрипт, нажать шорткат

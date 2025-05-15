@@ -10,10 +10,13 @@ public class FiberInfoProvider(Model writeModel, ISorFileRepository sorFileRepos
     {
         var fiber = writeModel.Fibers.First(f => f.FiberId == fiberId);
         var calc = new GraphGpsCalculator(writeModel);
+        double fiberFullGpsDistance = calc.GetFiberFullGpsDistance(fiberId, out Node node1, out Node node2);
         var result = new FiberInfo()
         {
             FiberId = fiberId,
-            GpsLength = calc.GetFiberFullGpsDistance(fiberId, out Node node1, out Node node2),
+            LeftNodeTitle = node1.Title,
+            RightNodeTitle = node2.Title,
+            GpsLength = fiberFullGpsDistance,
             UserInputedLength = fiber.UserInputedLength
         };
 
@@ -22,8 +25,8 @@ public class FiberInfoProvider(Model writeModel, ISorFileRepository sorFileRepos
             var index = trace.FiberIds.IndexOf(fiberId);
             if (index == -1) continue;
 
-            var realIndex = GetRealFiberIndex(trace, index);
-            result.TracesThrough.Add(new OpticalLength(trace.TraceId, await GetOpticalLength(trace, realIndex)));
+            var opticalLength = trace.PreciseId == Guid.Empty ? 0 : await GetOpticalLength(trace, index);
+            result.TracesThrough.Add(new OpticalLength(trace.TraceId, opticalLength));
 
             if (trace.IsIncludedInMonitoringCycle)
             {
@@ -35,6 +38,18 @@ public class FiberInfoProvider(Model writeModel, ISorFileRepository sorFileRepos
         }
 
         return result;
+    }
+
+    private async Task<double> GetOpticalLength(Trace trace, int index)
+    {
+        var realIndex = GetRealFiberIndex(trace, index);
+        // снаружи проверяем что точная базовая задана!
+        var sorFileId = writeModel.BaseRefs.First(b => b.Id == trace.PreciseId).SorFileId;
+        var sorBytes = await sorFileRepository.GetSorBytesAsync(sorFileId);
+        if (sorBytes == null) return 0;
+
+        var otdrKnownBlocks = SorData.FromBytes(sorBytes);
+        return otdrKnownBlocks.GetDistanceBetweenLandmarksInMm(realIndex, realIndex + 1) / 1000;
     }
 
     private int GetRealFiberIndex(Trace trace, int fiberIndexWithAdjustmentPoints)
@@ -49,17 +64,5 @@ public class FiberInfoProvider(Model writeModel, ISorFileRepository sorFileRepos
         }
 
         return counter;
-    }
-
-    private async Task<double> GetOpticalLength(Trace trace, int index)
-    {
-        if (trace.PreciseId == Guid.Empty)
-            return 0;
-        var sorFileId = writeModel.BaseRefs.First(b => b.Id == trace.PreciseId).SorFileId;
-        var sorBytes = await sorFileRepository.GetSorBytesAsync(sorFileId);
-        if (sorBytes == null) return 0;
-
-        var otdrKnownBlocks = SorData.FromBytes(sorBytes);
-        return otdrKnownBlocks.GetDistanceBetweenLandmarksInMm(index, index + 1) / 1000;
     }
 }

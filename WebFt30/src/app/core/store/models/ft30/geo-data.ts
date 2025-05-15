@@ -71,6 +71,8 @@ export class OpticalLength {
 export class FiberInfo {
   constructor(
     public fiberId: string,
+    public leftNodeTitle: string,
+    public rightNodeTitle: string,
     public gpsLength: number,
     public userInputedLength: number,
     public tracesThrough: OpticalLength[],

@@ -153,19 +153,27 @@ export interface FiberInfo {
      */
     fiberId: string;
     /**
-     * @generated from protobuf field: double gpsLength = 2;
+     * @generated from protobuf field: string leftNodeTitle = 2;
+     */
+    leftNodeTitle: string;
+    /**
+     * @generated from protobuf field: string rightNodeTitle = 3;
+     */
+    rightNodeTitle: string;
+    /**
+     * @generated from protobuf field: double gpsLength = 4;
      */
     gpsLength: number;
     /**
-     * @generated from protobuf field: double userInputedLength = 3;
+     * @generated from protobuf field: double userInputedLength = 5;
      */
     userInputedLength: number;
     /**
-     * @generated from protobuf field: repeated fibertest30.gis.OpticalLength tracesThrough = 4;
+     * @generated from protobuf field: repeated fibertest30.gis.OpticalLength tracesThrough = 6;
      */
     tracesThrough: OpticalLength[];
     /**
-     * @generated from protobuf field: bool hasTraceUnderMonitoring = 5;
+     * @generated from protobuf field: bool hasTraceUnderMonitoring = 7;
      */
     hasTraceUnderMonitoring: boolean;
 }
@@ -414,10 +422,12 @@ class FiberInfo$Type extends MessageType<FiberInfo> {
     constructor() {
         super("fibertest30.gis.FiberInfo", [
             { no: 1, name: "fiberId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "gpsLength", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 3, name: "userInputedLength", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 4, name: "tracesThrough", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => OpticalLength },
-            { no: 5, name: "hasTraceUnderMonitoring", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+            { no: 2, name: "leftNodeTitle", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "rightNodeTitle", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "gpsLength", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 5, name: "userInputedLength", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 6, name: "tracesThrough", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => OpticalLength },
+            { no: 7, name: "hasTraceUnderMonitoring", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
 }

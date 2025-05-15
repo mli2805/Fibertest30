@@ -3,6 +3,8 @@
     public class FiberInfo
     {
         public Guid FiberId;
+        public string LeftNodeTitle = "";
+        public string RightNodeTitle = "";
         public double GpsLength;
         public double UserInputedLength;
 

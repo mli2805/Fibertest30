@@ -69,6 +69,8 @@ export class GisMapping {
   static fromFiberInfo(grpcFiberInfo: grpc.FiberInfo): FiberInfo {
     return new FiberInfo(
       grpcFiberInfo.fiberId,
+      grpcFiberInfo.leftNodeTitle,
+      grpcFiberInfo.rightNodeTitle,
       grpcFiberInfo.gpsLength,
       grpcFiberInfo.userInputedLength,
       grpcFiberInfo.tracesThrough.map((t) => this.fromOpticalLength(t)),

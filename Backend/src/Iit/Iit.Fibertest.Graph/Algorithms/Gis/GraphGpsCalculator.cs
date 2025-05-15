@@ -91,7 +91,7 @@ namespace Iit.Fibertest.Graph
                 fiber = _model.GetAnotherFiberOfAdjustmentPoint(node1, fId);
                 var previousNode1 = node1;
                 node1 = _model.Nodes.First(n => n.NodeId == fiber.NodeId1);
-                result = result + GisLabCalculator.GetDistanceBetweenPointLatLng(node1.Position, previousNode1.Position);
+                result += GisLabCalculator.GetDistanceBetweenPointLatLng(node1.Position, previousNode1.Position);
                 fId = fiber.FiberId;
             }
 
@@ -101,7 +101,7 @@ namespace Iit.Fibertest.Graph
                 fiber = _model.GetAnotherFiberOfAdjustmentPoint(node2, fId);
                 var previousNode2 = node2;
                 node2 = _model.Nodes.First(n => n.NodeId == fiber.NodeId2);
-                result = result + GisLabCalculator.GetDistanceBetweenPointLatLng(node2.Position, previousNode2.Position);
+                result += GisLabCalculator.GetDistanceBetweenPointLatLng(node2.Position, previousNode2.Position);
                 fId = fiber.FiberId;
             }
 
