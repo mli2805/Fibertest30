@@ -234,7 +234,7 @@ export class MapLayersActions {
   static createMyLine(fiber: GeoFiber, exceededLossCoeff: boolean) {
     const options = {
       color: ColorUtils.routeStateToColor(fiber.getState()),
-      weight: exceededLossCoeff ? 7 : 3,
+      weight: exceededLossCoeff ? 7 : 4,
       contextmenu: true,
       contextmenuInheritItems: false,
       contextmenuItems: []

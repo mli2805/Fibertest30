@@ -45,7 +45,9 @@ namespace Iit.Fibertest.Graph
 
         private static void ShowAccidentPlaceOnTrace(this Model model, AccidentOnTraceV2 accident, Guid traceId)
         {
-            if (accident.OpticalTypeOfAccident == OpticalAccidentType.LossCoeff)
+            if (accident.OpticalTypeOfAccident == OpticalAccidentType.TotalLoss)
+                model.ShowTotalLossExceeded(traceId, accident.AccidentSeriousness);
+            else if (accident.OpticalTypeOfAccident == OpticalAccidentType.LossCoeff)
                 model.ShowBadSegment(accident, traceId);
             else
                 model.ShowPoint(accident, traceId);
@@ -81,6 +83,19 @@ namespace Iit.Fibertest.Graph
             {
                 var fiber = model.Fibers.First(f => f.FiberId == fiberId);
                 fiber.SetBadSegment(traceId, accidentInOldEvent.AccidentSeriousness);
+            }
+        }
+
+        private static void ShowTotalLossExceeded(this Model model, Guid traceId, FiberState accidentSeriousness)
+        {
+            var trace = model.Traces.FirstOrDefault(t => t.TraceId == traceId);
+            if (trace == null) return;
+
+            foreach (var fiberId in trace.FiberIds)
+            {
+                var fiber = model.Fibers.First(f => f.FiberId == fiberId);
+                fiber.SetBadSegment(traceId, accidentSeriousness);
+
             }
         }
     }
