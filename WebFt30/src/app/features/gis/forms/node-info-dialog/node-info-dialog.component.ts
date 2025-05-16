@@ -1,5 +1,5 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { Component, Inject, inject } from '@angular/core';
+import { Component, Inject, inject, OnInit } from '@angular/core';
 import { EquipmentType } from 'src/grpc-generated';
 import { GeoEquipment, GeoTrace, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapService } from '../../gis-map.service';
@@ -9,6 +9,9 @@ import { firstValueFrom } from 'rxjs';
 import { GisMapUtils } from '../../components/shared/gis-map.utils';
 import { MapLayersActions } from '../../components/gis-actions/map-layers-actions';
 import { MapEquipmentActions } from '../../components/gis-actions/map-equipment-actions';
+import { Store } from '@ngrx/store';
+import { AppState, AuthSelectors } from 'src/app/core';
+import { CoreUtils } from 'src/app/core/core.utils';
 
 interface EquipElement {
   isSelected: boolean;
@@ -27,10 +30,12 @@ interface TraceElement {
   templateUrl: './node-info-dialog.component.html',
   styleUrls: ['./node-info-dialog.component.css']
 })
-export class NodeInfoDialogComponent {
-  public dialogRef: DialogRef<boolean> = inject(DialogRef<boolean>);
-  gisMapService!: GisMapService;
-  hasEditPermission!: boolean;
+export class NodeInfoDialogComponent implements OnInit {
+  public store: Store<AppState> = inject(Store);
+  hasEditGraphPermission = CoreUtils.getCurrentState(
+    this.store,
+    AuthSelectors.selectHasEditGraphPermission
+  );
 
   form!: FormGroup;
   nodeId!: string;
@@ -39,11 +44,9 @@ export class NodeInfoDialogComponent {
   equipTable!: EquipElement[];
   traceTable!: TraceElement[];
 
-  constructor(@Inject(DIALOG_DATA) private data: any, private graphService: GraphService) {
-    this.gisMapService = data.service;
-    this.hasEditPermission = data.hasEditPermission;
-
-    this.nodeId = data.nodeId;
+  constructor(private gisMapService: GisMapService, private graphService: GraphService) {}
+  ngOnInit(): void {
+    this.nodeId = this.gisMapService.showNodeInfoDialog.value!;
     this.nodeInWork = this.gisMapService.getNode(this.nodeId);
     this.form = new FormGroup({
       title: new FormControl(this.nodeInWork.title, Validators.required),
@@ -132,15 +135,15 @@ export class NodeInfoDialogComponent {
       MapLayersActions.addNodeToLayer(this.nodeInWork);
     }
 
-    this.dialogRef.close();
+    this.gisMapService.showNodeInfoDialog.next(null);
   }
 
   onDiscardClicked() {
-    this.dialogRef.close();
+    this.gisMapService.showNodeInfoDialog.next(null);
   }
 
   close() {
-    this.dialogRef.close();
+    this.gisMapService.showNodeInfoDialog.next(null);
   }
 
   // если оборудование входит в трассу для которой заданы базовые, то МОЖНО редактировать

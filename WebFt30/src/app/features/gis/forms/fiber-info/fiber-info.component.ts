@@ -26,8 +26,7 @@ interface FiberInfoModel {
 
 @Component({
   selector: 'rtu-fiber-info',
-  templateUrl: './fiber-info.component.html',
-  styleUrls: ['./fiber-info.component.scss']
+  templateUrl: './fiber-info.component.html'
 })
 export class FiberInfoComponent implements OnInit {
   spinning = new BehaviorSubject<boolean>(false);
@@ -53,6 +52,7 @@ export class FiberInfoComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.fiberId = this.gisMapService.showSectionInfoDialog.value!;
 
+    this.spinning.next(true);
     const response = await firstValueFrom(this.gisService.getFiberInfo(this.fiberId));
     if (response === null) this.close();
 
@@ -65,6 +65,7 @@ export class FiberInfoComponent implements OnInit {
     });
 
     this.fiberInfoModel.next(this.toModel(response.fiberInfo!));
+    this.spinning.next(false);
   }
 
   isInputDisabled() {

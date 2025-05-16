@@ -1,119 +1,130 @@
-<div class="my-dialog w-144">
-  <!-- заголовок -->
-  <div class="my-2 flex w-full items-center justify-between">
-    <div class="ml-3">
-      {{ 'i18n.ft.node' | translate }}
+<div class="modal-backdrop">
+  <div cdkDrag class="draggable-window absolute left-[290px] top-[75px] flex flex-col p-2 text-sm">
+    <!-- draggable header -->
+    <div cdkDragHandle class="my-2 w-full">
+      <div class="flex items-center justify-between">
+        <div class="ml-3">
+          {{ 'i18n.ft.section' | translate }}
+        </div>
+        <rtu-close-button class="mr-2 h-6 w-6" (click)="close()" />
+      </div>
     </div>
-    <rtu-close-button class="mr-2 h-6 w-6" (click)="close()" />
-  </div>
-  <!-- поля узла -->
-  <div class="grouped-border m-1 w-120">
-    <fieldset [disabled]="!hasEditPermission">
-      <div class="flex flex-col" [formGroup]="form">
-        <div class="grid-container gap-x-4 gap-y-0.5">
-          <label style="grid-area: titleLabel" class="my-auto text-sm">{{
-            'i18n.ft.title' | translate
-          }}</label>
-          <div style="grid-area: titleValue" class="mb-1 h-9">
-            <input
-              #titleInput
-              formControlName="title"
-              type="text"
-              class="input-simple w-full"
-              [ngClass]="{ 'invalid-border': !isTitleValid() }"
-            />
-          </div>
 
-          <label style="grid-area: coordinatesLabel" class="my-auto text-sm">{{
-            'i18n.ft.coordinates' | translate
-          }}</label>
-          <label style="grid-area: coordinatesValue" class="ml-2 h-9 text-sm leading-9">{{
-            nodeInWork.coors | geoCoordinates
-          }}</label>
+    <!-- content -->
+    <div>
+      <!-- поля узла -->
+      <div class="grouped-border m-1 w-120">
+        <fieldset [disabled]="!hasEditGraphPermission">
+          <div class="flex flex-col" [formGroup]="form">
+            <div class="grid-container gap-x-4 gap-y-0.5">
+              <label style="grid-area: titleLabel" class="my-auto text-sm">{{
+                'i18n.ft.title' | translate
+              }}</label>
+              <div style="grid-area: titleValue" class="mb-1 h-9">
+                <input
+                  #titleInput
+                  formControlName="title"
+                  type="text"
+                  class="input-simple w-full"
+                  [ngClass]="{ 'invalid-border': !isTitleValid() }"
+                />
+              </div>
 
-          <label style="grid-area: commentLabel" class="my-auto text-sm">{{
-            'i18n.ft.comment' | translate
-          }}</label>
-          <div style="grid-area: commentValue" class="mb-1 h-9">
-            <input
-              #commentInput
-              formControlName="comment"
-              type="text"
-              class="input-simple w-full"
-            />
+              <label style="grid-area: coordinatesLabel" class="my-auto text-sm">{{
+                'i18n.ft.coordinates' | translate
+              }}</label>
+              <label style="grid-area: coordinatesValue" class="ml-2 h-9 text-sm leading-9">{{
+                nodeInWork.coors | geoCoordinates
+              }}</label>
+
+              <label style="grid-area: commentLabel" class="my-auto text-sm">{{
+                'i18n.ft.comment' | translate
+              }}</label>
+              <div style="grid-area: commentValue" class="mb-1 h-9">
+                <input
+                  #commentInput
+                  formControlName="comment"
+                  type="text"
+                  class="input-simple w-full"
+                />
+              </div>
+            </div>
           </div>
+        </fieldset>
+        <!-- buttons -->
+        <div class="mt-6 flex flex-row justify-end">
+          <button class="button-cancel mr-2 min-w-36" (click)="onDiscardClicked()" cdkFocusInitial>
+            {{ 'i18n.ft.discard' | translate }}
+          </button>
+          <button
+            class="button-ok mr-0 min-w-36"
+            [disabled]="isApplyDisabled()"
+            (click)="onApplyClicked()"
+          >
+            {{ 'i18n.ft.apply' | translate }}
+          </button>
         </div>
       </div>
-    </fieldset>
-    <!-- buttons -->
-    <div class="mt-6 flex flex-row justify-end">
-      <button class="button-cancel mr-2 min-w-36" (click)="onDiscardClicked()" cdkFocusInitial>
-        {{ 'i18n.ft.discard' | translate }}
-      </button>
-      <button
-        class="button-ok mr-0 min-w-36"
-        [disabled]="isApplyDisabled()"
-        (click)="onApplyClicked()"
-      >
-        {{ 'i18n.ft.apply' | translate }}
-      </button>
-    </div>
-  </div>
 
-  <!-- equipment -->
-  <div class="grouped-border m-1 w-120">
-    <div class="">{{ 'i18n.ft.equipment-in-node' | translate }}:</div>
-    <table class="min-w-full text-sm">
-      <thead class="text-left">
-        <tr>
-          <th></th>
-          <th></th>
-          <th class="py-3 font-thin">{{ 'i18n.ft.title' | translate }}</th>
-          <th class="py-3 font-thin">{{ 'i18n.ft.type' | translate }}</th>
-          <th class="py-3 font-thin">{{ 'i18n.ft.l-m' | translate }}</th>
-          <th class="py-3 font-thin">{{ 'i18n.ft.r-m' | translate }}</th>
-          <th class="py-3 font-thin">{{ 'i18n.ft.comment' | translate }}</th>
-        </tr>
-      </thead>
-      <tbody class="text-left text-gray-700 dark:text-zinc-300"></tbody>
-      <tr
-        *ngFor="let line of equipTable"
-        [ngClass]="{ 'bg-blue-100 dark:bg-slate-700': line.isSelected }"
-        (click)="onEquipLineClick(line)"
-        class="cursor-pointer"
-      >
-        <td class="pl-2 pr-1">
-          <ng-container *ngIf="hasEditPermission">
-            <rtu-pencil-button class="h-3 w-3" (click)="editEquipment(line.equipment)" />
-          </ng-container>
-        </td>
-        <td class="pl-1 pr-3 pt-1">
-          <ng-container *ngIf="hasEditPermission && !line.removeDisabled">
-            <rtu-delete-button class="h-4 w-4" (click)="removeEquipment(line)" />
-          </ng-container>
-        </td>
-        <td>{{ line.equipment.title }}</td>
-        <td>{{ line.equipment.type | equipmentPipe | translate }}</td>
-        <td>{{ line.equipment.cableReserveLeft }}</td>
-        <td>{{ line.equipment.cableReserveRight }}</td>
-        <td>{{ line.equipment.comment }}</td>
-      </tr>
-    </table>
+      <!-- equipment -->
+      <div class="grouped-border m-1 w-120">
+        <div class="">{{ 'i18n.ft.equipment-in-node' | translate }}:</div>
+        <table class="min-w-full text-sm">
+          <thead class="text-left">
+            <tr>
+              <th></th>
+              <th></th>
+              <th class="py-3 font-thin">{{ 'i18n.ft.title' | translate }}</th>
+              <th class="py-3 font-thin">{{ 'i18n.ft.type' | translate }}</th>
+              <th class="py-3 font-thin">{{ 'i18n.ft.l-m' | translate }}</th>
+              <th class="py-3 font-thin">{{ 'i18n.ft.r-m' | translate }}</th>
+              <th class="py-3 font-thin">{{ 'i18n.ft.comment' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody class="text-left text-gray-700 dark:text-zinc-300"></tbody>
+          <tr
+            *ngFor="let line of equipTable"
+            [ngClass]="{ 'bg-blue-100 dark:bg-slate-700': line.isSelected }"
+            (click)="onEquipLineClick(line)"
+            class="cursor-pointer"
+          >
+            <td class="pl-2 pr-1">
+              <ng-container *ngIf="hasEditGraphPermission">
+                <rtu-pencil-button class="h-3 w-3" (click)="editEquipment(line.equipment)" />
+              </ng-container>
+            </td>
+            <td class="pl-1 pr-3 pt-1">
+              <ng-container *ngIf="hasEditGraphPermission && !line.removeDisabled">
+                <rtu-delete-button class="h-4 w-4" (click)="removeEquipment(line)" />
+              </ng-container>
+            </td>
+            <td>{{ line.equipment.title }}</td>
+            <td>{{ line.equipment.type | equipmentPipe | translate }}</td>
+            <td>{{ line.equipment.cableReserveLeft }}</td>
+            <td>{{ line.equipment.cableReserveRight }}</td>
+            <td>{{ line.equipment.comment }}</td>
+          </tr>
+        </table>
 
-    <div class="mr-2 mt-2 flex justify-end">
-      <button *ngIf="hasEditPermission" class="button-extra" (click)="addEquipment()">
-        {{ 'i18n.ft.add-equipment' | translate }}
-      </button>
-    </div>
-  </div>
-
-  <!-- traces -->
-  <div class="grouped-border m-1">
-    <div class="mb-2">{{ 'i18n.ft.traces-in-node' | translate }}:</div>
-    <ng-container *ngFor="let line of traceTable">
-      <div class="pl-1 text-sm" [ngClass]="{ 'bg-blue-100 dark:bg-slate-700': line.isSelected }">
-        {{ line.trace.title }}
+        <div class="mr-2 mt-2 flex justify-end">
+          <button *ngIf="hasEditGraphPermission" class="button-extra" (click)="addEquipment()">
+            {{ 'i18n.ft.add-equipment' | translate }}
+          </button>
+        </div>
       </div>
-    </ng-container>
+
+      <!-- traces -->
+      <div class="grouped-border m-1">
+        <div class="mb-2">{{ 'i18n.ft.traces-in-node' | translate }}:</div>
+        <ng-container *ngFor="let line of traceTable">
+          <div
+            class="pl-1 text-sm"
+            [ngClass]="{ 'bg-blue-100 dark:bg-slate-700': line.isSelected }"
+          >
+            {{ line.trace.title }}
+          </div>
+        </ng-container>
+      </div>
+    </div>
   </div>
 </div>

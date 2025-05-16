@@ -151,6 +151,9 @@ export class GisMapService {
   showSectionInfoDialog = new BehaviorSubject<string | null>(null);
   showSectionInfoDialog$ = this.showSectionInfoDialog.asObservable();
 
+  showNodeInfoDialog = new BehaviorSubject<string | null>(null);
+  showNodeInfoDialog$ = this.showNodeInfoDialog.asObservable();
+
   /////////////////////////
   addSectionMode = false;
   sectionWithNodes = false; // действует только совместно с addSectionMode

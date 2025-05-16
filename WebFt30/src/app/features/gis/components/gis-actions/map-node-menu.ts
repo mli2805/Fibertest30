@@ -96,13 +96,7 @@ export class MapNodeMenu {
 
   static async showInformation(e: L.ContextMenuItemClickEvent, hasEditPermission: boolean) {
     const nodeId = (<any>e.relatedTarget).id;
-
-    const dialogConfig = new DialogConfig<unknown, DialogRef>();
-    dialogConfig.positionStrategy = new GlobalPositionStrategy().left('20px').top('50px');
-    dialogConfig.disableClose = true;
-    dialogConfig.data = { nodeId, service: this.gisMapService, hasEditPermission };
-    const dialogRef = this.dialog.open(NodeInfoDialogComponent, dialogConfig);
-    await firstValueFrom(dialogRef.closed);
+    this.gisMapService.showNodeInfoDialog.next(nodeId);
   }
 
   static async addEquipment(e: L.ContextMenuItemClickEvent) {
