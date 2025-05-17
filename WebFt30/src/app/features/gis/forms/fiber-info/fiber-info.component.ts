@@ -54,6 +54,7 @@ export class FiberInfoComponent implements OnInit {
 
     this.spinning.next(true);
     const response = await firstValueFrom(this.gisService.getFiberInfo(this.fiberId));
+    this.spinning.next(false);
     if (response === null) this.close();
 
     this.form = new FormGroup({
@@ -65,7 +66,6 @@ export class FiberInfoComponent implements OnInit {
     });
 
     this.fiberInfoModel.next(this.toModel(response.fiberInfo!));
-    this.spinning.next(false);
   }
 
   isInputDisabled() {

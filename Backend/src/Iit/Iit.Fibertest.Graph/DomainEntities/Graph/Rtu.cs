@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Graph
 
         public Guid NodeId { get; set; }
         public string Title { get; set; } = null!;
-        public string Comment { get; set; } = string.Empty;
+        public string? Comment { get; set; } = string.Empty;
 
         public NetAddress MainChannel { get; set; } = new(@"", -1);
         public RtuPartState MainChannelState { get; set; }

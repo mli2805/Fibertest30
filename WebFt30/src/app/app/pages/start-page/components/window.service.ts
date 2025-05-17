@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+// немодальные, тягаемые окна
+// start-page.component.html
 type ManagedWindow =
   | 'RtuState'
   | 'Landmarks'

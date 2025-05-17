@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { Gis } from "./gis";
+import type { GetLandmarksResponse } from "./gis";
+import type { GetLandmarksRequest } from "./gis";
 import type { GetFiberInfoResponse } from "./gis";
 import type { GetFiberInfoRequest } from "./gis";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
@@ -23,6 +25,10 @@ export interface IGisClient {
      * @generated from protobuf rpc: GetFiberInfo(fibertest30.gis.GetFiberInfoRequest) returns (fibertest30.gis.GetFiberInfoResponse);
      */
     getFiberInfo(input: GetFiberInfoRequest, options?: RpcOptions): UnaryCall<GetFiberInfoRequest, GetFiberInfoResponse>;
+    /**
+     * @generated from protobuf rpc: GetLandmarks(fibertest30.gis.GetLandmarksRequest) returns (fibertest30.gis.GetLandmarksResponse);
+     */
+    getLandmarks(input: GetLandmarksRequest, options?: RpcOptions): UnaryCall<GetLandmarksRequest, GetLandmarksResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.gis.Gis
@@ -46,5 +52,12 @@ export class GisClient implements IGisClient, ServiceInfo {
     getFiberInfo(input: GetFiberInfoRequest, options?: RpcOptions): UnaryCall<GetFiberInfoRequest, GetFiberInfoResponse> {
         const method = this.methods[1], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetFiberInfoRequest, GetFiberInfoResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetLandmarks(fibertest30.gis.GetLandmarksRequest) returns (fibertest30.gis.GetLandmarksResponse);
+     */
+    getLandmarks(input: GetLandmarksRequest, options?: RpcOptions): UnaryCall<GetLandmarksRequest, GetLandmarksResponse> {
+        const method = this.methods[2], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetLandmarksRequest, GetLandmarksResponse>("unary", this._transport, method, opt, input);
     }
 }

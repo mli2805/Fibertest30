@@ -109,10 +109,9 @@ export class OneRtuMenuComponent {
 
   async onLandmarksClicked() {
     this.open = false;
-    await Utils.delay(100);
-
-    const path = `rtus/landmarks/${this.rtu.rtuId}`;
-    this.router.navigate([path]);
+    if (this.rtu.traces.length === 0) return;
+    const firstTrace = this.rtu.traces[0];
+    this.windowService.registerWindow(firstTrace.traceId, 'Landmarks', this.rtu);
   }
 
   canAutomaticBaseRefs() {

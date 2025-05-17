@@ -407,5 +407,14 @@
   "i18n.ft.gps-length": "Длина по GPS, м",
   "i18n.ft.user-length": "Пользовательская длина, м",
   "i18n.ft.opt-length-m": "Опт. длина, м",
-  "i18n.ft.no-base": "нет базовой"
+  "i18n.ft.no-base": "нет базовой",
+
+  "i18n.ft.nn": "No",
+  "i18n.ft.equipment-title": "Название оборудования",
+  "i18n.ft.cable-reserve-m": "Запас кабеля, м",
+  "i18n.ft.gps-km": "GPS, км",
+  "i18n.ft.gps-section-km": "Участок по GPS, км",
+  "i18n.ft.optical-km": "Оптич, км",
+  "i18n.ft.optical-section-km": "Оптический участок, км",
+  "i18n.ft.event": "Событие"
 }

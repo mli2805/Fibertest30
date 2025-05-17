@@ -64,7 +64,6 @@
   "i18n.common.enabled": "Enabled",
   "i18n.common.enter-port": "Enter port",
   "i18n.common.error": "Error",
-  "i18n.common.event": "Event",
   "i18n.common.expand": "Expand",
   "i18n.common.failed": "Failed",
   "i18n.common.full-history": "Full history",
@@ -730,6 +729,15 @@
   "i18n.ft.user-length": "User length, m",
   "i18n.ft.opt-length-m": "Opt. length, m",
   "i18n.ft.no-base": "no base",
+
+  "i18n.ft.nn": "No",
+  "i18n.ft.equipment-title": "Equipment title",
+  "i18n.ft.cable-reserve-m": "Cable reserve, m",
+  "i18n.ft.gps-km": "GPS, km",
+  "i18n.ft.gps-section-km": "GPS section, km",
+  "i18n.ft.optical-km": "Optical, km",
+  "i18n.ft.optical-section-km": "Optical section, km",
+  "i18n.ft.event": "Event",
 
   "i18n.validation.incorrect-level-order": "incorrect level order",
   "i18n.validation.not-unique": "must be unique",

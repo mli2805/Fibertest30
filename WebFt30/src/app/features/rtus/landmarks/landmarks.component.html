@@ -1,0 +1,58 @@
+<rtu-loading-centered-big-spinner *ngIf="spinning$ | async"></rtu-loading-centered-big-spinner>
+
+<div
+  cdkDrag
+  class="draggable-window flex flex-col items-center px-1 text-sm"
+  (mousedown)="bringToFront()"
+  style="position: fixed; left: 180px; top: 50px"
+  [style.z-index]="zIndex"
+>
+  <!-- header -->
+  <div cdkDragHandle class="my-2 w-full">
+    <div class="flex items-center justify-between">
+      <div class="ml-3">
+        {{ 'i18n.ft.landmarks' | translate }}
+      </div>
+      <rtu-close-button class="mr-2 h-6 w-6" (click)="close()" />
+    </div>
+  </div>
+  <!-- content -->
+  <!-- prettier-ignore -->
+  <ng-container *ngIf="model$ | async as model">
+    <div class="relative h-[401px] overflow-y-auto mb-2">
+      <table class="monospace min-w-full border-separate border-spacing-0 border border-gray-500 ">
+        <thead>
+          <tr class="bg-rtu-second-bg sticky top-0 z-10">
+            <th class="headercell">{{ 'i18n.ft.nn' | translate }}</th>
+            <th class="headercell">{{ 'i18n.ft.node' | translate }}</th>
+            <th class="headercell">{{ 'i18n.ft.type' | translate }}</th>
+            <th class="headercell">{{ 'i18n.ft.equipment-title' | translate }}</th>
+            <th class="headercell">{{ 'i18n.ft.cable-reserve-m' | translate }}</th>
+            <th class="headercell">{{ 'i18n.ft.gps-km' | translate }}</th>
+            <th class="headercell">{{ 'i18n.ft.gps-section-km' | translate }}</th>
+            <th class="headercell">{{ 'i18n.ft.optical-km' | translate }}</th>
+            <th class="headercell">{{ 'i18n.ft.optical-section-km' | translate }}</th>
+            <th class="headercell">{{ 'i18n.ft.event' | translate }}</th>
+            <th class="headercell">{{ 'i18n.ft.coordinates' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let landmark of model.landmarks">
+            <td class="max-w-8  gridcell">{{ landmark.number }}</td>
+            <td class="max-w-32 gridcell">{{ landmark.nodeTitle }}</td>
+            <td class="max-w-32 gridcell">{{ landmark.equipmentType | equipmentPipe | translate }}</td>
+            <td class="max-w-32 gridcell">{{ landmark.equipmentTitle }}</td>
+            <td class="max-w-24 gridcell">{{ landmark.cableReserveString() }}</td>
+            <td class="max-w-16 gridcell">{{ landmark.gpsDistance | numberFormat : 3 }}</td>
+            <td class="max-w-24 gridcell">{{ landmark.gpsSection | numberFormat : 3 }}</td>
+            <td class="max-w-16 gridcell">{{ landmark.opticalDistance | numberFormat : 3 : false }}</td>
+            <td class="max-w-24 gridcell">{{ landmark.opticalSection | numberFormat : 3 : false }}</td>
+            <td class="max-w-12 gridcell">{{ landmark.eventNumberString() | translate | lowercase }}</td>
+            <td class="max-w-56 gridcell">{{ landmark.gpsCoors | geoCoordinates : false }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </ng-container>
+</div>

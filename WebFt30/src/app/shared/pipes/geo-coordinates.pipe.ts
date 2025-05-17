@@ -17,27 +17,29 @@ export class GeoCoordinatesPipe implements PipeTransform, OnDestroy {
       });
   }
 
-  transform(value: L.LatLng) {
-    const lat = this.oneCoorToString(value.lat, this.latLngFormat);
-    const lng = this.oneCoorToString(value.lng, this.latLngFormat);
+  transform(value: L.LatLng, spaces = true) {
+    const lat = this.oneCoorToString(value.lat, this.latLngFormat, spaces);
+    const lng = this.oneCoorToString(value.lng, this.latLngFormat, spaces);
     return `${lat} : ${lng}`;
   }
 
-  oneCoorToString(value: number, format: LatLngFormat) {
+  oneCoorToString(value: number, format: LatLngFormat, spaces: boolean) {
     switch (format) {
       case 'ddd.dddddd°':
         return `${value.toFixed(6)}°`;
       case 'ddd° mm.mmmmm′': {
         const degrees = Math.trunc(value);
         const minutes = (value - degrees) * 60;
-        return `${degrees.toString()}° ${minutes.toFixed(5)}′`;
+        return `${degrees.toString()}° ${minutes.frmt(2, 5)}′`;
       }
       case 'ddd° mm′ ss.ss″': {
         const degrees = Math.trunc(value);
         const m = (value - degrees) * 60;
         const minutes = Math.trunc(m);
         const seconds = (m - minutes) * 60;
-        return `${degrees.toString()}° ${minutes.toString()}′ ${seconds.toFixed(2)}″`;
+        return spaces
+          ? `${degrees.toString()}° ${minutes.frmt(2, 0)}′ ${seconds.frmt(2, 2)}″`
+          : `${degrees.toString()}°${minutes.frmt(2, 0)}′${seconds.frmt(2, 2)}″`;
       }
     }
   }

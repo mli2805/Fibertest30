@@ -20,7 +20,6 @@ import { TceLinkPictogramComponent } from './rtu-tree/pictograms/tce-link-pictog
 import { RtuInitializationComponent } from './rtu-initialization/rtu-initialization.component';
 import { OneRtuMenuComponent } from './rtu-tree/one-rtu/one-rtu-menu/one-rtu-menu.component';
 import { RtuMonitoringSettingsComponent } from './rtu-monitoring-settings/rtu-monitoring-settings.component';
-import { RtuLandmarksComponent } from './rtu-landmarks/rtu-landmarks.component';
 import { RtusComponent } from './rtus/rtus.component';
 import { ReserveChannelTestComponent } from './rtu-initialization/reserve-channel-test/reserve-channel-test.component';
 import { FreePortMenuComponent } from './rtu-tree/free-port/free-port-menu/free-port-menu.component';
@@ -31,7 +30,6 @@ import { MeasurementClientComponent } from './measurement-client/measurement-cli
 import { OtauMonitoringSettingsComponent } from './rtu-monitoring-settings/otau-monitoring-settings/otau-monitoring-settings.component';
 import { TraceAttachComponent } from './trace-attach/trace-attach.component';
 import { BopAttachComponent } from './bop-attach/bop-attach.component';
-import { TraceLandmarksComponent } from './trace-landmarks/trace-landmarks.component';
 import { TraceStatisticsComponent } from './trace-statistics/trace-statistics.component';
 import { BaselineViewComponent } from './baseline-view/baseline-view.component';
 import { GisModule } from '../gis/gis.module';
@@ -40,6 +38,7 @@ import { RtuStateWindowComponent } from './rtu-state-window/rtu-state-window.com
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TraceAssignBaseDialogComponent } from './trace-assign-base-dialog/trace-assign-base-dialog.component';
 import { TraceAssignBaseComponent } from './trace-assign-base-dialog/trace-assign-base/trace-assign-base.component';
+import { LandmarksComponent } from './landmarks/landmarks.component';
 
 @NgModule({
   imports: [
@@ -51,7 +50,12 @@ import { TraceAssignBaseComponent } from './trace-assign-base-dialog/trace-assig
     DragDropModule,
     TranslateModule.forChild()
   ],
-  exports: [RtuStateWindowComponent, RtuInitializationComponent, TraceAssignBaseDialogComponent],
+  exports: [
+    RtuStateWindowComponent,
+    RtuInitializationComponent,
+    TraceAssignBaseDialogComponent,
+    LandmarksComponent
+  ],
   declarations: [
     RtuTreeComponent,
     OneRtuComponent,
@@ -67,7 +71,6 @@ import { TraceAssignBaseComponent } from './trace-assign-base-dialog/trace-assig
     RtuInitializationComponent,
     OneRtuMenuComponent,
     RtuMonitoringSettingsComponent,
-    RtuLandmarksComponent,
     RtusComponent,
     ReserveChannelTestComponent,
     FreePortMenuComponent,
@@ -78,13 +81,13 @@ import { TraceAssignBaseComponent } from './trace-assign-base-dialog/trace-assig
     OtauMonitoringSettingsComponent,
     TraceAttachComponent,
     BopAttachComponent,
-    TraceLandmarksComponent,
     TraceStatisticsComponent,
     BaselineViewComponent,
     MainChannelTestComponent,
     RtuStateWindowComponent,
     TraceAssignBaseDialogComponent,
-    TraceAssignBaseComponent
+    TraceAssignBaseComponent,
+    LandmarksComponent
   ],
   providers: []
 })

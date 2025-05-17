@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Graph
         public EquipmentType TypeOfLastAddedEquipment { get; set; }
         public FiberState State { get; set; }
         public PointLatLng Position { get; set; }
-        public string Comment { get; set; } = string.Empty;
+        public string? Comment { get; set; } = string.Empty;
 
         public Guid AccidentOnTraceId { get; set; }
 

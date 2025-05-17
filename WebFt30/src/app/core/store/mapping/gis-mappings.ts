@@ -7,6 +7,7 @@ import {
   GeoEquipment,
   GeoFiber,
   GeoTrace,
+  OneLandmark,
   OpticalLength,
   TraceNode
 } from '../models/ft30/geo-data';
@@ -75,6 +76,30 @@ export class GisMapping {
       grpcFiberInfo.userInputedLength,
       grpcFiberInfo.tracesThrough.map((t) => this.fromOpticalLength(t)),
       grpcFiberInfo.hasTraceUnderMonitoring
+    );
+  }
+
+  static fromOneLandmark(grpcOneLandmark: grpc.OneLandmark): OneLandmark {
+    return new OneLandmark(
+      grpcOneLandmark.isFromBase,
+      grpcOneLandmark.number,
+      grpcOneLandmark.numberIncludingAdjustmentPoints,
+      grpcOneLandmark.nodeId,
+      grpcOneLandmark.fiberId,
+      grpcOneLandmark.nodeTitle,
+      grpcOneLandmark.nodeComment,
+      grpcOneLandmark.equipmentId,
+      grpcOneLandmark.equipmentTitle,
+      grpcOneLandmark.equipmentType,
+      grpcOneLandmark.leftCableReserve,
+      grpcOneLandmark.rightCableReserve,
+      grpcOneLandmark.gpsDistance,
+      grpcOneLandmark.gpsSection,
+      grpcOneLandmark.isUserInput,
+      grpcOneLandmark.opticalDistance,
+      grpcOneLandmark.opticalSection,
+      grpcOneLandmark.eventNumber,
+      this.fromGeoCoordinate(grpcOneLandmark.gpsCoors!)
     );
   }
 

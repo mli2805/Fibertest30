@@ -105,10 +105,7 @@ export class DetachedTraceMenuComponent {
 
   async onLandmarksClicked() {
     this.open = false;
-    await Utils.delay(100);
-
-    const path = `rtus/trace-landmarks/${this.trace.traceId}`;
-    this.router.navigate([path]);
+    this.windowService.registerWindow(this.trace.traceId, 'Landmarks', this.trace);
   }
 
   canClean() {

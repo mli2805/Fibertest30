@@ -133,6 +133,32 @@ public static class GisMapping
         return result;
     }
 
+    public static OneLandmark ToProto(this Landmark landmark)
+    {
+        return new OneLandmark()
+        {
+            IsFromBase = landmark.IsFromBase,
+            Number = landmark.Number,
+            NumberIncludingAdjustmentPoints = landmark.NumberIncludingAdjustmentPoints,
+            NodeId = landmark.NodeId.ToString(),
+            FiberId = landmark.FiberId.ToString(),
+            NodeTitle = landmark.NodeTitle,
+            NodeComment = landmark.NodeComment,
+            EquipmentId = landmark.EquipmentId.ToString(),
+            EquipmentTitle = landmark.EquipmentTitle,
+            EquipmentType = landmark.EquipmentType.ToProto(),
+            LeftCableReserve = landmark.LeftCableReserve,
+            RightCableReserve = landmark.RightCableReserve,
+            GpsDistance = landmark.GpsDistance,
+            GpsSection = landmark.GpsSection,
+            IsUserInput = landmark.IsUserInput,
+            OpticalDistance = landmark.OpticalDistance,
+            OpticalSection = landmark.OpticalSection,
+            EventNumber = landmark.EventNumber,
+            GpsCoors = landmark.GpsCoors.ToProto()
+        };
+    }
+
     public static AllGeoData ToProto(this AllGisData data)
     {
         var result = new AllGeoData();

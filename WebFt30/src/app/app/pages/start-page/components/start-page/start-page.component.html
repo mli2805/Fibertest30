@@ -63,6 +63,9 @@
       <ng-container *ngIf="window.type === 'NetworkSettings'">
         <rtu-rtu-initialization [rtuId]="window.id" />
       </ng-container>
+      <ng-container *ngIf="window.type === 'Landmarks'">
+        <rtu-landmarks [traceId]="window.id" />
+      </ng-container>
     </ng-container>
   </div>
 </div>

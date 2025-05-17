@@ -249,6 +249,13 @@
     @apply cursor-default;
   }
 
+  .headercell {
+    @apply border border-gray-200 px-1;
+  }
+  .gridcell {
+    @apply overflow-hidden whitespace-nowrap border border-gray-200 px-1;
+  }
+
   .disabled-label {
     color: gray;
   }

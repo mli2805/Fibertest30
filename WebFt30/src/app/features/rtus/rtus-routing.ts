@@ -6,8 +6,6 @@ import { RtuInitializationComponent } from './rtu-initialization/rtu-initializat
 import { RtusComponent } from './rtus/rtus.component';
 import { MeasurementClientComponent } from './measurement-client/measurement-client.component';
 import { RtuMonitoringSettingsComponent } from './rtu-monitoring-settings/rtu-monitoring-settings.component';
-import { RtuLandmarksComponent } from './rtu-landmarks/rtu-landmarks.component';
-import { TraceLandmarksComponent } from './trace-landmarks/trace-landmarks.component';
 import { TraceStatisticsComponent } from './trace-statistics/trace-statistics.component';
 import { BaselineViewComponent } from './baseline-view/baseline-view.component';
 
@@ -43,18 +41,6 @@ export const routes: Routes = [
         path: 'baseline/:id',
         pathMatch: 'full',
         component: BaselineViewComponent,
-        data: { navigateToParent: 2 }
-      },
-      {
-        path: 'landmarks/:id',
-        pathMatch: 'full',
-        component: RtuLandmarksComponent,
-        data: { navigateToParent: 2 }
-      },
-      {
-        path: 'trace-landmarks/:id',
-        pathMatch: 'full',
-        component: TraceLandmarksComponent,
         data: { navigateToParent: 2 }
       },
       {

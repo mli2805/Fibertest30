@@ -87,6 +87,8 @@ import { LatlngFormatSwitcherComponent } from './components/latlng-format-switch
 import { GeoCoordinatesPipe } from './pipes/geo-coordinates.pipe';
 import { RftsEventsButtonComponent } from './components/svg-buttons/rfts-events-button.component';
 import { TabHeaderComponent } from './components/svg-buttons/tab-header/tab-header.component';
+import { NumberFormatPipe } from './pipes/number-format.pipe';
+import './../app/number-extension';
 
 @NgModule({
   imports: [
@@ -118,6 +120,7 @@ import { TabHeaderComponent } from './components/svg-buttons/tab-header/tab-head
     RtuDateToDayOfWeekPipe,
     SignedNumberPipe,
     FiberStatePipe,
+    NumberFormatPipe,
     TraceStatePipe,
     FrequencyPipe,
     EventStatusPipe,
@@ -204,6 +207,7 @@ import { TabHeaderComponent } from './components/svg-buttons/tab-header/tab-head
     RtuDateToDayOfWeekPipe,
     SignedNumberPipe,
     FiberStatePipe,
+    NumberFormatPipe,
     TraceStatePipe,
     FrequencyPipe,
     EventStatusPipe,

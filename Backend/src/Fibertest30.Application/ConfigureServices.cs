@@ -36,6 +36,9 @@ public static class ConfigureServices
         services.AddScoped<BaseRefLandmarksTool>();
         services.AddScoped<BaseRefsCheckerOnServer>();
         services.AddScoped<FiberInfoProvider>();
+        services.AddScoped<LandmarksGraphParser>();
+        services.AddScoped<LandmarksBaseParser>();
+        services.AddScoped<LandmarksProvider>();
 
         services.AddSingleton<TableProvider>();
         services.AddSingleton<Model>();

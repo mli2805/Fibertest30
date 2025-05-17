@@ -10,10 +10,10 @@ namespace Iit.Fibertest.Graph
         public int NumberIncludingAdjustmentPoints { get; set; }
         public Guid NodeId { get; set; }
         public Guid FiberId { get; set; } // to the left
-        public string NodeTitle { get; set; }
-        public string NodeComment { get; set; }
+        public string NodeTitle { get; set; } = "";
+        public string NodeComment { get; set; } = "";
         public Guid EquipmentId { get; set; }
-        public string EquipmentTitle { get; set; }
+        public string EquipmentTitle { get; set; } = "";
         public EquipmentType EquipmentType { get; set; }
         public int LeftCableReserve { get; set; }
         public int RightCableReserve { get; set; }
