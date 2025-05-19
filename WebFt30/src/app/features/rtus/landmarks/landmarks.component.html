@@ -19,7 +19,7 @@
   <!-- content -->
   <!-- prettier-ignore -->
   <ng-container *ngIf="model$ | async as model">
-    <div class="relative h-[401px] overflow-y-auto mb-2">
+    <div class="relative h-[402px] w-[955px] overflow-y-auto mb-2">
       <table class="monospace min-w-full border-separate border-spacing-0 border border-gray-500 ">
         <thead>
           <tr class="bg-rtu-second-bg sticky top-0 z-10">
@@ -37,7 +37,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let landmark of model.landmarks">
+          <tr *ngFor="let landmark of model.landmarks"  
+            [ngClass]="{ 'bg-blue-100 dark:bg-slate-700': landmark.isSelected }"
+            (click)="onLandmarkClick(landmark)"
+            class="cursor-pointer">
             <td class="max-w-8  gridcell">{{ landmark.number }}</td>
             <td class="max-w-32 gridcell">{{ landmark.nodeTitle }}</td>
             <td class="max-w-32 gridcell">{{ landmark.equipmentType | equipmentPipe | translate }}</td>
@@ -46,7 +49,7 @@
             <td class="max-w-16 gridcell">{{ landmark.gpsDistance | numberFormat : 3 }}</td>
             <td class="max-w-24 gridcell">{{ landmark.gpsSection | numberFormat : 3 }}</td>
             <td class="max-w-16 gridcell">{{ landmark.opticalDistance | numberFormat : 3 : false }}</td>
-            <td class="max-w-24 gridcell">{{ landmark.opticalSection | numberFormat : 3 : false }}</td>
+            <td class="max-w-16 gridcell">{{ landmark.opticalSection | numberFormat : 3 : false }}</td>
             <td class="max-w-12 gridcell">{{ landmark.eventNumberString() | translate | lowercase }}</td>
             <td class="max-w-56 gridcell">{{ landmark.gpsCoors | geoCoordinates : false }}</td>
           </tr>

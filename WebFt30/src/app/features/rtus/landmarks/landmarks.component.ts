@@ -45,6 +45,13 @@ export class LandmarksComponent implements OnInit {
     this.landmarksModel.next({ landmarks: landmarks });
   }
 
+  onLandmarkClick(landmark: OneLandmark) {
+    this.landmarksModel.value!.landmarks.forEach(
+      (l) => (l.isSelected = l.number === landmark.number)
+    );
+  }
+
+  /////////////////////////////
   zIndex = 1;
   bringToFront() {
     this.windowService.bringToFront(this.traceId, 'Landmarks');

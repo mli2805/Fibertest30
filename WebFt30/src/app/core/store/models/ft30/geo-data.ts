@@ -103,6 +103,8 @@ export class OneLandmark {
     public gpsCoors: L.LatLng
   ) {}
 
+  public isSelected = false;
+
   public cableReserveString(): string {
     if (this.equipmentType === EquipmentType.CableReserve) return this.leftCableReserve.toString();
 
