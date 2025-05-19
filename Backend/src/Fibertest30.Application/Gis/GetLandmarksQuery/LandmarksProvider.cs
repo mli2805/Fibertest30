@@ -9,12 +9,12 @@ namespace Fibertest30.Application
         public async Task<List<Landmark>> GetLandmarks(Guid traceId)
         {
             var trace = writeModel.Traces.First(t => t.TraceId == traceId);
-            var traceModel = writeModel.GetTraceComponentsByIds(trace);
 
             var hasBaseRef = trace.PreciseId != Guid.Empty;
             if (hasBaseRef)
             {
                 var sorData = await GetBase(trace.PreciseId);
+                var traceModel = writeModel.GetTraceComponentsByIds(trace);
                 return landmarksBaseParser.GetLandmarksFromBaseRef(sorData, traceModel);
             }
             else
