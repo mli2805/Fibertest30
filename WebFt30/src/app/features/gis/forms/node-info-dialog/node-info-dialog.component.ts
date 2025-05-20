@@ -116,6 +116,11 @@ export class NodeInfoDialogComponent implements OnInit {
     return this.form.get('title')!.value === '';
   }
 
+  isDiscardDisabled(): boolean {
+    if (this.form.pristine) return true;
+    return false;
+  }
+
   async onApplyClicked() {
     const command = {
       NodeId: this.nodeId,

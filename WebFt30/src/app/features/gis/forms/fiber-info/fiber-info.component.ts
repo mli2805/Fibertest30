@@ -104,6 +104,11 @@ export class FiberInfoComponent implements OnInit {
     return !this.form.valid;
   }
 
+  isDiscardDisabled() {
+    if (this.form.pristine) return true;
+    return false;
+  }
+
   async onApplyClicked() {
     const command = {
       Id: this.fiberId,

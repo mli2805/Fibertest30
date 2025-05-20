@@ -4,7 +4,7 @@
     <div cdkDragHandle class="my-2 w-full">
       <div class="flex items-center justify-between">
         <div class="ml-3">
-          {{ 'i18n.ft.section' | translate }}
+          {{ 'i18n.ft.node' | translate }}
         </div>
         <rtu-close-button class="mr-2 h-6 w-6" (click)="close()" />
       </div>
@@ -53,7 +53,12 @@
         </fieldset>
         <!-- buttons -->
         <div class="mt-6 flex flex-row justify-end">
-          <button class="button-cancel mr-2 min-w-36" (click)="onDiscardClicked()" cdkFocusInitial>
+          <button
+            class="button-cancel mr-2 min-w-36"
+            [disabled]="isDiscardDisabled()"
+            (click)="onDiscardClicked()"
+            cdkFocusInitial
+          >
             {{ 'i18n.ft.discard' | translate }}
           </button>
           <button
