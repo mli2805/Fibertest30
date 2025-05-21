@@ -14,7 +14,7 @@ import { takeUntil } from 'rxjs';
 import { AllGeoData } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapUtils } from '../shared/gis-map.utils';
 import { Store } from '@ngrx/store';
-import { AppState, AuthSelectors, SettingsSelectors } from 'src/app/core';
+import { AppState, AppTheme, AuthSelectors, SettingsSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { MapExternalCommands } from '../gis-actions/map-external-commands';
 import { MapMouseActions } from '../gis-actions/map-mouse-actions';
@@ -56,6 +56,8 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     // this.popupBinder = new LeafletAngularPopupBinder(appRef, envInjector);
   }
 
+  theme$ = this.store.select(SettingsSelectors.selectTheme);
+
   async ngOnInit(): Promise<void> {
     const userSettings = CoreUtils.getCurrentState(this.store, SettingsSelectors.selectSettings);
     const hasEditPermissions = CoreUtils.getCurrentState(
@@ -81,6 +83,8 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
       .pipe(takeUntil(this.ngDestroyed$))
       .subscribe((d) => this.onMapSourceId(d));
 
+    this.theme$.pipe(takeUntil(this.ngDestroyed$)).subscribe((t) => this.onThemeChanged(t));
+
     this.gisMapService.geoData$
       .pipe(takeUntil(this.ngDestroyed$))
       .subscribe((d) => this.onGeoData(d));
@@ -105,7 +109,8 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
   }
 
   onMapSourceId(id: number) {
-    MapLayersActions.setTileLayer(id, this.gisMapService.getMap());
+    const theme = CoreUtils.getCurrentState(this.store, SettingsSelectors.selectTheme);
+    MapLayersActions.setTileLayer(id, theme, this.gisMapService.getMap());
   }
 
   onGeoData(data: { geoData: AllGeoData } | null): void {
@@ -114,5 +119,10 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
 
     data.geoData.fibers.forEach((f) => MapLayersActions.addFiberToLayer(f));
     data.geoData.nodes.forEach((n) => MapLayersActions.addNodeToLayer(n));
+  }
+
+  onThemeChanged(theme: AppTheme) {
+    const mapId = this.gisMapService.mapSourceId.value;
+    MapLayersActions.setTileLayer(mapId, theme, this.gisMapService.getMap());
   }
 }

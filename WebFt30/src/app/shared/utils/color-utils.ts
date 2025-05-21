@@ -4,7 +4,7 @@ export class ColorUtils {
   static fiberStateToTextColor(state: FiberState): string {
     switch (state) {
       case FiberState.Ok:
-        return 'text-black';
+        return 'currentColor';
       case FiberState.Suspicion:
         return 'text-yellow-500';
       case FiberState.Minor:
@@ -28,7 +28,7 @@ export class ColorUtils {
       case FiberState.NotJoined:
         return 'blue';
       case FiberState.Ok:
-        return 'black';
+        return 'currentColor';
       case FiberState.Suspicion:
         return 'yellow';
       case FiberState.Minor:

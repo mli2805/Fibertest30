@@ -21,6 +21,7 @@ import {
   TrapReceiver
 } from './store/models/notification-settings';
 import { TreeMapping } from './store/mapping/tree-mapping';
+import { AppTheme } from './store/settings/settings.state';
 
 export class MapUtils {
   static toGrpcNotificationSettings(settings: NotificationSettings): grpc.NotificationSettings {
@@ -182,7 +183,7 @@ export class MapUtils {
 
     return {
       language: user.language,
-      theme: user.theme,
+      theme: <AppTheme>user.theme,
       dateTimeFormat: user.dateTimeFormat,
       latLngFormat: user.latLngFormat,
       zoom: user.zoom,

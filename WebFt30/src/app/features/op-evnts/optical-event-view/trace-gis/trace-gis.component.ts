@@ -3,7 +3,7 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { OpticalEvent } from 'src/app/core/store/models/ft30/optical-event';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { Store } from '@ngrx/store';
-import { AppState, SettingsSelectors } from 'src/app/core';
+import { AppState, SettingsSelectors, SettingsState } from 'src/app/core';
 import { GisMapLayer } from 'src/app/features/gis/components/shared/gis-map-layer';
 import { GisMapUtils } from 'src/app/features/gis/components/shared/gis-map.utils';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
@@ -29,6 +29,7 @@ export class TraceGisComponent implements OnInit {
   }
 
   private store: Store<AppState> = inject(Store<AppState>);
+  private userSettings!: SettingsState;
   private icons = new GisMapIcons();
   private map!: L.Map;
   private layerGroups = new Map();
@@ -42,7 +43,7 @@ export class TraceGisComponent implements OnInit {
       return;
     }
 
-    const userSettings = CoreUtils.getCurrentState(this.store, SettingsSelectors.selectSettings);
+    this.userSettings = CoreUtils.getCurrentState(this.store, SettingsSelectors.selectSettings);
 
     this.map = L.map('map', {
       center: [51.505, -0.09],
@@ -53,9 +54,14 @@ export class TraceGisComponent implements OnInit {
     });
 
     // настройка источника карты
-    switch (userSettings.sourceMapId) {
+    switch (this.userSettings.sourceMapId) {
       case 0: {
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        const url =
+          this.userSettings.theme === 'light'
+            ? 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+            : 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png';
+
+        L.tileLayer(url, {
           maxZoom: 19,
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap'
         }).addTo(this.map);
@@ -110,7 +116,6 @@ export class TraceGisComponent implements OnInit {
     // этих аварий может уже не быть - добавляем маркеры для точечных аварий
     const accidentsOnTrace: TraceNode[] = [];
 
-    console.log(this._optivalEvent.accidents);
     this._optivalEvent.accidents.forEach((a) => {
       if (
         a.opticalTypeOfAccident === OpticalAccidentType.Break ||

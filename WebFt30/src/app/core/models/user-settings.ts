@@ -1,6 +1,8 @@
+import { AppTheme } from '../store/settings/settings.state';
+
 export class UserSettings {
   language!: string;
-  theme!: string;
+  theme!: AppTheme;
   dateTimeFormat!: string;
   latLngFormat!: string;
   zoom!: number;

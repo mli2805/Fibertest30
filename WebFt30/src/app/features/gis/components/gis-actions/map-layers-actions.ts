@@ -17,6 +17,7 @@ import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 
 import { environment } from 'src/environments/environment';
 import { MapNodeRemove } from './map-node-remove';
+import { AppTheme } from 'src/app/core';
 
 export class MapLayersActions {
   private static icons = new GisMapIcons();
@@ -91,7 +92,7 @@ export class MapLayersActions {
     //   }
     // });
 
-    this.setTileLayer(userSettings.sourceMapId, map);
+    this.setTileLayer(userSettings.sourceMapId, userSettings.theme, map);
 
     // hide leaflet own attribution
     map.attributionControl.setPrefix('');
@@ -103,12 +104,17 @@ export class MapLayersActions {
 
   static tileLayer: any = null;
   // https://stackoverflow.com/questions/33343881/leaflet-in-google-maps
-  static setTileLayer(mapId: number, map: L.Map) {
+  static setTileLayer(mapId: number, theme: AppTheme, map: L.Map) {
     if (this.tileLayer !== null) map.removeLayer(this.tileLayer);
 
     switch (mapId) {
       case 0: {
-        this.tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        const url =
+          theme === 'light'
+            ? 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+            : 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png';
+
+        L.tileLayer(url, {
           maxZoom: 19,
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap'
         }).addTo(map);
