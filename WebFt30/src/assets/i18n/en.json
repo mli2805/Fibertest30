@@ -725,8 +725,8 @@
 
   "i18n.ft.nodes-of-section": "Nodes of section",
   "i18n.ft.physical-length": "Physical length",
-  "i18n.ft.gps-length": "GPS length, m",
-  "i18n.ft.user-length": "User length, m",
+  "i18n.ft.gps-length-m": "GPS length, m",
+  "i18n.ft.user-length-m": "User length, m",
   "i18n.ft.opt-length-m": "Opt. length, m",
   "i18n.ft.no-base": "no base",
 
@@ -738,6 +738,9 @@
   "i18n.ft.optical-km": "Optical, km",
   "i18n.ft.optical-section-km": "Optical section, km",
   "i18n.ft.event": "Event",
+  "i18n.ft.equipm": "equipm nodes.",
+  "i18n.ft.left-m": "Left, m",
+  "i18n.ft.right-m": "Right, m",
 
   "i18n.validation.incorrect-level-order": "incorrect level order",
   "i18n.validation.not-unique": "must be unique",

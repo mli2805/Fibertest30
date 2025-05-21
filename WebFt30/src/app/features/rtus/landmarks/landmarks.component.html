@@ -18,14 +18,23 @@
   </div>
   <!-- content -->
   <!-- prettier-ignore -->
-  <ng-container *ngIf="model$ | async as model">
-    <div class="relative h-[402px] w-[955px] overflow-y-auto mb-2">
-      <table class="monospace min-w-full border-separate border-spacing-0 border border-gray-500 ">
+  <ng-container *ngIf="model$ | async as model" >
+    <!-- table -->
+    <div class="relative h-[402px] w-[1056px] overflow-y-auto mb-2">
+      <table class="monospace table-fixed min-w-full border-separate border-spacing-0 border border-gray-500 ">
         <thead>
-          <tr class="bg-rtu-second-bg sticky top-0 z-10">
+          <tr class="bg-rtu-second-bg dark:bg-rtu-dark-second-bg  sticky top-0 z-10">
             <th class="headercell">{{ 'i18n.ft.nn' | translate }}</th>
             <th class="headercell">{{ 'i18n.ft.node' | translate }}</th>
-            <th class="headercell">{{ 'i18n.ft.type' | translate }}</th>
+            <th class="headercell">
+              <div class="flex flex-col">
+                <div>{{ 'i18n.ft.type' | translate }}</div>
+                <div class="flex mt-1 items-center">
+                  <input type="checkbox" (change)="onEquipmChanged()" />
+                  <label class="ml-2 overflow-hidden whitespace-nowrap">{{ 'i18n.ft.equipm' | translate }}</label>
+                </div>
+              </div>
+            </th>
             <th class="headercell">{{ 'i18n.ft.equipment-title' | translate }}</th>
             <th class="headercell">{{ 'i18n.ft.cable-reserve-m' | translate }}</th>
             <th class="headercell">{{ 'i18n.ft.gps-km' | translate }}</th>
@@ -41,21 +50,72 @@
             [ngClass]="{ 'bg-blue-100 dark:bg-slate-700': landmark.isSelected }"
             (click)="onLandmarkClick(landmark)"
             class="cursor-pointer">
-            <td class="max-w-8  gridcell">{{ landmark.number }}</td>
-            <td class="max-w-32 gridcell">{{ landmark.nodeTitle }}</td>
-            <td class="max-w-32 gridcell">{{ landmark.equipmentType | equipmentPipe | translate }}</td>
-            <td class="max-w-32 gridcell">{{ landmark.equipmentTitle }}</td>
-            <td class="max-w-24 gridcell">{{ landmark.cableReserveString() }}</td>
-            <td class="max-w-16 gridcell">{{ landmark.gpsDistance | numberFormat : 3 }}</td>
-            <td class="max-w-24 gridcell">{{ landmark.gpsSection | numberFormat : 3 }}</td>
-            <td class="max-w-16 gridcell">{{ landmark.opticalDistance | numberFormat : 3 : false }}</td>
-            <td class="max-w-16 gridcell">{{ landmark.opticalSection | numberFormat : 3 : false }}</td>
-            <td class="max-w-12 gridcell">{{ landmark.eventNumberString() | translate | lowercase }}</td>
-            <td class="max-w-56 gridcell">{{ landmark.gpsCoors | geoCoordinates : false }}</td>
+            <td class="min-w-8  max-w-8  gridcell">{{ landmark.number }}</td>
+            <td class="min-w-32 max-w-32 gridcell">{{ landmark.nodeTitle }}</td>
+            <td class="min-w-32 max-w-32 gridcell">{{ landmark.equipmentType | equipmentPipe | translate }}</td>
+            <td class="min-w-32 max-w-32 gridcell">{{ landmark.equipmentTitle }}</td>
+            <td class="min-w-16 max-w-16 gridcell">{{ landmark.cableReserveString() }}</td>
+            <td class="min-w-16 max-w-16 gridcell">{{ landmark.gpsDistance | numberFormat : 3 }}</td>
+            <td class="min-w-16 max-w-16 gridcell">{{ landmark.gpsSection | numberFormat : 3 }}</td>
+            <td class="min-w-16 max-w-16 gridcell">{{ landmark.opticalDistance | numberFormat : 3 : false }}</td>
+            <td class="min-w-16 max-w-16 gridcell">{{ landmark.opticalSection | numberFormat : 3 : false }}</td>
+            <td class="min-w-12 max-w-12 gridcell">{{ landmark.eventNumberString() | translate | lowercase }}</td>
+            <td class="min-w-56 max-w-56 gridcell">{{ landmark.gpsCoors | geoCoordinates : false }}</td>
           </tr>
         </tbody>
       </table>
     </div>
+   
+    <!-- input fields -->
+    <div [formGroup]="form" class="mb-2 border border-gray-500 p-1 w-full monospace" >
+      <fieldset [disabled]="inputDisabled()">
+        <div class="grid grid-cols-[16rem_16rem_16rem_auto]">
+          <div class="flex flex-col">
+            <label class="ml-2" [ngClass]="{ 'disabled-label': inputDisabled() }">{{ 'i18n.ft.node' | translate }}</label>
+            <input formControlName="nodeTitle" type="text" class="input-simple"/>
+            <label class="ml-2 mt-2" [ngClass]="{ 'disabled-label': inputDisabled() }">{{ 'i18n.ft.comment' | translate }}</label>
+            <input formControlName="nodeComment" type="text" class="input-simple"/>
+          </div>
+          <div class="flex flex-col ml-2">
+            <label class="ml-2" [ngClass]="{ 'disabled-label': inputDisabled() }">{{ 'i18n.ft.equipment' | translate }}</label>
+            <input formControlName="equipmentTitle" type="text" class="input-simple"/>
+            <label class="ml-2 mt-2" [ngClass]="{ 'disabled-label': inputDisabled() }">{{ 'i18n.ft.type' | translate }}</label>
 
+            <ng-container *ngIf="inputModel$ | async">
+              <rtu-select formControlName="equipmentType" [items]="equipmentTypes" >
+                <ng-template rtuSelectLabel let-selectedItem>
+                  <div class="pl-1 ">{{ selectedItem | equipmentPipe | translate }}</div>
+                </ng-template>
+                <ng-template rtuSelectItem let-item>
+                  {{ item | equipmentPipe | translate }}
+                </ng-template>
+              </rtu-select>
+            </ng-container>
+
+          </div>
+          <div class="flex flex-col ml-2">
+            <div class="grid grid-cols-2">
+              <div class="flex flex-col">
+                <label class=" ml-2" [ngClass]="{ 'disabled-label': inputDisabled() }">{{ 'i18n.ft.left-m' | translate }}</label>
+                <input formControlName="leftCableReserve" type="text" class="input-simple"/>
+              </div>
+              <div class="flex flex-col ml-2">
+                <label class=" ml-2" [ngClass]="{ 'disabled-label': inputDisabled() }">{{ 'i18n.ft.right-m' | translate }}</label>
+                <input formControlName="rightCableReserve" type="text" class="input-simple"/>
+              </div>
+            </div>
+            <div class="flex flex-col mt-2">
+              <label class="ml-2" [ngClass]="{ 'disabled-label': inputDisabled() }">{{ 'i18n.ft.user-length-m' | translate }}</label>
+              <input formControlName="userInputLength" type="text" class="input-simple"/>
+            </div>
+          </div>
+
+          <div></div>
+        </div>
+      </fieldset>
+    </div>
+
+   
   </ng-container>
+  <!-- input fields -->
 </div>

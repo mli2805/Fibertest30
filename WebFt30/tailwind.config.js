@@ -39,7 +39,7 @@ module.exports = {
       },
       colors: {
         'rtu-text': 'black',
-        'rtu-dark-text': 'white', //#D0D1D3',
+        'rtu-dark-text': '#D0D1D3',
         'rtu-primary-bg': '#FfFfFf',
         'rtu-second-bg': '#F3F3F3',
         'rtu-dark-primary-bg': '#222222',

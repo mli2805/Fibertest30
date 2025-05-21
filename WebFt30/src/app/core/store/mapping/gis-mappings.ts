@@ -7,11 +7,11 @@ import {
   GeoEquipment,
   GeoFiber,
   GeoTrace,
-  OneLandmark,
   OpticalLength,
   TraceNode
 } from '../models/ft30/geo-data';
 import { FtEnumsMapping } from './ft-enums-mapping';
+import { OneLandmark } from '../models/ft30/one-landmark';
 
 export class GisMapping {
   static fromGeoCoordinate(coors: grpc.GeoCoordinate): L.LatLng {

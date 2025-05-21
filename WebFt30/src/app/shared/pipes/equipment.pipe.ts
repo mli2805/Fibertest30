@@ -17,6 +17,8 @@ export class EquipmentPipe implements PipeTransform {
         return 'i18n.ft.other';
       case EquipmentType.CableReserve:
         return 'i18n.ft.cable-reserve';
+      case EquipmentType.EmptyNode:
+        return 'i18n.ft.node';
     }
     return '';
   }

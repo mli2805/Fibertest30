@@ -24,11 +24,11 @@
       <div class="grouped-border my-1">
         <div class="mb-2">{{ 'i18n.ft.physical-length' | translate }}</div>
         <div class="mr-5 flex justify-between">
-          <div>{{ 'i18n.ft.gps-length' | translate }}</div>
+          <div>{{ 'i18n.ft.gps-length-m' | translate }}</div>
           <div>{{ model.gpsLength }}</div>
         </div>
         <div class="mr-5 mt-1 flex items-center justify-between" [formGroup]="form">
-          <div>{{ 'i18n.ft.user-length' | translate }}</div>
+          <div>{{ 'i18n.ft.user-length-m' | translate }}</div>
           <fieldset [disabled]="isInputDisabled()">
             <input
               type="text"
