@@ -1,0 +1,22 @@
+<ng-container *ngIf="latLngFormatName$ | async as format">
+  <ng-container *ngIf="(flag$ | async) === true">
+    <ng-container *ngIf="format === 'degrees'">
+      <div [formGroup]="form">
+        <input formControlName="degrees" type="text" class="input-simple w-28" />
+      </div>
+    </ng-container>
+    <ng-container *ngIf="format === 'minutes'">
+      <div [formGroup]="form">
+        <input formControlName="degrees" type="text" class="input-simple w-12" />
+        <input formControlName="minutes" type="text" class="input-simple ml-1 w-24" />
+      </div>
+    </ng-container>
+    <ng-container *ngIf="format === 'seconds'">
+      <div [formGroup]="form" class="flex">
+        <input formControlName="degrees" type="text" class="input-simple w-12" />
+        <input formControlName="minutes" type="text" class="input-simple ml-1 w-12" />
+        <input formControlName="seconds" type="text" class="input-simple ml-1 w-20" />
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-container>

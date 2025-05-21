@@ -69,7 +69,7 @@
     <!-- input fields -->
     <div [formGroup]="form" class="mb-2 border border-gray-500 p-1 w-full monospace" >
       <fieldset [disabled]="inputDisabled()">
-        <div class="grid grid-cols-[16rem_16rem_16rem_auto]">
+        <div class="grid grid-cols-[16rem_14rem_16rem_auto]">
           <div class="flex flex-col">
             <label class="ml-2" [ngClass]="{ 'disabled-label': inputDisabled() }">{{ 'i18n.ft.node' | translate }}</label>
             <input formControlName="nodeTitle" type="text" class="input-simple"/>
@@ -110,12 +110,33 @@
             </div>
           </div>
 
-          <div></div>
+          <div class="ml-2">
+            <ng-container *ngIf="inputModel$ | async as oneLandmark">
+            <rtu-gps-input [coors]="oneLandmark.gpsCoors"></rtu-gps-input>
+            </ng-container>
+          </div>
         </div>
       </fieldset>
+       <!-- buttons -->
+      <div class="mt-2 flex justify-start">
+        <button class="button-extra w-56" (click)="updateTable()">
+          {{ 'i18n.ft.update-table' | translate }}
+        </button>
+        <button class="button-extra ml-1 w-56" (click)="cancelChanges()">
+          {{ 'i18n.ft.cancel-changes' | translate }}
+        </button>
+      </div>
     </div>
 
-   
+    <!-- buttons -->
+    <div class="mb-2 px-1 monospace w-full flex justify-between">
+      <button class="button-extra w-56" (click)="cancelAllChanges()">
+        {{ 'i18n.ft.cancel-all-changes' | translate }}
+      </button>
+       <button class="button-extra w-56" (click)="saveChanges()">
+        {{ 'i18n.ft.save-changes' | translate }}
+      </button>
+    </div>
+
   </ng-container>
-  <!-- input fields -->
 </div>

@@ -1,0 +1,20 @@
+<div class="flex w-full flex-col">
+  <div class="mx-auto flex">
+    <div class="my-auto mr-2 w-16 text-right">{{ 'i18n.ft.latitude' | translate }}</div>
+    <rtu-one-coor-input [coor]="lat"></rtu-one-coor-input>
+  </div>
+  <div class="mx-auto mt-1 flex">
+    <div class="my-auto mr-2 w-16 text-right">{{ 'i18n.ft.longitude' | translate }}</div>
+    <rtu-one-coor-input [coor]="lng"></rtu-one-coor-input>
+  </div>
+
+  <!-- buttons -->
+  <div class="mt-2 flex justify-center">
+    <button class="button-extra w-32" (click)="preview()">
+      {{ 'i18n.ft.preview' | translate }}
+    </button>
+    <button class="button-extra ml-1 w-32" (click)="cancel()">
+      {{ 'i18n.ft.cancel' | translate }}
+    </button>
+  </div>
+</div>

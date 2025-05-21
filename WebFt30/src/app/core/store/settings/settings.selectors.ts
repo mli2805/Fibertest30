@@ -19,6 +19,17 @@ const selectLatLngFormat = createSelector(
   (state: SettingsState) => state.latLngFormat
 );
 
+const selectLanLngFormatName = createSelector(selectSettings, (state: SettingsState) => {
+  switch (state.latLngFormat) {
+    case 'ddd.dddddd\u00B0':
+      return 'degrees';
+    case 'ddd\u00B0 mm.mmmmm\u2032':
+      return 'minutes';
+    case 'ddd\u00B0 mm\u2032 ss.ss\u2033':
+      return 'seconds';
+  }
+});
+
 const selectSwitchOffSuspicionSignalling = createSelector(
   selectSettings,
   (state: SettingsState) => state.switchOffSuspicionSignalling
@@ -43,6 +54,7 @@ export const SettingsSelectors = {
   selectLanguage,
   selectDateTimeFormat,
   selectLatLngFormat,
+  selectLanLngFormatName,
   selectSwitchOffSuspicionSignalling,
   selectSwitchOffRtuStatusEventsSignalling,
   selectTimeZone,

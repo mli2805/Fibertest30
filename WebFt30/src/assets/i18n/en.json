@@ -742,6 +742,14 @@
   "i18n.ft.left-m": "Left, m",
   "i18n.ft.right-m": "Right, m",
 
+  "i18n.ft.latitude": "Latitude",
+  "i18n.ft.longitude": "Longitude",
+  "i18n.ft.preview": "Preview",
+  "i18n.ft.update-table": "Update table",
+  "i18n.ft.cancel-changes": "Cancel changes",
+  "i18n.ft.cancel-all-changes": "Cancel all changes",
+  "i18n.ft.save-changes": "Save changes",
+
   "i18n.validation.incorrect-level-order": "incorrect level order",
   "i18n.validation.not-unique": "must be unique",
   "i18n.validation.precision-limit": "precision limit"

@@ -39,6 +39,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TraceAssignBaseDialogComponent } from './trace-assign-base-dialog/trace-assign-base-dialog.component';
 import { TraceAssignBaseComponent } from './trace-assign-base-dialog/trace-assign-base/trace-assign-base.component';
 import { LandmarksComponent } from './landmarks/landmarks.component';
+import { GpsInputComponent } from './landmarks/gps-input/gps-input.component';
+import { OneCoorInputComponent } from './landmarks/one-coor-input/one-coor-input.component';
 
 @NgModule({
   imports: [
@@ -87,7 +89,9 @@ import { LandmarksComponent } from './landmarks/landmarks.component';
     RtuStateWindowComponent,
     TraceAssignBaseDialogComponent,
     TraceAssignBaseComponent,
-    LandmarksComponent
+    LandmarksComponent,
+    GpsInputComponent,
+    OneCoorInputComponent
   ],
   providers: []
 })

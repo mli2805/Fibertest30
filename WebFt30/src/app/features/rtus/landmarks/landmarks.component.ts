@@ -118,6 +118,21 @@ export class LandmarksComponent implements OnInit {
     this.setSelectedLandmark(landmark);
   }
 
+  updateTable() {
+    //
+  }
+
+  cancelChanges() {
+    //
+  }
+
+  cancelAllChanges() {
+    //
+  }
+
+  saveChanges() {
+    //
+  }
   /////////////////////////////
   zIndex = 1;
   bringToFront() {
