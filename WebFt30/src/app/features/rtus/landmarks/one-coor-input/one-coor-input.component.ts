@@ -42,7 +42,9 @@ export class OneCoorInputComponent extends OnDestroyBase implements OnInit {
       .subscribe((f) => this.initializeForm(this.originalCoor));
   }
 
+  format!: string;
   initializeForm(value: number) {
+    this.format = CoreUtils.getCurrentState(this.store, SettingsSelectors.selectLanLngFormatName);
     this.parse(value);
     this.form = new FormGroup({
       degrees: new FormControl(this.degrees),
@@ -52,8 +54,7 @@ export class OneCoorInputComponent extends OnDestroyBase implements OnInit {
   }
 
   parse(value: number) {
-    const format = CoreUtils.getCurrentState(this.store, SettingsSelectors.selectLanLngFormatName);
-    switch (format) {
+    switch (this.format) {
       case 'degrees':
         this.degrees = +value.toFixed(6);
         this.minutes = 0;
@@ -70,5 +71,47 @@ export class OneCoorInputComponent extends OnDestroyBase implements OnInit {
         this.seconds = +(((value - this.degrees) * 60 - this.minutes) * 60).frmt(2, 2);
         break;
     }
+  }
+
+  isDegreesValid(): boolean {
+    const value = this.form.controls['degrees'].value;
+
+    if (value === null || value === undefined || value === '') {
+      return false;
+    }
+
+    if (this.format === 'degrees') {
+      return !isNaN(Number(value)) && isFinite(Number(value));
+    } else {
+      const num = Number(value);
+      return !isNaN(num) && Number.isInteger(num);
+    }
+  }
+
+  isMinutesValid(): boolean {
+    const value = this.form.controls['minutes'].value;
+
+    if (value === null || value === undefined || value === '') {
+      return false;
+    }
+
+    if (this.format === 'minutes') {
+      const num = Number(value);
+      return !isNaN(num) && isFinite(num) && num < 60 && num >= 0;
+    } else {
+      const num = Number(value);
+      return !isNaN(num) && Number.isInteger(num) && num < 60 && num > -1;
+    }
+  }
+
+  isSecondsValid(): boolean {
+    const value = this.form.controls['seconds'].value;
+
+    if (value === null || value === undefined || value === '') {
+      return false;
+    }
+
+    const num = Number(value);
+    return !isNaN(num) && isFinite(num) && num < 60 && num >= 0;
   }
 }

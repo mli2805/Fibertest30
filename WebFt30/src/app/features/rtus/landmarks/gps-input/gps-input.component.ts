@@ -18,7 +18,6 @@ export class GpsInputComponent {
   @Input() set coors(value: L.LatLng) {
     this.lat = value.lat;
     this.lng = value.lng;
-    console.log(this.lat);
   }
 
   @Output() previewEvent = new EventEmitter();

@@ -10,6 +10,7 @@ import { GisMapping } from 'src/app/core/store/mapping/gis-mappings';
 import { OneLandmark } from 'src/app/core/store/models/ft30/one-landmark';
 import { Utils } from 'src/app/shared/utils/utils';
 import { EquipmentType } from 'src/grpc-generated';
+import { GisMapService } from '../../gis/gis-map.service';
 
 interface LandmarksModel {
   landmarks: OneLandmark[];
@@ -40,7 +41,11 @@ export class LandmarksComponent implements OnInit {
   selectedLandmark = new BehaviorSubject<OneLandmark | null>(null);
   inputModel$ = this.selectedLandmark.asObservable();
 
-  constructor(private windowService: WindowService, private gisService: GisService) {}
+  constructor(
+    private windowService: WindowService,
+    private gisService: GisService,
+    private gisMapService: GisMapService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.spinning.next(true);
@@ -116,6 +121,7 @@ export class LandmarksComponent implements OnInit {
       (l) => (l.isSelected = l.number === landmark.number)
     );
     this.setSelectedLandmark(landmark);
+    this.gisMapService.setHighlightNode(landmark.nodeId);
   }
 
   updateTable() {
@@ -150,5 +156,6 @@ export class LandmarksComponent implements OnInit {
 
   close() {
     this.windowService.unregisterWindow(this.traceId, 'Landmarks');
+    this.gisMapService.setHighlightNode(null);
   }
 }
