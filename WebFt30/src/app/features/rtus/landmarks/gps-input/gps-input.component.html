@@ -1,11 +1,11 @@
 <div class="flex w-full flex-col">
   <div class="mx-auto flex">
     <div class="my-auto mr-2 w-16 text-right">{{ 'i18n.ft.latitude' | translate }}</div>
-    <rtu-one-coor-input [coor]="lat"></rtu-one-coor-input>
+    <rtu-one-coor-input #latInput [coor]="originalValue.lat"></rtu-one-coor-input>
   </div>
   <div class="mx-auto mt-1 flex">
     <div class="my-auto mr-2 w-16 text-right">{{ 'i18n.ft.longitude' | translate }}</div>
-    <rtu-one-coor-input [coor]="lng"></rtu-one-coor-input>
+    <rtu-one-coor-input #lngInput [coor]="originalValue.lng"></rtu-one-coor-input>
   </div>
 
   <!-- buttons -->

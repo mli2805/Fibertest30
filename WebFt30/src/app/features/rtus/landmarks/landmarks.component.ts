@@ -11,6 +11,11 @@ import { OneLandmark } from 'src/app/core/store/models/ft30/one-landmark';
 import { Utils } from 'src/app/shared/utils/utils';
 import { EquipmentType } from 'src/grpc-generated';
 import { GisMapService } from '../../gis/gis-map.service';
+import { MapActions } from '../../gis/components/gis-actions/map-actions';
+import { MapMouseActions } from '../../gis/components/gis-actions/map-mouse-actions';
+import { GisMapUtils } from '../../gis/components/shared/gis-map.utils';
+import { MapLayersActions } from '../../gis/components/gis-actions/map-layers-actions';
+import { GisMapLayer } from '../../gis/components/shared/gis-map-layer';
 
 interface LandmarksModel {
   landmarks: OneLandmark[];
@@ -122,6 +127,38 @@ export class LandmarksComponent implements OnInit {
     );
     this.setSelectedLandmark(landmark);
     this.gisMapService.setHighlightNode(landmark.nodeId);
+  }
+
+  onPreview(coors: L.LatLng) {
+    const nodeId = this.selectedLandmark.value!.nodeId;
+    this.moveNodeForPreview(nodeId, coors);
+    this.gisMapService.setHighlightNode(nodeId);
+  }
+
+  //  в MapLayersActions уже есть для тягаемого узла, но там при старте тягания сохраняется узел/маркер и список волокон/полилайнов
+  moveNodeForPreview(nodeId: string, coors: L.LatLng) {
+    const node = this.gisMapService.getNode(nodeId);
+    const layerType = GisMapUtils.equipmentTypeToGisMapLayer(node!.equipmentType);
+    const group = this.gisMapService.getLayerGroups().get(layerType);
+    const marker = group!.getLayers().find((m) => (<any>m).id === nodeId);
+
+    group?.removeLayer(marker!);
+    node.setCoors(coors);
+    const newMarker = MapLayersActions.addNodeToLayer(node);
+
+    const routesGroup = this.gisMapService.getLayerGroups().get(GisMapLayer.Route);
+    this.gisMapService.getGeoData().fibers.forEach((f) => {
+      if (f.node1id === nodeId || f.node2id === nodeId) {
+        const route = routesGroup!.getLayers().find((r) => (<any>r).id === f.id);
+        routesGroup?.removeLayer(route!);
+        if (f.node1id === nodeId) {
+          f.coors1 = coors;
+        } else {
+          f.coors2 = coors;
+        }
+        const polyline = MapLayersActions.addFiberToLayer(f);
+      }
+    });
   }
 
   updateTable() {

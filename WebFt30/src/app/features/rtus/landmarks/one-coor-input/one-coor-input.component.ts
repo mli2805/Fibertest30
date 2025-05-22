@@ -68,7 +68,7 @@ export class OneCoorInputComponent extends OnDestroyBase implements OnInit {
       case 'seconds':
         this.degrees = Math.trunc(value);
         this.minutes = Math.trunc((value - this.degrees) * 60);
-        this.seconds = +(((value - this.degrees) * 60 - this.minutes) * 60).frmt(2, 2);
+        this.seconds = +(((value - this.degrees) * 60 - this.minutes) * 60).frmt(2, 3);
         break;
     }
   }
@@ -113,5 +113,21 @@ export class OneCoorInputComponent extends OnDestroyBase implements OnInit {
 
     const num = Number(value);
     return !isNaN(num) && isFinite(num) && num < 60 && num >= 0;
+  }
+
+  getInput(): number | null {
+    // debugger;
+    if (!this.isDegreesValid() || !this.isMinutesValid() || !this.isSecondsValid()) return null;
+    // const d = +this.form.controls['degrees'].value;
+    // const m = +this.form.controls['minutes'].value / 60;
+    // const s = +this.form.controls['seconds'].value / 3600;
+
+    // return d + m + s;
+
+    return (
+      +this.form.controls['degrees'].value +
+      +this.form.controls['minutes'].value / 60 +
+      +this.form.controls['seconds'].value / 3600
+    );
   }
 }

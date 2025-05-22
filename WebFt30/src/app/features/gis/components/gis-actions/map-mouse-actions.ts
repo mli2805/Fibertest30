@@ -63,6 +63,10 @@ export class MapMouseActions {
     }
   }
 
+  static drawNodeOnNewPlace() {
+    //
+  }
+
   static onZoom(e: L.LeafletEvent) {
     // if (!this.gisMapService.skipMovingCenter) {
     //   // this.gisMapService.moveCenterToMousePos();

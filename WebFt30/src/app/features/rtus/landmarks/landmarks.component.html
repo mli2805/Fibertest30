@@ -112,7 +112,7 @@
 
           <div class="ml-2">
             <ng-container *ngIf="inputModel$ | async as oneLandmark">
-            <rtu-gps-input [coors]="oneLandmark.gpsCoors"></rtu-gps-input>
+            <rtu-gps-input [coors]="oneLandmark.gpsCoors" (previewClick)="onPreview($event)"></rtu-gps-input>
             </ng-container>
           </div>
         </div>
