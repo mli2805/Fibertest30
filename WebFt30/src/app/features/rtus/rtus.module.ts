@@ -41,6 +41,7 @@ import { TraceAssignBaseComponent } from './trace-assign-base-dialog/trace-assig
 import { LandmarksComponent } from './landmarks/landmarks.component';
 import { GpsInputComponent } from './landmarks/gps-input/gps-input.component';
 import { OneCoorInputComponent } from './landmarks/one-coor-input/one-coor-input.component';
+import { LandmarkInputComponent } from './landmarks/landmark-input/landmark-input.component';
 
 @NgModule({
   imports: [
@@ -91,7 +92,8 @@ import { OneCoorInputComponent } from './landmarks/one-coor-input/one-coor-input
     TraceAssignBaseComponent,
     LandmarksComponent,
     GpsInputComponent,
-    OneCoorInputComponent
+    OneCoorInputComponent,
+    LandmarkInputComponent
   ],
   providers: []
 })

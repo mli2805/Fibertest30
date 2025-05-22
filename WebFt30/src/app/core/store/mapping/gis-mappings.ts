@@ -80,27 +80,29 @@ export class GisMapping {
   }
 
   static fromOneLandmark(grpcOneLandmark: grpc.OneLandmark): OneLandmark {
-    return new OneLandmark(
-      grpcOneLandmark.isFromBase,
-      grpcOneLandmark.number,
-      grpcOneLandmark.numberIncludingAdjustmentPoints,
-      grpcOneLandmark.nodeId,
-      grpcOneLandmark.fiberId,
-      grpcOneLandmark.nodeTitle,
-      grpcOneLandmark.nodeComment,
-      grpcOneLandmark.equipmentId,
-      grpcOneLandmark.equipmentTitle,
-      grpcOneLandmark.equipmentType,
-      grpcOneLandmark.leftCableReserve,
-      grpcOneLandmark.rightCableReserve,
-      grpcOneLandmark.gpsDistance,
-      grpcOneLandmark.gpsSection,
-      grpcOneLandmark.isUserInput,
-      grpcOneLandmark.opticalDistance,
-      grpcOneLandmark.opticalSection,
-      grpcOneLandmark.eventNumber,
-      this.fromGeoCoordinate(grpcOneLandmark.gpsCoors!)
-    );
+    const landmark = new OneLandmark();
+
+    landmark.isFromBase = grpcOneLandmark.isFromBase;
+    landmark.number = grpcOneLandmark.number;
+    landmark.numberIncludingAdjustmentPoints = grpcOneLandmark.numberIncludingAdjustmentPoints;
+    landmark.nodeId = grpcOneLandmark.nodeId;
+    landmark.fiberId = grpcOneLandmark.fiberId;
+    landmark.nodeTitle = grpcOneLandmark.nodeTitle;
+    landmark.nodeComment = grpcOneLandmark.nodeComment;
+    landmark.equipmentId = grpcOneLandmark.equipmentId;
+    landmark.equipmentTitle = grpcOneLandmark.equipmentTitle;
+    landmark.equipmentType = grpcOneLandmark.equipmentType;
+    landmark.leftCableReserve = grpcOneLandmark.leftCableReserve;
+    landmark.rightCableReserve = grpcOneLandmark.rightCableReserve;
+    landmark.gpsDistance = grpcOneLandmark.gpsDistance;
+    landmark.gpsSection = grpcOneLandmark.gpsSection;
+    landmark.isUserInput = grpcOneLandmark.isUserInput;
+    landmark.opticalDistance = grpcOneLandmark.opticalDistance;
+    landmark.opticalSection = grpcOneLandmark.opticalSection;
+    landmark.eventNumber = grpcOneLandmark.eventNumber;
+    landmark.gpsCoors = this.fromGeoCoordinate(grpcOneLandmark.gpsCoors!);
+
+    return landmark;
   }
 
   static fromGeoTrace(grpcGeoTrace: grpc.GeoTrace): GeoTrace {

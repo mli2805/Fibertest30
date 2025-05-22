@@ -25,13 +25,16 @@ export class GpsInputComponent {
   @Output() previewClick = new EventEmitter<L.LatLng>();
 
   preview() {
+    const coordinate = this.getInput();
+    if (coordinate) this.previewClick.next(coordinate);
+  }
+
+  getInput() {
     const latitude = this.latInput.getInput();
     if (!latitude) return;
     const longitude = this.lngInput.getInput();
     if (!longitude) return;
-    const coordinate = new L.LatLng(latitude, longitude);
-
-    this.previewClick.next(coordinate);
+    return new L.LatLng(latitude, longitude);
   }
 
   cancel() {

@@ -256,6 +256,11 @@
     @apply overflow-hidden whitespace-nowrap border border-gray-200 px-1;
   }
 
+  .monospace {
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+  }
+
   .disabled-label {
     color: gray;
   }

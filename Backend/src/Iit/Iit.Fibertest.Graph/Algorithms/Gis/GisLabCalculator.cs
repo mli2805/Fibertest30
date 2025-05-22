@@ -6,18 +6,11 @@ namespace Iit.Fibertest.Graph
     {
         const int EarthRadius = 6372795;
 
-        public static double GetDistanceBetweenPointLatLng(PointLatLng p1, PointLatLng p2, out double azimuth)
-        {
-            var q1 = new CoorsInRad(p1);
-            var q2 = new CoorsInRad(p2);
-            return GetDistanceBetweenPoints(q1, q2, out azimuth);
-        }
-
         public static double GetDistanceBetweenPointLatLng(PointLatLng p1, PointLatLng p2)
         {
             var q1 = new CoorsInRad(p1);
             var q2 = new CoorsInRad(p2);
-            return GetDistanceBetweenPoints(q1, q2, out _);
+            return GetDistanceBetweenPoints(q1, q2);
         }
 
         public static PointLatLng GetPointAsPartOfSegment(PointLatLng p1, PointLatLng p2, double part)
@@ -45,14 +38,12 @@ namespace Iit.Fibertest.Graph
             return new PointLatLng(coorsInRad.Lat / Math.PI * 180, coorsInRad.Lng / Math.PI * 180);
         }
 
-        // q1, q2 - point coors in radians
-        private static double GetDistanceBetweenPoints(CoorsInRad q1, CoorsInRad q2, out double azimuth)
+        private static double GetDistanceBetweenPoints(CoorsInRad q1, CoorsInRad q2)
         {
             var decCoors = SphereToDecart(q2);
             decCoors = RotateAround(decCoors, q1.Lng, DecartAxis.Z);
             decCoors = RotateAround(decCoors, Math.PI / 2 - q1.Lat, DecartAxis.Y);
             var q = DecartToSphere(decCoors);
-            azimuth = Math.PI - q.Lng;
             var distanceOnSphere = Math.PI / 2 - q.Lat;
             var distance = distanceOnSphere * EarthRadius;
             return distance;
@@ -80,11 +71,7 @@ namespace Iit.Fibertest.Graph
                 Lng = Math.Atan2(coors.Y, coors.X),
                 Lat = Math.Atan2(coors.Z, hypot)
             };
-
-            // нафиг не нужен
-            // return Math.Sqrt(hypot * hypot + coors.Z * coors.Z);
         }
-
 
         private static DecartCoors RotateAround(DecartCoors coors, double alpha, DecartAxis axes)
         {
@@ -115,27 +102,6 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        // in meters
-        public static double GetDistanceBetweenPointLatLngOldMethod(PointLatLng p1, PointLatLng p2)
-        {
-            var q1 = new CoorsInRad(p1);
-            var q2 = new CoorsInRad(p2);
-
-            var lat1Cos = Math.Cos(q1.Lat);
-            var lat2Cos = Math.Cos(q2.Lat);
-            var lat1Sin = Math.Sin(q1.Lat);
-            var lat2Sin = Math.Sin(q2.Lat);
-
-            var sinDeltaLong = Math.Sin(q2.Lng - q1.Lng);
-            var cosDeltaLong = Math.Cos(q2.Lng - q1.Lng);
-
-            var y = Math.Sqrt(Math.Pow(lat2Cos * sinDeltaLong, 2) + 
-                              Math.Pow(lat1Cos * lat2Sin - lat1Sin * lat2Cos * cosDeltaLong, 2));
-            var x = lat1Sin * lat2Sin + lat1Cos * lat2Cos * cosDeltaLong;
-
-            return Math.Atan2(y, x) * EarthRadius;
-        }
-        
         public static PointLatLng GetPointAsPartOfSegmentOnPlaneEarth(PointLatLng p1, PointLatLng p2, double part)
         {
             var lat = p1.Lat + (p2.Lat - p1.Lat) * part;
