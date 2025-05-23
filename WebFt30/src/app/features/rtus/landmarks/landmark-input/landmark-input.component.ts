@@ -11,7 +11,8 @@ import { GisMapUtils } from 'src/app/features/gis/components/shared/gis-map.util
 import { MapLayersActions } from 'src/app/features/gis/components/gis-actions/map-layers-actions';
 import { GisMapLayer } from 'src/app/features/gis/components/shared/gis-map-layer';
 import { BehaviorSubject } from 'rxjs';
-import { Utils } from 'src/app/shared/utils/utils';
+import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
+import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'rtu-landmark-input',
@@ -22,18 +23,10 @@ export class LandmarkInputComponent {
   @Input() set landmark(value: OneLandmark) {
     if (value) {
       this.setEquipmentTypes(value);
-      this.form.patchValue(value); // Обновляем значения form
-      this.model.next(value); // для gps-input
+      const patch = { ...value, userInputLength: value.UserInputLength }; // хитрое поле в классе
+      this.form.patchValue(patch); // Применяет поля объекта для обновления контролов формы
+      this.model.next(value); // сигнал для gps-input
     }
-  }
-
-  async setSelectedLandmark(value: OneLandmark) {
-    this.model.next(null);
-    if (!value) return;
-
-    this.initializeForm(value);
-    await Utils.delay(100);
-    this.model.next(value);
   }
 
   model = new BehaviorSubject<OneLandmark | null>(null);
@@ -52,7 +45,11 @@ export class LandmarkInputComponent {
     AuthSelectors.selectHasEditGraphPermission
   );
 
-  constructor(private gisMapService: GisMapService, private fb: FormBuilder) {
+  constructor(
+    private gisMapService: GisMapService,
+    private fb: FormBuilder,
+    private dialog: Dialog
+  ) {
     this.form = this.fb.group({
       nodeTitle: [''],
       nodeComment: [''],
@@ -80,24 +77,29 @@ export class LandmarkInputComponent {
     }
   }
 
-  initializeForm(landmark: OneLandmark) {
-    this.setEquipmentTypes(landmark);
-    this.form = new FormGroup({
-      nodeTitle: new FormControl(landmark.nodeTitle),
-      nodeComment: new FormControl(landmark.nodeComment),
-      equipmentTitle: new FormControl(landmark.equipmentTitle),
-      equipmentType: new FormControl(landmark.equipmentType),
-      leftCableReserve: new FormControl(landmark.leftCableReserve),
-      rightCableReserve: new FormControl(landmark.rightCableReserve),
-      userInputLength: new FormControl(landmark.UserInputLength)
-    });
-  }
-
   inputDisabled(): boolean {
     if (!this.hasEditGraphPermission) return true;
     if (!this.model.value) return true;
     if (this.model.value.equipmentType === EquipmentType.Rtu) return true;
     return false;
+  }
+
+  isCableReserveValid(s: string): boolean {
+    const cn = s === 'right' ? 'rightCableReserve' : 'leftCableReserve';
+
+    if (this.form.controls[cn].pristine) return true;
+
+    const value = this.form.controls[cn].value;
+    if (value === '') return true;
+    return (+value).validInteger(0, 200);
+  }
+
+  isUserLengthValid(): boolean {
+    if (this.form.controls['userInputLength'].pristine) return true;
+    const value = this.form.controls['userInputLength'].value;
+    if (value === '') return true;
+    const num = +value;
+    return Number.isInteger(num) && num >= 0;
   }
 
   onPreview(coors: L.LatLng) {
@@ -153,15 +155,43 @@ export class LandmarkInputComponent {
     changedLandmark.equipmentType = this.form.controls['equipmentType'].value;
 
     const lcr = +this.form.controls['leftCableReserve'].value;
-    if (!lcr.validInteger(0, 200)) return null;
+    if (!lcr.validInteger(0, 200)) {
+      MessageBoxUtils.show(this.dialog, 'Error', [
+        {
+          message: 'i18n.ft.invalid-input',
+          bold: true,
+          bottomMargin: false
+        }
+      ]);
+      return null;
+    }
     changedLandmark.leftCableReserve = lcr;
 
     const rcr = +this.form.controls['rightCableReserve'].value;
-    if (!rcr.validInteger(0, 200)) return null;
+    if (!rcr.validInteger(0, 200)) {
+      MessageBoxUtils.show(this.dialog, 'Error', [
+        {
+          message: 'i18n.ft.invalid-input',
+          bold: true,
+          bottomMargin: false
+        }
+      ]);
+      return null;
+    }
     changedLandmark.rightCableReserve = rcr;
 
     const uil = +this.form.controls['userInputLength'].value;
-    changedLandmark.UserInputLength = Number.isInteger(uil) ? uil : 0;
+    if (!Number.isInteger(uil)) {
+      MessageBoxUtils.show(this.dialog, 'Error', [
+        {
+          message: 'i18n.ft.invalid-input',
+          bold: true,
+          bottomMargin: false
+        }
+      ]);
+      return null;
+    }
+    changedLandmark.UserInputLength = uil;
 
     const coors = this.gpsInput.getInput();
     if (coors) changedLandmark.gpsCoors = coors;

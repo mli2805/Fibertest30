@@ -1,7 +1,7 @@
 <!-- prettier-ignore -->
-<div [formGroup]="form" class="mb-2 border border-gray-500 p-1 w-full monospace" >
+<div [formGroup]="form" class="mb-2 border border-gray-500 p-1 monospace" >
   <fieldset [disabled]="inputDisabled()">
-    <div class="grid grid-cols-[16rem_14rem_16rem_auto]">
+    <div class="grid grid-cols-[16rem_14rem_14rem_auto]">
       <div class="flex flex-col">
         <label class="ml-2" [ngClass]="{ 'disabled-label': inputDisabled() }">{{ 'i18n.ft.node' | translate }}</label>
         <input formControlName="nodeTitle" type="text" class="input-simple"/>
@@ -22,24 +22,24 @@
           </ng-template>
         </rtu-select>
       </div>
-      
+
       <div class="flex flex-col ml-2">
         <div class="grid grid-cols-2">
           <div class="flex flex-col">
             <label class=" ml-2" [ngClass]="{ 'disabled-label': inputDisabled() }">{{ 'i18n.ft.left-m' | translate }}</label>
-            <input formControlName="leftCableReserve" type="text" class="input-simple"/>
+            <input formControlName="leftCableReserve" type="text" class="input-simple" [ngClass]="{ 'invalid-border': !isCableReserveValid('left') }"/>
           </div>
           <div class="flex flex-col ml-2">
             <label class=" ml-2" [ngClass]="{ 'disabled-label': inputDisabled() }">{{ 'i18n.ft.right-m' | translate }}</label>
-            <input formControlName="rightCableReserve" type="text" class="input-simple"/>
+            <input formControlName="rightCableReserve" type="text" class="input-simple" [ngClass]="{ 'invalid-border': !isCableReserveValid('right') }"/>
           </div>
         </div>
         <div class="flex flex-col mt-2">
           <label class="ml-2" [ngClass]="{ 'disabled-label': inputDisabled() }">{{ 'i18n.ft.user-length-m' | translate }}</label>
-          <input formControlName="userInputLength" type="text" class="input-simple"/>
+          <input formControlName="userInputLength" type="text" class="input-simple" [ngClass]="{ 'invalid-border': !isUserLengthValid() }"/>
         </div>
       </div>
-      <div class="ml-2">
+      <div class="ml-2 w-full">
         <ng-container *ngIf="model$ | async as model">
           <rtu-gps-input #gpsInput [coors]="model.gpsCoors" (previewClick)="onPreview($event)"></rtu-gps-input>
         </ng-container>

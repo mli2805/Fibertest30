@@ -749,6 +749,7 @@
   "i18n.ft.cancel-changes": "Cancel changes",
   "i18n.ft.cancel-all-changes": "Cancel all changes",
   "i18n.ft.save-changes": "Save changes",
+  "i18n.ft.invalid-input": "Invalid input",
 
   "i18n.validation.incorrect-level-order": "incorrect level order",
   "i18n.validation.not-unique": "must be unique",

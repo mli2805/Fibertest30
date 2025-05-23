@@ -56,7 +56,7 @@
             <td class="min-w-32 max-w-32 gridcell">{{ landmark.equipmentTitle }}</td>
             <td class="min-w-16 max-w-16 gridcell">{{ landmark.cableReserveString() }}</td>
             <td class="min-w-16 max-w-16 gridcell">{{ landmark.gpsDistance | numberFormat : 3 }}</td>
-            <td class="min-w-16 max-w-16 gridcell">{{ landmark.gpsSection | numberFormat : 3 }}</td>
+            <td class="min-w-16 max-w-16 gridcell" [ngClass]="{'bg-gray-200 dark:bg-gray-700' : landmark.isUserInput}">{{ landmark.gpsSection | numberFormat : 3 }}</td>
             <td class="min-w-16 max-w-16 gridcell">{{ landmark.opticalDistance | numberFormat : 3 : false }}</td>
             <td class="min-w-16 max-w-16 gridcell">{{ landmark.opticalSection | numberFormat : 3 : false }}</td>
             <td class="min-w-12 max-w-12 gridcell">{{ landmark.eventNumberString() | translate | lowercase }}</td>
@@ -68,7 +68,7 @@
    
     <!-- input fields -->
     <ng-container *ngIf="inputModel$ | async as landmark">
-      <rtu-landmark-input [landmark]="landmark" (applyLandmark)="updateTable($event)"></rtu-landmark-input>
+      <rtu-landmark-input class="w-full" [landmark]="landmark" (applyLandmark)="updateTable($event)"></rtu-landmark-input>
     </ng-container>
 
     <!-- buttons -->

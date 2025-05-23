@@ -427,5 +427,6 @@
   "i18n.ft.update-table": "Обновить таблицу",
   "i18n.ft.cancel-changes": "Отменить изменения",
   "i18n.ft.cancel-all-changes": "Отменить все изменения",
-  "i18n.ft.save-changes": "Сохранить изменения"
+  "i18n.ft.save-changes": "Сохранить изменения",
+  "i18n.ft.invalid-input": "Некорректный ввод"
 }
