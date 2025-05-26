@@ -84,6 +84,19 @@ export class LandmarkInputComponent {
     return false;
   }
 
+  leftCableReserveInputDisabled(): boolean {
+    if (this.inputDisabled()) return true;
+    if (this.model.value!.equipmentType === EquipmentType.EmptyNode) return true;
+    return false;
+  }
+
+  rightCableReserveInputDisabled(): boolean {
+    if (this.leftCableReserveInputDisabled()) return true;
+    const eqType = this.form.controls['equipmentType'].value;
+    if (eqType === EquipmentType.CableReserve || eqType === EquipmentType.Terminal) return true;
+    return false;
+  }
+
   isCableReserveValid(s: string): boolean {
     const cn = s === 'right' ? 'rightCableReserve' : 'leftCableReserve';
 

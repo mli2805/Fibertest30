@@ -26,12 +26,16 @@
       <div class="flex flex-col ml-2">
         <div class="grid grid-cols-2">
           <div class="flex flex-col">
-            <label class=" ml-2" [ngClass]="{ 'disabled-label': inputDisabled() }">{{ 'i18n.ft.left-m' | translate }}</label>
+            <label class=" ml-2" [ngClass]="{ 'disabled-label': leftCableReserveInputDisabled() }">{{ 'i18n.ft.left-m' | translate }}</label>
+  <fieldset [disabled]="leftCableReserveInputDisabled()" class="contents">
             <input formControlName="leftCableReserve" type="text" class="input-simple" [ngClass]="{ 'invalid-border': !isCableReserveValid('left') }"/>
+  </fieldset>
           </div>
           <div class="flex flex-col ml-2">
-            <label class=" ml-2" [ngClass]="{ 'disabled-label': inputDisabled() }">{{ 'i18n.ft.right-m' | translate }}</label>
+            <label class=" ml-2" [ngClass]="{ 'disabled-label': rightCableReserveInputDisabled() }">{{ 'i18n.ft.right-m' | translate }}</label>
+  <fieldset [disabled]="rightCableReserveInputDisabled()" class="contents">
             <input formControlName="rightCableReserve" type="text" class="input-simple" [ngClass]="{ 'invalid-border': !isCableReserveValid('right') }"/>
+  </fieldset>
           </div>
         </div>
         <div class="flex flex-col mt-2">

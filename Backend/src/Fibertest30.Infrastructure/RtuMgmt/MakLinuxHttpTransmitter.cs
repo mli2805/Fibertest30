@@ -21,6 +21,16 @@ public class MakLinuxHttpTransmitter : IRtuTransmitter
     public async Task<RtuConnectionCheckedDto> CheckRtuConnection(NetAddress netAddress, CancellationToken cancellationToken)
     {
         if (netAddress.Port == -1) netAddress.Port = (int)TcpPorts.RtuListenToHttp;
+        var result = await SendCheck(netAddress, cancellationToken);
+
+        return result;
+
+        // когда-нибудь добавим RTU4000, виндовозные МАКи не получится, они ждут WCF запросы
+        
+    }
+
+    private async Task<RtuConnectionCheckedDto> SendCheck(NetAddress netAddress, CancellationToken cancellationToken)
+    {
         var result = new RtuConnectionCheckedDto
         {
             NetAddress = netAddress.Clone(),
