@@ -66,6 +66,7 @@ export class SorAreaProviderComponent extends OnDestroyBase {
 
     service.sorViewer.traceOffsetMode = 'original';
     service.sorViewer.setTracesOffset(0);
+    service.sorViewer.startNumbersFromZero = true;
 
     service.sorViewer.chartMargin = 10;
   }
