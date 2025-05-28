@@ -122,41 +122,35 @@ export class TraceInfoDialogComponent {
 
   // кнопка нажата в trace-info
   async onCloseEvent(trace: GeoTrace | null) {
-    this.spinning.next(true);
-
-    if (this.mode === TraceInfoMode.CreateTrace) {
-      await this.addNewTrace(trace);
-    } else {
-      await this.applyChanges(trace);
-    }
-
-    this.spinning.next(false);
-  }
-
-  async applyChanges(trace: GeoTrace | null) {
     if (trace !== null) {
-      const cmd = {
-        Id: trace.id,
-        Title: trace.title,
-        Mode: trace.darkMode ? 0 : 1,
-        Comment: trace.comment
-      };
-      const json = JSON.stringify(cmd);
-      const response = await firstValueFrom(this.graphService.sendCommand(json, 'UpdateTrace'));
-      if (response.success) {
-        this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: this.rtuId }));
+      this.spinning.next(true);
+
+      if (this.mode === TraceInfoMode.CreateTrace) {
+        await this.addNewTrace(trace);
+      } else {
+        await this.applyChanges(trace);
       }
+
+      this.spinning.next(false);
     }
     this.gisMapService.showTraceInfoDialog.next(false);
   }
 
-  async addNewTrace(trace: GeoTrace | null) {
-    if (trace === null) {
-      this.gisMapService.applyDefinedTraceId.next(null);
-      // форма traceDefine получив applyDefinedTraceId, закроет этот диалог
-      return;
+  async applyChanges(trace: GeoTrace) {
+    const cmd = {
+      Id: trace.id,
+      Title: trace.title,
+      Mode: trace.darkMode ? 0 : 1,
+      Comment: trace.comment
+    };
+    const json = JSON.stringify(cmd);
+    const response = await firstValueFrom(this.graphService.sendCommand(json, 'UpdateTrace'));
+    if (response.success) {
+      this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: this.rtuId }));
     }
+  }
 
+  async addNewTrace(trace: GeoTrace) {
     const rtu = this.gisMapService
       .getGeoData()
       .equipments.find((e) => e.nodeId === trace.nodeIds[0])!;
