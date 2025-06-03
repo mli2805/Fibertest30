@@ -9,8 +9,7 @@ import { EditEquipmentDialogComponent } from './forms/edit-equipment-dialog/edit
 import { EquipmentTypeSelectorComponent } from './forms/equipment-type-selector/equipment-type-selector.component';
 import { SelectTracesDialogComponent } from './forms/select-traces-dialog/select-traces-dialog.component';
 import { NextStepSelectorComponent } from './forms/next-step-selector/next-step-selector.component';
-import { TraceComponentSelectorComponent } from './forms/trace-component-selector/trace-component-selector.component';
-import { EquipmentEditComponent } from './forms/trace-component-selector/equipment-edit/equipment-edit.component';
+import { EquipmentEditComponent } from './forms/trace-equipment-selector/equipment-edit/equipment-edit.component';
 import { NodeInfoDialogComponent } from './forms/node-info-dialog/node-info-dialog.component';
 import { SectionWithNodesComponent } from './forms/section-with-nodes/section-with-nodes.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -18,6 +17,7 @@ import { AddRtuDialogComponent } from './forms/add-rtu-dialog/add-rtu-dialog.com
 import { RtuInfoComponent } from './forms/add-rtu-dialog/rtu-info/rtu-info.component';
 import { TraceInfoDialogComponent } from './forms/trace-info-dialog/trace-info-dialog.component';
 import { FiberInfoComponent } from './forms/fiber-info/fiber-info.component';
+import { TraceEquipmentSelectorComponent } from './forms/trace-equipment-selector/trace-equipment-selector.component';
 
 @NgModule({
   imports: [GisRoutingModule, SharedModule, DragDropModule],
@@ -30,14 +30,14 @@ import { FiberInfoComponent } from './forms/fiber-info/fiber-info.component';
     EquipmentTypeSelectorComponent,
     SelectTracesDialogComponent,
     NextStepSelectorComponent,
-    TraceComponentSelectorComponent,
     EquipmentEditComponent,
     NodeInfoDialogComponent,
     SectionWithNodesComponent,
     AddRtuDialogComponent,
     RtuInfoComponent,
     TraceInfoDialogComponent,
-    FiberInfoComponent
+    FiberInfoComponent,
+    TraceEquipmentSelectorComponent
   ],
   providers: []
 })

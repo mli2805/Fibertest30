@@ -7,7 +7,6 @@ import { RadioButton } from 'src/app/shared/components/svg-buttons/radio-button/
 import { Dialog, DialogConfig, DialogRef } from '@angular/cdk/dialog';
 import { GlobalPositionStrategy } from '@angular/cdk/overlay';
 import { BehaviorSubject, filter, firstValueFrom } from 'rxjs';
-import { TraceComponentSelectorComponent } from '../trace-component-selector/trace-component-selector.component';
 import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { TranslateService } from '@ngx-translate/core';
 import { EquipmentPipe } from 'src/app/shared/pipes/equipment.pipe';
@@ -16,6 +15,7 @@ import { MapLayersActions } from '../../components/gis-actions/map-layers-action
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { TraceInfoMode } from '../trace-info-dialog/trace-info/trace-info.component';
+import { TraceEquipmentSelectorComponent } from '../trace-equipment-selector/trace-equipment-selector.component';
 
 @Component({
   selector: 'rtu-trace-define',
@@ -216,12 +216,14 @@ export class TraceDefineComponent implements OnInit {
       buttons.push(button);
     }
 
+    // открываем диалог для выбора оборудования в узле для этой трассы
     const dialogConfig = new DialogConfig<unknown, DialogRef>();
     dialogConfig.positionStrategy = new GlobalPositionStrategy().right('120px').top('150px');
     dialogConfig.disableClose = true;
     dialogConfig.data = { buttons, node, gisMapService: this.gisMapService };
-    const dialogRef = this.dialog.open(TraceComponentSelectorComponent, dialogConfig);
+    const dialogRef = this.dialog.open(TraceEquipmentSelectorComponent, dialogConfig);
 
+    // и ждем здесь пока закроется диалог
     // вернет null если отказался от выбора (нажал Выход)
     const index = <number | null>await firstValueFrom(dialogRef.closed);
     if (index === null) return null;

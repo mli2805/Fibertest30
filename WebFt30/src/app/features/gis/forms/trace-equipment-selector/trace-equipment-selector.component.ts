@@ -1,25 +1,24 @@
-import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject, inject } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc';
-import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
-import { GisMapUtils } from '../../components/shared/gis-map.utils';
 import { GisMapService } from '../../gis-map.service';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
+import { FormControl, FormGroup } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 import { MapLayersActions } from '../../components/gis-actions/map-layers-actions';
+import { GisMapUtils } from '../../components/shared/gis-map.utils';
+import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 
 @Component({
-  selector: 'rtu-trace-component-selector',
-  templateUrl: './trace-component-selector.component.html'
+  selector: 'rtu-trace-equipment-selector',
+  templateUrl: './trace-equipment-selector.component.html'
 })
-export class TraceComponentSelectorComponent {
+export class TraceEquipmentSelectorComponent {
   public dialogRef: DialogRef<number | null> = inject(DialogRef<number | null>);
   form!: FormGroup;
   buttons!: any[]; // не просто RadioButton, там добавлено поле equipment
   childForms: FormGroup[] = [];
   node!: TraceNode;
-  gisMapService!: GisMapService;
 
   spinning = new BehaviorSubject<boolean>(false);
   spinning$ = this.spinning.asObservable();
@@ -27,9 +26,9 @@ export class TraceComponentSelectorComponent {
   constructor(
     @Inject(DIALOG_DATA) private data: any,
     private ts: TranslateService,
+    private gisMapService: GisMapService,
     private graphService: GraphService
   ) {
-    this.gisMapService = data.gisMapService;
     this.buttons = data.buttons;
 
     for (let i = 0; i < data.buttons.length; i++) {
@@ -125,5 +124,9 @@ export class TraceComponentSelectorComponent {
         }
       }
     }
+  }
+
+  close() {
+    this.dialogRef.close(null);
   }
 }
