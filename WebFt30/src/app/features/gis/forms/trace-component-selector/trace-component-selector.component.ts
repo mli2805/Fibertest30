@@ -2,7 +2,7 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject, inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc';
 import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapUtils } from '../../components/shared/gis-map.utils';
@@ -87,7 +87,6 @@ export class TraceComponentSelectorComponent {
       Comment: this.node.comment
     };
     const json = JSON.stringify(command);
-    // const response = await firstValueFrom(this.graphService.sendCommand(json, 'UpdateNode'));
     const response = await this.graphService.sendCommandAsync(json, 'UpdateNode');
     if (response.success) {
       this.node.title = this.form.controls['title'].value;

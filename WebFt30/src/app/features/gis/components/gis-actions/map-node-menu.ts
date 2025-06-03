@@ -11,9 +11,7 @@ import { GeoEquipment, GeoFiber, TraceNode } from 'src/app/core/store/models/ft3
 import { MapLayersActions } from './map-layers-actions';
 import { MapNodeRemove } from './map-node-remove';
 import { MapEquipmentActions } from './map-equipment-actions';
-import { Dialog, DialogConfig, DialogRef } from '@angular/cdk/dialog';
-import { GlobalPositionStrategy } from '@angular/cdk/overlay';
-import { NodeInfoDialogComponent } from '../../forms/node-info-dialog/node-info-dialog.component';
+import { Dialog } from '@angular/cdk/dialog';
 import {
   SectionWithNodesComponent,
   WithNodesResult
@@ -22,7 +20,6 @@ import { AddFiber } from './graph-commands';
 import { FiberCommandsFactory } from './fiber-commands-factory';
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 import { MapRtuMenu } from './map-rtu-menu';
-import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 
 export class MapNodeMenu {
   private static ts: TranslateService;
