@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, HostListener, inject, Injector, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
@@ -7,6 +7,7 @@ import { GisService } from 'src/app/core/grpc/services/gis.service';
 import { GisMapping } from 'src/app/core/store/mapping/gis-mappings';
 import { OneLandmark } from 'src/app/core/store/models/ft30/one-landmark';
 import { GisMapService } from '../../gis/gis-map.service';
+import { LandmarkMenu } from './one-landmark-menu/landmark-menu';
 
 interface LandmarksModel {
   landmarks: OneLandmark[];
@@ -32,11 +33,25 @@ export class LandmarksComponent implements OnInit {
   selectedLandmark = new BehaviorSubject<OneLandmark | null>(null);
   inputModel$ = this.selectedLandmark.asObservable();
 
+  /////
+  showContextMenu = false;
+  menuPosition = { x: 0, y: 0 };
+
+  contextMenuItems = [
+    { label: 'i18n.ft.equipment', action: 'equipment' },
+    { label: 'i18n.ft.node', action: 'node' },
+    { label: 'i18n.ft.section', action: 'section' }
+  ];
+  //////
+
   constructor(
     private windowService: WindowService,
     private gisService: GisService,
-    private gisMapService: GisMapService
-  ) {}
+    private gisMapService: GisMapService,
+    private injector: Injector
+  ) {
+    LandmarkMenu.initialize(injector);
+  }
 
   async ngOnInit(): Promise<void> {
     this.spinning.next(true);
@@ -103,5 +118,30 @@ export class LandmarksComponent implements OnInit {
   close() {
     this.windowService.unregisterWindow(this.traceId, 'Landmarks');
     this.gisMapService.setHighlightNode(null);
+  }
+
+  //////
+  openContextMenu(event: MouseEvent, landmark: OneLandmark) {
+    event.preventDefault();
+
+    this.onLandmarkClick(landmark);
+    this.menuPosition = { x: event.clientX, y: event.clientY };
+    this.showContextMenu = true;
+  }
+
+  handleMenuAction(action: string) {
+    LandmarkMenu.handleMenuAction(action, this.selectedLandmark.value);
+  }
+
+  // Close menu when clicking elsewhere
+  @HostListener('document:click')
+  closeContextMenu() {
+    this.showContextMenu = false;
+  }
+
+  // Close menu on Escape key
+  @HostListener('document:keydown.escape', ['$event'])
+  handleEscape() {
+    this.showContextMenu = false;
   }
 }

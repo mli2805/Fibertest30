@@ -42,6 +42,7 @@ import { LandmarksComponent } from './landmarks/landmarks.component';
 import { GpsInputComponent } from './landmarks/gps-input/gps-input.component';
 import { OneCoorInputComponent } from './landmarks/one-coor-input/one-coor-input.component';
 import { LandmarkInputComponent } from './landmarks/landmark-input/landmark-input.component';
+import { OneLandmarkMenuComponent } from './landmarks/one-landmark-menu/one-landmark-menu.component';
 
 @NgModule({
   imports: [
@@ -93,7 +94,8 @@ import { LandmarkInputComponent } from './landmarks/landmark-input/landmark-inpu
     LandmarksComponent,
     GpsInputComponent,
     OneCoorInputComponent,
-    LandmarkInputComponent
+    LandmarkInputComponent,
+    OneLandmarkMenuComponent
   ],
   providers: []
 })

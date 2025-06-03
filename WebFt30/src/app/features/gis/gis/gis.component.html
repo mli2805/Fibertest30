@@ -59,9 +59,9 @@
 </ng-container>
 
 <ng-container *ngIf="gisMapService.showSectionInfoDialog$ | async">
-  <rtu-fiber-info />
+  <rtu-fiber-info class="z-10" />
 </ng-container>
 
 <ng-container *ngIf="gisMapService.showNodeInfoDialog$ | async">
-  <rtu-node-info-dialog />
+  <rtu-node-info-dialog class="z-10" />
 </ng-container>

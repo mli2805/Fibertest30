@@ -1,0 +1,12 @@
+<div
+  *ngIf="isOpen"
+  class="absolute z-50 rounded-sm border border-gray-300 bg-rtu-second-bg p-2 dark:border-[#575859] dark:bg-rtu-dark-second-bg"
+  [style.left.px]="position.x"
+  [style.top.px]="position.y"
+>
+  <div *ngFor="let item of menuItems" class="flex flex-col">
+    <button class="context-menu-line" (click)="handleClick(item.action)">
+      {{ item.label | translate }}
+    </button>
+  </div>
+</div>

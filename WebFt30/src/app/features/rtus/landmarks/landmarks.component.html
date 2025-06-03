@@ -48,7 +48,7 @@
         <tbody>
           <tr *ngFor="let landmark of model.landmarks"  
             [ngClass]="{ 'bg-blue-100 dark:bg-slate-700': landmark.isSelected }"
-            (click)="onLandmarkClick(landmark)"
+            (click)="onLandmarkClick(landmark)" (contextmenu)="openContextMenu($event, landmark)"
             class="cursor-pointer">
             <td class="min-w-8  max-w-8  gridcell">{{ landmark.number }}</td>
             <td class="min-w-32 max-w-32 gridcell">{{ landmark.nodeTitle }}</td>
@@ -83,3 +83,10 @@
 
   </ng-container>
 </div>
+
+<rtu-one-landmark-menu
+  [isOpen]="showContextMenu"
+  [position]="menuPosition"
+  [menuItems]="contextMenuItems"
+  (actionSelected)="handleMenuAction($event)"
+></rtu-one-landmark-menu>
