@@ -7,7 +7,8 @@ import { BehaviorSubject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { MapLayersActions } from '../../components/gis-actions/map-layers-actions';
 import { GisMapUtils } from '../../components/shared/gis-map.utils';
-import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
+import { GeoEquipment, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
+import { EquipmentType } from 'src/grpc-generated';
 
 @Component({
   selector: 'rtu-trace-equipment-selector',
@@ -49,10 +50,17 @@ export class TraceEquipmentSelectorComponent {
   }
 
   createChildForm(button: any): FormGroup {
+    const equipmentType = (<GeoEquipment>button.equipment).type;
+    const rightReserveDisabled =
+      equipmentType === EquipmentType.CableReserve || equipmentType === EquipmentType.Terminal;
+
     const childFormGroup = new FormGroup({
       title: new FormControl(button.equipment.title),
       leftReserve: new FormControl(button.equipment.cableReserveLeft),
-      rightReserve: new FormControl(button.equipment.cableReserveRight)
+      rightReserve: new FormControl({
+        value: button.equipment.cableReserveRight,
+        disabled: rightReserveDisabled
+      })
     });
 
     return childFormGroup;
