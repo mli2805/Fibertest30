@@ -38,7 +38,11 @@ export class LandmarkMenu {
     }
   }
 
-  static async equipmentOfLandmark(landmark: OneLandmark, trace: GeoTrace, isLast: boolean) {
+  static async equipmentOfLandmark(
+    landmark: OneLandmark,
+    trace: GeoTrace,
+    isLast: boolean
+  ): Promise<string | null> {
     const node = this.gisMapService.getNode(landmark.nodeId);
     const newEquipmentId = await TraceEquipmentUtil.selectEquipment(
       node,
@@ -47,6 +51,8 @@ export class LandmarkMenu {
       trace.hasAnyBaseRef,
       isLast
     );
+
+    return newEquipmentId;
 
     // это не надо , надо будет просто возвращать выбор и сохранять в основной форме для пакетного применения
     if (newEquipmentId !== landmark.equipmentId) {

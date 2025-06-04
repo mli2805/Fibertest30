@@ -2,7 +2,7 @@ import { Component, HostListener, inject, Injector, Input, OnInit } from '@angul
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
-import { AppState } from 'src/app/core';
+import { AppState, AuthSelectors } from 'src/app/core';
 import { GisService } from 'src/app/core/grpc/services/gis.service';
 import { GisMapping } from 'src/app/core/store/mapping/gis-mappings';
 import { OneLandmark } from 'src/app/core/store/models/ft30/one-landmark';
@@ -10,6 +10,7 @@ import { GisMapService } from '../../gis/gis-map.service';
 import { LandmarkMenu } from './one-landmark-menu/landmark-menu';
 import { EquipmentType } from 'src/grpc-generated';
 import { GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
+import { CoreUtils } from 'src/app/core/core.utils';
 
 interface LandmarksModel {
   landmarks: OneLandmark[];
@@ -29,7 +30,10 @@ export class LandmarksComponent implements OnInit {
   hasBaseRef!: boolean;
 
   public store: Store<AppState> = inject(Store);
-
+  hasEditGraphPermission = CoreUtils.getCurrentState(
+    this.store,
+    AuthSelectors.selectHasEditGraphPermission
+  );
   originalLandmarks!: OneLandmark[];
   landmarksModel = new BehaviorSubject<LandmarksModel | null>(null);
   model$ = this.landmarksModel.asObservable();
@@ -132,7 +136,8 @@ export class LandmarksComponent implements OnInit {
     this.onLandmarkClick(landmark);
     this.contextMenuItems[0].disabled =
       landmark.equipmentType === EquipmentType.Rtu ||
-      (this.trace.hasAnyBaseRef && landmark.equipmentType === EquipmentType.EmptyNode);
+      (this.trace.hasAnyBaseRef && landmark.equipmentType === EquipmentType.EmptyNode) ||
+      !this.hasEditGraphPermission;
     this.menuPosition = { x: event.clientX, y: event.clientY };
     this.showContextMenu = true;
   }
