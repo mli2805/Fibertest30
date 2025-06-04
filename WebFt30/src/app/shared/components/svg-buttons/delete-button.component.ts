@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
+// корзина мусорная, тонкие линии
 @Component({
   selector: 'rtu-delete-button',
   template: `

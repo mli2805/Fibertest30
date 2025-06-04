@@ -89,6 +89,8 @@ import { RftsEventsButtonComponent } from './components/svg-buttons/rfts-events-
 import { TabHeaderComponent } from './components/svg-buttons/tab-header/tab-header.component';
 import { NumberFormatPipe } from './pipes/number-format.pipe';
 import './../app/number-extension';
+import { Delete2ButtonComponent } from './components/svg-buttons/delete2-button.component';
+import { OpenFileButtonComponent } from './components/svg-buttons/open-file-button.component';
 
 @NgModule({
   imports: [
@@ -161,6 +163,8 @@ import './../app/number-extension';
     IitLogoComponent,
     PencilButtonComponent,
     DeleteButtonComponent,
+    Delete2ButtonComponent,
+    OpenFileButtonComponent,
     RftsEventsButtonComponent,
 
     HelpTooltipComponent,
@@ -245,6 +249,8 @@ import './../app/number-extension';
     IitLogoComponent,
     PencilButtonComponent,
     DeleteButtonComponent,
+    Delete2ButtonComponent,
+    OpenFileButtonComponent,
     RftsEventsButtonComponent,
 
     HelpTooltipComponent,
