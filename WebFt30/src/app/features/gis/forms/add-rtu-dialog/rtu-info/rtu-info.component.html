@@ -1,6 +1,6 @@
 <div [formGroup]="form">
   <fieldset [disabled]="isDisabled()">
-    <div class="grouped-border m-2 flex flex-col">
+    <div class="grouped-border m-1 flex flex-col">
       <div class="grid-container ml-1 gap-y-1 text-sm">
         <label
           class="my-auto text-sm"
@@ -62,7 +62,7 @@
         />
       </div>
     </div>
-    <div class="mt-6 flex flex-row justify-end">
+    <div class="mb-1 mt-6 flex flex-row justify-end">
       <button class="button-cancel mr-2 min-w-36" (click)="onDiscardClicked()" cdkFocusInitial>
         {{ 'i18n.ft.discard' | translate }}
       </button>

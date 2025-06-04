@@ -1,11 +1,11 @@
 <div class="modal-backdrop">
   <div
     cdkDrag
-    class="draggable-window absolute left-[190px] top-[80px] flex w-96 flex-col p-2 text-sm"
+    class="draggable-window absolute left-[190px] top-[80px] flex w-96 flex-col px-1 pb-1 text-sm"
   >
     <!-- draggable header -->
-    <div cdkDragHandle class="mb-2 flex items-center justify-between">
-      <div class="ml-1 text-left">
+    <div cdkDragHandle class="flex items-center justify-between py-2">
+      <div class="ml-2 text-left">
         {{ 'i18n.ft.assign-base-refs' | translate }}
       </div>
       <rtu-close-button class="mr-1 h-6 w-6" (click)="close()" />

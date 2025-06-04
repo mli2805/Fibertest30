@@ -1,9 +1,9 @@
 <div class="modal-backdrop">
   <div
     cdkDrag
-    class="draggable-window absolute left-[190px] top-[80px] flex w-96 flex-col p-2 text-sm"
+    class="draggable-window absolute left-[190px] top-[80px] flex w-96 flex-col px-1 pb-1 text-sm"
   >
-    <div cdkDragHandle class="mb-2 ml-1 text-left">{{ 'i18n.ft.next-step' | translate }}</div>
+    <div cdkDragHandle class="ml-1 py-2 text-left">{{ 'i18n.ft.next-step' | translate }}</div>
     <!-- radio buttons -->
     <div class="mb-2 max-h-64 overflow-y-auto border border-gray-500 p-2">
       <ng-container *ngFor="let button of buttons; let i = index">

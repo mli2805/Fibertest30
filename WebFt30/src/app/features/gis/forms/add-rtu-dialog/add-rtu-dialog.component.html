@@ -1,16 +1,18 @@
 <div class="modal-backdrop">
   <div
     cdkDrag
-    class="draggable-window absolute left-[190px] top-[80px] flex w-120 flex-col p-2 text-sm"
+    class="draggable-window absolute left-[190px] top-[80px] flex w-120 flex-col px-1 pb-1 text-sm"
   >
     <!-- draggable header -->
-    <div cdkDragHandle class="mb-2 ml-1 text-left">
-      <ng-container *ngIf="mode === rtuInfoMode.AddRtu">
-        {{ 'i18n.ft.add-rtu' | translate }}
-      </ng-container>
-      <ng-container *ngIf="mode !== rtuInfoMode.AddRtu">
-        {{ 'i18n.ft.information' | translate }}
-      </ng-container>
+    <div cdkDragHandle class="w-full py-2">
+      <div class="ml-3">
+        <ng-container *ngIf="mode === rtuInfoMode.AddRtu">
+          {{ 'i18n.ft.add-rtu' | translate }}
+        </ng-container>
+        <ng-container *ngIf="mode !== rtuInfoMode.AddRtu">
+          {{ 'i18n.ft.information' | translate }}
+        </ng-container>
+      </div>
     </div>
     <!-- content -->
     <rtu-rtu-info [data]="rtuInfoData" (closeEvent)="onCloseEvent($event)"></rtu-rtu-info>
