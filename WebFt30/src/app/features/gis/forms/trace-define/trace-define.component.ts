@@ -4,18 +4,14 @@ import { TraceDefineUtils } from './trace-define-utils';
 import { GisMapUtils } from '../../components/shared/gis-map.utils';
 import { Neighbour, StepModel } from './step-model';
 import { RadioButton } from 'src/app/shared/components/svg-buttons/radio-button/radio-button';
-import { Dialog, DialogConfig, DialogRef } from '@angular/cdk/dialog';
-import { GlobalPositionStrategy } from '@angular/cdk/overlay';
+import { Dialog } from '@angular/cdk/dialog';
 import { BehaviorSubject, filter, firstValueFrom } from 'rxjs';
-import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { TranslateService } from '@ngx-translate/core';
-import { EquipmentPipe } from 'src/app/shared/pipes/equipment.pipe';
-import { EquipmentType } from 'src/grpc-generated';
 import { MapLayersActions } from '../../components/gis-actions/map-layers-actions';
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { TraceInfoMode } from '../trace-info-dialog/trace-info/trace-info.component';
-import { TraceEquipmentSelectorComponent } from '../trace-equipment-selector/trace-equipment-selector.component';
+import { TraceEquipmentUtil } from '../trace-equipment-selector/trace-equipment-util';
 
 @Component({
   selector: 'rtu-trace-define',
@@ -34,10 +30,10 @@ export class TraceDefineComponent implements OnInit {
     private injector: Injector,
     public gisMapService: GisMapService,
     private ts: TranslateService,
-    private equipmentPipe: EquipmentPipe,
     private dialog: Dialog
   ) {
     TraceDefineUtils.initialize(injector);
+    TraceEquipmentUtil.initialize(injector);
     this.sSteps = gisMapService.steps;
   }
 
@@ -132,7 +128,10 @@ export class TraceDefineComponent implements OnInit {
     // выбрать оборудование из имеющегося в узле (можно редактировать название и каб запас существующего оборудования )
     // вернет GUID.empty если не включать в трассу никакое оборудование
     // вернет null если отказался от выбора (значит отказался от уже выбранного узла)
-    const equipmentId = await this.selectEquipment(neighbours[indexOfSelectedNode].node);
+    const equipmentId = await TraceEquipmentUtil.selectEquipment(
+      neighbours[indexOfSelectedNode].node,
+      false
+    );
     this.spinning.next(true);
     if (equipmentId === null) {
       const lastId = this.gisMapService.steps.at(-1)!.nodeId;
@@ -196,57 +195,13 @@ export class TraceDefineComponent implements OnInit {
     );
   }
 
-  private async selectEquipment(node: TraceNode): Promise<string | null> {
-    const buttons = new Array<RadioButton>();
-    const equips = this.gisMapService
-      .getGeoData()
-      .equipments.filter((e) => e.nodeId === node.id)
-      .sort((a, b) => b.type - a.type); // последним должен оказаться EmptyNode
-
-    // если оборудования в узле нету и название узла не пустое, то нефиг спрашивать, применяем
-    if (equips.length === 1 && node.title !== '') return equips[0].id;
-
-    // последний не шлем, это EmtpyNode, вместо него будет написано Не использовать оборудование
-    for (let i = 0; i < equips.length - 1; i++) {
-      const equipment = equips[i];
-      const button = {
-        id: i,
-        isSelected: i === 0,
-        title: this.ts.instant(this.equipmentPipe.transform(equipment.type)),
-        equipment
-      };
-      buttons.push(button);
-    }
-
-    // открываем диалог для выбора оборудования в узле для этой трассы
-    const dialogConfig = new DialogConfig<unknown, DialogRef>();
-    dialogConfig.positionStrategy = new GlobalPositionStrategy().right('120px').top('150px');
-    dialogConfig.disableClose = true;
-    dialogConfig.data = {
-      buttons,
-      fromLandmarks: false,
-      node,
-      gisMapService: this.gisMapService,
-      hasAnyBaseRef: false,
-      isLast: false
-    };
-    const dialogRef = this.dialog.open(TraceEquipmentSelectorComponent, dialogConfig);
-
-    // и ждем здесь пока закроется диалог
-    // вернет null если отказался от выбора (нажал Выход)
-    const index = <number | null>await firstValueFrom(dialogRef.closed);
-    if (index === null) return null;
-    if (index === -1) return equips.at(-1)!.id; // выбран Не использовать оборудование, значит надо сохранить id от EmptyNode
-    return equips[index].id;
-  }
-
   private async justStep(neighbour: Neighbour): Promise<boolean> {
     this.gisMapService.setHighlightNode(neighbour.node.id);
 
     // выбрать оборудование из имеющегося в узле (можно редактировать название и каб запас существующего оборудования )
     // вернет GUID.empty если не включать в трассу никакое оборудование
     // вернет null если отказался от выбора (значит отказался от уже выбранного узла)
-    const equipmentId = await this.selectEquipment(neighbour.node);
+    const equipmentId = await TraceEquipmentUtil.selectEquipment(neighbour.node, false);
     this.spinning.next(true);
     if (equipmentId === null) {
       const lastId = this.gisMapService.steps.at(-1)!.nodeId;
@@ -258,7 +213,7 @@ export class TraceDefineComponent implements OnInit {
 
     this.spinning.next(false);
 
-    const steps = this.gisMapService.steps;
+    // const steps = this.gisMapService.steps;  // зачем эта строка?
     return true;
   }
 
