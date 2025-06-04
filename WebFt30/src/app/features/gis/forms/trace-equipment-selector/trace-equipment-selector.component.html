@@ -35,7 +35,7 @@
             <rtu-equipment-edit [form]="childForms[i]" />
           </div>
         </ng-container>
-        <ng-container *ngIf="i === buttons.length - 1">
+        <ng-container *ngIf="i === buttons.length - 1 && canSelectNoEquipment">
           <div class="mt-4 flex items-center text-sm">
             <rtu-radio-button [button]="button" (click)="onRadioButtonClick(-1)" />
           </div>

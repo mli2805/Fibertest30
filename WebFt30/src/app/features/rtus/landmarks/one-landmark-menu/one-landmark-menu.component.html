@@ -5,7 +5,7 @@
   [style.top.px]="position.y"
 >
   <div *ngFor="let item of menuItems" class="flex flex-col">
-    <button class="context-menu-line" (click)="handleClick(item.action)">
+    <button class="context-menu-line" (click)="handleClick(item.action)" [disabled]="item.disabled">
       {{ item.label | translate }}
     </button>
   </div>

@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class OneLandmarkMenuComponent {
   @Input() isOpen = false;
   @Input() position = { x: 0, y: 0 };
-  @Input() menuItems: { label: string; action: string }[] = [];
+  @Input() menuItems: { label: string; action: string; disabled: boolean }[] = [];
   @Output() actionSelected = new EventEmitter<string>();
 
   handleClick(action: string) {

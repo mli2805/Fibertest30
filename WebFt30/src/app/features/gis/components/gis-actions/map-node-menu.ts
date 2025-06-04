@@ -93,7 +93,7 @@ export class MapNodeMenu {
 
   static async showInformation(e: L.ContextMenuItemClickEvent, hasEditPermission: boolean) {
     const nodeId = (<any>e.relatedTarget).id;
-    this.gisMapService.showNodeInfoDialog.next(nodeId);
+    this.gisMapService.setShowNodeInfoDialog(nodeId);
   }
 
   static async addEquipment(e: L.ContextMenuItemClickEvent) {

@@ -14,7 +14,7 @@
     <div>
       <!-- поля узла -->
       <div class="grouped-border m-1 w-120">
-        <fieldset [disabled]="!hasEditGraphPermission">
+        <fieldset [disabled]="!hasEditGraphPermission || fromLandmarks">
           <div class="flex flex-col" [formGroup]="form">
             <div class="grid-container gap-x-4 gap-y-0.5">
               <label style="grid-area: titleLabel" class="my-auto text-sm">{{
@@ -94,12 +94,14 @@
             class="cursor-pointer"
           >
             <td class="pl-2 pr-1">
-              <ng-container *ngIf="hasEditGraphPermission">
+              <ng-container *ngIf="hasEditGraphPermission && !fromLandmarks">
                 <rtu-pencil-button class="h-3 w-3" (click)="editEquipment(line.equipment)" />
               </ng-container>
             </td>
             <td class="pl-1 pr-3 pt-1">
-              <ng-container *ngIf="hasEditGraphPermission && !line.removeDisabled">
+              <ng-container
+                *ngIf="hasEditGraphPermission && !line.removeDisabled && !fromLandmarks"
+              >
                 <rtu-delete-button class="h-4 w-4" (click)="removeEquipment(line)" />
               </ng-container>
             </td>
@@ -119,11 +121,11 @@
       </div>
 
       <!-- traces -->
-      <div class="grouped-border m-1">
+      <div class="grouped-border m-1 w-120">
         <div class="mb-2">{{ 'i18n.ft.traces-in-node' | translate }}:</div>
         <ng-container *ngFor="let line of traceTable">
           <div
-            class="pl-1 text-sm"
+            class="truncate pl-1 text-sm"
             [ngClass]="{ 'bg-blue-100 dark:bg-slate-700': line.isSelected }"
           >
             {{ line.trace.title }}

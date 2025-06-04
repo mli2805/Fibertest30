@@ -148,11 +148,23 @@ export class GisMapService {
   applyDefinedTraceId$ = this.applyDefinedTraceId.asObservable();
 
   /////////////////////////
+  showSectionInfoFromLandmarks = false;
   showSectionInfoDialog = new BehaviorSubject<string | null>(null);
   showSectionInfoDialog$ = this.showSectionInfoDialog.asObservable();
 
+  setShowSectionInfoDialog(fiberId: string | null, fromLandmarks = false) {
+    this.showSectionInfoFromLandmarks = fromLandmarks;
+    this.showSectionInfoDialog.next(fiberId);
+  }
+
+  showNodeInfoFromLandmarks = false;
   showNodeInfoDialog = new BehaviorSubject<string | null>(null);
   showNodeInfoDialog$ = this.showNodeInfoDialog.asObservable();
+
+  setShowNodeInfoDialog(nodeId: string | null, fromLandmarks = false) {
+    this.showNodeInfoFromLandmarks = fromLandmarks;
+    this.showNodeInfoDialog.next(nodeId);
+  }
 
   /////////////////////////
   addSectionMode = false;

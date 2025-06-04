@@ -18,8 +18,13 @@ export class TraceEquipmentSelectorComponent {
   public dialogRef: DialogRef<number | null> = inject(DialogRef<number | null>);
   form!: FormGroup;
   buttons!: any[]; // не просто RadioButton, там добавлено поле equipment
+  fromLandmarks!: boolean;
   childForms: FormGroup[] = [];
   node!: TraceNode;
+
+  // форма вызывается при определении трассы или из ориентиров
+  // если из ориентиров и задана базовая или это последний узел трассы то нельзя выбирать Не использовать оборудование в этом узле
+  canSelectNoEquipment!: boolean;
 
   spinning = new BehaviorSubject<boolean>(false);
   spinning$ = this.spinning.asObservable();
@@ -31,21 +36,23 @@ export class TraceEquipmentSelectorComponent {
     private graphService: GraphService
   ) {
     this.buttons = data.buttons;
+    this.fromLandmarks = data.fromLandmarks;
+    this.canSelectNoEquipment = !data.hasAnyBaseRef && !data.isLast;
 
     for (let i = 0; i < data.buttons.length; i++) {
       this.childForms.push(this.createChildForm(data.buttons[i]));
     }
 
-    // const index = this.buttons.length;
     this.buttons.push({
       id: -1,
       title: this.ts.instant('i18n.ft.do-not-use-equipment'),
-      isSelected: data.buttons.length === 0
+      isSelected: this.buttons.findIndex((b) => b.isSelected) === -1
     });
+
     this.node = data.node;
 
     this.form = new FormGroup({
-      title: new FormControl(this.node.title)
+      title: new FormControl({ value: this.node.title, disabled: this.fromLandmarks })
     });
   }
 
@@ -62,6 +69,8 @@ export class TraceEquipmentSelectorComponent {
         disabled: rightReserveDisabled
       })
     });
+
+    if (this.fromLandmarks) childFormGroup.disable();
 
     return childFormGroup;
   }

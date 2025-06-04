@@ -200,12 +200,14 @@ export class TraceDefineComponent implements OnInit {
     const buttons = new Array<RadioButton>();
     const equips = this.gisMapService
       .getGeoData()
-      .equipments.filter((e) => e.nodeId === node.id && e.type !== EquipmentType.EmptyNode);
+      .equipments.filter((e) => e.nodeId === node.id)
+      .sort((a, b) => b.type - a.type); // последним должен оказаться EmptyNode
 
     // если оборудования в узле нету и название узла не пустое, то нефиг спрашивать, применяем
-    if (equips.length === 0 && node.title !== '') return GisMapUtils.emptyGuid;
+    if (equips.length === 1 && node.title !== '') return equips[0].id;
 
-    for (let i = 0; i < equips.length; i++) {
+    // последний не шлем, это EmtpyNode, вместо него будет написано Не использовать оборудование
+    for (let i = 0; i < equips.length - 1; i++) {
       const equipment = equips[i];
       const button = {
         id: i,
@@ -220,14 +222,21 @@ export class TraceDefineComponent implements OnInit {
     const dialogConfig = new DialogConfig<unknown, DialogRef>();
     dialogConfig.positionStrategy = new GlobalPositionStrategy().right('120px').top('150px');
     dialogConfig.disableClose = true;
-    dialogConfig.data = { buttons, node, gisMapService: this.gisMapService };
+    dialogConfig.data = {
+      buttons,
+      fromLandmarks: false,
+      node,
+      gisMapService: this.gisMapService,
+      hasAnyBaseRef: false,
+      isLast: false
+    };
     const dialogRef = this.dialog.open(TraceEquipmentSelectorComponent, dialogConfig);
 
     // и ждем здесь пока закроется диалог
     // вернет null если отказался от выбора (нажал Выход)
     const index = <number | null>await firstValueFrom(dialogRef.closed);
     if (index === null) return null;
-    if (index === -1) return GisMapUtils.emptyGuid;
+    if (index === -1) return equips.at(-1)!.id; // выбран Не использовать оборудование, значит надо сохранить id от EmptyNode
     return equips[index].id;
   }
 

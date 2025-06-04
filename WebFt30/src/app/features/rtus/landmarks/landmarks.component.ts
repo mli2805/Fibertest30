@@ -8,6 +8,8 @@ import { GisMapping } from 'src/app/core/store/mapping/gis-mappings';
 import { OneLandmark } from 'src/app/core/store/models/ft30/one-landmark';
 import { GisMapService } from '../../gis/gis-map.service';
 import { LandmarkMenu } from './one-landmark-menu/landmark-menu';
+import { EquipmentType } from 'src/grpc-generated';
+import { GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
 
 interface LandmarksModel {
   landmarks: OneLandmark[];
@@ -23,6 +25,8 @@ export class LandmarksComponent implements OnInit {
   spinning$ = this.spinning.asObservable();
 
   @Input() traceId!: string;
+  trace!: GeoTrace;
+  hasBaseRef!: boolean;
 
   public store: Store<AppState> = inject(Store);
 
@@ -38,9 +42,9 @@ export class LandmarksComponent implements OnInit {
   menuPosition = { x: 0, y: 0 };
 
   contextMenuItems = [
-    { label: 'i18n.ft.equipment', action: 'equipment' },
-    { label: 'i18n.ft.node', action: 'node' },
-    { label: 'i18n.ft.section', action: 'section' }
+    { label: 'i18n.ft.equipment', action: 'equipment', disabled: false },
+    { label: 'i18n.ft.node', action: 'node', disabled: false },
+    { label: 'i18n.ft.section', action: 'section', disabled: false }
   ];
   //////
 
@@ -55,6 +59,7 @@ export class LandmarksComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.spinning.next(true);
+    this.trace = this.gisMapService.getGeoData().traces.find((t) => t.id === this.traceId)!;
     const response = await firstValueFrom(this.gisService.getLandmarks(this.traceId));
     this.spinning.next(false);
     if (response === null) this.close();
@@ -125,12 +130,16 @@ export class LandmarksComponent implements OnInit {
     event.preventDefault();
 
     this.onLandmarkClick(landmark);
+    this.contextMenuItems[0].disabled =
+      landmark.equipmentType === EquipmentType.Rtu ||
+      (this.trace.hasAnyBaseRef && landmark.equipmentType === EquipmentType.EmptyNode);
     this.menuPosition = { x: event.clientX, y: event.clientY };
     this.showContextMenu = true;
   }
 
   handleMenuAction(action: string) {
-    LandmarkMenu.handleMenuAction(action, this.selectedLandmark.value);
+    const isLast = this.selectedLandmark.value!.number === this.originalLandmarks.length - 1;
+    LandmarkMenu.handleMenuAction(action, this.selectedLandmark.value, this.trace, isLast);
   }
 
   // Close menu when clicking elsewhere

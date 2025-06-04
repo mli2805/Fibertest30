@@ -39,6 +39,7 @@ export class NodeInfoDialogComponent implements OnInit {
 
   form!: FormGroup;
   nodeId!: string;
+  fromLandmarks!: boolean;
   nodeInWork!: TraceNode;
 
   equipTable!: EquipElement[];
@@ -47,6 +48,7 @@ export class NodeInfoDialogComponent implements OnInit {
   constructor(private gisMapService: GisMapService, private graphService: GraphService) {}
   ngOnInit(): void {
     this.nodeId = this.gisMapService.showNodeInfoDialog.value!;
+    this.fromLandmarks = this.gisMapService.showNodeInfoFromLandmarks;
     this.nodeInWork = this.gisMapService.getNode(this.nodeId);
     this.form = new FormGroup({
       title: new FormControl(this.nodeInWork.title, Validators.required),
@@ -140,15 +142,15 @@ export class NodeInfoDialogComponent implements OnInit {
       MapLayersActions.addNodeToLayer(this.nodeInWork);
     }
 
-    this.gisMapService.showNodeInfoDialog.next(null);
+    this.gisMapService.setShowNodeInfoDialog(null);
   }
 
   onDiscardClicked() {
-    this.gisMapService.showNodeInfoDialog.next(null);
+    this.gisMapService.setShowNodeInfoDialog(null);
   }
 
   close() {
-    this.gisMapService.showNodeInfoDialog.next(null);
+    this.gisMapService.setShowNodeInfoDialog(null);
   }
 
   // если оборудование входит в трассу для которой заданы базовые, то МОЖНО редактировать

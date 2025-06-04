@@ -40,6 +40,7 @@ export class FiberInfoComponent implements OnInit {
 
   form!: FormGroup;
   fiberId!: string;
+  fromLandmarks!: boolean;
   fiberInfoModel = new BehaviorSubject<FiberInfoModel | null>(null);
   model$ = this.fiberInfoModel.asObservable();
 
@@ -51,6 +52,7 @@ export class FiberInfoComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.fiberId = this.gisMapService.showSectionInfoDialog.value!;
+    this.fromLandmarks = this.gisMapService.showSectionInfoFromLandmarks;
 
     this.spinning.next(true);
     const response = await firstValueFrom(this.gisService.getFiberInfo(this.fiberId));
@@ -69,7 +71,11 @@ export class FiberInfoComponent implements OnInit {
   }
 
   isInputDisabled() {
-    return !this.hasEditGraphPermission || this.fiberInfoModel.value!.hasTraceUnderMonitoring;
+    return (
+      !this.hasEditGraphPermission ||
+      this.fiberInfoModel.value!.hasTraceUnderMonitoring ||
+      this.fromLandmarks
+    );
   }
 
   isUserLengthInvalid() {
@@ -124,6 +130,6 @@ export class FiberInfoComponent implements OnInit {
     this.close();
   }
   close() {
-    this.gisMapService.showSectionInfoDialog.next(null);
+    this.gisMapService.setShowSectionInfoDialog(null);
   }
 }

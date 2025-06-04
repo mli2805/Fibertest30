@@ -106,9 +106,9 @@ export class TraceInfoDialogComponent {
   prepareStatForInnerComponent(trace: GeoTrace) {
     this.types = new Map();
 
-    trace.nodeIds.forEach((i) => {
-      const node = this.gisMapService.getNode(i);
-      this.setOrIncrement(node.equipmentType, 1);
+    trace.equipmentIds.forEach((i) => {
+      const equipment = this.gisMapService.getGeoData().equipments.find((e) => e.id === i);
+      this.setOrIncrement(equipment!.type, 1);
     });
   }
 
