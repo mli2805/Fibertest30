@@ -1,7 +1,9 @@
 <div class="modal-backdrop">
   <div
     cdkDrag
-    class="draggable-window absolute left-[290px] top-[75px] flex flex-col px-1 pb-1 text-sm"
+    (cdkDragMoved)="onDragMoved($event)"
+    (cdkDragStarted)="onDragStarted($event)"
+    class="draggable-window fixed left-0 top-0 flex flex-col px-1 pb-1 text-sm"
   >
     <!-- draggable header -->
     <div cdkDragHandle class="w-full py-2">

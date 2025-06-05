@@ -1,5 +1,5 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { Component, Inject, inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, inject, OnInit, ViewChild } from '@angular/core';
 import { EquipmentType } from 'src/grpc-generated';
 import { GeoEquipment, GeoTrace, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapService } from '../../gis-map.service';
@@ -12,6 +12,7 @@ import { MapEquipmentActions } from '../../components/gis-actions/map-equipment-
 import { Store } from '@ngrx/store';
 import { AppState, AuthSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
+import { CdkDrag, CdkDragMove, CdkDragStart } from '@angular/cdk/drag-drop';
 
 interface EquipElement {
   isSelected: boolean;
@@ -30,7 +31,9 @@ interface TraceElement {
   templateUrl: './node-info-dialog.component.html',
   styleUrls: ['./node-info-dialog.component.css']
 })
-export class NodeInfoDialogComponent implements OnInit {
+export class NodeInfoDialogComponent implements OnInit, AfterViewInit {
+  @ViewChild(CdkDrag) dragRef!: CdkDrag;
+
   public store: Store<AppState> = inject(Store);
   hasEditGraphPermission = CoreUtils.getCurrentState(
     this.store,
@@ -56,6 +59,11 @@ export class NodeInfoDialogComponent implements OnInit {
     });
 
     this.updateTablesEquipmentAndTraces();
+  }
+
+  ngAfterViewInit() {
+    // Установка начальной позиции через CDK
+    this.dragRef.setFreeDragPosition({ x: 290, y: 75 });
   }
 
   updateTablesEquipmentAndTraces() {
@@ -206,6 +214,62 @@ export class NodeInfoDialogComponent implements OnInit {
 
     this.traceTable.forEach((l) => {
       l.isSelected = l.equipId === line.equipment.id;
+    });
+  }
+
+  ///////////////////////////////////////////
+  private dragStartOffset = { x: 0, y: 0 };
+
+  onDragStarted(event: CdkDragStart) {
+    // Получаем позицию курсора и позицию элемента при начале перетаскивания
+    const pointerPosition = this.getPointerPosition(event.event);
+    const rect = event.source.element.nativeElement.getBoundingClientRect();
+
+    // Рассчитываем смещение курсора внутри элемента
+    this.dragStartOffset = {
+      x: pointerPosition.x - rect.left,
+      y: pointerPosition.y - rect.top
+    };
+  }
+
+  private getPointerPosition(event: Event): { x: number; y: number } {
+    if (event instanceof MouseEvent) {
+      return { x: event.clientX, y: event.clientY };
+    } else if (event instanceof TouchEvent) {
+      return {
+        x: event.touches[0].clientX,
+        y: event.touches[0].clientY
+      };
+    }
+    return { x: 0, y: 0 };
+  }
+
+  onDragMoved(event: CdkDragMove) {
+    const el = event.source.element.nativeElement;
+    const viewport = {
+      w: window.innerWidth,
+      h: window.innerHeight
+    };
+    const rect = el.getBoundingClientRect();
+    const visibleWidth = 80; // Видимая часть 80px
+
+    // Получаем текущую позицию курсора
+    const pointerPosition = this.getPointerPosition(event.event);
+
+    // Рассчитываем новую позицию элемента
+    const newX = pointerPosition.x - this.dragStartOffset.x;
+    const newY = pointerPosition.y - this.dragStartOffset.y;
+
+    // Применяем ограничения
+    event.source.setFreeDragPosition({
+      x: Math.min(
+        Math.max(
+          -rect.width + visibleWidth, // Форма скрыта кроме 80px
+          newX
+        ),
+        viewport.w - visibleWidth // Форма скрыта кроме 80px
+      ),
+      y: Math.min(Math.max(0, newY), viewport.h - 40)
     });
   }
 }
