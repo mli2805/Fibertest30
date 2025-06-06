@@ -20,7 +20,8 @@ import { LandmarkMenu } from './one-landmark-menu/landmark-menu';
 import { EquipmentType } from 'src/grpc-generated';
 import { GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
 import { CoreUtils } from 'src/app/core/core.utils';
-import { CdkDragStart, CdkDragMove, CdkDrag } from '@angular/cdk/drag-drop';
+import { CdkDrag } from '@angular/cdk/drag-drop';
+import { DragWatcher } from '../../../shared/utils/drag-watcher';
 
 interface LandmarksModel {
   landmarks: OneLandmark[];
@@ -33,6 +34,7 @@ interface LandmarksModel {
 })
 export class LandmarksComponent implements OnInit, AfterViewInit {
   @ViewChild(CdkDrag) dragRef!: CdkDrag;
+  dragWatcher = DragWatcher;
 
   spinning = new BehaviorSubject<boolean>(false);
   spinning$ = this.spinning.asObservable();
@@ -87,8 +89,7 @@ export class LandmarksComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // Установка начальной позиции через CDK
-    this.dragRef.setFreeDragPosition({ x: 290, y: 75 });
+    this.dragRef.setFreeDragPosition({ x: 100, y: 50 });
   }
 
   // переключатель показа всех ориентиров или только с оборудованием
@@ -174,61 +175,5 @@ export class LandmarksComponent implements OnInit, AfterViewInit {
   @HostListener('document:keydown.escape', ['$event'])
   handleEscape() {
     this.showContextMenu = false;
-  }
-
-  ///////////////////////////////////////////
-  private dragStartOffset = { x: 0, y: 0 };
-
-  onDragStarted(event: CdkDragStart) {
-    // Получаем позицию курсора и позицию элемента при начале перетаскивания
-    const pointerPosition = this.getPointerPosition(event.event);
-    const rect = event.source.element.nativeElement.getBoundingClientRect();
-
-    // Рассчитываем смещение курсора внутри элемента
-    this.dragStartOffset = {
-      x: pointerPosition.x - rect.left,
-      y: pointerPosition.y - rect.top
-    };
-  }
-
-  private getPointerPosition(event: Event): { x: number; y: number } {
-    if (event instanceof MouseEvent) {
-      return { x: event.clientX, y: event.clientY };
-    } else if (event instanceof TouchEvent) {
-      return {
-        x: event.touches[0].clientX,
-        y: event.touches[0].clientY
-      };
-    }
-    return { x: 0, y: 0 };
-  }
-
-  onDragMoved(event: CdkDragMove) {
-    const el = event.source.element.nativeElement;
-    const viewport = {
-      w: window.innerWidth,
-      h: window.innerHeight
-    };
-    const rect = el.getBoundingClientRect();
-    const visibleWidth = 80; // Видимая часть 80px
-
-    // Получаем текущую позицию курсора
-    const pointerPosition = this.getPointerPosition(event.event);
-
-    // Рассчитываем новую позицию элемента
-    const newX = pointerPosition.x - this.dragStartOffset.x;
-    const newY = pointerPosition.y - this.dragStartOffset.y;
-
-    // Применяем ограничения
-    event.source.setFreeDragPosition({
-      x: Math.min(
-        Math.max(
-          -rect.width + visibleWidth, // Форма скрыта кроме 80px
-          newX
-        ),
-        viewport.w - visibleWidth // Форма скрыта кроме 80px
-      ),
-      y: Math.min(Math.max(0, newY), viewport.h - 40)
-    });
   }
 }
