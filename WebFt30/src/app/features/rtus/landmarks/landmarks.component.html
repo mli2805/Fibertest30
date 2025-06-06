@@ -2,9 +2,10 @@
 
 <div
   cdkDrag
-  class="draggable-window flex flex-col items-center px-1 text-sm"
+  (cdkDragMoved)="onDragMoved($event)"
+  (cdkDragStarted)="onDragStarted($event)"
+  class="draggable-window fixed left-0 top-0 flex flex-col items-center px-1 text-sm"
   (mousedown)="bringToFront()"
-  style="position: fixed; left: 100px; top: 50px"
   [style.z-index]="zIndex"
 >
   <!-- header -->
