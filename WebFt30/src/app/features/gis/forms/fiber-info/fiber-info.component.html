@@ -16,6 +16,7 @@
     </div>
     <!-- content -->
     <ng-container *ngIf="model$ | async as model">
+      <div *ngIf="isDevMode" class="ml-2 text-gray-500">{{ model.fiberId }}</div>
       <div class="grouped-border m-1">
         <div class="mb-2">{{ 'i18n.ft.nodes-of-section' | translate }}</div>
         <div class="ml-2">{{ model.node1 }} - {{ model.node2 }}</div>

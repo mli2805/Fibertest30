@@ -31,8 +31,10 @@ export class MapNodeRemove {
       } else {
         this.CreateDetourFiberIfAbsent(detour);
         trace.nodeIds.splice(index, 1);
+        trace.equipmentIds.splice(index, 1);
+
         trace.fiberIds.splice(index - 1, 2);
-        trace.fiberIds.splice(index, 0, detour.FiberId);
+        trace.fiberIds.splice(index - 1, 0, detour.FiberId); // это такая вставка по индексу
       }
     }
   }

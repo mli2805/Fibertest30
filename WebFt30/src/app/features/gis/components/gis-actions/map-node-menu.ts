@@ -144,8 +144,12 @@ export class MapNodeMenu {
   // но рядом с узлом не должно быть точек привязки - в этом случае выводится сообщение и выходим
   static async removeNode(e: L.ContextMenuItemClickEvent) {
     const nodeId = (<any>e.relatedTarget).id;
+    const node = this.gisMapService.getNode(nodeId);
 
-    if (this.hasAdjustmentPointNeighbour(nodeId)) {
+    if (
+      node.equipmentType !== EquipmentType.AdjustmentPoint &&
+      this.hasAdjustmentPointNeighbour(nodeId)
+    ) {
       MessageBoxUtils.show(this.dialog, 'Information', [
         {
           message: 'i18n.ft.remove-adjustment-points-or-add-nodes',
@@ -162,7 +166,6 @@ export class MapNodeMenu {
     }
 
     this.gisMapService.geoDataLoading.next(true);
-    const node = this.gisMapService.getGeoData().nodes.find((n) => n.id === nodeId);
 
     if (!MapNodeRemove.isRemoveThisNodePermitted(nodeId, node!.equipmentType)) return;
     if (!MapNodeRemove.isPossibleToRemove(nodeId)) return;

@@ -9,6 +9,7 @@ import { CoreUtils } from 'src/app/core/core.utils';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ValidationUtils } from 'src/app/shared/utils/validation-utils';
 import { GraphService } from 'src/app/core/grpc';
+import { environment } from 'src/environments/environment';
 
 interface OpticalLengthModel {
   trace: string;
@@ -16,6 +17,7 @@ interface OpticalLengthModel {
 }
 
 interface FiberInfoModel {
+  fiberId: string;
   node1: string;
   node2: string;
   gpsLength: string;
@@ -31,6 +33,7 @@ interface FiberInfoModel {
 export class FiberInfoComponent implements OnInit {
   spinning = new BehaviorSubject<boolean>(false);
   spinning$ = this.spinning.asObservable();
+  isDevMode = !environment.production;
 
   public store: Store<AppState> = inject(Store);
   private hasEditGraphPermission = CoreUtils.getCurrentState(
@@ -86,6 +89,7 @@ export class FiberInfoComponent implements OnInit {
 
   toModel(fiberInfo: FiberInfo): FiberInfoModel {
     return {
+      fiberId: fiberInfo.fiberId,
       node1: fiberInfo.leftNodeTitle,
       node2: fiberInfo.rightNodeTitle,
       gpsLength: fiberInfo.gpsLength.toFixed(0),
