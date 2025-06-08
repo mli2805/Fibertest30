@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, HostListener, inject, OnInit, ViewChild } from '@angular/core';
 import { EquipmentType } from 'src/grpc-generated';
 import { GeoEquipment, GeoTrace, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapService } from '../../gis-map.service';
@@ -63,7 +63,6 @@ export class NodeInfoDialogComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // Установка начальной позиции через CDK
     this.dragRef.setFreeDragPosition({ x: 290, y: 75 });
   }
 
@@ -216,5 +215,10 @@ export class NodeInfoDialogComponent implements OnInit, AfterViewInit {
     this.traceTable.forEach((l) => {
       l.isSelected = l.equipId === line.equipment.id;
     });
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  handleEscape() {
+    this.close();
   }
 }

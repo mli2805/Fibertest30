@@ -174,6 +174,7 @@ export class LandmarksComponent implements OnInit, AfterViewInit {
   // Close menu on Escape key
   @HostListener('document:keydown.escape', ['$event'])
   handleEscape() {
-    this.showContextMenu = false;
+    if (this.showContextMenu) this.showContextMenu = false;
+    else this.close();
   }
 }

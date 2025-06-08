@@ -3,7 +3,9 @@
 <div class="modal-backdrop">
   <div
     cdkDrag
-    class="draggable-window absolute left-[290px] top-[75px] flex w-120 flex-col px-1 pb-1 text-sm"
+    (cdkDragMoved)="dragWatcher.onDragMoved($event)"
+    (cdkDragStarted)="dragWatcher.onDragStarted($event)"
+    class="draggable-window fixed left-0 top-0 flex w-120 flex-col px-1 pb-1 text-sm"
   >
     <!-- draggable header -->
     <div cdkDragHandle class="w-full py-2">

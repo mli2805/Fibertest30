@@ -3,10 +3,12 @@
 <div class="modal-backdrop">
   <div
     cdkDrag
-    class="draggable-window absolute left-[190px] top-[80px] flex w-120 flex-col px-1 pb-1 text-sm"
+    (cdkDragMoved)="dragWatcher.onDragMoved($event)"
+    (cdkDragStarted)="dragWatcher.onDragStarted($event)"
+    class="draggable-window fixed left-0 top-0 flex w-120 flex-col px-1 pb-1 text-sm"
   >
     <!-- draggable header -->
-    <div cdkDragHandle class="ml-1 py-2 text-left">
+    <div cdkDragHandle class="ml-3 py-2">
       <div class="flex items-center justify-between">
         <ng-container *ngIf="mode === traceInfoMode.CreateTrace">
           {{ 'i18n.ft.create-trace' | translate }}

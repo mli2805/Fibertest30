@@ -1,4 +1,4 @@
-<div>
+<div class="mx-1">
   <div [formGroup]="form" class="">
     <fieldset [disabled]="isDisabled()">
       <div class="grouped-border mb-2 flex flex-col">
@@ -135,8 +135,13 @@
   </ng-container>
 
   <!-- buttons -->
-  <div class="mt-6 flex flex-row justify-end">
-    <button class="button-cancel mr-2 min-w-36" (click)="onDiscardClicked()" cdkFocusInitial>
+  <div class="mb-1 mt-6 flex flex-row justify-end">
+    <button
+      class="button-cancel mr-2 min-w-36"
+      (click)="onDiscardClicked()"
+      [disabled]="isDiscardDisabled()"
+      cdkFocusInitial
+    >
       {{ 'i18n.ft.discard' | translate }}
     </button>
     <button

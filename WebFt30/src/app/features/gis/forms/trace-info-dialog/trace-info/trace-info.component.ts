@@ -133,6 +133,11 @@ export class TraceInfoComponent implements OnInit {
     this.closeEvent.emit(this.trace);
   }
 
+  isDiscardDisabled(): boolean {
+    if (this.form.pristine) return true;
+    return false;
+  }
+
   onDiscardClicked() {
     this.closeEvent.emit(null);
   }
