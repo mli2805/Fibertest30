@@ -1,4 +1,12 @@
-import { Component, inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState, AuthSelectors, RtuTreeSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -10,12 +18,17 @@ import { DoubleAddress } from 'src/app/core/store/models/ft30/double-address';
 import { MainChannelTestComponent } from './main-channel-test/main-channel-test.component';
 import { Observable, Subscription } from 'rxjs';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
+import { CdkDrag } from '@angular/cdk/drag-drop';
+import { DragWatcher } from 'src/app/shared/utils/drag-watcher';
 
 @Component({
   selector: 'rtu-rtu-initialization',
   templateUrl: './rtu-initialization.component.html'
 })
-export class RtuInitializationComponent implements OnInit, OnDestroy {
+export class RtuInitializationComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild(CdkDrag) dragRef!: CdkDrag;
+  dragWatcher = DragWatcher;
+
   @Input() rtuId!: string;
   rtu$!: Observable<Rtu | null>;
   subscription!: Subscription;
@@ -52,6 +65,10 @@ export class RtuInitializationComponent implements OnInit, OnDestroy {
       this.store,
       RtuTreeSelectors.selectAdresses()
     )!;
+  }
+
+  ngAfterViewInit() {
+    this.dragRef.setFreeDragPosition({ x: 180, y: 50 });
   }
 
   onInitializeClicked() {

@@ -1,4 +1,14 @@
-import { ChangeDetectorRef, Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, firstValueFrom, Observable, Subscription } from 'rxjs';
 import { AppState, RtuTreeSelectors } from 'src/app/core';
@@ -14,6 +24,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { RtuTreeService } from 'src/app/core/grpc';
 import { Bop } from 'src/app/core/store/models/ft30/bop';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
+import { CdkDrag } from '@angular/cdk/drag-drop';
+import { DragWatcher } from 'src/app/shared/utils/drag-watcher';
 
 export interface PortInTable {
   port: string;
@@ -28,7 +40,10 @@ export interface PortInTable {
   selector: 'rtu-rtu-state-window',
   templateUrl: './rtu-state-window.component.html'
 })
-export class RtuStateWindowComponent implements OnInit, OnDestroy {
+export class RtuStateWindowComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild(CdkDrag) dragRef!: CdkDrag;
+  dragWatcher = DragWatcher;
+
   rtuPartState = RtuPartState;
   baseRefType = BaseRefType;
   public store: Store<AppState> = inject(Store);
@@ -62,6 +77,7 @@ export class RtuStateWindowComponent implements OnInit, OnDestroy {
 
     this.startPollingStep();
   }
+
   ngOnDestroy(): void {
     if (this.intervalId !== null) {
       clearInterval(this.intervalId);
@@ -69,6 +85,10 @@ export class RtuStateWindowComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  ngAfterViewInit() {
+    this.dragRef.setFreeDragPosition({ x: 150, y: 110 });
   }
 
   updateTable(rtu: Rtu) {
@@ -180,5 +200,10 @@ export class RtuStateWindowComponent implements OnInit, OnDestroy {
 
   close() {
     this.windowService.unregisterWindow(this.rtuId, 'RtuState');
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  handleEscape() {
+    this.close();
   }
 }

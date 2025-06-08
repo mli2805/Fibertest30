@@ -80,7 +80,7 @@
     <hr class="my-2" />
 
     <div class="mb-2 mt-4 w-full">
-      <button class="button-ok w-full" (click)="onApplyClicked()">
+      <button class="button-ok w-full" [disabled]="isApplyDisabled()" (click)="onApplyClicked()">
         {{ 'i18n.ft.apply' | translate }}
       </button>
     </div>

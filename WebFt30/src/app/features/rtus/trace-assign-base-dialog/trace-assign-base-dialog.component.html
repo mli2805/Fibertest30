@@ -1,7 +1,9 @@
 <div class="modal-backdrop">
   <div
     cdkDrag
-    class="draggable-window absolute left-[190px] top-[80px] flex w-96 flex-col px-1 pb-1 text-sm"
+    (cdkDragMoved)="dragWatcher.onDragMoved($event)"
+    (cdkDragStarted)="dragWatcher.onDragStarted($event)"
+    class="draggable-window fixed left-0 top-0 flex w-96 flex-col px-1 pb-1 text-sm"
   >
     <!-- draggable header -->
     <div cdkDragHandle class="flex items-center justify-between py-2">

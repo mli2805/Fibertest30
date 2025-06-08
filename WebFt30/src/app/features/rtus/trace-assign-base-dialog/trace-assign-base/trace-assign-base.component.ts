@@ -125,34 +125,42 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
     return '.sor';
   }
 
+  isPristine = true;
+
   onPreciseFileSelected(event: any) {
     this.preciseFile = event.target.files[0];
     this.preciseFileBox.nativeElement.value = this.preciseFile!.name;
+    this.isPristine = false;
   }
 
   onPreciseRemoveClicked() {
     this.preciseFileBox.nativeElement.value = '';
     this.preciseFile = null;
+    this.isPristine = false;
   }
 
   onFastFileSelected(event: any) {
     this.fastFile = event.target.files[0];
     this.fastFileBox.nativeElement.value = this.fastFile!.name;
+    this.isPristine = false;
   }
 
   onFastRemoveClicked() {
     this.fastFileBox.nativeElement.value = '';
     this.fastFile = null;
+    this.isPristine = false;
   }
 
   onAdditionalFileSelected(event: any) {
     this.additionalFile = event.target.files[0];
     this.additionalFileBox.nativeElement.value = this.additionalFile!.name;
+    this.isPristine = false;
   }
 
   onAdditionalRemoveClicked() {
     this.additionalFileBox.nativeElement.value = '';
     this.additionalFile = null;
+    this.isPristine = false;
   }
 
   subscription!: Subscription;
@@ -208,6 +216,10 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
     }
 
     return subj.asObservable();
+  }
+
+  isApplyDisabled(): boolean {
+    return this.isPristine;
   }
 
   async onApplyClicked() {

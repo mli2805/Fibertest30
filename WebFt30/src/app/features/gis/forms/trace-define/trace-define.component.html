@@ -7,8 +7,13 @@
   class="draggable-window fixed left-0 top-0 flex flex-col items-center px-1 pb-1 text-sm"
 >
   <!-- header -->
-  <div cdkDragHandle class="ml-2 w-full self-start py-2">
-    {{ 'i18n.ft.step-by-step-trace-definition' | translate }}
+  <div cdkDragHandle class="w-full py-2">
+    <div class="flex items-center justify-between">
+      <div class="ml-3">
+        {{ 'i18n.ft.step-by-step-trace-definition' | translate }}
+      </div>
+      <rtu-close-button class="mr-2 h-6 w-6" (click)="close()" />
+    </div>
   </div>
 
   <!-- step list -->
