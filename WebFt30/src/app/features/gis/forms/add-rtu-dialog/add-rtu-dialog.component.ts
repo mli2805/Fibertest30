@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, HostListener, ViewChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { EquipmentType } from 'src/grpc-generated';
 import { GisMapService } from '../../gis-map.service';
@@ -7,12 +7,17 @@ import { GeoEquipment, TraceNode } from 'src/app/core/store/models/ft30/geo-data
 import { MapLayersActions } from '../../components/gis-actions/map-layers-actions';
 import { GisMapLayer } from '../../components/shared/gis-map-layer';
 import { RtuInfoMode } from './rtu-info/rtu-info.component';
+import { CdkDrag } from '@angular/cdk/drag-drop';
+import { DragWatcher } from 'src/app/shared/utils/drag-watcher';
 
 @Component({
   selector: 'rtu-add-rtu-dialog',
   templateUrl: './add-rtu-dialog.component.html'
 })
-export class AddRtuDialogComponent {
+export class AddRtuDialogComponent implements AfterViewInit {
+  @ViewChild(CdkDrag) dragRef!: CdkDrag;
+  dragWatcher = DragWatcher;
+
   rtuInfoMode = RtuInfoMode;
   mode!: RtuInfoMode;
   rtuInfoData!: any;
@@ -34,6 +39,10 @@ export class AddRtuDialogComponent {
       rtuId: rtuId,
       rtuNode: gisMapService.rtuNodeToShowDialog
     };
+  }
+
+  ngAfterViewInit() {
+    this.dragRef.setFreeDragPosition({ x: 290, y: 75 });
   }
 
   // кнопка нажата в rtu-info
@@ -95,5 +104,14 @@ export class AddRtuDialogComponent {
       group.removeLayer(marker!);
       MapLayersActions.addNodeToLayer(node);
     }
+  }
+
+  close() {
+    this.gisMapService.showRtuAddOrEditDialog.next(false);
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  handleEscape() {
+    this.gisMapService.showRtuAddOrEditDialog.next(false);
   }
 }

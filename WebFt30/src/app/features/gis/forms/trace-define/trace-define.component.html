@@ -2,8 +2,9 @@
 
 <div
   cdkDrag
-  class="draggable-window flex flex-col items-center px-1 pb-1 text-sm"
-  style="position: fixed; left: 150px; top: 110px"
+  (cdkDragMoved)="dragWatcher.onDragMoved($event)"
+  (cdkDragStarted)="dragWatcher.onDragStarted($event)"
+  class="draggable-window fixed left-0 top-0 flex flex-col items-center px-1 pb-1 text-sm"
 >
   <!-- header -->
   <div cdkDragHandle class="ml-2 w-full self-start py-2">

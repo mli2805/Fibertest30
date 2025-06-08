@@ -78,6 +78,11 @@ export class RtuInfoComponent {
     this.closeEvent.emit(this.rtuNode);
   }
 
+  isDiscardDisabled(): boolean {
+    if (this.form.pristine) return true;
+    return false;
+  }
+
   onDiscardClicked() {
     this.closeEvent.emit(null);
   }

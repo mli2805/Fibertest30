@@ -1,4 +1,4 @@
-import { Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
 import { GisMapService } from '../../gis-map.service';
 import { TraceDefineUtils } from './trace-define-utils';
 import { GisMapUtils } from '../../components/shared/gis-map.utils';
@@ -12,13 +12,17 @@ import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-b
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { TraceInfoMode } from '../trace-info-dialog/trace-info/trace-info.component';
 import { TraceEquipmentUtil } from '../trace-equipment-selector/trace-equipment-util';
+import { CdkDrag } from '@angular/cdk/drag-drop';
+import { DragWatcher } from 'src/app/shared/utils/drag-watcher';
 
 @Component({
   selector: 'rtu-trace-define',
   templateUrl: './trace-define.component.html'
 })
-export class TraceDefineComponent implements OnInit {
+export class TraceDefineComponent implements OnInit, AfterViewInit {
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
+  @ViewChild(CdkDrag) dragRef!: CdkDrag;
+  dragWatcher = DragWatcher;
 
   stepList$ = this.gisMapService.stepList.asObservable();
   spinning = new BehaviorSubject<boolean>(false);
@@ -41,6 +45,10 @@ export class TraceDefineComponent implements OnInit {
     this.stepList$.subscribe(() => {
       this.scrollToBottom();
     });
+  }
+
+  ngAfterViewInit() {
+    this.dragRef.setFreeDragPosition({ x: 150, y: 110 });
   }
 
   scrollToBottom() {
