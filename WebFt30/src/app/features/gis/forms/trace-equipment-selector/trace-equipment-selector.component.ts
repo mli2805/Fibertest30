@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { AfterViewInit, Component, HostListener, Inject, inject, ViewChild } from '@angular/core';
 import { GraphService } from 'src/app/core/grpc';
 import { GisMapService } from '../../gis-map.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
@@ -9,13 +9,19 @@ import { MapLayersActions } from '../../components/gis-actions/map-layers-action
 import { GisMapUtils } from '../../components/shared/gis-map.utils';
 import { GeoEquipment, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { EquipmentType } from 'src/grpc-generated';
+import { DragWatcher } from 'src/app/shared/utils/drag-watcher';
+import { CdkDrag } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'rtu-trace-equipment-selector',
   templateUrl: './trace-equipment-selector.component.html'
 })
-export class TraceEquipmentSelectorComponent {
+export class TraceEquipmentSelectorComponent implements AfterViewInit {
   public dialogRef: DialogRef<number | null> = inject(DialogRef<number | null>);
+
+  @ViewChild(CdkDrag) dragRef!: CdkDrag;
+  dragWatcher = DragWatcher;
+
   form!: FormGroup;
   buttons!: any[]; // не просто RadioButton, там добавлено поле equipment
   fromLandmarks!: boolean;
@@ -54,6 +60,10 @@ export class TraceEquipmentSelectorComponent {
     this.form = new FormGroup({
       title: new FormControl({ value: this.node.title, disabled: this.fromLandmarks })
     });
+  }
+
+  ngAfterViewInit() {
+    this.dragRef.setFreeDragPosition({ x: 290, y: 75 });
   }
 
   createChildForm(button: any): FormGroup {
@@ -145,5 +155,10 @@ export class TraceEquipmentSelectorComponent {
 
   close() {
     this.dialogRef.close(null);
+  }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  handleEscape() {
+    this.close();
   }
 }

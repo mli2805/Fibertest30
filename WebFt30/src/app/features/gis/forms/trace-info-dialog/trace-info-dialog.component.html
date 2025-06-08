@@ -5,7 +5,7 @@
     cdkDrag
     (cdkDragMoved)="dragWatcher.onDragMoved($event)"
     (cdkDragStarted)="dragWatcher.onDragStarted($event)"
-    class="draggable-window fixed left-0 top-0 flex w-120 flex-col px-1 pb-1 text-sm"
+    class="draggable-window"
   >
     <!-- draggable header -->
     <div cdkDragHandle class="ml-3 py-2">
@@ -20,6 +20,10 @@
       </div>
     </div>
     <!-- content -->
-    <rtu-trace-info [data]="traceInfoData" (closeEvent)="onCloseEvent($event)"></rtu-trace-info>
+    <rtu-trace-info
+      class="w-120"
+      [data]="traceInfoData"
+      (closeEvent)="onCloseEvent($event)"
+    ></rtu-trace-info>
   </div>
 </div>

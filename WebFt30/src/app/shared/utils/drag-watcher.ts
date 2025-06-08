@@ -15,8 +15,8 @@ import { CdkDragStart, CdkDragMove } from '@angular/cdk/drag-drop';
   (cdkDragMoved)="dragWatcher.onDragMoved($event)"
   (cdkDragStarted)="dragWatcher.onDragStarted($event)"
 
- именно 0,0 для правильных расчетов
-  class="draggable-window fixed left-0 top-0 ...
+  class="draggable-window
+  содержит fixed left-0 top-0 - именно 0,0 для правильных расчетов
 */
 
 export class DragWatcher {

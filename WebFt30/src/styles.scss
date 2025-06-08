@@ -405,7 +405,7 @@
 }
 
 .draggable-window {
-  @apply border border-gray-300 bg-rtu-primary-bg shadow-lg shadow-gray-700 dark:border-[#575859] dark:bg-rtu-dark-primary-bg;
+  @apply fixed left-0 top-0 flex flex-col border border-gray-300 bg-rtu-primary-bg px-1 pb-1 text-sm shadow-lg shadow-gray-700 dark:border-[#575859] dark:bg-rtu-dark-primary-bg;
 }
 
 .modal-backdrop {

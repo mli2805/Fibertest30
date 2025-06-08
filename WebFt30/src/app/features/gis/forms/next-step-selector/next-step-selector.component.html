@@ -1,18 +1,25 @@
 <div class="modal-backdrop">
   <div
     cdkDrag
-    class="draggable-window absolute left-[190px] top-[80px] flex w-96 flex-col px-1 pb-1 text-sm"
+    (cdkDragMoved)="dragWatcher.onDragMoved($event)"
+    (cdkDragStarted)="dragWatcher.onDragStarted($event)"
+    class="draggable-window"
   >
-    <div cdkDragHandle class="ml-1 py-2 text-left">{{ 'i18n.ft.next-step' | translate }}</div>
+    <div cdkDragHandle class="w-full py-2">
+      <div class="flex items-center justify-between">
+        <div class="ml-3">{{ 'i18n.ft.next-step' | translate }}</div>
+        <rtu-close-button class="mr-2 h-6 w-6" (click)="close()" />
+      </div>
+    </div>
     <!-- radio buttons -->
-    <div class="mb-2 max-h-64 overflow-y-auto border border-gray-500 p-2">
+    <div class="grouped-border m-1 max-h-64 w-96 overflow-y-auto p-2">
       <ng-container *ngFor="let button of buttons; let i = index">
         <div class="mb-2 text-sm">
           <rtu-radio-button [button]="button" (click)="onRadioButtonClick(i)" />
         </div>
       </ng-container>
     </div>
-    <div class="flex self-end">
+    <div class="my-1 flex self-end">
       <button class="button-extra mr-2 w-36" (click)="onSelect()">
         {{ 'i18n.ft.select' | translate }}
       </button>
