@@ -36,7 +36,6 @@ import { GisModule } from '../gis/gis.module';
 import { MainChannelTestComponent } from './rtu-initialization/main-channel-test/main-channel-test.component';
 import { RtuStateWindowComponent } from './rtu-state-window/rtu-state-window.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { TraceAssignBaseDialogComponent } from './trace-assign-base-dialog/trace-assign-base-dialog.component';
 import { TraceAssignBaseComponent } from './trace-assign-base-dialog/trace-assign-base/trace-assign-base.component';
 import { LandmarksComponent } from './landmarks/landmarks.component';
 import { GpsInputComponent } from './landmarks/gps-input/gps-input.component';
@@ -57,7 +56,7 @@ import { OneLandmarkMenuComponent } from './landmarks/one-landmark-menu/one-land
   exports: [
     RtuStateWindowComponent,
     RtuInitializationComponent,
-    TraceAssignBaseDialogComponent,
+    TraceAssignBaseComponent,
     LandmarksComponent
   ],
   declarations: [
@@ -89,7 +88,6 @@ import { OneLandmarkMenuComponent } from './landmarks/one-landmark-menu/one-land
     BaselineViewComponent,
     MainChannelTestComponent,
     RtuStateWindowComponent,
-    TraceAssignBaseDialogComponent,
     TraceAssignBaseComponent,
     LandmarksComponent,
     GpsInputComponent,

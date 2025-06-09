@@ -1,91 +1,103 @@
-<ng-container *ngIf="rtu$ | async as rtu">
-  <div class="grouped-border m-1">
-    <div class="grid-container mb-4 ml-2 gap-y-1 text-sm">
-      <div style="grid-area: traceLabel">{{ 'i18n.ft.trace' | translate }}</div>
-      <div style="grid-area: traceValue">{{ trace.title }}</div>
-      <div style="grid-area: rtuLabel">{{ 'RTU' }}</div>
-      <div style="grid-area: rtuValue">{{ rtu.title }}</div>
-      <div style="grid-area: portLabel">{{ 'i18n.ft.port' | translate }}</div>
-      <div style="grid-area: portValue">{{ portName | translate }}</div>
+<rtu-draggable-window
+  [caption]="'i18n.ft.assign-base-refs' | translate"
+  [modal]="false"
+  [left]="100"
+  [top]="50"
+  [closeOnEscape]="false"
+  [windowId]="traceId"
+  [windowName]="'TraceAssignBaseRefs'"
+  [zIndex]="zIndex"
+  (closeEvent)="close()"
+>
+  <ng-container *ngIf="rtu$ | async as rtu">
+    <div class="grouped-border m-1 w-96">
+      <div class="grid-container mb-4 ml-2 gap-y-1 text-sm">
+        <div style="grid-area: traceLabel">{{ 'i18n.ft.trace' | translate }}</div>
+        <div *ngIf="trace$ | async as trace" style="grid-area: traceValue">{{ trace.title }}</div>
+        <div style="grid-area: rtuLabel">{{ 'RTU' }}</div>
+        <div style="grid-area: rtuValue">{{ rtu.title }}</div>
+        <div style="grid-area: portLabel">{{ 'i18n.ft.port' | translate }}</div>
+        <div style="grid-area: portValue">{{ portName | translate }}</div>
+      </div>
+      <hr class="my-2" />
+      <div class="h-2"></div>
+
+      <div class="">
+        <!-- precise baseline -->
+        <div class="ml-1 flex items-center">
+          <rtu-open-file-button class="mb-2 h-4 w-4" (click)="preciseFileInput.click()" />
+          <div class="hidden-input-fix-safari-bug">
+            <input
+              #preciseFileInput
+              type="file"
+              [accept]="getFileInputAccept()"
+              (change)="onPreciseFileSelected($event)"
+            />
+          </div>
+          <div class="ml-4">
+            {{ 'i18n.ft.precise-base' | translate }}
+          </div>
+        </div>
+        <div class="mb-6 mt-1 flex items-center">
+          <input class="input-simple h-8 w-full" type="text" #preciseFileBox [disabled]="true" />
+          <rtu-delete2-button class="ml-2 h-4 w-4" (click)="onPreciseRemoveClicked()" />
+        </div>
+
+        <!-- fast baseline -->
+        <div class="ml-1 flex items-center">
+          <rtu-open-file-button class="mb-2 h-4 w-4" (click)="fastFileInput.click()" />
+          <div class="hidden-input-fix-safari-bug">
+            <input
+              #fastFileInput
+              type="file"
+              [accept]="getFileInputAccept()"
+              (change)="onFastFileSelected($event)"
+            />
+          </div>
+
+          <div class="ml-4">
+            {{ 'i18n.ft.fast-base' | translate }}
+          </div>
+          <div class="flex"></div>
+        </div>
+        <div class="mb-6 mt-1 flex items-center">
+          <input class="input-simple h-8 w-full" type="text" #fastFileBox [disabled]="true" />
+          <rtu-delete2-button class="ml-2 h-4 w-4" (click)="onFastRemoveClicked()" />
+        </div>
+
+        <!-- additional baseline -->
+        <div class="ml-1 flex items-center">
+          <rtu-open-file-button class="mb-2 h-4 w-4" (click)="additionalFileInput.click()" />
+          <div class="hidden-input-fix-safari-bug">
+            <input
+              #additionalFileInput
+              type="file"
+              [accept]="getFileInputAccept()"
+              (change)="onAdditionalFileSelected($event)"
+            />
+          </div>
+
+          <div class="ml-4">
+            {{ 'i18n.ft.additional-base' | translate }}
+          </div>
+          <div class="flex"></div>
+        </div>
+        <div class="mb-4 mt-1 flex items-center">
+          <input class="input-simple h-8 w-full" type="text" #additionalFileBox [disabled]="true" />
+          <rtu-delete2-button class="ml-2 h-4 w-4" (click)="onAdditionalRemoveClicked()" />
+        </div>
+      </div>
+
+      <hr class="my-2" />
+
+      <div class="mb-2 mt-4 w-full">
+        <button class="button-ok w-full" [disabled]="isApplyDisabled()" (click)="onApplyClicked()">
+          {{ 'i18n.ft.apply' | translate }}
+        </button>
+      </div>
     </div>
-    <hr class="my-2" />
-    <div class="h-2"></div>
-
-    <div class="">
-      <!-- precise baseline -->
-      <div class="ml-1 flex items-center">
-        <rtu-open-file-button class="mb-2 h-4 w-4" (click)="preciseFileInput.click()" />
-        <div class="hidden-input-fix-safari-bug">
-          <input
-            #preciseFileInput
-            type="file"
-            [accept]="getFileInputAccept()"
-            (change)="onPreciseFileSelected($event)"
-          />
-        </div>
-        <div class="ml-4">
-          {{ 'i18n.ft.precise-base' | translate }}
-        </div>
-      </div>
-      <div class="mb-6 mt-1 flex items-center">
-        <input class="input-simple h-8 w-full" type="text" #preciseFileBox [disabled]="true" />
-        <rtu-delete2-button class="ml-2 h-4 w-4" (click)="onPreciseRemoveClicked()" />
-      </div>
-
-      <!-- fast baseline -->
-      <div class="ml-1 flex items-center">
-        <rtu-open-file-button class="mb-2 h-4 w-4" (click)="fastFileInput.click()" />
-        <div class="hidden-input-fix-safari-bug">
-          <input
-            #fastFileInput
-            type="file"
-            [accept]="getFileInputAccept()"
-            (change)="onFastFileSelected($event)"
-          />
-        </div>
-
-        <div class="ml-4">
-          {{ 'i18n.ft.fast-base' | translate }}
-        </div>
-        <div class="flex"></div>
-      </div>
-      <div class="mb-6 mt-1 flex items-center">
-        <input class="input-simple h-8 w-full" type="text" #fastFileBox [disabled]="true" />
-        <rtu-delete2-button class="ml-2 h-4 w-4" (click)="onFastRemoveClicked()" />
-      </div>
-
-      <!-- additional baseline -->
-      <div class="ml-1 flex items-center">
-        <rtu-open-file-button class="mb-2 h-4 w-4" (click)="additionalFileInput.click()" />
-        <div class="hidden-input-fix-safari-bug">
-          <input
-            #additionalFileInput
-            type="file"
-            [accept]="getFileInputAccept()"
-            (change)="onAdditionalFileSelected($event)"
-          />
-        </div>
-
-        <div class="ml-4">
-          {{ 'i18n.ft.additional-base' | translate }}
-        </div>
-        <div class="flex"></div>
-      </div>
-      <div class="mb-4 mt-1 flex items-center">
-        <input class="input-simple h-8 w-full" type="text" #additionalFileBox [disabled]="true" />
-        <rtu-delete2-button class="ml-2 h-4 w-4" (click)="onAdditionalRemoveClicked()" />
-      </div>
-    </div>
-
-    <hr class="my-2" />
-
-    <div class="mb-2 mt-4 w-full">
-      <button class="button-ok w-full" [disabled]="isApplyDisabled()" (click)="onApplyClicked()">
-        {{ 'i18n.ft.apply' | translate }}
-      </button>
-    </div>
-  </div>
-</ng-container>
+  </ng-container>
+</rtu-draggable-window>
 
 <rtu-loading-centered-big-spinner
   *ngIf="(inProgress$ | async) === true"

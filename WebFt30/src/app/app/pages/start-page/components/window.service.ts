@@ -43,7 +43,7 @@ export class WindowService {
     this.windows.push({ id: id, type: type, zIndex: this.maxZIndex, payload: payload });
     // Триггерим обнаружение изменений
     this.windows = [...this.windows];
-    // this.logOpenWindows();
+    this.logOpenWindows();
   }
 
   unregisterWindow(id: string, type: ManagedWindow) {
@@ -52,7 +52,7 @@ export class WindowService {
     if (window.zIndex === this.maxZIndex) this.maxZIndex--;
 
     this.windows = this.windows.filter((w) => w.id !== id || w.type !== type);
-    // this.logOpenWindows();
+    this.logOpenWindows();
   }
 
   getMaxZindex() {

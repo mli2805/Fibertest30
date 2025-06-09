@@ -25,11 +25,9 @@ import { DragWatcher } from 'src/app/shared/utils/drag-watcher';
   selector: 'rtu-rtu-initialization',
   templateUrl: './rtu-initialization.component.html'
 })
-export class RtuInitializationComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(CdkDrag) dragRef!: CdkDrag;
-  dragWatcher = DragWatcher;
-
+export class RtuInitializationComponent implements OnInit, OnDestroy {
   @Input() rtuId!: string;
+  @Input() zIndex!: number;
   rtu$!: Observable<Rtu | null>;
   subscription!: Subscription;
 
@@ -67,10 +65,6 @@ export class RtuInitializationComponent implements OnInit, OnDestroy, AfterViewI
     )!;
   }
 
-  ngAfterViewInit() {
-    this.dragRef.setFreeDragPosition({ x: 180, y: 50 });
-  }
-
   onInitializeClicked() {
     const dto = new InitializeRtuDto();
     dto.rtuId = this.rtuId;
@@ -83,20 +77,6 @@ export class RtuInitializationComponent implements OnInit, OnDestroy, AfterViewI
 
   ngOnDestroy(): void {
     this.store.dispatch(RtuMgmtActions.reset());
-  }
-
-  zIndex = 1;
-  bringToFront() {
-    this.windowService.bringToFront(this.rtuId, 'NetworkSettings');
-    this.updateZIndex();
-  }
-
-  private updateZIndex() {
-    const windowData = this.windowService.getWindows().find((w) => w.id === this.rtuId);
-    // Обновляем только если значение изменилось
-    if (windowData?.zIndex !== this.zIndex) {
-      this.zIndex = windowData?.zIndex || 1;
-    }
   }
 
   close() {

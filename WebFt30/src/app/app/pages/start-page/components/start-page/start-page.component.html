@@ -52,19 +52,23 @@
 
     <ng-container *ngFor="let window of windowService.getWindows()">
       <ng-container *ngIf="window.type === 'RtuState'">
-        <rtu-rtu-state-window [rtuId]="window.id" />
+        <rtu-rtu-state-window [rtuId]="window.id" [zIndex]="window.zIndex" />
       </ng-container>
       <ng-container *ngIf="window.type === 'TraceAssignBaseRefs'">
-        <rtu-trace-assign-base-dialog [traceId]="window.id" />
+        <rtu-trace-assign-base [traceId]="window.id" [zIndex]="window.zIndex" />
       </ng-container>
       <ng-container *ngIf="window.type === 'RftsEvents'">
-        <rtu-rfts-events-window [windowId]="window.id" [rftsEvents]="window.payload" />
+        <rtu-rfts-events-window
+          [windowId]="window.id"
+          [rftsEvents]="window.payload"
+          [zIndex]="window.zIndex"
+        />
       </ng-container>
       <ng-container *ngIf="window.type === 'NetworkSettings'">
-        <rtu-rtu-initialization [rtuId]="window.id" />
+        <rtu-rtu-initialization [rtuId]="window.id" [zIndex]="window.zIndex" />
       </ng-container>
       <ng-container *ngIf="window.type === 'Landmarks'">
-        <rtu-landmarks [traceId]="window.id" />
+        <rtu-landmarks [traceId]="window.id" [zIndex]="window.zIndex" />
       </ng-container>
     </ng-container>
   </div>

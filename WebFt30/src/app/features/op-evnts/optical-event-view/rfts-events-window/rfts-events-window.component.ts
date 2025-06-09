@@ -9,12 +9,10 @@ import { DragWatcher } from 'src/app/shared/utils/drag-watcher';
   selector: 'rtu-rfts-events-window',
   templateUrl: './rfts-events-window.component.html'
 })
-export class RftsEventsWindowComponent implements AfterViewInit {
-  @ViewChild(CdkDrag) dragRef!: CdkDrag;
-  dragWatcher = DragWatcher;
-
+export class RftsEventsWindowComponent {
   fiberState = FiberState;
   @Input() windowId!: string;
+  @Input() zIndex!: number;
 
   selectedLevel = 0;
 
@@ -22,27 +20,8 @@ export class RftsEventsWindowComponent implements AfterViewInit {
 
   constructor(private windowService: WindowService) {}
 
-  ngAfterViewInit() {
-    this.dragRef.setFreeDragPosition({ x: 190, y: 110 });
-  }
-
   selectTab(i: number) {
     this.selectedLevel = i;
-  }
-
-  /////////////////////////
-  zIndex = 1;
-  bringToFront() {
-    this.windowService.bringToFront(this.windowId, 'RftsEvents');
-    this.updateZIndex();
-  }
-
-  private updateZIndex() {
-    const windowData = this.windowService.getWindows().find((w) => w.id === this.windowId);
-    // Обновляем только если значение изменилось
-    if (windowData?.zIndex !== this.zIndex) {
-      this.zIndex = windowData?.zIndex || 1;
-    }
   }
 
   close() {

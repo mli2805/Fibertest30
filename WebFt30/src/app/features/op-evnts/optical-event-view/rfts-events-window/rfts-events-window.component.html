@@ -1,20 +1,14 @@
-<div
-  cdkDrag
-  (cdkDragMoved)="dragWatcher.onDragMoved($event)"
-  (cdkDragStarted)="dragWatcher.onDragStarted($event)"
-  class="draggable-window"
-  (mousedown)="bringToFront()"
-  [style.z-index]="zIndex"
+<rtu-draggable-window
+  [caption]="'i18n.ft.rfts-events' | translate"
+  [modal]="false"
+  [left]="110"
+  [top]="60"
+  [closeOnEscape]="false"
+  [windowId]="windowId"
+  [windowName]="'RftsEvents'"
+  [zIndex]="zIndex"
+  (closeEvent)="close()"
 >
-  <!-- header -->
-  <div cdrDragHandle class="my-2 w-full">
-    <div class="flex items-center justify-between">
-      <div class="ml-3">
-        {{ 'i18n.ft.rfts-events' | translate }}
-      </div>
-      <rtu-close-button class="mr-2 h-6 w-6" (click)="close()" />
-    </div>
-  </div>
   <!-- content -->
   <div class="flex w-[720px] flex-col text-xs">
     <ng-container *ngIf="rftsEvents.isNoFiber">
@@ -76,4 +70,4 @@
       </div>
     </ng-container>
   </div>
-</div>
+</rtu-draggable-window>

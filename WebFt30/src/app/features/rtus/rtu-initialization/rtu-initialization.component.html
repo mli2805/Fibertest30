@@ -1,21 +1,14 @@
-<div
-  cdkDrag
-  (cdkDragMoved)="dragWatcher.onDragMoved($event)"
-  (cdkDragStarted)="dragWatcher.onDragStarted($event)"
-  class="draggable-window"
-  (mousedown)="bringToFront()"
-  [style.z-index]="zIndex"
+<rtu-draggable-window
+  [caption]="'i18n.ft.network-settings' | translate"
+  [modal]="false"
+  [left]="80"
+  [top]="100"
+  [closeOnEscape]="false"
+  [windowId]="rtuId"
+  [windowName]="'NetworkSettings'"
+  [zIndex]="zIndex"
+  (closeEvent)="close()"
 >
-  <!-- header -->
-  <div cdkDragHandle class="w-full py-2">
-    <div class="flex items-center justify-between">
-      <div class="ml-3">
-        {{ 'i18n.ft.network-settings' | translate }}
-      </div>
-      <rtu-close-button class="mr-2 h-6 w-6" (click)="close()" />
-    </div>
-  </div>
-
   <ng-container *ngIf="rtu$ | async as rtu">
     <div class="flex flex-col">
       <div class="grouped-border ml-2 w-96">
@@ -99,4 +92,4 @@
       </div>
     </div>
   </ng-container>
-</div>
+</rtu-draggable-window>

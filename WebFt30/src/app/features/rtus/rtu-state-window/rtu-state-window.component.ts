@@ -24,8 +24,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { RtuTreeService } from 'src/app/core/grpc';
 import { Bop } from 'src/app/core/store/models/ft30/bop';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
-import { CdkDrag } from '@angular/cdk/drag-drop';
-import { DragWatcher } from 'src/app/shared/utils/drag-watcher';
 
 export interface PortInTable {
   port: string;
@@ -40,15 +38,13 @@ export interface PortInTable {
   selector: 'rtu-rtu-state-window',
   templateUrl: './rtu-state-window.component.html'
 })
-export class RtuStateWindowComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(CdkDrag) dragRef!: CdkDrag;
-  dragWatcher = DragWatcher;
-
+export class RtuStateWindowComponent implements OnInit, OnDestroy {
   rtuPartState = RtuPartState;
   baseRefType = BaseRefType;
   public store: Store<AppState> = inject(Store);
 
   @Input() rtuId!: string;
+  @Input() zIndex!: number;
 
   rtu$!: Observable<Rtu | null>;
   subscription!: Subscription;
@@ -85,10 +81,6 @@ export class RtuStateWindowComponent implements OnInit, OnDestroy, AfterViewInit
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-  }
-
-  ngAfterViewInit() {
-    this.dragRef.setFreeDragPosition({ x: 150, y: 110 });
   }
 
   updateTable(rtu: Rtu) {
@@ -182,20 +174,6 @@ export class RtuStateWindowComponent implements OnInit, OnDestroy, AfterViewInit
         default:
           return this.ts.instant('i18n.ft.unknown');
       }
-  }
-
-  zIndex = 1;
-  bringToFront() {
-    this.windowService.bringToFront(this.rtuId, 'RtuState');
-    this.updateZIndex();
-  }
-
-  private updateZIndex() {
-    const windowData = this.windowService.getWindows().find((w) => w.id === this.rtuId);
-    // Обновляем только если значение изменилось
-    if (windowData?.zIndex !== this.zIndex) {
-      this.zIndex = windowData?.zIndex || 1;
-    }
   }
 
   close() {

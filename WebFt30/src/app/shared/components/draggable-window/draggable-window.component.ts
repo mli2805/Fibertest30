@@ -39,6 +39,7 @@ export class DraggableWindowComponent implements AfterViewInit {
   @Input() closeOnEscape = true;
   @Input() windowName!: ManagedWindow;
   @Input() windowId!: string;
+  @Input() zIndex = 75;
 
   @Output() closeEvent = new EventEmitter<void>();
 
@@ -59,8 +60,8 @@ export class DraggableWindowComponent implements AfterViewInit {
   //   if (this.closeOnEscape) this.close();
   // }
 
-  zIndex = 1;
   bringToFront() {
+    console.log(`bringToFront ${this.windowId} ${this.windowName}`);
     this.windowService.bringToFront(this.windowId, this.windowName);
     this.updateZIndex();
   }

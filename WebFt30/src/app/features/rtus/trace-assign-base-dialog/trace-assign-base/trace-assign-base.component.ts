@@ -4,18 +4,18 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
   inject,
   Input,
   OnInit,
-  Output,
   ViewChild
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom, forkJoin, Observable, ReplaySubject, Subscription, takeUntil } from 'rxjs';
+import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 import { AppState, RtuTreeSelectors } from 'src/app/core';
+import { CoreUtils } from 'src/app/core/core.utils';
 import { ExtensionUtils } from 'src/app/core/extension.utils';
 import { RtuMgmtService } from 'src/app/core/grpc';
 import { RtuMgmtMapping } from 'src/app/core/store/mapping/rtu-mgmt-mapping';
@@ -48,9 +48,9 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
 
   rtuId!: string;
   rtu!: Rtu;
-  rtu$ = this.store.select(RtuTreeSelectors.selectRtu(this.rtuId));
-  traceId!: string;
+  rtu$!: Observable<Rtu | null>;
   trace!: Trace;
+  trace$!: Observable<Trace | null>;
   portName!: string;
 
   preciseFileInitialValue!: string;
@@ -64,19 +64,22 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
   @ViewChild('fastFileBox') fastFileBox!: ElementRef;
   @ViewChild('additionalFileBox') additionalFileBox!: ElementRef;
 
-  @Input() set data(value: any) {
-    this.trace = value;
-    this.traceId = value.traceId;
-    this.rtuId = value.rtuId;
+  _traceId!: string;
+  @Input() set traceId(value: string) {
+    this._traceId = value;
+    this.trace = CoreUtils.getCurrentState(this.store, RtuTreeSelectors.selectTrace(value))!;
+    this.trace$ = this.store.select(RtuTreeSelectors.selectTrace(value));
+    this.rtuId = this.trace.rtuId;
     this.rtu$ = this.store.select(RtuTreeSelectors.selectRtu(this.rtuId));
   }
-  @Output() closeEvent = new EventEmitter();
+  @Input() zIndex!: number;
 
   constructor(
     private ts: TranslateService,
     private router: Router,
     private cdr: ChangeDetectorRef,
     private rtuMgmtService: RtuMgmtService,
+    private windowService: WindowService,
     private dialog: Dialog
   ) {
     super();
@@ -95,7 +98,7 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
   }
 
   initializeControls() {
-    this.trace = this.findTrace()!;
+    // this.trace = this.findTrace()!;
     this.portName = ExtensionUtils.PortOfOtauToString(this.trace.port);
 
     this.preciseFileInitialValue =
@@ -112,14 +115,14 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
     this.additionalFileBox.nativeElement.value = this.additionalFileInitialValue;
   }
 
-  findTrace(): Trace | undefined {
-    const trace = this.rtu.traces.find((t) => t.traceId === this.traceId);
-    if (trace !== undefined) return trace;
-    return this.rtu.bops
-      .map((b) => b.traces)
-      .flat()
-      .find((t) => t.traceId === this.traceId);
-  }
+  // findTrace(): Trace | undefined {
+  //   const trace = this.rtu.traces.find((t) => t.traceId === this.traceId);
+  //   if (trace !== undefined) return trace;
+  //   return this.rtu.bops
+  //     .map((b) => b.traces)
+  //     .flat()
+  //     .find((t) => t.traceId === this.traceId);
+  // }
 
   getFileInputAccept(): string {
     return '.sor';
@@ -244,15 +247,15 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
           // еще придет событие BaseRefsAssigned по которому будет пречитан RTU
         } else {
           // написать что неправильно
-          this.composeErrorLines(answer);
+          this.showErrorExplanation(answer);
         }
 
-        this.closeEvent.emit();
+        this.close();
       });
   }
 
   // prettier-ignore
-  composeErrorLines(answer: BaseRefsAssignedDto){
+  showErrorExplanation(answer: BaseRefsAssignedDto){
     let errorLine1 = '';
     let errorLine2 = '';
 
@@ -300,5 +303,9 @@ export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, A
       this.additionalFileBox.nativeElement.value === '' && this.additionalFileInitialValue !== '';
     const bf3 = new BaseRefFile(BaseRefType.Additional, files.file3, deleteAdditional);
     dto.baseFiles.push(bf3);
+  }
+
+  close() {
+    this.windowService.unregisterWindow(this._traceId, 'TraceAssignBaseRefs');
   }
 }

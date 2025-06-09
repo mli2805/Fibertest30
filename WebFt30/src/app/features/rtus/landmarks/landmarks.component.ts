@@ -18,14 +18,14 @@ interface LandmarksModel {
 
 @Component({
   selector: 'rtu-landmarks',
-  templateUrl: './landmarks.component.html',
-  styleUrls: ['./landmarks.component.scss']
+  templateUrl: './landmarks.component.html'
 })
 export class LandmarksComponent implements OnInit {
   spinning = new BehaviorSubject<boolean>(false);
   spinning$ = this.spinning.asObservable();
 
   @Input() traceId!: string;
+  @Input() zIndex!: number;
   trace!: GeoTrace;
   hasBaseRef!: boolean;
 
