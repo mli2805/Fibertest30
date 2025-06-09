@@ -61,7 +61,7 @@ export class DraggableWindowComponent implements AfterViewInit {
   // }
 
   bringToFront() {
-    console.log(`bringToFront ${this.windowId} ${this.windowName}`);
+    // console.log(`bringToFront ${this.windowId} ${this.windowName}`);
     this.windowService.bringToFront(this.windowId, this.windowName);
     this.updateZIndex();
   }
