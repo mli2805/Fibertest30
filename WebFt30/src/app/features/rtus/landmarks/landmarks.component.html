@@ -8,15 +8,7 @@
   (mousedown)="bringToFront()"
   [style.z-index]="zIndex"
 >
-  <!-- header -->
-  <div cdkDragHandle class="w-full py-2">
-    <div class="flex items-center justify-between">
-      <div class="ml-3">
-        {{ 'i18n.ft.landmarks' | translate }}
-      </div>
-      <rtu-close-button class="mr-2 h-6 w-6" (click)="close()" />
-    </div>
-  </div>
+  <rtu-drag-header [caption]="'i18n.ft.landmarks' | translate" (closeEvent)="close()" />
   <!-- content -->
   <!-- prettier-ignore -->
   <ng-container *ngIf="model$ | async as model" >

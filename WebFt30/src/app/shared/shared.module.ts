@@ -91,6 +91,7 @@ import { NumberFormatPipe } from './pipes/number-format.pipe';
 import './../app/number-extension';
 import { Delete2ButtonComponent } from './components/svg-buttons/delete2-button.component';
 import { OpenFileButtonComponent } from './components/svg-buttons/open-file-button.component';
+import { DragHeaderComponent } from './components/drag-header/drag-header.component';
 
 @NgModule({
   imports: [
@@ -184,7 +185,8 @@ import { OpenFileButtonComponent } from './components/svg-buttons/open-file-butt
     MultiSelectionButtonComponent,
     TraceInfoComponent,
     MessageBoxComponent,
-    TabHeaderComponent
+    TabHeaderComponent,
+    DragHeaderComponent
   ],
   exports: [
     CommonModule,
@@ -269,7 +271,8 @@ import { OpenFileButtonComponent } from './components/svg-buttons/open-file-butt
     RadioButtonComponent,
     MultiSelectionButtonComponent,
     TraceInfoComponent,
-    TabHeaderComponent
+    TabHeaderComponent,
+    DragHeaderComponent
   ],
   providers: [
     RtuDateToDayOfWeekPipe,
