@@ -67,7 +67,7 @@ export class EditEquipmentDialogComponent {
   }
 
   isApplyDisabled(): boolean {
-    // if (this.form.pristine) return true;
+    if (this.form.pristine) return true;
     if (!this.form.valid || this.isleftReserveInvalid() || this.isRightReserveInvalid())
       return true;
 
@@ -93,6 +93,14 @@ export class EditEquipmentDialogComponent {
     const json = JSON.stringify(command);
 
     this.dialogRef.close(json);
+  }
+
+  close() {
+    this.dialogRef.close(null);
+  }
+
+  isDiscardDisabled() {
+    return this.form.pristine;
   }
 
   onDiscardClicked() {

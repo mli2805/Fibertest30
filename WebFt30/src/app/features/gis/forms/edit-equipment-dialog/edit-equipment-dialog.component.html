@@ -1,14 +1,13 @@
-<div class="dialog">
-  <div class="flex flex-col" [formGroup]="form">
-    <div class="mb-3 text-base">
-      <ng-container *ngIf="addMode">
-        <label>{{ 'i18n.ft.add-equimpent' | translate }}</label>
-      </ng-container>
-      <ng-container *ngIf="!addMode">
-        <label>{{ 'i18n.ft.update-equimpent' | translate }}</label>
-      </ng-container>
-    </div>
-
+<rtu-draggable-window
+  [caption]="
+    addMode ? ('i18n.ft.add-equimpent' | translate) : ('i18n.ft.update-equimpent' | translate)
+  "
+  [modal]="true"
+  [left]="400"
+  [top]="200"
+  (closeEvent)="close()"
+>
+  <div class="grouped-border m-1 flex flex-col" [formGroup]="form">
     <div class="mb-2 flex items-center">
       <label class="w-28 text-sm">{{ 'i18n.ft.title' | translate }}</label>
       <div>
@@ -63,8 +62,13 @@
     </div>
   </div>
   <!-- buttons -->
-  <div class="mt-6 flex flex-row justify-end">
-    <button class="button-cancel mr-2 min-w-36" (click)="onDiscardClicked()" cdkFocusInitial>
+  <div class="mb-1 mt-2 flex flex-row justify-end">
+    <button
+      class="button-cancel mr-2 min-w-36"
+      (click)="onDiscardClicked()"
+      [disabled]="isDiscardDisabled()"
+      cdkFocusInitial
+    >
       {{ 'i18n.ft.discard' | translate }}
     </button>
     <button
@@ -75,4 +79,4 @@
       {{ 'i18n.ft.apply' | translate }}
     </button>
   </div>
-</div>
+</rtu-draggable-window>
