@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { EquipmentType } from 'src/grpc-generated';
 import { GeoEquipment, GeoTrace, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapService } from '../../gis-map.service';
@@ -11,8 +11,6 @@ import { MapEquipmentActions } from '../../components/gis-actions/map-equipment-
 import { Store } from '@ngrx/store';
 import { AppState, AuthSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
-import { CdkDrag } from '@angular/cdk/drag-drop';
-import { DragWatcher } from 'src/app/shared/utils/drag-watcher';
 
 interface EquipElement {
   isSelected: boolean;
@@ -31,10 +29,7 @@ interface TraceElement {
   templateUrl: './node-info-dialog.component.html',
   styleUrls: ['./node-info-dialog.component.css']
 })
-export class NodeInfoDialogComponent implements OnInit, AfterViewInit {
-  @ViewChild(CdkDrag) dragRef!: CdkDrag;
-  dragWatcher = DragWatcher;
-
+export class NodeInfoDialogComponent implements OnInit {
   public store: Store<AppState> = inject(Store);
   hasEditGraphPermission = CoreUtils.getCurrentState(
     this.store,
@@ -60,10 +55,6 @@ export class NodeInfoDialogComponent implements OnInit, AfterViewInit {
     });
 
     this.updateTablesEquipmentAndTraces();
-  }
-
-  ngAfterViewInit() {
-    this.dragRef.setFreeDragPosition({ x: 290, y: 75 });
   }
 
   updateTablesEquipmentAndTraces() {
@@ -215,10 +206,5 @@ export class NodeInfoDialogComponent implements OnInit, AfterViewInit {
     this.traceTable.forEach((l) => {
       l.isSelected = l.equipId === line.equipment.id;
     });
-  }
-
-  @HostListener('document:keydown.escape', ['$event'])
-  handleEscape() {
-    this.close();
   }
 }

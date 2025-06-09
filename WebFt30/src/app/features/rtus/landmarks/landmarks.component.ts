@@ -1,13 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  HostListener,
-  inject,
-  Injector,
-  Input,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { Component, HostListener, inject, Injector, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
@@ -20,8 +11,6 @@ import { LandmarkMenu } from './one-landmark-menu/landmark-menu';
 import { EquipmentType } from 'src/grpc-generated';
 import { GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
 import { CoreUtils } from 'src/app/core/core.utils';
-import { CdkDrag } from '@angular/cdk/drag-drop';
-import { DragWatcher } from '../../../shared/utils/drag-watcher';
 
 interface LandmarksModel {
   landmarks: OneLandmark[];
@@ -32,10 +21,7 @@ interface LandmarksModel {
   templateUrl: './landmarks.component.html',
   styleUrls: ['./landmarks.component.scss']
 })
-export class LandmarksComponent implements OnInit, AfterViewInit {
-  @ViewChild(CdkDrag) dragRef!: CdkDrag;
-  dragWatcher = DragWatcher;
-
+export class LandmarksComponent implements OnInit {
   spinning = new BehaviorSubject<boolean>(false);
   spinning$ = this.spinning.asObservable();
 
@@ -88,10 +74,6 @@ export class LandmarksComponent implements OnInit, AfterViewInit {
     this.landmarksModel.next({ landmarks: this.originalLandmarks });
   }
 
-  ngAfterViewInit() {
-    this.dragRef.setFreeDragPosition({ x: 100, y: 50 });
-  }
-
   // переключатель показа всех ориентиров или только с оборудованием
   onlyEquipment = false;
   onEquipmChanged() {
@@ -127,27 +109,12 @@ export class LandmarksComponent implements OnInit, AfterViewInit {
   saveChanges() {
     //
   }
-  /////////////////////////////
-  zIndex = 1;
-  bringToFront() {
-    this.windowService.bringToFront(this.traceId, 'Landmarks');
-    this.updateZIndex();
-  }
-
-  private updateZIndex() {
-    const windowData = this.windowService.getWindows().find((w) => w.id === this.traceId);
-    // Обновляем только если значение изменилось
-    if (windowData?.zIndex !== this.zIndex) {
-      this.zIndex = windowData?.zIndex || 1;
-    }
-  }
 
   close() {
     this.windowService.unregisterWindow(this.traceId, 'Landmarks');
     this.gisMapService.setHighlightNode(null);
   }
 
-  //////
   openContextMenu(event: MouseEvent, landmark: OneLandmark) {
     event.preventDefault();
 

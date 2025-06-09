@@ -1,15 +1,15 @@
 <rtu-loading-centered-big-spinner *ngIf="spinning$ | async"></rtu-loading-centered-big-spinner>
 
-<div
-  cdkDrag
-  (cdkDragMoved)="dragWatcher.onDragMoved($event)"
-  (cdkDragStarted)="dragWatcher.onDragStarted($event)"
-  class="draggable-window"
-  (mousedown)="bringToFront()"
-  [style.z-index]="zIndex"
+<rtu-draggable-window
+  [caption]="'i18n.ft.landmarks' | translate"
+  [modal]="false"
+  [left]="100"
+  [top]="50"
+  [closeOnEscape]="false"
+  [windowId]="traceId"
+  [windowName]="'Landmarks'"
+  (closeEvent)="close()"
 >
-  <rtu-drag-header [caption]="'i18n.ft.landmarks' | translate" (closeEvent)="close()" />
-  <!-- content -->
   <!-- prettier-ignore -->
   <ng-container *ngIf="model$ | async as model" >
     <!-- table -->
@@ -75,7 +75,7 @@
     </div>
 
   </ng-container>
-</div>
+</rtu-draggable-window>
 
 <rtu-one-landmark-menu
   [isOpen]="showContextMenu"

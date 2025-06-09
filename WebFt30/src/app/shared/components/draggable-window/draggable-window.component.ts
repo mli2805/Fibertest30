@@ -1,0 +1,75 @@
+import { CdkDrag } from '@angular/cdk/drag-drop';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+  ViewChild
+} from '@angular/core';
+import { DragWatcher } from '../../utils/drag-watcher';
+import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
+
+// немодальные, тягаемые окна
+// start-page.component.html
+export type ManagedWindow =
+  | 'RtuState'
+  | 'Landmarks'
+  | 'TraceAssignBaseRefs'
+  | 'RftsEvents'
+  | 'NetworkSettings'
+  | 'NodeInfo';
+
+@Component({
+  selector: 'rtu-draggable-window',
+  templateUrl: './draggable-window.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class DraggableWindowComponent implements AfterViewInit {
+  @ViewChild(CdkDrag) dragRef!: CdkDrag;
+  dragWatcher = DragWatcher;
+
+  @Input() caption!: string;
+  @Input() modal = true;
+  @Input() left = 110;
+  @Input() top = 75;
+  @Input() closeOnEscape = true;
+  @Input() windowName!: ManagedWindow;
+  @Input() windowId!: string;
+
+  @Output() closeEvent = new EventEmitter<void>();
+
+  constructor(private windowService: WindowService, private cdr: ChangeDetectorRef) {}
+
+  ngAfterViewInit() {
+    this.dragRef.setFreeDragPosition({ x: this.left, y: this.top });
+  }
+
+  close() {
+    this.closeEvent.next();
+  }
+
+  // временно закоментил
+  // надо реализовать нормально bringToFront, тогда можно будет определять кто сейчас активный и тогда можно по Escape закрывать активный
+  // @HostListener('document:keydown.escape', ['$event'])
+  // handleEscape() {
+  //   if (this.closeOnEscape) this.close();
+  // }
+
+  zIndex = 1;
+  bringToFront() {
+    this.windowService.bringToFront(this.windowId, this.windowName);
+    this.updateZIndex();
+  }
+
+  private updateZIndex() {
+    const windowData = this.windowService.getWindows().find((w) => w.id === this.windowId);
+    // Обновляем только если значение изменилось
+    if (windowData?.zIndex !== this.zIndex) {
+      this.zIndex = windowData?.zIndex || 1;
+    }
+  }
+}

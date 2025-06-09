@@ -92,6 +92,8 @@ import './../app/number-extension';
 import { Delete2ButtonComponent } from './components/svg-buttons/delete2-button.component';
 import { OpenFileButtonComponent } from './components/svg-buttons/open-file-button.component';
 import { DragHeaderComponent } from './components/drag-header/drag-header.component';
+import { DraggableWindowComponent } from './components/draggable-window/draggable-window.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   imports: [
@@ -100,7 +102,8 @@ import { DragHeaderComponent } from './components/drag-header/drag-header.compon
     RouterModule,
     ReactiveFormsModule,
     TranslateModule,
-    OverlayModule
+    OverlayModule,
+    DragDropModule
   ],
   declarations: [
     RtuThemeSwitcherComponent,
@@ -186,7 +189,8 @@ import { DragHeaderComponent } from './components/drag-header/drag-header.compon
     TraceInfoComponent,
     MessageBoxComponent,
     TabHeaderComponent,
-    DragHeaderComponent
+    DragHeaderComponent,
+    DraggableWindowComponent
   ],
   exports: [
     CommonModule,
@@ -272,7 +276,8 @@ import { DragHeaderComponent } from './components/drag-header/drag-header.compon
     MultiSelectionButtonComponent,
     TraceInfoComponent,
     TabHeaderComponent,
-    DragHeaderComponent
+    DragHeaderComponent,
+    DraggableWindowComponent
   ],
   providers: [
     RtuDateToDayOfWeekPipe,
