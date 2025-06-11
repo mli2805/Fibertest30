@@ -581,6 +581,11 @@
   "i18n.ft.node-without-equipment": "Node without equimpent",
   "i18n.ft.adjustment-point": "Adjustment point",
 
+  "i18n.ft.information-node": "Information (Node)",
+  "i18n.ft.information-section": "Information (Section)",
+  "i18n.ft.information-trace": "Information (Trace)",
+  "i18n.ft.information-rtu": "Information (RTU)",
+
   "i18n.ft.node": "Node",
   "i18n.ft.equipment-in-node": "Equipment in node",
   "i18n.ft.traces-in-node": "Traces in node",
