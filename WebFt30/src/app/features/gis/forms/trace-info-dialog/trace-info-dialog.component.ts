@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, inject, ViewChild } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { TraceInfoMode } from './trace-info/trace-info.component';
 import { FiberStateItem, GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapService } from '../../gis-map.service';
@@ -19,17 +19,12 @@ import { TraceDefineUtils } from '../trace-define/trace-define-utils';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
-import { CdkDrag } from '@angular/cdk/drag-drop';
-import { DragWatcher } from 'src/app/shared/utils/drag-watcher';
 
 @Component({
   selector: 'rtu-trace-info-dialog',
   templateUrl: './trace-info-dialog.component.html'
 })
-export class TraceInfoDialogComponent implements AfterViewInit {
-  @ViewChild(CdkDrag) dragRef!: CdkDrag;
-  dragWatcher = DragWatcher;
-
+export class TraceInfoDialogComponent {
   traceInfoMode = TraceInfoMode;
   mode!: TraceInfoMode;
   rtuId!: string;
@@ -51,10 +46,6 @@ export class TraceInfoDialogComponent implements AfterViewInit {
     } else {
       this.collectTraceInfoDataFromExistingTrace(gisMapService.traceIdToShowInfo);
     }
-  }
-
-  ngAfterViewInit() {
-    this.dragRef.setFreeDragPosition({ x: 190, y: 80 });
   }
 
   collectTraceInfoDataFromExistingTrace(traceId: string) {
@@ -187,6 +178,10 @@ export class TraceInfoDialogComponent implements AfterViewInit {
     // форма traceDefine получив applyDefinedTraceId, закроет этот диалог
     // т.к. значение не null то и сама traceDefine закроется
     this.gisMapService.applyDefinedTraceId.next(trace.id);
+  }
+
+  close() {
+    this.gisMapService.showTraceInfoDialog.next(false);
   }
 
   @HostListener('document:keydown.escape', ['$event'])

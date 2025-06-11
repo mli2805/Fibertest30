@@ -1,29 +1,18 @@
 <rtu-loading-centered-big-spinner *ngIf="spinning$ | async"></rtu-loading-centered-big-spinner>
 
-<div class="modal-backdrop">
-  <div
-    cdkDrag
-    (cdkDragMoved)="dragWatcher.onDragMoved($event)"
-    (cdkDragStarted)="dragWatcher.onDragStarted($event)"
-    class="draggable-window"
-  >
-    <!-- draggable header -->
-    <div cdkDragHandle class="ml-3 py-2">
-      <div class="flex items-center justify-between">
-        <ng-container *ngIf="mode === traceInfoMode.CreateTrace">
-          {{ 'i18n.ft.create-trace' | translate }}
-        </ng-container>
-        <ng-container *ngIf="mode !== traceInfoMode.CreateTrace">
-          {{ 'i18n.ft.information' | translate }}
-        </ng-container>
-        <rtu-close-button class="mr-2 h-6 w-6" (click)="onCloseEvent(null)" />
-      </div>
-    </div>
-    <!-- content -->
-    <rtu-trace-info
-      class="w-120"
-      [data]="traceInfoData"
-      (closeEvent)="onCloseEvent($event)"
-    ></rtu-trace-info>
-  </div>
-</div>
+<rtu-draggable-window
+  [caption]="
+    mode === traceInfoMode.CreateTrace
+      ? ('i18n.ft.create-trace' | translate)
+      : ('i18n.ft.information' | translate)
+  "
+  [modal]="true"
+  (closeEvent)="close()"
+>
+  <!-- content -->
+  <rtu-trace-info
+    class="w-120"
+    [data]="traceInfoData"
+    (closeEvent)="onCloseEvent($event)"
+  ></rtu-trace-info>
+</rtu-draggable-window>

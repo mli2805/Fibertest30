@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { AppState, AuthSelectors } from 'src/app/core';
@@ -10,8 +10,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ValidationUtils } from 'src/app/shared/utils/validation-utils';
 import { GraphService } from 'src/app/core/grpc';
 import { environment } from 'src/environments/environment';
-import { CdkDrag } from '@angular/cdk/drag-drop';
-import { DragWatcher } from 'src/app/shared/utils/drag-watcher';
 
 interface OpticalLengthModel {
   trace: string;
@@ -32,10 +30,7 @@ interface FiberInfoModel {
   selector: 'rtu-fiber-info',
   templateUrl: './fiber-info.component.html'
 })
-export class FiberInfoComponent implements OnInit, AfterViewInit {
-  @ViewChild(CdkDrag) dragRef!: CdkDrag;
-  dragWatcher = DragWatcher;
-
+export class FiberInfoComponent implements OnInit {
   spinning = new BehaviorSubject<boolean>(false);
   spinning$ = this.spinning.asObservable();
   isDevMode = !environment.production;
@@ -76,10 +71,6 @@ export class FiberInfoComponent implements OnInit, AfterViewInit {
     });
 
     this.fiberInfoModel.next(this.toModel(response.fiberInfo!));
-  }
-
-  ngAfterViewInit() {
-    this.dragRef.setFreeDragPosition({ x: 290, y: 75 });
   }
 
   isInputDisabled() {
