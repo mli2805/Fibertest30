@@ -94,6 +94,7 @@ import { OpenFileButtonComponent } from './components/svg-buttons/open-file-butt
 import { DragHeaderComponent } from './components/drag-header/drag-header.component';
 import { DraggableWindowComponent } from './components/draggable-window/draggable-window.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { GroupBoxComponent } from './components/group-box/group-box.component';
 
 @NgModule({
   imports: [
@@ -190,7 +191,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MessageBoxComponent,
     TabHeaderComponent,
     DragHeaderComponent,
-    DraggableWindowComponent
+    DraggableWindowComponent,
+    GroupBoxComponent
   ],
   exports: [
     CommonModule,
@@ -277,7 +279,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     TraceInfoComponent,
     TabHeaderComponent,
     DragHeaderComponent,
-    DraggableWindowComponent
+    DraggableWindowComponent,
+    GroupBoxComponent
   ],
   providers: [
     RtuDateToDayOfWeekPipe,
