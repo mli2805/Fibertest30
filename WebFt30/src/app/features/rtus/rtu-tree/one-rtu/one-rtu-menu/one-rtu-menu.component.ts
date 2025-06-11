@@ -88,7 +88,10 @@ export class OneRtuMenuComponent {
 
   async onInformationClicked() {
     const node = this.gisMapService.getNode(this.rtu.nodeId);
-    this.gisMapService.setRtuNodeForDialog(node, RtuInfoMode.ShowInformation);
+    this.windowService.registerWindow(node.id, 'RtuInfo', {
+      mode: RtuInfoMode.ShowInformation,
+      node: node
+    });
   }
 
   onShowClicked() {

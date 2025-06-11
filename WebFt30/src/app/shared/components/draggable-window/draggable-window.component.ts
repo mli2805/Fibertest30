@@ -22,7 +22,10 @@ export type ManagedWindow =
   | 'RftsEvents'
   | 'NetworkSettings'
   | 'TraceDefine'
-  | 'NodeInfo';
+  | 'NodeInfo'
+  | 'FiberInfo'
+  | 'RtuInfo'
+  | 'TraceInfo';
 
 @Component({
   selector: 'rtu-draggable-window',
@@ -40,7 +43,7 @@ export class DraggableWindowComponent implements AfterViewInit {
   @Input() closeOnEscape = true;
   @Input() windowName!: ManagedWindow;
   @Input() windowId!: string;
-  @Input() zIndex = 75;
+  @Input() zIndex = 100;
 
   @Output() closeEvent = new EventEmitter<void>();
 

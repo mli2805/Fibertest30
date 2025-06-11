@@ -70,8 +70,16 @@
       <ng-container *ngIf="window.type === 'Landmarks'">
         <rtu-landmarks [traceId]="window.id" [zIndex]="window.zIndex" />
       </ng-container>
+
       <ng-container *ngIf="window.type === 'TraceDefine'">
         <rtu-trace-define [rtuId]="window.id" [zIndex]="window.zIndex" />
+      </ng-container>
+      <ng-container *ngIf="window.type === 'RtuInfo'">
+        <rtu-add-rtu-dialog
+          [nodeId]="window.id"
+          [zIndex]="window.zIndex"
+          [payload]="window.payload"
+        />
       </ng-container>
     </ng-container>
   </div>

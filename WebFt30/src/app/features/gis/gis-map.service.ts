@@ -123,18 +123,6 @@ export class GisMapService {
   showNextStepSelector$ = this.showNextStepSelector.asObservable();
 
   /////////////////////////
-  showRtuDialogMode!: RtuInfoMode;
-  rtuNodeToShowDialog!: TraceNode;
-  setRtuNodeForDialog(node: TraceNode, mode: RtuInfoMode) {
-    this.rtuNodeToShowDialog = node;
-    this.showRtuDialogMode = mode;
-    this.showRtuAddOrEditDialog.next(true);
-  }
-
-  showRtuAddOrEditDialog = new BehaviorSubject<boolean>(false);
-  showRtuAddOrEditDialog$ = this.showRtuAddOrEditDialog.asObservable();
-
-  /////////////////////////
   showTraceInfoDialogMode!: TraceInfoMode;
   traceIdToShowInfo!: string;
 

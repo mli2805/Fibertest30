@@ -1,10 +1,11 @@
 <rtu-draggable-window
   [caption]="
-    mode === rtuInfoMode.AddRtu
+    payload.mode === rtuInfoMode.AddRtu
       ? ('i18n.ft.add-rtu' | translate)
       : ('i18n.ft.information' | translate)
   "
   [modal]="true"
+  [zIndex]="zIndex"
   (closeEvent)="close()"
 >
   <!-- content -->

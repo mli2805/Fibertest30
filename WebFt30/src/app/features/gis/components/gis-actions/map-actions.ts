@@ -8,13 +8,16 @@ import { Injector } from '@angular/core';
 import { MapLayersActions } from './map-layers-actions';
 import { GisMapLayer } from '../shared/gis-map-layer';
 import { RtuInfoMode } from '../../forms/add-rtu-dialog/rtu-info/rtu-info.component';
+import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 
 export class MapActions {
   private static gisMapService: GisMapService;
+  private static windowService: WindowService;
   private static graphService: GraphService;
 
   static initialize(injector: Injector) {
     this.gisMapService = injector.get(GisMapService);
+    this.windowService = injector.get(WindowService);
     this.graphService = injector.get(GraphService);
   }
 
@@ -63,7 +66,7 @@ export class MapActions {
 
   static addNewRtu(e: L.ContextMenuItemClickEvent) {
     const node = new TraceNode(crypto.randomUUID(), '', e.latlng, EquipmentType.Rtu, '');
-    this.gisMapService.setRtuNodeForDialog(node, RtuInfoMode.AddRtu);
+    this.windowService.registerWindow(node.id, 'RtuInfo', { mode: RtuInfoMode.AddRtu, node: node });
   }
 
   static dragMarkerWithPolylines(e: L.DragEndEvent) {

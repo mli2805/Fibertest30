@@ -68,7 +68,10 @@ export class MapRtuMenu {
     const nodeId = (<any>e.relatedTarget).id;
     const node = this.gisMapService.getNode(nodeId);
 
-    this.gisMapService.setRtuNodeForDialog(node, RtuInfoMode.ShowInformation);
+    this.windowService.registerWindow(nodeId, 'RtuInfo', {
+      mode: RtuInfoMode.ShowInformation,
+      node: node
+    });
   }
 
   // если нету трасс

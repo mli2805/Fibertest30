@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { EquipmentType } from 'src/grpc-generated';
 import { GisMapService } from '../../gis-map.service';
@@ -7,45 +7,56 @@ import { GeoEquipment, TraceNode } from 'src/app/core/store/models/ft30/geo-data
 import { MapLayersActions } from '../../components/gis-actions/map-layers-actions';
 import { GisMapLayer } from '../../components/shared/gis-map-layer';
 import { RtuInfoMode } from './rtu-info/rtu-info.component';
+import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 @Component({
   selector: 'rtu-add-rtu-dialog',
   templateUrl: './add-rtu-dialog.component.html'
 })
-export class AddRtuDialogComponent {
+export class AddRtuDialogComponent implements OnInit {
+  @Input() nodeId!: string;
+  @Input() zIndex!: number;
+
   rtuInfoMode = RtuInfoMode;
-  mode!: RtuInfoMode;
+  @Input() payload!: any;
+  rtuId!: string;
+
   rtuInfoData!: any;
 
   spinning = new BehaviorSubject<boolean>(false);
   spinning$ = this.spinning.asObservable();
 
-  constructor(private graphService: GraphService, private gisMapService: GisMapService) {
-    this.mode = gisMapService.showRtuDialogMode;
+  constructor(
+    private graphService: GraphService,
+    private gisMapService: GisMapService,
+    private windowService: WindowService
+  ) {}
+
+  ngOnInit(): void {
+    console.log(this.nodeId);
     const rtuId =
-      this.mode === RtuInfoMode.AddRtu
+      this.payload.mode === RtuInfoMode.AddRtu
         ? crypto.randomUUID()
-        : gisMapService
-            .getGeoData()
-            .equipments.find((e) => e.nodeId === gisMapService.rtuNodeToShowDialog.id)!.id;
+        : this.gisMapService.getGeoData().equipments.find((e) => e.nodeId === this.nodeId)!.id;
     this.rtuInfoData = {
       hasPermission: true,
-      mode: this.mode,
+      mode: this.payload.mode,
       rtuId: rtuId,
-      rtuNode: gisMapService.rtuNodeToShowDialog
+      rtuNode: this.payload.node
     };
   }
+
   // кнопка нажата в rtu-info
   async onCloseEvent(node: TraceNode | null) {
     if (node === null) {
-      this.gisMapService.showRtuAddOrEditDialog.next(false);
+      this.close();
       return;
     }
 
-    this.mode === RtuInfoMode.AddRtu
+    this.payload.mode === RtuInfoMode.AddRtu
       ? await this.onCloseAddRtu(node)
       : await this.onCloseUpdateRtu(node);
 
-    this.gisMapService.showRtuAddOrEditDialog.next(false);
+    this.close();
   }
 
   async onCloseAddRtu(node: TraceNode) {
@@ -96,11 +107,11 @@ export class AddRtuDialogComponent {
   }
 
   close() {
-    this.gisMapService.showRtuAddOrEditDialog.next(false);
+    this.windowService.unregisterWindow(this.nodeId, 'RtuInfo');
   }
 
   @HostListener('document:keydown.escape', ['$event'])
   handleEscape() {
-    this.gisMapService.showRtuAddOrEditDialog.next(false);
+    this.close();
   }
 }

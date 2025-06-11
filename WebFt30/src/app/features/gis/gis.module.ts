@@ -21,7 +21,15 @@ import { TraceEquipmentSelectorComponent } from './forms/trace-equipment-selecto
 
 @NgModule({
   imports: [GisRoutingModule, SharedModule, DragDropModule],
-  exports: [GisComponent, GisMapComponent, NodeInfoDialogComponent, TraceDefineComponent],
+  exports: [
+    GisComponent,
+    GisMapComponent,
+    NodeInfoDialogComponent,
+    FiberInfoComponent,
+    TraceInfoDialogComponent,
+    TraceDefineComponent,
+    AddRtuDialogComponent
+  ],
   declarations: [
     GisComponent,
     GisMapComponent,
