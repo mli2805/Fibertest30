@@ -186,7 +186,7 @@ export class OneRtuMenuComponent {
 
   onDefineTraceClicked() {
     this.gisMapService.setHighlightNode(this.rtu.nodeId);
-    this.gisMapService.showTraceDefine.next(this.rtu.nodeId);
+    this.windowService.registerWindow(this.rtu.rtuId, 'TraceDefine', null);
 
     this.gisMapService.clearSteps();
     const firstStepRtu = new StepModel();

@@ -21,6 +21,7 @@ export type ManagedWindow =
   | 'TraceAssignBaseRefs'
   | 'RftsEvents'
   | 'NetworkSettings'
+  | 'TraceDefine'
   | 'NodeInfo';
 
 @Component({

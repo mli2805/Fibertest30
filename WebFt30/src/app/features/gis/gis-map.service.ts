@@ -107,9 +107,6 @@ export class GisMapService {
   mousePosition = new BehaviorSubject<L.LatLng | null>(null);
   mousePosition$ = this.mousePosition.asObservable();
 
-  showTraceDefine = new BehaviorSubject<string | null>(null);
-  showTraceDefine$ = this.showTraceDefine.asObservable();
-
   //////////////////////////////////////////
   nextStepButtons!: RadioButton[];
   nextStepSelectedId = new BehaviorSubject<number | null>(null);

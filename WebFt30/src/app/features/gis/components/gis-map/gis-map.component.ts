@@ -70,11 +70,6 @@ export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy 
     const mapDiv = document.getElementById('map');
     const resizeObserver = new (window as any).ResizeObserver(() => {
       this.gisMapService.getMap().invalidateSize();
-
-      if (this.gisMapService.showTraceDefine.value !== null) {
-        const node = this.gisMapService.getNode(this.gisMapService.showTraceDefine.value);
-        this.gisMapService.getMap().setView(node.coors);
-      }
     });
     resizeObserver.observe(mapDiv);
     //////////////////////////////////

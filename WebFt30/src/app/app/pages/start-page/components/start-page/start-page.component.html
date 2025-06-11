@@ -70,6 +70,9 @@
       <ng-container *ngIf="window.type === 'Landmarks'">
         <rtu-landmarks [traceId]="window.id" [zIndex]="window.zIndex" />
       </ng-container>
+      <ng-container *ngIf="window.type === 'TraceDefine'">
+        <rtu-trace-define [rtuId]="window.id" [zIndex]="window.zIndex" />
+      </ng-container>
     </ng-container>
   </div>
 </div>

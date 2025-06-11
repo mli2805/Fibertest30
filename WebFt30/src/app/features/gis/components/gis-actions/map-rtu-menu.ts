@@ -10,16 +10,19 @@ import { StepModel } from '../../forms/trace-define/step-model';
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 import { MapNodeRemove } from './map-node-remove';
 import { RtuInfoMode } from '../../forms/add-rtu-dialog/rtu-info/rtu-info.component';
+import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 
 export class MapRtuMenu {
   private static ts: TranslateService;
   private static gisMapService: GisMapService;
+  private static windowService: WindowService;
   private static graphService: GraphService;
   private static dialog: Dialog;
 
   static initialize(injector: Injector) {
     this.ts = injector.get(TranslateService);
     this.gisMapService = injector.get(GisMapService);
+    this.windowService = injector.get(WindowService);
     this.graphService = injector.get(GraphService);
     this.dialog = injector.get(Dialog);
   }
@@ -106,7 +109,6 @@ export class MapRtuMenu {
     const node = this.gisMapService.getNode(nodeId);
 
     this.gisMapService.setHighlightNode(nodeId);
-    this.gisMapService.showTraceDefine.next(nodeId);
 
     this.gisMapService.clearSteps();
     const firstStepRtu = new StepModel();
@@ -116,5 +118,7 @@ export class MapRtuMenu {
       .getGeoData()
       .equipments.find((e) => e.nodeId === nodeId)!.id;
     this.gisMapService.addStep(firstStepRtu);
+
+    this.windowService.registerWindow(firstStepRtu.equipmentId, 'TraceDefine', null);
   }
 }
