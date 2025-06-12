@@ -409,7 +409,7 @@
 }
 
 .modal-backdrop {
-  @apply fixed inset-0 flex items-center justify-center bg-black bg-opacity-20;
+  @apply fixed inset-0 flex items-center justify-center bg-black bg-opacity-10;
 }
 
 /* scroll bar. Chrome, Edge, and Safari  */
