@@ -88,7 +88,7 @@ export class TraceDefineComponent implements OnInit {
         if (neighbours[0].node.id !== previousNodeId) return this.justStep(neighbours[0]);
         if (!isButtonPressed) return false;
 
-        MessageBoxUtils.show(this.dialog, 'Error', [
+        MessageBoxUtils.show(this.dialog, 'Information', [
           {
             message: 'i18n.ft.it-s-an-end-node',
             bold: true,

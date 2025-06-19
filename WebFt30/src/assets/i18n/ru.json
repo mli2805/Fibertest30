@@ -375,8 +375,10 @@
   "i18n.ft.confirmation": "Подтверждение",
   "i18n.ft.error": "Ошибка",
   "i18n.ft.attention": "Внимание!",
-  "i18n.ft.all-measurements-for-trace": "Все измерения по трассе",
-  "i18n.ft.will-be-removed": "будут удалены!",
+  "i18n.ft.all-information-about-the-trace": "Вся информация о трассе",
+  "i18n.ft.except-for-nodes-and-sections": "кроме узлов и участков",
+  "i18n.ft.including-nodes-and-sections-not-part-of-other-traces": "в том числе узлы и участки не входящие в другие трассы",
+  "i18n.ft.will-be-removed": "будет удалена!",
   "i18n.ft.are-you-sure": "Вы уверены?",
 
   "i18n.ft.rfts-events": "RFTS События",

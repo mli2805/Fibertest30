@@ -695,7 +695,9 @@
   "i18n.ft.confirmation": "Confirmation",
   "i18n.ft.error": "Error",
   "i18n.ft.attention": "Attention!",
-  "i18n.ft.all-measurements-for-trace": "All measurements for trace",
+  "i18n.ft.all-information-about-the-trace": "All information about the trace",
+  "i18n.ft.except-for-nodes-and-sections": "except for nodes and sections",
+  "i18n.ft.including-nodes-and-sections-not-part-of-other-traces": "including nodes and sections not part of other traces",
   "i18n.ft.will-be-removed": "will be removed!",
   "i18n.ft.are-you-sure": "Are you sure?",
 

@@ -128,8 +128,17 @@ export class DetachedTraceMenuComponent {
   async cleanOrRemove(command: string) {
     const confirmation = await MessageBoxUtils.show(this.dialog, 'Confirmation', [
       { message: 'i18n.ft.attention', bold: false, bottomMargin: false },
-      { message: 'i18n.ft.all-measurements-for-trace', bold: false, bottomMargin: true },
+      { message: 'i18n.ft.all-information-about-the-trace', bold: false, bottomMargin: true },
       { message: this.trace.title, bold: true, bottomMargin: true },
+      {
+        message:
+          command === 'CleanTrace'
+            ? 'i18n.ft.except-for-nodes-and-sections'
+            : 'i18n.ft.including-nodes-and-sections-not-part-of-other-traces',
+        bold: false,
+        bottomMargin: true
+      },
+
       { message: 'i18n.ft.will-be-removed', bold: false, bottomMargin: true },
       { message: 'i18n.ft.are-you-sure', bold: false, bottomMargin: false }
     ]);
