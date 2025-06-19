@@ -210,6 +210,7 @@
   "i18n.ft.automatic": "Автоматический",
   "i18n.ft.manual": "Ручной",
   "i18n.ft.fast-precise": "Быстрый / Точный",
+  "i18n.ft.no-monitoring-ports-specified": "Не заданы порты для мониторинга.",
 
   "i18n.ft.sec": "сек",
   "i18n.ft.apply": "Применить",

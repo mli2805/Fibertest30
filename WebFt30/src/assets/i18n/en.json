@@ -489,6 +489,7 @@
   "i18n.ft.automatic": "Automatic",
   "i18n.ft.manual": "Manual",
   "i18n.ft.fast-precise": "Fast / Precise",
+  "i18n.ft.no-monitoring-ports-specified": "No monitoring ports specified.",
 
   "i18n.ft.sec": "sec",
   "i18n.ft.apply": "Apply",

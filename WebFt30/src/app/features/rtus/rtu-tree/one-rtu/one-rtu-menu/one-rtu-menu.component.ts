@@ -20,6 +20,8 @@ import { StepModel } from 'src/app/features/gis/forms/trace-define/step-model';
 import { MapRtuMenu } from 'src/app/features/gis/components/gis-actions/map-rtu-menu';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 import { RtuInfoMode } from 'src/app/features/gis/forms/add-rtu-dialog/rtu-info/rtu-info.component';
+import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
+import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'rtu-one-rtu-menu',
@@ -46,6 +48,7 @@ export class OneRtuMenuComponent {
     private windowService: WindowService,
     private elementRef: ElementRef,
     private router: Router,
+    private dialog: Dialog,
     private cdr: ChangeDetectorRef
   ) {
     this.currentUser = CoreUtils.getCurrentState(this.store, AuthSelectors.selectUser);
@@ -163,7 +166,16 @@ export class OneRtuMenuComponent {
 
   onAutomaticModeClicked() {
     const dto = SecUtil.buildAutoModeDto(this.rtu);
-    console.log(dto);
+    if (dto.ports.length === 0) {
+      MessageBoxUtils.show(this.dialog, 'Error', [
+        {
+          message: 'i18n.ft.no-monitoring-ports-specified',
+          bold: true,
+          bottomMargin: false
+        }
+      ]);
+      return;
+    }
     this.store.dispatch(RtuMgmtActions.applyMonitoringSettings({ dto }));
   }
 
