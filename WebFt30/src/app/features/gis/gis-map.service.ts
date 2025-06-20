@@ -5,9 +5,6 @@ import { AllGeoData, GeoFiber, TraceNode } from 'src/app/core/store/models/ft30/
 import * as L from 'leaflet';
 import { GisMapUtils } from './components/shared/gis-map.utils';
 import { StepModel } from './forms/trace-define/step-model';
-import { RadioButton } from 'src/app/shared/components/svg-buttons/radio-button/radio-button';
-import { RtuInfoMode } from './forms/add-rtu-dialog/rtu-info/rtu-info.component';
-import { TraceInfoMode } from './forms/trace-info-dialog/trace-info/trace-info.component';
 
 @Injectable({
   providedIn: 'root'
@@ -108,16 +105,6 @@ export class GisMapService {
   mousePosition$ = this.mousePosition.asObservable();
 
   //////////////////////////////////////////
-  showTraceInfoDialogMode!: TraceInfoMode;
-  traceIdToShowInfo!: string;
-
-  showTraceInfoDialog = new BehaviorSubject<boolean>(false);
-  showTraceInfoDialog$ = this.showTraceInfoDialog.asObservable();
-
-  applyDefinedTraceId = new Subject<string | null>();
-  applyDefinedTraceId$ = this.applyDefinedTraceId.asObservable();
-
-  /////////////////////////
   showSectionInfoFromLandmarks = false;
   showSectionInfoDialog = new BehaviorSubject<string | null>(null);
   showSectionInfoDialog$ = this.showSectionInfoDialog.asObservable();

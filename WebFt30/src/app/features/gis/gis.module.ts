@@ -18,6 +18,7 @@ import { RtuInfoComponent } from './forms/add-rtu-dialog/rtu-info/rtu-info.compo
 import { TraceInfoDialogComponent } from './forms/trace-info-dialog/trace-info-dialog.component';
 import { FiberInfoComponent } from './forms/fiber-info/fiber-info.component';
 import { TraceEquipmentSelectorComponent } from './forms/trace-equipment-selector/trace-equipment-selector.component';
+import { AcceptTraceDialogComponent } from './forms/trace-info-dialog/accept-trace-dialog/accept-trace-dialog.component';
 
 @NgModule({
   imports: [GisRoutingModule, SharedModule, DragDropModule],
@@ -45,7 +46,8 @@ import { TraceEquipmentSelectorComponent } from './forms/trace-equipment-selecto
     RtuInfoComponent,
     TraceInfoDialogComponent,
     FiberInfoComponent,
-    TraceEquipmentSelectorComponent
+    TraceEquipmentSelectorComponent,
+    AcceptTraceDialogComponent
   ],
   providers: []
 })

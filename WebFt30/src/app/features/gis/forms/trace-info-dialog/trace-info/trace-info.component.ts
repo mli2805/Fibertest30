@@ -17,11 +17,6 @@ interface EquipmentTypeItem {
   count: number;
 }
 
-export enum TraceInfoMode {
-  'CreateTrace',
-  'ShowInformation'
-}
-
 @Component({
   selector: 'rtu-trace-info',
   templateUrl: './trace-info.component.html',

@@ -10,10 +10,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { MapLayersActions } from '../../components/gis-actions/map-layers-actions';
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
-import { TraceInfoMode } from '../trace-info-dialog/trace-info/trace-info.component';
 import { TraceEquipmentUtil } from '../trace-equipment-selector/trace-equipment-util';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 import { NextStepSelectorComponent } from '../next-step-selector/next-step-selector.component';
+import { AcceptTraceDialogComponent } from '../trace-info-dialog/accept-trace-dialog/accept-trace-dialog.component';
+import { GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
 
 @Component({
   selector: 'rtu-trace-define',
@@ -277,20 +278,16 @@ export class TraceDefineComponent implements OnInit {
       return;
     }
 
-    this.gisMapService.showTraceInfoDialogMode = TraceInfoMode.CreateTrace;
-    this.gisMapService.showTraceInfoDialog.next(true);
-
-    this.gisMapService.applyDefinedTraceId$.pipe().subscribe((result) => {
-      // если значение не null пользователь нажал применить и получил результат
-      if (result) {
-        MapLayersActions.extinguishAllFibers();
-        MapLayersActions.drawTraceWith(<string>result, FiberState.NotJoined);
-        this.close();
-      }
-
-      // в любом случае (отмена или применить) диалог применения трассы закрываем
-      this.gisMapService.showTraceInfoDialog.next(false);
+    const dialogRef = this.dialog.open(AcceptTraceDialogComponent, {
+      data: {}
     });
+    const result = <GeoTrace | null>await firstValueFrom(dialogRef.closed);
+
+    if (result) {
+      MapLayersActions.extinguishAllFibers();
+      MapLayersActions.drawTraceWith(result.id, FiberState.NotJoined);
+      this.close();
+    }
   }
 
   async onDiscard() {

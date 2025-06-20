@@ -3,7 +3,6 @@ import { Component, ElementRef, HostListener, inject, Input } from '@angular/cor
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { firstValueFrom } from 'rxjs';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 import { AppState, AuthSelectors, RtuTreeActions, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -11,7 +10,6 @@ import { GraphService } from 'src/app/core/grpc';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
-import { TraceInfoMode } from 'src/app/features/gis/forms/trace-info-dialog/trace-info/trace-info.component';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 import { Utils } from 'src/app/shared/utils/utils';
@@ -81,9 +79,7 @@ export class DetachedTraceMenuComponent {
   }
 
   async onInformationClicked() {
-    this.gisMapService.showTraceInfoDialogMode = TraceInfoMode.ShowInformation;
-    this.gisMapService.traceIdToShowInfo = this.trace.traceId;
-    this.gisMapService.showTraceInfoDialog.next(true);
+    this.windowService.registerWindow(this.trace.traceId, 'TraceInfo', null);
   }
 
   onShowClicked() {
