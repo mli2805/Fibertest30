@@ -1,6 +1,7 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Inject, inject } from '@angular/core';
 import { RadioButton } from 'src/app/shared/components/svg-buttons/radio-button/radio-button';
 import { GisMapService } from '../../gis-map.service';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'rtu-next-step-selector',
@@ -8,9 +9,10 @@ import { GisMapService } from '../../gis-map.service';
 })
 export class NextStepSelectorComponent {
   buttons!: RadioButton[];
+  public dialogRef: DialogRef<number | null> = inject(DialogRef<number | null>);
 
-  constructor(private gisMapService: GisMapService) {
-    this.buttons = this.gisMapService.nextStepButtons;
+  constructor(@Inject(DIALOG_DATA) private data: any, private gisMapService: GisMapService) {
+    this.buttons = data.buttons;
   }
 
   onRadioButtonClick(id: number) {
@@ -23,15 +25,15 @@ export class NextStepSelectorComponent {
 
   onSelect() {
     const result = this.buttons.find((b) => b.isSelected)!.id;
-    this.gisMapService.closeNextStepSelector(result);
+    this.dialogRef.close(result);
   }
 
   onDiscard() {
-    this.gisMapService.closeNextStepSelector(null);
+    this.dialogRef.close(null);
   }
 
   close() {
-    this.gisMapService.closeNextStepSelector(null);
+    this.dialogRef.close(null);
   }
 
   @HostListener('document:keydown.escape', ['$event'])

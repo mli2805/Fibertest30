@@ -108,21 +108,6 @@ export class GisMapService {
   mousePosition$ = this.mousePosition.asObservable();
 
   //////////////////////////////////////////
-  nextStepButtons!: RadioButton[];
-  nextStepSelectedId = new BehaviorSubject<number | null>(null);
-  prepareNextStepSelector(buttons: RadioButton[], selectedId: number) {
-    this.nextStepButtons = buttons;
-    this.nextStepSelectedId.next(selectedId);
-  }
-  closeNextStepSelector(result: number | null) {
-    this.nextStepSelectedId.next(result);
-    this.showNextStepSelector.next(false);
-  }
-  nextStepSelectedId$ = this.nextStepSelectedId.asObservable();
-  showNextStepSelector = new BehaviorSubject<boolean>(false);
-  showNextStepSelector$ = this.showNextStepSelector.asObservable();
-
-  /////////////////////////
   showTraceInfoDialogMode!: TraceInfoMode;
   traceIdToShowInfo!: string;
 

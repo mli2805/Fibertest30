@@ -5,7 +5,7 @@ import { GisMapUtils } from '../../components/shared/gis-map.utils';
 import { Neighbour, StepModel } from './step-model';
 import { RadioButton } from 'src/app/shared/components/svg-buttons/radio-button/radio-button';
 import { Dialog } from '@angular/cdk/dialog';
-import { BehaviorSubject, filter, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { MapLayersActions } from '../../components/gis-actions/map-layers-actions';
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
@@ -13,6 +13,7 @@ import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { TraceInfoMode } from '../trace-info-dialog/trace-info/trace-info.component';
 import { TraceEquipmentUtil } from '../trace-equipment-selector/trace-equipment-util';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
+import { NextStepSelectorComponent } from '../next-step-selector/next-step-selector.component';
 
 @Component({
   selector: 'rtu-trace-define',
@@ -68,11 +69,14 @@ export class TraceDefineComponent implements OnInit {
 
   private async makeStepForward(isButtonPressed: boolean): Promise<boolean> {
     const lastId = this.gisMapService.steps.at(-1)!.nodeId;
-    const neighbours = TraceDefineUtils.getNeighboursPassingThroughAdjustmentPoints(lastId);
     const previousNodeId =
       this.gisMapService.steps.length === 1
         ? GisMapUtils.emptyGuid
         : this.gisMapService.steps.at(-2)!.nodeId;
+    const neighbours = TraceDefineUtils.getNeighboursPassingThroughAdjustmentPoints(
+      lastId,
+      previousNodeId
+    );
 
     switch (neighbours.length) {
       case 0:
@@ -189,15 +193,10 @@ export class TraceDefineComponent implements OnInit {
     }
 
     this.gisMapService.setHighlightNode(neighbours[0].node.id);
-    this.gisMapService.prepareNextStepSelector(buttons, -666);
-    this.gisMapService.showNextStepSelector.next(true);
-
-    // вернет null если отказался от выбора
-    return <number | null>(
-      await firstValueFrom(
-        this.gisMapService.nextStepSelectedId$.pipe(filter((value) => value !== -666))
-      )
-    );
+    const dialogRef = this.dialog.open(NextStepSelectorComponent, {
+      data: { buttons: buttons }
+    });
+    return <number | null>await firstValueFrom(dialogRef.closed);
   }
 
   private async justStep(neighbour: Neighbour): Promise<boolean> {

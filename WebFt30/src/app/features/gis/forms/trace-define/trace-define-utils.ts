@@ -28,7 +28,10 @@ export class TraceDefineUtils {
     });
   }
 
-  static getNeighboursPassingThroughAdjustmentPoints(nodeId: string): Neighbour[] {
+  static getNeighboursPassingThroughAdjustmentPoints(
+    nodeId: string,
+    previousStep: string
+  ): Neighbour[] {
     const res = new Array<Neighbour>();
 
     const fibers = this.gisMapService.getNodeFibers(nodeId);
@@ -55,11 +58,16 @@ export class TraceDefineUtils {
       const nodeNeighbour = this.gisMapService.getNode(neighbourId);
       if (nodeNeighbour.equipmentType !== EquipmentType.Rtu) {
         neighbour.node = nodeNeighbour;
-        res.push(neighbour);
+        if (nodeNeighbour.id === previousStep) {
+          neighbour.previous = true;
+          res.push(neighbour);
+        } else {
+          res.unshift(neighbour);
+        }
       }
     });
 
-    return res.reverse();
+    return res;
   }
 
   static getStepTitle(step: StepModel) {

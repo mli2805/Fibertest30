@@ -43,10 +43,6 @@
   </div>
 </div>
 
-<ng-container *ngIf="gisMapService.showNextStepSelector$ | async">
-  <rtu-next-step-selector class="z-50" />
-</ng-container>
-
 <ng-container *ngIf="gisMapService.showTraceInfoDialog$ | async">
   <rtu-trace-info-dialog class="z-50" />
 </ng-container>
