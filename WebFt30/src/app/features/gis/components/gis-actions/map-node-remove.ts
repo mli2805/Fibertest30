@@ -29,18 +29,30 @@ export class MapNodeRemove {
         trace.nodeIds.splice(index - 1, 2);
         trace.fiberIds.splice(index - 1, 2);
       } else {
-        this.CreateDetourFiberIfAbsent(detour);
+        const detourFiberId = this.CreateDetourFiberIfAbsent(detour);
         trace.nodeIds.splice(index, 1);
         trace.equipmentIds.splice(index, 1);
 
         trace.fiberIds.splice(index - 1, 2);
-        trace.fiberIds.splice(index - 1, 0, detour.FiberId); // это такая вставка по индексу
+        trace.fiberIds.splice(index - 1, 0, detourFiberId); // это такая вставка по индексу
       }
+
+      // console.log(trace.title);
+      // for (let i = 0; i < trace.fiberIds.length; i++) {
+      //   const element = trace.fiberIds[i];
+      //   console.log(`${i}  ${element}`);
+      // }
     }
   }
 
-  static CreateDetourFiberIfAbsent(detour: NodeDetour) {
-    const fiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === detour.FiberId);
+  static CreateDetourFiberIfAbsent(detour: NodeDetour): string {
+    const fiber = this.gisMapService
+      .getGeoData()
+      .fibers.find(
+        (f) =>
+          (f.node1id === detour.NodeId1 && f.node2id === detour.NodeId2) ||
+          (f.node1id === detour.NodeId2 && f.node2id === detour.NodeId1)
+      );
     if (fiber === undefined) {
       const nodeBefore = this.gisMapService.getGeoData().nodes.find((n) => n.id === detour.NodeId1);
       const nodeAfter = this.gisMapService.getGeoData().nodes.find((n) => n.id === detour.NodeId2);
@@ -54,10 +66,14 @@ export class MapNodeRemove {
       );
       this.gisMapService.getGeoData().fibers.push(newFiber);
       MapLayersActions.addFiberToLayer(newFiber);
+      return newFiber.id;
     } else {
-      // уже кто-то прошёл по этому волокну
-      // тут бы состояние волокна исправить
-      // если удалили точку привязки и проходило несколько трасс с разными состояниями
+      // уже другая трасса прошла по этому волокну
+      // или эта же трасса туда сюда поэтому проверяем
+      if (fiber.states.findIndex((s) => s.traceId === detour.TraceId) === -1) {
+        fiber.states.push({ traceId: detour.TraceId, traceState: detour.TraceState });
+      }
+      return fiber.id; // возвращаем не fiberId из этого detour а того который уже использовали первым
     }
   }
 

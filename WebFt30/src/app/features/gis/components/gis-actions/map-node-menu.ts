@@ -170,6 +170,7 @@ export class MapNodeMenu {
     if (!MapNodeRemove.isRemoveThisNodePermitted(nodeId, node!.equipmentType)) return;
     if (!MapNodeRemove.isPossibleToRemove(nodeId)) return;
 
+    // для каждой трассы строится свой обход
     const detours = [];
     for (let i = 0; i < this.gisMapService.getGeoData().traces.length; i++) {
       const trace = this.gisMapService.getGeoData().traces[i];
@@ -177,14 +178,15 @@ export class MapNodeMenu {
       detours.push(...traceDetours);
     }
     const isAdjustmentPoint = node?.equipmentType === EquipmentType.AdjustmentPoint;
+    // если нету трасс и удаляем точку привязки, то отдельный спец обход
     const fiberIdToDetourAdjustmentPoint =
       isAdjustmentPoint && detours.length === 0 ? crypto.randomUUID() : GisMapUtils.emptyGuid;
 
     const command = {
       NodeId: nodeId,
       IsAdjustmentPoint: isAdjustmentPoint,
-      DetoursForGraph: detours,
-      FiberIdToDetourAdjustmentPoint: fiberIdToDetourAdjustmentPoint
+      DetoursForGraph: detours, // это для трасс
+      FiberIdToDetourAdjustmentPoint: fiberIdToDetourAdjustmentPoint // если нет ни одной трассы и удаляем точку привязки
     };
     const json = JSON.stringify(command);
     const response = await firstValueFrom(this.graphService.sendCommand(json, 'RemoveNode'));

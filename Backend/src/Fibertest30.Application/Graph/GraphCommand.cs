@@ -1,12 +1,13 @@
 ﻿using Iit.Fibertest.Graph;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Fibertest30.Application;
 
 public record GraphCommand(string Command, string CommandType) : IRequest<string?>;
 
-public class GraphCommandHandler(ICurrentUserService currentUserService, 
+public class GraphCommandHandler(ILogger<GraphCommand> logger, ICurrentUserService currentUserService, 
     IRtuStationsRepository rtuStationsRepository, IBaseRefRepairman baseRefRepairman,
         IEventStoreService eventStoreService, ISystemEventSender systemEventSender, Model writeModel)
     : IRequestHandler<GraphCommand, string?>
@@ -22,12 +23,14 @@ public class GraphCommandHandler(ICurrentUserService currentUserService,
         var result = await eventStoreService.SendCommand(cmd, currentUserService.UserName, "");
         if (!string.IsNullOrEmpty(result))
         {
+            logger.LogError(result);
             throw new GraphException(result);
         }
 
         var postProcessingResult = await PostProcessing(cmd);
         if (!string.IsNullOrEmpty(postProcessingResult))
         {
+            logger.LogError(result);
             throw new GraphException(postProcessingResult);
         }
 
