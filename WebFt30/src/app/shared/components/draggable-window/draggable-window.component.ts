@@ -13,7 +13,7 @@ import {
 import { DragWatcher } from '../../utils/drag-watcher';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 
-// немодальные, тягаемые окна
+// тягаемые окна
 // start-page.component.html
 export type ManagedWindow =
   | 'RtuState'
