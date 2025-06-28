@@ -30,11 +30,6 @@ export class GisService {
     return GrpcUtils.unaryToObservable(this.client.getFiberInfo.bind(this.client), request, {});
   }
 
-  getLandmarks(traceId: string): Observable<grpc.GetLandmarksResponse> {
-    const request: grpc.GetLandmarksRequest = { traceId };
-    return GrpcUtils.unaryToObservable(this.client.getLandmarks.bind(this.client), request, {});
-  }
-
   getLandmarksModel(landmarksModelId: string): Observable<grpc.GetLandmarksModelResponse> {
     const request: grpc.GetLandmarksModelRequest = { landmarksModelId };
     return GrpcUtils.unaryToObservable(

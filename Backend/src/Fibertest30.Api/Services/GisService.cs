@@ -19,14 +19,6 @@ public class GisService(ISender mediator) : Gis.GisBase
         return new GetFiberInfoResponse() { FiberInfo = fiberInfo.ToProto() };
     }
 
-    public override async Task<GetLandmarksResponse> GetLandmarks(GetLandmarksRequest request,
-        ServerCallContext context)
-    {
-        var landmarks =
-            await mediator.Send(new GetLandmarksQuery(Guid.Parse(request.TraceId)), context.CancellationToken);
-        return new GetLandmarksResponse() { TraceId = request.TraceId, Landmarks = { landmarks.Select(l=>l.ToProto()) } };
-    }
-
     public override async Task<GetLandmarksModelResponse> GetLandmarksModel(GetLandmarksModelRequest request, ServerCallContext context)
     {
         var landmarksModel =

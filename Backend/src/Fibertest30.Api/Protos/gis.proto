@@ -7,7 +7,6 @@ package fibertest30.gis;
 service Gis {
 	rpc GetAllGeoData(GetAllGeoDataRequest) returns (GetAllGeoDataResponse);
 	rpc GetFiberInfo(GetFiberInfoRequest) returns (GetFiberInfoResponse);
-	rpc GetLandmarks(GetLandmarksRequest) returns (GetLandmarksResponse);
 
 	rpc GetLandmarksModel(GetLandmarksModelRequest) returns (GetLandmarksModelResponse);
 	rpc CreateLandmarksModel(CreateLandmarksModelRequest) returns (CreateLandmarksModelResponse);
@@ -98,28 +97,6 @@ message FiberInfo {
 	bool hasTraceUnderMonitoring = 7;
 }
 
-message OneLandmark {
-	bool isFromBase = 1;
-	int32 number = 2;
-	int32 numberIncludingAdjustmentPoints = 3;
-	string nodeId = 4;
-	string fiberId = 5;
-	string nodeTitle = 6;
-	string nodeComment = 7;
-	string equipmentId = 8;
-	string equipmentTitle = 9;
-	EquipmentType equipmentType = 10;
-	int32 leftCableReserve = 11;
-	int32 rightCableReserve = 12;
-	double gpsDistance = 13;
-	double gpsSection = 14;
-	bool isUserInput = 15;
-	double opticalDistance = 16;
-	double opticalSection = 17;
-	int32 eventNumber = 18;
-	GeoCoordinate gpsCoors = 19;
-}
-
 message ColoredLandmark {
 	string nodeId = 1;
 	string fiberId = 2;
@@ -196,16 +173,6 @@ message GetFiberInfoRequest {
 
 message GetFiberInfoResponse {
 	FiberInfo fiberInfo = 1;
-}
-
-// GetLandmarks
-message GetLandmarksRequest {
-	string traceId = 1;
-}
-
-message GetLandmarksResponse {
-	string traceId = 1;
-	repeated OneLandmark landmarks = 2;
 }
 
 // GetLandmarksModel

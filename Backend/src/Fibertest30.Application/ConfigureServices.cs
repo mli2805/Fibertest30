@@ -38,7 +38,6 @@ public static class ConfigureServices
         services.AddScoped<FiberInfoProvider>();
         services.AddScoped<LandmarksGraphParser>();
         services.AddScoped<LandmarksBaseParser>();
-        services.AddScoped<LandmarksProvider>(); // а это можно будет убрать
         services.AddSingleton<LandmarksModelManager>();
 
         services.AddSingleton<TableProvider>();

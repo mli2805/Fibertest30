@@ -178,87 +178,6 @@ export interface FiberInfo {
     hasTraceUnderMonitoring: boolean;
 }
 /**
- * @generated from protobuf message fibertest30.gis.OneLandmark
- */
-export interface OneLandmark {
-    /**
-     * @generated from protobuf field: bool isFromBase = 1;
-     */
-    isFromBase: boolean;
-    /**
-     * @generated from protobuf field: int32 number = 2;
-     */
-    number: number;
-    /**
-     * @generated from protobuf field: int32 numberIncludingAdjustmentPoints = 3;
-     */
-    numberIncludingAdjustmentPoints: number;
-    /**
-     * @generated from protobuf field: string nodeId = 4;
-     */
-    nodeId: string;
-    /**
-     * @generated from protobuf field: string fiberId = 5;
-     */
-    fiberId: string;
-    /**
-     * @generated from protobuf field: string nodeTitle = 6;
-     */
-    nodeTitle: string;
-    /**
-     * @generated from protobuf field: string nodeComment = 7;
-     */
-    nodeComment: string;
-    /**
-     * @generated from protobuf field: string equipmentId = 8;
-     */
-    equipmentId: string;
-    /**
-     * @generated from protobuf field: string equipmentTitle = 9;
-     */
-    equipmentTitle: string;
-    /**
-     * @generated from protobuf field: fibertest30.gis.EquipmentType equipmentType = 10;
-     */
-    equipmentType: EquipmentType;
-    /**
-     * @generated from protobuf field: int32 leftCableReserve = 11;
-     */
-    leftCableReserve: number;
-    /**
-     * @generated from protobuf field: int32 rightCableReserve = 12;
-     */
-    rightCableReserve: number;
-    /**
-     * @generated from protobuf field: double gpsDistance = 13;
-     */
-    gpsDistance: number;
-    /**
-     * @generated from protobuf field: double gpsSection = 14;
-     */
-    gpsSection: number;
-    /**
-     * @generated from protobuf field: bool isUserInput = 15;
-     */
-    isUserInput: boolean;
-    /**
-     * @generated from protobuf field: double opticalDistance = 16;
-     */
-    opticalDistance: number;
-    /**
-     * @generated from protobuf field: double opticalSection = 17;
-     */
-    opticalSection: number;
-    /**
-     * @generated from protobuf field: int32 eventNumber = 18;
-     */
-    eventNumber: number;
-    /**
-     * @generated from protobuf field: fibertest30.gis.GeoCoordinate gpsCoors = 19;
-     */
-    gpsCoors?: GeoCoordinate;
-}
-/**
  * @generated from protobuf message fibertest30.gis.ColoredLandmark
  */
 export interface ColoredLandmark {
@@ -477,30 +396,6 @@ export interface GetFiberInfoResponse {
      * @generated from protobuf field: fibertest30.gis.FiberInfo fiberInfo = 1;
      */
     fiberInfo?: FiberInfo;
-}
-/**
- * GetLandmarks
- *
- * @generated from protobuf message fibertest30.gis.GetLandmarksRequest
- */
-export interface GetLandmarksRequest {
-    /**
-     * @generated from protobuf field: string traceId = 1;
-     */
-    traceId: string;
-}
-/**
- * @generated from protobuf message fibertest30.gis.GetLandmarksResponse
- */
-export interface GetLandmarksResponse {
-    /**
-     * @generated from protobuf field: string traceId = 1;
-     */
-    traceId: string;
-    /**
-     * @generated from protobuf field: repeated fibertest30.gis.OneLandmark landmarks = 2;
-     */
-    landmarks: OneLandmark[];
 }
 /**
  * GetLandmarksModel
@@ -768,36 +663,6 @@ class FiberInfo$Type extends MessageType<FiberInfo> {
  */
 export const FiberInfo = new FiberInfo$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class OneLandmark$Type extends MessageType<OneLandmark> {
-    constructor() {
-        super("fibertest30.gis.OneLandmark", [
-            { no: 1, name: "isFromBase", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 2, name: "number", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 3, name: "numberIncludingAdjustmentPoints", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 4, name: "nodeId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "fiberId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "nodeTitle", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 7, name: "nodeComment", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 8, name: "equipmentId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 9, name: "equipmentTitle", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 10, name: "equipmentType", kind: "enum", T: () => ["fibertest30.gis.EquipmentType", EquipmentType] },
-            { no: 11, name: "leftCableReserve", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 12, name: "rightCableReserve", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 13, name: "gpsDistance", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 14, name: "gpsSection", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 15, name: "isUserInput", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 16, name: "opticalDistance", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 17, name: "opticalSection", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 18, name: "eventNumber", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 19, name: "gpsCoors", kind: "message", T: () => GeoCoordinate }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.gis.OneLandmark
- */
-export const OneLandmark = new OneLandmark$Type();
-// @generated message type with reflection information, may provide speed optimized methods
 class ColoredLandmark$Type extends MessageType<ColoredLandmark> {
     constructor() {
         super("fibertest30.gis.ColoredLandmark", [
@@ -929,31 +794,6 @@ class GetFiberInfoResponse$Type extends MessageType<GetFiberInfoResponse> {
  */
 export const GetFiberInfoResponse = new GetFiberInfoResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class GetLandmarksRequest$Type extends MessageType<GetLandmarksRequest> {
-    constructor() {
-        super("fibertest30.gis.GetLandmarksRequest", [
-            { no: 1, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.gis.GetLandmarksRequest
- */
-export const GetLandmarksRequest = new GetLandmarksRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetLandmarksResponse$Type extends MessageType<GetLandmarksResponse> {
-    constructor() {
-        super("fibertest30.gis.GetLandmarksResponse", [
-            { no: 1, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "landmarks", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => OneLandmark }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message fibertest30.gis.GetLandmarksResponse
- */
-export const GetLandmarksResponse = new GetLandmarksResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
 class GetLandmarksModelRequest$Type extends MessageType<GetLandmarksModelRequest> {
     constructor() {
         super("fibertest30.gis.GetLandmarksModelRequest", [
@@ -1054,7 +894,6 @@ export const DeleteLandmarksModelResponse = new DeleteLandmarksModelResponse$Typ
 export const Gis = new ServiceType("fibertest30.gis.Gis", [
     { name: "GetAllGeoData", options: {}, I: GetAllGeoDataRequest, O: GetAllGeoDataResponse },
     { name: "GetFiberInfo", options: {}, I: GetFiberInfoRequest, O: GetFiberInfoResponse },
-    { name: "GetLandmarks", options: {}, I: GetLandmarksRequest, O: GetLandmarksResponse },
     { name: "GetLandmarksModel", options: {}, I: GetLandmarksModelRequest, O: GetLandmarksModelResponse },
     { name: "CreateLandmarksModel", options: {}, I: CreateLandmarksModelRequest, O: CreateLandmarksModelResponse },
     { name: "UpdateLandmarksModel", options: {}, I: UpdateLandmarksModelRequest, O: UpdateLandmarksModelResponse },
