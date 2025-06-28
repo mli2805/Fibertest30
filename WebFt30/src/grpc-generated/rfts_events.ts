@@ -3,7 +3,7 @@
 // tslint:disable
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
-import { EquipmentType } from "./gis";
+import { EquipmentType } from "./ft.enums";
 import { FiberState } from "./ft.enums";
 /**
  * @generated from protobuf message fibertest30.rfts_events.GetRftsEventsRequest
@@ -90,7 +90,7 @@ export interface RftsEvent {
      */
     landmarkTitle: string;
     /**
-     * @generated from protobuf field: fibertest30.gis.EquipmentType LandmarkType = 5 [json_name = "LandmarkType"];
+     * @generated from protobuf field: fibertest30.ft.enums.EquipmentType LandmarkType = 5 [json_name = "LandmarkType"];
      */
     landmarkType: EquipmentType;
     /**
@@ -310,7 +310,7 @@ class RftsEvent$Type extends MessageType<RftsEvent> {
             { no: 2, name: "IsNew", kind: "scalar", jsonName: "IsNew", T: 8 /*ScalarType.BOOL*/ },
             { no: 3, name: "IsFailed", kind: "scalar", jsonName: "IsFailed", T: 8 /*ScalarType.BOOL*/ },
             { no: 4, name: "LandmarkTitle", kind: "scalar", jsonName: "LandmarkTitle", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "LandmarkType", kind: "enum", jsonName: "LandmarkType", T: () => ["fibertest30.gis.EquipmentType", EquipmentType] },
+            { no: 5, name: "LandmarkType", kind: "enum", jsonName: "LandmarkType", T: () => ["fibertest30.ft.enums.EquipmentType", EquipmentType] },
             { no: 6, name: "State", kind: "enum", jsonName: "State", T: () => ["fibertest30.rfts_events.RftsWords", RftsWords] },
             { no: 7, name: "DamageType", kind: "scalar", jsonName: "DamageType", T: 9 /*ScalarType.STRING*/ },
             { no: 8, name: "DistanceKm", kind: "scalar", jsonName: "DistanceKm", T: 9 /*ScalarType.STRING*/ },

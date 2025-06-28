@@ -68,7 +68,7 @@ export class GisMapIcons {
   // prettier-ignore
   public getIcon(node: TraceNode) {
     switch (node.equipmentType) {
-      case EquipmentType.Nothing: return this.well;
+      case EquipmentType.EquipmentType_Nothing: return this.well;
       case EquipmentType.AdjustmentPoint: return this.adjustmentPoint;
       case EquipmentType.EmptyNode:
        switch (node.state) {

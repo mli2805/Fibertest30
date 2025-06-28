@@ -21,3 +21,5 @@ export * from './gis';
 export * from './gis.client';
 export * from './rfts_events';
 export * from './rfts_events.client';
+export * from './landmarks';
+export * from './landmarks.client';

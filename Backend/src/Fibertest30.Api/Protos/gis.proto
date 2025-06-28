@@ -7,36 +7,6 @@ package fibertest30.gis;
 service Gis {
 	rpc GetAllGeoData(GetAllGeoDataRequest) returns (GetAllGeoDataResponse);
 	rpc GetFiberInfo(GetFiberInfoRequest) returns (GetFiberInfoResponse);
-
-	rpc GetLandmarksModel(GetLandmarksModelRequest) returns (GetLandmarksModelResponse);
-	rpc CreateLandmarksModel(CreateLandmarksModelRequest) returns (CreateLandmarksModelResponse);
-	rpc UpdateLandmarksModel(UpdateLandmarksModelRequest) returns (UpdateLandmarksModelResponse);
-	rpc DeleteLandmarksModel(DeleteLandmarksModelRequest) returns (DeleteLandmarksModelResponse);
-}
-
-enum EquipmentType {
-	Nothing = 0;
-	AdjustmentPoint = 100;
-
-    EmptyNode = 200;
-
-    CableReserve = 300;
-
-    Other = 400;
-    Closure = 402;
-    Cross = 403;
-    Well = 405;
-    Terminal = 406;
-
-    Rtu = 500;
-
-    AccidentPlace = 501;
-}
-
-enum GpsInputMode {
-	Degrees = 0;
-	Minutes = 1;
-	Seconds = 2;
 }
 
 // if dictionary is empty - fiber is not in trace (NotInTrace)
@@ -54,7 +24,7 @@ message TraceNode {
 	string id = 1;
 	string title = 2;
 	GeoCoordinate coors = 3;
-	EquipmentType equipmentType = 4;
+	ft.enums.EquipmentType equipmentType = 4;
 	string comment = 5;
 
 	optional ft.enums.FiberState state = 6;
@@ -65,7 +35,7 @@ message GeoEquipment {
 	string id = 1;
 	string nodeId = 2;
 	string title = 3;
-	EquipmentType type = 4;
+	ft.enums.EquipmentType type = 4;
 	int32 cableReserveLeft = 5;
 	int32 cableReserveRight = 6;
 	string comment = 7;
@@ -95,49 +65,6 @@ message FiberInfo {
 
 	repeated OpticalLength tracesThrough = 6;
 	bool hasTraceUnderMonitoring = 7;
-}
-
-message ColoredLandmark {
-	string nodeId = 1;
-	string fiberId = 2;
-
-	int32 number = 3;
-	int32 numberIncludingAdjustmentPoints = 4;
-
-	string nodeTitle = 5;
-	string nodeTitleColor = 6;
-	string nodeComment = 7;
-	string nodeCommentColor = 8;
-
-	string equipmentId = 9;
-	string equipmentTitle = 10;
-	string equipmentTitleColor = 11;
-
-	int32 leftCableReserve = 12;
-	int32 rightCableReserve = 13;
-    string cableReservesColor = 14;
-
-	double gpsDistance = 15;
-	double gpsSection = 16;
-	bool isUserInput = 17;
-	string gpsSectionColor = 18;
-
-	double opticalDistance = 19; 
-    double opticalSection = 20;
-    int32 eventNumber = 21;
-
-    GeoCoordinate gpsCoors = 22;
-    string gpsCoorsColor = 23;
-
-	EquipmentType equipmentType = 24;
-	string equipmentTypeColor = 25;
-
-	bool isFromBase = 26;
-}
-
-message LandmarksModel {
-	string landmarksModelId = 1;
-	repeated ColoredLandmark landmarks = 2;
 }
 
 message GeoTrace {
@@ -174,38 +101,3 @@ message GetFiberInfoRequest {
 message GetFiberInfoResponse {
 	FiberInfo fiberInfo = 1;
 }
-
-// GetLandmarksModel
-message GetLandmarksModelRequest {
-	string landmarksModelId = 1;
-}
-
-message GetLandmarksModelResponse {
-	LandmarksModel landmarksModel = 1;
-}
-
-// CreateLandmarksModel
-message CreateLandmarksModelRequest {
-	string landmarksModelId = 1;
-	string traceId = 2;
-	GpsInputMode gpsInputMode = 3;
-}
-
-message CreateLandmarksModelResponse {}
-
-// UpdateLandmarksModel
-message UpdateLandmarksModelRequest {
-	string landmarksModelId = 1;
-	optional ColoredLandmark changedLandmark = 2;
-	optional string gpsInputMode = 3;
-	optional bool isFilterOn = 4;
-}
-
-message UpdateLandmarksModelResponse {}
-
-// DeleteLandmarksModel
-message DeleteLandmarksModelRequest {
-	string landmarksModelId = 1;
-}
-
-message DeleteLandmarksModelResponse {}

@@ -1,0 +1,91 @@
+syntax = "proto3";
+import "ft.enums.proto";
+import "gis.proto";
+
+option csharp_namespace = "Fibertest30.Api";
+package fibertest30.landmarks;
+
+service Landmarks{
+	rpc GetLandmarksModel(GetLandmarksModelRequest) returns (GetLandmarksModelResponse);
+	rpc CreateLandmarksModel(CreateLandmarksModelRequest) returns (CreateLandmarksModelResponse);
+	rpc UpdateLandmarksModel(UpdateLandmarksModelRequest) returns (UpdateLandmarksModelResponse);
+	rpc DeleteLandmarksModel(DeleteLandmarksModelRequest) returns (DeleteLandmarksModelResponse);
+}
+
+message ColoredLandmark {
+	string nodeId = 1;
+	string fiberId = 2;
+
+	int32 number = 3;
+	int32 numberIncludingAdjustmentPoints = 4;
+
+	string nodeTitle = 5;
+	string nodeTitleColor = 6;
+	string nodeComment = 7;
+	string nodeCommentColor = 8;
+
+	string equipmentId = 9;
+	string equipmentTitle = 10;
+	string equipmentTitleColor = 11;
+
+	int32 leftCableReserve = 12;
+	int32 rightCableReserve = 13;
+    string cableReservesColor = 14;
+
+	double gpsDistance = 15;
+	double gpsSection = 16;
+	bool isUserInput = 17;
+	string gpsSectionColor = 18;
+
+	double opticalDistance = 19; 
+    double opticalSection = 20;
+    int32 eventNumber = 21;
+
+    gis.GeoCoordinate gpsCoors = 22;
+    string gpsCoorsColor = 23;
+
+	ft.enums.EquipmentType equipmentType = 24;
+	string equipmentTypeColor = 25;
+
+	bool isFromBase = 26;
+}
+
+message LandmarksModel {
+	string landmarksModelId = 1;
+	repeated ColoredLandmark landmarks = 2;
+}
+
+// GetLandmarksModel
+message GetLandmarksModelRequest {
+	string landmarksModelId = 1;
+}
+
+message GetLandmarksModelResponse {
+	LandmarksModel landmarksModel = 1;
+}
+
+// CreateLandmarksModel
+message CreateLandmarksModelRequest {
+	string landmarksModelId = 1;
+	string traceId = 2;
+	ft.enums.GpsInputMode gpsInputMode = 3;
+}
+
+message CreateLandmarksModelResponse {}
+
+// UpdateLandmarksModel
+message UpdateLandmarksModelRequest {
+	string landmarksModelId = 1;
+	optional ColoredLandmark changedLandmark = 2;
+	optional string gpsInputMode = 3;
+	optional bool isFilterOn = 4;
+}
+
+message UpdateLandmarksModelResponse {}
+
+// DeleteLandmarksModel
+message DeleteLandmarksModelRequest {
+	string landmarksModelId = 1;
+}
+
+message DeleteLandmarksModelResponse {}

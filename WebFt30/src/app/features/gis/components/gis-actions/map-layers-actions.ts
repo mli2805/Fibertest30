@@ -7,7 +7,7 @@ import { GisMapUtils } from '../shared/gis-map.utils';
 import { ColorUtils } from 'src/app/shared/utils/color-utils';
 import { MapFiberMenu } from './map-fiber-menu';
 import { GisMapLayer } from '../shared/gis-map-layer';
-import { EquipmentType } from 'src/grpc-generated/gis';
+import { EquipmentType } from 'src/grpc-generated';
 import { MapNodeMenu } from './map-node-menu';
 import { GisMapLayers } from '../shared/gis-map-layers';
 import { MapMouseActions } from './map-mouse-actions';

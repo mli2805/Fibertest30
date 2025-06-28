@@ -287,3 +287,69 @@ export enum OpticalAccidentType {
      */
     OpticalAccidentType_None = 5
 }
+/**
+ * @generated from protobuf enum fibertest30.ft.enums.EquipmentType
+ */
+export enum EquipmentType {
+    /**
+     * @generated from protobuf enum value: EquipmentType_Nothing = 0;
+     */
+    EquipmentType_Nothing = 0,
+    /**
+     * @generated from protobuf enum value: AdjustmentPoint = 100;
+     */
+    AdjustmentPoint = 100,
+    /**
+     * @generated from protobuf enum value: EmptyNode = 200;
+     */
+    EmptyNode = 200,
+    /**
+     * @generated from protobuf enum value: CableReserve = 300;
+     */
+    CableReserve = 300,
+    /**
+     * @generated from protobuf enum value: Other = 400;
+     */
+    Other = 400,
+    /**
+     * @generated from protobuf enum value: Closure = 402;
+     */
+    Closure = 402,
+    /**
+     * @generated from protobuf enum value: Cross = 403;
+     */
+    Cross = 403,
+    /**
+     * @generated from protobuf enum value: Well = 405;
+     */
+    Well = 405,
+    /**
+     * @generated from protobuf enum value: Terminal = 406;
+     */
+    Terminal = 406,
+    /**
+     * @generated from protobuf enum value: Rtu = 500;
+     */
+    Rtu = 500,
+    /**
+     * @generated from protobuf enum value: AccidentPlace = 501;
+     */
+    AccidentPlace = 501
+}
+/**
+ * @generated from protobuf enum fibertest30.ft.enums.GpsInputMode
+ */
+export enum GpsInputMode {
+    /**
+     * @generated from protobuf enum value: Degrees = 0;
+     */
+    Degrees = 0,
+    /**
+     * @generated from protobuf enum value: Minutes = 1;
+     */
+    Minutes = 1,
+    /**
+     * @generated from protobuf enum value: Seconds = 2;
+     */
+    Seconds = 2
+}

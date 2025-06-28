@@ -47,7 +47,7 @@ message RftsEvent {
     bool IsFailed = 3;
     
     string LandmarkTitle = 4;
-    gis.EquipmentType LandmarkType = 5;
+    ft.enums.EquipmentType LandmarkType = 5;
     RftsWords State = 6;
     string DamageType = 7;
     string DistanceKm = 8;

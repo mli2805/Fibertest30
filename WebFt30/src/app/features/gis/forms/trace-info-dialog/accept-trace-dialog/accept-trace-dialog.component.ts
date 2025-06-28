@@ -6,7 +6,7 @@ import { GraphService } from 'src/app/core/grpc/services/graph.service';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { BehaviorSubject } from 'rxjs';
 import { StepModel } from '../../trace-define/step-model';
-import { EquipmentType } from 'src/grpc-generated/gis';
+import { EquipmentType } from 'src/grpc-generated';
 import { GisMapUtils } from '../../../components/shared/gis-map.utils';
 import { TraceDefineUtils } from '../../trace-define/trace-define-utils';
 
