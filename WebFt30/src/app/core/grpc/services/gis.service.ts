@@ -4,6 +4,7 @@ import { AuthInterceptor } from '../auth.interceptor';
 import { GrpcUtils } from '../grpc.utils';
 import * as grpc from 'src/grpc-generated';
 import { Observable } from 'rxjs';
+import { FtEnumsMapping } from '../../store/mapping/ft-enums-mapping';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,31 @@ export class GisService {
   getLandmarks(traceId: string): Observable<grpc.GetLandmarksResponse> {
     const request: grpc.GetLandmarksRequest = { traceId };
     return GrpcUtils.unaryToObservable(this.client.getLandmarks.bind(this.client), request, {});
+  }
+
+  getLandmarksModel(landmarksModelId: string): Observable<grpc.GetLandmarksModelResponse> {
+    const request: grpc.GetLandmarksModelRequest = { landmarksModelId };
+    return GrpcUtils.unaryToObservable(
+      this.client.getLandmarksModel.bind(this.client),
+      request,
+      {}
+    );
+  }
+
+  createLandmarksModel(
+    landmarksModelId: string,
+    traceId: string,
+    gpsInputMode: string
+  ): Observable<grpc.CreateLandmarksModelResponse> {
+    const request: grpc.CreateLandmarksModelRequest = {
+      landmarksModelId,
+      traceId,
+      gpsInputMode: FtEnumsMapping.toGrpcGpsInputMode(gpsInputMode)
+    };
+    return GrpcUtils.unaryToObservable(
+      this.client.createLandmarksModel.bind(this.client),
+      request,
+      {}
+    );
   }
 }

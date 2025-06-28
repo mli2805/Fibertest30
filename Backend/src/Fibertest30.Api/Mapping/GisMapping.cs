@@ -23,6 +23,12 @@ public static class GisMapping
         };
     }
 
+    public static Iit.Fibertest.Graph.GpsInputMode FromProto(this GpsInputMode mode)
+    {
+        var num = (int)mode;
+        return (Iit.Fibertest.Graph.GpsInputMode)num;
+    }
+
     public static GeoCoordinate ToProto(this PointLatLng point)
     {
         return new GeoCoordinate() { Latitude = point.Lat, Longitude = point.Lng };

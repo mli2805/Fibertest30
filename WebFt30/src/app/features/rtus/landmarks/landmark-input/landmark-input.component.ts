@@ -1,9 +1,8 @@
 import { Component, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState, AuthSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
-import { OneLandmark } from 'src/app/core/store/models/ft30/one-landmark';
 import { EquipmentType } from 'src/grpc-generated';
 import { GpsInputComponent } from '../gps-input/gps-input.component';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
@@ -13,14 +12,14 @@ import { GisMapLayer } from 'src/app/features/gis/components/shared/gis-map-laye
 import { BehaviorSubject } from 'rxjs';
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 import { Dialog } from '@angular/cdk/dialog';
+import { ColoredLandmark } from 'src/app/core/store/models/ft30/colored-landmark';
 
 @Component({
   selector: 'rtu-landmark-input',
-  templateUrl: './landmark-input.component.html',
-  styleUrls: ['./landmark-input.component.scss']
+  templateUrl: './landmark-input.component.html'
 })
 export class LandmarkInputComponent {
-  @Input() set landmark(value: OneLandmark) {
+  @Input() set landmark(value: ColoredLandmark) {
     if (value) {
       this.setEquipmentTypes(value);
       const patch = { ...value, userInputLength: value.UserInputLength }; // хитрое поле в классе
@@ -29,10 +28,10 @@ export class LandmarkInputComponent {
     }
   }
 
-  model = new BehaviorSubject<OneLandmark | null>(null);
+  model = new BehaviorSubject<ColoredLandmark | null>(null);
   model$ = this.model.asObservable();
 
-  @Output() applyLandmark = new EventEmitter<OneLandmark>();
+  @Output() applyLandmark = new EventEmitter<ColoredLandmark>();
 
   @ViewChild('gpsInput') gpsInput!: GpsInputComponent;
 
@@ -61,7 +60,7 @@ export class LandmarkInputComponent {
     });
   }
 
-  setEquipmentTypes(landmark: OneLandmark) {
+  setEquipmentTypes(landmark: ColoredLandmark) {
     if (landmark.equipmentType === EquipmentType.Rtu) {
       this.equipmentTypes = [EquipmentType.Rtu];
     } else if (landmark.equipmentType === EquipmentType.EmptyNode) {
@@ -159,7 +158,7 @@ export class LandmarkInputComponent {
     if (hasChanges) this.applyLandmark.next(changedLandmark);
   }
 
-  collectInput(): OneLandmark | null {
+  collectInput(): ColoredLandmark | null {
     const changedLandmark = this.model.value!.clone();
 
     changedLandmark.nodeTitle = this.form.controls['nodeTitle'].value;

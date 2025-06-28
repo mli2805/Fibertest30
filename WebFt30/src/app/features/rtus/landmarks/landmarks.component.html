@@ -1,4 +1,4 @@
-<rtu-loading-centered-big-spinner *ngIf="spinning$ | async"></rtu-loading-centered-big-spinner>
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
 
 <rtu-draggable-window
   [caption]="'i18n.ft.landmarks' | translate"
@@ -12,9 +12,9 @@
   (closeEvent)="close()"
 >
   <!-- prettier-ignore -->
-  <ng-container *ngIf="model$ | async as model" >
+  <ng-container *ngIf="lmsModel$ | async as model" >
     <!-- table -->
-    <div class="relative h-[402px] w-[1056px] overflow-y-auto mb-2">
+      <div class="relative h-[402px] w-[1056px] overflow-y-auto mb-2">
       <table class="monospace table-fixed min-w-full border-separate border-spacing-0 border border-gray-500 ">
         <thead>
           <tr class="bg-rtu-second-bg dark:bg-rtu-dark-second-bg  sticky top-0 z-10">
@@ -54,12 +54,11 @@
             <td class="min-w-16 max-w-16 gridcell">{{ landmark.opticalDistance | numberFormat : 3 : false }}</td>
             <td class="min-w-16 max-w-16 gridcell">{{ landmark.opticalSection | numberFormat : 3 : false }}</td>
             <td class="min-w-12 max-w-12 gridcell">{{ landmark.eventNumberString() | translate | lowercase }}</td>
-            <td class="min-w-56 max-w-56 gridcell">{{ landmark.gpsCoors | geoCoordinates : false }}</td>
+            <td class="min-w-56 max-w-56 gridcell">{{ landmark.gpsCoors  | geoCoordinates : false }}</td>
           </tr>
         </tbody>
       </table>
     </div>
-   
     <!-- input fields -->
     <ng-container *ngIf="inputModel$ | async as landmark">
       <rtu-landmark-input class="w-full" [landmark]="landmark" (applyLandmark)="updateTable($event)"></rtu-landmark-input>

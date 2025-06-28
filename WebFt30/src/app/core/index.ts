@@ -60,6 +60,10 @@ export * from './store/rtu-tree/rtu-tree.actions';
 export * from './store/rtu-tree/rtu-tree.selectors';
 export * from './store/rtu-tree/rtu-tree.state';
 
+export * from './store/landmarks/landmarks-models.actions';
+export * from './store/landmarks/landmarks-models.selectors';
+export * from './store/landmarks/landmarks-models.state';
+
 export * from './services';
 
 export { AppState, AuthState, SettingsState, LocalStorageService };

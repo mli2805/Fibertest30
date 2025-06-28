@@ -4,6 +4,14 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { Gis } from "./gis";
+import type { DeleteLandmarksModelResponse } from "./gis";
+import type { DeleteLandmarksModelRequest } from "./gis";
+import type { UpdateLandmarksModelResponse } from "./gis";
+import type { UpdateLandmarksModelRequest } from "./gis";
+import type { CreateLandmarksModelResponse } from "./gis";
+import type { CreateLandmarksModelRequest } from "./gis";
+import type { GetLandmarksModelResponse } from "./gis";
+import type { GetLandmarksModelRequest } from "./gis";
 import type { GetLandmarksResponse } from "./gis";
 import type { GetLandmarksRequest } from "./gis";
 import type { GetFiberInfoResponse } from "./gis";
@@ -29,6 +37,22 @@ export interface IGisClient {
      * @generated from protobuf rpc: GetLandmarks(fibertest30.gis.GetLandmarksRequest) returns (fibertest30.gis.GetLandmarksResponse);
      */
     getLandmarks(input: GetLandmarksRequest, options?: RpcOptions): UnaryCall<GetLandmarksRequest, GetLandmarksResponse>;
+    /**
+     * @generated from protobuf rpc: GetLandmarksModel(fibertest30.gis.GetLandmarksModelRequest) returns (fibertest30.gis.GetLandmarksModelResponse);
+     */
+    getLandmarksModel(input: GetLandmarksModelRequest, options?: RpcOptions): UnaryCall<GetLandmarksModelRequest, GetLandmarksModelResponse>;
+    /**
+     * @generated from protobuf rpc: CreateLandmarksModel(fibertest30.gis.CreateLandmarksModelRequest) returns (fibertest30.gis.CreateLandmarksModelResponse);
+     */
+    createLandmarksModel(input: CreateLandmarksModelRequest, options?: RpcOptions): UnaryCall<CreateLandmarksModelRequest, CreateLandmarksModelResponse>;
+    /**
+     * @generated from protobuf rpc: UpdateLandmarksModel(fibertest30.gis.UpdateLandmarksModelRequest) returns (fibertest30.gis.UpdateLandmarksModelResponse);
+     */
+    updateLandmarksModel(input: UpdateLandmarksModelRequest, options?: RpcOptions): UnaryCall<UpdateLandmarksModelRequest, UpdateLandmarksModelResponse>;
+    /**
+     * @generated from protobuf rpc: DeleteLandmarksModel(fibertest30.gis.DeleteLandmarksModelRequest) returns (fibertest30.gis.DeleteLandmarksModelResponse);
+     */
+    deleteLandmarksModel(input: DeleteLandmarksModelRequest, options?: RpcOptions): UnaryCall<DeleteLandmarksModelRequest, DeleteLandmarksModelResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.gis.Gis
@@ -59,5 +83,33 @@ export class GisClient implements IGisClient, ServiceInfo {
     getLandmarks(input: GetLandmarksRequest, options?: RpcOptions): UnaryCall<GetLandmarksRequest, GetLandmarksResponse> {
         const method = this.methods[2], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetLandmarksRequest, GetLandmarksResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetLandmarksModel(fibertest30.gis.GetLandmarksModelRequest) returns (fibertest30.gis.GetLandmarksModelResponse);
+     */
+    getLandmarksModel(input: GetLandmarksModelRequest, options?: RpcOptions): UnaryCall<GetLandmarksModelRequest, GetLandmarksModelResponse> {
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetLandmarksModelRequest, GetLandmarksModelResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: CreateLandmarksModel(fibertest30.gis.CreateLandmarksModelRequest) returns (fibertest30.gis.CreateLandmarksModelResponse);
+     */
+    createLandmarksModel(input: CreateLandmarksModelRequest, options?: RpcOptions): UnaryCall<CreateLandmarksModelRequest, CreateLandmarksModelResponse> {
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        return stackIntercept<CreateLandmarksModelRequest, CreateLandmarksModelResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: UpdateLandmarksModel(fibertest30.gis.UpdateLandmarksModelRequest) returns (fibertest30.gis.UpdateLandmarksModelResponse);
+     */
+    updateLandmarksModel(input: UpdateLandmarksModelRequest, options?: RpcOptions): UnaryCall<UpdateLandmarksModelRequest, UpdateLandmarksModelResponse> {
+        const method = this.methods[5], opt = this._transport.mergeOptions(options);
+        return stackIntercept<UpdateLandmarksModelRequest, UpdateLandmarksModelResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: DeleteLandmarksModel(fibertest30.gis.DeleteLandmarksModelRequest) returns (fibertest30.gis.DeleteLandmarksModelResponse);
+     */
+    deleteLandmarksModel(input: DeleteLandmarksModelRequest, options?: RpcOptions): UnaryCall<DeleteLandmarksModelRequest, DeleteLandmarksModelResponse> {
+        const method = this.methods[6], opt = this._transport.mergeOptions(options);
+        return stackIntercept<DeleteLandmarksModelRequest, DeleteLandmarksModelResponse>("unary", this._transport, method, opt, input);
     }
 }

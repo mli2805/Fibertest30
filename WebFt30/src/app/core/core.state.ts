@@ -36,6 +36,8 @@ import { bopEventsReducer } from './store/bop-events/bop-events.reduces';
 import { rtuAccidentsReducer } from './store/rtu-accidents/rtu-accidents.reducer';
 import { AudioEventsState } from './store/audio-events/audio-events.state';
 import { audioEventsReducer } from './store/audio-events/audio-events.reducer';
+import { LandmarksModelsState } from './store/landmarks/landmarks-models.state';
+import { landmarksModelsReducer } from './store/landmarks/landmarks-models.reducer';
 
 export interface AppState {
   auth: AuthState;
@@ -56,6 +58,7 @@ export interface AppState {
 
   rtuTree: RtuTreeState;
   rtuMgmt: RtuMgmtState;
+  landmarksModels: LandmarksModelsState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -76,7 +79,8 @@ export const reducers: ActionReducerMap<AppState> = {
   router: routerReducer,
 
   rtuTree: rtuTreeReducer,
-  rtuMgmt: rtuMgmtReducer
+  rtuMgmt: rtuMgmtReducer,
+  landmarksModels: landmarksModelsReducer
 };
 
 // better to use Chrome's Redux DevTools plugin instead of 'debug' metaReducer
@@ -101,3 +105,4 @@ export const selectSystemNotificationState = (state: AppState) => state.eventNot
 export const selectNotificationSettingsState = (state: AppState) => state.notificationSettings;
 export const selectRtuTreeState = (state: AppState) => state.rtuTree;
 export const selectRtuMgmtState = (state: AppState) => state.rtuMgmt;
+export const selectLandmarksModelsState = (state: AppState) => state.landmarksModels;

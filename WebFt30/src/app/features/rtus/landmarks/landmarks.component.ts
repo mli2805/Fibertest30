@@ -1,20 +1,21 @@
 import { Component, HostListener, inject, Injector, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
-import { AppState, AuthSelectors } from 'src/app/core';
+import {
+  AppState,
+  AuthSelectors,
+  LandmarksModelsActions,
+  LandmarksModelsSelectors,
+  SettingsSelectors
+} from 'src/app/core';
 import { GisService } from 'src/app/core/grpc/services/gis.service';
-import { GisMapping } from 'src/app/core/store/mapping/gis-mappings';
-import { OneLandmark } from 'src/app/core/store/models/ft30/one-landmark';
 import { GisMapService } from '../../gis/gis-map.service';
 import { LandmarkMenu } from './one-landmark-menu/landmark-menu';
 import { EquipmentType } from 'src/grpc-generated';
 import { GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
 import { CoreUtils } from 'src/app/core/core.utils';
-
-interface LandmarksModel {
-  landmarks: OneLandmark[];
-}
+import { ColoredLandmark, LandmarksModel } from 'src/app/core/store/models/ft30/colored-landmark';
 
 @Component({
   selector: 'rtu-landmarks',
@@ -34,12 +35,6 @@ export class LandmarksComponent implements OnInit {
     this.store,
     AuthSelectors.selectHasEditGraphPermission
   );
-  originalLandmarks!: OneLandmark[];
-  landmarksModel = new BehaviorSubject<LandmarksModel | null>(null);
-  model$ = this.landmarksModel.asObservable();
-
-  selectedLandmark = new BehaviorSubject<OneLandmark | null>(null);
-  inputModel$ = this.selectedLandmark.asObservable();
 
   /////
   showContextMenu = false;
@@ -52,6 +47,17 @@ export class LandmarksComponent implements OnInit {
   ];
   //////
 
+  lmsModelId!: string;
+  // lmsModel$ = this.store.select(LandmarksModelsSelectors.selectUserById(this.lmsModelId));
+  loading$ = this.store.select(LandmarksModelsSelectors.selectLoading);
+
+  modelSubscription = new Subscription();
+  landmarksModel = new BehaviorSubject<LandmarksModel | null>(null);
+  lmsModel$ = this.landmarksModel.asObservable();
+
+  selectedLandmark = new BehaviorSubject<ColoredLandmark | null>(null);
+  inputModel$ = this.selectedLandmark.asObservable();
+
   constructor(
     private windowService: WindowService,
     private gisService: GisService,
@@ -62,35 +68,52 @@ export class LandmarksComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.spinning.next(true);
-    this.trace = this.gisMapService.getGeoData().traces.find((t) => t.id === this.traceId)!;
-    const response = await firstValueFrom(this.gisService.getLandmarks(this.traceId));
-    this.spinning.next(false);
-    if (response === null) this.close();
+    const gpsInputMode = CoreUtils.getCurrentState(
+      this.store,
+      SettingsSelectors.selectLanLngFormatName
+    );
+    this.lmsModelId = crypto.randomUUID();
+    // переподписываемся с новым lmsModelId
+    const modelInStore$ = this.store.select(
+      LandmarksModelsSelectors.selectLandmarksModelById(this.lmsModelId)
+    );
+    // но данные из стора нельзя редактировать напрямую, только через actions/reducers
+    this.modelSubscription.add(
+      modelInStore$.subscribe((model) => {
+        if (model) {
+          // делаем глубокую копия объекта из стора, теперь его можно изменять
+          const mutable = model.clone();
+          mutable.landmarks[0].isSelected = true;
+          this.landmarksModel.next(mutable);
+          this.selectedLandmark.next(this.landmarksModel.value!.landmarks[0]);
+        }
+      })
+    );
+    this.store.dispatch(
+      LandmarksModelsActions.createLandmarksModel({
+        landmarksModelId: this.lmsModelId,
+        traceId: this.traceId,
+        gpsInputMode: gpsInputMode
+      })
+    );
 
-    this.originalLandmarks = response.landmarks.map((l) => GisMapping.fromOneLandmark(l));
-    this.originalLandmarks[0].isSelected = true;
-    this.selectedLandmark.next(this.originalLandmarks[0]);
-    this.landmarksModel.next({ landmarks: this.originalLandmarks });
+    this.trace = this.gisMapService.getGeoData().traces.find((t) => t.id === this.traceId)!;
   }
 
   // переключатель показа всех ориентиров или только с оборудованием
   onlyEquipment = false;
   onEquipmChanged() {
-    this.onlyEquipment = !this.onlyEquipment;
-
-    const lms = this.onlyEquipment
-      ? this.originalLandmarks.filter((l) => l.isEquipmentLandmark())
-      : this.originalLandmarks;
-
-    if (lms.findIndex((l) => l.isSelected) === -1) {
-      this.onLandmarkClick(lms[0]);
-    }
-
-    this.landmarksModel.next({ landmarks: lms });
+    // this.onlyEquipment = !this.onlyEquipment;
+    // const lms = this.onlyEquipment
+    //   ? this.originalLandmarks.filter((l) => l.isEquipmentLandmark())
+    //   : this.originalLandmarks;
+    // if (lms.findIndex((l) => l.isSelected) === -1) {
+    //   this.onLandmarkClick(lms[0]);
+    // }
+    // this.landmarksModel.next({ landmarks: lms });
   }
 
-  onLandmarkClick(landmark: OneLandmark) {
+  onLandmarkClick(landmark: ColoredLandmark) {
     this.landmarksModel.value!.landmarks.forEach(
       (l) => (l.isSelected = l.number === landmark.number)
     );
@@ -98,7 +121,7 @@ export class LandmarksComponent implements OnInit {
     this.gisMapService.setHighlightNode(landmark.nodeId);
   }
 
-  updateTable(changedLandmark: OneLandmark) {
+  updateTable(changedLandmark: ColoredLandmark) {
     console.log(changedLandmark);
   }
 
@@ -115,7 +138,7 @@ export class LandmarksComponent implements OnInit {
     this.gisMapService.setHighlightNode(null);
   }
 
-  openContextMenu(event: MouseEvent, landmark: OneLandmark) {
+  openContextMenu(event: MouseEvent, landmark: ColoredLandmark) {
     event.preventDefault();
 
     this.onLandmarkClick(landmark);
@@ -128,8 +151,8 @@ export class LandmarksComponent implements OnInit {
   }
 
   handleMenuAction(action: string) {
-    const isLast = this.selectedLandmark.value!.number === this.originalLandmarks.length - 1;
-    LandmarkMenu.handleMenuAction(action, this.selectedLandmark.value, this.trace, isLast);
+    // const isLast = this.selectedLandmark.value!.number === this.originalLandmarks.length - 1;
+    // LandmarkMenu.handleMenuAction(action, this.selectedLandmark.value, this.trace, isLast);
   }
 
   // Close menu when clicking elsewhere

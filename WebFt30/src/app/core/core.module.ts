@@ -35,6 +35,7 @@ import { OpticalEventsEffects } from './store/optical-events/optical-events.effe
 import { NetworkEventsEffects } from './store/network-events/network-events.effects';
 import { BopEventsEffects } from './store/bop-events/bop-events.effects';
 import { RtuAccidentsEffects } from './store/rtu-accidents/rtu-accidents.effects';
+import { LandmarksModelsEffects } from './store/landmarks/landmarks-models.effects';
 
 @NgModule({
   imports: [
@@ -84,7 +85,8 @@ import { RtuAccidentsEffects } from './store/rtu-accidents/rtu-accidents.effects
       NotificationSettingsEffects,
 
       RtuTreeEffects,
-      RtuMgmtEffects
+      RtuMgmtEffects,
+      LandmarksModelsEffects
     ]),
     StoreRouterConnectingModule.forRoot(), //setup dev tools
     environment.production

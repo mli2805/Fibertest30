@@ -62,6 +62,18 @@ export class FtEnumsMapping {
     return enumCode;
   }
 
+  static toGrpcGpsInputMode(mode: string): grpc.GpsInputMode {
+    switch (mode) {
+      case 'degrees':
+        return grpc.GpsInputMode.Degrees;
+      case 'minutes':
+        return grpc.GpsInputMode.Minutes;
+      case 'seconds':
+        return grpc.GpsInputMode.Seconds;
+    }
+    return grpc.GpsInputMode.Degrees;
+  }
+
   // static toGrpcReturnCode(returnCode: ReturnCode): grpc.ReturnCode {
   //   const enumCode = this.getReturnCodeNumericKey(returnCode);
   //   return enumCode;

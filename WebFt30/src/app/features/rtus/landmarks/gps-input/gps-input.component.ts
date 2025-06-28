@@ -6,8 +6,7 @@ import { OneCoorInputComponent } from '../one-coor-input/one-coor-input.componen
 
 @Component({
   selector: 'rtu-gps-input',
-  templateUrl: './gps-input.component.html',
-  styleUrls: ['./gps-input.component.scss']
+  templateUrl: './gps-input.component.html'
 })
 export class GpsInputComponent {
   private store: Store<AppState> = inject(Store<AppState>);

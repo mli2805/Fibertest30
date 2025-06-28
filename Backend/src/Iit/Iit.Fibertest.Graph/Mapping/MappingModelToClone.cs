@@ -12,6 +12,7 @@ namespace Iit.Fibertest.Graph
             CreateMap<Equipment, Equipment>();
 
             CreateMap<Landmark, Landmark>();
+            CreateMap<ColoredLandmark, ColoredLandmark>();
 
             CreateMap<TraceModelForBaseRef, TraceModelForBaseRef>();
         }
@@ -45,6 +46,16 @@ namespace Iit.Fibertest.Graph
         public static TraceModelForBaseRef Clone(this TraceModelForBaseRef source)
         {
             return Cloner.Map<TraceModelForBaseRef>(source);
+        }
+
+        public static ColoredLandmark Clone(this ColoredLandmark source)
+        {
+            return Cloner.Map<ColoredLandmark>(source);
+        }
+
+        public static List<ColoredLandmark> Clone(this List<ColoredLandmark> source)
+        {
+            return source.Select(Cloner.Map<ColoredLandmark>).ToList();
         }
 
         public static void UpdateFrom(this Node destination, Landmark source)

@@ -1,25 +1,52 @@
 import { EquipmentType } from 'src/grpc-generated';
 
-export class OneLandmark {
-  public isFromBase!: boolean;
-  public number!: number;
-  public numberIncludingAdjustmentPoints!: number;
-  public nodeId!: string;
-  public fiberId!: string;
-  public nodeTitle!: string;
-  public nodeComment!: string;
-  public equipmentId!: string;
-  public equipmentTitle!: string;
-  public equipmentType!: EquipmentType;
-  public leftCableReserve!: number;
-  public rightCableReserve!: number;
-  public gpsDistance!: number;
-  public gpsSection!: number;
-  public isUserInput!: boolean;
-  public opticalDistance!: number;
-  public opticalSection!: number;
-  public eventNumber!: number;
-  public gpsCoors!: L.LatLng;
+export class LandmarksModel {
+  landmarksModelId!: string;
+  landmarks!: ColoredLandmark[];
+
+  clone(): LandmarksModel {
+    const clone = new LandmarksModel();
+    clone.landmarksModelId = this.landmarksModelId;
+    clone.landmarks = this.landmarks.map((l) => l.clone());
+    return clone;
+  }
+}
+
+export class ColoredLandmark {
+  isFromBase!: boolean;
+
+  nodeId!: string;
+  fiberId!: string; // to the left
+  number!: number;
+  numberIncludingAdjustmentPoints!: number;
+
+  nodeTitle!: string;
+  nodeTitleColor!: string;
+
+  nodeComment!: string;
+  nodeCommentColor!: string;
+
+  equipmentId!: string;
+  equipmentTitle!: string;
+  equipmentTitleColor!: string;
+  equipmentType!: EquipmentType;
+  equipmentTypeColor!: string;
+
+  leftCableReserve!: number;
+  rightCableReserve!: number;
+  cableReservesColor!: string;
+
+  gpsDistance!: number; // by GPS, ignore cable reserve
+  gpsSection!: number;
+  isUserInput!: boolean;
+  gpsSectionColor!: string;
+
+  opticalDistance!: number; // from sor
+  opticalSection!: number;
+  eventNumber!: number;
+
+  gpsCoors!: L.LatLng;
+  gpsCoorsColor!: string;
 
   public isSelected = false;
 
@@ -37,8 +64,8 @@ export class OneLandmark {
     }
   }
 
-  public clone(): OneLandmark {
-    const clone = new OneLandmark();
+  public clone(): ColoredLandmark {
+    const clone = new ColoredLandmark();
     Object.assign(clone, this);
     return clone;
   }
@@ -79,7 +106,7 @@ export class OneLandmark {
     );
   }
 
-  public nodePropertiesChanged(other: OneLandmark): boolean {
+  public nodePropertiesChanged(other: ColoredLandmark): boolean {
     return (
       this.nodeTitle != other.nodeTitle ||
       this.nodeComment != other.nodeComment ||
@@ -87,7 +114,7 @@ export class OneLandmark {
     );
   }
 
-  public equipmentPropertiesChanged(other: OneLandmark): boolean {
+  public equipmentPropertiesChanged(other: ColoredLandmark): boolean {
     return (
       this.equipmentTitle != other.equipmentTitle ||
       this.equipmentType != other.equipmentType ||

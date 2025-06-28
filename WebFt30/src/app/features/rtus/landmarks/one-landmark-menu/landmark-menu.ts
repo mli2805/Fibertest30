@@ -1,8 +1,8 @@
 import { Injector } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { GraphService } from 'src/app/core/grpc';
+import { ColoredLandmark } from 'src/app/core/store/models/ft30/colored-landmark';
 import { GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
-import { OneLandmark } from 'src/app/core/store/models/ft30/one-landmark';
 import { TraceEquipmentUtil } from 'src/app/features/gis/forms/trace-equipment-selector/trace-equipment-util';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
 
@@ -19,7 +19,7 @@ export class LandmarkMenu {
 
   static handleMenuAction(
     action: string,
-    landmark: OneLandmark | null,
+    landmark: ColoredLandmark | null,
     trace: GeoTrace,
     isLast: boolean
   ) {
@@ -39,7 +39,7 @@ export class LandmarkMenu {
   }
 
   static async equipmentOfLandmark(
-    landmark: OneLandmark,
+    landmark: ColoredLandmark,
     trace: GeoTrace,
     isLast: boolean
   ): Promise<string | null> {
@@ -66,11 +66,11 @@ export class LandmarkMenu {
     }
   }
 
-  static nodeOfLandmark(landmark: OneLandmark) {
+  static nodeOfLandmark(landmark: ColoredLandmark) {
     this.gisMapService.setShowNodeInfoDialog(landmark.nodeId, true);
   }
 
-  static sectionOfLandmark(landmark: OneLandmark) {
+  static sectionOfLandmark(landmark: ColoredLandmark) {
     this.gisMapService.setShowSectionInfoDialog(landmark.fiberId, true);
   }
 }

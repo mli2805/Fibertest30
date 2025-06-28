@@ -11,7 +11,6 @@ import {
   TraceNode
 } from '../models/ft30/geo-data';
 import { FtEnumsMapping } from './ft-enums-mapping';
-import { OneLandmark } from '../models/ft30/one-landmark';
 
 export class GisMapping {
   static fromGeoCoordinate(coors: grpc.GeoCoordinate): L.LatLng {
@@ -77,32 +76,6 @@ export class GisMapping {
       grpcFiberInfo.tracesThrough.map((t) => this.fromOpticalLength(t)),
       grpcFiberInfo.hasTraceUnderMonitoring
     );
-  }
-
-  static fromOneLandmark(grpcOneLandmark: grpc.OneLandmark): OneLandmark {
-    const landmark = new OneLandmark();
-
-    landmark.isFromBase = grpcOneLandmark.isFromBase;
-    landmark.number = grpcOneLandmark.number;
-    landmark.numberIncludingAdjustmentPoints = grpcOneLandmark.numberIncludingAdjustmentPoints;
-    landmark.nodeId = grpcOneLandmark.nodeId;
-    landmark.fiberId = grpcOneLandmark.fiberId;
-    landmark.nodeTitle = grpcOneLandmark.nodeTitle;
-    landmark.nodeComment = grpcOneLandmark.nodeComment;
-    landmark.equipmentId = grpcOneLandmark.equipmentId;
-    landmark.equipmentTitle = grpcOneLandmark.equipmentTitle;
-    landmark.equipmentType = grpcOneLandmark.equipmentType;
-    landmark.leftCableReserve = grpcOneLandmark.leftCableReserve;
-    landmark.rightCableReserve = grpcOneLandmark.rightCableReserve;
-    landmark.gpsDistance = grpcOneLandmark.gpsDistance;
-    landmark.gpsSection = grpcOneLandmark.gpsSection;
-    landmark.isUserInput = grpcOneLandmark.isUserInput;
-    landmark.opticalDistance = grpcOneLandmark.opticalDistance;
-    landmark.opticalSection = grpcOneLandmark.opticalSection;
-    landmark.eventNumber = grpcOneLandmark.eventNumber;
-    landmark.gpsCoors = this.fromGeoCoordinate(grpcOneLandmark.gpsCoors!);
-
-    return landmark;
   }
 
   static fromGeoTrace(grpcGeoTrace: grpc.GeoTrace): GeoTrace {
