@@ -27,17 +27,11 @@ public class LandmarksModel
     public List<ColoredLandmark> Rows { get; set; } = null!;
     private List<ColoredLandmark> _originalLandmarkRows = null!;
 
-    private GpsInputMode _gpsInputMode;
-    private GpsInputMode _originalGpsInputMode;
-
     private readonly UpdateFromLandmarksBatch _command = new();
 
-    public async Task<bool> Initialize(IServiceScope scope, Guid landmarksModelId, Guid traceId, GpsInputMode gpsInputMode)
+    public async Task<bool> Initialize(IServiceScope scope, Guid landmarksModelId, Guid traceId)
     {
         _landmarksModelId = landmarksModelId;
-
-        _gpsInputMode = gpsInputMode;
-        _originalGpsInputMode = gpsInputMode;
 
         var writeModel = scope.ServiceProvider.GetRequiredService<Model>();
         var sorFileRepository = scope.ServiceProvider.GetRequiredService<ISorFileRepository>();
@@ -52,7 +46,8 @@ public class LandmarksModel
             if (_sorData == null) return false;
         }
 
-        _changedModel = writeModel.GetTraceComponentsByIds(_selectedTrace);
+        // Clone() чтобы модели не были связаны с WriteModel и друг другом
+        _changedModel = writeModel.GetTraceComponentsByIds(_selectedTrace).Clone();
         _originalModel = _changedModel.Clone();
 
         var landmarksBaseParser = scope.ServiceProvider.GetRequiredService<LandmarksBaseParser>();
@@ -62,7 +57,7 @@ public class LandmarksModel
             : landmarksGraphParser.GetLandmarksFromGraph(_selectedTrace);
         _originalLandmarks = _changedLandmarks.Clone();
 
-        Rows = LandmarksToRows(_changedLandmarks, null, _isFilterOn, _gpsInputMode, _originalGpsInputMode);
+        Rows = LandmarksToRows(_changedLandmarks, null, _isFilterOn);
         _originalLandmarkRows = Rows.Clone();
         return true;
     }
@@ -76,7 +71,7 @@ public class LandmarksModel
 
     private List<ColoredLandmark> LandmarksToRows(
          List<Landmark> landmarks, List<ColoredLandmark>? oldLandmarkRows,
-        bool withoutEmptyNodes, GpsInputMode gpsInputMode, GpsInputMode originalGpsInputMode)
+        bool withoutEmptyNodes)
     {
         var temp = withoutEmptyNodes
             ? landmarks.Where(l => l.EquipmentType != EquipmentType.EmptyNode)
@@ -86,7 +81,7 @@ public class LandmarksModel
         return new(
             temp.Select(l => new ColoredLandmark()
                 .FromLandmark(l, oldLandmarkRows?
-                    .First(o => o.Number == l.Number), gpsInputMode, originalGpsInputMode)));
+                    .First(o => o.Number == l.Number))));
     }
 
 
@@ -96,6 +91,8 @@ public class LandmarksModel
 
         var originalLandmark = _originalLandmarks.First(l => l.Number == changedColoredLandmark.Number);
         var changedLandmark = _changedLandmarks.First(l => l.Number == changedColoredLandmark.Number);
+        changedColoredLandmark.ToLandmark(changedLandmark);
+
         var currentNode = _changedModel.NodeArray.First(n => n.NodeId == changedColoredLandmark.NodeId);
         if (originalLandmark.AreNodePropertiesChanged(changedLandmark))
         {
@@ -136,15 +133,7 @@ public class LandmarksModel
     public LandmarksModel UpdateFilterEmptyNodes(bool isFilterOn)
     {
         _isFilterOn = isFilterOn;
-        Rows = LandmarksToRows(_changedLandmarks, _originalLandmarkRows, _isFilterOn, _gpsInputMode, _originalGpsInputMode);
-        return this;
-    }
-
-    public LandmarksModel UpdateGpsInputMode(GpsInputMode gpsInputMode)
-    {
-        _gpsInputMode = gpsInputMode;
-        Rows = LandmarksToRows(_changedLandmarks, _originalLandmarkRows, _isFilterOn, _gpsInputMode,
-            _originalGpsInputMode);
+        Rows = LandmarksToRows(_changedLandmarks, _originalLandmarkRows, _isFilterOn);
         return this;
     }
 
@@ -178,7 +167,6 @@ public class LandmarksModel
             ? landmarksBaseParser.GetLandmarksFromBaseRef(_sorData!, _changedModel)
             : landmarksGraphParser.GetLandmarksFromModel(_changedModel);
 
-        return LandmarksToRows(_changedLandmarks, _originalLandmarkRows, _isFilterOn,
-            _gpsInputMode, _originalGpsInputMode);
+        return LandmarksToRows(_changedLandmarks, _originalLandmarkRows, _isFilterOn);
     }
 }

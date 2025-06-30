@@ -4,6 +4,30 @@ namespace Fibertest30.Api;
 
 public static class FtEnumsMapping
 {
+    public static EquipmentType ToProto(this Iit.Fibertest.Dto.EquipmentType type)
+    {
+        return type switch
+        {
+            Iit.Fibertest.Dto.EquipmentType.AdjustmentPoint => EquipmentType.AdjustmentPoint,
+            Iit.Fibertest.Dto.EquipmentType.EmptyNode => EquipmentType.EmptyNode,
+            Iit.Fibertest.Dto.EquipmentType.CableReserve => EquipmentType.CableReserve,
+            Iit.Fibertest.Dto.EquipmentType.Other => EquipmentType.Other,
+            Iit.Fibertest.Dto.EquipmentType.Closure => EquipmentType.Closure,
+            Iit.Fibertest.Dto.EquipmentType.Cross => EquipmentType.Cross,
+            Iit.Fibertest.Dto.EquipmentType.Well => EquipmentType.Well,
+            Iit.Fibertest.Dto.EquipmentType.Terminal => EquipmentType.Terminal,
+            Iit.Fibertest.Dto.EquipmentType.Rtu => EquipmentType.Rtu,
+            Iit.Fibertest.Dto.EquipmentType.AccidentPlace => EquipmentType.AccidentPlace,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
+
+    public static Iit.Fibertest.Dto.EquipmentType FromProto(this EquipmentType type)
+    {
+        var num = (int)type;
+        return (Iit.Fibertest.Dto.EquipmentType)num;
+    }
+
     public static RtuMaker ToProto(this Iit.Fibertest.Dto.RtuMaker rtuMaker)
     {
         return rtuMaker switch

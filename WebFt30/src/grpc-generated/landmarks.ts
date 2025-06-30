@@ -3,7 +3,6 @@
 // tslint:disable
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
-import { GpsInputMode } from "./ft.enums";
 import { EquipmentType } from "./ft.enums";
 import { GeoCoordinate } from "./gis";
 /**
@@ -162,10 +161,6 @@ export interface CreateLandmarksModelRequest {
      * @generated from protobuf field: string traceId = 2;
      */
     traceId: string;
-    /**
-     * @generated from protobuf field: fibertest30.ft.enums.GpsInputMode gpsInputMode = 3;
-     */
-    gpsInputMode: GpsInputMode;
 }
 /**
  * @generated from protobuf message fibertest30.landmarks.CreateLandmarksModelResponse
@@ -187,11 +182,7 @@ export interface UpdateLandmarksModelRequest {
      */
     changedLandmark?: ColoredLandmark;
     /**
-     * @generated from protobuf field: optional string gpsInputMode = 3;
-     */
-    gpsInputMode?: string;
-    /**
-     * @generated from protobuf field: optional bool isFilterOn = 4;
+     * @generated from protobuf field: optional bool isFilterOn = 3;
      */
     isFilterOn?: boolean;
 }
@@ -295,8 +286,7 @@ class CreateLandmarksModelRequest$Type extends MessageType<CreateLandmarksModelR
     constructor() {
         super("fibertest30.landmarks.CreateLandmarksModelRequest", [
             { no: 1, name: "landmarksModelId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "gpsInputMode", kind: "enum", T: () => ["fibertest30.ft.enums.GpsInputMode", GpsInputMode] }
+            { no: 2, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
@@ -320,8 +310,7 @@ class UpdateLandmarksModelRequest$Type extends MessageType<UpdateLandmarksModelR
         super("fibertest30.landmarks.UpdateLandmarksModelRequest", [
             { no: 1, name: "landmarksModelId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "changedLandmark", kind: "message", T: () => ColoredLandmark },
-            { no: 3, name: "gpsInputMode", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "isFilterOn", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ }
+            { no: 3, name: "isFilterOn", kind: "scalar", opt: true, T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
 }

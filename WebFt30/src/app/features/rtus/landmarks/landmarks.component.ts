@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, Injector, Input, OnInit } from '@angular/core';
+import { Component, HostListener, inject, Injector, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
@@ -7,6 +7,9 @@ import {
   AuthSelectors,
   LandmarksModelsActions,
   LandmarksModelsSelectors,
+  LatLngFormat,
+  LatLngFormats,
+  SettingsActions,
   SettingsSelectors
 } from 'src/app/core';
 import { GisService } from 'src/app/core/grpc/services/gis.service';
@@ -21,10 +24,7 @@ import { ColoredLandmark, LandmarksModel } from 'src/app/core/store/models/ft30/
   selector: 'rtu-landmarks',
   templateUrl: './landmarks.component.html'
 })
-export class LandmarksComponent implements OnInit {
-  spinning = new BehaviorSubject<boolean>(false);
-  spinning$ = this.spinning.asObservable();
-
+export class LandmarksComponent implements OnInit, OnDestroy {
   @Input() traceId!: string;
   @Input() zIndex!: number;
   trace!: GeoTrace;
@@ -48,7 +48,6 @@ export class LandmarksComponent implements OnInit {
   //////
 
   lmsModelId!: string;
-  // lmsModel$ = this.store.select(LandmarksModelsSelectors.selectUserById(this.lmsModelId));
   loading$ = this.store.select(LandmarksModelsSelectors.selectLoading);
 
   modelSubscription = new Subscription();
@@ -57,6 +56,9 @@ export class LandmarksComponent implements OnInit {
 
   selectedLandmark = new BehaviorSubject<ColoredLandmark | null>(null);
   inputModel$ = this.selectedLandmark.asObservable();
+
+  // восстановить при выходе
+  gpsInputFormat!: LatLngFormat;
 
   constructor(
     private windowService: WindowService,
@@ -68,10 +70,12 @@ export class LandmarksComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    const gpsInputMode = CoreUtils.getCurrentState(
+    this.gpsInputFormat = CoreUtils.getCurrentState(
       this.store,
-      SettingsSelectors.selectLanLngFormatName
+      SettingsSelectors.selectLatLngFormat
     );
+    this.selectedLatLngFormat$.next(this.gpsInputFormat);
+
     this.lmsModelId = crypto.randomUUID();
     // переподписываемся с новым lmsModelId
     const modelInStore$ = this.store.select(
@@ -81,8 +85,11 @@ export class LandmarksComponent implements OnInit {
     this.modelSubscription.add(
       modelInStore$.subscribe((model) => {
         if (model) {
+          // восстановление экземпляра из POCO, по какой-то причине первый раз (при создании) это не надо было,
+          // но затем при изменении получаем plain object без методов
+          const restored = new LandmarksModel(model);
           // делаем глубокую копия объекта из стора, теперь его можно изменять
-          const mutable = model.clone();
+          const mutable = restored.clone();
           mutable.landmarks[0].isSelected = true;
           this.landmarksModel.next(mutable);
           this.selectedLandmark.next(this.landmarksModel.value!.landmarks[0]);
@@ -92,25 +99,42 @@ export class LandmarksComponent implements OnInit {
     this.store.dispatch(
       LandmarksModelsActions.createLandmarksModel({
         landmarksModelId: this.lmsModelId,
-        traceId: this.traceId,
-        gpsInputMode: gpsInputMode
+        traceId: this.traceId
       })
     );
 
     this.trace = this.gisMapService.getGeoData().traces.find((t) => t.id === this.traceId)!;
   }
 
+  ngOnDestroy(): void {
+    this.store.dispatch(
+      SettingsActions.changeLatLngFormatNoPersist({ latLngFormat: this.gpsInputFormat })
+    );
+    this.store.dispatch(
+      LandmarksModelsActions.deleteLandmarksModel({ landmarksModelId: this.lmsModelId })
+    );
+  }
+
   // переключатель показа всех ориентиров или только с оборудованием
-  onlyEquipment = false;
-  onEquipmChanged() {
-    // this.onlyEquipment = !this.onlyEquipment;
-    // const lms = this.onlyEquipment
-    //   ? this.originalLandmarks.filter((l) => l.isEquipmentLandmark())
-    //   : this.originalLandmarks;
-    // if (lms.findIndex((l) => l.isSelected) === -1) {
-    //   this.onLandmarkClick(lms[0]);
-    // }
-    // this.landmarksModel.next({ landmarks: lms });
+  isFilterOn = false;
+  onFilterChanged() {
+    this.isFilterOn = !this.isFilterOn;
+    this.store.dispatch(
+      LandmarksModelsActions.updateLandmarksModel({
+        landmarksModelId: this.lmsModelId,
+        changedLandmark: undefined,
+        isFilterOn: this.isFilterOn
+      })
+    );
+  }
+
+  // переключатель формата показа координат, только на этой форме
+  // временно меняем значение в хранилище, по закрытию формы вернем
+  public latLngFormats = <any>LatLngFormats;
+  public selectedLatLngFormat$ = new BehaviorSubject<LatLngFormat | null>(null);
+  onLatLngFormatChanged(latLngFormat: LatLngFormat) {
+    this.selectedLatLngFormat$.next(latLngFormat);
+    this.store.dispatch(SettingsActions.changeLatLngFormatNoPersist({ latLngFormat }));
   }
 
   onLandmarkClick(landmark: ColoredLandmark) {
@@ -122,7 +146,13 @@ export class LandmarksComponent implements OnInit {
   }
 
   updateTable(changedLandmark: ColoredLandmark) {
-    console.log(changedLandmark);
+    this.store.dispatch(
+      LandmarksModelsActions.updateLandmarksModel({
+        landmarksModelId: this.lmsModelId,
+        changedLandmark: changedLandmark,
+        isFilterOn: undefined
+      })
+    );
   }
 
   cancelAllChanges() {

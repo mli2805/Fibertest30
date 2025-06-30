@@ -43,7 +43,10 @@ module.exports = {
         'rtu-primary-bg': '#FfFfFf',
         'rtu-second-bg': '#F3F3F3',
         'rtu-dark-primary-bg': '#222222',
-        'rtu-dark-second-bg': '#282828' // combobox, extra button, switch
+        'rtu-dark-second-bg': '#282828', // combobox, extra button, switch
+
+        cornsilk: '#FFF8DC',
+        'dark-cornsilk': '#5c4033'
       },
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],

@@ -14,11 +14,11 @@ public class LandmarksModelManager(ILogger<LandmarksModelManager> logger, IServi
 
     // если клик на рту - присылай первую трассу
     // если на узле и там более одной трассы - выбери трассу и присылай
-    public async Task<LandmarksModel?> Create(Guid modelId, Guid traceId, GpsInputMode gpsInputMode)
+    public async Task<LandmarksModel?> Create(Guid modelId, Guid traceId)
     {
         using var scope = serviceScopeFactory.CreateScope();
         var model = new LandmarksModel();
-        if (await model.Initialize(scope, modelId, traceId, gpsInputMode))
+        if (await model.Initialize(scope, modelId, traceId))
         {
             _models.AddOrUpdate(modelId, _ => model, (_, _) => model);
             return model;
@@ -50,14 +50,6 @@ public class LandmarksModelManager(ILogger<LandmarksModelManager> logger, IServi
         return model!.UpdateFilterEmptyNodes(isFilterOn);
     }
     
-    public LandmarksModel? UpdateGpsInputMode(Guid modelId, GpsInputMode gpsInputMode)
-    {
-        var result = _models.TryGetValue(modelId, out LandmarksModel? model);
-        if (!result) return null;
-
-        return model!.UpdateGpsInputMode(gpsInputMode);
-    }
-
     public LandmarksModel? CancelChanges(Guid modelId)
     {
         var result = _models.TryGetValue(modelId, out LandmarksModel? model);

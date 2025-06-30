@@ -21,6 +21,11 @@ const reducer = createReducer(
     loading: true,
     errorMessageId: null
   })),
+  on(LandmarksModelsActions.updateLandmarksModel, (state) => ({
+    ...state,
+    loading: true,
+    errorMessageId: null
+  })),
   on(
     LandmarksModelsActions.getLandmarksModelSuccess,
     (state, { landmarksModel: landmarksModel }) => {
@@ -28,6 +33,12 @@ const reducer = createReducer(
         ...state,
         loading: false
       });
+    }
+  ),
+  on(
+    LandmarksModelsActions.deleteLandmarksModelSuccess,
+    (state, { landmarksModelId: landmarksModelsId }) => {
+      return LandmarksModelsStateAdapter.removeOne(landmarksModelsId, { ...state, loading: false });
     }
   )
 );

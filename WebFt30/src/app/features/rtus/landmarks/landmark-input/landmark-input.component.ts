@@ -150,8 +150,7 @@ export class LandmarkInputComponent {
     let hasChanges = false;
     const changedLandmark = this.collectInput();
     if (!changedLandmark) return;
-
-    if (this.model.value!.nodePropertiesChanged(changedLandmark)) {
+    if (this.model.value!.areAnyPropertyChanged(changedLandmark)) {
       hasChanges = true;
     }
 
@@ -204,7 +203,6 @@ export class LandmarkInputComponent {
       return null;
     }
     changedLandmark.UserInputLength = uil;
-
     const coors = this.gpsInput.getInput();
     if (coors) changedLandmark.gpsCoors = coors;
 

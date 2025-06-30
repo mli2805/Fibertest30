@@ -39,8 +39,7 @@ public class ColoredLandmark
     public PointLatLng GpsCoors;
     public string GpsCoorsColor;
 
-    public ColoredLandmark FromLandmark(Landmark landmark, ColoredLandmark? oldLandmarkRow,
-            GpsInputMode mode, GpsInputMode originalGpsInputMode)
+    public ColoredLandmark FromLandmark(Landmark landmark, ColoredLandmark? oldLandmarkRow)
     {
         Number = landmark.Number;
         NumberIncludingAdjustmentPoints = landmark.NumberIncludingAdjustmentPoints;
@@ -77,6 +76,29 @@ public class ColoredLandmark
 
         return this;
     }
+
+    public void ToLandmark(Landmark ll)
+    {
+        ll.Number = this.Number;
+        ll.NumberIncludingAdjustmentPoints = this.NumberIncludingAdjustmentPoints;
+        ll.NodeId = this.NodeId;
+        ll.FiberId = this.FiberId;
+        ll.NodeTitle = this.NodeTitle;
+        ll.NodeComment = this.NodeComment;
+        ll.EquipmentId = this.EquipmentId;
+        ll.EquipmentTitle = this.EquipmentTitle;
+        ll.EquipmentType = this.EquipmentType;
+        ll.LeftCableReserve = this.LeftCableReserve;
+        ll.RightCableReserve = this.RightCableReserve;
+        ll.GpsDistance = this.GpsDistance;
+        ll.GpsSection = this.GpsSection;
+        ll.IsUserInput = this.IsUserInput;
+        ll.OpticalDistance = this.OpticalDistance;
+        ll.OpticalSection = this.OpticalSection;
+        ll.EventNumber = this.EventNumber;
+        ll.GpsCoors = this.GpsCoors;
+    }
+
 
     private string CalculateGpsSectionBrush(Landmark source, ColoredLandmark? oldLandmarkRow)
     {

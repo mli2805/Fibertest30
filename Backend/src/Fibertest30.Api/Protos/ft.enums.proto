@@ -115,9 +115,3 @@ enum EquipmentType {
 
     AccidentPlace = 501;
 }
-
-enum GpsInputMode {
-	Degrees = 0;
-	Minutes = 1;
-	Seconds = 2;
-}

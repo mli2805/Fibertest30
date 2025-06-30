@@ -40,6 +40,10 @@ const reducer = createReducer(
     ...state,
     latLngFormat
   })),
+  on(SettingsActions.changeLatLngFormatNoPersist, (state, { latLngFormat }) => ({
+    ...state,
+    latLngFormat
+  })),
   on(SettingsActions.changeSwitchOffSuspicionSignalling, (state, { value }) => ({
     ...state,
     switchOffSuspicionSignalling: value

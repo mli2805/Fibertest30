@@ -13,6 +13,14 @@ public class LandmarksMappingProfile : Profile
             .ForMember(d => d.GpsCoors,
                 opt =>
                                 opt.MapFrom(s => s.GpsCoors.ToProto()));
+
+        CreateMap<ColoredLandmark, Iit.Fibertest.Graph.ColoredLandmark>()
+            .ForMember(d => d.EquipmentType,
+                opt =>
+                    opt.MapFrom(s => s.EquipmentType.FromProto()))
+            .ForMember(d => d.GpsCoors,
+                opt =>
+                    opt.MapFrom(s => s.GpsCoors.FromProto()));
     }
 }
 
@@ -29,5 +37,10 @@ public static class LandmarksMapping
         };
 
         return r;
+    }
+
+    public static Iit.Fibertest.Graph.ColoredLandmark FromProto(this ColoredLandmark landmark)
+    {
+        return _mapper.Map<Iit.Fibertest.Graph.ColoredLandmark>(landmark);
     }
 }

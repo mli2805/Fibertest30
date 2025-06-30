@@ -45,4 +45,35 @@ export class LandmarksMapping {
 
     return coloredLandmark;
   }
+
+  static toGrpcColoredLandmark(landmark: ColoredLandmark): grpc.ColoredLandmark {
+    return {
+      isFromBase: landmark.isFromBase,
+      nodeId: landmark.nodeId,
+      fiberId: landmark.fiberId,
+      number: landmark.number,
+      numberIncludingAdjustmentPoints: landmark.numberIncludingAdjustmentPoints,
+      nodeTitle: landmark.nodeTitle,
+      nodeTitleColor: landmark.nodeTitleColor,
+      nodeComment: landmark.nodeComment,
+      nodeCommentColor: landmark.nodeCommentColor,
+      equipmentId: landmark.equipmentId,
+      equipmentTitle: landmark.equipmentTitle,
+      equipmentTitleColor: landmark.equipmentTitleColor,
+      equipmentType: landmark.equipmentType,
+      equipmentTypeColor: landmark.equipmentTypeColor,
+      leftCableReserve: landmark.leftCableReserve,
+      rightCableReserve: landmark.rightCableReserve,
+      cableReservesColor: landmark.cableReservesColor,
+      gpsDistance: landmark.gpsDistance,
+      gpsSection: landmark.gpsSection,
+      isUserInput: landmark.isUserInput,
+      gpsSectionColor: landmark.gpsSectionColor,
+      opticalDistance: landmark.opticalDistance,
+      opticalSection: landmark.opticalSection,
+      eventNumber: landmark.eventNumber,
+      gpsCoors: GisMapping.toGeoCoordinate(landmark.gpsCoors!),
+      gpsCoorsColor: landmark.gpsCoorsColor
+    };
+  }
 }

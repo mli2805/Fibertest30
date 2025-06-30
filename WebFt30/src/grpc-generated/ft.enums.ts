@@ -336,20 +336,3 @@ export enum EquipmentType {
      */
     AccidentPlace = 501
 }
-/**
- * @generated from protobuf enum fibertest30.ft.enums.GpsInputMode
- */
-export enum GpsInputMode {
-    /**
-     * @generated from protobuf enum value: Degrees = 0;
-     */
-    Degrees = 0,
-    /**
-     * @generated from protobuf enum value: Minutes = 1;
-     */
-    Minutes = 1,
-    /**
-     * @generated from protobuf enum value: Seconds = 2;
-     */
-    Seconds = 2
-}

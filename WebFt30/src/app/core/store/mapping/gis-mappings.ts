@@ -17,6 +17,13 @@ export class GisMapping {
     return new L.LatLng(coors.latitude, coors.longitude);
   }
 
+  static toGeoCoordinate(coors: L.LatLng): grpc.GeoCoordinate {
+    return {
+      latitude: coors.lat,
+      longitude: coors.lng
+    };
+  }
+
   static fromTraceNode(grpcTraceNode: grpc.TraceNode): TraceNode {
     const node = new TraceNode(
       grpcTraceNode.id,

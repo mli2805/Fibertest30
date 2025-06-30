@@ -4,6 +4,10 @@ export class LandmarksModel {
   landmarksModelId!: string;
   landmarks!: ColoredLandmark[];
 
+  constructor(init?: Partial<LandmarksModel>) {
+    Object.assign(this, init);
+  }
+
   clone(): LandmarksModel {
     const clone = new LandmarksModel();
     clone.landmarksModelId = this.landmarksModelId;
@@ -106,20 +110,35 @@ export class ColoredLandmark {
     );
   }
 
-  public nodePropertiesChanged(other: ColoredLandmark): boolean {
+  public areNodePropertiesChanged(other: ColoredLandmark): boolean {
     return (
-      this.nodeTitle != other.nodeTitle ||
-      this.nodeComment != other.nodeComment ||
-      this.gpsCoors.equals(other.gpsCoors)
+      this.nodeTitle !== other.nodeTitle ||
+      this.nodeComment !== other.nodeComment ||
+      !this.areGpsCoorsEqual(other.gpsCoors, 0.0000005)
     );
   }
 
-  public equipmentPropertiesChanged(other: ColoredLandmark): boolean {
+  private areGpsCoorsEqual(otherGpsCoors: L.LatLng, tolerance: number): boolean {
+    const equals =
+      Math.abs(this.gpsCoors.lat - otherGpsCoors.lat) < tolerance &&
+      Math.abs(this.gpsCoors.lng - otherGpsCoors.lng) < tolerance;
+    return equals;
+  }
+
+  public areEquipmentPropertiesChanged(other: ColoredLandmark): boolean {
     return (
-      this.equipmentTitle != other.equipmentTitle ||
-      this.equipmentType != other.equipmentType ||
-      this.leftCableReserve != other.leftCableReserve ||
-      this.rightCableReserve != other.rightCableReserve
+      this.equipmentTitle !== other.equipmentTitle ||
+      this.equipmentType !== other.equipmentType ||
+      this.leftCableReserve !== other.leftCableReserve ||
+      this.rightCableReserve !== other.rightCableReserve
+    );
+  }
+
+  public areAnyPropertyChanged(other: ColoredLandmark): boolean {
+    return (
+      this.areNodePropertiesChanged(other) ||
+      this.areEquipmentPropertiesChanged(other) ||
+      this.UserInputLength !== other.UserInputLength
     );
   }
 }

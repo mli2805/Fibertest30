@@ -5,33 +5,14 @@ namespace Fibertest30.Api;
 
 public static class GisMapping
 {
-    public static EquipmentType ToProto(this Iit.Fibertest.Dto.EquipmentType type)
-    {
-        return type switch
-        {
-            Iit.Fibertest.Dto.EquipmentType.AdjustmentPoint => EquipmentType.AdjustmentPoint,
-            Iit.Fibertest.Dto.EquipmentType.EmptyNode => EquipmentType.EmptyNode,
-            Iit.Fibertest.Dto.EquipmentType.CableReserve => EquipmentType.CableReserve,
-            Iit.Fibertest.Dto.EquipmentType.Other => EquipmentType.Other,
-            Iit.Fibertest.Dto.EquipmentType.Closure => EquipmentType.Closure,
-            Iit.Fibertest.Dto.EquipmentType.Cross => EquipmentType.Cross,
-            Iit.Fibertest.Dto.EquipmentType.Well => EquipmentType.Well,
-            Iit.Fibertest.Dto.EquipmentType.Terminal => EquipmentType.Terminal,
-            Iit.Fibertest.Dto.EquipmentType.Rtu => EquipmentType.Rtu,
-            Iit.Fibertest.Dto.EquipmentType.AccidentPlace => EquipmentType.AccidentPlace,
-            _ => throw new ArgumentOutOfRangeException()
-        };
-    }
-
-    public static Iit.Fibertest.Graph.GpsInputMode FromProto(this GpsInputMode mode)
-    {
-        var num = (int)mode;
-        return (Iit.Fibertest.Graph.GpsInputMode)num;
-    }
-
     public static GeoCoordinate ToProto(this PointLatLng point)
     {
         return new GeoCoordinate() { Latitude = point.Lat, Longitude = point.Lng };
+    }
+
+    public static PointLatLng FromProto(this GeoCoordinate coor)
+    {
+        return new PointLatLng(coor.Latitude, coor.Longitude);
     }
 
     private static TraceNode ToProto(this NodeGisData node)

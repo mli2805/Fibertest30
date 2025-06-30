@@ -4,7 +4,8 @@ import { AuthInterceptor } from '../auth.interceptor';
 import { GrpcUtils } from '../grpc.utils';
 import * as grpc from 'src/grpc-generated';
 import { Observable } from 'rxjs';
-import { FtEnumsMapping } from '../../store/mapping/ft-enums-mapping';
+import { ColoredLandmark } from '../../store/models/ft30/colored-landmark';
+import { LandmarksMapping } from '../../store/mapping/landmarks-mapping';
 
 @Injectable({
   providedIn: 'root'
@@ -29,18 +30,44 @@ export class LandmarksService {
     );
   }
 
+  deleteLandmarksModel(landmarksModelId: string): Observable<grpc.DeleteLandmarksModelResponse> {
+    const request: grpc.DeleteLandmarksModelRequest = { landmarksModelId };
+    return GrpcUtils.unaryToObservable(
+      this.client.deleteLandmarksModel.bind(this.client),
+      request,
+      {}
+    );
+  }
+
   createLandmarksModel(
     landmarksModelId: string,
-    traceId: string,
-    gpsInputMode: string
+    traceId: string
   ): Observable<grpc.CreateLandmarksModelResponse> {
     const request: grpc.CreateLandmarksModelRequest = {
       landmarksModelId,
-      traceId,
-      gpsInputMode: FtEnumsMapping.toGrpcGpsInputMode(gpsInputMode)
+      traceId
     };
     return GrpcUtils.unaryToObservable(
       this.client.createLandmarksModel.bind(this.client),
+      request,
+      {}
+    );
+  }
+
+  updateLandmarksModel(
+    landmarksModelId: string,
+    changedLandmark: ColoredLandmark | undefined,
+    isFilterOn: boolean | undefined
+  ) {
+    const request: grpc.UpdateLandmarksModelRequest = {
+      landmarksModelId,
+      changedLandmark: changedLandmark
+        ? LandmarksMapping.toGrpcColoredLandmark(changedLandmark!)
+        : undefined,
+      isFilterOn
+    };
+    return GrpcUtils.unaryToObservable(
+      this.client.updateLandmarksModel.bind(this.client),
       request,
       {}
     );

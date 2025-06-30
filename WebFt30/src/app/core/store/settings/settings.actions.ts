@@ -26,6 +26,11 @@ const changeLatLngFormat = createAction(
   props<{ latLngFormat: LatLngFormat }>()
 );
 
+const changeLatLngFormatNoPersist = createAction(
+  '[Settings] Change LatLngFormat No Persist',
+  props<{ latLngFormat: LatLngFormat }>()
+);
+
 const changeTimeZone = createAction(
   '[Settings] Change Time Zone',
   props<{ timeZone: AppTimezone }>()
@@ -64,6 +69,7 @@ export const SettingsActions = {
   changeLanguage,
   changeDateTimeFormat,
   changeLatLngFormat,
+  changeLatLngFormatNoPersist,
   changeTimeZone,
   changeZoom,
   changeCenter,

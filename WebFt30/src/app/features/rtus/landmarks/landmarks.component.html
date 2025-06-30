@@ -11,21 +11,46 @@
   [zIndex]="zIndex"
   (closeEvent)="close()"
 >
-  <!-- prettier-ignore -->
-  <ng-container *ngIf="lmsModel$ | async as model" >
+  <ng-container *ngIf="lmsModel$ | async as model">
+    <div class="mb-1 flex justify-between">
+      <div class="flex items-center">
+        <label class="m-2 my-auto text-xs">{{ 'i18n.ft.trace' | translate }}</label>
+      </div>
+      <div class="flex items-center">
+        <label class="m-2 my-auto text-xs">{{ 'i18n.ft.coordinates-format' | translate }}</label>
+        <rtu-select
+          #latLngFormatSelect
+          [items]="latLngFormats"
+          [selectedItem]="selectedLatLngFormat$ | async"
+          (selectedItemChange)="onLatLngFormatChanged($event)"
+        >
+          <ng-template rtuSelectLabel let-selectedItem>
+            <div class="pl-1">{{ selectedItem }}</div>
+          </ng-template>
+          <ng-template rtuSelectItem let-item>
+            {{ item }}
+          </ng-template>
+        </rtu-select>
+      </div>
+    </div>
+    <!-- prettier-ignore -->
     <!-- table -->
-      <div class="relative h-[402px] w-[1056px] overflow-y-auto mb-2">
-      <table class="monospace table-fixed min-w-full border-separate border-spacing-0 border border-gray-500 ">
+    <div class="relative mb-2 h-[402px] w-[1056px] overflow-y-auto">
+      <table
+        class="monospace min-w-full table-fixed border-separate border-spacing-0 border border-gray-500"
+      >
         <thead>
-          <tr class="bg-rtu-second-bg dark:bg-rtu-dark-second-bg  sticky top-0 z-10">
+          <tr class="sticky top-0 z-10 bg-rtu-second-bg dark:bg-rtu-dark-second-bg">
             <th class="headercell">{{ 'i18n.ft.nn' | translate }}</th>
             <th class="headercell">{{ 'i18n.ft.node' | translate }}</th>
             <th class="headercell">
               <div class="flex flex-col">
                 <div>{{ 'i18n.ft.type' | translate }}</div>
-                <div class="flex mt-1 items-center">
-                  <input type="checkbox" (change)="onEquipmChanged()" />
-                  <label class="ml-2 overflow-hidden whitespace-nowrap">{{ 'i18n.ft.equipm' | translate }}</label>
+                <div class="mt-1 flex items-center">
+                  <input type="checkbox" (change)="onFilterChanged()" />
+                  <label class="ml-2 overflow-hidden whitespace-nowrap">{{
+                    'i18n.ft.equipm' | translate
+                  }}</label>
                 </div>
               </div>
             </th>
@@ -40,40 +65,100 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let landmark of model.landmarks"  
+          <tr
+            *ngFor="let landmark of model.landmarks"
             [ngClass]="{ 'bg-blue-100 dark:bg-slate-700': landmark.isSelected }"
-            (click)="onLandmarkClick(landmark)" (contextmenu)="openContextMenu($event, landmark)"
-            class="cursor-pointer">
-            <td class="min-w-8  max-w-8  gridcell">{{ landmark.number }}</td>
-            <td class="min-w-32 max-w-32 gridcell">{{ landmark.nodeTitle }}</td>
-            <td class="min-w-32 max-w-32 gridcell">{{ landmark.equipmentType | equipmentPipe | translate }}</td>
-            <td class="min-w-32 max-w-32 gridcell">{{ landmark.equipmentTitle }}</td>
-            <td class="min-w-16 max-w-16 gridcell">{{ landmark.cableReserveString() }}</td>
-            <td class="min-w-16 max-w-16 gridcell">{{ landmark.gpsDistance | numberFormat : 3 }}</td>
-            <td class="min-w-16 max-w-16 gridcell" [ngClass]="{'bg-gray-200 dark:bg-gray-700' : landmark.isUserInput}">{{ landmark.gpsSection | numberFormat : 3 }}</td>
-            <td class="min-w-16 max-w-16 gridcell">{{ landmark.opticalDistance | numberFormat : 3 : false }}</td>
-            <td class="min-w-16 max-w-16 gridcell">{{ landmark.opticalSection | numberFormat : 3 : false }}</td>
-            <td class="min-w-12 max-w-12 gridcell">{{ landmark.eventNumberString() | translate | lowercase }}</td>
-            <td class="min-w-56 max-w-56 gridcell">{{ landmark.gpsCoors  | geoCoordinates : false }}</td>
+            (click)="onLandmarkClick(landmark)"
+            (contextmenu)="openContextMenu($event, landmark)"
+            class="cursor-pointer"
+          >
+            <td class="gridcell min-w-8 max-w-8">{{ landmark.number }}</td>
+            <td
+              class="gridcell min-w-32 max-w-32"
+              [ngClass]="{
+                'bg-cornsilk dark:bg-dark-cornsilk': landmark.nodeTitleColor === 'Cornsilk'
+              }"
+            >
+              {{ landmark.nodeTitle }}
+            </td>
+            <td
+              class="gridcell min-w-32 max-w-32"
+              [ngClass]="{
+                'bg-cornsilk dark:bg-dark-cornsilk': landmark.equipmentTypeColor === 'Cornsilk'
+              }"
+            >
+              {{ landmark.equipmentType | equipmentPipe | translate }}
+            </td>
+            <td
+              class="gridcell min-w-32 max-w-32"
+              [ngClass]="{
+                'bg-cornsilk dark:bg-dark-cornsilk': landmark.equipmentTitleColor === 'Cornsilk'
+              }"
+            >
+              {{ landmark.equipmentTitle }}
+            </td>
+            <td
+              class="gridcell min-w-16 max-w-16"
+              [ngClass]="{
+                'bg-cornsilk dark:bg-dark-cornsilk': landmark.cableReservesColor === 'Cornsilk'
+              }"
+            >
+              {{ landmark.cableReserveString() }}
+            </td>
+            <td class="gridcell min-w-16 max-w-16">
+              {{ landmark.gpsDistance | numberFormat : 3 }}
+            </td>
+            <td
+              class="gridcell min-w-16 max-w-16"
+              [ngClass]="
+                landmark.gpsSectionColor === 'Cornsilk'
+                  ? 'bg-cornsilk dark:bg-dark-cornsilk'
+                  : landmark.gpsSectionColor === 'LightGray'
+                  ? 'bg-gray-200 dark:bg-gray-700'
+                  : ''
+              "
+            >
+              {{ landmark.gpsSection | numberFormat : 3 }}
+            </td>
+            <td class="gridcell min-w-16 max-w-16">
+              {{ landmark.opticalDistance | numberFormat : 3 : false }}
+            </td>
+            <td class="gridcell min-w-16 max-w-16">
+              {{ landmark.opticalSection | numberFormat : 3 : false }}
+            </td>
+            <td class="gridcell min-w-12 max-w-12">
+              {{ landmark.eventNumberString() | translate | lowercase }}
+            </td>
+            <td
+              class="gridcell min-w-56 max-w-56"
+              [ngClass]="{
+                'bg-cornsilk dark:bg-dark-cornsilk': landmark.gpsCoorsColor === 'Cornsilk'
+              }"
+            >
+              {{ landmark.gpsCoors | geoCoordinates : false }}
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
     <!-- input fields -->
     <ng-container *ngIf="inputModel$ | async as landmark">
-      <rtu-landmark-input class="w-full" [landmark]="landmark" (applyLandmark)="updateTable($event)"></rtu-landmark-input>
+      <rtu-landmark-input
+        class="w-full"
+        [landmark]="landmark"
+        (applyLandmark)="updateTable($event)"
+      ></rtu-landmark-input>
     </ng-container>
 
     <!-- buttons -->
-    <div class="mb-2 px-1 monospace w-full flex justify-between">
+    <div class="monospace mb-2 flex w-full justify-between px-1">
       <button class="button-extra w-56" (click)="cancelAllChanges()">
         {{ 'i18n.ft.cancel-all-changes' | translate }}
       </button>
-       <button class="button-extra w-56" (click)="saveChanges()">
+      <button class="button-extra w-56" (click)="saveChanges()">
         {{ 'i18n.ft.save-changes' | translate }}
       </button>
     </div>
-
   </ng-container>
 </rtu-draggable-window>
 

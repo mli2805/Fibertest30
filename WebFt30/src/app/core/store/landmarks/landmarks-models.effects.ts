@@ -12,9 +12,42 @@ export class LandmarksModelsEffects {
   createLandmarksModel = createEffect(() =>
     this.actions$.pipe(
       ofType(LandmarksModelsActions.createLandmarksModel),
-      switchMap(({ landmarksModelId, traceId, gpsInputMode }) => {
+      switchMap(({ landmarksModelId, traceId }) => {
+        return this.landmarksService.createLandmarksModel(landmarksModelId, traceId).pipe(
+          switchMap(() => {
+            return this.landmarksService.getLandmarksModel(landmarksModelId).pipe(
+              map((response) =>
+                LandmarksModelsActions.getLandmarksModelSuccess({
+                  landmarksModel: LandmarksMapping.fromGrpcLandmarksModel(response.landmarksModel!)
+                })
+              ),
+              catchError(() =>
+                of(
+                  LandmarksModelsActions.getLandmarksModelFailure({
+                    errorMessageId: 'failed to fetch created landmarks model'
+                  })
+                )
+              )
+            );
+          }),
+          catchError((error) => {
+            return of(
+              LandmarksModelsActions.createLandmarksModelFailure({
+                errorMessageId: 'failed to create landmarks model'
+              })
+            );
+          })
+        );
+      })
+    )
+  );
+
+  updateLandmarksModel = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LandmarksModelsActions.updateLandmarksModel),
+      switchMap(({ landmarksModelId, changedLandmark, isFilterOn }) => {
         return this.landmarksService
-          .createLandmarksModel(landmarksModelId, traceId, gpsInputMode)
+          .updateLandmarksModel(landmarksModelId, changedLandmark, isFilterOn)
           .pipe(
             switchMap(() => {
               return this.landmarksService.getLandmarksModel(landmarksModelId).pipe(
@@ -28,7 +61,7 @@ export class LandmarksModelsEffects {
                 catchError(() =>
                   of(
                     LandmarksModelsActions.getLandmarksModelFailure({
-                      errorMessageId: 'failed to fetch created landmarks model'
+                      errorMessageId: 'failed to fetch updated landmarks model'
                     })
                   )
                 )
@@ -36,8 +69,8 @@ export class LandmarksModelsEffects {
             }),
             catchError((error) => {
               return of(
-                LandmarksModelsActions.createLandmarksModelFailure({
-                  errorMessageId: 'failed to create landmarks model'
+                LandmarksModelsActions.updateLandmarksModelFailure({
+                  errorMessageId: 'failed to update landmarks model'
                 })
               );
             })
@@ -46,9 +79,25 @@ export class LandmarksModelsEffects {
     )
   );
 
-  constructor(
-    private actions$: Actions,
-    private landmarksService: LandmarksService,
-    private store: Store<AppState>
-  ) {}
+  deleteLandmarksModel = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LandmarksModelsActions.deleteLandmarksModel),
+      switchMap(({ landmarksModelId }) => {
+        return this.landmarksService.deleteLandmarksModel(landmarksModelId).pipe(
+          map((response) => {
+            return LandmarksModelsActions.deleteLandmarksModelSuccess({ landmarksModelId });
+          }),
+          catchError((error) => {
+            return of(
+              LandmarksModelsActions.deleteLandmarksModelFailure({
+                errorMessageId: 'failed to delete model'
+              })
+            );
+          })
+        );
+      })
+    )
+  );
+
+  constructor(private actions$: Actions, private landmarksService: LandmarksService) {}
 }
