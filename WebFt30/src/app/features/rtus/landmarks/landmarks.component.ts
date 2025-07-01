@@ -181,8 +181,9 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   }
 
   handleMenuAction(action: string) {
-    // const isLast = this.selectedLandmark.value!.number === this.originalLandmarks.length - 1;
-    // LandmarkMenu.handleMenuAction(action, this.selectedLandmark.value, this.trace, isLast);
+    const isLast =
+      this.selectedLandmark.value!.number === this.landmarksModel.value!.landmarks.length - 1;
+    LandmarkMenu.handleMenuAction(action, this.selectedLandmark.value, this.trace, isLast);
   }
 
   // Close menu when clicking elsewhere
