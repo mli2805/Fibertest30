@@ -101,7 +101,11 @@ export class DetachedTraceMenuComponent {
 
   async onLandmarksClicked() {
     this.open = false;
-    this.windowService.registerWindow(this.trace.traceId, 'Landmarks', this.trace);
+    const windowId = crypto.randomUUID();
+    this.windowService.registerWindow(windowId, 'Landmarks', {
+      traceId: this.trace.traceId,
+      trace: this.trace
+    });
   }
 
   canClean() {

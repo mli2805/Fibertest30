@@ -117,7 +117,11 @@ export class OneRtuMenuComponent {
     this.open = false;
     if (this.rtu.traces.length === 0) return;
     const firstTrace = this.rtu.traces[0];
-    this.windowService.registerWindow(firstTrace.traceId, 'Landmarks', this.rtu);
+    const windowId = crypto.randomUUID();
+    this.windowService.registerWindow(windowId, 'Landmarks', {
+      traceId: firstTrace.traceId,
+      rtu: this.rtu
+    });
   }
 
   canAutomaticBaseRefs() {

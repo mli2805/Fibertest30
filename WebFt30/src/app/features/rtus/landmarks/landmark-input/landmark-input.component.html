@@ -44,8 +44,8 @@
         </div>
       </div>
       <div class="ml-2 w-full">
-        <ng-container *ngIf="canShow$ | async as model">
-          <rtu-gps-input #gpsInput [coors]="model.gpsCoors" (previewClick)="onPreview($event)"></rtu-gps-input>
+        <ng-container *ngIf="canShow$ | async">
+          <rtu-gps-input #gpsInput [coors]="originalLandmark.gpsCoors" (previewClick)="onPreview($event)"></rtu-gps-input>
         </ng-container>
       </div>
     </div>

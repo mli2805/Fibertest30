@@ -68,7 +68,7 @@
         <rtu-rtu-initialization [rtuId]="window.id" [zIndex]="window.zIndex" />
       </ng-container>
       <ng-container *ngIf="window.type === 'Landmarks'">
-        <rtu-landmarks [traceId]="window.id" [zIndex]="window.zIndex" />
+        <rtu-landmarks [windowId]="window.id" [payload]="window.payload" [zIndex]="window.zIndex" />
       </ng-container>
 
       <ng-container *ngIf="window.type === 'TraceDefine'">

@@ -25,7 +25,12 @@ import { ColoredLandmark, LandmarksModel } from 'src/app/core/store/models/ft30/
   templateUrl: './landmarks.component.html'
 })
 export class LandmarksComponent implements OnInit, OnDestroy {
-  @Input() traceId!: string;
+  @Input() windowId!: string; // трасса может поменяться, от рту может быть более одного окна с ориентирами
+  traceId!: string;
+  nodeId!: string; // TODO получить в payload
+  @Input() set payload(value: any) {
+    this.traceId = value.traceId;
+  }
   @Input() zIndex!: number;
   trace!: GeoTrace;
   hasBaseRef!: boolean;
@@ -46,6 +51,8 @@ export class LandmarksComponent implements OnInit, OnDestroy {
     { label: 'i18n.ft.section', action: 'section', disabled: false }
   ];
   //////
+
+  rtuTraces!: GeoTrace[];
 
   lmsModelId!: string;
   loading$ = this.store.select(LandmarksModelsSelectors.selectLoading);
@@ -76,6 +83,14 @@ export class LandmarksComponent implements OnInit, OnDestroy {
     );
     this.selectedLatLngFormat$.next(this.gpsInputFormat);
 
+    this.initializeLandmarksFromTraceId();
+
+    this.rtuTraces = this.gisMapService
+      .getGeoData()
+      .traces.filter((t) => t.equipmentIds[0] === this.trace.equipmentIds[0]);
+  }
+
+  initializeLandmarksFromTraceId() {
     this.lmsModelId = crypto.randomUUID();
     // переподписываемся с новым lmsModelId
     const modelInStore$ = this.store.select(
@@ -137,6 +152,12 @@ export class LandmarksComponent implements OnInit, OnDestroy {
     this.store.dispatch(SettingsActions.changeLatLngFormatNoPersist({ latLngFormat }));
   }
 
+  onTraceChanged(trace: GeoTrace) {
+    console.log(trace);
+    this.traceId = trace.id;
+    this.initializeLandmarksFromTraceId();
+  }
+
   onLandmarkClick(landmark: ColoredLandmark) {
     this.landmarksModel.value!.landmarks.forEach(
       (l) => (l.isSelected = l.number === landmark.number)
@@ -146,6 +167,7 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   }
 
   updateTable(changedLandmark: ColoredLandmark) {
+    console.log(changedLandmark);
     this.store.dispatch(
       LandmarksModelsActions.updateLandmarksModel({
         landmarksModelId: this.lmsModelId,
@@ -164,7 +186,7 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   }
 
   close() {
-    this.windowService.unregisterWindow(this.traceId, 'Landmarks');
+    this.windowService.unregisterWindow(this.windowId, 'Landmarks');
     this.gisMapService.setHighlightNode(null);
   }
 

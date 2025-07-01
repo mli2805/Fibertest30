@@ -12,23 +12,38 @@
   (closeEvent)="close()"
 >
   <ng-container *ngIf="lmsModel$ | async as model">
-    <div class="mb-1 flex justify-between">
+    <div class="mb-1 mr-2 flex justify-between">
       <div class="flex items-center">
         <label class="m-2 my-auto text-xs">{{ 'i18n.ft.trace' | translate }}</label>
+        <rtu-select
+          class="w-64"
+          #traceSelect
+          [items]="rtuTraces"
+          [selectedItem]="trace"
+          (selectedItemChange)="onTraceChanged($event)"
+        >
+          <ng-template rtuSelectLabel let-selectedItem>
+            <div class="pl-1 text-xs">{{ selectedItem.title }}</div>
+          </ng-template>
+          <ng-template rtuSelectItem let-item>
+            <div class="text-xs">{{ item.title }}</div>
+          </ng-template>
+        </rtu-select>
       </div>
       <div class="flex items-center">
         <label class="m-2 my-auto text-xs">{{ 'i18n.ft.coordinates-format' | translate }}</label>
         <rtu-select
+          class="w-44"
           #latLngFormatSelect
           [items]="latLngFormats"
           [selectedItem]="selectedLatLngFormat$ | async"
           (selectedItemChange)="onLatLngFormatChanged($event)"
         >
           <ng-template rtuSelectLabel let-selectedItem>
-            <div class="pl-1">{{ selectedItem }}</div>
+            <div class="pl-1 text-xs">{{ selectedItem }}</div>
           </ng-template>
           <ng-template rtuSelectItem let-item>
-            {{ item }}
+            <div class="text-xs">{{ item }}</div>
           </ng-template>
         </rtu-select>
       </div>

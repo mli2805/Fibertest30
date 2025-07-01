@@ -126,7 +126,11 @@ export class AttachedTraceMenuComponent {
 
   async onLandmarksClicked() {
     this.open = false;
-    this.windowService.registerWindow(this._trace.traceId, 'Landmarks', this._trace);
+    const windowId = crypto.randomUUID();
+    this.windowService.registerWindow(windowId, 'Landmarks', {
+      traceId: this._trace.traceId,
+      trace: this._trace
+    });
   }
 
   canDetachTrace() {

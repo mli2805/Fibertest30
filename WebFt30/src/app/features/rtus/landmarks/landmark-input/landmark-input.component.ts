@@ -1,4 +1,12 @@
-import { Component, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState, AuthSelectors } from 'src/app/core';
@@ -16,7 +24,8 @@ import { ColoredLandmark } from 'src/app/core/store/models/ft30/colored-landmark
 
 @Component({
   selector: 'rtu-landmark-input',
-  templateUrl: './landmark-input.component.html'
+  templateUrl: './landmark-input.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LandmarkInputComponent {
   originalLandmark!: ColoredLandmark;
@@ -25,7 +34,7 @@ export class LandmarkInputComponent {
     this.initializeForm(value);
   }
 
-  canShow = new BehaviorSubject<ColoredLandmark | null>(null);
+  canShow = new BehaviorSubject<boolean | null>(null);
   canShow$ = this.canShow.asObservable();
 
   @Output() applyLandmark = new EventEmitter<ColoredLandmark>();
@@ -58,12 +67,13 @@ export class LandmarkInputComponent {
   }
 
   initializeForm(value: ColoredLandmark) {
+    this.canShow.next(null);
     if (value) {
       this.setEquipmentTypes(value);
       const patch = { ...value, userInputLength: value.UserInputLength }; // хитрое поле в классе
       this.form.patchValue(patch); // Применяет поля объекта для обновления контролов формы
       this.form.markAsPristine();
-      this.canShow.next(value); // сигнал для gps-input
+      this.canShow.next(true); // сигнал что инициализация прошла, можно рендерить
     }
   }
 
@@ -86,13 +96,13 @@ export class LandmarkInputComponent {
   inputDisabled(): boolean {
     if (!this.hasEditGraphPermission) return true;
     if (!this.canShow.value) return true;
-    if (this.canShow.value.equipmentType === EquipmentType.Rtu) return true;
+    if (this.originalLandmark.equipmentType === EquipmentType.Rtu) return true;
     return false;
   }
 
   leftCableReserveInputDisabled(): boolean {
     if (this.inputDisabled()) return true;
-    if (this.canShow.value!.equipmentType === EquipmentType.EmptyNode) return true;
+    if (this.originalLandmark.equipmentType === EquipmentType.EmptyNode) return true;
     return false;
   }
 
@@ -122,7 +132,7 @@ export class LandmarkInputComponent {
   }
 
   onPreview(coors: L.LatLng) {
-    const nodeId = this.canShow.value!.nodeId;
+    const nodeId = this.originalLandmark.nodeId;
     this.moveNodeForPreview(nodeId, coors);
     this.gisMapService.setHighlightNode(nodeId);
   }
@@ -154,7 +164,8 @@ export class LandmarkInputComponent {
   }
 
   isUpdateTableDisabled() {
-    return this.form.pristine;
+    if (!this.gpsInput) return true;
+    return this.form.pristine && this.gpsInput.isPreviewDisabled();
   }
 
   isCancelDisabled() {
@@ -166,7 +177,7 @@ export class LandmarkInputComponent {
     let hasChanges = false;
     const changedLandmark = this.collectInput();
     if (!changedLandmark) return;
-    if (this.canShow.value!.areAnyPropertyChanged(changedLandmark)) {
+    if (this.originalLandmark.areAnyPropertyChanged(changedLandmark)) {
       hasChanges = true;
     }
 
@@ -174,7 +185,7 @@ export class LandmarkInputComponent {
   }
 
   collectInput(): ColoredLandmark | null {
-    const changedLandmark = this.canShow.value!.clone();
+    const changedLandmark = this.originalLandmark.clone();
 
     changedLandmark.nodeTitle = this.form.controls['nodeTitle'].value;
     changedLandmark.nodeComment = this.form.controls['nodeComment'].value;
