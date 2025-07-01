@@ -10,10 +10,10 @@
 
   <!-- buttons -->
   <div class="mt-2 flex justify-center">
-    <button class="button-extra w-32" (click)="preview()">
+    <button class="button-extra w-32" (click)="preview()" [disabled]="isPreviewDisabled()">
       {{ 'i18n.ft.preview' | translate }}
     </button>
-    <button class="button-extra ml-1 w-32" (click)="cancel()">
+    <button class="button-extra ml-1 w-32" (click)="cancel()" [disabled]="isCancelDisabled()">
       {{ 'i18n.ft.cancel' | translate }}
     </button>
   </div>

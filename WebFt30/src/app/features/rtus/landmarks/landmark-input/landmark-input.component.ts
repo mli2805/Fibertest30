@@ -19,17 +19,14 @@ import { ColoredLandmark } from 'src/app/core/store/models/ft30/colored-landmark
   templateUrl: './landmark-input.component.html'
 })
 export class LandmarkInputComponent {
+  originalLandmark!: ColoredLandmark;
   @Input() set landmark(value: ColoredLandmark) {
-    if (value) {
-      this.setEquipmentTypes(value);
-      const patch = { ...value, userInputLength: value.UserInputLength }; // хитрое поле в классе
-      this.form.patchValue(patch); // Применяет поля объекта для обновления контролов формы
-      this.model.next(value); // сигнал для gps-input
-    }
+    this.originalLandmark = value;
+    this.initializeForm(value);
   }
 
-  model = new BehaviorSubject<ColoredLandmark | null>(null);
-  model$ = this.model.asObservable();
+  canShow = new BehaviorSubject<ColoredLandmark | null>(null);
+  canShow$ = this.canShow.asObservable();
 
   @Output() applyLandmark = new EventEmitter<ColoredLandmark>();
 
@@ -60,6 +57,16 @@ export class LandmarkInputComponent {
     });
   }
 
+  initializeForm(value: ColoredLandmark) {
+    if (value) {
+      this.setEquipmentTypes(value);
+      const patch = { ...value, userInputLength: value.UserInputLength }; // хитрое поле в классе
+      this.form.patchValue(patch); // Применяет поля объекта для обновления контролов формы
+      this.form.markAsPristine();
+      this.canShow.next(value); // сигнал для gps-input
+    }
+  }
+
   setEquipmentTypes(landmark: ColoredLandmark) {
     if (landmark.equipmentType === EquipmentType.Rtu) {
       this.equipmentTypes = [EquipmentType.Rtu];
@@ -78,14 +85,14 @@ export class LandmarkInputComponent {
 
   inputDisabled(): boolean {
     if (!this.hasEditGraphPermission) return true;
-    if (!this.model.value) return true;
-    if (this.model.value.equipmentType === EquipmentType.Rtu) return true;
+    if (!this.canShow.value) return true;
+    if (this.canShow.value.equipmentType === EquipmentType.Rtu) return true;
     return false;
   }
 
   leftCableReserveInputDisabled(): boolean {
     if (this.inputDisabled()) return true;
-    if (this.model.value!.equipmentType === EquipmentType.EmptyNode) return true;
+    if (this.canShow.value!.equipmentType === EquipmentType.EmptyNode) return true;
     return false;
   }
 
@@ -115,7 +122,7 @@ export class LandmarkInputComponent {
   }
 
   onPreview(coors: L.LatLng) {
-    const nodeId = this.model.value!.nodeId;
+    const nodeId = this.canShow.value!.nodeId;
     this.moveNodeForPreview(nodeId, coors);
     this.gisMapService.setHighlightNode(nodeId);
   }
@@ -146,11 +153,20 @@ export class LandmarkInputComponent {
     });
   }
 
+  isUpdateTableDisabled() {
+    return this.form.pristine;
+  }
+
+  isCancelDisabled() {
+    if (!this.gpsInput) return true;
+    return this.form.pristine && this.gpsInput.isCancelDisabled();
+  }
+
   updateTable() {
     let hasChanges = false;
     const changedLandmark = this.collectInput();
     if (!changedLandmark) return;
-    if (this.model.value!.areAnyPropertyChanged(changedLandmark)) {
+    if (this.canShow.value!.areAnyPropertyChanged(changedLandmark)) {
       hasChanges = true;
     }
 
@@ -158,7 +174,7 @@ export class LandmarkInputComponent {
   }
 
   collectInput(): ColoredLandmark | null {
-    const changedLandmark = this.model.value!.clone();
+    const changedLandmark = this.canShow.value!.clone();
 
     changedLandmark.nodeTitle = this.form.controls['nodeTitle'].value;
     changedLandmark.nodeComment = this.form.controls['nodeComment'].value;
@@ -210,6 +226,7 @@ export class LandmarkInputComponent {
   }
 
   cancelChanges() {
-    //
+    this.initializeForm(this.originalLandmark);
+    this.gpsInput.cancel();
   }
 }

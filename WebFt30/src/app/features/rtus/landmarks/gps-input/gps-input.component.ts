@@ -23,6 +23,11 @@ export class GpsInputComponent {
 
   @Output() previewClick = new EventEmitter<L.LatLng>();
 
+  isPreviewDisabled() {
+    if (!this.latInput || !this.lngInput) return true;
+    return this.latInput.isApplyDisabled() && this.lngInput.isApplyDisabled();
+  }
+
   preview() {
     const coordinate = this.getInput();
     if (coordinate) this.previewClick.next(coordinate);
@@ -36,7 +41,14 @@ export class GpsInputComponent {
     return new L.LatLng(latitude, longitude);
   }
 
+  isCancelDisabled() {
+    if (!this.latInput || !this.lngInput) return true;
+    return this.latInput.isCancelDisabled() && this.lngInput.isCancelDisabled();
+  }
+
   cancel() {
     this.previewClick.next(this.originalValue);
+    this.latInput.initializeForm(this.originalValue.lat);
+    this.lngInput.initializeForm(this.originalValue.lng);
   }
 }

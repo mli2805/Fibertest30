@@ -36,9 +36,14 @@ export class OneCoorInputComponent extends OnDestroyBase implements OnInit {
   }
 
   ngOnInit(): void {
-    this.latLngFormatName$
-      .pipe(takeUntil(this.ngDestroyed$))
-      .subscribe((f) => this.initializeForm(this.originalCoor));
+    this.latLngFormatName$.pipe(takeUntil(this.ngDestroyed$)).subscribe((f) => {
+      const currentValue = this.getInput();
+      if (currentValue) {
+        this.initializeForm(currentValue);
+      } else {
+        this.initializeForm(this.originalCoor);
+      }
+    });
   }
 
   format!: string;
@@ -114,14 +119,30 @@ export class OneCoorInputComponent extends OnDestroyBase implements OnInit {
     return !isNaN(num) && isFinite(num) && num < 60 && num >= 0;
   }
 
-  getInput(): number | null {
-    // debugger;
-    if (!this.isDegreesValid() || !this.isMinutesValid() || !this.isSecondsValid()) return null;
-    // const d = +this.form.controls['degrees'].value;
-    // const m = +this.form.controls['minutes'].value / 60;
-    // const s = +this.form.controls['seconds'].value / 3600;
+  isFormValid() {
+    return this.isDegreesValid() && this.isMinutesValid() && this.isSecondsValid();
+  }
 
-    // return d + m + s;
+  // для выдачи наверх
+  isApplyDisabled() {
+    return this.isCoorTheSame() || !this.isFormValid();
+  }
+
+  // для выдачи наверх
+  isCancelDisabled() {
+    return this.isCoorTheSame();
+  }
+
+  // pristine нельзя использовать из-за переключения между форматами координат
+  isCoorTheSame() {
+    const curr = this.getInput();
+    if (!curr) return false;
+    const diff = Math.abs(curr - this.originalCoor);
+    return diff < 0.0000005;
+  }
+
+  getInput(): number | null {
+    if (!this.isFormValid()) return null;
 
     return (
       +this.form.controls['degrees'].value +

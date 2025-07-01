@@ -44,7 +44,7 @@
         </div>
       </div>
       <div class="ml-2 w-full">
-        <ng-container *ngIf="model$ | async as model">
+        <ng-container *ngIf="canShow$ | async as model">
           <rtu-gps-input #gpsInput [coors]="model.gpsCoors" (previewClick)="onPreview($event)"></rtu-gps-input>
         </ng-container>
       </div>
@@ -52,10 +52,10 @@
   </fieldset>
    <!-- buttons -->
   <div class="mt-2 flex justify-start">
-    <button class="button-extra w-56" (click)="updateTable()">
+    <button class="button-extra w-56" (click)="updateTable()" [disabled]="isUpdateTableDisabled()">
       {{ 'i18n.ft.update-table' | translate }}
     </button>
-    <button class="button-extra ml-1 w-56" (click)="cancelChanges()">
+    <button class="button-extra ml-1 w-56" (click)="cancelChanges()" [disabled]="isCancelDisabled()">
       {{ 'i18n.ft.cancel-changes' | translate }}
     </button>
   </div>
