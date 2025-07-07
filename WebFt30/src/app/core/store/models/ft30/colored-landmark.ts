@@ -55,11 +55,12 @@ export class ColoredLandmark {
   isSelected!: boolean;
 
   public get UserInputLength() {
-    return this.isUserInput ? this.gpsSection * 1000 : 0;
+    return this.isUserInput ? (this.gpsSection * 1000).toString() : '';
   }
 
-  public set UserInputLength(value: number) {
-    if (value === 0) {
+  public set UserInputLength(str: string) {
+    const value = +str;
+    if (str === '' || value === 0) {
       this.isUserInput = false;
       this.gpsSection = -1;
     } else {

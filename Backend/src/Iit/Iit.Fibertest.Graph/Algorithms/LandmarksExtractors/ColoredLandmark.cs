@@ -65,10 +65,12 @@ public class ColoredLandmark
         CableReservesColor = oldLandmarkRow == null ||
             (LeftCableReserve == oldLandmarkRow.LeftCableReserve && RightCableReserve == oldLandmarkRow.RightCableReserve)
             ? "Transparent" : "Cornsilk";
+
         GpsDistance = landmark.GpsDistance;
         GpsSection = landmark.GpsSection;
-        GpsSectionColor = CalculateGpsSectionBrush(landmark, oldLandmarkRow);
         IsUserInput = landmark.IsUserInput;
+        GpsSectionColor = CalculateGpsSectionBrush(landmark, oldLandmarkRow);
+
         OpticalDistance = landmark.OpticalDistance;
         OpticalSection = landmark.OpticalSection;
         EventNumber = landmark.EventNumber;
@@ -111,10 +113,15 @@ public class ColoredLandmark
 
     private string CalculateGpsSectionBrush(Landmark source, ColoredLandmark? oldLandmarkRow)
     {
-        return oldLandmarkRow != null && Math.Abs(GpsSection - oldLandmarkRow.GpsSection) > 0.001
-            ? "Cornsilk"
-            : source.IsUserInput
-                ? "LightGray" : "Transparent";
+        if (oldLandmarkRow != null)
+        {
+            if (oldLandmarkRow.IsUserInput ^ source.IsUserInput) 
+                return "Cornsilk";
+            if (Math.Abs(GpsSection - oldLandmarkRow.GpsSection) > 0.001)
+                return "Cornsilk";
+        }
+
+        return  source.IsUserInput ? "LightGray" : "Transparent";
     }
 
 }

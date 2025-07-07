@@ -229,7 +229,7 @@ export class LandmarkInputComponent {
       ]);
       return null;
     }
-    changedLandmark.UserInputLength = uil;
+    changedLandmark.UserInputLength = this.form.controls['userInputLength'].value;
     const coors = this.gpsInput.getInput();
     if (coors) changedLandmark.gpsCoors = coors;
 
