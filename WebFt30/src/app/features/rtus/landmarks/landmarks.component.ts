@@ -209,12 +209,22 @@ export class LandmarksComponent implements OnInit, OnDestroy {
     );
   }
 
+  isCancelAllDisabled() {
+    const idx = this.landmarksModel.value?.landmarks.findIndex((l) => l.isChanged);
+    return idx === -1;
+  }
+
   cancelAllChanges() {
     this.store.dispatch(
       LandmarksModelsActions.clearLandmarksModel({
         landmarksModelId: this.lmsModelId
       })
     );
+  }
+
+  isSaveChangesDisabled() {
+    const idx = this.landmarksModel.value?.landmarks.findIndex((l) => l.isChanged);
+    return idx === -1;
   }
 
   saveChanges() {
