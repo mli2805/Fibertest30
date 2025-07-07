@@ -34,6 +34,11 @@ export class MapRtuMenu {
         callback: (e: L.ContextMenuItemClickEvent) => this.showRtuInformation(e)
       },
       {
+        text: this.ts.instant('i18n.ft.landmarks'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.openLandmarks(e),
+        disabled: !hasEditPermissions
+      },
+      {
         text: this.ts.instant('i18n.ft.remove'),
         callback: (e: L.ContextMenuItemClickEvent) => this.removeRtu(e),
         disabled: !hasEditPermissions || !this.canRemoveRtu(nodeId)
@@ -71,6 +76,18 @@ export class MapRtuMenu {
     this.windowService.registerWindow(nodeId, 'RtuInfo', {
       mode: RtuInfoMode.ShowInformation,
       node: node
+    });
+  }
+
+  static openLandmarks(e: L.ContextMenuItemClickEvent) {
+    const nodeId = (<any>e.relatedTarget).id;
+
+    const traces = this.gisMapService.getGeoData().traces.filter((t) => t.nodeIds.includes(nodeId));
+    if (traces.length === 0) return;
+
+    this.windowService.registerWindow(crypto.randomUUID(), 'Landmarks', {
+      traceId: traces[0].id,
+      nodeId: null
     });
   }
 

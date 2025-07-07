@@ -20,17 +20,20 @@ import { AddFiber } from './graph-commands';
 import { FiberCommandsFactory } from './fiber-commands-factory';
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 import { MapRtuMenu } from './map-rtu-menu';
+import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 
 export class MapNodeMenu {
   private static ts: TranslateService;
   private static gisMapService: GisMapService;
   private static graphService: GraphService;
+  private static windowService: WindowService;
   private static dialog: Dialog;
 
   static initialize(injector: Injector) {
     this.ts = injector.get(TranslateService);
     this.gisMapService = injector.get(GisMapService);
     this.graphService = injector.get(GraphService);
+    this.windowService = injector.get(WindowService);
     this.dialog = injector.get(Dialog);
   }
 
@@ -58,6 +61,11 @@ export class MapNodeMenu {
       {
         text: this.ts.instant('i18n.ft.add-equipment'),
         callback: (e: L.ContextMenuItemClickEvent) => this.addEquipment(e),
+        disabled: !hasEditPermissions
+      },
+      {
+        text: this.ts.instant('i18n.ft.landmarks'),
+        callback: (e: L.ContextMenuItemClickEvent) => this.openLandmarks(e),
         disabled: !hasEditPermissions
       },
       {
@@ -138,6 +146,18 @@ export class MapNodeMenu {
     }
 
     return false;
+  }
+
+  static openLandmarks(e: L.ContextMenuItemClickEvent) {
+    const nodeId = (<any>e.relatedTarget).id;
+
+    const traces = this.gisMapService.getGeoData().traces.filter((t) => t.nodeIds.includes(nodeId));
+    if (traces.length === 0) return;
+
+    this.windowService.registerWindow(crypto.randomUUID(), 'Landmarks', {
+      traceId: traces[0].id,
+      nodeId: nodeId
+    });
   }
 
   // из трассы можно удалять не последний узел - будет построен обход

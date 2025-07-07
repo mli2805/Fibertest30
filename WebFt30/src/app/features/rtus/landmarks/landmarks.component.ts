@@ -27,9 +27,10 @@ import { ColoredLandmark, LandmarksModel } from 'src/app/core/store/models/ft30/
 export class LandmarksComponent implements OnInit, OnDestroy {
   @Input() windowId!: string; // трасса может поменяться, от рту может быть более одного окна с ориентирами
   traceId!: string;
-  nodeId!: string; // TODO получить в payload
+  nodeId!: string | null;
   @Input() set payload(value: any) {
     this.traceId = value.traceId;
+    this.nodeId = value.nodeId;
   }
   @Input() zIndex!: number;
   trace!: GeoTrace;
@@ -70,7 +71,6 @@ export class LandmarksComponent implements OnInit, OnDestroy {
 
   constructor(
     private windowService: WindowService,
-    private gisService: GisService,
     private gisMapService: GisMapService,
     private injector: Injector
   ) {
@@ -133,11 +133,16 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   getNewSelectedLandmark(mutable: LandmarksModel): ColoredLandmark {
     if (this.selectedLandmark.value === null) {
       // если только открыли форму selectedLandmark еще неопределен
-      return mutable.landmarks[0];
+      if (this.nodeId === null) {
+        return mutable.landmarks[0];
+      }
+      const landmark = mutable.landmarks.find((l) => l.nodeId === this.nodeId);
+      return landmark!;
     }
 
-    const nodeId = this.selectedLandmark.value.nodeId;
-    const landmark = mutable.landmarks.find((l) => l.nodeId === nodeId);
+    const landmark = mutable.landmarks.find(
+      (l) => l.nodeId === this.selectedLandmark.value!.nodeId
+    );
     if (landmark === undefined) {
       // если сменили трассу в новой может не быть такого узла
       return mutable.landmarks[0];

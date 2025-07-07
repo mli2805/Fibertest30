@@ -129,7 +129,7 @@ export class AttachedTraceMenuComponent {
     const windowId = crypto.randomUUID();
     this.windowService.registerWindow(windowId, 'Landmarks', {
       traceId: this._trace.traceId,
-      trace: this._trace
+      nodeId: null
     });
   }
 

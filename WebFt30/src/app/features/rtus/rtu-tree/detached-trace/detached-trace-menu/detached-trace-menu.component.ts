@@ -104,7 +104,7 @@ export class DetachedTraceMenuComponent {
     const windowId = crypto.randomUUID();
     this.windowService.registerWindow(windowId, 'Landmarks', {
       traceId: this.trace.traceId,
-      trace: this.trace
+      nodeId: null
     });
   }
 

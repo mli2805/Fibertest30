@@ -120,7 +120,7 @@ export class OneRtuMenuComponent {
     const windowId = crypto.randomUUID();
     this.windowService.registerWindow(windowId, 'Landmarks', {
       traceId: firstTrace.traceId,
-      rtu: this.rtu
+      nodeId: null
     });
   }
 
