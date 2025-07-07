@@ -17,8 +17,6 @@ export class LandmarksModel {
 }
 
 export class ColoredLandmark {
-  isFromBase!: boolean;
-
   nodeId!: string;
   fiberId!: string; // to the left
   number!: number;
@@ -52,7 +50,9 @@ export class ColoredLandmark {
   gpsCoors!: L.LatLng;
   gpsCoorsColor!: string;
 
-  public isSelected = false;
+  isFromBase!: boolean;
+  isChanged!: boolean;
+  isSelected!: boolean;
 
   public get UserInputLength() {
     return this.isUserInput ? this.gpsSection * 1000 : 0;

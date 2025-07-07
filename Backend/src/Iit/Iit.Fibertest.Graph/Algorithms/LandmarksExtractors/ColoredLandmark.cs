@@ -39,6 +39,8 @@ public class ColoredLandmark
     public PointLatLng GpsCoors;
     public string GpsCoorsColor;
 
+    public bool IsChanged { get => _isChanged(); }
+
     public ColoredLandmark FromLandmark(Landmark landmark, ColoredLandmark? oldLandmarkRow)
     {
         Number = landmark.Number;
@@ -60,7 +62,7 @@ public class ColoredLandmark
             ? "Transparent" : "Cornsilk";
         LeftCableReserve = landmark.LeftCableReserve;
         RightCableReserve = landmark.RightCableReserve;
-        CableReservesColor = oldLandmarkRow == null || 
+        CableReservesColor = oldLandmarkRow == null ||
             (LeftCableReserve == oldLandmarkRow.LeftCableReserve && RightCableReserve == oldLandmarkRow.RightCableReserve)
             ? "Transparent" : "Cornsilk";
         GpsDistance = landmark.GpsDistance;
@@ -97,6 +99,13 @@ public class ColoredLandmark
         ll.OpticalSection = this.OpticalSection;
         ll.EventNumber = this.EventNumber;
         ll.GpsCoors = this.GpsCoors;
+    }
+
+    private bool _isChanged()
+    {
+        return NodeCommentColor == "Cornsilk" || NodeTitleColor == "Cornsilk" 
+               || EquipmentTitleColor == "Cornsilk" || EquipmentTypeColor == "Cornsilk"
+               || CableReservesColor == "Cornsilk" || GpsCoorsColor == "Cornsilk";
     }
 
 

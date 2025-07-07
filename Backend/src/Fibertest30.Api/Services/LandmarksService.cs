@@ -24,7 +24,8 @@ public class LandmarksService(ISender mediator) : Landmarks.LandmarksBase
         return new CreateLandmarksModelResponse();
     }
 
-    public override async Task<UpdateLandmarksModelResponse> UpdateLandmarksModel(UpdateLandmarksModelRequest request, ServerCallContext context)
+    public override async Task<UpdateLandmarksModelResponse> UpdateLandmarksModel(UpdateLandmarksModelRequest request,
+        ServerCallContext context)
     {
         await mediator.Send(
             new UpdateLandmarksModelCommand(Guid.Parse(request.LandmarksModelId), 
@@ -40,7 +41,16 @@ public class LandmarksService(ISender mediator) : Landmarks.LandmarksBase
 
         return new DeleteLandmarksModelResponse();
     }
-    
+
+    public override async Task<CancelOneLandmarkChangesResponse> CancelOneLandmarkChanges(CancelOneLandmarkChangesRequest request,
+        ServerCallContext context)
+    {
+        await mediator.Send(new CancelOneLandmarkChangesCommand(
+            Guid.Parse(request.LandmarksModelId), request.Row), context.CancellationToken);
+
+        return new CancelOneLandmarkChangesResponse();
+    }
+
     public override async Task<ClearLandmarksModelResponse> ClearLandmarksModel(ClearLandmarksModelRequest request,
         ServerCallContext context)
     {
@@ -48,5 +58,14 @@ public class LandmarksService(ISender mediator) : Landmarks.LandmarksBase
             context.CancellationToken);
 
         return new ClearLandmarksModelResponse();
+    }
+
+    public override async Task<ApplyLandmarkChangesResponse> ApplyLandmarkChanges(ApplyLandmarkChangesRequest request, 
+        ServerCallContext context)
+    {
+        await mediator.Send(new ApplyLandmarkChangesCommand(request.LandmarksModelIds.Select(Guid.Parse).ToList()),
+            context.CancellationToken);
+
+        return new ApplyLandmarkChangesResponse();
     }
 }

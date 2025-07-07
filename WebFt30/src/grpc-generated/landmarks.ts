@@ -113,6 +113,10 @@ export interface ColoredLandmark {
      * @generated from protobuf field: bool isFromBase = 26;
      */
     isFromBase: boolean;
+    /**
+     * @generated from protobuf field: bool isChanged = 27;
+     */
+    isChanged: boolean;
 }
 /**
  * @generated from protobuf message fibertest30.landmarks.LandmarksModel
@@ -208,7 +212,27 @@ export interface DeleteLandmarksModelRequest {
 export interface DeleteLandmarksModelResponse {
 }
 /**
- * ClearLandmarksModel
+ * CancelOneLandmarkChanges
+ *
+ * @generated from protobuf message fibertest30.landmarks.CancelOneLandmarkChangesRequest
+ */
+export interface CancelOneLandmarkChangesRequest {
+    /**
+     * @generated from protobuf field: string landmarksModelId = 1;
+     */
+    landmarksModelId: string;
+    /**
+     * @generated from protobuf field: int32 row = 2;
+     */
+    row: number;
+}
+/**
+ * @generated from protobuf message fibertest30.landmarks.CancelOneLandmarkChangesResponse
+ */
+export interface CancelOneLandmarkChangesResponse {
+}
+/**
+ * ClearLandmarksModel (Cancel all changes)
  *
  * @generated from protobuf message fibertest30.landmarks.ClearLandmarksModelRequest
  */
@@ -222,6 +246,22 @@ export interface ClearLandmarksModelRequest {
  * @generated from protobuf message fibertest30.landmarks.ClearLandmarksModelResponse
  */
 export interface ClearLandmarksModelResponse {
+}
+/**
+ * ApplyLandmarkChanges
+ *
+ * @generated from protobuf message fibertest30.landmarks.ApplyLandmarkChangesRequest
+ */
+export interface ApplyLandmarkChangesRequest {
+    /**
+     * @generated from protobuf field: repeated string landmarksModelIds = 1;
+     */
+    landmarksModelIds: string[];
+}
+/**
+ * @generated from protobuf message fibertest30.landmarks.ApplyLandmarkChangesResponse
+ */
+export interface ApplyLandmarkChangesResponse {
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class ColoredLandmark$Type extends MessageType<ColoredLandmark> {
@@ -252,7 +292,8 @@ class ColoredLandmark$Type extends MessageType<ColoredLandmark> {
             { no: 23, name: "gpsCoorsColor", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 24, name: "equipmentType", kind: "enum", T: () => ["fibertest30.ft.enums.EquipmentType", EquipmentType] },
             { no: 25, name: "equipmentTypeColor", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 26, name: "isFromBase", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+            { no: 26, name: "isFromBase", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 27, name: "isChanged", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
 }
@@ -367,6 +408,29 @@ class DeleteLandmarksModelResponse$Type extends MessageType<DeleteLandmarksModel
  */
 export const DeleteLandmarksModelResponse = new DeleteLandmarksModelResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class CancelOneLandmarkChangesRequest$Type extends MessageType<CancelOneLandmarkChangesRequest> {
+    constructor() {
+        super("fibertest30.landmarks.CancelOneLandmarkChangesRequest", [
+            { no: 1, name: "landmarksModelId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "row", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.landmarks.CancelOneLandmarkChangesRequest
+ */
+export const CancelOneLandmarkChangesRequest = new CancelOneLandmarkChangesRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class CancelOneLandmarkChangesResponse$Type extends MessageType<CancelOneLandmarkChangesResponse> {
+    constructor() {
+        super("fibertest30.landmarks.CancelOneLandmarkChangesResponse", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.landmarks.CancelOneLandmarkChangesResponse
+ */
+export const CancelOneLandmarkChangesResponse = new CancelOneLandmarkChangesResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class ClearLandmarksModelRequest$Type extends MessageType<ClearLandmarksModelRequest> {
     constructor() {
         super("fibertest30.landmarks.ClearLandmarksModelRequest", [
@@ -388,6 +452,28 @@ class ClearLandmarksModelResponse$Type extends MessageType<ClearLandmarksModelRe
  * @generated MessageType for protobuf message fibertest30.landmarks.ClearLandmarksModelResponse
  */
 export const ClearLandmarksModelResponse = new ClearLandmarksModelResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ApplyLandmarkChangesRequest$Type extends MessageType<ApplyLandmarkChangesRequest> {
+    constructor() {
+        super("fibertest30.landmarks.ApplyLandmarkChangesRequest", [
+            { no: 1, name: "landmarksModelIds", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.landmarks.ApplyLandmarkChangesRequest
+ */
+export const ApplyLandmarkChangesRequest = new ApplyLandmarkChangesRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ApplyLandmarkChangesResponse$Type extends MessageType<ApplyLandmarkChangesResponse> {
+    constructor() {
+        super("fibertest30.landmarks.ApplyLandmarkChangesResponse", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.landmarks.ApplyLandmarkChangesResponse
+ */
+export const ApplyLandmarkChangesResponse = new ApplyLandmarkChangesResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.landmarks.Landmarks
  */
@@ -396,5 +482,7 @@ export const Landmarks = new ServiceType("fibertest30.landmarks.Landmarks", [
     { name: "CreateLandmarksModel", options: {}, I: CreateLandmarksModelRequest, O: CreateLandmarksModelResponse },
     { name: "UpdateLandmarksModel", options: {}, I: UpdateLandmarksModelRequest, O: UpdateLandmarksModelResponse },
     { name: "DeleteLandmarksModel", options: {}, I: DeleteLandmarksModelRequest, O: DeleteLandmarksModelResponse },
-    { name: "ClearLandmarksModel", options: {}, I: ClearLandmarksModelRequest, O: ClearLandmarksModelResponse }
+    { name: "CancelOneLandmarkChanges", options: {}, I: CancelOneLandmarkChangesRequest, O: CancelOneLandmarkChangesResponse },
+    { name: "ClearLandmarksModel", options: {}, I: ClearLandmarksModelRequest, O: ClearLandmarksModelResponse },
+    { name: "ApplyLandmarkChanges", options: {}, I: ApplyLandmarkChangesRequest, O: ApplyLandmarkChangesResponse }
 ]);

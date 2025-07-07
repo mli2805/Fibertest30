@@ -99,6 +99,39 @@ export class LandmarksModelsEffects {
     )
   );
 
+  cancelOneLandmarkChanges = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LandmarksModelsActions.cancelOneLandmarkChanges),
+      switchMap(({ landmarksModelId, row }) => {
+        return this.landmarksService.cancelOneLandmarkChanges(landmarksModelId, row).pipe(
+          switchMap(() => {
+            return this.landmarksService.getLandmarksModel(landmarksModelId).pipe(
+              map((response) =>
+                LandmarksModelsActions.getLandmarksModelSuccess({
+                  landmarksModel: LandmarksMapping.fromGrpcLandmarksModel(response.landmarksModel!)
+                })
+              ),
+              catchError(() =>
+                of(
+                  LandmarksModelsActions.getLandmarksModelFailure({
+                    errorMessageId: 'failed to fetch landmarks model'
+                  })
+                )
+              )
+            );
+          }),
+          catchError((error) => {
+            return of(
+              LandmarksModelsActions.cancelOneLandmarkChangesFailure({
+                errorMessageId: 'failed to cancel one landmark changes'
+              })
+            );
+          })
+        );
+      })
+    )
+  );
+
   clearLandmarksModel = createEffect(() =>
     this.actions$.pipe(
       ofType(LandmarksModelsActions.clearLandmarksModel),
@@ -124,6 +157,39 @@ export class LandmarksModelsEffects {
             return of(
               LandmarksModelsActions.clearLandmarksModelFailure({
                 errorMessageId: 'failed to clear landmarks model'
+              })
+            );
+          })
+        );
+      })
+    )
+  );
+
+  applyLandmarkChanges = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LandmarksModelsActions.applyLandmarkChanges),
+      switchMap(({ landmarksModelIds }) => {
+        return this.landmarksService.applyLandmarkChanges(landmarksModelIds).pipe(
+          switchMap(() => {
+            return this.landmarksService.getLandmarksModel(landmarksModelIds[0]).pipe(
+              map((response) =>
+                LandmarksModelsActions.getLandmarksModelSuccess({
+                  landmarksModel: LandmarksMapping.fromGrpcLandmarksModel(response.landmarksModel!)
+                })
+              ),
+              catchError(() =>
+                of(
+                  LandmarksModelsActions.getLandmarksModelFailure({
+                    errorMessageId: 'failed to fetch landmarks model'
+                  })
+                )
+              )
+            );
+          }),
+          catchError((error) => {
+            return of(
+              LandmarksModelsActions.applyLandmarkChangesFailure({
+                errorMessageId: 'failed to apply landmark changes'
               })
             );
           })

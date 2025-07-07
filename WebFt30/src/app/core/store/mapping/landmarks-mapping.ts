@@ -42,6 +42,7 @@ export class LandmarksMapping {
     coloredLandmark.gpsCoors = GisMapping.fromGeoCoordinate(grpcColoredLandmark.gpsCoors!);
     coloredLandmark.gpsCoorsColor = grpcColoredLandmark.gpsCoorsColor;
     coloredLandmark.isSelected = false;
+    coloredLandmark.isChanged = grpcColoredLandmark.isChanged;
 
     return coloredLandmark;
   }
@@ -73,7 +74,8 @@ export class LandmarksMapping {
       opticalSection: landmark.opticalSection,
       eventNumber: landmark.eventNumber,
       gpsCoors: GisMapping.toGeoCoordinate(landmark.gpsCoors!),
-      gpsCoorsColor: landmark.gpsCoorsColor
+      gpsCoorsColor: landmark.gpsCoorsColor,
+      isChanged: false // ignored
     };
   }
 }

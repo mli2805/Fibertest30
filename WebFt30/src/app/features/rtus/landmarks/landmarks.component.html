@@ -162,6 +162,7 @@
         class="w-full"
         [landmark]="landmark"
         (applyLandmark)="updateTable($event)"
+        (cancelLandmark)="cancelOneLandmarkChanges($event)"
       ></rtu-landmark-input>
     </ng-container>
 

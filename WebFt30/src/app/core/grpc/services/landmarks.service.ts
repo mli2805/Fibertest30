@@ -73,10 +73,28 @@ export class LandmarksService {
     );
   }
 
+  cancelOneLandmarkChanges(landmarksModelId: string, row: number) {
+    const request: grpc.CancelOneLandmarkChangesRequest = { landmarksModelId, row };
+    return GrpcUtils.unaryToObservable(
+      this.client.cancelOneLandmarkChanges.bind(this.client),
+      request,
+      {}
+    );
+  }
+
   clearLandmarksModel(landmarksModelId: string) {
     const request: grpc.ClearLandmarksModelRequest = { landmarksModelId };
     return GrpcUtils.unaryToObservable(
       this.client.clearLandmarksModel.bind(this.client),
+      request,
+      {}
+    );
+  }
+
+  applyLandmarkChanges(landmarksModelIds: string[]) {
+    const request: grpc.ApplyLandmarkChangesRequest = { landmarksModelIds };
+    return GrpcUtils.unaryToObservable(
+      this.client.applyLandmarkChanges.bind(this.client),
       request,
       {}
     );

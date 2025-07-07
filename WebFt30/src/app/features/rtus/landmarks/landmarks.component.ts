@@ -54,6 +54,7 @@ export class LandmarksComponent implements OnInit, OnDestroy {
 
   rtuTraces!: GeoTrace[];
 
+  lmsModelIds!: string[];
   lmsModelId!: string;
   loading$ = this.store.select(LandmarksModelsSelectors.selectLoading);
 
@@ -77,6 +78,7 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
+    this.lmsModelIds = [];
     this.gpsInputFormat = CoreUtils.getCurrentState(
       this.store,
       SettingsSelectors.selectLatLngFormat
@@ -92,6 +94,10 @@ export class LandmarksComponent implements OnInit, OnDestroy {
 
   initializeLandmarksFromTraceId() {
     this.lmsModelId = crypto.randomUUID();
+    if (!this.lmsModelIds.includes(this.lmsModelId)) {
+      // возможны переключения на другую трассу, храним id всех моделей
+      this.lmsModelIds.push(this.lmsModelId);
+    }
     // переподписываемся с новым lmsModelId
     const modelInStore$ = this.store.select(
       LandmarksModelsSelectors.selectLandmarksModelById(this.lmsModelId)
@@ -173,6 +179,15 @@ export class LandmarksComponent implements OnInit, OnDestroy {
         landmarksModelId: this.lmsModelId,
         changedLandmark: changedLandmark,
         isFilterOn: undefined
+      })
+    );
+  }
+
+  cancelOneLandmarkChanges(row: number) {
+    this.store.dispatch(
+      LandmarksModelsActions.cancelOneLandmarkChanges({
+        landmarksModelId: this.lmsModelId,
+        row: row
       })
     );
   }

@@ -38,6 +38,7 @@ export class LandmarkInputComponent {
   canShow$ = this.canShow.asObservable();
 
   @Output() applyLandmark = new EventEmitter<ColoredLandmark>();
+  @Output() cancelLandmark = new EventEmitter<number>();
 
   @ViewChild('gpsInput') gpsInput!: GpsInputComponent;
 
@@ -169,8 +170,7 @@ export class LandmarkInputComponent {
   }
 
   isCancelDisabled() {
-    if (!this.gpsInput) return true;
-    return this.form.pristine && this.gpsInput.isCancelDisabled();
+    return !this.originalLandmark.isChanged;
   }
 
   updateTable() {
@@ -237,7 +237,6 @@ export class LandmarkInputComponent {
   }
 
   cancelChanges() {
-    this.initializeForm(this.originalLandmark);
-    this.gpsInput.cancel();
+    this.cancelLandmark.next(this.originalLandmark.number);
   }
 }

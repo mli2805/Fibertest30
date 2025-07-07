@@ -10,7 +10,9 @@ service Landmarks{
 	rpc CreateLandmarksModel(CreateLandmarksModelRequest) returns (CreateLandmarksModelResponse);
 	rpc UpdateLandmarksModel(UpdateLandmarksModelRequest) returns (UpdateLandmarksModelResponse);
 	rpc DeleteLandmarksModel(DeleteLandmarksModelRequest) returns (DeleteLandmarksModelResponse);
+	rpc CancelOneLandmarkChanges(CancelOneLandmarkChangesRequest) returns (CancelOneLandmarkChangesResponse);
 	rpc ClearLandmarksModel(ClearLandmarksModelRequest) returns (ClearLandmarksModelResponse);
+	rpc ApplyLandmarkChanges(ApplyLandmarkChangesRequest) returns (ApplyLandmarkChangesResponse);
 }
 
 message ColoredLandmark {
@@ -49,6 +51,7 @@ message ColoredLandmark {
 	string equipmentTypeColor = 25;
 
 	bool isFromBase = 26;
+	bool isChanged = 27;
 }
 
 message LandmarksModel {
@@ -89,9 +92,24 @@ message DeleteLandmarksModelRequest {
 
 message DeleteLandmarksModelResponse {}
 
-// ClearLandmarksModel
+// CancelOneLandmarkChanges
+message CancelOneLandmarkChangesRequest {
+	string landmarksModelId = 1;
+	int32 row = 2;
+}
+
+message CancelOneLandmarkChangesResponse {}
+
+// ClearLandmarksModel (Cancel all changes)
 message ClearLandmarksModelRequest {
 	string landmarksModelId = 1;
 }
 
 message ClearLandmarksModelResponse {}
+
+// ApplyLandmarkChanges
+message ApplyLandmarkChangesRequest {
+	repeated string landmarksModelIds = 1;
+}
+
+message ApplyLandmarkChangesResponse {}

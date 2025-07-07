@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 
 namespace Fibertest30.Application;
 
-// Singleton который будет хранить модель между запросами клиента
+// Singleton который будет хранить модели между запросами клиентов
 public class LandmarksModelManager(ILogger<LandmarksModelManager> logger, IServiceScopeFactory serviceScopeFactory)
 {
     // Guid - рандомный id созданный на клиенте, чтобы обращаться к определенной модели
@@ -49,8 +49,16 @@ public class LandmarksModelManager(ILogger<LandmarksModelManager> logger, IServi
 
         return model!.UpdateFilterEmptyNodes(isFilterOn);
     }
+
+    public LandmarksModel? CancelOneRowChanges(Guid modelId, int row)
+    {
+        var result = _models.TryGetValue(modelId, out LandmarksModel? model);
+        if (!result) return null;
+
+        return model!.CancelOneRowChanges(row, serviceScopeFactory);
+    }
     
-    public LandmarksModel? CancelChanges(Guid modelId)
+    public LandmarksModel? CancelAllChanges(Guid modelId)
     {
         var result = _models.TryGetValue(modelId, out LandmarksModel? model);
         if (!result) return null;
@@ -61,5 +69,10 @@ public class LandmarksModelManager(ILogger<LandmarksModelManager> logger, IServi
     public void DeleteModel(Guid modelId)
     {
         _models.TryRemove(modelId, out LandmarksModel? _);
+    }
+
+    public Task SaveAllChanges(List<Guid> modelIds)
+    {
+        return Task.CompletedTask;
     }
 }

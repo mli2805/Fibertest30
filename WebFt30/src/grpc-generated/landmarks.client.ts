@@ -4,8 +4,12 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { Landmarks } from "./landmarks";
+import type { ApplyLandmarkChangesResponse } from "./landmarks";
+import type { ApplyLandmarkChangesRequest } from "./landmarks";
 import type { ClearLandmarksModelResponse } from "./landmarks";
 import type { ClearLandmarksModelRequest } from "./landmarks";
+import type { CancelOneLandmarkChangesResponse } from "./landmarks";
+import type { CancelOneLandmarkChangesRequest } from "./landmarks";
 import type { DeleteLandmarksModelResponse } from "./landmarks";
 import type { DeleteLandmarksModelRequest } from "./landmarks";
 import type { UpdateLandmarksModelResponse } from "./landmarks";
@@ -38,9 +42,17 @@ export interface ILandmarksClient {
      */
     deleteLandmarksModel(input: DeleteLandmarksModelRequest, options?: RpcOptions): UnaryCall<DeleteLandmarksModelRequest, DeleteLandmarksModelResponse>;
     /**
+     * @generated from protobuf rpc: CancelOneLandmarkChanges(fibertest30.landmarks.CancelOneLandmarkChangesRequest) returns (fibertest30.landmarks.CancelOneLandmarkChangesResponse);
+     */
+    cancelOneLandmarkChanges(input: CancelOneLandmarkChangesRequest, options?: RpcOptions): UnaryCall<CancelOneLandmarkChangesRequest, CancelOneLandmarkChangesResponse>;
+    /**
      * @generated from protobuf rpc: ClearLandmarksModel(fibertest30.landmarks.ClearLandmarksModelRequest) returns (fibertest30.landmarks.ClearLandmarksModelResponse);
      */
     clearLandmarksModel(input: ClearLandmarksModelRequest, options?: RpcOptions): UnaryCall<ClearLandmarksModelRequest, ClearLandmarksModelResponse>;
+    /**
+     * @generated from protobuf rpc: ApplyLandmarkChanges(fibertest30.landmarks.ApplyLandmarkChangesRequest) returns (fibertest30.landmarks.ApplyLandmarkChangesResponse);
+     */
+    applyLandmarkChanges(input: ApplyLandmarkChangesRequest, options?: RpcOptions): UnaryCall<ApplyLandmarkChangesRequest, ApplyLandmarkChangesResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.landmarks.Landmarks
@@ -80,10 +92,24 @@ export class LandmarksClient implements ILandmarksClient, ServiceInfo {
         return stackIntercept<DeleteLandmarksModelRequest, DeleteLandmarksModelResponse>("unary", this._transport, method, opt, input);
     }
     /**
+     * @generated from protobuf rpc: CancelOneLandmarkChanges(fibertest30.landmarks.CancelOneLandmarkChangesRequest) returns (fibertest30.landmarks.CancelOneLandmarkChangesResponse);
+     */
+    cancelOneLandmarkChanges(input: CancelOneLandmarkChangesRequest, options?: RpcOptions): UnaryCall<CancelOneLandmarkChangesRequest, CancelOneLandmarkChangesResponse> {
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        return stackIntercept<CancelOneLandmarkChangesRequest, CancelOneLandmarkChangesResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
      * @generated from protobuf rpc: ClearLandmarksModel(fibertest30.landmarks.ClearLandmarksModelRequest) returns (fibertest30.landmarks.ClearLandmarksModelResponse);
      */
     clearLandmarksModel(input: ClearLandmarksModelRequest, options?: RpcOptions): UnaryCall<ClearLandmarksModelRequest, ClearLandmarksModelResponse> {
-        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        const method = this.methods[5], opt = this._transport.mergeOptions(options);
         return stackIntercept<ClearLandmarksModelRequest, ClearLandmarksModelResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: ApplyLandmarkChanges(fibertest30.landmarks.ApplyLandmarkChangesRequest) returns (fibertest30.landmarks.ApplyLandmarkChangesResponse);
+     */
+    applyLandmarkChanges(input: ApplyLandmarkChangesRequest, options?: RpcOptions): UnaryCall<ApplyLandmarkChangesRequest, ApplyLandmarkChangesResponse> {
+        const method = this.methods[6], opt = this._transport.mergeOptions(options);
+        return stackIntercept<ApplyLandmarkChangesRequest, ApplyLandmarkChangesResponse>("unary", this._transport, method, opt, input);
     }
 }

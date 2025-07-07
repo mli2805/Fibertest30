@@ -127,7 +127,9 @@ public class LandmarksModel
         }
 
         if (hasRowChanges)
+        {
             Rows = ReCalculateLandmarks(scope);
+        }
 
         return this;
     }
@@ -136,6 +138,48 @@ public class LandmarksModel
     {
         _isFilterOn = isFilterOn;
         Rows = LandmarksToRows(_changedLandmarks, _originalLandmarkRows, _isFilterOn);
+        return this;
+    }
+
+    public LandmarksModel CancelOneRowChanges(int row, IServiceScopeFactory serviceScopeFactory)
+    {
+        using var scope = serviceScopeFactory.CreateScope();
+
+        var landmarkRow = Rows.First(r => r.Number == row);
+
+        var currentNode = _changedModel.NodeArray.First(n => n.NodeId == landmarkRow.NodeId);
+        var originalNode = _originalModel.NodeArray.First(n => n.NodeId == landmarkRow.NodeId);
+        originalNode.CloneInto(currentNode);
+        _command.ClearNodeCommands(landmarkRow.NodeId);  
+        
+        var currentFiber = _changedModel.FiberArray[landmarkRow.NumberIncludingAdjustmentPoints - 1];
+        var writeModel = scope.ServiceProvider.GetRequiredService<Model>();
+
+        var allParts = writeModel.GetAllParts(currentFiber.FiberId);
+        foreach (var fiberPartId in allParts)
+        {
+            var fiberPart = writeModel.Fibers.First(f => f.FiberId == fiberPartId);
+            fiberPart.UserInputedLength = _originalModel.FiberArray
+                .First(f => f.FiberId == currentFiber.FiberId).UserInputedLength;
+        }
+        _command.ClearFiberCommands(currentFiber.FiberId);
+
+        var currentEquipment = _changedModel.EquipArray[landmarkRow.NumberIncludingAdjustmentPoints];
+        var originalEquipment = _originalModel.EquipArray[landmarkRow.NumberIncludingAdjustmentPoints];
+        if (currentEquipment.EquipmentId != originalEquipment.EquipmentId)
+        {
+            var eq = writeModel.Equipments.First(e => e.EquipmentId == originalEquipment.EquipmentId);
+            _changedModel.EquipArray[landmarkRow.NumberIncludingAdjustmentPoints] = eq;
+            _command.ClearReplaceCommands(landmarkRow.NumberIncludingAdjustmentPoints);
+        }
+        // эти строки выполняются без условно -
+        // если перед заменой оборудования старое было как-то изменено - оно восстанавливается
+        currentEquipment = _changedModel.EquipArray[landmarkRow.NumberIncludingAdjustmentPoints];
+        originalEquipment.CloneInto(currentEquipment);
+        _command.ClearEquipmentCommands(currentEquipment.EquipmentId);
+
+        Rows = ReCalculateLandmarks(scope);
+
         return this;
     }
 

@@ -9,7 +9,7 @@ public class ClearLandmarksModelCommandHandler(LandmarksModelManager landmarksMo
 {
     public Task<Unit> Handle(ClearLandmarksModelCommand request, CancellationToken cancellationToken)
     {
-        landmarksModelManager.CancelChanges(request.LandmarksModelId);
+        landmarksModelManager.CancelAllChanges(request.LandmarksModelId);
         return Task.FromResult(Unit.Value);
     }
 }

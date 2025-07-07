@@ -20,7 +20,9 @@ public class LandmarksMappingProfile : Profile
                     opt.MapFrom(s => s.EquipmentType.FromProto()))
             .ForMember(d => d.GpsCoors,
                 opt =>
-                    opt.MapFrom(s => s.GpsCoors.FromProto()));
+                    opt.MapFrom(s => s.GpsCoors.FromProto()))
+            .ForMember(d => d.IsChanged,
+                opt => opt.Ignore());
     }
 }
 

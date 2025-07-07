@@ -51,6 +51,19 @@ const deleteLandmarksModelFailure = createAction(
   props<{ errorMessageId: string }>()
 );
 
+const cancelOneLandmarkChanges = createAction(
+  '[LandmarksModels] Cancel One Landmark Changes',
+  props<{ landmarksModelId: string; row: number }>()
+);
+const cancelOneLandmarkChangesSuccess = createAction(
+  '[LandmarksModels] Cancel One Landmark Changes Success',
+  props<{ landmarksModelId: string }>()
+);
+const cancelOneLandmarkChangesFailure = createAction(
+  '[LandmarksModels] Cancel One Landmark Changes Failure',
+  props<{ errorMessageId: string }>()
+);
+
 const clearLandmarksModel = createAction(
   '[LandmarksModels] Clear Landmark Model',
   props<{ landmarksModelId: string }>()
@@ -61,6 +74,18 @@ const clearLandmarksModelSuccess = createAction(
 );
 const clearLandmarksModelFailure = createAction(
   '[LandmarksModels] Clear Landmark Model Failure',
+  props<{ errorMessageId: string }>()
+);
+
+const applyLandmarkChanges = createAction(
+  '[LandmarksModels] Apply Landmark Changes',
+  props<{ landmarksModelIds: string[] }>()
+);
+const applyLandmarkChangesSuccess = createAction(
+  '[LandmarksModels] Apply Landmark Changes Success'
+);
+const applyLandmarkChangesFailure = createAction(
+  '[LandmarksModels] Apply Landmark Changes Failure',
   props<{ errorMessageId: string }>()
 );
 
@@ -81,7 +106,15 @@ export const LandmarksModelsActions = {
   deleteLandmarksModelSuccess,
   deleteLandmarksModelFailure,
 
+  cancelOneLandmarkChanges,
+  cancelOneLandmarkChangesSuccess,
+  cancelOneLandmarkChangesFailure,
+
   clearLandmarksModel,
   clearLandmarksModelSuccess,
-  clearLandmarksModelFailure
+  clearLandmarksModelFailure,
+
+  applyLandmarkChanges,
+  applyLandmarkChangesSuccess,
+  applyLandmarkChangesFailure
 };
