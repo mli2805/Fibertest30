@@ -111,9 +111,12 @@ export class LandmarksComponent implements OnInit, OnDestroy {
           const restored = new LandmarksModel(model);
           // делаем глубокую копия объекта из стора, теперь его можно изменять
           const mutable = restored.clone();
-          mutable.landmarks[0].isSelected = true;
+
+          const newSelectedLandmark = this.getNewSelectedLandmark(mutable);
+          newSelectedLandmark.isSelected = true;
+
           this.landmarksModel.next(mutable);
-          this.selectedLandmark.next(this.landmarksModel.value!.landmarks[0]);
+          this.selectedLandmark.next(newSelectedLandmark);
         }
       })
     );
@@ -125,6 +128,22 @@ export class LandmarksComponent implements OnInit, OnDestroy {
     );
 
     this.trace = this.gisMapService.getGeoData().traces.find((t) => t.id === this.traceId)!;
+  }
+
+  getNewSelectedLandmark(mutable: LandmarksModel): ColoredLandmark {
+    if (this.selectedLandmark.value === null) {
+      // если только открыли форму selectedLandmark еще неопределен
+      return mutable.landmarks[0];
+    }
+
+    const nodeId = this.selectedLandmark.value.nodeId;
+    const landmark = mutable.landmarks.find((l) => l.nodeId === nodeId);
+    if (landmark === undefined) {
+      // если сменили трассу в новой может не быть такого узла
+      return mutable.landmarks[0];
+    }
+
+    return landmark;
   }
 
   ngOnDestroy(): void {
@@ -159,7 +178,6 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   }
 
   onTraceChanged(trace: GeoTrace) {
-    console.log(trace);
     this.traceId = trace.id;
     this.initializeLandmarksFromTraceId();
   }
@@ -173,7 +191,6 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   }
 
   updateTable(changedLandmark: ColoredLandmark) {
-    console.log(changedLandmark);
     this.store.dispatch(
       LandmarksModelsActions.updateLandmarksModel({
         landmarksModelId: this.lmsModelId,
