@@ -72,4 +72,13 @@ export class LandmarksService {
       {}
     );
   }
+
+  clearLandmarksModel(landmarksModelId: string) {
+    const request: grpc.ClearLandmarksModelRequest = { landmarksModelId };
+    return GrpcUtils.unaryToObservable(
+      this.client.clearLandmarksModel.bind(this.client),
+      request,
+      {}
+    );
+  }
 }

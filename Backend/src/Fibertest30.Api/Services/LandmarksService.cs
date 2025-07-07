@@ -40,4 +40,13 @@ public class LandmarksService(ISender mediator) : Landmarks.LandmarksBase
 
         return new DeleteLandmarksModelResponse();
     }
+    
+    public override async Task<ClearLandmarksModelResponse> ClearLandmarksModel(ClearLandmarksModelRequest request,
+        ServerCallContext context)
+    {
+        await mediator.Send(new ClearLandmarksModelCommand(Guid.Parse(request.LandmarksModelId)),
+            context.CancellationToken);
+
+        return new ClearLandmarksModelResponse();
+    }
 }

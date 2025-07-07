@@ -10,6 +10,7 @@ service Landmarks{
 	rpc CreateLandmarksModel(CreateLandmarksModelRequest) returns (CreateLandmarksModelResponse);
 	rpc UpdateLandmarksModel(UpdateLandmarksModelRequest) returns (UpdateLandmarksModelResponse);
 	rpc DeleteLandmarksModel(DeleteLandmarksModelRequest) returns (DeleteLandmarksModelResponse);
+	rpc ClearLandmarksModel(ClearLandmarksModelRequest) returns (ClearLandmarksModelResponse);
 }
 
 message ColoredLandmark {
@@ -87,3 +88,10 @@ message DeleteLandmarksModelRequest {
 }
 
 message DeleteLandmarksModelResponse {}
+
+// ClearLandmarksModel
+message ClearLandmarksModelRequest {
+	string landmarksModelId = 1;
+}
+
+message ClearLandmarksModelResponse {}

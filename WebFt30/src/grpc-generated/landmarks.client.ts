@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { Landmarks } from "./landmarks";
+import type { ClearLandmarksModelResponse } from "./landmarks";
+import type { ClearLandmarksModelRequest } from "./landmarks";
 import type { DeleteLandmarksModelResponse } from "./landmarks";
 import type { DeleteLandmarksModelRequest } from "./landmarks";
 import type { UpdateLandmarksModelResponse } from "./landmarks";
@@ -35,6 +37,10 @@ export interface ILandmarksClient {
      * @generated from protobuf rpc: DeleteLandmarksModel(fibertest30.landmarks.DeleteLandmarksModelRequest) returns (fibertest30.landmarks.DeleteLandmarksModelResponse);
      */
     deleteLandmarksModel(input: DeleteLandmarksModelRequest, options?: RpcOptions): UnaryCall<DeleteLandmarksModelRequest, DeleteLandmarksModelResponse>;
+    /**
+     * @generated from protobuf rpc: ClearLandmarksModel(fibertest30.landmarks.ClearLandmarksModelRequest) returns (fibertest30.landmarks.ClearLandmarksModelResponse);
+     */
+    clearLandmarksModel(input: ClearLandmarksModelRequest, options?: RpcOptions): UnaryCall<ClearLandmarksModelRequest, ClearLandmarksModelResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.landmarks.Landmarks
@@ -72,5 +78,12 @@ export class LandmarksClient implements ILandmarksClient, ServiceInfo {
     deleteLandmarksModel(input: DeleteLandmarksModelRequest, options?: RpcOptions): UnaryCall<DeleteLandmarksModelRequest, DeleteLandmarksModelResponse> {
         const method = this.methods[3], opt = this._transport.mergeOptions(options);
         return stackIntercept<DeleteLandmarksModelRequest, DeleteLandmarksModelResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: ClearLandmarksModel(fibertest30.landmarks.ClearLandmarksModelRequest) returns (fibertest30.landmarks.ClearLandmarksModelResponse);
+     */
+    clearLandmarksModel(input: ClearLandmarksModelRequest, options?: RpcOptions): UnaryCall<ClearLandmarksModelRequest, ClearLandmarksModelResponse> {
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        return stackIntercept<ClearLandmarksModelRequest, ClearLandmarksModelResponse>("unary", this._transport, method, opt, input);
     }
 }

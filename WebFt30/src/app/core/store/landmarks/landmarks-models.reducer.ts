@@ -26,6 +26,11 @@ const reducer = createReducer(
     loading: true,
     errorMessageId: null
   })),
+  on(LandmarksModelsActions.clearLandmarksModel, (state) => ({
+    ...state,
+    loading: true,
+    errorMessageId: null
+  })),
   on(
     LandmarksModelsActions.getLandmarksModelSuccess,
     (state, { landmarksModel: landmarksModel }) => {

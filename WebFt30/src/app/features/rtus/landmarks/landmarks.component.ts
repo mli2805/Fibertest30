@@ -178,7 +178,11 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   }
 
   cancelAllChanges() {
-    //
+    this.store.dispatch(
+      LandmarksModelsActions.clearLandmarksModel({
+        landmarksModelId: this.lmsModelId
+      })
+    );
   }
 
   saveChanges() {

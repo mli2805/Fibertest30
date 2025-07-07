@@ -99,5 +99,38 @@ export class LandmarksModelsEffects {
     )
   );
 
+  clearLandmarksModel = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LandmarksModelsActions.clearLandmarksModel),
+      switchMap(({ landmarksModelId }) => {
+        return this.landmarksService.clearLandmarksModel(landmarksModelId).pipe(
+          switchMap(() => {
+            return this.landmarksService.getLandmarksModel(landmarksModelId).pipe(
+              map((response) =>
+                LandmarksModelsActions.getLandmarksModelSuccess({
+                  landmarksModel: LandmarksMapping.fromGrpcLandmarksModel(response.landmarksModel!)
+                })
+              ),
+              catchError(() =>
+                of(
+                  LandmarksModelsActions.getLandmarksModelFailure({
+                    errorMessageId: 'failed to fetch cleared landmarks model'
+                  })
+                )
+              )
+            );
+          }),
+          catchError((error) => {
+            return of(
+              LandmarksModelsActions.clearLandmarksModelFailure({
+                errorMessageId: 'failed to clear landmarks model'
+              })
+            );
+          })
+        );
+      })
+    )
+  );
+
   constructor(private actions$: Actions, private landmarksService: LandmarksService) {}
 }

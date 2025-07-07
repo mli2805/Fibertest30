@@ -207,6 +207,22 @@ export interface DeleteLandmarksModelRequest {
  */
 export interface DeleteLandmarksModelResponse {
 }
+/**
+ * ClearLandmarksModel
+ *
+ * @generated from protobuf message fibertest30.landmarks.ClearLandmarksModelRequest
+ */
+export interface ClearLandmarksModelRequest {
+    /**
+     * @generated from protobuf field: string landmarksModelId = 1;
+     */
+    landmarksModelId: string;
+}
+/**
+ * @generated from protobuf message fibertest30.landmarks.ClearLandmarksModelResponse
+ */
+export interface ClearLandmarksModelResponse {
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class ColoredLandmark$Type extends MessageType<ColoredLandmark> {
     constructor() {
@@ -350,6 +366,28 @@ class DeleteLandmarksModelResponse$Type extends MessageType<DeleteLandmarksModel
  * @generated MessageType for protobuf message fibertest30.landmarks.DeleteLandmarksModelResponse
  */
 export const DeleteLandmarksModelResponse = new DeleteLandmarksModelResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ClearLandmarksModelRequest$Type extends MessageType<ClearLandmarksModelRequest> {
+    constructor() {
+        super("fibertest30.landmarks.ClearLandmarksModelRequest", [
+            { no: 1, name: "landmarksModelId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.landmarks.ClearLandmarksModelRequest
+ */
+export const ClearLandmarksModelRequest = new ClearLandmarksModelRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ClearLandmarksModelResponse$Type extends MessageType<ClearLandmarksModelResponse> {
+    constructor() {
+        super("fibertest30.landmarks.ClearLandmarksModelResponse", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.landmarks.ClearLandmarksModelResponse
+ */
+export const ClearLandmarksModelResponse = new ClearLandmarksModelResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.landmarks.Landmarks
  */
@@ -357,5 +395,6 @@ export const Landmarks = new ServiceType("fibertest30.landmarks.Landmarks", [
     { name: "GetLandmarksModel", options: {}, I: GetLandmarksModelRequest, O: GetLandmarksModelResponse },
     { name: "CreateLandmarksModel", options: {}, I: CreateLandmarksModelRequest, O: CreateLandmarksModelResponse },
     { name: "UpdateLandmarksModel", options: {}, I: UpdateLandmarksModelRequest, O: UpdateLandmarksModelResponse },
-    { name: "DeleteLandmarksModel", options: {}, I: DeleteLandmarksModelRequest, O: DeleteLandmarksModelResponse }
+    { name: "DeleteLandmarksModel", options: {}, I: DeleteLandmarksModelRequest, O: DeleteLandmarksModelResponse },
+    { name: "ClearLandmarksModel", options: {}, I: ClearLandmarksModelRequest, O: ClearLandmarksModelResponse }
 ]);

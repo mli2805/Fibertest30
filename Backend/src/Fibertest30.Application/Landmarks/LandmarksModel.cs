@@ -106,6 +106,8 @@ public class LandmarksModel
             var writeModel = scope.ServiceProvider.GetRequiredService<Model>();
 
             var currentFiber = _changedModel.FiberArray[changedLandmark.NumberIncludingAdjustmentPoints - 1];
+            currentFiber.UserInputedLength = changedLandmark.UserInputLength;
+
             var allParts = writeModel.GetAllParts(currentFiber.FiberId);
             foreach (var fiberPartId in allParts)
             {
