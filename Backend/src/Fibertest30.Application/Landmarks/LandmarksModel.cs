@@ -146,13 +146,15 @@ public class LandmarksModel
         using var scope = serviceScopeFactory.CreateScope();
 
         var landmarkRow = Rows.First(r => r.Number == row);
+        var originalLandmark = _originalLandmarks.First(l => l.Number == row);
 
         var currentNode = _changedModel.NodeArray.First(n => n.NodeId == landmarkRow.NodeId);
         var originalNode = _originalModel.NodeArray.First(n => n.NodeId == landmarkRow.NodeId);
         originalNode.CloneInto(currentNode);
-        _command.ClearNodeCommands(landmarkRow.NodeId);  
-        
+        _command.ClearNodeCommands(landmarkRow.NodeId);
+
         var currentFiber = _changedModel.FiberArray[landmarkRow.NumberIncludingAdjustmentPoints - 1];
+        currentFiber.UserInputedLength = originalLandmark.UserInputLength;
         var writeModel = scope.ServiceProvider.GetRequiredService<Model>();
 
         var allParts = writeModel.GetAllParts(currentFiber.FiberId);
