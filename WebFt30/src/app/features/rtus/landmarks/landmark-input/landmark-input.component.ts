@@ -101,6 +101,12 @@ export class LandmarkInputComponent {
     return false;
   }
 
+  equipmentTitleInputDisabled() {
+    if (!this.hasEditGraphPermission) return true;
+    if (!this.canShow.value) return true;
+    return this.originalLandmark.equipmentType === EquipmentType.EmptyNode;
+  }
+
   leftCableReserveInputDisabled(): boolean {
     if (this.inputDisabled()) return true;
     if (this.originalLandmark.equipmentType === EquipmentType.EmptyNode) return true;

@@ -12,8 +12,7 @@ import { StepModel } from './forms/trace-define/step-model';
 export class GisMapService {
   public static GisMapLayerZoom = new Map<GisMapLayer, number>([
     [GisMapLayer.Route, 0],
-    [GisMapLayer.TraceEquipment, 16],
-    [GisMapLayer.EmptyNodes, 16],
+    [GisMapLayer.Nodes, 16],
     [GisMapLayer.AdjustmentPoints, 16]
   ]);
 
@@ -82,8 +81,7 @@ export class GisMapService {
   showNodesFromZoom = new BehaviorSubject<number>(16);
   showNodesFromZoom$ = this.showNodesFromZoom.asObservable();
   setShowNodesFromZoom(fromZoom: number) {
-    GisMapService.GisMapLayerZoom.set(GisMapLayer.TraceEquipment, fromZoom);
-    GisMapService.GisMapLayerZoom.set(GisMapLayer.EmptyNodes, fromZoom);
+    GisMapService.GisMapLayerZoom.set(GisMapLayer.Nodes, fromZoom);
     GisMapService.GisMapLayerZoom.set(GisMapLayer.AdjustmentPoints, fromZoom);
 
     this.showNodesFromZoom.next(fromZoom);

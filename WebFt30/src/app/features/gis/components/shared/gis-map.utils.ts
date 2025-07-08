@@ -58,9 +58,8 @@ export class GisMapUtils {
       case EquipmentType.CableReserve:
       case EquipmentType.Closure:
       case EquipmentType.Other:
-        return GisMapLayer.TraceEquipment;
       case EquipmentType.EmptyNode:
-        return GisMapLayer.EmptyNodes;
+        return GisMapLayer.Nodes;
       default:
         return GisMapLayer.AdjustmentPoints;
     }

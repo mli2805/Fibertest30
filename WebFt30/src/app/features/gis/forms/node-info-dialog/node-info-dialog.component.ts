@@ -11,6 +11,7 @@ import { MapEquipmentActions } from '../../components/gis-actions/map-equipment-
 import { Store } from '@ngrx/store';
 import { AppState, AuthSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
+import { environment } from 'src/environments/environment';
 
 interface EquipElement {
   isSelected: boolean;
@@ -30,6 +31,7 @@ interface TraceElement {
   styleUrls: ['./node-info-dialog.component.css']
 })
 export class NodeInfoDialogComponent implements OnInit {
+  isDevMode = !environment.production;
   public store: Store<AppState> = inject(Store);
   hasEditGraphPermission = CoreUtils.getCurrentState(
     this.store,

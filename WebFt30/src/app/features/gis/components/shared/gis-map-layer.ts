@@ -1,7 +1,6 @@
 export enum GisMapLayer {
   Route,
   Highlight,
-  TraceEquipment,
-  EmptyNodes,
+  Nodes, // с оборудованием или без в одном слое
   AdjustmentPoints
 }

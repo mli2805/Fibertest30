@@ -141,7 +141,7 @@ export class MapEquipmentActions {
 
       // возможно удаляется не то оборудование от которого иконка
       //   const layerType = GisMapUtils.equipmentTypeToGisMapLayer(node.equipmentType);
-      const group = this.gisMapService.getLayerGroups().get(GisMapLayer.TraceEquipment)!;
+      const group = this.gisMapService.getLayerGroups().get(GisMapLayer.Nodes)!;
       const marker = group.getLayers().find((m) => (<any>m).id === command.NodeId);
       group.removeLayer(marker!);
 

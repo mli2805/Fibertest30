@@ -43,7 +43,7 @@ namespace Iit.Fibertest.Graph
 
                 distanceFromRtu += section;
 
-                var lm = CreateLandmark(node, traceModel.EquipArray[i].EquipmentId, j++, i);
+                var lm = CreateLandmark(node, traceModel.EquipArray[i], j++, i);
                 lm.FiberId = fiber.FiberId;
                 lm.GpsDistance = distanceFromRtu;
                 lm.GpsSection = sectionAdj;
@@ -88,7 +88,9 @@ namespace Iit.Fibertest.Graph
 
                 distanceFromRtu += section;
 
-                var lm = CreateLandmark(node, trace.EquipmentIds[i], j++, i);
+                var equipment = _readModel.Equipments.First(e => e.EquipmentId == trace.EquipmentIds[i]);
+
+                var lm = CreateLandmark(node, equipment, j++, i);
                 lm.FiberId = fiber.FiberId;
                 lm.GpsDistance = distanceFromRtu;
                 lm.GpsSection = sectionAdj;
@@ -102,9 +104,8 @@ namespace Iit.Fibertest.Graph
             return result;
         }
 
-        private Landmark CreateLandmark(Node node, Guid equipmentId, int number, int numberIncludingAdjustmentPoints)
+        private Landmark CreateLandmark(Node node, Equipment equipment, int number, int numberIncludingAdjustmentPoints)
         {
-            var equipment = _readModel.Equipments.First(e => e.EquipmentId == equipmentId);
             var comment = number == 0
                 ? _readModel.Rtus.First(r => r.NodeId == node.NodeId).Comment
                 : node.Comment;
@@ -116,7 +117,7 @@ namespace Iit.Fibertest.Graph
                 NodeId = node.NodeId,
                 NodeTitle = node.Title ?? "",
                 NodeComment = comment ?? "",
-                EquipmentId = equipmentId,
+                EquipmentId = equipment.EquipmentId,
                 EquipmentTitle = equipment.Title ?? "",
                 EquipmentType = equipment.Type,
                 EventNumber = -1,

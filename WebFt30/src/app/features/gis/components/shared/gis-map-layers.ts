@@ -16,20 +16,12 @@ export class GisMapLayers {
       this.setLayerVisibility(map, layerGroups, GisMapLayer.AdjustmentPoints, false);
     }
 
-    const emptyNodesZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.EmptyNodes)!;
+    const emptyNodesZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.Nodes)!;
     if (currentZoom < emptyNodesZoom && newZoom >= emptyNodesZoom) {
-      this.setLayerVisibility(map, layerGroups, GisMapLayer.EmptyNodes, true);
+      this.setLayerVisibility(map, layerGroups, GisMapLayer.Nodes, true);
     }
     if (currentZoom >= emptyNodesZoom && newZoom < emptyNodesZoom) {
-      this.setLayerVisibility(map, layerGroups, GisMapLayer.EmptyNodes, false);
-    }
-
-    const equipmentZoom = GisMapService.GisMapLayerZoom.get(GisMapLayer.TraceEquipment)!;
-    if (currentZoom < equipmentZoom && newZoom >= equipmentZoom) {
-      this.setLayerVisibility(map, layerGroups, GisMapLayer.TraceEquipment, true);
-    }
-    if (currentZoom >= equipmentZoom && newZoom < equipmentZoom) {
-      this.setLayerVisibility(map, layerGroups, GisMapLayer.TraceEquipment, false);
+      this.setLayerVisibility(map, layerGroups, GisMapLayer.Nodes, false);
     }
   }
 

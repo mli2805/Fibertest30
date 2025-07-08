@@ -19,6 +19,8 @@ import { GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { ColoredLandmark, LandmarksModel } from 'src/app/core/store/models/ft30/colored-landmark';
 import { MapLayersActions } from '../../gis/components/gis-actions/map-layers-actions';
+import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
+import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'rtu-landmarks',
@@ -76,6 +78,7 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   constructor(
     private windowService: WindowService,
     private gisMapService: GisMapService,
+    private dialog: Dialog,
     private injector: Injector
   ) {
     LandmarkMenu.initialize(injector);
@@ -246,7 +249,19 @@ export class LandmarksComponent implements OnInit, OnDestroy {
     //
   }
 
-  closeButton() {
+  async closeButton() {
+    const idx = this.landmarksModel.value?.landmarks.findIndex((l) => l.isChanged);
+    if (idx === -1) {
+      // если нет изменений, то просто закрываем
+      this.close();
+      return;
+    }
+
+    const confirmation = await MessageBoxUtils.show(this.dialog, 'Confirmation', [
+      { message: 'i18n.ft.all-changes-will-be-cancelled-continue', bold: true, bottomMargin: false }
+    ]);
+    if (!confirmation) return;
+
     this.buttonClicked = 'Close';
 
     this.store.dispatch(
@@ -292,6 +307,7 @@ export class LandmarksComponent implements OnInit, OnDestroy {
     else this.close();
   }
 
+  // если успешно применилось к серверу, то корректируем и на карте
   updateGraph() {
     if (this.buttonClicked === 'UpdateTable' || this.buttonClicked === 'CancelChanges') {
       const landmark = this.selectedLandmark.value;

@@ -10,9 +10,11 @@
       </div>
       <div class="flex flex-col ml-2">
         <label class="ml-2" [ngClass]="{ 'disabled-label': inputDisabled() }">{{ 'i18n.ft.equipment' | translate }}</label>
+  <fieldset [disabled]="equipmentTitleInputDisabled()" class="contents">
         <input formControlName="equipmentTitle" type="text" class="input-simple"/>
+  </fieldset>
+
         <label class="ml-2 mt-2" [ngClass]="{ 'disabled-label': inputDisabled() }">{{ 'i18n.ft.type' | translate }}</label>
-       
         <rtu-select formControlName="equipmentType" [items]="equipmentTypes" >
           <ng-template rtuSelectLabel let-selectedItem>
             <div class="pl-1 ">{{ selectedItem | equipmentPipe | translate }}</div>
