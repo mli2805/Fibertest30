@@ -65,11 +65,10 @@ namespace Iit.Fibertest.Graph
                 if (i > 0)
                 {
                     // в случае разворотов один и тот же инстанс оборудования несколько раз в массиве
-                    var equipmentWithAdj = modelWith.EquipArray
-                        .First(e => e.EquipmentId == equipmentId);
                     // начинаем искать в массиве с позиции оборудования использованного на предыдущей итерации
                     numberIncludingAdjustmentPoints = 
-                        Array.IndexOf(modelWith.EquipArray, equipmentWithAdj, numberIncludingAdjustmentPoints);
+                        Array.FindIndex(modelWith.EquipArray, numberIncludingAdjustmentPoints,
+                        e => e.EquipmentId == equipmentId);
                 }
 
                 var landmark = new Landmark
