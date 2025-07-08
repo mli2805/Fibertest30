@@ -19,6 +19,7 @@ const reducer = createReducer(
   on(LandmarksModelsActions.createLandmarksModel, (state) => ({
     ...state,
     loading: true,
+    loaded: false,
     errorMessageId: null
   })),
   on(LandmarksModelsActions.updateLandmarksModel, (state) => ({
@@ -46,7 +47,8 @@ const reducer = createReducer(
     (state, { landmarksModel: landmarksModel }) => {
       return LandmarksModelsStateAdapter.upsertOne(landmarksModel, {
         ...state,
-        loading: false
+        loading: false,
+        loaded: true
       });
     }
   ),

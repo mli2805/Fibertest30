@@ -60,6 +60,7 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   lmsModelIds!: string[];
   lmsModelId!: string;
   loading$ = this.store.select(LandmarksModelsSelectors.selectLoading);
+  loaded$ = this.store.select(LandmarksModelsSelectors.selectLoaded);
 
   modelSubscription = new Subscription();
   landmarksModel = new BehaviorSubject<LandmarksModel | null>(null);
@@ -304,7 +305,7 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   @HostListener('document:keydown.escape', ['$event'])
   handleEscape() {
     if (this.showContextMenu) this.showContextMenu = false;
-    else this.close();
+    else this.closeButton();
   }
 
   // если успешно применилось к серверу, то корректируем и на карте
@@ -333,10 +334,13 @@ export class LandmarksComponent implements OnInit, OnDestroy {
     const equipment = this.gisMapService
       .getGeoData()
       .equipments.find((e) => e.id === landmark.equipmentId);
-    equipment!.title = landmark.equipmentTitle;
-    equipment!.type = landmark.equipmentType;
-    equipment!.cableReserveLeft = landmark.leftCableReserve;
-    equipment!.cableReserveRight = landmark.rightCableReserve;
+
+    if (equipment) {
+      equipment.title = landmark.equipmentTitle;
+      equipment.type = landmark.equipmentType;
+      equipment.cableReserveLeft = landmark.leftCableReserve;
+      equipment.cableReserveRight = landmark.rightCableReserve;
+    }
 
     // пользовательская длина не хранится на клиенте
   }
