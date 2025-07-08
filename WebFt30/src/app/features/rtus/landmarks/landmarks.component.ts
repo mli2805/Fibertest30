@@ -12,13 +12,13 @@ import {
   SettingsActions,
   SettingsSelectors
 } from 'src/app/core';
-import { GisService } from 'src/app/core/grpc/services/gis.service';
 import { GisMapService } from '../../gis/gis-map.service';
 import { LandmarkMenu } from './one-landmark-menu/landmark-menu';
 import { EquipmentType } from 'src/grpc-generated';
 import { GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { ColoredLandmark, LandmarksModel } from 'src/app/core/store/models/ft30/colored-landmark';
+import { MapLayersActions } from '../../gis/components/gis-actions/map-layers-actions';
 
 @Component({
   selector: 'rtu-landmarks',
@@ -69,6 +69,10 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   // восстановить при выходе
   gpsInputFormat!: LatLngFormat;
 
+  // для обновления графа когда придет результат выполнения операции на сервере
+  // UpdateTable, CancelChanges, CancelAllChanges, Close
+  buttonClicked = '';
+
   constructor(
     private windowService: WindowService,
     private gisMapService: GisMapService,
@@ -117,6 +121,9 @@ export class LandmarksComponent implements OnInit, OnDestroy {
 
           this.landmarksModel.next(mutable);
           this.selectedLandmark.next(newSelectedLandmark);
+
+          this.updateGraph();
+          if (this.buttonClicked === 'Close') this.close();
         }
       })
     );
@@ -196,6 +203,7 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   }
 
   updateTable(changedLandmark: ColoredLandmark) {
+    this.buttonClicked = 'UpdateTable';
     this.store.dispatch(
       LandmarksModelsActions.updateLandmarksModel({
         landmarksModelId: this.lmsModelId,
@@ -206,6 +214,7 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   }
 
   cancelOneLandmarkChanges(row: number) {
+    this.buttonClicked = 'CancelChanges';
     this.store.dispatch(
       LandmarksModelsActions.cancelOneLandmarkChanges({
         landmarksModelId: this.lmsModelId,
@@ -220,6 +229,7 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   }
 
   cancelAllChanges() {
+    this.buttonClicked = 'CancelAllChanges';
     this.store.dispatch(
       LandmarksModelsActions.clearLandmarksModel({
         landmarksModelId: this.lmsModelId
@@ -234,6 +244,16 @@ export class LandmarksComponent implements OnInit, OnDestroy {
 
   saveChanges() {
     //
+  }
+
+  closeButton() {
+    this.buttonClicked = 'Close';
+
+    this.store.dispatch(
+      LandmarksModelsActions.clearLandmarksModel({
+        landmarksModelId: this.lmsModelId
+      })
+    );
   }
 
   close() {
@@ -270,5 +290,38 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   handleEscape() {
     if (this.showContextMenu) this.showContextMenu = false;
     else this.close();
+  }
+
+  updateGraph() {
+    if (this.buttonClicked === 'UpdateTable' || this.buttonClicked === 'CancelChanges') {
+      const landmark = this.selectedLandmark.value;
+      this.applyChangesToGraph(landmark!);
+    } else {
+      if (this.buttonClicked === 'CancelAllChanges' || this.buttonClicked === 'Close') {
+        this.landmarksModel.value!.landmarks.forEach((l) => this.applyChangesToGraph(l));
+      }
+      // SaveAllChanges - ничего не надо делать
+    }
+
+    this.gisMapService.setHighlightNode(this.selectedLandmark.value!.nodeId);
+  }
+
+  applyChangesToGraph(landmark: ColoredLandmark) {
+    const node = this.gisMapService.getNode(landmark.nodeId);
+    node.title = landmark.nodeTitle;
+    node.comment = landmark.nodeComment;
+    node.coors = landmark.gpsCoors;
+    node.equipmentType = landmark.equipmentType;
+    MapLayersActions.reDrawNodeWithItsFibers(node);
+
+    const equipment = this.gisMapService
+      .getGeoData()
+      .equipments.find((e) => e.id === landmark.equipmentId);
+    equipment!.title = landmark.equipmentTitle;
+    equipment!.type = landmark.equipmentType;
+    equipment!.cableReserveLeft = landmark.leftCableReserve;
+    equipment!.cableReserveRight = landmark.rightCableReserve;
+
+    // пользовательская длина не хранится на клиенте
   }
 }

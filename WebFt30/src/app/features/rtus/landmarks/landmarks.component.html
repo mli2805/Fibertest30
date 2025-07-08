@@ -9,7 +9,7 @@
   [windowId]="traceId"
   [windowName]="'Landmarks'"
   [zIndex]="zIndex"
-  (closeEvent)="close()"
+  (closeEvent)="closeButton()"
 >
   <ng-container *ngIf="lmsModel$ | async as model">
     <div class="mb-1 mr-2 flex justify-between">

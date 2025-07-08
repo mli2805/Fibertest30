@@ -134,34 +134,10 @@ export class LandmarkInputComponent {
 
   onPreview(coors: L.LatLng) {
     const nodeId = this.originalLandmark.nodeId;
-    this.moveNodeForPreview(nodeId, coors);
-    this.gisMapService.setHighlightNode(nodeId);
-  }
-
-  //  в MapLayersActions уже есть для тягаемого узла, но там при старте тягания сохраняется узел/маркер и список волокон/полилайнов
-  moveNodeForPreview(nodeId: string, coors: L.LatLng) {
     const node = this.gisMapService.getNode(nodeId);
-    const layerType = GisMapUtils.equipmentTypeToGisMapLayer(node!.equipmentType);
-    const group = this.gisMapService.getLayerGroups().get(layerType);
-    const marker = group!.getLayers().find((m) => (<any>m).id === nodeId);
-
-    group?.removeLayer(marker!);
-    node.setCoors(coors);
-    const newMarker = MapLayersActions.addNodeToLayer(node);
-
-    const routesGroup = this.gisMapService.getLayerGroups().get(GisMapLayer.Route);
-    this.gisMapService.getGeoData().fibers.forEach((f) => {
-      if (f.node1id === nodeId || f.node2id === nodeId) {
-        const route = routesGroup!.getLayers().find((r) => (<any>r).id === f.id);
-        routesGroup?.removeLayer(route!);
-        if (f.node1id === nodeId) {
-          f.coors1 = coors;
-        } else {
-          f.coors2 = coors;
-        }
-        const polyline = MapLayersActions.addFiberToLayer(f);
-      }
-    });
+    node.coors = coors;
+    MapLayersActions.reDrawNodeWithItsFibers(node);
+    this.gisMapService.setHighlightNode(nodeId);
   }
 
   isUpdateTableDisabled() {

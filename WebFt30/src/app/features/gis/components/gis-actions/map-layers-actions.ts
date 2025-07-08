@@ -491,6 +491,28 @@ export class MapLayersActions {
     this.gisMapService.getGeoData().traces.splice(idx, 1);
   }
 
+  static reDrawNodeWithItsFibers(node: TraceNode) {
+    const layerType = GisMapUtils.equipmentTypeToGisMapLayer(node.equipmentType);
+    const group = this.gisMapService.getLayerGroups().get(layerType)!;
+    const marker = group.getLayers().find((m) => (<any>m).id === node.id);
+    group.removeLayer(marker!);
+    MapLayersActions.addNodeToLayer(node);
+
+    const routesGroup = this.gisMapService.getLayerGroups().get(GisMapLayer.Route);
+    this.gisMapService.getGeoData().fibers.forEach((f) => {
+      if (f.node1id === node.id || f.node2id === node.id) {
+        const route = routesGroup!.getLayers().find((r) => (<any>r).id === f.id);
+        routesGroup?.removeLayer(route!);
+        if (f.node1id === node.id) {
+          f.coors1 = node.coors;
+        } else {
+          f.coors2 = node.coors;
+        }
+        const polyline = MapLayersActions.addFiberToLayer(f);
+      }
+    });
+  }
+
   // перерисовать волокно
   // удалит из leaflet старую отрисовку участка и нарисует по новой
   static reDrawFiber(fiber: GeoFiber) {

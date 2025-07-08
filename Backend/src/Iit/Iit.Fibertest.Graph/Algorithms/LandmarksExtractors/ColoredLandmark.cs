@@ -107,7 +107,7 @@ public class ColoredLandmark
     {
         return NodeCommentColor == "Cornsilk" || NodeTitleColor == "Cornsilk" 
                || EquipmentTitleColor == "Cornsilk" || EquipmentTypeColor == "Cornsilk"
-               || CableReservesColor == "Cornsilk" || GpsCoorsColor == "Cornsilk";
+               || CableReservesColor == "Cornsilk" || GpsSectionColor == "Cornsilk"|| GpsCoorsColor == "Cornsilk";
     }
 
 
