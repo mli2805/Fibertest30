@@ -29,7 +29,9 @@
           [ngClass]="{ 'disabled-label': !hasChangeRtuAddressPermission }"
           >{{ 'i18n.ft.port' | translate }}</label
         >
-        <div class="text-sm">{{ networkAddress.port }}</div>
+        <ng-container *ngIf="networkAddress.port !== -1">
+          <div class="text-sm">{{ networkAddress.port }}</div>
+        </ng-container>
       </div>
     </fieldset>
 
