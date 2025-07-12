@@ -50,7 +50,7 @@
               >({{ rtu.reserveChannel }})</span
             >
           </div>
-          <div [ngClass]="{ 'text-red-500': rtu.mainChannelState === rtuPartState.Broken }">
+          <div [ngClass]="{ 'text-red-500': rtu.reserveChannelState === rtuPartState.Broken }">
             {{ rtu.reserveChannelState | rtuPartStatePipe | translate }}
           </div>
         </div>
