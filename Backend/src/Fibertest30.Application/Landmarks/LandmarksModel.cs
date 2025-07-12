@@ -217,4 +217,11 @@ public class LandmarksModel
 
         return LandmarksToRows(_changedLandmarks, _originalLandmarkRows, _isFilterOn);
     }
+
+    public void SaveAllChanges(IServiceScope scope)
+    {
+        var eventStoreService = scope.ServiceProvider.GetRequiredService<IEventStoreService>();
+        var list = _command.GetCommands();
+        eventStoreService.SendCommands(list, "Server", "");
+    }
 }

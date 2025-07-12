@@ -73,6 +73,15 @@ public class LandmarksModelManager(ILogger<LandmarksModelManager> logger, IServi
 
     public Task SaveAllChanges(List<Guid> modelIds)
     {
+        using var scope = serviceScopeFactory.CreateScope();
+
+        foreach (var modelId in modelIds)
+        {
+            var result = _models.TryGetValue(modelId, out LandmarksModel? model);
+            if (!result) continue;
+
+            model!.SaveAllChanges(scope);
+        }
         return Task.CompletedTask;
     }
 }

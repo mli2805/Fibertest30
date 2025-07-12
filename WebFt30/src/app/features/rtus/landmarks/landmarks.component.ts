@@ -22,6 +22,11 @@ import { MapLayersActions } from '../../gis/components/gis-actions/map-layers-ac
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 import { Dialog } from '@angular/cdk/dialog';
 
+export class CreatedModel {
+  modelId!: string;
+  traceId!: string;
+}
+
 @Component({
   selector: 'rtu-landmarks',
   templateUrl: './landmarks.component.html'
@@ -57,7 +62,8 @@ export class LandmarksComponent implements OnInit, OnDestroy {
 
   rtuTraces!: GeoTrace[];
 
-  lmsModelIds!: string[];
+  // lmsModelIds!: string[];
+  createdModels!: CreatedModel[];
   lmsModelId!: string;
   loading$ = this.store.select(LandmarksModelsSelectors.selectLoading);
   loaded$ = this.store.select(LandmarksModelsSelectors.selectLoaded);
@@ -86,7 +92,7 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-    this.lmsModelIds = [];
+    this.createdModels = [];
     this.gpsInputFormat = CoreUtils.getCurrentState(
       this.store,
       SettingsSelectors.selectLatLngFormat
@@ -101,11 +107,14 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   }
 
   initializeLandmarksFromTraceId() {
-    this.lmsModelId = crypto.randomUUID();
-    if (!this.lmsModelIds.includes(this.lmsModelId)) {
-      // возможны переключения на другую трассу, храним id всех моделей
-      this.lmsModelIds.push(this.lmsModelId);
+    const existingModel = this.createdModels.find((m) => m.traceId === this.traceId);
+    if (existingModel === undefined) {
+      this.lmsModelId = crypto.randomUUID();
+      this.createdModels.push({ traceId: this.traceId, modelId: this.lmsModelId });
+    } else {
+      this.lmsModelId = existingModel.modelId;
     }
+
     // переподписываемся с новым lmsModelId
     const modelInStore$ = this.store.select(
       LandmarksModelsSelectors.selectLandmarksModelById(this.lmsModelId)
@@ -131,12 +140,21 @@ export class LandmarksComponent implements OnInit, OnDestroy {
         }
       })
     );
-    this.store.dispatch(
-      LandmarksModelsActions.createLandmarksModel({
-        landmarksModelId: this.lmsModelId,
-        traceId: this.traceId
-      })
-    );
+
+    if (existingModel === undefined) {
+      this.store.dispatch(
+        LandmarksModelsActions.createLandmarksModel({
+          landmarksModelId: this.lmsModelId,
+          traceId: this.traceId
+        })
+      );
+    } else {
+      this.store.dispatch(
+        LandmarksModelsActions.getLandmarksModel({
+          landmarksModelId: this.lmsModelId
+        })
+      );
+    }
 
     this.trace = this.gisMapService.getGeoData().traces.find((t) => t.id === this.traceId)!;
   }
@@ -247,7 +265,11 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   }
 
   saveChanges() {
-    //
+    this.store.dispatch(
+      LandmarksModelsActions.applyLandmarkChanges({
+        landmarksModelIds: this.createdModels.map((m) => m.modelId)
+      })
+    );
   }
 
   async closeButton() {
@@ -335,6 +357,9 @@ export class LandmarksComponent implements OnInit, OnDestroy {
       .getGeoData()
       .equipments.find((e) => e.id === landmark.equipmentId);
 
+    // почему-то не всегда находит RTU как оборудование
+    // 1) можно пропускать рту, его нельзя редактировать
+    // 2) разобраться почему на .117 нету оборудования рту
     if (equipment) {
       equipment.title = landmark.equipmentTitle;
       equipment.type = landmark.equipmentType;

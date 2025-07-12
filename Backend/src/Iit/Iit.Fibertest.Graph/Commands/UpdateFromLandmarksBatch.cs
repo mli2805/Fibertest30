@@ -24,19 +24,30 @@ namespace Iit.Fibertest.Graph
         private static readonly JsonSerializerSettings JsonSerializerSettings =
             new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
 
-        public static LandmarksCorrectionDto BuildDto(this UpdateFromLandmarksBatch command)
+        // FT20
+        // public static LandmarksCorrectionDto BuildDto(this UpdateFromLandmarksBatch command)
+        // {
+        //     if (!command.Any()) return null;
+        //     var dto = new LandmarksCorrectionDto() { BatchId = Guid.NewGuid() };
+        //     dto.Corrections.AddRange(command.Nodes
+        //         .Select(o=>JsonConvert.SerializeObject(o, JsonSerializerSettings)));
+        //     dto.Corrections.AddRange(command.Fibers
+        //         .Select(o=>JsonConvert.SerializeObject(o, JsonSerializerSettings)));
+        //     dto.Corrections.AddRange(command.Equipments
+        //         .Select(o=>JsonConvert.SerializeObject(o, JsonSerializerSettings)));
+        //     dto.Corrections.AddRange(command.ReplaceEqs
+        //         .Select(o=>JsonConvert.SerializeObject(o, JsonSerializerSettings)));
+        //     return dto;
+        // }
+
+        public static List<object> GetCommands(this UpdateFromLandmarksBatch command)
         {
-            if (!command.Any()) return null;
-            var dto = new LandmarksCorrectionDto() { BatchId = Guid.NewGuid() };
-            dto.Corrections.AddRange(command.Nodes
-                .Select(o=>JsonConvert.SerializeObject(o, JsonSerializerSettings)));
-            dto.Corrections.AddRange(command.Fibers
-                .Select(o=>JsonConvert.SerializeObject(o, JsonSerializerSettings)));
-            dto.Corrections.AddRange(command.Equipments
-                .Select(o=>JsonConvert.SerializeObject(o, JsonSerializerSettings)));
-            dto.Corrections.AddRange(command.ReplaceEqs
-                .Select(o=>JsonConvert.SerializeObject(o, JsonSerializerSettings)));
-            return dto;
+            var result = new List<object>();
+            result.AddRange(command.Nodes);
+            result.AddRange(command.Fibers);
+            result.AddRange(command.Equipments);
+            result.AddRange(command.ReplaceEqs);
+            return result;
         }
 
         public static void ClearAll(this UpdateFromLandmarksBatch command)
