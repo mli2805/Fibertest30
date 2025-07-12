@@ -94,7 +94,6 @@ export class MapExternalCommands {
   }
 
   static async reloadAllGeoData() {
-    console.log(`reload`);
     const response = await firstValueFrom(this.gisService.getAllGeoData());
     const geoData = GisMapping.fromGrpcGeoData(response.data!);
     this.gisMapService.setGeoData(geoData);

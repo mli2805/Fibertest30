@@ -32,7 +32,7 @@ export class AddRtuDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.nodeId);
+    const rtu = this.gisMapService.getGeoData().equipments.find((e) => e.nodeId === this.nodeId);
     const rtuId =
       this.payload.mode === RtuInfoMode.AddRtu
         ? crypto.randomUUID()
@@ -41,7 +41,8 @@ export class AddRtuDialogComponent implements OnInit {
       hasPermission: true,
       mode: this.payload.mode,
       rtuId: rtuId,
-      rtuNode: this.payload.node
+      rtuNode: this.payload.node,
+      rtu: rtu // underfined если создание нового
     };
   }
 
@@ -89,6 +90,7 @@ export class AddRtuDialogComponent implements OnInit {
   }
 
   async onCloseUpdateRtu(node: TraceNode) {
+    this.spinning.next(true);
     const command = {
       RtuId: this.rtuInfoData.rtuId,
       Title: node.title,
@@ -104,6 +106,7 @@ export class AddRtuDialogComponent implements OnInit {
       group.removeLayer(marker!);
       MapLayersActions.addNodeToLayer(node);
     }
+    this.spinning.next(false);
   }
 
   close() {

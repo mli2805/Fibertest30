@@ -7,7 +7,7 @@ import {
   ValidatorFn
 } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';
+import { GeoEquipment, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
 import { EquipmentType } from 'src/grpc-generated';
 
@@ -26,6 +26,7 @@ export class RtuInfoComponent {
   mode!: RtuInfoMode;
   rtuId!: string;
   rtuNode!: TraceNode;
+  rtu!: GeoEquipment | undefined;
   form!: FormGroup;
 
   @Input() set data(value: any) {
@@ -33,9 +34,10 @@ export class RtuInfoComponent {
     this.mode = value.mode;
     this.rtuId = value.rtuId;
     this.rtuNode = value.rtuNode;
+    this.rtu = value.rtu;
     this.form = new FormGroup({
       title: new FormControl(value.rtuNode.title, [this.rtuTitleValidator()]),
-      comment: new FormControl(value.rtuNode.comment)
+      comment: new FormControl(value.rtu?.comment ?? '')
     });
   }
 

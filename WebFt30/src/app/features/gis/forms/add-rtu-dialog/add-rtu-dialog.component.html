@@ -15,3 +15,5 @@
     (closeEvent)="onCloseEvent($event)"
   ></rtu-rtu-info>
 </rtu-draggable-window>
+
+<rtu-loading-centered-big-spinner *ngIf="spinning$ | async"></rtu-loading-centered-big-spinner>
