@@ -99,7 +99,7 @@ namespace Fibertest30.Infrastructure
 
             if (rtu.IsAvailable)
             {
-                var result = await rtuManager.AssignBaseRefs(CreateAssignBaseRefsDto(rtu, trace, listOfBaseRef));
+                var result = await rtuManager.TransmitBaseRefs(CreateAssignBaseRefsDto(rtu, trace, listOfBaseRef));
                 if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                     return new RequestAnswer()
                     {

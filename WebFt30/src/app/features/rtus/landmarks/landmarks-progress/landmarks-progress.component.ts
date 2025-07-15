@@ -54,7 +54,10 @@ export class LandmarksProgressComponent {
         isProblem: true
       };
 
-    const problems = data.filter((l) => !l.IsSuccess);
+    console.log(data);
+    const problems = data.filter(
+      (l) => l.Step === LandmarksUpdateProgress.TraceBaseRefsProcessed && !l.IsSuccess
+    );
     if (problems.length === 0) {
       this.resultCode = ReturnCode.Ok;
       return { message: this.ts.instant('i18n.ft.success'), isProblem: false };

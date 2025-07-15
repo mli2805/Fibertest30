@@ -4,6 +4,19 @@ using Iit.Fibertest.Graph;
 namespace Fibertest30.Infrastructure;
 public partial class RtuManager
 {
+    public async Task<BaseRefAssignedDto> TransmitBaseRefs(AssignBaseRefsDto dto)
+    {
+        if (!_rtuOccupationService.TrySetOccupation(dto.RtuId, RtuOccupation.AssignBaseRefs,
+                _currentUserService.UserName, out RtuOccupationState? _))
+            throw new RtuIsBusyException(dto.RtuId.ToString());
+
+        var rtuDoubleAddress = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+        if (rtuDoubleAddress == null)
+            throw new NoSuchRtuException(dto.RtuId.ToString());
+
+        return await _rtuTransmitter.SendCommand<AssignBaseRefsDto, BaseRefAssignedDto>(dto, rtuDoubleAddress);
+    }
+
     public async Task<BaseRefAssignedDto> AssignBaseRefs(AssignBaseRefsDto dto)
     {
         var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.TraceId);
@@ -20,7 +33,7 @@ public partial class RtuManager
         if (dto.OtauPortDto != null) // trace attached to the real port => send base to RTU
         {
             // проверить не занят ли
-            if (!_rtuOccupationService.TrySetOccupation(dto.RtuId, RtuOccupation.MonitoringSettings,
+            if (!_rtuOccupationService.TrySetOccupation(dto.RtuId, RtuOccupation.AssignBaseRefs,
                     _currentUserService.UserName, out RtuOccupationState? _))
                 throw new RtuIsBusyException(dto.RtuId.ToString());
 
