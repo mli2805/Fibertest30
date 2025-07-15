@@ -218,10 +218,44 @@ public class LandmarksModel
         return LandmarksToRows(_changedLandmarks, _originalLandmarkRows, _isFilterOn);
     }
 
-    public void SaveAllChanges(IServiceScope scope)
+    public async Task SaveAllChanges(IServiceScopeFactory serviceScopeFactory)
     {
+        using var scope = serviceScopeFactory.CreateScope();
         var eventStoreService = scope.ServiceProvider.GetRequiredService<IEventStoreService>();
+        var systemEventSender = scope.ServiceProvider.GetRequiredService<ISystemEventSender>();
         var list = _command.GetCommands();
-        eventStoreService.SendCommands(list, "Server", "");
+        var success = await eventStoreService.SendCommands(list, "Server", "");
+        await systemEventSender.Send(SystemEventFactory.LandmarksUpdateProgressed(_landmarksModelId,
+            LandmarksUpdateProgress.CommandsPersistedInEventStorage, Guid.Empty, -1, -1,
+            success ? ReturnCode.LandmarkChangesAppliedSuccessfully : ReturnCode.FailedToApplyLandmarkChanges, success));
+        if (!success) return;
+
+        var writeModel = scope.ServiceProvider.GetRequiredService<Model>();
+        var traces = writeModel.GetTracesInvolved(list).ToList();
+
+        var baseRefRepairman = scope.ServiceProvider.GetRequiredService<IBaseRefRepairman>();
+
+        var flag = true;
+        var idx = 0;
+        var tracesCount = traces.Count;
+        foreach (Trace trace in traces)
+        {
+            var traceResult = await baseRefRepairman
+                .AmendBaseRefsForOneTrace(trace);
+
+            var traceFlag = traceResult.ReturnCode == ReturnCode.BaseRefsSavedSuccessfully
+                            || traceResult.ReturnCode == ReturnCode.BaseRefsForTraceSentSuccessfully;
+
+            await systemEventSender.Send(SystemEventFactory.LandmarksUpdateProgressed(_landmarksModelId,
+                LandmarksUpdateProgress.TraceBaseRefsProcessed, trace.TraceId,
+                tracesCount, ++idx, traceResult.ReturnCode, traceFlag));
+
+            if (!traceFlag)
+                flag = false;
+        }
+
+        await systemEventSender.Send(SystemEventFactory.LandmarksUpdateProgressed(_landmarksModelId,
+            LandmarksUpdateProgress.AllDone, Guid.Empty, -1, -1, 
+            flag ? ReturnCode.Ok : ReturnCode.Error, flag));
     }
 }

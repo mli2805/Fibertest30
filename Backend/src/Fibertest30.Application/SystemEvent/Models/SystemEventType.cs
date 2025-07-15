@@ -57,4 +57,6 @@ public enum SystemEventType
     NetworkEventAdded,
     BopNetworkEventAdded,
     RtuStateAccidentAdded,
+
+    LandmarksUpdateProgressed
 }

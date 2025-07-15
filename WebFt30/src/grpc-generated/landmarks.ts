@@ -254,9 +254,9 @@ export interface ClearLandmarksModelResponse {
  */
 export interface ApplyLandmarkChangesRequest {
     /**
-     * @generated from protobuf field: repeated string landmarksModelIds = 1;
+     * @generated from protobuf field: string landmarksModelId = 1;
      */
-    landmarksModelIds: string[];
+    landmarksModelId: string;
 }
 /**
  * @generated from protobuf message fibertest30.landmarks.ApplyLandmarkChangesResponse
@@ -456,7 +456,7 @@ export const ClearLandmarksModelResponse = new ClearLandmarksModelResponse$Type(
 class ApplyLandmarkChangesRequest$Type extends MessageType<ApplyLandmarkChangesRequest> {
     constructor() {
         super("fibertest30.landmarks.ApplyLandmarkChangesRequest", [
-            { no: 1, name: "landmarksModelIds", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "landmarksModelId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

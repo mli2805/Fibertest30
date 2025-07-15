@@ -12,7 +12,8 @@ namespace Fibertest30.Infrastructure
     {
         public async Task<string?> AmendForTracesWhichUseThisNode(Guid nodeId)
         {
-            var tracesWhichUseThisNode = writeModel.Traces.Where(t => t.NodeIds.Contains(nodeId) && t.HasAnyBaseRef).ToList();
+            var tracesWhichUseThisNode = writeModel.Traces
+                .Where(t => t.NodeIds.Contains(nodeId) && t.HasAnyBaseRef).ToList();
             return await AmendBaseRefs(tracesWhichUseThisNode);
         }
 
@@ -62,7 +63,7 @@ namespace Fibertest30.Infrastructure
 
 
 
-        private async Task<RequestAnswer> AmendBaseRefsForOneTrace(Trace trace)
+        public async Task<RequestAnswer> AmendBaseRefsForOneTrace(Trace trace)
         {
             var listOfBaseRef = await GetBaseRefDtos(trace);
 
@@ -90,7 +91,7 @@ namespace Fibertest30.Infrastructure
             }
 
             if (trace.OtauPort == null) // unattached trace
-                return new RequestAnswer() { ReturnCode = ReturnCode.Ok };
+                return new RequestAnswer() { ReturnCode = ReturnCode.BaseRefsSavedSuccessfully };
 
             var rtu = writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
             if (rtu == null)
@@ -114,7 +115,7 @@ namespace Fibertest30.Infrastructure
                 };
             }
 
-            return new RequestAnswer() { ReturnCode = ReturnCode.Ok };
+            return new RequestAnswer() { ReturnCode = ReturnCode.BaseRefsForTraceSentSuccessfully };
         }
 
         // вернет список dto где SorBytes не пустая

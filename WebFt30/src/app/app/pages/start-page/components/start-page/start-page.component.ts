@@ -14,7 +14,8 @@ import {
   AudioEventsSelectors,
   DeviceActions,
   RtuTreeSelectors,
-  SettingsSelectors
+  SettingsSelectors,
+  LandmarksModelsActions
 } from 'src/app/core';
 import { AuthUtils } from 'src/app/core/auth/auth.utils';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -59,6 +60,7 @@ import { GisMapService } from 'src/app/features/gis/gis-map.service';
 import { WindowService } from '../window.service';
 import { BaseRefType, FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { AudioEventsMapping } from './audio-events-mapping';
+import { LandmarksUpdateProgressedData } from 'src/app/shared/system-events/system-event-data/landmarks-update';
 
 @Component({
   selector: 'rtu-start-page',
@@ -400,6 +402,10 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         this.store.dispatch(DeviceActions.getHasCurrentEvents());
         this.audioService.play(audioEvent);
         return;
+      }
+      case 'LandmarksUpdateProgressed': {
+        const data = <LandmarksUpdateProgressedData>JSON.parse(systemEvent.jsonData);
+        this.store.dispatch(LandmarksModelsActions.updateLandmarksProgress({ line: data }));
       }
     }
   }

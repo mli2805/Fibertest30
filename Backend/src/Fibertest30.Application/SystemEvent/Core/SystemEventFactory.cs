@@ -171,4 +171,13 @@ public static class SystemEventFactory
             new RtuStateAccidentAddedData(eventId, registeredAt, objTitle, objId, rtuId, isOk),
             SystemEventSource.FromSource("DataCenter"));
     }
+
+    public static SystemEvent LandmarksUpdateProgressed(
+        Guid landmarksModelId, LandmarksUpdateProgress step, Guid traceId, int traceCount, int traceNumber,
+        ReturnCode returnCode, bool isSuccess)
+    {
+        return new SystemEvent(SystemEventType.LandmarksUpdateProgressed, SystemEventLevel.Info,
+            new LandmarksUpdateProgressedData(landmarksModelId, step, traceId, traceCount, traceNumber, returnCode, isSuccess)  ,
+            SystemEventSource.FromSource("DataCenter"));
+    }
 }

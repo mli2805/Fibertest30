@@ -130,17 +130,21 @@ public class EventStoreService : IEventStoreService
         return eventMessages.Count;
     }
 
-    public Task<int> SendCommands(List<object> cmds, string? username, string clientIp)
+    public Task<bool> SendCommands(List<object> cmds, string? username, string clientIp)
     {
+        var flag = true;
         foreach (var cmd in cmds)
         {
             var result = _commandAggregator.Validate(cmd);
             if (!string.IsNullOrEmpty(result))
+            {
                 _logger.LogError(result);
+                flag = false;
+            }
         }
 
         StoreEventsInDb(username, clientIp);
-        return Task.FromResult(cmds.Count);
+        return Task.FromResult(flag);
     }
 
     public Task<string?> SendCommand(object cmd, string? username, string clientIp)

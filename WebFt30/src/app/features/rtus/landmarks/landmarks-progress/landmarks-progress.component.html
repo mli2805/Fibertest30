@@ -1,0 +1,36 @@
+<div class="my-dialog">
+  <div class="m-2">{{ 'i18n.ft.saving-landmark-changes' | translate }}</div>
+  <ng-container *ngIf="progressLines$ | async as lines">
+    <div class="grouped-border m-1 flex h-24 items-center justify-center">
+      <ng-container *ngIf="(done$ | async) === false">
+        <div class="flex">
+          <span>{{ 'i18n.ft.saving-landmark-changes' | translate }}</span>
+          <rtu-loading-spinner class="ml-2 h-4 w-4"></rtu-loading-spinner>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="(done$ | async) === true">
+        <ng-container *ngIf="finishLine$ | async as finishLine">
+          <div [ngClass]="{ 'text-red-500': finishLine.isProblem }">
+            {{ finishLine.message }}
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+    <div class="grouped-border m-1 flex h-48 w-192 flex-col overflow-y-auto">
+      <ng-container *ngFor="let line of lines">
+        <div class="mb-1" [ngClass]="{ 'text-red-500': line.isProblem }">
+          {{ line.message | translate }}
+        </div>
+      </ng-container>
+    </div>
+    <div class="flex justify-end">
+      <button
+        class="button-extra m-2 min-w-36"
+        [disabled]="(done$ | async) === false"
+        (click)="onCloseClicked()"
+      >
+        {{ 'i18n.ft.close' | translate }}
+      </button>
+    </div>
+  </ng-container>
+</div>

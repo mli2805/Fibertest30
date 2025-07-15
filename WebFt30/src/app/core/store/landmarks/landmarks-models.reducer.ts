@@ -11,7 +11,8 @@ export const LandmarksModelsStateAdapter = createEntityAdapter<LandmarksModel>({
 export const initialState: LandmarksModelsState = LandmarksModelsStateAdapter.getInitialState({
   loaded: false,
   loading: false,
-  errorMessageId: null
+  errorMessageId: null,
+  progress: []
 });
 
 const reducer = createReducer(
@@ -39,8 +40,8 @@ const reducer = createReducer(
   })),
   on(LandmarksModelsActions.applyLandmarkChanges, (state) => ({
     ...state,
-    loading: true,
-    errorMessageId: null
+    errorMessageId: null,
+    progress: []
   })),
   on(
     LandmarksModelsActions.getLandmarksModelSuccess,
@@ -57,7 +58,14 @@ const reducer = createReducer(
     (state, { landmarksModelId: landmarksModelsId }) => {
       return LandmarksModelsStateAdapter.removeOne(landmarksModelsId, { ...state, loading: false });
     }
-  )
+  ),
+
+  on(LandmarksModelsActions.updateLandmarksProgress, (state, { line }) => ({
+    ...state,
+    loading: true,
+    errorMessageId: null,
+    progress: [...state.progress, line]
+  }))
 );
 
 export function landmarksModelsReducer(

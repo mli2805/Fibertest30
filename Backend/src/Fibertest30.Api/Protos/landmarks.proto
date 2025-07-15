@@ -109,7 +109,7 @@ message ClearLandmarksModelResponse {}
 
 // ApplyLandmarkChanges
 message ApplyLandmarkChangesRequest {
-	repeated string landmarksModelIds = 1;
+	string landmarksModelId = 1;
 }
 
 message ApplyLandmarkChangesResponse {}

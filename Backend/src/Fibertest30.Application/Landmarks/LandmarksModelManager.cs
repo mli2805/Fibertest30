@@ -33,35 +33,35 @@ public class LandmarksModelManager(ILogger<LandmarksModelManager> logger, IServi
         return model;
     }
 
-    public async Task<LandmarksModel?> UpdateOneLandmark(Guid modelId, ColoredLandmark changedLandmark)
+    public async Task<LandmarksModel> UpdateOneLandmark(Guid modelId, ColoredLandmark changedLandmark)
     {
         var result = _models.TryGetValue(modelId, out LandmarksModel? model);
-        if (!result) return null;
+        if (!result) throw new ArgumentException();
 
         using var scope = serviceScopeFactory.CreateScope();
         return await model!.UpdateOneLandmark(changedLandmark, scope);
     }
 
-    public LandmarksModel? UpdateFilterEmptyNodes(Guid modelId, bool isFilterOn)
+    public LandmarksModel UpdateFilterEmptyNodes(Guid modelId, bool isFilterOn)
     {
         var result = _models.TryGetValue(modelId, out LandmarksModel? model);
-        if (!result) return null;
+        if (!result) throw new ArgumentException();
 
         return model!.UpdateFilterEmptyNodes(isFilterOn);
     }
 
-    public LandmarksModel? CancelOneRowChanges(Guid modelId, int row)
+    public LandmarksModel CancelOneRowChanges(Guid modelId, int row)
     {
         var result = _models.TryGetValue(modelId, out LandmarksModel? model);
-        if (!result) return null;
+        if (!result) throw new ArgumentException();
 
         return model!.CancelOneRowChanges(row, serviceScopeFactory);
     }
-    
-    public LandmarksModel? CancelAllChanges(Guid modelId)
+
+    public LandmarksModel CancelAllChanges(Guid modelId)
     {
         var result = _models.TryGetValue(modelId, out LandmarksModel? model);
-        if (!result) return null;
+        if (!result) throw new ArgumentException();
 
         return model!.CancelAllRowsChanges();
     }
@@ -71,17 +71,13 @@ public class LandmarksModelManager(ILogger<LandmarksModelManager> logger, IServi
         _models.TryRemove(modelId, out LandmarksModel? _);
     }
 
-    public Task SaveAllChanges(List<Guid> modelIds)
+    public void SaveAllChanges(Guid modelId)
     {
-        using var scope = serviceScopeFactory.CreateScope();
+        var result = _models.TryGetValue(modelId, out LandmarksModel? model);
+        if (!result) throw new ArgumentException();
 
-        foreach (var modelId in modelIds)
-        {
-            var result = _models.TryGetValue(modelId, out LandmarksModel? model);
-            if (!result) continue;
-
-            model!.SaveAllChanges(scope);
-        }
-        return Task.CompletedTask;
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        Task.Factory.StartNew(() => model!.SaveAllChanges(serviceScopeFactory));
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
     }
 }

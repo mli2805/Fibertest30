@@ -1,6 +1,6 @@
 import { Component, HostListener, inject, Injector, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Subscription } from 'rxjs';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 import {
   AppState,
@@ -21,6 +21,8 @@ import { ColoredLandmark, LandmarksModel } from 'src/app/core/store/models/ft30/
 import { MapLayersActions } from '../../gis/components/gis-actions/map-layers-actions';
 import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-box-utils';
 import { Dialog } from '@angular/cdk/dialog';
+import { LandmarksProgressComponent } from './landmarks-progress/landmarks-progress.component';
+import { ReturnCode } from 'src/app/core/store/models/ft30/return-code';
 
 export class CreatedModel {
   modelId!: string;
@@ -264,12 +266,27 @@ export class LandmarksComponent implements OnInit, OnDestroy {
     return idx === -1;
   }
 
-  saveChanges() {
+  async saveChanges() {
     this.store.dispatch(
       LandmarksModelsActions.applyLandmarkChanges({
-        landmarksModelIds: this.createdModels.map((m) => m.modelId)
+        landmarksModelId: this.lmsModelId
       })
     );
+
+    const subscription = this.dialog.open(LandmarksProgressComponent, {
+      disableClose: true
+    });
+
+    const result = await firstValueFrom(subscription.closed);
+
+    // должны всегда сюда попадать
+    if (result !== ReturnCode.FailedToApplyLandmarkChanges) {
+      // пересоздать модель для этой трассы
+      const idx = this.createdModels.findIndex((m) => m.traceId === this.traceId);
+      this.createdModels.splice(idx, 1);
+
+      this.initializeLandmarksFromTraceId();
+    }
   }
 
   async closeButton() {

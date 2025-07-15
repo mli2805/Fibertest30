@@ -16,6 +16,11 @@ const selectLoading = createSelector(
   (state: LandmarksModelsState) => state.loading
 );
 
+const selectProgress = createSelector(
+  selectLandmarksModelsState,
+  (state: LandmarksModelsState) => state.progress
+);
+
 const selectErrorMessageId = createSelector(
   selectLandmarksModelsState,
   (state: LandmarksModelsState) => state.errorMessageId
@@ -29,6 +34,7 @@ const selectLandmarksModelById = (landmarksModelId: string) =>
 export const LandmarksModelsSelectors = {
   selectLoaded,
   selectLoading,
+  selectProgress,
   selectErrorMessageId,
   selectLandmarksModelById
 };

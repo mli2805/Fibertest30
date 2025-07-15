@@ -91,8 +91,8 @@ export class LandmarksService {
     );
   }
 
-  applyLandmarkChanges(landmarksModelIds: string[]) {
-    const request: grpc.ApplyLandmarkChangesRequest = { landmarksModelIds };
+  applyLandmarkChanges(landmarksModelId: string) {
+    const request: grpc.ApplyLandmarkChangesRequest = { landmarksModelId };
     return GrpcUtils.unaryToObservable(
       this.client.applyLandmarkChanges.bind(this.client),
       request,

@@ -63,7 +63,7 @@ public class LandmarksService(ISender mediator) : Landmarks.LandmarksBase
     public override async Task<ApplyLandmarkChangesResponse> ApplyLandmarkChanges(ApplyLandmarkChangesRequest request, 
         ServerCallContext context)
     {
-        await mediator.Send(new ApplyLandmarkChangesCommand(request.LandmarksModelIds.Select(Guid.Parse).ToList()),
+        await mediator.Send(new ApplyLandmarkChangesCommand(Guid.Parse(request.LandmarksModelId)),
             context.CancellationToken);
 
         return new ApplyLandmarkChangesResponse();

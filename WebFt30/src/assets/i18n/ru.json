@@ -1,4 +1,6 @@
 {
+  "i18n.ft.close": "Закрыть",
+
   "i18n.ft.profile": "Профиль",
   "i18n.ft.sign-out": "Выйти",
   "i18n.ft.signed-in-as": "Пользователь",
@@ -437,5 +439,18 @@
   "i18n.ft.cancel-all-changes": "Отменить все изменения",
   "i18n.ft.save-changes": "Сохранить изменения",
   "i18n.ft.invalid-input": "Некорректный ввод",
-  "i18n.ft.all-changes-will-be-cancelled-continue": "Все изменения будут отменены. Продолжить?"
+  "i18n.ft.all-changes-will-be-cancelled-continue": "Все изменения будут отменены. Продолжить?",
+  "i18n.ft.saving-landmark-changes": "Сохранение изменений ориентиров",
+  "i18n.ft.landmark-changes-applied-successfully": "Изменения ориентиров применены успешно",
+  "i18n.ft.failed-to-apply-landmark-changes": "Не удалось применить изменения ориентиров",
+  "i18n.ft.base-refs-for-trace-modified-successfully": "Базовые рефлектограммы трассы изменены успешно",
+  "i18n.ft.failed-to-modify-base-ref": "Не удалось изменить базовую рефлектограмму",
+  "i18n.ft.failed-to-get-base-ref": "Не удалось получить базовую рефлектограмму",
+  "i18n.ft.base-refs-saved-successfully": "Базовые рефлектограммы сохранены успешно",
+  "i18n.ft.failed-to-save-base-ref": "Не удалось сохранить базовую рефлектограмму",
+  "i18n.ft.base-refs-sent-successfully": "Базовые рефлектограммы переданы успешно",
+  "i18n.ft.failed-to-send-base-ref": "Не удалось послать базовую рефлектограмму",
+  "i18n.ft.traces-processed": "Обработано трасс",
+  "i18n.ft.attention-problems-found": "Внимание! Обнаружено проблем:",
+  "i18n.ft.unknown-code": "Неизвестный код {{ 0 }}"
 }

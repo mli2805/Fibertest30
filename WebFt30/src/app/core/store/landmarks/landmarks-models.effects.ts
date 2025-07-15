@@ -168,10 +168,10 @@ export class LandmarksModelsEffects {
   applyLandmarkChanges = createEffect(() =>
     this.actions$.pipe(
       ofType(LandmarksModelsActions.applyLandmarkChanges),
-      switchMap(({ landmarksModelIds }) => {
-        return this.landmarksService.applyLandmarkChanges(landmarksModelIds).pipe(
+      switchMap(({ landmarksModelId }) => {
+        return this.landmarksService.applyLandmarkChanges(landmarksModelId).pipe(
           switchMap(() => {
-            return this.landmarksService.getLandmarksModel(landmarksModelIds[0]).pipe(
+            return this.landmarksService.getLandmarksModel(landmarksModelId).pipe(
               map((response) =>
                 LandmarksModelsActions.getLandmarksModelSuccess({
                   landmarksModel: LandmarksMapping.fromGrpcLandmarksModel(response.landmarksModel!)

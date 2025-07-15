@@ -197,6 +197,9 @@ public static class SystemEventSupportedNotificationRules
         },{
             SystemEventType.RtuStateAccidentAdded,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },{
+            SystemEventType.LandmarksUpdateProgressed,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         }
     };
 

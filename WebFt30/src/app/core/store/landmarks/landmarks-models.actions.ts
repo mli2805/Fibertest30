@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { ColoredLandmark, LandmarksModel } from '../models/ft30/colored-landmark';
+import { LandmarksUpdateProgressedData } from 'src/app/shared/system-events/system-event-data/landmarks-update';
 
 const createLandmarksModel = createAction(
   '[LandmarksModels] Create Landmark Model',
@@ -79,7 +80,7 @@ const clearLandmarksModelFailure = createAction(
 
 const applyLandmarkChanges = createAction(
   '[LandmarksModels] Apply Landmark Changes',
-  props<{ landmarksModelIds: string[] }>()
+  props<{ landmarksModelId: string }>()
 );
 const applyLandmarkChangesSuccess = createAction(
   '[LandmarksModels] Apply Landmark Changes Success'
@@ -87,6 +88,11 @@ const applyLandmarkChangesSuccess = createAction(
 const applyLandmarkChangesFailure = createAction(
   '[LandmarksModels] Apply Landmark Changes Failure',
   props<{ errorMessageId: string }>()
+);
+
+const updateLandmarksProgress = createAction(
+  '[LandmarksModels] Update Landmarks Progress',
+  props<{ line: LandmarksUpdateProgressedData }>()
 );
 
 export const LandmarksModelsActions = {
@@ -116,5 +122,7 @@ export const LandmarksModelsActions = {
 
   applyLandmarkChanges,
   applyLandmarkChangesSuccess,
-  applyLandmarkChangesFailure
+  applyLandmarkChangesFailure,
+
+  updateLandmarksProgress
 };
