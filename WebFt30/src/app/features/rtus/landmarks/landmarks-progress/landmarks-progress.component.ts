@@ -54,7 +54,6 @@ export class LandmarksProgressComponent {
         isProblem: true
       };
 
-    console.log(data);
     const problems = data.filter(
       (l) => l.Step === LandmarksUpdateProgress.TraceBaseRefsProcessed && !l.IsSuccess
     );

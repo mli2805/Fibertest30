@@ -15,16 +15,6 @@ namespace Iit.Fibertest.Graph
             _readModel = readModel;
         }
 
-        public void AugmentFastBaseRefSentByMigrator(Guid traceId, BaseRefDto baseRefDto)
-        {
-            var trace = _readModel.Traces.First(t => t.TraceId == traceId);
-            var message = SorData.TryGetFromBytes(baseRefDto.SorBytes, out var otdrKnownBlocks);
-            if (message != "") return;
-            ApplyTraceToBaseRef(otdrKnownBlocks, trace,
-                otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length < trace.NodeIds.Count);
-            baseRefDto.SorBytes = otdrKnownBlocks.ToBytes();
-        }
-
         public void ApplyTraceToBaseRef(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace,
             bool needToInsertLandmarksForEmptyNodes)
         {
@@ -112,7 +102,7 @@ namespace Iit.Fibertest.Graph
                 if (i != 0 && !string.IsNullOrEmpty(model.EquipArray[i].Title))
                     landmarkTitle += $@" / {model.EquipArray[i].Title}";
 
-                landmarks[i].Comment = landmarkTitle; // utf8, Reflect can now read it
+                landmarks[i].Comment = landmarkTitle; // utf16
                 landmarks[i].Code = model.EquipArray[i].Type.ToLandmarkCode();
                 landmarks[i].GpsLatitude = GisLabCalculator.GpsInSorFormat(model.NodeArray[i].Position.Lat);
                 landmarks[i].GpsLongitude = GisLabCalculator.GpsInSorFormat(model.NodeArray[i].Position.Lng);

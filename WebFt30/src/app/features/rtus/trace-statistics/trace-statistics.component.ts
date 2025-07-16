@@ -83,7 +83,6 @@ export class TraceStatisticsComponent implements OnInit {
     const br = this.ts.instant(this.baseRefPipe.transform(line.baseRefType));
     const filename = `${this.trace.title} - ${br} - ${dt}.sor`;
     this.navigationService.baselineFileName = filename;
-    console.log(filename);
     this.router.navigate(['rtus/baseline', line.sorFileId]);
   }
 }
