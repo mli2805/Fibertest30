@@ -109,5 +109,6 @@ export class EditEquipmentDialogComponent {
 
   onEquipmentTypeChanged($event: any) {
     this.selectedType = $event;
+    this.form.markAsDirty();
   }
 }
