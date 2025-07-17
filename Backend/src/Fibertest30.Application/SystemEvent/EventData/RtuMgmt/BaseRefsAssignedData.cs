@@ -4,7 +4,6 @@ namespace Fibertest30.Application;
 
 public class BaseRefsAssignedData : ISystemEventData
 {
-    private readonly bool _hasBaseRefs;
     public string RtuId { get; init; }
     public string TraceId { get; init; }
     public string TraceTitle { get; init; }
@@ -12,10 +11,10 @@ public class BaseRefsAssignedData : ISystemEventData
 
     public BaseRefsAssignedData(string rtuId, string traceId, string traceTitle, bool hasBaseRefs)
     {
-        _hasBaseRefs = hasBaseRefs;
         RtuId = rtuId;
         TraceId = traceId;
         TraceTitle = traceTitle;
+        HasBaseRefs = hasBaseRefs;
     }
 
     public string ToJsonData()

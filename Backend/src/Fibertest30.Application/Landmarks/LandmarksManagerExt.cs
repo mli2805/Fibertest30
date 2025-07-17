@@ -1,5 +1,4 @@
 ﻿using Iit.Fibertest.Graph;
-using Newtonsoft.Json;
 
 namespace Fibertest30.Application
 {

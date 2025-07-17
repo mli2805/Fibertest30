@@ -1,7 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Fibertest30.Infrastructure;
 
 public class UserSystemNotificationEf
 {
+    [MaxLength(100)]
     public string UserId { get; set; } = null!;
     public int SystemEventId { get; set; }
 

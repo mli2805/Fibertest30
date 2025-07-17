@@ -1,12 +1,11 @@
 ﻿using Iit.Fibertest.Graph;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 
 namespace Fibertest30.Application;
 
 // Singleton который будет хранить модели между запросами клиентов
-public class LandmarksModelManager(ILogger<LandmarksModelManager> logger, IServiceScopeFactory serviceScopeFactory)
+public class LandmarksModelManager(IServiceScopeFactory serviceScopeFactory)
 {
     // Guid - рандомный id созданный на клиенте, чтобы обращаться к определенной модели
     // Ориентиры не модальная форма, каждый клиент может создать более одной
@@ -33,13 +32,13 @@ public class LandmarksModelManager(ILogger<LandmarksModelManager> logger, IServi
         return model;
     }
 
-    public async Task<LandmarksModel> UpdateOneLandmark(Guid modelId, ColoredLandmark changedLandmark)
+    public LandmarksModel UpdateOneLandmark(Guid modelId, ColoredLandmark changedLandmark)
     {
         var result = _models.TryGetValue(modelId, out LandmarksModel? model);
         if (!result) throw new ArgumentException();
 
         using var scope = serviceScopeFactory.CreateScope();
-        return await model!.UpdateOneLandmark(changedLandmark, scope);
+        return model!.UpdateOneLandmark(changedLandmark, scope);
     }
 
     public LandmarksModel UpdateFilterEmptyNodes(Guid modelId, bool isFilterOn)

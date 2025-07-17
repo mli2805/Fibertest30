@@ -59,14 +59,7 @@ public class EmailChannelSender : IEmailChannelSender
     }
 
   
-    private async Task<UserSettings?> FetchUserSettings(ApplicationUser user)
-    {
-        using var scope = _serviceScopeFactory.CreateScope();
-
-        var userSettingsRepository = scope.ServiceProvider.GetRequiredService<IUserSettingsRepository>();
-        return await userSettingsRepository.GetUserSettings(user.Id);
-    }
-
+ 
    
 
     public Task Send(SystemEvent systemEvent, CancellationToken ct)

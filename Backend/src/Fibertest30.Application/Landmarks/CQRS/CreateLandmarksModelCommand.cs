@@ -1,5 +1,4 @@
-﻿using Iit.Fibertest.Graph;
-using MediatR;
+﻿using MediatR;
 
 namespace Fibertest30.Application;
 
@@ -10,7 +9,7 @@ public class CreateLandmarksModelCommandHandler(LandmarksModelManager landmarksM
 {
     public async Task<Unit> Handle(CreateLandmarksModelCommand request, CancellationToken cancellationToken)
     {
-        var model = await landmarksModelManager.Create(request.LandmarksModelId, request.TraceId);
+        await landmarksModelManager.Create(request.LandmarksModelId, request.TraceId);
 
         return Unit.Value;
     }

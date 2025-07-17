@@ -75,7 +75,7 @@ public class MakLinuxHttpTransmitter : IRtuTransmitter
             }
             return result;
         }
-        catch (Exception e)
+        catch (Exception )
         {
             return new RtuCurrentStateDto(ReturnCode.D2RHttpError);
         }

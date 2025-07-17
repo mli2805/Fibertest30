@@ -85,7 +85,7 @@ public class LandmarksModel
     }
 
 
-    public async Task<LandmarksModel> UpdateOneLandmark(ColoredLandmark changedColoredLandmark, IServiceScope scope)
+    public LandmarksModel UpdateOneLandmark(ColoredLandmark changedColoredLandmark, IServiceScope scope)
     {
         var hasRowChanges = false;
 

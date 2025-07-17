@@ -21,11 +21,11 @@ public class ServerDbContextInitializer(ILogger<ServerDbContextInitializer> logg
         }
     }
 
-    public async Task SeedAsync(string seedDemoOtaus = "", bool seedDemoUsers = false)
+    public async Task SeedAsync(bool seedDemoUsers)
     {
         try
         {
-            await TrySeedAsync(seedDemoOtaus, seedDemoUsers);
+            await TrySeedAsync(seedDemoUsers);
         }
         catch (Exception ex)
         {
@@ -34,7 +34,7 @@ public class ServerDbContextInitializer(ILogger<ServerDbContextInitializer> logg
         }
     }
 
-    private async Task TrySeedAsync(string seedDemoOtaus, bool seedDemoUsers)
+    private async Task TrySeedAsync(bool seedDemoUsers)
     {
         // NOTE: It is called at each start
         // Don't forget to check if seed is needed

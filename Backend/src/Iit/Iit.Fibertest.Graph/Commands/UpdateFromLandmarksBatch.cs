@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Iit.Fibertest.Dto;
 using Newtonsoft.Json;
 
 namespace Iit.Fibertest.Graph

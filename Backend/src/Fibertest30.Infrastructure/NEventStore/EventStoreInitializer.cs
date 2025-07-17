@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 using NEventStore;
@@ -12,7 +11,6 @@ public class EventStoreInitializer
 {
     private readonly ILogger<EventStoreInitializer> _logger;
     private readonly MySerializer _mySerializer;
-    private readonly IServiceProvider _serviceProvider;
     private string EventSourcingScheme => "ft20graph";
     public string EventSourcingConnectionString { get; init; }
 
@@ -28,11 +26,10 @@ public class EventStoreInitializer
 
 
     public EventStoreInitializer(ILogger<EventStoreInitializer> logger, IConfiguration configuration, 
-        MySerializer mySerializer, IServiceProvider serviceProvider)
+        MySerializer mySerializer)
     {
         _logger = logger;
         _mySerializer = mySerializer;
-        _serviceProvider = serviceProvider;
 
         // этот же шаблон из конфига ещё используется для конфигурации доступа ко 2й части бд,
         // см Fibertest30.Infrastructure.ConfigureServices

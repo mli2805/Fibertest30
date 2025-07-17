@@ -25,7 +25,7 @@ namespace Fibertest30.Infrastructure
             GetCableReserves(accident, traceId, out double leftReserveM, out double rightReserveM);
             var distanceBetweenTwoNodesOnGraphM = distances.Sum();
 
-            var opticalLengthM = (accident.Right.ToRtuOpticalDistanceKm - accident.Left.ToRtuOpticalDistanceKm) * 1000;
+            var opticalLengthM = (accident.Right!.ToRtuOpticalDistanceKm - accident.Left!.ToRtuOpticalDistanceKm) * 1000;
             var coeff = opticalLengthM / (distanceBetweenTwoNodesOnGraphM + leftReserveM + rightReserveM);
 
             var distanceToAccidentOnGraphM = (accident.AccidentToRtuOpticalDistanceKm - accident.Left.ToRtuOpticalDistanceKm) * 1000 / coeff;

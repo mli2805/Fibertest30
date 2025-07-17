@@ -113,52 +113,5 @@ public class EmailService : IEmailService
         return new MailboxAddress("IIT Fibertest30", outgoingAddress);
     }
 
-    // file attachments
-    private MimeMessage CreateMessage(EmailServer emailServer, List<Tuple<string, string>> emailsTo,
-           string subject, string htmlMessage, List<string>? fileAttachments, CancellationToken ct)
-    {
-        var emailMessage = new MimeMessage();
-
-        emailMessage.From.Add(GetFromAddress(emailServer.OutgoingAddress));
-        foreach (var emailTo in emailsTo)
-        {
-            emailMessage.To.Add(new MailboxAddress(emailTo.Item1, emailTo.Item2));
-        }
-        emailMessage.Subject = subject;
-
-        var builder = new BodyBuilder();
-        builder.HtmlBody = htmlMessage;
-
-        if (fileAttachments != null)
-            foreach (string fileAttachment in fileAttachments)
-            {
-                builder.Attachments.Add(fileAttachment, ct);
-            }
-        emailMessage.Body = builder.ToMessageBody();
-
-        return emailMessage;
-    }
-
-
-    // without BodyBuilder
-    private MimeMessage CreateMimeMessage(EmailServer emailServer, List<Tuple<string, string>> emailsTo,
-        string subject, string htmlMessage)
-    {
-        var emailMessage = new MimeMessage();
-
-        emailMessage.From.Add(new MailboxAddress("Fibertest30", emailServer.OutgoingAddress));
-        foreach (var emailTo in emailsTo)
-        {
-            emailMessage.To.Add(new MailboxAddress(emailTo.Item1, emailTo.Item2));
-        }
-        emailMessage.Subject = subject;
-
-        emailMessage.Body = new TextPart(TextFormat.Html)
-        {
-            Text = htmlMessage
-        };
-
-        return emailMessage;
-    }
 
 }

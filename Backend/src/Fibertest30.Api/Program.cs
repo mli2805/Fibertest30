@@ -75,9 +75,7 @@ try
         var initializer = scope.ServiceProvider.GetRequiredService<ServerDbContextInitializer>();
         await initializer.InitializeAsync();
 
-        var emulator = builder.Configuration.GetValue<bool>("Emulator:Enabled");
-        var seedDemoOtaus = emulator ? "all" : string.Empty;
-        await initializer.SeedAsync(seedDemoOtaus, seedDemoUsers: emulator);
+        await initializer.SeedAsync(false);
     }
 
     Log.Information("Initialize and seed MySql FtDb ..");

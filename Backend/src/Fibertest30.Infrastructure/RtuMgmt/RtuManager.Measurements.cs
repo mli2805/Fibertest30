@@ -1,5 +1,4 @@
 ﻿using Iit.Fibertest.Dto;
-using Org.BouncyCastle.Ocsp;
 
 namespace Fibertest30.Infrastructure;
 public partial class RtuManager
