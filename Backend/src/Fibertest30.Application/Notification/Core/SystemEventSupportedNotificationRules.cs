@@ -26,101 +26,13 @@ public static class SystemEventSupportedNotificationRules
                 Rule(NotificationChannel.InAppInternal, NotificationTarget.All),
                 Rule(NotificationChannel.InApp, NotificationTarget.Others))
         },
-        {
-            SystemEventType.OtauConnectionStatusChanged,
-            Rules(
-                Rule(NotificationChannel.InAppInternal, NotificationTarget.All),
-                Rule(NotificationChannel.InApp, NotificationTarget.All))
-        },
-        {
-            SystemEventType.OtauChanged,
-            Rules(
-                Rule(NotificationChannel.InAppInternal, NotificationTarget.All),
-                Rule(NotificationChannel.InApp, NotificationTarget.All))
-        },
-        {
-            SystemEventType.OtauInformationChanged,
-            Rules(
-                Rule(NotificationChannel.InAppInternal, NotificationTarget.All)
-                )
-        },
-        {
-            SystemEventType.OtauAdded,
-            Rules(
-                Rule(NotificationChannel.InAppInternal, NotificationTarget.All),
-                Rule(NotificationChannel.InApp, NotificationTarget.Others))
-        },
-        {
-            SystemEventType.OtauRemoved,
-            Rules(
-                Rule(NotificationChannel.InAppInternal, NotificationTarget.All),
-                Rule(NotificationChannel.InApp, NotificationTarget.Others))
-        },
-        {
-            SystemEventType.MonitoringPortStatusChanged,
-            Rules(
-                Rule(NotificationChannel.InAppInternal, NotificationTarget.All)
-                )
-        },
-        {
-            SystemEventType.MonitoringPortScheduleChanged,
-            Rules(
-                Rule(NotificationChannel.InAppInternal, NotificationTarget.All)
-                )
-        },
-
-        {
-            SystemEventType.MonitoringPortNoteChanged,
-            Rules(
-                Rule(NotificationChannel.InAppInternal, NotificationTarget.All)
-            )
-        },
-        {
-            SystemEventType.BaselineFailed,
-            Rules(Rule(NotificationChannel.InApp, NotificationTarget.Me))
-        },
-        {
-            SystemEventType.BaselineCompleted,
-            Rules(Rule(NotificationChannel.InApp, NotificationTarget.All))
-        },
-        {
-            SystemEventType.OtdrTaskProgress,
-            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
-        },
 
         {
             SystemEventType.NotificationSettingsUpdated,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         },
-        {
-            SystemEventType.UnsupportedOsmModuleConnected,
-            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All),
-                Rule(NotificationChannel.InApp, NotificationTarget.Others))
-        },
-        {
-            SystemEventType.NetworkSettingsUpdated,
-            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
-        },
-        {
-            SystemEventType.NtpSettingsUpdated,
-            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
-        },
-        {
-            SystemEventType.TimeSettingsUpdated,
-            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
-        },
-        {
-            SystemEventType.PortLabelAttached,
-            Rules(Rule(NotificationChannel.InApp, NotificationTarget.All))
-        },
-        {
-            SystemEventType.PortLabelUpdated,
-            Rules(Rule(NotificationChannel.InApp, NotificationTarget.All))
-        },
-        {
-            SystemEventType.PortLabelDetached,
-            Rules(Rule(NotificationChannel.InApp, NotificationTarget.All))
-        },
+      
+       
         {
             SystemEventType.RtuConnectionChecked,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
