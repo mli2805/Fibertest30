@@ -29,14 +29,14 @@ public class ShellCommandRt(ILogger<ShellCommandRt> logger) : IShellCommandRt
         using (Process process = new Process { StartInfo = psi })
         {
             // Attach event handlers for asynchronous output and error capture
-            process.OutputDataReceived += (sender, e) =>
+            process.OutputDataReceived += (_, e) =>
             {
                 if (!string.IsNullOrEmpty(e.Data))
                 {
                     logger.LogInformation($"[Output] {e.Data}");
                 }
             };
-            process.ErrorDataReceived += (sender, e) =>
+            process.ErrorDataReceived += (_, e) =>
             {
                 if (!string.IsNullOrEmpty(e.Data))
                 {

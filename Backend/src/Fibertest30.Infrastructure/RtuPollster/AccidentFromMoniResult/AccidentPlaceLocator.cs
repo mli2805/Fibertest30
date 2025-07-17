@@ -70,8 +70,8 @@ namespace Fibertest30.Infrastructure
         private void GetCableReserves(AccidentOnTraceV2 accident, Guid traceId, out double leftReserveM, out double rightReserveM)
         {
             var equipmentsWithoutPointsAndRtu = _model.GetTraceEquipmentsExcludingAdjustmentPoints(traceId).ToList();
-            leftReserveM = GetCableReserve(equipmentsWithoutPointsAndRtu, accident.Left.LandmarkIndex, true);
-            rightReserveM = GetCableReserve(equipmentsWithoutPointsAndRtu, accident.Right.LandmarkIndex, false);
+            leftReserveM = GetCableReserve(equipmentsWithoutPointsAndRtu, accident.Left!.LandmarkIndex, true);
+            rightReserveM = GetCableReserve(equipmentsWithoutPointsAndRtu, accident.Right!.LandmarkIndex, false);
         }
 
         private double GetCableReserve(List<Equipment> equipmentsWithoutPointsAndRtu, int landmarkIndex, bool isLeftLandmark)
@@ -87,17 +87,17 @@ namespace Fibertest30.Infrastructure
             AccidentOnTraceV2 accident, Trace trace, out Node? leftNode, out Node? rightNode)
         {
             var withoutPoints = _model.GetTraceNodesExcludingAdjustmentPoints(trace.TraceId).ToList();
-            leftNode = _model.Nodes.FirstOrDefault(n => n.NodeId == withoutPoints[accident.Left.LandmarkIndex]);
-            rightNode = _model.Nodes.FirstOrDefault(n => n.NodeId == withoutPoints[accident.Right.LandmarkIndex]);
+            leftNode = _model.Nodes.FirstOrDefault(n => n.NodeId == withoutPoints[accident.Left!.LandmarkIndex]);
+            rightNode = _model.Nodes.FirstOrDefault(n => n.NodeId == withoutPoints[accident.Right!.LandmarkIndex]);
 
             if (leftNode == null)
             {
-                _logger.LogInformation($"Node {withoutPoints[accident.Left.LandmarkIndex].First6()} not found");
+                _logger.LogInformation($"Node {withoutPoints[accident.Left!.LandmarkIndex].First6()} not found");
                 return null;
             }
             if (rightNode == null)
             {
-                _logger.LogInformation($"Node {withoutPoints[accident.Right.LandmarkIndex].First6()} not found");
+                _logger.LogInformation($"Node {withoutPoints[accident.Right!.LandmarkIndex].First6()} not found");
                 return null;
             }
 

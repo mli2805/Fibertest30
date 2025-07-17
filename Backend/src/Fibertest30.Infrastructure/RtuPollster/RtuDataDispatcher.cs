@@ -41,7 +41,7 @@ public class RtuDataDispatcher : IRtuDataDispatcher
                     await _rtuDataProcessor.ProcessBopStateChanges(bopStateChangedDto);
                 }
               
-                else if (rtuData is ClientMeasurementResultDto clientMeasurementResultDto)
+                else if (rtuData is ClientMeasurementResultDto )
                 {
                     // полстер не помещает в Channel результат клиентских измерений
                     // а сразу вызывает обработчик
@@ -49,7 +49,7 @@ public class RtuDataDispatcher : IRtuDataDispatcher
                     // да и вся обработка это ждать когда клиент заберет результат,
                     // т.е. сюда переедет словать для хранения результата, м.б. позже
                 }
-                else if (rtuData is InitializationResult initializationResult)
+                else if (rtuData is InitializationResult )
                 {
                     // пока нет
                 }

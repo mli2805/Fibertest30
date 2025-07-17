@@ -40,7 +40,7 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
                 await systemEventSender
                     .Send(SystemEventFactory.TraceStateChanged(
                         addMeasurement.SorFileId, addMeasurement.EventRegistrationTimestamp, trace!.TraceId.ToString(),
-                        trace!.Title, trace.RtuId.ToString(), addMeasurement.BaseRefType, addMeasurement.TraceState));
+                        trace.Title, trace.RtuId.ToString(), addMeasurement.BaseRefType, addMeasurement.TraceState));
             }
 
             await CheckAndSendBopNetworkIfNeeded(dto);

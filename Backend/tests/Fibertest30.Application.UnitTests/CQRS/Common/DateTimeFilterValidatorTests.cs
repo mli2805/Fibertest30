@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Fibertest30.Application;
+namespace Fibertest30.Application.UnitTests;
 
 [TestClass]
 public class DateTimeFilterValidatorTests

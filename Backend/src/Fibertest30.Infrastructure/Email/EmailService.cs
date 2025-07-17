@@ -1,6 +1,5 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
-using MimeKit.Text;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 
