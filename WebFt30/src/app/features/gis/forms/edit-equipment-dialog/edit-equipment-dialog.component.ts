@@ -20,7 +20,7 @@ export class EditEquipmentDialogComponent {
   selectedType!: EquipmentType;
   tracesForInsertion!: string[];
 
-  constructor(@Inject(DIALOG_DATA) private data: any, private ts: TranslateService) {
+  constructor(@Inject(DIALOG_DATA) private data: any) {
     this.nodeId = data.nodeId;
     this.addMode = data.addMode;
     this.equipmentInWork = this.addMode
@@ -43,6 +43,10 @@ export class EditEquipmentDialogComponent {
       ]),
       comment: new FormControl(this.equipmentInWork.comment)
     });
+
+    if (this.addMode) {
+      this.form.markAsDirty();
+    }
   }
 
   isleftReserveInvalid(): boolean {
@@ -57,12 +61,6 @@ export class EditEquipmentDialogComponent {
 
   isRightReserveInvalid(): boolean {
     const control = this.form.controls['rightReserve'];
-    if (
-      +control.value !== 0 &&
-      (this.selectedType === EquipmentType.Terminal ||
-        this.selectedType === EquipmentType.CableReserve)
-    )
-      return true;
     return control.invalid && (control.dirty || control.touched);
   }
 
@@ -81,7 +79,12 @@ export class EditEquipmentDialogComponent {
       Title: this.form.controls['title'].value,
       Type: this.selectedType,
       CableReserveLeft: +this.form.controls['leftReserve'].value,
-      CableReserveRight: +this.form.controls['rightReserve'].value,
+      // контрол м.б. спрятан и тогда не надо брать его значение
+      CableReserveRight:
+        this.selectedType === EquipmentType.Terminal ||
+        this.selectedType === EquipmentType.CableReserve
+          ? 0
+          : +this.form.controls['rightReserve'].value,
       Comment: this.form.controls['comment'].value
     };
 
