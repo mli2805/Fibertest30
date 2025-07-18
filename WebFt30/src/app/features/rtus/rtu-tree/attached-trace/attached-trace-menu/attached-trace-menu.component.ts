@@ -136,6 +136,7 @@ export class AttachedTraceMenuComponent {
   canDetachTrace() {
     return (
       this.hasPermission(ApplicationPermission.DetachTrace) &&
+      this.rtu.isRtuAvailable &&
       (!this.isMonitoringOn || !this.trace.isIncludedInMonitoringCycle)
     );
   }

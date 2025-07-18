@@ -605,6 +605,8 @@
   "i18n.ft.next-to-the-node-your-are-going-to-remove": "next to the node your are going to remove",
 
   "i18n.ft.step-by-step-trace-definition": "Step by step trace definition",
+  "i18n.ft.rtu-removal": "RTU removal",
+  "i18n.ft.all-module-traces-will-be-cleared": "All module traces will be cleared",
 
   "i18n.start-page.gis": "Gis",
   "i18n.start-page.notifications": "Notifications",

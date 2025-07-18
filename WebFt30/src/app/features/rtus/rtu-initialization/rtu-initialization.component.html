@@ -2,7 +2,7 @@
   [caption]="'i18n.ft.network-settings' | translate"
   [modal]="false"
   [left]="80"
-  [top]="100"
+  [top]="50"
   [closeOnEscape]="false"
   [windowId]="rtuId"
   [windowName]="'NetworkSettings'"
@@ -19,9 +19,10 @@
       <rtu-main-channel-test
         #mainChannel
         [networkAddress]="rtu.mainChannel"
-        [otherAddresses]="otherRtuAddresses"
+        [otherAddresses]="otherThanMainAddress"
         [hasChangeRtuAddressPermission]="hasChangeRtuAddressPermission"
         [hasTestPermission]="hasTestPermission"
+        [rtuId]="rtu.rtuId"
       ></rtu-main-channel-test>
 
       <div class="grouped-border ml-2 flex w-96 flex-col">
@@ -41,7 +42,7 @@
       <rtu-reserve-channel-test
         #reserveChannel
         [networkAddress]="rtu.reserveChannel"
-        [otherAddresses]="otherRtuAddresses"
+        [otherAddresses]="otherThanReserveAddress"
         [isOn]="rtu.isReserveChannelSet"
         [hasChangeRtuAddressPermission]="hasChangeRtuAddressPermission"
         [hasTestPermission]="hasTestPermission"

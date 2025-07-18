@@ -328,6 +328,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       }
       case 'RtuAdded':
       case 'RtuUpdated':
+      case 'RtuAddressCleared':
       case 'RtuRemoved': {
         const data = <RtuAddedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(RtuTreeActions.refreshRtuTree());

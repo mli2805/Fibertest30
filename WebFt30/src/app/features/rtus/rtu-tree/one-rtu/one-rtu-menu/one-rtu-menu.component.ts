@@ -192,7 +192,7 @@ export class OneRtuMenuComponent {
   }
 
   canRemove() {
-    return MapRtuMenu.canRemoveRtu(this.rtu.nodeId);
+    return this.rtu.traces.length === 0 || !this.rtu.isRtuAvailable;
   }
 
   onRemoveClicked() {

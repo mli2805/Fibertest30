@@ -53,17 +53,6 @@ export class LandmarkMenu {
     );
 
     return newEquipmentId;
-
-    // это не надо , надо будет просто возвращать выбор и сохранять в основной форме для пакетного применения
-    if (newEquipmentId !== landmark.equipmentId) {
-      const command = {
-        TraceId: trace.id,
-        IndexInTrace: landmark.numberIncludingAdjustmentPoints,
-        EquipmentId: newEquipmentId
-      };
-      const json = JSON.stringify(command);
-      await firstValueFrom(this.graphService.sendCommand(json, 'IncludeEquipmentIntoTrace'));
-    }
   }
 
   static nodeOfLandmark(landmark: ColoredLandmark) {

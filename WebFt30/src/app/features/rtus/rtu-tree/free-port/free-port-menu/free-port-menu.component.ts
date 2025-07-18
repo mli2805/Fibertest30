@@ -71,7 +71,11 @@ export class FreePortMenuComponent {
   }
 
   canAttachTrace() {
-    return this.hasPermission(ApplicationPermission.AttachTrace) && this.detachedTraces.length > 0;
+    return (
+      this.hasPermission(ApplicationPermission.AttachTrace) &&
+      this.isRtuAvailableNow &&
+      this.detachedTraces.length > 0
+    );
   }
 
   onAttachTraceClicked() {
@@ -84,7 +88,7 @@ export class FreePortMenuComponent {
   }
 
   canAttachBop() {
-    return this.hasPermission(ApplicationPermission.AttachBop);
+    return this.hasPermission(ApplicationPermission.AttachBop) && this.isRtuAvailableNow;
   }
 
   async onAttachBopClicked() {

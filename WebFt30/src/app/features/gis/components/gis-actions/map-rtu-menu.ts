@@ -11,6 +11,9 @@ import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-b
 import { MapNodeRemove } from './map-node-remove';
 import { RtuInfoMode } from '../../forms/add-rtu-dialog/rtu-info/rtu-info.component';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
+import { CoreUtils } from 'src/app/core/core.utils';
+import { AppState, RtuTreeSelectors } from 'src/app/core';
+import { Store } from '@ngrx/store';
 
 export class MapRtuMenu {
   private static ts: TranslateService;
@@ -18,6 +21,7 @@ export class MapRtuMenu {
   private static windowService: WindowService;
   private static graphService: GraphService;
   private static dialog: Dialog;
+  private static store: Store<AppState>;
 
   static initialize(injector: Injector) {
     this.ts = injector.get(TranslateService);
@@ -25,6 +29,7 @@ export class MapRtuMenu {
     this.windowService = injector.get(WindowService);
     this.graphService = injector.get(GraphService);
     this.dialog = injector.get(Dialog);
+    this.store = injector.get(Store);
   }
 
   static buildRtuContextMenu(hasEditPermissions: boolean, nodeId: string): L.ContextMenuItem[] {
@@ -91,10 +96,21 @@ export class MapRtuMenu {
     });
   }
 
-  // если нету трасс
   static canRemoveRtu(nodeId: string): boolean {
     const idx = this.gisMapService.getGeoData().traces.findIndex((t) => t.nodeIds.includes(nodeId));
-    return idx === -1;
+    const hasTraces = idx !== -1;
+
+    if (!hasTraces) return true;
+
+    const rtuGeoEquipment = this.gisMapService
+      .getGeoData()
+      .equipments.find((e) => e.nodeId === nodeId)!;
+    const isRtuAvailable =
+      CoreUtils.getCurrentState(this.store, RtuTreeSelectors.selectRtu(rtuGeoEquipment.id))
+        ?.isRtuAvailable ?? false;
+
+    // даже если есть трассы, то можно удалять НЕдоступные RTU, (очистить трассы при этом)
+    return !isRtuAvailable;
   }
 
   static async removeRtu(e: L.ContextMenuItemClickEvent) {
@@ -104,17 +120,27 @@ export class MapRtuMenu {
 
   // эта функция вызывается из дерева тоже
   static async removeRtuInner(nodeId: string) {
-    const rtu = this.gisMapService.getGeoData().equipments.find((e) => e.nodeId === nodeId)!;
+    const rtuGeoEquipment = this.gisMapService
+      .getGeoData()
+      .equipments.find((e) => e.nodeId === nodeId)!;
+    const rtu = CoreUtils.getCurrentState(
+      this.store,
+      RtuTreeSelectors.selectRtu(rtuGeoEquipment.id)
+    )!;
 
     const confirmation = await MessageBoxUtils.show(this.dialog, 'Confirmation', [
-      { message: 'Remove RTU ' + rtu.title, bold: true, bottomMargin: false }
+      { message: 'i18n.ft.attention', bold: false, bottomMargin: false },
+      { message: 'i18n.ft.rtu-removal', bold: false, bottomMargin: true },
+      { message: rtuGeoEquipment.title, bold: true, bottomMargin: true },
+      { message: 'i18n.ft.all-module-traces-will-be-cleared', bold: false, bottomMargin: true },
+      { message: 'i18n.ft.are-you-sure', bold: false, bottomMargin: false }
     ]);
 
     if (!confirmation) return;
 
     const command = {
-      RtuNodeId: rtu.nodeId,
-      RtuId: rtu.id
+      RtuNodeId: rtuGeoEquipment.nodeId,
+      RtuId: rtuGeoEquipment.id
     };
     const json = JSON.stringify(command);
     const response = await this.graphService.sendCommandAsync(json, 'RemoveRtu');

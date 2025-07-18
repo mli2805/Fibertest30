@@ -94,6 +94,10 @@ public static class SystemEventSupportedNotificationRules
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         },
         {
+            SystemEventType.RtuAddressCleared,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },
+        {
             SystemEventType.RtuRemoved,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         }, 

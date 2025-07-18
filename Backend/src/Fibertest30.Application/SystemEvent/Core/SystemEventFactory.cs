@@ -122,29 +122,35 @@ public static class SystemEventFactory
             new TraceRemovedData(traceId.ToString()), SystemEventSource.FromUser(userId));
     }
 
-    public static SystemEvent RtuAdded(string userId, Guid traceId)
+    public static SystemEvent RtuAdded(string userId, Guid rtuId)
     {
         return new SystemEvent(SystemEventType.RtuAdded, SystemEventLevel.Internal,
-            new RtuAddedData(traceId.ToString()), SystemEventSource.FromUser(userId));
+            new RtuAddedData(rtuId.ToString()), SystemEventSource.FromUser(userId));
     }
 
-    public static SystemEvent RtuUpdated(string userId, Guid traceId)
+    public static SystemEvent RtuUpdated(string userId, Guid rtuId)
     {
         return new SystemEvent(SystemEventType.RtuUpdated, SystemEventLevel.Internal,
-            new RtuUpdatedData(traceId.ToString()), SystemEventSource.FromUser(userId));
+            new RtuUpdatedData(rtuId.ToString()), SystemEventSource.FromUser(userId));
     }
 
-    public static SystemEvent RtuRemoved(string userId, Guid traceId)
+    public static SystemEvent RtuAddressCleared(string userId, Guid rtuId)
+    {
+        return new SystemEvent(SystemEventType.RtuAddressCleared, SystemEventLevel.Internal,
+            new RtuAddressClearedData(rtuId.ToString()), SystemEventSource.FromUser(userId));
+    }
+
+    public static SystemEvent RtuRemoved(string userId, Guid rtuId)
     {
         return new SystemEvent(SystemEventType.RtuRemoved, SystemEventLevel.Internal,
-            new RtuRemovedData(traceId.ToString()), SystemEventSource.FromUser(userId));
+            new RtuRemovedData(rtuId.ToString()), SystemEventSource.FromUser(userId));
     }
 
-    public static SystemEvent TraceStateChanged(int eventId, DateTime registeredAt, string traceId, 
+    public static SystemEvent TraceStateChanged(int eventId, DateTime registeredAt, string traceId,
         string traceTitle, string rtuId, BaseRefType baseRefType, FiberState traceState)
     {
         return new SystemEvent(SystemEventType.TraceStateChanged, SystemEventLevel.Critical,
-            new TraceStateChangedData( eventId, registeredAt, traceId, traceTitle, rtuId, baseRefType, traceState),
+            new TraceStateChangedData(eventId, registeredAt, traceId, traceTitle, rtuId, baseRefType, traceState),
             SystemEventSource.FromSource("DataCenter"));
     }
 
@@ -152,7 +158,7 @@ public static class SystemEventFactory
         DateTime registeredAt, string rtuTitle, string rtuId, bool isOk)
     {
         return new SystemEvent(SystemEventType.NetworkEventAdded, SystemEventLevel.Critical,
-            new NetworkEventAddedData(eventId, registeredAt, rtuTitle, rtuId, isOk), 
+            new NetworkEventAddedData(eventId, registeredAt, rtuTitle, rtuId, isOk),
             SystemEventSource.FromSource("DataCenter"));
     }
 
@@ -177,7 +183,7 @@ public static class SystemEventFactory
         ReturnCode returnCode, bool isSuccess)
     {
         return new SystemEvent(SystemEventType.LandmarksUpdateProgressed, SystemEventLevel.Info,
-            new LandmarksUpdateProgressedData(landmarksModelId, step, traceId, traceCount, traceNumber, returnCode, isSuccess)  ,
+            new LandmarksUpdateProgressedData(landmarksModelId, step, traceId, traceCount, traceNumber, returnCode, isSuccess),
             SystemEventSource.FromSource("DataCenter"));
     }
 }

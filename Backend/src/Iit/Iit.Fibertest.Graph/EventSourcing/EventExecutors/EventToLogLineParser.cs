@@ -36,6 +36,7 @@ namespace Iit.Fibertest.Graph
             {
                 case RtuAtGpsLocationAdded evnt: return Parse(evnt);
                 case RtuUpdated evnt: return Parse(evnt);
+                case RtuAddressCleared evnt: return Parse(evnt);
                 case RtuInitialized evnt: return Parse(evnt);
                 case RtuRemoved evnt: return Parse(evnt);
 
@@ -96,6 +97,12 @@ namespace Iit.Fibertest.Graph
         {
             _rtuTitles[e.RtuId] = e.Title;
             return new LogLine { OperationCode = LogOperationCode.RtuUpdated, RtuTitle = e.Title };
+        }  
+        
+        private LogLine Parse(RtuAddressCleared e)
+        {
+            _rtuTitles.TryGetValue(e.RtuId, out string? rtuTitle);
+            return new LogLine { OperationCode = LogOperationCode.RtuAddressCleared, RtuTitle = rtuTitle ?? "" };
         }
 
         private LogLine Parse(RtuInitialized e)

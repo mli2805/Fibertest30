@@ -1,12 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  inject,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState, AuthSelectors, RtuTreeSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -18,8 +10,6 @@ import { DoubleAddress } from 'src/app/core/store/models/ft30/double-address';
 import { MainChannelTestComponent } from './main-channel-test/main-channel-test.component';
 import { Observable, Subscription } from 'rxjs';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
-import { CdkDrag } from '@angular/cdk/drag-drop';
-import { DragWatcher } from 'src/app/shared/utils/drag-watcher';
 
 @Component({
   selector: 'rtu-rtu-initialization',
@@ -39,7 +29,8 @@ export class RtuInitializationComponent implements OnInit, OnDestroy {
   hasInitializePermission!: boolean;
   hasTestPermission!: boolean;
   hasChangeRtuAddressPermission!: boolean;
-  otherRtuAddresses!: string[];
+  otherThanMainAddress!: string[];
+  otherThanReserveAddress!: string[];
 
   constructor(private windowService: WindowService) {}
 
@@ -59,10 +50,21 @@ export class RtuInitializationComponent implements OnInit, OnDestroy {
       AuthSelectors.selectHasChangeRtuAddressPermission
     );
 
-    this.otherRtuAddresses = CoreUtils.getCurrentState(
+    const rtu = CoreUtils.getCurrentState(this.store, RtuTreeSelectors.selectRtu(this.rtuId));
+    const allRtuAddresses = CoreUtils.getCurrentState(
       this.store,
       RtuTreeSelectors.selectAdresses()
     )!;
+
+    this.otherThanMainAddress = [...allRtuAddresses];
+    const idx = this.otherThanMainAddress.findIndex((a) => a === rtu?.mainChannel.ip4Address);
+    if (idx !== -1) this.otherThanMainAddress.splice(idx, 1);
+
+    this.otherThanReserveAddress = [...allRtuAddresses];
+    const idx2 = this.otherThanReserveAddress.findIndex(
+      (a) => a === rtu?.reserveChannel.ip4Address
+    );
+    if (idx2 !== -1) this.otherThanReserveAddress.splice(idx2, 1);
   }
 
   onInitializeClicked() {

@@ -11,6 +11,7 @@
         RtuUpdated,
         RtuInitialized,
         RtuRemoved,
+        RtuAddressCleared,
 
         TraceAdded = 301,
         TraceUpdated,

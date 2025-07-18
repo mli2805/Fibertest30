@@ -28,6 +28,7 @@ namespace Iit.Fibertest.Graph
 
             CreateMap<AddRtuAtGpsLocation, RtuAtGpsLocationAdded>();
             CreateMap<UpdateRtu, RtuUpdated>();
+            CreateMap<ClearRtuAddress, RtuAddressCleared>();
             CreateMap<RemoveRtu, RtuRemoved>();
             CreateMap<AttachOtau, OtauAttached>();
             CreateMap<DetachOtau, OtauDetached>();

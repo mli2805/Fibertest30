@@ -35,6 +35,7 @@ public enum SystemEventType
     RtuAdded,
     RtuUpdated,
     RtuRemoved,
+    RtuAddressCleared,
 
     TraceStateChanged,
     NetworkEventAdded,

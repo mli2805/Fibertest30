@@ -25,7 +25,9 @@ export type ManagedWindow =
   | 'NodeInfo'
   | 'FiberInfo'
   | 'RtuInfo'
-  | 'TraceInfo';
+  | 'TraceInfo'
+  | 'TraceAttach'
+  | 'BopAttach';
 
 @Component({
   selector: 'rtu-draggable-window',

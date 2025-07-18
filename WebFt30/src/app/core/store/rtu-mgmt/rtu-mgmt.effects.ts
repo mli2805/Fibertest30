@@ -53,7 +53,6 @@ export class RtuMgmtEffects {
       switchMap(({ dto }) => {
         return this.rtuMgmtService.initializeRtu(dto).pipe(
           map((response) => {
-            console.log(response);
             return RtuMgmtActions.initializeRtuSuccess({
               dto: response.dto
             });

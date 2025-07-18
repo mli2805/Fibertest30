@@ -63,6 +63,7 @@ namespace Iit.Fibertest.Graph
 
                 case AddRtuAtGpsLocation command: return _eventsQueue.Add(Mapper.Map<RtuAtGpsLocationAdded>(command));
                 case UpdateRtu command: return _eventsQueue.Add(Mapper.Map<RtuUpdated>(command));
+                case ClearRtuAddress command: return _eventsQueue.Add(Mapper.Map<RtuAddressCleared>(command));
                 case RemoveRtu command: return Validate(command);
                 case AttachOtau command: return _eventsQueue.Add(Mapper.Map<OtauAttached>(command));
                 case DetachOtau command: return _eventsQueue.Add(Mapper.Map<OtauDetached>(command));

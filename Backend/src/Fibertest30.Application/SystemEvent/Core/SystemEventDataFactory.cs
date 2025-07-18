@@ -27,6 +27,7 @@ public static class SystemEventDataFactory
             SystemEventType.TraceRemoved => Deserialize<TraceRemovedData>(jsonData),
             SystemEventType.RtuAdded => Deserialize<RtuAddedData>(jsonData),
             SystemEventType.RtuUpdated => Deserialize<RtuUpdatedData>(jsonData),
+            SystemEventType.RtuAddressCleared => Deserialize<RtuAddressClearedData>(jsonData),
             SystemEventType.RtuRemoved => Deserialize<RtuRemovedData>(jsonData),
             SystemEventType.TraceStateChanged => Deserialize<TraceStateChangedData>(jsonData),
             SystemEventType.NetworkEventAdded => Deserialize<NetworkEventAddedData>(jsonData),

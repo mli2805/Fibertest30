@@ -59,6 +59,7 @@ public class GraphCommandHandler(ILogger<GraphCommand> logger, ICurrentUserServi
             RemoveTrace c => SystemEventFactory.TraceRemoved(currentUserService.UserId!, c.TraceId),
             AddRtuAtGpsLocation c => SystemEventFactory.RtuAdded(currentUserService.UserId!, c.Id),
             UpdateRtu c => SystemEventFactory.RtuUpdated(currentUserService.UserId!, c.RtuId),
+            ClearRtuAddress c=>SystemEventFactory.RtuAddressCleared(currentUserService.UserId!, c.RtuId),
             RemoveRtu c => SystemEventFactory.RtuRemoved(currentUserService.UserId!, c.RtuId),
 
             _ => null

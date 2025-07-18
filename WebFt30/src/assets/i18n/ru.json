@@ -452,5 +452,8 @@
   "i18n.ft.failed-to-send-base-ref": "Не удалось послать базовую рефлектограмму",
   "i18n.ft.traces-processed": "Обработано трасс",
   "i18n.ft.attention-problems-found": "Внимание! Обнаружено проблем:",
-  "i18n.ft.unknown-code": "Неизвестный код {{ 0 }}"
+  "i18n.ft.unknown-code": "Неизвестный код {{ 0 }}",
+
+  "i18n.ft.rtu-removal": "Удаление модуля",
+  "i18n.ft.all-module-traces-will-be-cleared": "Все трассы модуля будут очищены"
 }

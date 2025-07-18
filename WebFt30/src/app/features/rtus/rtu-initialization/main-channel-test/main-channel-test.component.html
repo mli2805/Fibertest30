@@ -10,7 +10,7 @@
     <fieldset [disabled]="!hasChangeRtuAddressPermission">
       <div class="mb-1 flex items-center">
         <label
-          class="w-20 text-sm"
+          class="min-w-20 text-sm"
           [ngClass]="{ 'disabled-label': !hasChangeRtuAddressPermission }"
         >
           {{ 'i18n.ft.ip' | translate }}
@@ -21,16 +21,21 @@
           type="text"
           class="input-simple w-full"
         />
+        <ng-container *ngIf="showClearButton">
+          <button class="button-delete ml-2 min-w-16" (click)="onResetClicked()">
+            {{ 'Reset' }}
+          </button>
+        </ng-container>
       </div>
 
       <div class="flex items-center">
         <label
-          class="w-20 text-sm"
+          class="min-w-20 text-sm"
           [ngClass]="{ 'disabled-label': !hasChangeRtuAddressPermission }"
           >{{ 'i18n.ft.port' | translate }}</label
         >
         <ng-container *ngIf="networkAddress.port !== -1">
-          <div class="text-sm">{{ networkAddress.port }}</div>
+          <div class="ml-4 text-sm">{{ networkAddress.port }}</div>
         </ng-container>
       </div>
     </fieldset>

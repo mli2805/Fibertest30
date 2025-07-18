@@ -44,6 +44,26 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
+        public static string? ClearRtuAddress(this Model model, RtuAddressCleared e)
+        {
+            var rtu = model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
+            if (rtu == null)
+            {
+                return $@"RtuAddressCleared: RTU {e.RtuId.First6()} not found";
+            }
+
+            var channel = e.IsMainAddress ? rtu.MainChannel : rtu.ReserveChannel;
+            channel.Ip4Address = "";
+            channel.HostName = "";
+            channel.Port = -1;
+            channel.IsAddressSetAsIp = true;
+
+            if (e.IsMainAddress) rtu.MainChannelState = RtuPartState.NotSetYet;
+            else rtu.ReserveChannelState = RtuPartState.NotSetYet;
+
+            return null;
+        }
+
         public static string? RemoveRtu(this Model model, RtuRemoved e)
         {
             var rtu = model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);

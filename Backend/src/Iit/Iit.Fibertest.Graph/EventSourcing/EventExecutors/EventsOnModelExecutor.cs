@@ -35,6 +35,7 @@
 
                     case RtuAtGpsLocationAdded evnt: return model.AddRtuAtGpsLocation(evnt);
                     case RtuUpdated evnt: return model.UpdateRtu(evnt);
+                    case RtuAddressCleared evnt: return model.ClearRtuAddress(evnt);
                     case RtuRemoved evnt: return model.RemoveRtu(evnt);
                     case OtauAttached evnt: return model.AttachOtau(evnt);
                     case OtauDetached evnt: return model.DetachOtau(evnt);
