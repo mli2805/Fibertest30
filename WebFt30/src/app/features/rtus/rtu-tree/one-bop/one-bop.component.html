@@ -48,7 +48,7 @@
           <ng-container *ngIf="child.type === 'free-port'">
             <rtu-free-port
               [portOfOtau]="child.payload"
-              [isRtuAvailableNow]="rtu.isRtuAvailable"
+              [rtu]="rtu"
               [detachedTraces]="getDetachedTraces(rtu)"
               [i]="ib"
             ></rtu-free-port>

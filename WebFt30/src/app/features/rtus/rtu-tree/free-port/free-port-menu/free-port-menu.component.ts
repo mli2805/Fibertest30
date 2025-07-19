@@ -1,4 +1,3 @@
-import { Dialog } from '@angular/cdk/dialog';
 import { Component, ElementRef, HostListener, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -6,10 +5,10 @@ import { AppState, AuthSelectors, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
-import { TraceAttachComponent } from '../../../trace-attach/trace-attach.component';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
-import { BopAttachComponent } from '../../../bop-attach/bop-attach.component';
 import { Utils } from 'src/app/shared/utils/utils';
+import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
+import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 
 @Component({
   selector: 'rtu-free-port-menu',
@@ -27,12 +26,16 @@ export class FreePortMenuComponent {
   currentUser: User | null;
 
   @Input() portOfOtau!: PortOfOtau;
-  @Input() isRtuAvailableNow!: boolean;
   @Input() detachedTraces!: Trace[];
+  @Input() rtu!: Rtu;
 
   public open = false;
 
-  constructor(private elementRef: ElementRef, private router: Router, private dialog: Dialog) {
+  constructor(
+    private elementRef: ElementRef,
+    private router: Router,
+    private windowService: WindowService
+  ) {
     this.currentUser = CoreUtils.getCurrentState(this.store, AuthSelectors.selectUser);
   }
 
@@ -73,22 +76,21 @@ export class FreePortMenuComponent {
   canAttachTrace() {
     return (
       this.hasPermission(ApplicationPermission.AttachTrace) &&
-      this.isRtuAvailableNow &&
+      this.rtu.isRtuAvailable &&
       this.detachedTraces.length > 0
     );
   }
 
   onAttachTraceClicked() {
-    this.dialog.open(TraceAttachComponent, {
-      maxHeight: '95vh',
-      maxWidth: '95vw',
-      disableClose: true,
-      data: { traces: this.detachedTraces, portOfOtau: this.portOfOtau }
+    this.windowService.registerWindow(crypto.randomUUID(), 'TraceAttach', {
+      traces: this.detachedTraces,
+      portOfOtau: this.portOfOtau,
+      rtu: this.rtu
     });
   }
 
   canAttachBop() {
-    return this.hasPermission(ApplicationPermission.AttachBop) && this.isRtuAvailableNow;
+    return this.hasPermission(ApplicationPermission.AttachBop) && this.rtu.isRtuAvailable;
   }
 
   async onAttachBopClicked() {
@@ -96,16 +98,15 @@ export class FreePortMenuComponent {
   }
 
   private async openAttachOtauDialog() {
-    this.dialog.open(BopAttachComponent, {
-      maxHeight: '95vh',
-      maxWidth: '95vw',
-      disableClose: true,
-      data: { portOfOtau: this.portOfOtau }
+    this.windowService.registerWindow(crypto.randomUUID(), 'BopAttach', {
+      traces: this.detachedTraces,
+      portOfOtau: this.portOfOtau,
+      rtu: this.rtu
     });
   }
 
   canMeasurementClient() {
-    return this.hasPermission(ApplicationPermission.DoMeasurementClient) && this.isRtuAvailableNow;
+    return this.hasPermission(ApplicationPermission.DoMeasurementClient) && this.rtu.isRtuAvailable;
   }
 
   async onMeasurementClientClicked() {

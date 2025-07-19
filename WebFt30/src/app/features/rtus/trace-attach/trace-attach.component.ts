@@ -1,35 +1,35 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { ChangeDetectorRef, Component, inject, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Inject, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 import { AppState, RtuTreeActions } from 'src/app/core';
 import { AttachTraceDto } from 'src/app/core/store/models/ft30/attach-trace-dto';
 import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
+import { Rtu } from 'src/grpc-generated/rtu_tree';
 
 @Component({
   selector: 'rtu-trace-attach',
-  templateUrl: './trace-attach.component.html',
-  styles: [
-    `
-      :host {
-        display: flex;
-        width: 100%;
-        height: 100%;
-      }
-    `
-  ]
+  templateUrl: './trace-attach.component.html'
 })
-export class TraceAttachComponent {
-  public dialogRef: DialogRef<boolean> = inject(DialogRef<boolean>);
+export class TraceAttachComponent implements OnInit {
+  @Input() windowId!: string;
+  @Input() zIndex!: number;
+  @Input() payload!: any;
+
   public store: Store<AppState> = inject(Store);
   traces!: Trace[];
   selectedTrace!: Trace;
   portOfOtau!: PortOfOtau;
+  rtu!: Rtu;
 
-  constructor(@Inject(DIALOG_DATA) private data: any, private cdr: ChangeDetectorRef) {
-    this.traces = data.traces;
+  constructor(private windowService: WindowService) {}
+
+  ngOnInit(): void {
+    this.traces = this.payload.traces;
     this.selectedTrace = this.traces[0];
-    this.portOfOtau = data.portOfOtau;
+    this.portOfOtau = this.payload.portOfOtau;
+    this.rtu = this.payload.rtu;
   }
 
   onSelectedChanged(trace: Trace) {
@@ -43,10 +43,14 @@ export class TraceAttachComponent {
 
     this.store.dispatch(RtuTreeActions.attachTrace({ dto }));
 
-    this.dialogRef.close();
+    this.close();
   }
 
   onCancelClicked() {
-    this.dialogRef.close();
+    this.close();
+  }
+
+  close() {
+    this.windowService.unregisterWindow(this.windowId, 'TraceAttach');
   }
 }

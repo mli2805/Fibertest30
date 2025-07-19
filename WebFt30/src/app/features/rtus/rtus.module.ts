@@ -58,7 +58,9 @@ import { LandmarksProgressComponent } from './landmarks/landmarks-progress/landm
     RtuStateWindowComponent,
     RtuInitializationComponent,
     TraceAssignBaseComponent,
-    LandmarksComponent
+    LandmarksComponent,
+    BopAttachComponent,
+    TraceAttachComponent
   ],
   declarations: [
     RtuTreeComponent,

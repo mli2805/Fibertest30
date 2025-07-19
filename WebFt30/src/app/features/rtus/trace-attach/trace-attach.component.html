@@ -1,24 +1,42 @@
-<div class="dialog">
-  <div style="height: 240px; width: 720px">
-    <div class="mb-2 ml-2">{{ 'i18n.ft.choose-trace-to-attach' | translate }}</div>
-    <rtu-select
-      [items]="traces"
-      [selectedItem]="selectedTrace"
-      (selectedItemChange)="onSelectedChanged($event)"
-    >
-      <ng-template rtuSelectLabel let-selectedItem>{{ selectedItem.title }} </ng-template>
-      <ng-template rtuSelectItem let-item>
-        {{ item.title }}
-      </ng-template>
-    </rtu-select>
-  </div>
+<rtu-draggable-window
+  [caption]="'i18n.ft.trace-attachment' | translate"
+  [modal]="true"
+  [zIndex]="zIndex"
+  (closeEvent)="close()"
+>
+  <div class="flex flex-col">
+    <div class="grouped-border mb-2 flex flex-col">
+      <div>{{ 'i18n.ft.attach-to' | translate }}</div>
+      <div class="flex">
+        <div class="min-w-16">{{ 'RTU' }}</div>
+        <div>{{ rtu.title }}</div>
+      </div>
+      <div class="flex">
+        <div class="min-w-16">{{ 'i18n.ft.port' | translate }}</div>
+        <div>{{ portOfOtau.opticalPort }}</div>
+      </div>
+    </div>
+    <div class="grouped-border mb-1 flex min-h-60 min-w-120 flex-col">
+      <div class="mb-2 ml-2">{{ 'i18n.ft.choose-trace-to-attach' | translate }}</div>
+      <rtu-select
+        [items]="traces"
+        [selectedItem]="selectedTrace"
+        (selectedItemChange)="onSelectedChanged($event)"
+      >
+        <ng-template rtuSelectLabel let-selectedItem>{{ selectedItem.title }} </ng-template>
+        <ng-template rtuSelectItem let-item>
+          {{ item.title }}
+        </ng-template>
+      </rtu-select>
+    </div>
 
-  <div class="mt-6 flex w-full justify-end">
-    <button class="button-cancel min-w-36" (click)="onCancelClicked()">
-      {{ 'i18n.ft.cancel' | translate }}
-    </button>
-    <button class="button-ok ml-2 min-w-36" (click)="onAttachClicked()">
-      {{ 'i18n.ft.attach' | translate }}
-    </button>
+    <div class="my-2 flex w-full justify-end">
+      <button class="button-cancel min-w-36" (click)="onCancelClicked()">
+        {{ 'i18n.ft.cancel' | translate }}
+      </button>
+      <button class="button-ok mx-2 min-w-36" (click)="onAttachClicked()">
+        {{ 'i18n.ft.attach' | translate }}
+      </button>
+    </div>
   </div>
-</div>
+</rtu-draggable-window>

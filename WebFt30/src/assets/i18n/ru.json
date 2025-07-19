@@ -455,5 +455,8 @@
   "i18n.ft.unknown-code": "Неизвестный код {{ 0 }}",
 
   "i18n.ft.rtu-removal": "Удаление модуля",
-  "i18n.ft.all-module-traces-will-be-cleared": "Все трассы модуля будут очищены"
+  "i18n.ft.all-module-traces-will-be-cleared": "Все трассы модуля будут очищены",
+  "i18n.ft.trace-attachment": "Подключение трассы",
+  "i18n.ft.bop-attachment": "Подключение БОП",
+  "i18n.ft.attach-to": "Подключить к"
 }
