@@ -8,7 +8,8 @@ import {
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
-import { AppState, RtuTreeActions } from 'src/app/core';
+import { AppState, RtuTreeActions, RtuTreeSelectors } from 'src/app/core';
+import { CoreUtils } from 'src/app/core/core.utils';
 import { AttachOtauDto } from 'src/app/core/store/models/ft30/attach-otau-dto';
 import { NetAddress } from 'src/app/core/store/models/ft30/net-address';
 import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
@@ -26,6 +27,7 @@ export class BopAttachComponent implements OnInit {
   public store: Store<AppState> = inject(Store);
   portOfOtau!: PortOfOtau;
   rtu!: Rtu;
+  existingAddresses!: string[];
 
   form!: FormGroup;
 
@@ -34,9 +36,17 @@ export class BopAttachComponent implements OnInit {
   ngOnInit(): void {
     this.portOfOtau = this.payload.portOfOtau;
     this.rtu = this.payload.rtu;
+    this.existingAddresses = CoreUtils.getCurrentState(
+      this.store,
+      RtuTreeSelectors.selectBopIps()
+    )!;
+
+    const initializeAddress = this.existingAddresses.includes('192.168.96.57')
+      ? '192.168.96.'
+      : '192.168.96.57';
 
     this.form = new FormGroup({
-      ipAddress: new FormControl('192.168.96.57', [this.ipv4AddressValidator()])
+      ipAddress: new FormControl(initializeAddress, [this.ipv4AddressValidator()])
     });
   }
 
@@ -49,7 +59,8 @@ export class BopAttachComponent implements OnInit {
     };
   }
 
-  isServerAddressValid() {
+  isBopAddressValid() {
+    if (this.existingAddresses.includes(this.form.controls['ipAddress'].value)) return false;
     return this.form.controls['ipAddress'].valid;
   }
 

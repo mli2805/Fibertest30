@@ -6,14 +6,14 @@
 >
   <div class="flex flex-col">
     <div class="grouped-border mb-2 flex flex-col">
-      <div>{{ 'i18n.ft.attach-to' | translate }}</div>
+      <div class="mb-1">{{ 'i18n.ft.attach-to' | translate }} :</div>
       <div class="flex">
         <div class="min-w-16">{{ 'RTU' }}</div>
         <div>{{ rtu.title }}</div>
       </div>
       <div class="flex">
         <div class="min-w-16">{{ 'i18n.ft.port' | translate }}</div>
-        <div>{{ portOfOtau.opticalPort }}</div>
+        <div>{{ getPortTitle() }}</div>
       </div>
     </div>
     <div class="grouped-border mb-1 flex min-h-60 min-w-120 flex-col">

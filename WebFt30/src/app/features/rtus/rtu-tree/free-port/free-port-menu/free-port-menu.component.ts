@@ -90,14 +90,14 @@ export class FreePortMenuComponent {
   }
 
   canAttachBop() {
-    return this.hasPermission(ApplicationPermission.AttachBop) && this.rtu.isRtuAvailable;
+    return (
+      this.hasPermission(ApplicationPermission.AttachBop) &&
+      this.rtu.isRtuAvailable &&
+      this.portOfOtau.isPortOnMainCharon
+    );
   }
 
-  async onAttachBopClicked() {
-    await this.openAttachOtauDialog();
-  }
-
-  private async openAttachOtauDialog() {
+  onAttachBopClicked() {
     this.windowService.registerWindow(crypto.randomUUID(), 'BopAttach', {
       traces: this.detachedTraces,
       portOfOtau: this.portOfOtau,

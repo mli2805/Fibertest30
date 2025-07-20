@@ -6,7 +6,7 @@
 >
   <div class="flex flex-col">
     <div class="grouped-border mb-2 flex flex-col">
-      <div>{{ 'i18n.ft.attach-to' | translate }}</div>
+      <div class="mb-1">{{ 'i18n.ft.attach-to' | translate }} :</div>
       <div class="flex">
         <div class="min-w-16">{{ 'RTU' }}</div>
         <div>{{ rtu.title }}</div>
@@ -29,7 +29,7 @@
             </label>
             <input
               formControlName="ipAddress"
-              [ngClass]="{ 'invalid-border': !isServerAddressValid() }"
+              [ngClass]="{ 'invalid-border': !isBopAddressValid() }"
               type="text"
               class="input-simple w-full"
             />

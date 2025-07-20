@@ -32,6 +32,12 @@ export class TraceAttachComponent implements OnInit {
     this.rtu = this.payload.rtu;
   }
 
+  getPortTitle() {
+    return this.portOfOtau.isPortOnMainCharon
+      ? this.portOfOtau.opticalPort
+      : `${this.portOfOtau.mainCharonPort}-${this.portOfOtau.opticalPort}`;
+  }
+
   onSelectedChanged(trace: Trace) {
     this.selectedTrace = trace;
   }

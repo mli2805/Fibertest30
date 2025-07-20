@@ -53,7 +53,7 @@ export class RtuInitializationComponent implements OnInit, OnDestroy {
     const rtu = CoreUtils.getCurrentState(this.store, RtuTreeSelectors.selectRtu(this.rtuId));
     const allRtuAddresses = CoreUtils.getCurrentState(
       this.store,
-      RtuTreeSelectors.selectAdresses()
+      RtuTreeSelectors.selectAddresses()
     )!;
 
     this.otherThanMainAddress = [...allRtuAddresses];
