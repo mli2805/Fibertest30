@@ -59,6 +59,16 @@ const selectMeasurementClientId = createSelector(
   selectRtuMgmtState,
   (state: RtuMgmtState) => state.measurementClientId
 );
+
+const selectOutOfTurnTraceId = createSelector(
+  selectRtuMgmtState,
+  (state: RtuMgmtState) => state.outOfTurnTraceId
+);
+const selectOutOfTurnSorFileId = createSelector(
+  selectRtuMgmtState,
+  (state: RtuMgmtState) => state.outOfTurnSorFileId
+);
+
 const selectErrorMessageId = createSelector(
   selectRtuMgmtState,
   (state: RtuMgmtState) => state.errorMessageId
@@ -81,5 +91,9 @@ export const RtuMgmtSelectors = {
   selectInitializing,
   selectRtuInitializationResult,
   selectMeasurementClientId,
+
+  selectOutOfTurnTraceId,
+  selectOutOfTurnSorFileId,
+
   selectErrorMessageId
 };

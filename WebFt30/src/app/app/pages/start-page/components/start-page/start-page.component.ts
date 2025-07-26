@@ -58,9 +58,12 @@ import {
 } from 'src/app/shared/system-events/system-event-data/accidents/accidents-data';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
 import { WindowService } from '../window.service';
-import { BaseRefType, FiberState } from 'src/app/core/store/models/ft30/ft-enums';
+import { BaseRefType } from 'src/app/core/store/models/ft30/ft-enums';
 import { AudioEventsMapping } from './audio-events-mapping';
 import { LandmarksUpdateProgressedData } from 'src/app/shared/system-events/system-event-data/landmarks-update';
+import { MeasurementAddedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/measurement-added-data';
+import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'rtu-start-page',
@@ -93,6 +96,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
     private audioService: AudioService,
     private coreService: CoreService,
     private gisMapService: GisMapService,
+    private router: Router,
     public windowService: WindowService
   ) {
     super();
@@ -407,6 +411,23 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       case 'LandmarksUpdateProgressed': {
         const data = <LandmarksUpdateProgressedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(LandmarksModelsActions.updateLandmarksProgress({ line: data }));
+        return;
+      }
+      case 'MeasurementAdded': {
+        const data = <MeasurementAddedData>JSON.parse(systemEvent.jsonData);
+        const traceId = CoreUtils.getCurrentState(
+          this.store,
+          RtuMgmtSelectors.selectOutOfTurnTraceId
+        );
+        if (traceId === data.TraceId) {
+          this.store.dispatch(
+            RtuMgmtActions.preciseMeasurementOutOfTurnDone({ outOfTurnSorFileId: data.SorFileId })
+          );
+          this.windowService.unregisterWindow(traceId, 'OutOfTurnMeasurement');
+
+          const measUrl = `/op-evnts/optical-events/${data.SorFileId.toString()}`;
+          this.router.navigate([measUrl]);
+        }
       }
     }
   }

@@ -37,7 +37,16 @@ public static class RtuMgmtMapping
         };
     }
 
-    public static Iit.Fibertest.Dto.PortWithTraceDto FromProto(this PortWithTraceDto portDto)
+    public static DoOutOfTurnPreciseMeasurementDto FromProto(this DoPreciseMeasurementOutOfTurnDto dto)
+    {
+        return new DoOutOfTurnPreciseMeasurementDto()
+        {
+            RtuId = Guid.Parse(dto.RtuId),
+            PortWithTraceDto = dto.Port.FromProto()
+        };
+    }
+
+    private static Iit.Fibertest.Dto.PortWithTraceDto FromProto(this PortWithTraceDto portDto)
     {
         return new Iit.Fibertest.Dto.PortWithTraceDto()
         {

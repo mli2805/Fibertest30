@@ -34,4 +34,21 @@ public partial class RtuManager
 
         return requestAnswer;
     }
+
+    public async Task<RequestAnswer> InterruptMesasurement(InterruptMeasurementDto dto)
+    {
+        // проверить не занят ли
+        if (!_rtuOccupationService.TrySetOccupation(dto.RtuId, RtuOccupation.MonitoringSettings,
+                _currentUserService.UserName,
+                out RtuOccupationState? _))
+            throw new RtuIsBusyException("");
+
+        var rtuDoubleAddress = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+        if (rtuDoubleAddress == null)
+            throw new NoSuchRtuException("");
+
+        RequestAnswer requestAnswer = await _rtuTransmitter.SendCommand<InterruptMeasurementDto, RequestAnswer>(dto, rtuDoubleAddress);
+
+        return requestAnswer;
+    }
 }

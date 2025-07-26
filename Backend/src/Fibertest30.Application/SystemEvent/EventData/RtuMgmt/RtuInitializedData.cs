@@ -2,16 +2,10 @@
 
 namespace Fibertest30.Application;
 
-public class RtuInitializedData : ISystemEventData
+public class RtuInitializedData(string rtuId, string title) : ISystemEventData
 {
-    public string RtuId { get; init; }
-    public string Title { get; init; }
-
-    public RtuInitializedData(string rtuId, string title)
-    {
-        RtuId = rtuId;
-        Title = title;
-    }
+    public string RtuId { get; init; } = rtuId;
+    public string Title { get; init; } = title;
 
     public string ToJsonData()
     {

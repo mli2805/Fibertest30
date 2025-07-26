@@ -4,30 +4,22 @@ using MediatR;
 namespace Fibertest30.Application;
 
 [HasPermission(ApplicationPermission.DoMeasurementClient)]
-public record DoMeasurementClientCommand(DoClientMeasurementDto dto) : IRequest<Unit>;
+public record DoMeasurementClientCommand(DoClientMeasurementDto Dto) : IRequest<Unit>;
 
-public class DoClientMeasurementCommandHandler : IRequestHandler<DoMeasurementClientCommand, Unit>
+public class DoClientMeasurementCommandHandler(ICurrentUserService currentUserService, IRtuManager rtuManager)
+    : IRequestHandler<DoMeasurementClientCommand, Unit>
 {
-    private readonly ICurrentUserService _currentUserService;
-    private readonly IRtuManager _rtuManager;
-
-    public DoClientMeasurementCommandHandler(ICurrentUserService currentUserService, IRtuManager rtuManager)
-    {
-        _currentUserService = currentUserService;
-        _rtuManager = rtuManager;
-    }
-
     public async Task<Unit> Handle(DoMeasurementClientCommand command, CancellationToken cancellationToken)
     {
-        var dto = command.dto;
-        dto.ConnectionId = _currentUserService.UserId!;
+        var dto = command.Dto;
+        dto.ConnectionId = currentUserService.UserId!;
 
         /* любые проблемы во время выполнения (на стороне сервера) должны бросать кастомный exception
          * этот exception в ExceptionInterceptor заворачивается в RpcException
          * и в вэбе будет Action.Failure и получена нужная ошибка
          */
 
-        var result = await _rtuManager.StartClientMeasurement(dto);
+        var result = await rtuManager.StartClientMeasurement(dto);
 
         /*
          * если рту найден и свободен, то на нем уже СТАРТОВАЛО измерение

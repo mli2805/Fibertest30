@@ -27,7 +27,8 @@ export type ManagedWindow =
   | 'RtuInfo'
   | 'TraceInfo'
   | 'TraceAttach'
-  | 'BopAttach';
+  | 'BopAttach'
+  | 'OutOfTurnMeasurement';
 
 @Component({
   selector: 'rtu-draggable-window',
@@ -40,8 +41,8 @@ export class DraggableWindowComponent implements AfterViewInit {
 
   @Input() caption!: string;
   @Input() modal = true;
-  @Input() left = 110;
-  @Input() top = 75;
+  @Input() left!: number | null;
+  @Input() top!: number | null;
   @Input() closeOnEscape = true;
   @Input() windowName!: ManagedWindow;
   @Input() windowId!: string;
@@ -52,7 +53,23 @@ export class DraggableWindowComponent implements AfterViewInit {
   constructor(private windowService: WindowService, private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
-    this.dragRef.setFreeDragPosition({ x: this.left, y: this.top });
+    if (this.left == null || this.top == null) {
+      // Получаем размеры viewport'а
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+
+      // Получаем размеры DOM-элемента окна
+      const element = this.dragRef.element.nativeElement as HTMLElement;
+      const rect = element.getBoundingClientRect();
+
+      // Вычисляем центр
+      const x = (viewportWidth - rect.width) / 2;
+      const y = (viewportHeight - rect.height) / 2;
+
+      this.dragRef.setFreeDragPosition({ x, y });
+    } else {
+      this.dragRef.setFreeDragPosition({ x: this.left, y: this.top });
+    }
   }
 
   close() {

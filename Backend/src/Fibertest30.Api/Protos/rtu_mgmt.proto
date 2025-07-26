@@ -9,10 +9,12 @@ service RtuMgmt {
 	rpc TestRtuConnection (TestRtuConnectionRequest) returns (TestRtuConnectionResponse);
 	rpc InitializeRtu (InitializeRtuRequest) returns (InitializeRtuResponse);
 	rpc DoMeasurementClient(DoMeasurementClientRequest) returns (EmptyResponse);
+	rpc DoPreciseMeasurementOutOfTurn(DoPreciseMeasurementOutOfTurnRequest) returns (EmptyResponse);
 	rpc GetMeasurementClientSor(GetMeasurementClientSorRequest) returns (GetSorResponse);
 	rpc GetMeasurementSor(GetMeasurementSorRequest) returns (GetSorResponse);
 
 	rpc StopMonitoring(StopMonitoringRequest) returns (EmptyResponse);
+	rpc InterruptMeasurement(InterruptMeasurementRequest) returns (EmptyResponse);
 	rpc ApplyMonitoringSettings(ApplyMonitoringSettingsRequest) returns (ApplyMonitoringSettingsResponse);
 	rpc AssignBaseRefs(AssignBaseRefsRequest) returns (AssignBaseRefsResponse);
 }
@@ -41,6 +43,11 @@ message DoMeasurementClientDto {
 	string rtuId = 1;
 	repeated rtu_tree.PortOfOtau portOfOtau = 2;
 	repeated MeasParamByPosition measParamsByPosition = 3;
+}
+
+message DoPreciseMeasurementOutOfTurnDto {
+	string rtuId = 1;
+	PortWithTraceDto port = 2;
 }
 
 message PortWithTraceDto {
@@ -115,8 +122,12 @@ message InitializeRtuResponse {
 	RtuInitializedDto dto = 1;
 }
 
-message DoMeasurementClientRequest{
+message DoMeasurementClientRequest {
 	DoMeasurementClientDto dto = 1;
+}
+
+message DoPreciseMeasurementOutOfTurnRequest {
+	DoPreciseMeasurementOutOfTurnDto dto = 1;
 }
 
 message GetMeasurementClientSorRequest {
@@ -135,6 +146,10 @@ message GetMeasurementSorRequest {
 }
 
 message StopMonitoringRequest {
+	string rtuId = 1;
+}
+
+message InterruptMeasurementRequest {
 	string rtuId = 1;
 }
 

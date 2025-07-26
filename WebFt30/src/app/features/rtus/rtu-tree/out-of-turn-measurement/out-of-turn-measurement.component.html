@@ -1,0 +1,29 @@
+<rtu-draggable-window
+  [caption]="'i18n.ft.precise-out-of-turn' | translate"
+  [modal]="true"
+  [zIndex]="zIndex"
+  (closeEvent)="close()"
+>
+  <div class="ml-4 flex w-144 flex-col">
+    <div class="my-4 flex flex-col">
+      <div class="mb-2 flex">
+        <div class="">{{ 'i18n.ft.precise-measurement-in-progress' | translate }}...</div>
+        <rtu-loading-spinner *ngIf="spin$ | async" class="ml-2 h-4 w-4"></rtu-loading-spinner>
+      </div>
+      <div class="mb-2">
+        <span class="mr-2">{{ 'i18n.ft.trace' | translate }}:</span>{{ trace.title }}
+      </div>
+      <div class="mb-2">
+        {{ 'i18n.ft.measurement-time-based-on-baseline' | translate }}:<span class="ml-2">{{
+          durationStr
+        }}</span>
+      </div>
+    </div>
+
+    <div class="my-2 mr-4 self-end">
+      <button class="button-extra min-w-36" (click)="onCancelClick()">
+        {{ 'i18n.ft.cancel' | translate }}
+      </button>
+    </div>
+  </div>
+</rtu-draggable-window>

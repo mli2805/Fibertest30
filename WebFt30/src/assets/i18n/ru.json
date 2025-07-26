@@ -97,7 +97,7 @@
   "i18n.ft.bop-count": "Количество БОП",
   "i18n.ft.trace-count": "Количество трасс",
   "i18n.ft.ports-available": "Доступно портов",
-  "i18n.ft.precise-out-of-order": "Точный мониторинг вне очереди",
+  "i18n.ft.precise-out-of-turn": "Точный мониторинг вне очереди",
   "i18n.ft.clean": "Очистить",
   "i18n.ft.remove": "Удалить",
   "i18n.ft.reserve": "Резервный",
@@ -453,6 +453,9 @@
   "i18n.ft.traces-processed": "Обработано трасс",
   "i18n.ft.attention-problems-found": "Внимание! Обнаружено проблем:",
   "i18n.ft.unknown-code": "Неизвестный код {{ 0 }}",
+
+  "i18n.ft.measurement-time-based-on-baseline": "Время измерения, основанное на базовой рефлектограмме",
+  "i18n.ft.precise-measurement-in-progress": "Проводим точное измерение",
 
   "i18n.ft.rtu-removal": "Удаление модуля",
   "i18n.ft.all-module-traces-will-be-cleared": "Все трассы модуля будут очищены",

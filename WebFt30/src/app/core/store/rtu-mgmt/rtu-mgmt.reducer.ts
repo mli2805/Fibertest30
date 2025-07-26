@@ -21,6 +21,10 @@ export const initialState: RtuMgmtState = {
 
   rtuOperationSuccess: null,
   measurementClientId: null,
+
+  outOfTurnTraceId: null,
+  outOfTurnSorFileId: null,
+
   errorMessageId: null
 };
 
@@ -131,12 +135,33 @@ const reducer = createReducer(
     measurementClientId: null
   })),
 
+  on(RtuMgmtActions.startPreciseMeasurementOutOfTurn, (state, { dto }) => ({
+    ...state,
+    rtuOperationInProgress: false,
+    rtuOperationSuccess: null,
+    outOfTurnTraceId: dto.portWithTrace.traceId,
+    outOfTurnSorFileId: null,
+    errorMessageId: null
+  })),
+  on(RtuMgmtActions.preciseMeasurementOutOfTurnDone, (state, { outOfTurnSorFileId }) => ({
+    ...state,
+    outOfTurnTraceId: null,
+    outOfTurnSorFileId: outOfTurnSorFileId,
+    rtuOperationInProgress: false
+  })),
+
   on(RtuMgmtActions.stopMonitoring, (state, { rtuId }) => ({
     ...state,
     rtuOperationInProgress: true,
     rtuOperationSuccess: null,
     errorMessageId: null
   })),
+  on(RtuMgmtActions.interruptMeasurementSuccess, (state) => ({
+    ...state,
+    outOfTurnTraceId: null,
+    outOfTurnSorFileId: null
+  })),
+
   on(RtuMgmtActions.stopMonitoringSuccess, (state) => ({
     ...state,
     rtuOperationInProgress: false,

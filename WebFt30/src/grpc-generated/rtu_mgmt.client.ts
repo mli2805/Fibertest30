@@ -8,10 +8,12 @@ import type { AssignBaseRefsResponse } from "./rtu_mgmt";
 import type { AssignBaseRefsRequest } from "./rtu_mgmt";
 import type { ApplyMonitoringSettingsResponse } from "./rtu_mgmt";
 import type { ApplyMonitoringSettingsRequest } from "./rtu_mgmt";
+import type { InterruptMeasurementRequest } from "./rtu_mgmt";
 import type { StopMonitoringRequest } from "./rtu_mgmt";
 import type { GetMeasurementSorRequest } from "./rtu_mgmt";
 import type { GetSorResponse } from "./rtu_mgmt";
 import type { GetMeasurementClientSorRequest } from "./rtu_mgmt";
+import type { DoPreciseMeasurementOutOfTurnRequest } from "./rtu_mgmt";
 import type { EmptyResponse } from "./rtu_mgmt";
 import type { DoMeasurementClientRequest } from "./rtu_mgmt";
 import type { InitializeRtuResponse } from "./rtu_mgmt";
@@ -38,6 +40,10 @@ export interface IRtuMgmtClient {
      */
     doMeasurementClient(input: DoMeasurementClientRequest, options?: RpcOptions): UnaryCall<DoMeasurementClientRequest, EmptyResponse>;
     /**
+     * @generated from protobuf rpc: DoPreciseMeasurementOutOfTurn(fibertest30.rtu_mgmt.DoPreciseMeasurementOutOfTurnRequest) returns (fibertest30.rtu_mgmt.EmptyResponse);
+     */
+    doPreciseMeasurementOutOfTurn(input: DoPreciseMeasurementOutOfTurnRequest, options?: RpcOptions): UnaryCall<DoPreciseMeasurementOutOfTurnRequest, EmptyResponse>;
+    /**
      * @generated from protobuf rpc: GetMeasurementClientSor(fibertest30.rtu_mgmt.GetMeasurementClientSorRequest) returns (fibertest30.rtu_mgmt.GetSorResponse);
      */
     getMeasurementClientSor(input: GetMeasurementClientSorRequest, options?: RpcOptions): UnaryCall<GetMeasurementClientSorRequest, GetSorResponse>;
@@ -49,6 +55,10 @@ export interface IRtuMgmtClient {
      * @generated from protobuf rpc: StopMonitoring(fibertest30.rtu_mgmt.StopMonitoringRequest) returns (fibertest30.rtu_mgmt.EmptyResponse);
      */
     stopMonitoring(input: StopMonitoringRequest, options?: RpcOptions): UnaryCall<StopMonitoringRequest, EmptyResponse>;
+    /**
+     * @generated from protobuf rpc: InterruptMeasurement(fibertest30.rtu_mgmt.InterruptMeasurementRequest) returns (fibertest30.rtu_mgmt.EmptyResponse);
+     */
+    interruptMeasurement(input: InterruptMeasurementRequest, options?: RpcOptions): UnaryCall<InterruptMeasurementRequest, EmptyResponse>;
     /**
      * @generated from protobuf rpc: ApplyMonitoringSettings(fibertest30.rtu_mgmt.ApplyMonitoringSettingsRequest) returns (fibertest30.rtu_mgmt.ApplyMonitoringSettingsResponse);
      */
@@ -89,38 +99,52 @@ export class RtuMgmtClient implements IRtuMgmtClient, ServiceInfo {
         return stackIntercept<DoMeasurementClientRequest, EmptyResponse>("unary", this._transport, method, opt, input);
     }
     /**
+     * @generated from protobuf rpc: DoPreciseMeasurementOutOfTurn(fibertest30.rtu_mgmt.DoPreciseMeasurementOutOfTurnRequest) returns (fibertest30.rtu_mgmt.EmptyResponse);
+     */
+    doPreciseMeasurementOutOfTurn(input: DoPreciseMeasurementOutOfTurnRequest, options?: RpcOptions): UnaryCall<DoPreciseMeasurementOutOfTurnRequest, EmptyResponse> {
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        return stackIntercept<DoPreciseMeasurementOutOfTurnRequest, EmptyResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
      * @generated from protobuf rpc: GetMeasurementClientSor(fibertest30.rtu_mgmt.GetMeasurementClientSorRequest) returns (fibertest30.rtu_mgmt.GetSorResponse);
      */
     getMeasurementClientSor(input: GetMeasurementClientSorRequest, options?: RpcOptions): UnaryCall<GetMeasurementClientSorRequest, GetSorResponse> {
-        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetMeasurementClientSorRequest, GetSorResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetMeasurementSor(fibertest30.rtu_mgmt.GetMeasurementSorRequest) returns (fibertest30.rtu_mgmt.GetSorResponse);
      */
     getMeasurementSor(input: GetMeasurementSorRequest, options?: RpcOptions): UnaryCall<GetMeasurementSorRequest, GetSorResponse> {
-        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        const method = this.methods[5], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetMeasurementSorRequest, GetSorResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: StopMonitoring(fibertest30.rtu_mgmt.StopMonitoringRequest) returns (fibertest30.rtu_mgmt.EmptyResponse);
      */
     stopMonitoring(input: StopMonitoringRequest, options?: RpcOptions): UnaryCall<StopMonitoringRequest, EmptyResponse> {
-        const method = this.methods[5], opt = this._transport.mergeOptions(options);
+        const method = this.methods[6], opt = this._transport.mergeOptions(options);
         return stackIntercept<StopMonitoringRequest, EmptyResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: InterruptMeasurement(fibertest30.rtu_mgmt.InterruptMeasurementRequest) returns (fibertest30.rtu_mgmt.EmptyResponse);
+     */
+    interruptMeasurement(input: InterruptMeasurementRequest, options?: RpcOptions): UnaryCall<InterruptMeasurementRequest, EmptyResponse> {
+        const method = this.methods[7], opt = this._transport.mergeOptions(options);
+        return stackIntercept<InterruptMeasurementRequest, EmptyResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: ApplyMonitoringSettings(fibertest30.rtu_mgmt.ApplyMonitoringSettingsRequest) returns (fibertest30.rtu_mgmt.ApplyMonitoringSettingsResponse);
      */
     applyMonitoringSettings(input: ApplyMonitoringSettingsRequest, options?: RpcOptions): UnaryCall<ApplyMonitoringSettingsRequest, ApplyMonitoringSettingsResponse> {
-        const method = this.methods[6], opt = this._transport.mergeOptions(options);
+        const method = this.methods[8], opt = this._transport.mergeOptions(options);
         return stackIntercept<ApplyMonitoringSettingsRequest, ApplyMonitoringSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: AssignBaseRefs(fibertest30.rtu_mgmt.AssignBaseRefsRequest) returns (fibertest30.rtu_mgmt.AssignBaseRefsResponse);
      */
     assignBaseRefs(input: AssignBaseRefsRequest, options?: RpcOptions): UnaryCall<AssignBaseRefsRequest, AssignBaseRefsResponse> {
-        const method = this.methods[7], opt = this._transport.mergeOptions(options);
+        const method = this.methods[9], opt = this._transport.mergeOptions(options);
         return stackIntercept<AssignBaseRefsRequest, AssignBaseRefsResponse>("unary", this._transport, method, opt, input);
     }
 }

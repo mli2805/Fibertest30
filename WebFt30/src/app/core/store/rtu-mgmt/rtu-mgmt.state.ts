@@ -17,5 +17,9 @@ export interface RtuMgmtState {
   rtuOperationInProgress: boolean;
   rtuOperationSuccess: boolean | null;
   measurementClientId: string | null;
+
+  outOfTurnTraceId: string | null;
+  outOfTurnSorFileId: number | null;
+
   errorMessageId: string | null;
 }

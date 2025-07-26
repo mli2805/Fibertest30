@@ -2,9 +2,6 @@
   "i18n.ft.profile": "Profile",
   "i18n.ft.sign-out": "Sign out",
   "i18n.ft.signed-in-as": "Signed in as",
-  "i18n.active-alarms.cant-load-active-alarms": "Can't load Active alarms",
-  "i18n.active-alarms.cant-load-alarm": "Can't load Alarm",
-  "i18n.alarm-events.cant-load-alarm-events": "Can't load alarm events",
 
   "i18n.alarm.event-loss": "Event Loss",
   "i18n.alarm.event-reflectance": "Event Reflectance",
@@ -355,7 +352,7 @@
   "i18n.ft.manual-mode": "Manual mode",
   "i18n.ft.automatic-mode": "Automatic mode",
   "i18n.ft.detach-all-traces": "Detach all traces",
-  "i18n.ft.precise-out-of-order": "Precise monitoring out of order",
+  "i18n.ft.precise-out-of-turn": "Precise monitoring out of turn",
   "i18n.ft.clean": "Clean",
   "i18n.ft.remove": "Remove",
   "i18n.ft.test": "Test",
@@ -778,6 +775,9 @@
   "i18n.ft.traces-processed": "Traces processed",
   "i18n.ft.attention-problems-found": "Attention! Problems found:",
   "i18n.ft.unknown-code": "Unknown code {{ 0 }}",
+
+  "i18n.ft.measurement-time-based-on-baseline": "Measurement time based on the baseline",
+  "i18n.ft.precise-measurement-in-progress": "Precise measurement in progress",
 
   "i18n.validation.incorrect-level-order": "incorrect level order",
   "i18n.validation.not-unique": "must be unique",

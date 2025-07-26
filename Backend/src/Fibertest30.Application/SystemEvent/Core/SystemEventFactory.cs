@@ -186,4 +186,10 @@ public static class SystemEventFactory
             new LandmarksUpdateProgressedData(landmarksModelId, step, traceId, traceCount, traceNumber, returnCode, isSuccess),
             SystemEventSource.FromSource("DataCenter"));
     }
+
+    public static SystemEvent MeasurementAdded(string traceId, int sorFileId)
+    {
+        return new SystemEvent(SystemEventType.MeasurementAdded, SystemEventLevel.Info,
+            new MeasurementAddedData(traceId, sorFileId), SystemEventSource.FromSource("DataCenter"));
+    }
 }

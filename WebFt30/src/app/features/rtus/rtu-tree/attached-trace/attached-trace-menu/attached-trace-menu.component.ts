@@ -7,8 +7,11 @@ import { AppState, AuthSelectors, RtuTreeActions, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { RtuTreeService } from 'src/app/core/grpc';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
+import { DoPreciseMeasurementOutOfTurnDto } from 'src/app/core/store/models/ft30/do-precise-measurement-out-of-turn-dto';
+import { PortWithTraceDto } from 'src/app/core/store/models/ft30/port-with-trace-dto';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
+import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
 import { Utils } from 'src/app/shared/utils/utils';
 
@@ -179,7 +182,20 @@ export class AttachedTraceMenuComponent {
   }
 
   onPreciseOutOfTurnClicked() {
-    //
+    const portWithTrace = new PortWithTraceDto();
+    portWithTrace.traceId = this._trace.traceId;
+    portWithTrace.portOfOtau = this._trace.port!;
+    portWithTrace.lastTraceState = this._trace.state;
+    portWithTrace.lastRtuAccidentOnTrace = 0;
+
+    const dto = new DoPreciseMeasurementOutOfTurnDto();
+    dto.rtuId = this.rtu!.rtuId;
+    dto.portWithTrace = portWithTrace;
+    this.store.dispatch(RtuMgmtActions.startPreciseMeasurementOutOfTurn({ dto }));
+
+    this.windowService.registerWindow(this._trace.traceId, 'OutOfTurnMeasurement', {
+      trace: this._trace
+    });
   }
 
   canMeasurementClient() {

@@ -11,6 +11,7 @@ import { DoMeasurementClientDto } from '../../store/models/ft30/do-measurement-c
 import { RtuMgmtMapping } from '../../store/mapping/rtu-mgmt-mapping';
 import { ApplyMonitoringSettingsDto } from '../../store/models/ft30/apply-monitorig-settings-dto';
 import { AssignBaseRefsDto } from '../../store/models/ft30/assign-base-refs-dto';
+import { DoPreciseMeasurementOutOfTurnDto } from '../../store/models/ft30/do-precise-measurement-out-of-turn-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,18 @@ export class RtuMgmtService {
     const request: grpc.DoMeasurementClientRequest = { dto: grpcDto };
     return GrpcUtils.unaryToObservable(
       this.client.doMeasurementClient.bind(this.client),
+      request,
+      {}
+    );
+  }
+
+  startPreciseMeasurementOutOfTurn(
+    dto: DoPreciseMeasurementOutOfTurnDto
+  ): Observable<grpc.EmptyResponse> {
+    const grpcDto = RtuMgmtMapping.toGrpcDoPreciseMeasurementOutOfTurnDto(dto);
+    const request: grpc.DoPreciseMeasurementOutOfTurnRequest = { dto: grpcDto };
+    return GrpcUtils.unaryToObservable(
+      this.client.doPreciseMeasurementOutOfTurn.bind(this.client),
       request,
       {}
     );
@@ -96,5 +109,14 @@ export class RtuMgmtService {
   stopMonitoring(rtuId: string): Observable<grpc.EmptyResponse> {
     const request: grpc.StopMonitoringRequest = { rtuId };
     return GrpcUtils.unaryToObservable(this.client.stopMonitoring.bind(this.client), request, {});
+  }
+
+  interruptMeasurement(rtuId: string): Observable<grpc.EmptyResponse> {
+    const request: grpc.InterruptMeasurementRequest = { rtuId };
+    return GrpcUtils.unaryToObservable(
+      this.client.interruptMeasurement.bind(this.client),
+      request,
+      {}
+    );
   }
 }

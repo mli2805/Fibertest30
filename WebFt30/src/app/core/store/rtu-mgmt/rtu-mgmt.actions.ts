@@ -5,6 +5,7 @@ import { RtuInitializedDto } from '../models/ft30/rtu-initialized-dto';
 import { DoMeasurementClientDto } from '../models/ft30/do-measurement-client-dto';
 import { ApplyMonitoringSettingsDto } from '../models/ft30/apply-monitorig-settings-dto';
 import { RequestAnswer } from '../models/ft30/request-answer';
+import { DoPreciseMeasurementOutOfTurnDto } from '../models/ft30/do-precise-measurement-out-of-turn-dto';
 
 const testMainChannel = createAction(
   '[RtuMgmt] Test Main Channel',
@@ -60,16 +61,43 @@ const startMeasurementClientFailure = createAction(
   props<{ errorMessageId: string }>()
 );
 
+const startPreciseMeasurementOutOfTurn = createAction(
+  '[RtuMgmt] Start Precise Measurement Out Of Turn ',
+  props<{ dto: DoPreciseMeasurementOutOfTurnDto }>()
+);
+const startPreciseMeasurementOutOfTurnSuccess = createAction(
+  '[RtuMgmt] Start Precise Measurement Out Of Turn  Success'
+);
+const startPreciseMeasurementOutOfTurnFailure = createAction(
+  '[RtuMgmt] Start Precise Measurement Out Of Turn  Failure',
+  props<{ errorMessageId: string }>()
+);
+
 const measurementClientDone = createAction(
   '[RtuMgmt] Measurement Client Done',
   props<{ measurementClientId: string }>()
 );
 const getMeasurementClientSorSuccess = createAction('[RtuMgmt] Get Measurement Client Success');
 
+const preciseMeasurementOutOfTurnDone = createAction(
+  '[RtuMgmt] Precise Measurement Out Of Turn Done',
+  props<{ outOfTurnSorFileId: number }>()
+);
+
 const stopMonitoring = createAction('[RtuMgmt] Stop Monitoring', props<{ rtuId: string }>());
 const stopMonitoringSuccess = createAction('[RtuMgmt] Stop Monitoring Success');
 const stopMonitoringFailure = createAction(
   '[RtuMgmt] Stop Monitoring Failure',
+  props<{ errorMessageId: string }>()
+);
+
+const interruptMeasurement = createAction(
+  '[RtuMgmt] Interrupt Measurement',
+  props<{ rtuId: string }>()
+);
+const interruptMeasurementSuccess = createAction('[RtuMgmt] Interrupt Measurement Success');
+const interruptMeasurementFailure = createAction(
+  '[RtuMgmt] Interrupt Measurement Failure',
   props<{ errorMessageId: string }>()
 );
 
@@ -107,13 +135,23 @@ export const RtuMgmtActions = {
   startMeasurementClientSuccess,
   startMeasurementClientFailure,
 
+  startPreciseMeasurementOutOfTurn,
+  startPreciseMeasurementOutOfTurnSuccess,
+  startPreciseMeasurementOutOfTurnFailure,
+
   measurementClientDone,
   getMeasurementClientSorSuccess,
   cleanMeasurementClient,
 
+  preciseMeasurementOutOfTurnDone,
+
   stopMonitoring,
   stopMonitoringSuccess,
   stopMonitoringFailure,
+
+  interruptMeasurement,
+  interruptMeasurementSuccess,
+  interruptMeasurementFailure,
 
   applyMonitoringSettings,
   applyMonitoringSettingsSuccess,

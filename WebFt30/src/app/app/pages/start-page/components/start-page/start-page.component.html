@@ -99,6 +99,14 @@
       <ng-container *ngIf="window.type === 'TraceInfo'">
         <rtu-trace-info-dialog [traceId]="window.id" [zIndex]="window.zIndex" />
       </ng-container>
+
+      <ng-container *ngIf="window.type === 'OutOfTurnMeasurement'">
+        <rtu-out-of-turn-measurement
+          [traceId]="window.id"
+          [zIndex]="window.zIndex"
+          [payload]="window.payload"
+        />
+      </ng-container>
     </ng-container>
   </div>
 </div>

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { act, Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { RtuMgmtService } from '../../grpc/services/rtu-mgmt.service';
 import { RtuMgmtActions } from './rtu-mgmt.actions';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { CoreUtils } from '../../core.utils';
 import { GrpcUtils } from '../../grpc/grpc.utils';
-import { FtBaseMapping } from '../mapping/ft-base-mapping';
 
 @Injectable()
 export class RtuMgmtEffects {
@@ -84,6 +83,25 @@ export class RtuMgmtEffects {
     )
   );
 
+  startPreciseMeasurementOutOfTurn = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RtuMgmtActions.startPreciseMeasurementOutOfTurn),
+      switchMap(({ dto }) => {
+        return this.rtuMgmtService.startPreciseMeasurementOutOfTurn(dto).pipe(
+          map((response) => {
+            return RtuMgmtActions.startPreciseMeasurementOutOfTurnSuccess();
+          }),
+          catchError((error) => {
+            const serverError = GrpcUtils.toServerError(error);
+            const errorMessageId =
+              CoreUtils.serverErrorToMessageId(serverError) ?? 'i18n.error.unknown-error';
+            return of(RtuMgmtActions.startPreciseMeasurementOutOfTurnFailure({ errorMessageId }));
+          })
+        );
+      })
+    )
+  );
+
   applyMonitoringSettings = createEffect(() =>
     this.actions$.pipe(
       ofType(RtuMgmtActions.applyMonitoringSettings),
@@ -119,5 +137,20 @@ export class RtuMgmtEffects {
     )
   );
 
+  interruptMeasurement = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RtuMgmtActions.interruptMeasurement),
+      switchMap(({ rtuId }) => {
+        return this.rtuMgmtService.interruptMeasurement(rtuId).pipe(
+          map((response) => {
+            return RtuMgmtActions.interruptMeasurementSuccess();
+          }),
+          catchError((error) => {
+            return of(RtuMgmtActions.interruptMeasurementFailure({ errorMessageId: error }));
+          })
+        );
+      })
+    )
+  );
   constructor(private actions$: Actions, private rtuMgmtService: RtuMgmtService) {}
 }

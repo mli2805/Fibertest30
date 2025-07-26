@@ -7,6 +7,7 @@ import { PortWithTraceDto } from '../models/ft30/port-with-trace-dto';
 import { FtEnumsMapping } from './ft-enums-mapping';
 import { AssignBaseRefsDto, BaseRefFile } from '../models/ft30/assign-base-refs-dto';
 import { BaseRefsAssignedDto } from '../models/ft30/base-refs-assigned-dto';
+import { DoPreciseMeasurementOutOfTurnDto } from '../models/ft30/do-precise-measurement-out-of-turn-dto';
 
 export class RtuMgmtMapping {
   static fromGrpcRtuInitializedDto(grpcDto: grpc.RtuInitializedDto): RtuInitializedDto {
@@ -20,6 +21,15 @@ export class RtuMgmtMapping {
       rtuId: dto.rtuId,
       portOfOtau: dto.portOfOtau.map((p) => FtBaseMapping.toGrpcPortOfOtau(p)),
       measParamsByPosition: dto.ms.map((m) => FtBaseMapping.toGrpcMeasParamByPosition(m))
+    };
+  }
+
+  static toGrpcDoPreciseMeasurementOutOfTurnDto(
+    dto: DoPreciseMeasurementOutOfTurnDto
+  ): grpc.DoPreciseMeasurementOutOfTurnDto {
+    return {
+      rtuId: dto.rtuId,
+      port: this.toGrpcPortWithTraceDto(dto.portWithTrace)
     };
   }
 

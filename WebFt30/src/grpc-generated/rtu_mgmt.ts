@@ -78,6 +78,19 @@ export interface DoMeasurementClientDto {
     measParamsByPosition: MeasParamByPosition[];
 }
 /**
+ * @generated from protobuf message fibertest30.rtu_mgmt.DoPreciseMeasurementOutOfTurnDto
+ */
+export interface DoPreciseMeasurementOutOfTurnDto {
+    /**
+     * @generated from protobuf field: string rtuId = 1;
+     */
+    rtuId: string;
+    /**
+     * @generated from protobuf field: fibertest30.rtu_mgmt.PortWithTraceDto port = 2;
+     */
+    port?: PortWithTraceDto;
+}
+/**
  * @generated from protobuf message fibertest30.rtu_mgmt.PortWithTraceDto
  */
 export interface PortWithTraceDto {
@@ -273,6 +286,15 @@ export interface DoMeasurementClientRequest {
     dto?: DoMeasurementClientDto;
 }
 /**
+ * @generated from protobuf message fibertest30.rtu_mgmt.DoPreciseMeasurementOutOfTurnRequest
+ */
+export interface DoPreciseMeasurementOutOfTurnRequest {
+    /**
+     * @generated from protobuf field: fibertest30.rtu_mgmt.DoPreciseMeasurementOutOfTurnDto dto = 1;
+     */
+    dto?: DoPreciseMeasurementOutOfTurnDto;
+}
+/**
  * @generated from protobuf message fibertest30.rtu_mgmt.GetMeasurementClientSorRequest
  */
 export interface GetMeasurementClientSorRequest {
@@ -313,6 +335,15 @@ export interface GetMeasurementSorRequest {
  * @generated from protobuf message fibertest30.rtu_mgmt.StopMonitoringRequest
  */
 export interface StopMonitoringRequest {
+    /**
+     * @generated from protobuf field: string rtuId = 1;
+     */
+    rtuId: string;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_mgmt.InterruptMeasurementRequest
+ */
+export interface InterruptMeasurementRequest {
     /**
      * @generated from protobuf field: string rtuId = 1;
      */
@@ -425,6 +456,19 @@ class DoMeasurementClientDto$Type extends MessageType<DoMeasurementClientDto> {
  * @generated MessageType for protobuf message fibertest30.rtu_mgmt.DoMeasurementClientDto
  */
 export const DoMeasurementClientDto = new DoMeasurementClientDto$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class DoPreciseMeasurementOutOfTurnDto$Type extends MessageType<DoPreciseMeasurementOutOfTurnDto> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.DoPreciseMeasurementOutOfTurnDto", [
+            { no: 1, name: "rtuId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "port", kind: "message", T: () => PortWithTraceDto }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.DoPreciseMeasurementOutOfTurnDto
+ */
+export const DoPreciseMeasurementOutOfTurnDto = new DoPreciseMeasurementOutOfTurnDto$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class PortWithTraceDto$Type extends MessageType<PortWithTraceDto> {
     constructor() {
@@ -581,6 +625,18 @@ class DoMeasurementClientRequest$Type extends MessageType<DoMeasurementClientReq
  */
 export const DoMeasurementClientRequest = new DoMeasurementClientRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class DoPreciseMeasurementOutOfTurnRequest$Type extends MessageType<DoPreciseMeasurementOutOfTurnRequest> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.DoPreciseMeasurementOutOfTurnRequest", [
+            { no: 1, name: "dto", kind: "message", T: () => DoPreciseMeasurementOutOfTurnDto }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.DoPreciseMeasurementOutOfTurnRequest
+ */
+export const DoPreciseMeasurementOutOfTurnRequest = new DoPreciseMeasurementOutOfTurnRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class GetMeasurementClientSorRequest$Type extends MessageType<GetMeasurementClientSorRequest> {
     constructor() {
         super("fibertest30.rtu_mgmt.GetMeasurementClientSorRequest", [
@@ -630,6 +686,18 @@ class StopMonitoringRequest$Type extends MessageType<StopMonitoringRequest> {
  * @generated MessageType for protobuf message fibertest30.rtu_mgmt.StopMonitoringRequest
  */
 export const StopMonitoringRequest = new StopMonitoringRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class InterruptMeasurementRequest$Type extends MessageType<InterruptMeasurementRequest> {
+    constructor() {
+        super("fibertest30.rtu_mgmt.InterruptMeasurementRequest", [
+            { no: 1, name: "rtuId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_mgmt.InterruptMeasurementRequest
+ */
+export const InterruptMeasurementRequest = new InterruptMeasurementRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class EmptyResponse$Type extends MessageType<EmptyResponse> {
     constructor() {
@@ -695,9 +763,11 @@ export const RtuMgmt = new ServiceType("fibertest30.rtu_mgmt.RtuMgmt", [
     { name: "TestRtuConnection", options: {}, I: TestRtuConnectionRequest, O: TestRtuConnectionResponse },
     { name: "InitializeRtu", options: {}, I: InitializeRtuRequest, O: InitializeRtuResponse },
     { name: "DoMeasurementClient", options: {}, I: DoMeasurementClientRequest, O: EmptyResponse },
+    { name: "DoPreciseMeasurementOutOfTurn", options: {}, I: DoPreciseMeasurementOutOfTurnRequest, O: EmptyResponse },
     { name: "GetMeasurementClientSor", options: {}, I: GetMeasurementClientSorRequest, O: GetSorResponse },
     { name: "GetMeasurementSor", options: {}, I: GetMeasurementSorRequest, O: GetSorResponse },
     { name: "StopMonitoring", options: {}, I: StopMonitoringRequest, O: EmptyResponse },
+    { name: "InterruptMeasurement", options: {}, I: InterruptMeasurementRequest, O: EmptyResponse },
     { name: "ApplyMonitoringSettings", options: {}, I: ApplyMonitoringSettingsRequest, O: ApplyMonitoringSettingsResponse },
     { name: "AssignBaseRefs", options: {}, I: AssignBaseRefsRequest, O: AssignBaseRefsResponse }
 ]);

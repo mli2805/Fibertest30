@@ -35,12 +35,20 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
 
             AddMeasurement? addMeasurement = await SaveAddMeasurement(dto, sorId);
 
-            if (addMeasurement != null && addMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent)
+            if (addMeasurement != null)
             {
-                await systemEventSender
-                    .Send(SystemEventFactory.TraceStateChanged(
-                        addMeasurement.SorFileId, addMeasurement.EventRegistrationTimestamp, trace!.TraceId.ToString(),
-                        trace.Title, trace.RtuId.ToString(), addMeasurement.BaseRefType, addMeasurement.TraceState));
+                if (addMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent)
+                {
+                    await systemEventSender
+                        .Send(SystemEventFactory.TraceStateChanged(
+                            addMeasurement.SorFileId, addMeasurement.EventRegistrationTimestamp, trace!.TraceId.ToString(),
+                            trace.Title, trace.RtuId.ToString(), addMeasurement.BaseRefType, addMeasurement.TraceState));
+                }
+                else
+                {
+                    await systemEventSender.Send(SystemEventFactory.MeasurementAdded(
+                        trace!.TraceId.ToString(), addMeasurement.SorFileId));
+                }
             }
 
             await CheckAndSendBopNetworkIfNeeded(dto);
@@ -58,7 +66,7 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
                 var objId = rtuAccident.IsMeasurementProblem ? trace!.TraceId : rtu!.Id;
                 var rtuId = rtuAccident.IsMeasurementProblem ? trace!.RtuId : rtu!.Id;
                 await systemEventSender.Send(SystemEventFactory.RtuStateAccidentAdded(
-                    rtuAccident.Id, rtuAccident.EventRegistrationTimestamp, objTitle, objId.ToString(), 
+                    rtuAccident.Id, rtuAccident.EventRegistrationTimestamp, objTitle, objId.ToString(),
                     rtuId.ToString(), rtuAccident.IsGoodAccident));
 
             }
@@ -152,7 +160,7 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
         using var scope = serviceScopeFactory.CreateScope();
         var eventStoreService = scope.ServiceProvider.GetRequiredService<IEventStoreService>();
         var result = await eventStoreService.SendCommand(cmd, "system", "OnServer");
-        if (!string.IsNullOrEmpty(result)) return ;
+        if (!string.IsNullOrEmpty(result)) return;
 
         var bopNetworkEvent = writeModel.BopNetworkEvents.LastOrDefault();
         if (bopNetworkEvent != null)
@@ -183,7 +191,7 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
         var rtu = writeModel.Rtus.First(r => r.Id == dto.RtuId);
 
         await systemEventSender.Send(SystemEventFactory.NetworkEventAdded(
-            evnt.Ordinal, evnt.EventTimestamp, rtu.Title, rtu.Id.ToString(), 
+            evnt.Ordinal, evnt.EventTimestamp, rtu.Title, rtu.Id.ToString(),
             dto.OnMainChannel == ChannelEvent.Repaired));
     }
 

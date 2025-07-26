@@ -40,6 +40,15 @@ public class RtuMgmtService : RtuMgmt.RtuMgmtBase
         return new EmptyResponse();
     }
 
+    public override async Task<EmptyResponse> DoPreciseMeasurementOutOfTurn(
+        DoPreciseMeasurementOutOfTurnRequest request, ServerCallContext context)
+    {
+        await _mediator.Send(new DoPreciseMeasurementOutOfTurnCommand(request.Dto.FromProto()),
+            context.CancellationToken);
+
+        return new EmptyResponse();
+    }
+
     public override async Task<GetSorResponse> GetMeasurementClientSor(
         GetMeasurementClientSorRequest request, ServerCallContext context)
     {
@@ -65,6 +74,15 @@ public class RtuMgmtService : RtuMgmt.RtuMgmtBase
 
         // успешный результат придет в системном событии, чтобы все клиенты обработали его одинаково
         // проблемы во время исполнения должны дать кастомный exception, который пославший клиент покажет как сообщение об ошибке
+        return new EmptyResponse();
+    }
+
+    public override async Task<EmptyResponse> InterruptMeasurement(InterruptMeasurementRequest request,
+         ServerCallContext context)
+    {
+        var guid = Guid.Parse(request.RtuId);
+        await _mediator.Send(new InterruptMeasurmentCommand(guid), context.CancellationToken);
+
         return new EmptyResponse();
     }
 

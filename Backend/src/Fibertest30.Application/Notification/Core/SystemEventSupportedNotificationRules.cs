@@ -104,17 +104,25 @@ public static class SystemEventSupportedNotificationRules
         {
             SystemEventType.TraceStateChanged,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
-        },{
+        },
+        {
             SystemEventType.NetworkEventAdded,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
-        },{
+        },
+        {
             SystemEventType.BopNetworkEventAdded,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
-        },{
+        },
+        {
             SystemEventType.RtuStateAccidentAdded,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
-        },{
+        },
+        {
             SystemEventType.LandmarksUpdateProgressed,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },
+        {
+            SystemEventType.MeasurementAdded,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         }
     };
