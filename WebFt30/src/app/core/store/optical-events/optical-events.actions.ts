@@ -3,6 +3,20 @@ import { ServerError } from '../../models/server-error';
 import { OpticalEvent } from '../models/ft30/optical-event';
 import { DateTimeRange } from 'src/grpc-generated/events.data';
 
+const getOpticalEvent = createAction(
+  '[OpticalEvents] Get Optical Event',
+  props<{ eventId: number }>()
+);
+const getOpticalEventSuccess = createAction(
+  '[OpticalEvents] Get Optical Event Success',
+  props<{ opticalEvent: OpticalEvent }>()
+);
+
+const getOpticalEventFailure = createAction(
+  '[OpticalEvents] Get Optical Event Failure',
+  props<{ errorMessageId: string }>()
+);
+
 const getOpticalEvents = createAction(
   '[OpticalEvents] Get Optical Events',
   props<{ currentEvents: boolean; orderDescending: boolean; searchWindow: DateTimeRange | null }>()
@@ -39,6 +53,10 @@ const loadNextOpticalEventsFailure = createAction(
 const resetError = createAction('[OpticalEvents] Reset Error');
 
 export const OpticalEventsActions = {
+  getOpticalEvent,
+  getOpticalEventSuccess,
+  getOpticalEventFailure,
+
   getOpticalEvents,
   getOpticalEventsSuccess,
   getOpticalEventsFailure,

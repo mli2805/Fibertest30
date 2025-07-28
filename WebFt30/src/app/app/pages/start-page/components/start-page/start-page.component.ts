@@ -15,7 +15,8 @@ import {
   DeviceActions,
   RtuTreeSelectors,
   SettingsSelectors,
-  LandmarksModelsActions
+  LandmarksModelsActions,
+  OpticalEventsActions
 } from 'src/app/core';
 import { AuthUtils } from 'src/app/core/auth/auth.utils';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -42,14 +43,8 @@ import { AudioEvent } from 'src/app/core/store/models/ft30/audio-event';
 import { AudioService } from 'src/app/core/services/audio.service';
 import {
   OtauAttachedData,
-  OtauDetachedData,
-  RtuAddedData,
-  TraceAddedData,
-  TraceAttachedData,
-  TraceCleanedData,
-  TraceDetachedData,
-  TraceRemovedData
-} from 'src/app/shared/system-events/system-event-data/rtu-tree/trace-attached-data';
+  OtauDetachedData
+} from 'src/app/shared/system-events/system-event-data/rtu-mgmt/otau-data';
 import {
   BopNetworkEventAddedData,
   NetworkEventAddedData,
@@ -64,6 +59,15 @@ import { LandmarksUpdateProgressedData } from 'src/app/shared/system-events/syst
 import { MeasurementAddedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/measurement-added-data';
 import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors';
 import { Router } from '@angular/router';
+import { RtuAddedData } from 'src/app/shared/system-events/system-event-data/graph/rtu-added-data';
+import {
+  TraceAttachedData,
+  TraceDetachedData,
+  TraceAddedData,
+  TraceCleanedData,
+  TraceRemovedData
+} from 'src/app/shared/system-events/system-event-data/graph/trace-data';
+import { MeasurementUpdatedData } from 'src/app/shared/system-events/system-event-data/graph/measurement-updated-data';
 
 @Component({
   selector: 'rtu-start-page',
@@ -428,6 +432,12 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
           const measUrl = `/op-evnts/optical-events/${data.SorFileId.toString()}`;
           this.router.navigate([measUrl]);
         }
+        return;
+      }
+      case 'MeasurementUpdated': {
+        const data = <MeasurementUpdatedData>JSON.parse(systemEvent.jsonData);
+        this.store.dispatch(OpticalEventsActions.getOpticalEvent({ eventId: data.SorFileId }));
+        return;
       }
     }
   }

@@ -1,12 +1,11 @@
 import { createSelector } from '@ngrx/store';
 import { selectOpticalEventsState } from '../../core.state';
 import { OpticalEventsState } from './optical-events.state';
-import { OpticalEvent } from '../models/ft30/optical-event';
+import { OpticalEventsStateAdapter } from './optical-events.reducer';
 
-const selectOpticalEvents = createSelector(
-  selectOpticalEventsState,
-  (state: OpticalEventsState) => state.opticalEvents
-);
+const { selectAll, selectEntities, selectTotal } = OpticalEventsStateAdapter.getSelectors();
+
+const selectOpticalEvents = createSelector(selectOpticalEventsState, selectAll);
 
 const selectLoading = createSelector(
   selectOpticalEventsState,
@@ -30,9 +29,7 @@ const selectErrorMessageId = createSelector(
 );
 
 const selectOpticalEventById = (eventId: number) =>
-  createSelector(selectOpticalEvents, (opEvents: OpticalEvent[] | null) => {
-    return opEvents?.find((o) => o.eventId === eventId) || null;
-  });
+  createSelector(selectOpticalEventsState, (state) => state.entities[eventId]);
 
 export const OpticalEventsSelectors = {
   selectOpticalEvents,

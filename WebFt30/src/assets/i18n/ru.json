@@ -456,6 +456,7 @@
 
   "i18n.ft.measurement-time-based-on-baseline": "Время измерения, основанное на базовой рефлектограмме",
   "i18n.ft.precise-measurement-in-progress": "Проводим точное измерение",
+  "i18n.ft.optical-event-status": "Статус оптического события",
 
   "i18n.ft.rtu-removal": "Удаление модуля",
   "i18n.ft.all-module-traces-will-be-cleared": "Все трассы модуля будут очищены",

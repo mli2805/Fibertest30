@@ -62,6 +62,8 @@ public class GraphCommandHandler(ILogger<GraphCommand> logger, ICurrentUserServi
             ClearRtuAddress c=>SystemEventFactory.RtuAddressCleared(currentUserService.UserId!, c.RtuId),
             RemoveRtu c => SystemEventFactory.RtuRemoved(currentUserService.UserId!, c.RtuId),
 
+            UpdateMeasurement c => SystemEventFactory.MeasurementUpdated(currentUserService.UserId!, c.SorFileId),
+
             _ => null
         };
     }

@@ -36,7 +36,8 @@ export class OpticalEventsComponent implements OnInit {
   ngOnInit(): void {
     this.currentEvents = this.ns.opticalShowCurrent;
     this.orderDescending = this.ns.opticalOrderDescending;
-    this.loadIfNotLoadedBefore();
+    // this.loadIfNotLoadedBefore();
+    this.refresh();
   }
 
   private loadIfNotLoadedBefore() {
@@ -44,7 +45,8 @@ export class OpticalEventsComponent implements OnInit {
       this.store,
       OpticalEventsSelectors.selectOpticalEvents
     );
-    if (opticalEvents === null) {
+    console.log(opticalEvents);
+    if (opticalEvents.length === 0) {
       this.refresh();
     }
   }

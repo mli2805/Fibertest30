@@ -30,11 +30,6 @@ export class EventTablesService {
     return GrpcUtils.unaryToObservable(this.client.getSystemEvents.bind(this.client), request, {});
   }
 
-  // getOpticalEvents(currentEvents: boolean): Observable<gprc.GetOpticalEventsResponse> {
-  //   const request: gprc.GetOpticalEventsRequest = { currentEvents };
-  //   return GrpcUtils.unaryToObservable(this.client.getOpticalEvents.bind(this.client), request, {});
-  // }
-
   getOpticalEvent(eventId: number): Observable<gprc.GetOpticalEventResponse> {
     const request: gprc.GetOpticalEventRequest = { eventId };
     return GrpcUtils.unaryToObservable(this.client.getOpticalEvent.bind(this.client), request, {});

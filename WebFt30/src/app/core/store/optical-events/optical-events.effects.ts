@@ -10,6 +10,28 @@ import { EventTablesMapping } from '../mapping/event-tables-mapping';
 
 @Injectable()
 export class OpticalEventsEffects {
+  getOpticalEvent = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OpticalEventsActions.getOpticalEvent),
+      switchMap(({ eventId }) => {
+        return this.eventTablesService.getOpticalEvent(eventId).pipe(
+          map((response) => {
+            return OpticalEventsActions.getOpticalEventSuccess({
+              opticalEvent: EventTablesMapping.toOpticalEvent(response.opticalEvent!)
+            });
+          }),
+          catchError((error) => {
+            return of(
+              OpticalEventsActions.getOpticalEventFailure({
+                errorMessageId: 'i18n.ft.cant-get-optical-event'
+              })
+            );
+          })
+        );
+      })
+    )
+  );
+
   getOpticalEvents = createEffect(() =>
     this.actions$.pipe(
       ofType(OpticalEventsActions.getOpticalEvents),
@@ -18,13 +40,13 @@ export class OpticalEventsEffects {
           .getOpticalEvents(currentEvents, searchWindow, null, orderDescending)
           .pipe(
             map((response) => {
-              return OpticalEventsActions.loadNextOpticalEventsSuccess({
+              return OpticalEventsActions.getOpticalEventsSuccess({
                 opticalEvents: EventTablesMapping.toOpticalEvents(response.opticalEvents)
               });
             }),
             catchError((error) =>
               of(
-                OpticalEventsActions.loadNextOpticalEventsFailure({
+                OpticalEventsActions.getOpticalEventsFailure({
                   error: GrpcUtils.toServerError(error)
                 })
               )

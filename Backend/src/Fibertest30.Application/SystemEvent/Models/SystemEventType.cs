@@ -41,7 +41,8 @@ public enum SystemEventType
     NetworkEventAdded,
     BopNetworkEventAdded,
     RtuStateAccidentAdded,
-    MeasurementAdded,
+    MeasurementAdded,  // используется для измерение вне очереди
+    MeasurementUpdated, // статус и комент
 
     LandmarksUpdateProgressed
 }

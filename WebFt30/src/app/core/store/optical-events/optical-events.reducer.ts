@@ -1,13 +1,18 @@
 import { createReducer, on } from '@ngrx/store';
 import { OpticalEventsState } from './optical-events.state';
 import { OpticalEventsActions } from './optical-events.actions';
+import { createEntityAdapter } from '@ngrx/entity';
+import { OpticalEvent } from '../models/ft30/optical-event';
 
-export const initialState: OpticalEventsState = {
-  opticalEvents: null,
+export const OpticalEventsStateAdapter = createEntityAdapter<OpticalEvent>({
+  selectId: (opticalEvent: OpticalEvent) => opticalEvent.eventId
+});
+
+export const initialState: OpticalEventsState = OpticalEventsStateAdapter.getInitialState({
   loading: false,
   loadedTime: null,
   error: null
-};
+});
 
 const reducer = createReducer(
   initialState,
@@ -22,12 +27,13 @@ const reducer = createReducer(
     loadedTime: null,
     error: null
   })),
-  on(OpticalEventsActions.getOpticalEventsSuccess, (state, { opticalEvents }) => ({
-    ...state,
-    opticalEvents,
-    loading: false,
-    loadedTime: new Date()
-  })),
+  on(OpticalEventsActions.getOpticalEventsSuccess, (state, { opticalEvents }) =>
+    OpticalEventsStateAdapter.setAll(opticalEvents, {
+      ...state,
+      loading: false,
+      loadedTime: new Date()
+    })
+  ),
   on(OpticalEventsActions.getOpticalEventsFailure, (state, { error }) => ({
     ...state,
     loading: false,
@@ -39,17 +45,36 @@ const reducer = createReducer(
     loading: true,
     error: null
   })),
-  on(OpticalEventsActions.loadNextOpticalEventsSuccess, (state, { opticalEvents }) => ({
-    ...state,
-    opticalEvents: state.opticalEvents ? [...state.opticalEvents, ...opticalEvents] : opticalEvents,
-    loading: false,
-    loadedTime: new Date()
-  })),
+  on(OpticalEventsActions.loadNextOpticalEventsSuccess, (state, { opticalEvents }) =>
+    OpticalEventsStateAdapter.addMany(opticalEvents, {
+      ...state,
+      loading: false,
+      loadedTime: new Date()
+    })
+  ),
   on(OpticalEventsActions.getOpticalEventsFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error
-  }))
+  })),
+
+  on(OpticalEventsActions.getOpticalEvent, (state) => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  on(OpticalEventsActions.getOpticalEventSuccess, (state, { opticalEvent }) => {
+    return OpticalEventsStateAdapter.updateOne(
+      {
+        id: opticalEvent.eventId,
+        changes: opticalEvent
+      },
+      {
+        ...state,
+        loading: false
+      }
+    );
+  })
 );
 
 export function opticalEventsReducer(

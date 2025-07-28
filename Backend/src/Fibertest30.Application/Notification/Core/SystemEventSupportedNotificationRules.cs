@@ -124,6 +124,10 @@ public static class SystemEventSupportedNotificationRules
         {
             SystemEventType.MeasurementAdded,
             Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
+        },
+        {
+            SystemEventType.MeasurementUpdated,
+            Rules(Rule(NotificationChannel.InAppInternal, NotificationTarget.All))
         }
     };
 
