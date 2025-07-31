@@ -419,6 +419,8 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       }
       case 'MeasurementAdded': {
         const data = <MeasurementAddedData>JSON.parse(systemEvent.jsonData);
+        // если пользователь не проводит сейчас точное изм вне очереди
+        // traceId будет null и переход на страницу измерения не происходит
         const traceId = CoreUtils.getCurrentState(
           this.store,
           RtuMgmtSelectors.selectOutOfTurnTraceId
@@ -430,7 +432,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
           this.windowService.unregisterWindow(traceId, 'OutOfTurnMeasurement');
 
           const measUrl = `/op-evnts/optical-events/${data.SorFileId.toString()}`;
-          this.router.navigate([measUrl]);
+          this.router.navigate([measUrl], { queryParams: { open: 'sor' } });
         }
         return;
       }

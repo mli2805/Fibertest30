@@ -56,6 +56,8 @@ export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
 
   async ngOnInit() {
     this.opticalEventId = +this.route.snapshot.paramMap.get('id')!;
+    const open = this.route.snapshot.queryParamMap.get('open') ?? 'map';
+    this.isGraphMode = open === 'map';
     await this.load();
   }
 
