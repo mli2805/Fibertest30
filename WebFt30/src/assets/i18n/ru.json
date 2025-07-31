@@ -143,6 +143,7 @@
   "i18n.ft.gis": "ГИС",
   "i18n.ft.reports": "Отчеты",
   "i18n.ft.system-events": "Системные события",
+  "i18n.ft.measurement": "Измерение",
 
   "i18n.ft.cant-load-optical-events": "Не удалось загрузить оптические события",
   "i18n.ft.cant-load-network-events": "Не удалось загрузить сетевые события RTU",

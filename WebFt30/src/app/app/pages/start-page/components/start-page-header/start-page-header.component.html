@@ -9,8 +9,16 @@
         <div class="flex h-full items-center justify-center">
           <!-- prettier-ignore -->
           <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" >
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
-      </svg>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+          </svg>
+        </div>
+      </button>
+      <button class="button-extra h-6" *ngIf="routerStateUrl.data.navigateBack" (click)="goBack()">
+        <div class="flex h-full items-center justify-center">
+          <!-- prettier-ignore -->
+          <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+          </svg>
         </div>
       </button>
     </ng-container>

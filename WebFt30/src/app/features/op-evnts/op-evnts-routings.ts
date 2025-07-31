@@ -24,7 +24,7 @@ export const routes: Routes = [
         pathMatch: 'full',
         component: OpticalEventViewComponent,
         data: {
-          navigateToParent: 1
+          navigateBack: true
         }
       }
     ]

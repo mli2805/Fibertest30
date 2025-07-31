@@ -411,6 +411,7 @@
   "i18n.ft.gis": "GIS",
   "i18n.ft.reports": "Reports",
   "i18n.ft.system-events": "System events",
+  "i18n.ft.measurement": "Measurement",
 
   "i18n.ft.cant-load-optical-events": "Can't load optical events",
   "i18n.ft.cant-load-network-events": "Can't load RTU network events",
