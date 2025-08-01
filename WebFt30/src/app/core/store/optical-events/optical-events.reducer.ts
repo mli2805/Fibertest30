@@ -64,16 +64,10 @@ const reducer = createReducer(
     error: null
   })),
   on(OpticalEventsActions.getOpticalEventSuccess, (state, { opticalEvent }) => {
-    return OpticalEventsStateAdapter.updateOne(
-      {
-        id: opticalEvent.eventId,
-        changes: opticalEvent
-      },
-      {
-        ...state,
-        loading: false
-      }
-    );
+    return {
+      ...OpticalEventsStateAdapter.upsertOne(opticalEvent, state),
+      loading: false
+    };
   })
 );
 

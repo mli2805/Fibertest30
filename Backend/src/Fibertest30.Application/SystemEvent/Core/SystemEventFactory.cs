@@ -193,9 +193,9 @@ public static class SystemEventFactory
             new MeasurementAddedData(traceId, sorFileId), SystemEventSource.FromSource("DataCenter"));
     } 
     
-    public static SystemEvent MeasurementUpdated(string userId, int sorFileId)
+    public static SystemEvent MeasurementUpdated(string userId, int sorFileId, EventStatus eventStatus)
     {
-        return new SystemEvent(SystemEventType.MeasurementAdded, SystemEventLevel.Info,
-            new MeasurementUpdatedData(sorFileId), SystemEventSource.FromUser(userId));
+        return new SystemEvent(SystemEventType.MeasurementUpdated, SystemEventLevel.Info,
+            new MeasurementUpdatedData(sorFileId, eventStatus), SystemEventSource.FromUser(userId));
     }
 }

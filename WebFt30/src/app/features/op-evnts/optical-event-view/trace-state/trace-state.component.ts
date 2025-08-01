@@ -37,15 +37,12 @@ export class TraceStateComponent {
     });
     this.isAccident = value.eventStatus > EventStatus.EventButNotAnAccident;
 
-    value.accidents.forEach((a, i) => {
-      const line = this.accidentConvertor.toAccidentLine(a, i + 1);
-      this.accidents.push(line);
-    });
+    this.accidents = value.accidents.map((a, i) => this.accidentConvertor.toAccidentLine(a, i + 1));
 
     this.initializeForm(value);
   }
 
-  accidents: AccidentLine[] = [];
+  accidents!: AccidentLine[];
 
   //
   traceTitle!: string;

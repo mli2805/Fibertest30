@@ -53,7 +53,7 @@ import {
 } from 'src/app/shared/system-events/system-event-data/accidents/accidents-data';
 import { GisMapService } from 'src/app/features/gis/gis-map.service';
 import { WindowService } from '../window.service';
-import { BaseRefType } from 'src/app/core/store/models/ft30/ft-enums';
+import { BaseRefType, EventStatus } from 'src/app/core/store/models/ft30/ft-enums';
 import { AudioEventsMapping } from './audio-events-mapping';
 import { LandmarksUpdateProgressedData } from 'src/app/shared/system-events/system-event-data/landmarks-update';
 import { MeasurementAddedData } from 'src/app/shared/system-events/system-event-data/rtu-mgmt/measurement-added-data';
@@ -345,6 +345,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       }
       case 'TraceStateChanged': {
         const data = <TraceStateChangedData>JSON.parse(systemEvent.jsonData);
+        this.store.dispatch(OpticalEventsActions.getOpticalEvent({ eventId: data.EventId }));
 
         // перерисовать в дереве
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
@@ -419,6 +420,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       }
       case 'MeasurementAdded': {
         const data = <MeasurementAddedData>JSON.parse(systemEvent.jsonData);
+
         // если пользователь не проводит сейчас точное изм вне очереди
         // traceId будет null и переход на страницу измерения не происходит
         const traceId = CoreUtils.getCurrentState(
@@ -438,7 +440,9 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       }
       case 'MeasurementUpdated': {
         const data = <MeasurementUpdatedData>JSON.parse(systemEvent.jsonData);
-        this.store.dispatch(OpticalEventsActions.getOpticalEvent({ eventId: data.SorFileId }));
+        if (data.EventStatus >= EventStatus.EventButNotAnAccident) {
+          this.store.dispatch(OpticalEventsActions.getOpticalEvent({ eventId: data.SorFileId }));
+        }
         return;
       }
     }

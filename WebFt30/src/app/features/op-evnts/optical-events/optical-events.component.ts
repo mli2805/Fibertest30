@@ -45,7 +45,6 @@ export class OpticalEventsComponent implements OnInit {
       this.store,
       OpticalEventsSelectors.selectOpticalEvents
     );
-    console.log(opticalEvents);
     if (opticalEvents.length === 0) {
       this.refresh();
     }
@@ -57,15 +56,6 @@ export class OpticalEventsComponent implements OnInit {
     this.ns.setOne('OpticalEvent', this.currentEvents, this.orderDescending, -1);
     this.refresh();
   }
-
-  // function used by `relative-time-refresh` button
-  refreshV2() {
-    this.refresh();
-  }
-
-  // onLoadMore() {
-  //   this.opticalEvents$;
-  // }
 
   loadNextPage(lastLoadedEvent: OpticalEvent) {
     this.store.dispatch(

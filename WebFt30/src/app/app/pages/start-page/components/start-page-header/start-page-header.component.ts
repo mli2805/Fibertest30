@@ -45,6 +45,7 @@ export class StartPageHeaderComponent {
     [/^\/evnts-new$/, { titleId: 'i18n.ft.new-events' }],
     [/^\/op-evnts\/optical-events$/, { titleId: 'i18n.ft.optical-events' }],
     [/^\/op-evnts\/optical-events\/\d+$/, { titleId: 'i18n.ft.measurement' }],
+    [/^\/op-evnts\/optical-events\/\d+\?open=(sor|map)$/, { titleId: 'i18n.ft.measurement' }],
     [/^\/net-evnts\/network-events$/, { titleId: 'i18n.ft.network-events' }],
     [/^\/bop-net-evnts\/network-events-bop$/, { titleId: 'i18n.ft.bop-network-events' }],
     [/^\/sts-evnts\/status-events$/, { titleId: 'i18n.ft.rtu-status-events' }],
