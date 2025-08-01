@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { takeUntil } from 'rxjs';
+import { firstValueFrom, takeUntil } from 'rxjs';
 import {
   AppState,
   AuthActions,
@@ -16,7 +16,8 @@ import {
   RtuTreeSelectors,
   SettingsSelectors,
   LandmarksModelsActions,
-  OpticalEventsActions
+  OpticalEventsActions,
+  OpticalEventsSelectors
 } from 'src/app/core';
 import { AuthUtils } from 'src/app/core/auth/auth.utils';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -440,8 +441,16 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       }
       case 'MeasurementUpdated': {
         const data = <MeasurementUpdatedData>JSON.parse(systemEvent.jsonData);
+        // если это не измерение по расписанию
         if (data.EventStatus >= EventStatus.EventButNotAnAccident) {
-          this.store.dispatch(OpticalEventsActions.getOpticalEvent({ eventId: data.SorFileId }));
+          // и если это событие сейчас есть в хранилище
+          const opticalEvent = CoreUtils.getCurrentState(
+            this.store,
+            OpticalEventsSelectors.selectOpticalEventById(data.SorFileId)
+          );
+          if (opticalEvent) {
+            this.store.dispatch(OpticalEventsActions.getOpticalEvent({ eventId: data.SorFileId }));
+          }
         }
         return;
       }
