@@ -20,7 +20,7 @@ export class OpticalEventsComponent implements OnInit {
 
   loading$ = this.store.select(OpticalEventsSelectors.selectLoading);
   loadedTime$ = this.store.select(OpticalEventsSelectors.selectLoadedTime);
-  opticalEvents$ = this.store.select(OpticalEventsSelectors.selectOpticalEvents);
+  opticalEvents$ = this.store.select(OpticalEventsSelectors.selectSortedOpticalEvents);
   errorMessageId$ = this.store.select(OpticalEventsSelectors.selectErrorMessageId);
 
   fiberStates = FiberState;
@@ -43,7 +43,7 @@ export class OpticalEventsComponent implements OnInit {
   private loadIfNotLoadedBefore() {
     const opticalEvents = CoreUtils.getCurrentState(
       this.store,
-      OpticalEventsSelectors.selectOpticalEvents
+      OpticalEventsSelectors.selectSortedOpticalEvents
     );
     if (opticalEvents.length === 0) {
       this.refresh();
