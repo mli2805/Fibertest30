@@ -68,6 +68,12 @@ public class TableProvider
         return portion.Select(m => m.CreateOpticalEventDto(_writeModel)).ToList();
     }
 
+    public NetworkEventDto GetNetworkEvent(int eventId)
+    {
+        var networkEvent = _writeModel.NetworkEvents.Single(n => n.Ordinal == eventId);
+        return networkEvent.CreateNetworkEventDto(_writeModel);
+    }
+
     public List<NetworkEventDto> GetNetworkEvents(Guid userId, bool current, DateTimeFilter dateTimeFilter, int portionSize)
     {
         var collection = current
@@ -92,6 +98,12 @@ public class TableProvider
         var portion = ordered.Take(portionSize);
 
         return portion.Select(n => n!.CreateNetworkEventDto(_writeModel)).ToList();
+    }
+
+    public BopEventDto GetBopEvent(int eventId)
+    {
+        var bopEvent = _writeModel.BopNetworkEvents.Single(b => b.Ordinal == eventId);
+        return bopEvent.CreateBopEventDto(_writeModel);
     }
 
     public List<BopEventDto> GetBopEvents(Guid userId, bool current, DateTimeFilter dateTimeFilter, int portionSize)
@@ -120,6 +132,12 @@ public class TableProvider
         var portion = ordered.Take(portionSize);
 
         return portion.Select(b => b.CreateBopEventDto(_writeModel)).ToList();
+    }
+
+    public RtuAccidentDto GetRtuAccident(int eventId)
+    {
+        var rtuAccident = _writeModel.RtuAccidents.Single(a => a.Id == eventId);
+        return rtuAccident.CreateAccidentDto(_writeModel);
     }
 
     public List<RtuAccidentDto> GetRtuAccidents(Guid userId, bool current, DateTimeFilter dateTimeFilter, int portionSize)

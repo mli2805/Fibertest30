@@ -17,8 +17,7 @@ export class NewtorkEventsComponent implements OnInit {
   private store: Store<AppState> = inject(Store<AppState>);
 
   loading$ = this.store.select(NetworkEventsSelectors.selectLoading);
-  loadedTime$ = this.store.select(NetworkEventsSelectors.selectLoadedTime);
-  networkEvents$ = this.store.select(NetworkEventsSelectors.selectNetworkEvents);
+  networkEvents$ = this.store.select(NetworkEventsSelectors.selectSortedNetworkEvents);
   errorMessageId$ = this.store.select(NetworkEventsSelectors.selectErrorMessageId);
 
   orderDescending!: boolean;
@@ -38,11 +37,6 @@ export class NewtorkEventsComponent implements OnInit {
   onCurrentEventsToggle() {
     this.currentEvents = !this.currentEvents;
     this.ns.setOne('NetworkEvent', this.currentEvents, this.orderDescending, -1);
-    this.refresh();
-  }
-
-  // function used by `relative-time-refresh` button
-  refreshV2() {
     this.refresh();
   }
 

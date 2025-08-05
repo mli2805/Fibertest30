@@ -112,10 +112,10 @@ public static class EventTablesMapping
         {
             EventId = dto.EventId, 
             RegisteredAt = dto.EventRegistrationTimestamp.ToUniversalTime().ToTimestamp(), 
-            BopAddress = dto.BopAddress,
+            BopAddress = dto.BopAddress ?? "",
             RtuId = dto.RtuId.ToString(),
-            RtuTitle = dto.RtuTitle,
-            Serial = dto.Serial,
+            RtuTitle = dto.RtuTitle ?? "",
+            Serial = dto.Serial ?? "",
             IsBopOk = dto.BopState,
         };
     }

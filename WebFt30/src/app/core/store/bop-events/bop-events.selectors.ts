@@ -2,20 +2,15 @@ import { createSelector } from '@ngrx/store';
 import { selectBopEventsState } from '../../core.state';
 import { BopEventsState } from './bop-events.state';
 import { BopEvent } from '../models/ft30/bop-event';
+import { BopEventsStateAdapter } from './bop-events.reduces';
 
-const selectBopEvents = createSelector(
-  selectBopEventsState,
-  (state: BopEventsState) => state.bopEvents
-);
+const { selectAll, selectEntities, selectTotal } = BopEventsStateAdapter.getSelectors();
+
+const selectBopEvents = createSelector(selectBopEventsState, selectAll);
 
 const selectLoading = createSelector(
   selectBopEventsState,
   (state: BopEventsState) => state.loading
-);
-
-const selectLoadedTime = createSelector(
-  selectBopEventsState,
-  (state: BopEventsState) => state.loadedTime
 );
 
 const selectErrorMessageId = createSelector(selectBopEventsState, (state: BopEventsState) => {
@@ -31,11 +26,17 @@ const selectBopEventById = (eventId: number) =>
     return opEvents?.find((o) => o.eventId === eventId) || null;
   });
 
+export const selectSortedBopEvents = createSelector(selectBopEvents, (events): BopEvent[] =>
+  events
+    .slice() // создаём копию массива, чтобы не мутировать оригинал
+    .sort((a, b) => new Date(b.registeredAt).getTime() - new Date(a.registeredAt).getTime())
+);
+
 export const BopEventsSelectors = {
   selectBopEvents,
   selectLoading,
-  selectLoadedTime,
   selectErrorMessageId,
 
-  selectBopEventById
+  selectBopEventById,
+  selectSortedBopEvents
 };

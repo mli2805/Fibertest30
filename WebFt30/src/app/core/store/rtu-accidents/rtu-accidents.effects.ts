@@ -10,6 +10,28 @@ import { EventTablesMapping } from '../mapping/event-tables-mapping';
 
 @Injectable()
 export class RtuAccidentsEffects {
+  getRtuAccident = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RtuAccidentsActions.getRtuAccident),
+      switchMap(({ eventId }) => {
+        return this.eventTablesService.getRtuAccident(eventId).pipe(
+          map((response) => {
+            return RtuAccidentsActions.getRtuAccidentSuccess({
+              rtuAccident: EventTablesMapping.toRtuAccident(response.rtuAccident!)
+            });
+          }),
+          catchError((error) =>
+            of(
+              RtuAccidentsActions.getRtuAccidentsFailure({
+                error: GrpcUtils.toServerError(error)
+              })
+            )
+          )
+        );
+      })
+    )
+  );
+
   getRtuAccidents = createEffect(() =>
     this.actions$.pipe(
       ofType(RtuAccidentsActions.getRtuAccidents),

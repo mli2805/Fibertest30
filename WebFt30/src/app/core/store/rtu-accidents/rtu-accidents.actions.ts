@@ -3,6 +3,20 @@ import { ServerError } from '../../models/server-error';
 import { RtuAccident } from '../models/ft30/rtu-accident';
 import { DateTimeRange } from 'src/grpc-generated/events.data';
 
+const getRtuAccident = createAction(
+  '[RtuAccidents] Get Rtu Accident',
+  props<{ eventId: number }>()
+);
+const getRtuAccidentSuccess = createAction(
+  '[RtuAccidents] Get Rtu Accident Success',
+  props<{ rtuAccident: RtuAccident }>()
+);
+
+const getRtuAccidentFailure = createAction(
+  '[RtuAccidents] Get Rtu Accident Failure',
+  props<{ error: ServerError }>()
+);
+
 const getRtuAccidents = createAction(
   '[RtuAccidents] Get Rtu Accidents',
   props<{
@@ -43,6 +57,10 @@ const loadNextRtuAccidentsFailure = createAction(
 const resetError = createAction('[RtuAccidents] Reset Error');
 
 export const RtuAccidentsActions = {
+  getRtuAccident,
+  getRtuAccidentSuccess,
+  getRtuAccidentFailure,
+
   getRtuAccidents,
   getRtuAccidentsSuccess,
   getRtuAccidentsFailure,

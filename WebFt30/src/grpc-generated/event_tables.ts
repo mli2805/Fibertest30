@@ -25,6 +25,8 @@ export interface GetSystemEventsResponse {
     systemEvents: SystemEvent[];
 }
 /**
+ * GetOpticalEvent
+ *
  * @generated from protobuf message fibertest30.event_tables.GetOpticalEventRequest
  */
 export interface GetOpticalEventRequest {
@@ -43,6 +45,8 @@ export interface GetOpticalEventResponse {
     opticalEvent?: OpticalEvent;
 }
 /**
+ * GetOpticalEvents
+ *
  * @generated from protobuf message fibertest30.event_tables.GetOpticalEventsRequest
  */
 export interface GetOpticalEventsRequest {
@@ -69,6 +73,28 @@ export interface GetOpticalEventsResponse {
     opticalEvents: OpticalEvent[];
 }
 /**
+ * GetNetworkEvent
+ *
+ * @generated from protobuf message fibertest30.event_tables.GetNetworkEventRequest
+ */
+export interface GetNetworkEventRequest {
+    /**
+     * @generated from protobuf field: int32 eventId = 1;
+     */
+    eventId: number;
+}
+/**
+ * @generated from protobuf message fibertest30.event_tables.GetNetworkEventResponse
+ */
+export interface GetNetworkEventResponse {
+    /**
+     * @generated from protobuf field: fibertest30.events.data.NetworkEvent networkEvent = 1;
+     */
+    networkEvent?: NetworkEvent;
+}
+/**
+ * GetNetworkEvents
+ *
  * @generated from protobuf message fibertest30.event_tables.GetNetworkEventsRequest
  */
 export interface GetNetworkEventsRequest {
@@ -95,6 +121,28 @@ export interface GetNetworkEventsResponse {
     networkEvents: NetworkEvent[];
 }
 /**
+ * GetBopEvent
+ *
+ * @generated from protobuf message fibertest30.event_tables.GetBopEventRequest
+ */
+export interface GetBopEventRequest {
+    /**
+     * @generated from protobuf field: int32 eventId = 1;
+     */
+    eventId: number;
+}
+/**
+ * @generated from protobuf message fibertest30.event_tables.GetBopEventResponse
+ */
+export interface GetBopEventResponse {
+    /**
+     * @generated from protobuf field: fibertest30.events.data.BopEvent bopEvent = 1;
+     */
+    bopEvent?: BopEvent;
+}
+/**
+ * GetBopEvents
+ *
  * @generated from protobuf message fibertest30.event_tables.GetBopEventsRequest
  */
 export interface GetBopEventsRequest {
@@ -121,6 +169,28 @@ export interface GetBopEventsResponse {
     bopEvents: BopEvent[];
 }
 /**
+ * GetRtuAccident
+ *
+ * @generated from protobuf message fibertest30.event_tables.GetRtuAccidentRequest
+ */
+export interface GetRtuAccidentRequest {
+    /**
+     * @generated from protobuf field: int32 eventId = 1;
+     */
+    eventId: number;
+}
+/**
+ * @generated from protobuf message fibertest30.event_tables.GetRtuAccidentResponse
+ */
+export interface GetRtuAccidentResponse {
+    /**
+     * @generated from protobuf field: fibertest30.events.data.RtuAccident rtuAccident = 1;
+     */
+    rtuAccident?: RtuAccident;
+}
+/**
+ * GetRtuAccidents
+ *
  * @generated from protobuf message fibertest30.event_tables.GetRtuAccidentsRequest
  */
 export interface GetRtuAccidentsRequest {
@@ -233,6 +303,30 @@ class GetOpticalEventsResponse$Type extends MessageType<GetOpticalEventsResponse
  */
 export const GetOpticalEventsResponse = new GetOpticalEventsResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class GetNetworkEventRequest$Type extends MessageType<GetNetworkEventRequest> {
+    constructor() {
+        super("fibertest30.event_tables.GetNetworkEventRequest", [
+            { no: 1, name: "eventId", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.event_tables.GetNetworkEventRequest
+ */
+export const GetNetworkEventRequest = new GetNetworkEventRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetNetworkEventResponse$Type extends MessageType<GetNetworkEventResponse> {
+    constructor() {
+        super("fibertest30.event_tables.GetNetworkEventResponse", [
+            { no: 1, name: "networkEvent", kind: "message", T: () => NetworkEvent }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.event_tables.GetNetworkEventResponse
+ */
+export const GetNetworkEventResponse = new GetNetworkEventResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class GetNetworkEventsRequest$Type extends MessageType<GetNetworkEventsRequest> {
     constructor() {
         super("fibertest30.event_tables.GetNetworkEventsRequest", [
@@ -259,6 +353,30 @@ class GetNetworkEventsResponse$Type extends MessageType<GetNetworkEventsResponse
  */
 export const GetNetworkEventsResponse = new GetNetworkEventsResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class GetBopEventRequest$Type extends MessageType<GetBopEventRequest> {
+    constructor() {
+        super("fibertest30.event_tables.GetBopEventRequest", [
+            { no: 1, name: "eventId", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.event_tables.GetBopEventRequest
+ */
+export const GetBopEventRequest = new GetBopEventRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetBopEventResponse$Type extends MessageType<GetBopEventResponse> {
+    constructor() {
+        super("fibertest30.event_tables.GetBopEventResponse", [
+            { no: 1, name: "bopEvent", kind: "message", T: () => BopEvent }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.event_tables.GetBopEventResponse
+ */
+export const GetBopEventResponse = new GetBopEventResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class GetBopEventsRequest$Type extends MessageType<GetBopEventsRequest> {
     constructor() {
         super("fibertest30.event_tables.GetBopEventsRequest", [
@@ -284,6 +402,30 @@ class GetBopEventsResponse$Type extends MessageType<GetBopEventsResponse> {
  * @generated MessageType for protobuf message fibertest30.event_tables.GetBopEventsResponse
  */
 export const GetBopEventsResponse = new GetBopEventsResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetRtuAccidentRequest$Type extends MessageType<GetRtuAccidentRequest> {
+    constructor() {
+        super("fibertest30.event_tables.GetRtuAccidentRequest", [
+            { no: 1, name: "eventId", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.event_tables.GetRtuAccidentRequest
+ */
+export const GetRtuAccidentRequest = new GetRtuAccidentRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetRtuAccidentResponse$Type extends MessageType<GetRtuAccidentResponse> {
+    constructor() {
+        super("fibertest30.event_tables.GetRtuAccidentResponse", [
+            { no: 1, name: "rtuAccident", kind: "message", T: () => RtuAccident }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.event_tables.GetRtuAccidentResponse
+ */
+export const GetRtuAccidentResponse = new GetRtuAccidentResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GetRtuAccidentsRequest$Type extends MessageType<GetRtuAccidentsRequest> {
     constructor() {
@@ -339,8 +481,11 @@ export const EventTables = new ServiceType("fibertest30.event_tables.EventTables
     { name: "GetSystemEvents", options: {}, I: GetSystemEventsRequest, O: GetSystemEventsResponse },
     { name: "GetOpticalEvent", options: {}, I: GetOpticalEventRequest, O: GetOpticalEventResponse },
     { name: "GetOpticalEvents", options: {}, I: GetOpticalEventsRequest, O: GetOpticalEventsResponse },
+    { name: "GetNetworkEvent", options: {}, I: GetNetworkEventRequest, O: GetNetworkEventResponse },
     { name: "GetNetworkEvents", options: {}, I: GetNetworkEventsRequest, O: GetNetworkEventsResponse },
+    { name: "GetBopEvent", options: {}, I: GetBopEventRequest, O: GetBopEventResponse },
     { name: "GetBopEvents", options: {}, I: GetBopEventsRequest, O: GetBopEventsResponse },
+    { name: "GetRtuAccident", options: {}, I: GetRtuAccidentRequest, O: GetRtuAccidentResponse },
     { name: "GetRtuAccidents", options: {}, I: GetRtuAccidentsRequest, O: GetRtuAccidentsResponse },
     { name: "GetHasCurrent", options: {}, I: GetHasCurrentRequest, O: GetHasCurrentResponse }
 ]);

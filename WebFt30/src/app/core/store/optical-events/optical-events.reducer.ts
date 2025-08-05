@@ -10,7 +10,6 @@ export const OpticalEventsStateAdapter = createEntityAdapter<OpticalEvent>({
 
 export const initialState: OpticalEventsState = OpticalEventsStateAdapter.getInitialState({
   loading: false,
-  loadedTime: null,
   error: null
 });
 
@@ -20,18 +19,16 @@ const reducer = createReducer(
     ...state,
     error: null
   })),
+
   on(OpticalEventsActions.getOpticalEvents, (state) => ({
     ...state,
-    opticalEvents: null,
     loading: true,
-    loadedTime: null,
     error: null
   })),
   on(OpticalEventsActions.getOpticalEventsSuccess, (state, { opticalEvents }) =>
     OpticalEventsStateAdapter.setAll(opticalEvents, {
       ...state,
-      loading: false,
-      loadedTime: new Date()
+      loading: false
     })
   ),
   on(OpticalEventsActions.getOpticalEventsFailure, (state, { error }) => ({
@@ -48,8 +45,7 @@ const reducer = createReducer(
   on(OpticalEventsActions.loadNextOpticalEventsSuccess, (state, { opticalEvents }) =>
     OpticalEventsStateAdapter.addMany(opticalEvents, {
       ...state,
-      loading: false,
-      loadedTime: new Date()
+      loading: false
     })
   ),
   on(OpticalEventsActions.getOpticalEventsFailure, (state, { error }) => ({

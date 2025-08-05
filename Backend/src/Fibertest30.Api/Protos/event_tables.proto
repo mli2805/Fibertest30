@@ -9,8 +9,11 @@ service EventTables {
   rpc GetSystemEvents (GetSystemEventsRequest) returns (GetSystemEventsResponse);
   rpc GetOpticalEvent (GetOpticalEventRequest) returns (GetOpticalEventResponse);
   rpc GetOpticalEvents (GetOpticalEventsRequest) returns (GetOpticalEventsResponse);
+  rpc GetNetworkEvent (GetNetworkEventRequest) returns (GetNetworkEventResponse);
   rpc GetNetworkEvents (GetNetworkEventsRequest) returns (GetNetworkEventsResponse);
+  rpc GetBopEvent (GetBopEventRequest) returns (GetBopEventResponse);
   rpc GetBopEvents (GetBopEventsRequest) returns (GetBopEventsResponse);
+  rpc GetRtuAccident (GetRtuAccidentRequest) returns (GetRtuAccidentResponse);
   rpc GetRtuAccidents (GetRtuAccidentsRequest) returns (GetRtuAccidentsResponse);
   rpc GetHasCurrent(GetHasCurrentRequest) returns (GetHasCurrentResponse);
 }
@@ -22,7 +25,7 @@ message GetSystemEventsResponse {
     repeated data.core.SystemEvent systemEvents = 1;
 }
 
-
+// GetOpticalEvent
 message GetOpticalEventRequest {
     int32 eventId = 1;
 }
@@ -31,6 +34,7 @@ message GetOpticalEventResponse {
    events.data.OpticalEvent opticalEvent = 1;
 }
 
+// GetOpticalEvents
 message GetOpticalEventsRequest {
     bool currentEvents = 1;
     events.data.DateTimeFilter dateTimeFilter = 2;
@@ -41,6 +45,16 @@ message GetOpticalEventsResponse {
     repeated events.data.OpticalEvent opticalEvents = 1;
 }
 
+// GetNetworkEvent
+message GetNetworkEventRequest {
+    int32 eventId = 1;
+}
+
+message GetNetworkEventResponse {
+    events.data.NetworkEvent networkEvent = 1;
+}
+
+// GetNetworkEvents
 message GetNetworkEventsRequest {
     bool currentEvents = 1;
     events.data.DateTimeFilter dateTimeFilter = 2;
@@ -51,6 +65,16 @@ message GetNetworkEventsResponse {
     repeated events.data.NetworkEvent networkEvents = 1;
 }
 
+// GetBopEvent
+message GetBopEventRequest {
+    int32 eventId = 1;
+}
+
+message GetBopEventResponse {
+    events.data.BopEvent bopEvent = 1;
+}
+
+// GetBopEvents
 message GetBopEventsRequest {
     bool currentEvents = 1;
     events.data.DateTimeFilter dateTimeFilter = 2;
@@ -61,6 +85,16 @@ message GetBopEventsResponse {
     repeated events.data.BopEvent bopEvents = 1;
 }
 
+// GetRtuAccident
+message GetRtuAccidentRequest {
+    int32 eventId = 1;
+}
+
+message GetRtuAccidentResponse {
+    events.data.RtuAccident rtuAccident = 1;
+}
+
+// GetRtuAccidents
 message GetRtuAccidentsRequest {
     bool currentAccidents = 1;
     events.data.DateTimeFilter dateTimeFilter = 2;

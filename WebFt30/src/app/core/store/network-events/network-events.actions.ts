@@ -3,6 +3,20 @@ import { ServerError } from '../../models/server-error';
 import { NetworkEvent } from '../models/ft30/network-event';
 import { DateTimeRange } from 'src/grpc-generated/events.data';
 
+const getNetworkEvent = createAction(
+  '[NetworkEvents] Get Network Event',
+  props<{ eventId: number }>()
+);
+const getNetworkEventSuccess = createAction(
+  '[NetworkEvents] Get Network Event Success',
+  props<{ networkEvent: NetworkEvent }>()
+);
+
+const getNetworkEventFailure = createAction(
+  '[NetworkEvents] Get Network Event Failure',
+  props<{ error: ServerError }>()
+);
+
 const getNetworkEvents = createAction(
   '[NetworkEvents] Get Network Events',
   props<{ currentEvents: boolean; orderDescending: boolean; searchWindow: DateTimeRange | null }>()
@@ -39,6 +53,10 @@ const loadNextNetworkEventsFailure = createAction(
 const resetError = createAction('[NetworkEvents] Reset Error');
 
 export const NetworkEventsActions = {
+  getNetworkEvent,
+  getNetworkEventSuccess,
+  getNetworkEventFailure,
+
   getNetworkEvents,
   getNetworkEventsSuccess,
   getNetworkEventsFailure,

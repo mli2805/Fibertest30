@@ -17,8 +17,7 @@ export class StatusEventsComponent implements OnInit {
   private store: Store<AppState> = inject(Store<AppState>);
 
   loading$ = this.store.select(RtuAccidentsSelectors.selectLoading);
-  loadedTime$ = this.store.select(RtuAccidentsSelectors.selectLoadedTime);
-  rtuAccidents$ = this.store.select(RtuAccidentsSelectors.selectRtuAccidents);
+  rtuAccidents$ = this.store.select(RtuAccidentsSelectors.selectSortedRtuAccidents);
   errorMessageId$ = this.store.select(RtuAccidentsSelectors.selectErrorMessageId);
 
   orderDescending!: boolean;
@@ -42,11 +41,6 @@ export class StatusEventsComponent implements OnInit {
   onCurrentEventsToggle() {
     this.currentEvents = !this.currentEvents;
     this.ns.setOne('RtuAccident', this.currentEvents, this.orderDescending, -1);
-    this.refresh();
-  }
-
-  // function used by `relative-time-refresh` button
-  refreshV2() {
     this.refresh();
   }
 

@@ -4,6 +4,5 @@ import { OpticalEvent } from '../models/ft30/optical-event';
 
 export interface OpticalEventsState extends EntityState<OpticalEvent> {
   loading: boolean;
-  loadedTime: Date | null;
   error: ServerError | null;
 }

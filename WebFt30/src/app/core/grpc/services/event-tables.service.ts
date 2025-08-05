@@ -35,6 +35,21 @@ export class EventTablesService {
     return GrpcUtils.unaryToObservable(this.client.getOpticalEvent.bind(this.client), request, {});
   }
 
+  getNetworkEvent(eventId: number): Observable<gprc.GetNetworkEventResponse> {
+    const request: gprc.GetNetworkEventRequest = { eventId };
+    return GrpcUtils.unaryToObservable(this.client.getNetworkEvent.bind(this.client), request, {});
+  }
+
+  getBopEvent(eventId: number): Observable<gprc.GetBopEventResponse> {
+    const request: gprc.GetBopEventRequest = { eventId };
+    return GrpcUtils.unaryToObservable(this.client.getBopEvent.bind(this.client), request, {});
+  }
+
+  getRtuAccident(eventId: number): Observable<gprc.GetRtuAccidentResponse> {
+    const request: gprc.GetRtuAccidentRequest = { eventId };
+    return GrpcUtils.unaryToObservable(this.client.getRtuAccident.bind(this.client), request, {});
+  }
+
   getOpticalEvents(
     currentEvents: boolean,
     searchWindow: DateTimeRange | null,

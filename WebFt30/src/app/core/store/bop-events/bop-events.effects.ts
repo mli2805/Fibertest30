@@ -10,6 +10,28 @@ import { EventTablesMapping } from '../mapping/event-tables-mapping';
 
 @Injectable()
 export class BopEventsEffects {
+  getBopEvent = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BopEventsActions.getBopEvent),
+      switchMap(({ eventId }) => {
+        return this.eventTablesService.getBopEvent(eventId).pipe(
+          map((response) => {
+            return BopEventsActions.getBopEventSuccess({
+              bopEvent: EventTablesMapping.toBopEvent(response.bopEvent!)
+            });
+          }),
+          catchError((error) =>
+            of(
+              BopEventsActions.getBopEventsFailure({
+                error: GrpcUtils.toServerError(error)
+              })
+            )
+          )
+        );
+      })
+    )
+  );
+
   getBopEvents = createEffect(() =>
     this.actions$.pipe(
       ofType(BopEventsActions.getBopEvents),

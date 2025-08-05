@@ -1,13 +1,17 @@
 import { createReducer, on } from '@ngrx/store';
 import { RtuAccidentsState } from './rtu-accidents.state';
 import { RtuAccidentsActions } from './rtu-accidents.actions';
+import { RtuAccident } from '../models/ft30/rtu-accident';
+import { createEntityAdapter } from '@ngrx/entity';
 
-export const initialState: RtuAccidentsState = {
-  rtuAccidents: null,
+export const RtuAccidentsStateAdapter = createEntityAdapter<RtuAccident>({
+  selectId: (rtuAccident: RtuAccident) => rtuAccident.id
+});
+
+export const initialState: RtuAccidentsState = RtuAccidentsStateAdapter.getInitialState({
   loading: false,
-  loadedTime: null,
   error: null
-};
+});
 
 const reducer = createReducer(
   initialState,
@@ -18,17 +22,15 @@ const reducer = createReducer(
 
   on(RtuAccidentsActions.getRtuAccidents, (state) => ({
     ...state,
-    rtuAccidents: null,
     loading: true,
-    loadedTime: null,
     error: null
   })),
-  on(RtuAccidentsActions.getRtuAccidentsSuccess, (state, { rtuAccidents }) => ({
-    ...state,
-    rtuAccidents,
-    loading: false,
-    loadedTime: new Date()
-  })),
+  on(RtuAccidentsActions.getRtuAccidentsSuccess, (state, { rtuAccidents }) =>
+    RtuAccidentsStateAdapter.setAll(rtuAccidents, {
+      ...state,
+      loading: false
+    })
+  ),
   on(RtuAccidentsActions.getRtuAccidentsFailure, (state, { error }) => ({
     ...state,
     loading: false,
@@ -40,17 +42,29 @@ const reducer = createReducer(
     loading: true,
     error: null
   })),
-  on(RtuAccidentsActions.loadNextRtuAccidentsSuccess, (state, { rtuAccidents }) => ({
-    ...state,
-    rtuAccidents: state.rtuAccidents ? [...state.rtuAccidents, ...rtuAccidents] : rtuAccidents,
-    loading: false,
-    loadedTime: new Date()
-  })),
+  on(RtuAccidentsActions.loadNextRtuAccidentsSuccess, (state, { rtuAccidents }) =>
+    RtuAccidentsStateAdapter.addMany(rtuAccidents, {
+      ...state,
+      loading: false
+    })
+  ),
   on(RtuAccidentsActions.loadNextRtuAccidentsFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error
-  }))
+  })),
+
+  on(RtuAccidentsActions.getRtuAccident, (state) => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  on(RtuAccidentsActions.getRtuAccidentSuccess, (state, { rtuAccident }) => {
+    return {
+      ...RtuAccidentsStateAdapter.upsertOne(rtuAccident, state),
+      loading: false
+    };
+  })
 );
 
 export function rtuAccidentsReducer(

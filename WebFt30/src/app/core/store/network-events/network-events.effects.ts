@@ -10,6 +10,28 @@ import { EventTablesMapping } from '../mapping/event-tables-mapping';
 
 @Injectable()
 export class NetworkEventsEffects {
+  getNetworkEvent = createEffect(() =>
+    this.actions$.pipe(
+      ofType(NetworkEventsActions.getNetworkEvent),
+      switchMap(({ eventId }) => {
+        return this.eventTablesService.getNetworkEvent(eventId).pipe(
+          map((response) => {
+            return NetworkEventsActions.getNetworkEventSuccess({
+              networkEvent: EventTablesMapping.toNetworkEvent(response.networkEvent!)
+            });
+          }),
+          catchError((error) =>
+            of(
+              NetworkEventsActions.getNetworkEventsFailure({
+                error: GrpcUtils.toServerError(error)
+              })
+            )
+          )
+        );
+      })
+    )
+  );
+
   getNetworkEvents = createEffect(() =>
     this.actions$.pipe(
       ofType(NetworkEventsActions.getNetworkEvents),

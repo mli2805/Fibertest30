@@ -19,7 +19,6 @@ export class OpticalEventsComponent implements OnInit {
   private store: Store<AppState> = inject(Store<AppState>);
 
   loading$ = this.store.select(OpticalEventsSelectors.selectLoading);
-  loadedTime$ = this.store.select(OpticalEventsSelectors.selectLoadedTime);
   opticalEvents$ = this.store.select(OpticalEventsSelectors.selectSortedOpticalEvents);
   errorMessageId$ = this.store.select(OpticalEventsSelectors.selectErrorMessageId);
 
@@ -40,15 +39,15 @@ export class OpticalEventsComponent implements OnInit {
     this.refresh();
   }
 
-  private loadIfNotLoadedBefore() {
-    const opticalEvents = CoreUtils.getCurrentState(
-      this.store,
-      OpticalEventsSelectors.selectSortedOpticalEvents
-    );
-    if (opticalEvents.length === 0) {
-      this.refresh();
-    }
-  }
+  // private loadIfNotLoadedBefore() {
+  //   const opticalEvents = CoreUtils.getCurrentState(
+  //     this.store,
+  //     OpticalEventsSelectors.selectSortedOpticalEvents
+  //   );
+  //   if (opticalEvents.length === 0) {
+  //     this.refresh();
+  //   }
+  // }
 
   currentEvents!: boolean;
   onCurrentEventsToggle() {

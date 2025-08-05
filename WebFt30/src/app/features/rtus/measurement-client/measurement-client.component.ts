@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { SorTrace } from '@veex/sor';
+import { colorizeSorTraces, SorTrace } from '@veex/sor';
 import { catchError, forkJoin, mergeMap, Observable, of, takeUntil, tap } from 'rxjs';
 import { AppState, FileSaverService, RtuTreeSelectors } from 'src/app/core';
 import { ConvertUtils } from 'src/app/core/convert.utils';

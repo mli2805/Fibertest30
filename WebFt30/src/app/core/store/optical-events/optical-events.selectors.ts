@@ -13,11 +13,6 @@ const selectLoading = createSelector(
   (state: OpticalEventsState) => state.loading
 );
 
-const selectLoadedTime = createSelector(
-  selectOpticalEventsState,
-  (state: OpticalEventsState) => state.loadedTime
-);
-
 const selectErrorMessageId = createSelector(
   selectOpticalEventsState,
   (state: OpticalEventsState) => {
@@ -41,10 +36,9 @@ export const selectSortedOpticalEvents = createSelector(
 );
 
 export const OpticalEventsSelectors = {
-  selectOpticalEvents,
+  // selectOpticalEvents,
   selectSortedOpticalEvents,
   selectLoading,
-  selectLoadedTime,
   selectErrorMessageId,
 
   selectOpticalEventById

@@ -16,8 +16,7 @@ export class BopNetworkEventsComponent implements OnInit {
   private store: Store<AppState> = inject(Store<AppState>);
 
   loading$ = this.store.select(BopEventsSelectors.selectLoading);
-  loadedTime$ = this.store.select(BopEventsSelectors.selectLoadedTime);
-  bopEvents$ = this.store.select(BopEventsSelectors.selectBopEvents);
+  bopEvents$ = this.store.select(BopEventsSelectors.selectSortedBopEvents);
   errorMessageId$ = this.store.select(BopEventsSelectors.selectErrorMessageId);
 
   orderDescending!: boolean;
@@ -37,11 +36,6 @@ export class BopNetworkEventsComponent implements OnInit {
   onCurrentEventsToggle() {
     this.currentEvents = !this.currentEvents;
     this.ns.setOne('BopNetworkEvent', this.currentEvents, this.orderDescending, -1);
-    this.refresh();
-  }
-
-  // function used by `relative-time-refresh` button
-  refreshV2() {
     this.refresh();
   }
 
