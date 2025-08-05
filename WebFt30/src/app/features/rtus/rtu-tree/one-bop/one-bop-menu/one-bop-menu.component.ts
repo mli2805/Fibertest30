@@ -1,12 +1,12 @@
 import { Component, ElementRef, HostListener, inject, Input } from '@angular/core';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 import { AppState, AuthSelectors, RtuTreeActions, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Bop } from 'src/app/core/store/models/ft30/bop';
 import { DetachOtauDto } from 'src/app/core/store/models/ft30/detach-otau-dto';
-import { Utils } from 'src/app/shared/utils/utils';
+import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 
 @Component({
   selector: 'rtu-one-bop-menu',
@@ -35,10 +35,9 @@ export class OneBopMenuComponent {
 
   public open = false;
 
-  @Input() isRtuAvailableNow!: boolean;
-  @Input() isMonitoringOn!: boolean;
+  @Input() rtu!: Rtu;
 
-  constructor(private elementRef: ElementRef, private router: Router) {
+  constructor(private elementRef: ElementRef, private windowService: WindowService) {
     this.currentUser = CoreUtils.getCurrentState(this.store, AuthSelectors.selectUser);
   }
 
@@ -76,11 +75,18 @@ export class OneBopMenuComponent {
     }
   }
 
+  onInformationClicked() {
+    this.windowService.registerWindow(crypto.randomUUID(), 'BopInfo', {
+      bop: this._bop,
+      rtu: this.rtu
+    });
+  }
+
   canRemove() {
     return (
       this.hasPermission(ApplicationPermission.RemoveBop) &&
-      this.isRtuAvailableNow &&
-      !this.isMonitoringOn
+      this.rtu.isRtuAvailable &&
+      !this.rtu.isMonitoringOn
     );
   }
 

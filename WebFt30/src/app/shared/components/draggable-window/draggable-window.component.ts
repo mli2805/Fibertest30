@@ -25,6 +25,7 @@ export type ManagedWindow =
   | 'NodeInfo'
   | 'FiberInfo'
   | 'RtuInfo'
+  | 'BopInfo'
   | 'TraceInfo'
   | 'TraceAttach'
   | 'BopAttach'

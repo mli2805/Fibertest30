@@ -1,0 +1,36 @@
+<rtu-draggable-window
+  [caption]="'i18n.ft.information-bop' | translate"
+  [modal]="true"
+  [zIndex]="zIndex"
+  (closeEvent)="close()"
+>
+  <div class="grouped-border mb-1 min-w-96">
+    <div class="mb-1 flex">
+      <div class="w-24">{{ 'i18n.ft.bop' | translate }}</div>
+      <div>{{ bop.bopNetAddress }}</div>
+    </div>
+    <div class="mb-1 flex text-xs text-gray-500">
+      <div class="w-24">{{ 'ID' }}</div>
+      <div class="">{{ bop.bopId }}</div>
+    </div>
+    <div class="mb-1 flex">
+      <div class="w-24">{{ 'i18n.ft.serial' | translate }}</div>
+      <div>{{ bop.serial }}</div>
+    </div>
+    <div class="flex">
+      <div class="w-24">{{ 'i18n.ft.ports' | translate }}</div>
+      <div>{{ bop.portCount }}</div>
+    </div>
+  </div>
+  <div class="grouped-border flex flex-col">
+    <div class="mb-1">{{ 'i18n.ft.attached-to' | translate }}:</div>
+    <div class="mb-1 flex">
+      <div class="w-24">{{ 'RTU' }}</div>
+      <div>{{ rtu.title }}</div>
+    </div>
+    <div class="flex">
+      <div class="w-24">{{ 'i18n.ft.port' | translate }}</div>
+      <div>{{ bop.masterPort }}</div>
+    </div>
+  </div>
+</rtu-draggable-window>

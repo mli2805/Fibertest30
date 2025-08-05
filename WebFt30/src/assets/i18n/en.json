@@ -585,6 +585,7 @@
   "i18n.ft.information-section": "Information (Section)",
   "i18n.ft.information-trace": "Information (Trace)",
   "i18n.ft.information-rtu": "Information (RTU)",
+  "i18n.ft.information-bop": "Information (BOP)",
 
   "i18n.ft.node": "Node",
   "i18n.ft.equipment-in-node": "Equipment in node",
@@ -608,6 +609,8 @@
   "i18n.ft.trace-attachment": "Trace attachment",
   "i18n.ft.bop-attachment": "BOP attachment",
   "i18n.ft.attach-to": "Attach to",
+  "i18n.ft.attached-to": "Attached to",
+  "i18n.ft.ports": "Ports",
 
   "i18n.start-page.gis": "Gis",
   "i18n.start-page.notifications": "Notifications",

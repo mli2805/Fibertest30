@@ -44,6 +44,7 @@ import { LandmarkInputComponent } from './landmarks/landmark-input/landmark-inpu
 import { OneLandmarkMenuComponent } from './landmarks/one-landmark-menu/one-landmark-menu.component';
 import { LandmarksProgressComponent } from './landmarks/landmarks-progress/landmarks-progress.component';
 import { OutOfTurnMeasurementComponent } from './rtu-tree/out-of-turn-measurement/out-of-turn-measurement.component';
+import { BopInfoComponent } from './bop-info/bop-info.component';
 
 @NgModule({
   imports: [
@@ -62,7 +63,8 @@ import { OutOfTurnMeasurementComponent } from './rtu-tree/out-of-turn-measuremen
     LandmarksComponent,
     BopAttachComponent,
     TraceAttachComponent,
-    OutOfTurnMeasurementComponent
+    OutOfTurnMeasurementComponent,
+    BopInfoComponent
   ],
   declarations: [
     RtuTreeComponent,
@@ -100,7 +102,8 @@ import { OutOfTurnMeasurementComponent } from './rtu-tree/out-of-turn-measuremen
     LandmarkInputComponent,
     OneLandmarkMenuComponent,
     LandmarksProgressComponent,
-    OutOfTurnMeasurementComponent
+    OutOfTurnMeasurementComponent,
+    BopInfoComponent
   ],
   providers: []
 })

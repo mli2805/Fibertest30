@@ -320,6 +320,7 @@
   "i18n.ft.information-section": "Информация (Участок)",
   "i18n.ft.information-trace": "Информация (Трасса)",
   "i18n.ft.information-rtu": "Информация (RTU)",
+  "i18n.ft.information-bop": "Информация (БОП)",
 
   "i18n.ft.node": "Узел",
   "i18n.ft.equipment-in-node": "Оборудование в узле",
@@ -463,5 +464,7 @@
   "i18n.ft.all-module-traces-will-be-cleared": "Все трассы модуля будут очищены",
   "i18n.ft.trace-attachment": "Подключение трассы",
   "i18n.ft.bop-attachment": "Подключение БОП",
-  "i18n.ft.attach-to": "Подключить к"
+  "i18n.ft.attach-to": "Подключить к",
+  "i18n.ft.attached-to": "Подключено к",
+  "i18n.ft.ports": "Портов"
 }

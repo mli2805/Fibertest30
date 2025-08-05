@@ -81,6 +81,9 @@
           [payload]="window.payload"
         />
       </ng-container>
+      <ng-container *ngIf="window.type === 'BopInfo'">
+        <rtu-bop-info [windowId]="window.id" [zIndex]="window.zIndex" [payload]="window.payload" />
+      </ng-container>
       <ng-container *ngIf="window.type === 'TraceAttach'">
         <rtu-trace-attach
           [windowId]="window.id"
