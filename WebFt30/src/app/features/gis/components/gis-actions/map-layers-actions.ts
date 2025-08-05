@@ -428,6 +428,7 @@ export class MapLayersActions {
     const trace = this.gisMapService.getGeoData().traces.find((t) => t.id === traceId);
     if (trace === undefined) return;
 
+    trace.state = state;
     trace.fiberIds.forEach((i) => {
       const fiber = this.gisMapService.getGeoData().fibers.find((f) => f.id === i);
       if (fiber === undefined) return;

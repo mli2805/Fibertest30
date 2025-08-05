@@ -159,9 +159,9 @@ export interface PortOfOtau {
      */
     isPortOnMainCharon: boolean;
     /**
-     * @generated from protobuf field: optional int32 mainCharonPort = 6;
+     * @generated from protobuf field: int32 mainCharonPort = 6;
      */
-    mainCharonPort?: number; // only for BOP
+    mainCharonPort: number; // only for BOP
 }
 /**
  * @generated from protobuf message fibertest30.rtu_tree.Trace
@@ -742,7 +742,7 @@ class PortOfOtau$Type extends MessageType<PortOfOtau> {
             { no: 3, name: "otauSerial", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "opticalPort", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 5, name: "isPortOnMainCharon", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 6, name: "mainCharonPort", kind: "scalar", opt: true, T: 5 /*ScalarType.INT32*/ }
+            { no: 6, name: "mainCharonPort", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
 }

@@ -7,7 +7,7 @@ export class PortOfOtau {
   otauSerial!: string;
   opticalPort!: number;
   isPortOnMainCharon!: boolean;
-  mainCharonPort!: number | undefined;
+  mainCharonPort!: number;
 
   rtuId!: string | undefined;
 }

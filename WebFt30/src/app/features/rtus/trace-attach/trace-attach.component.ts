@@ -29,6 +29,7 @@ export class TraceAttachComponent implements OnInit {
     this.traces = this.payload.traces;
     this.selectedTrace = this.traces[0];
     this.portOfOtau = this.payload.portOfOtau;
+    console.log(this.portOfOtau);
     this.rtu = this.payload.rtu;
   }
 
@@ -47,6 +48,7 @@ export class TraceAttachComponent implements OnInit {
     dto.traceId = this.selectedTrace.traceId;
     dto.portOfOtau = [this.portOfOtau];
 
+    console.log(dto);
     this.store.dispatch(RtuTreeActions.attachTrace({ dto }));
 
     this.close();

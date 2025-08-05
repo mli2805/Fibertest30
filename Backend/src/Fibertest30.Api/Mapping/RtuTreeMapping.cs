@@ -114,11 +114,10 @@ public static class RtuTreeMapping
             Serial = portOfOtau.OtauSerial,
             OpticalPort = portOfOtau.OpticalPort,
             IsPortOnMainCharon = portOfOtau.IsPortOnMainCharon,
+            MainCharonPort = portOfOtau.MainCharonPort
         };
         if (portOfOtau.HasOtauId)
             otauPortDto.OtauId = portOfOtau.OtauId;
-        if (portOfOtau.HasMainCharonPort)
-            otauPortDto.MainCharonPort = portOfOtau.MainCharonPort;
         return otauPortDto;
     }
 

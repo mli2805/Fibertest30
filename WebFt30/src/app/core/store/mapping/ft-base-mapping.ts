@@ -42,7 +42,7 @@ export class FtBaseMapping {
       otauSerial: portOfOtau.otauSerial!,
       opticalPort: portOfOtau.opticalPort,
       isPortOnMainCharon: portOfOtau.isPortOnMainCharon,
-      mainCharonPort: portOfOtau.mainCharonPort ?? undefined
+      mainCharonPort: portOfOtau.mainCharonPort
     };
   }
 

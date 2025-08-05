@@ -69,7 +69,7 @@ message PortOfOtau {
     string otauSerial = 3;
     int32 opticalPort = 4;
     bool isPortOnMainCharon = 5;
-    optional int32 mainCharonPort = 6; // only for BOP
+    int32 mainCharonPort = 6; // only for BOP
 }
 
 message Trace {
