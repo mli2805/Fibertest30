@@ -17,7 +17,10 @@ import {
   SettingsSelectors,
   LandmarksModelsActions,
   OpticalEventsActions,
-  OpticalEventsSelectors
+  OpticalEventsSelectors,
+  NetworkEventsActions,
+  BopEventsActions,
+  RtuAccidentsActions
 } from 'src/app/core';
 import { AuthUtils } from 'src/app/core/auth/auth.utils';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -379,6 +382,8 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       }
       case 'NetworkEventAdded': {
         const data = <NetworkEventAddedData>JSON.parse(systemEvent.jsonData);
+        this.store.dispatch(NetworkEventsActions.getNetworkEvent({ eventId: data.EventId }));
+
         const audioEvent = AudioEventsMapping.mapFromNetworkEventAdded(data);
         this.addOrReplace(audioEvent);
         this.store.dispatch(DeviceActions.getHasCurrentEvents());
@@ -388,6 +393,8 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       }
       case 'BopNetworkEventAdded': {
         const data = <BopNetworkEventAddedData>JSON.parse(systemEvent.jsonData);
+        this.store.dispatch(BopEventsActions.getBopEvent({ eventId: data.EventId }));
+
         const audioEvent = AudioEventsMapping.mapFromBopNetworkEventAdded(data);
         this.addOrReplace(audioEvent);
         this.store.dispatch(DeviceActions.getHasCurrentEvents());
@@ -397,6 +404,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       }
       case 'RtuStateAccidentAdded': {
         const data = <RtuStateAccidentAddedData>JSON.parse(systemEvent.jsonData);
+        this.store.dispatch(RtuAccidentsActions.getRtuAccident({ eventId: data.EventId }));
 
         const switchOfSignalling = CoreUtils.getCurrentState(
           this.store,
