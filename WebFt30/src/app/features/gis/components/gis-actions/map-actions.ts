@@ -66,7 +66,11 @@ export class MapActions {
 
   static addNewRtu(e: L.ContextMenuItemClickEvent) {
     const node = new TraceNode(crypto.randomUUID(), '', e.latlng, EquipmentType.Rtu, '');
-    this.windowService.registerWindow(node.id, 'RtuInfo', { mode: RtuInfoMode.AddRtu, node: node });
+    this.windowService.registerWindow(node.id, 'RtuInfo', {
+      mode: RtuInfoMode.AddRtu,
+      node: node,
+      hasPermission: true
+    });
   }
 
   static dragMarkerWithPolylines(e: L.DragEndEvent) {

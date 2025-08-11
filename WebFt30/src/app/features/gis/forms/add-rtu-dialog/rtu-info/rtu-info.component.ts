@@ -30,6 +30,7 @@ export class RtuInfoComponent {
   form!: FormGroup;
 
   @Input() set data(value: any) {
+    console.log(value);
     this.hasPermission = value.hasPermission;
     this.mode = value.mode;
     this.rtuId = value.rtuId;

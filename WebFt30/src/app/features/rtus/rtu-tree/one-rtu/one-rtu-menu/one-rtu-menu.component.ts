@@ -93,7 +93,8 @@ export class OneRtuMenuComponent {
     const node = this.gisMapService.getNode(this.rtu.nodeId);
     this.windowService.registerWindow(node.id, 'RtuInfo', {
       mode: RtuInfoMode.ShowInformation,
-      node: node
+      node: node,
+      hasPermission: this.hasPermission(ApplicationPermission.EditGraph)
     });
   }
 

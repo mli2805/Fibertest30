@@ -32,13 +32,14 @@ export class AddRtuDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.payload);
     const rtu = this.gisMapService.getGeoData().equipments.find((e) => e.nodeId === this.nodeId);
     const rtuId =
       this.payload.mode === RtuInfoMode.AddRtu
         ? crypto.randomUUID()
         : this.gisMapService.getGeoData().equipments.find((e) => e.nodeId === this.nodeId)!.id;
     this.rtuInfoData = {
-      hasPermission: true,
+      hasPermission: this.payload.hasPermission,
       mode: this.payload.mode,
       rtuId: rtuId,
       rtuNode: this.payload.node,

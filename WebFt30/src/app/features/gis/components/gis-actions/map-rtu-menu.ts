@@ -36,7 +36,7 @@ export class MapRtuMenu {
     return [
       {
         text: this.ts.instant('i18n.ft.information'),
-        callback: (e: L.ContextMenuItemClickEvent) => this.showRtuInformation(e)
+        callback: (e: L.ContextMenuItemClickEvent) => this.showRtuInformation(e, hasEditPermissions)
       },
       {
         text: this.ts.instant('i18n.ft.landmarks'),
@@ -74,13 +74,14 @@ export class MapRtuMenu {
     ];
   }
 
-  static async showRtuInformation(e: L.ContextMenuItemClickEvent) {
+  static async showRtuInformation(e: L.ContextMenuItemClickEvent, hasEditPermission: boolean) {
     const nodeId = (<any>e.relatedTarget).id;
     const node = this.gisMapService.getNode(nodeId);
 
     this.windowService.registerWindow(nodeId, 'RtuInfo', {
       mode: RtuInfoMode.ShowInformation,
-      node: node
+      node: node,
+      hasPermission: hasEditPermission
     });
   }
 
