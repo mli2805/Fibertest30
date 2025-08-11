@@ -372,6 +372,16 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
           }
         }
 
+        // если пользователь проводит сейчас точное изм вне очереди по этой трассе
+        const traceId = CoreUtils.getCurrentState(
+          this.store,
+          RtuMgmtSelectors.selectOutOfTurnTraceId
+        );
+        if (traceId === data.TraceId) {
+          // то не надо включать сигнализацию
+          return;
+        }
+
         // если не вышли по отключенной сигнализации, то добавляем в Новые события
         const audioEvent = AudioEventsMapping.mapFromTraceStateChanged(data);
         this.addOrReplace(audioEvent);
