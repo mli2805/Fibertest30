@@ -112,6 +112,7 @@ export class TreeMapping {
     for (let i = 0; i < bop.portCount; i++) {
       const trace = bop.traces.find((t) => t.port !== null && t.port.opticalPort === i + 1);
       if (trace !== undefined) {
+        trace.port!.mainCharonPort = bop.masterPort;
         const child = { type: 'attached-trace', port: i + 1, payload: trace };
         oneBopChildren.push(child);
         continue;

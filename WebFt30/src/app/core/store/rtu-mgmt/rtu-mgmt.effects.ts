@@ -74,8 +74,9 @@ export class RtuMgmtEffects {
           }),
           catchError((error) => {
             const serverError = GrpcUtils.toServerError(error);
+            console.log(serverError);
             const errorMessageId =
-              CoreUtils.serverErrorToMessageId(serverError) ?? 'i18n.error.unknown-error';
+              CoreUtils.serverErrorToMessageId(serverError) ?? 'i18n.ft.unknown-error';
             return of(RtuMgmtActions.startMeasurementClientFailure({ errorMessageId }));
           })
         );
@@ -94,7 +95,7 @@ export class RtuMgmtEffects {
           catchError((error) => {
             const serverError = GrpcUtils.toServerError(error);
             const errorMessageId =
-              CoreUtils.serverErrorToMessageId(serverError) ?? 'i18n.error.unknown-error';
+              CoreUtils.serverErrorToMessageId(serverError) ?? 'i18n.ft.unknown-error';
             return of(RtuMgmtActions.startPreciseMeasurementOutOfTurnFailure({ errorMessageId }));
           })
         );
@@ -113,7 +114,7 @@ export class RtuMgmtEffects {
           catchError((error) => {
             const serverError = GrpcUtils.toServerError(error);
             const errorMessageId =
-              CoreUtils.serverErrorToMessageId(serverError) ?? 'i18n.error.unknown-error';
+              CoreUtils.serverErrorToMessageId(serverError) ?? 'i18n.ft.unknown-error';
             return of(RtuMgmtActions.applyMonitoringSettingsFailure({ errorMessageId }));
           })
         );
