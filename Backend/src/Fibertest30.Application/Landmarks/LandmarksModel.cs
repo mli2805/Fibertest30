@@ -89,19 +89,23 @@ public class LandmarksModel
     {
         var hasRowChanges = false;
 
-        var originalLandmark = _originalLandmarks.First(l => l.Number == changedColoredLandmark.Number);
+        // var originalLandmark = _originalLandmarks.First(l => l.Number == changedColoredLandmark.Number);
         var changedLandmark = _changedLandmarks.First(l => l.Number == changedColoredLandmark.Number);
+        // если поле было А, затем изменено на Б и теперь пришло значение А, то если сравнить с первоначальным,
+        // то окажется что значение не изменилось и ничего делать не надо, и в поле останется Б, что неправильно,
+        // а вот при отмене изменений возьмется первоначальное значение из originalLandmark, см CancelOneRowChanges
+        var previousStateOfLandmark = changedLandmark.Clone();
         changedColoredLandmark.ToLandmark(changedLandmark);
 
         var currentNode = _changedModel.NodeArray.First(n => n.NodeId == changedColoredLandmark.NodeId);
-        if (originalLandmark.AreNodePropertiesChanged(changedLandmark))
+        if (previousStateOfLandmark.AreNodePropertiesChanged(changedLandmark))
         {
             currentNode.UpdateFrom(changedLandmark);
             _command.Add(currentNode);
             hasRowChanges = true;
         }
 
-        if (!originalLandmark.UserInputLength.Equals(changedLandmark.UserInputLength))
+        if (!previousStateOfLandmark.UserInputLength.Equals(changedLandmark.UserInputLength))
         {
             var writeModel = scope.ServiceProvider.GetRequiredService<Model>();
 
@@ -118,7 +122,7 @@ public class LandmarksModel
             hasRowChanges = true;
         }
 
-        if (originalLandmark.AreEquipmentPropertiesChanged(changedLandmark))
+        if (previousStateOfLandmark.AreEquipmentPropertiesChanged(changedLandmark))
         {
             var currentEquipment = _changedModel.EquipArray[changedLandmark.NumberIncludingAdjustmentPoints];
             currentEquipment.UpdateFrom(changedLandmark);

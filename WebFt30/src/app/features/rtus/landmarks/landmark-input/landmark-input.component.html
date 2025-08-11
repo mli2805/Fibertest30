@@ -42,7 +42,14 @@
         </div>
         <div class="flex flex-col mt-2">
           <label class="ml-2" [ngClass]="{ 'disabled-label': inputDisabled() }">{{ 'i18n.ft.user-length-m' | translate }}</label>
-          <input formControlName="userInputLength" type="text" class="input-simple" [ngClass]="{ 'invalid-border': !isUserLengthValid() }"/>
+          <div class="flex items-center">
+  <fieldset [disabled]="!form.get('isUserInput')?.value" class="contents">
+            <input formControlName="userInputLength" type="text" class="input-simple w-44" [ngClass]="{ 'invalid-border': !isUserLengthValid() }"/>
+  </fieldset>
+            <input formControlName="isUserInput" type="checkbox" (change)="onIsUserInput()" class="ml-2 text-gray-400 bg-rtu-primary-bg" />
+          </div>
+          
+
         </div>
       </div>
       <div class="ml-2 w-full">

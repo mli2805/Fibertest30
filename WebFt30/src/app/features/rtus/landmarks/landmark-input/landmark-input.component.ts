@@ -61,7 +61,8 @@ export class LandmarkInputComponent {
       equipmentType: [''],
       leftCableReserve: [''],
       rightCableReserve: [''],
-      userInputLength: ['']
+      userInputLength: [''],
+      isUserInput: ['']
     });
   }
 
@@ -128,10 +129,23 @@ export class LandmarkInputComponent {
     return (+value).validInteger(0, 200);
   }
 
+  onIsUserInput(): void {
+    const isEnabled = this.form.get('isUserInput')?.value;
+    if (!isEnabled) {
+      this.form.get('userInputLength')?.reset();
+    } else {
+      if (this.originalLandmark.isUserInput) {
+        this.form.get('userInputLength')?.setValue(this.originalLandmark.UserInputLength);
+      }
+    }
+  }
+
   isUserLengthValid(): boolean {
-    if (this.form.controls['userInputLength'].pristine) return true;
+    // if (this.form.controls['userInputLength'].pristine) return true;
     const value = this.form.controls['userInputLength'].value;
-    if (value === '') return true;
+    if (value === '' && this.form.controls['isUserInput'].value) {
+      return false;
+    }
     const num = +value;
     return Number.isInteger(num) && num >= 0;
   }
@@ -146,6 +160,7 @@ export class LandmarkInputComponent {
 
   isUpdateTableDisabled() {
     if (!this.gpsInput) return true;
+    if (!this.isUserLengthValid()) return true;
     return this.form.pristine && this.gpsInput.isPreviewDisabled();
   }
 
