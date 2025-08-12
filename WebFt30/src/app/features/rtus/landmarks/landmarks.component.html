@@ -160,6 +160,7 @@
       <!-- input fields -->
       <ng-container *ngIf="inputModel$ | async as landmark">
         <rtu-landmark-input
+          #landmarkInput
           class="w-full"
           [landmark]="landmark"
           (applyLandmark)="updateTable($event)"

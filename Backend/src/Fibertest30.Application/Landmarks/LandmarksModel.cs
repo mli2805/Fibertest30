@@ -122,8 +122,32 @@ public class LandmarksModel
             hasRowChanges = true;
         }
 
-        if (previousStateOfLandmark.AreEquipmentPropertiesChanged(changedLandmark))
+        if (previousStateOfLandmark.EquipmentId != changedLandmark.EquipmentId)
         {
+            // включить в трассу выбранное оборудование
+            // или исключить - в этом случае selectedEquipmentGuid это id "пустого" оборудования в этом узле
+            // команда ExcludeEquipmentFromTrace существует только для обратной совместимости
+
+            var writeModel = scope.ServiceProvider.GetRequiredService<Model>();
+            var newEquipment = writeModel.Equipments.First(e => e.EquipmentId == changedLandmark.EquipmentId);
+            _changedModel.EquipArray[changedLandmark.NumberIncludingAdjustmentPoints] = newEquipment;
+
+
+            var cmd = new IncludeEquipmentIntoTrace()
+            {
+                TraceId = _selectedTrace!.TraceId,
+                IndexInTrace = changedLandmark.NumberIncludingAdjustmentPoints,
+                EquipmentId = changedLandmark.EquipmentId,
+            };
+            _command.Add(cmd);
+
+            hasRowChanges = true;
+        }
+        else if (previousStateOfLandmark.AreEquipmentPropertiesChanged(changedLandmark))
+        {
+            // если пользователь сменил оборудование сразу отправляем команду updateTable на сервер,
+            // остальные поля нового оборудования он не успел поменять
+            // а вот другие поля ориентира мог (узел и волокно обработаны выше)
             var currentEquipment = _changedModel.EquipArray[changedLandmark.NumberIncludingAdjustmentPoints];
             currentEquipment.UpdateFrom(changedLandmark);
             _command.Add(currentEquipment);
@@ -259,7 +283,7 @@ public class LandmarksModel
         }
 
         await systemEventSender.Send(SystemEventFactory.LandmarksUpdateProgressed(_landmarksModelId,
-            LandmarksUpdateProgress.AllDone, Guid.Empty, -1, -1, 
+            LandmarksUpdateProgress.AllDone, Guid.Empty, -1, -1,
             flag ? ReturnCode.Ok : ReturnCode.Error, flag));
     }
 }

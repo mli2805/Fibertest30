@@ -1,4 +1,12 @@
-import { Component, HostListener, inject, Injector, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, firstValueFrom, Subscription } from 'rxjs';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
@@ -13,7 +21,6 @@ import {
   SettingsSelectors
 } from 'src/app/core';
 import { GisMapService } from '../../gis/gis-map.service';
-import { LandmarkMenu } from './one-landmark-menu/landmark-menu';
 import { EquipmentType } from 'src/grpc-generated';
 import { GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -23,6 +30,8 @@ import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-b
 import { Dialog } from '@angular/cdk/dialog';
 import { LandmarksProgressComponent } from './landmarks-progress/landmarks-progress.component';
 import { ReturnCode } from 'src/app/core/store/models/ft30/return-code';
+import { TraceEquipmentUtil } from '../../gis/forms/trace-equipment-selector/trace-equipment-util';
+import { LandmarkInputComponent } from './landmark-input/landmark-input.component';
 
 export class CreatedModel {
   modelId!: string;
@@ -87,11 +96,8 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   constructor(
     private windowService: WindowService,
     private gisMapService: GisMapService,
-    private dialog: Dialog,
-    private injector: Injector
-  ) {
-    LandmarkMenu.initialize(injector);
-  }
+    private dialog: Dialog
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.createdModels = [];
@@ -328,11 +334,57 @@ export class LandmarksComponent implements OnInit, OnDestroy {
     this.showContextMenu = true;
   }
 
-  handleMenuAction(action: string) {
+  async handleMenuAction(action: string) {
+    switch (action) {
+      case 'equipment':
+        await this.equipmentOfLandmark();
+        break;
+      case 'node':
+        this.gisMapService.setShowNodeInfoDialog(this.selectedLandmark.value!.nodeId, true);
+        break;
+      case 'section':
+        this.gisMapService.setShowSectionInfoDialog(this.selectedLandmark.value!.fiberId, true);
+        break;
+    }
+  }
+
+  async equipmentOfLandmark() {
+    const landmark = this.selectedLandmark.value!;
     const isLast =
       this.selectedLandmark.value!.number === this.landmarksModel.value!.landmarks.length - 1;
-    LandmarkMenu.handleMenuAction(action, this.selectedLandmark.value, this.trace, isLast);
+    const node = this.gisMapService.getNode(landmark.nodeId);
+
+    const newEquipmentId = await TraceEquipmentUtil.selectEquipment(
+      node,
+      true,
+      landmark.equipmentId,
+      this.trace.hasAnyBaseRef,
+      isLast
+    );
+
+    // отказался от выбора, ничего не меняется
+    if (newEquipmentId === null) return;
+
+    if (landmark.equipmentId !== newEquipmentId) {
+      const changedLandmark = this.landmarkInput.collectInput();
+      if (changedLandmark === null) return; // !!! запретить контекстное меню, пока некорректный ввод каб рез и польз длины
+
+      const equipment = this.gisMapService
+        .getGeoData()
+        .equipments.find((e) => e.id === newEquipmentId)!;
+      changedLandmark.equipmentId = equipment.id;
+      // если пользователь сменил оборудование сразу отправляем команду updateTable на сервер,
+      // остальные поля нового оборудования он не успел поменять
+      // а вот другие поля ориентира мог
+      this.updateTable(changedLandmark);
+
+      // // подсунуть новые значения в поля ввода, не в таблицу.
+      // //  в таблицу они пойдут если пользователь нажмет Обновить таблицу
+      // this.landmarkInput.replaceEquipment(equipment!);
+      // landmark.equipmentId = newEquipmentId;
+    }
   }
+  @ViewChild('landmarkInput') landmarkInput!: LandmarkInputComponent;
 
   // Close menu when clicking elsewhere
   @HostListener('document:click')
@@ -378,10 +430,18 @@ export class LandmarksComponent implements OnInit, OnDestroy {
     // 1) можно пропускать рту, его нельзя редактировать
     // 2) разобраться почему на .117 нету оборудования рту
     if (equipment) {
-      equipment.title = landmark.equipmentTitle;
-      equipment.type = landmark.equipmentType;
-      equipment.cableReserveLeft = landmark.leftCableReserve;
-      equipment.cableReserveRight = landmark.rightCableReserve;
+      if (
+        this.trace.equipmentIds[landmark.numberIncludingAdjustmentPoints] !== landmark.equipmentId
+      ) {
+        // поменяли оборудование целиком
+        this.trace.equipmentIds[landmark.numberIncludingAdjustmentPoints] = landmark.equipmentId;
+      } else {
+        // поменяли свойства того же оборудования
+        equipment.title = landmark.equipmentTitle;
+        equipment.type = landmark.equipmentType;
+        equipment.cableReserveLeft = landmark.leftCableReserve;
+        equipment.cableReserveRight = landmark.rightCableReserve;
+      }
     }
 
     // пользовательская длина не хранится на клиенте
