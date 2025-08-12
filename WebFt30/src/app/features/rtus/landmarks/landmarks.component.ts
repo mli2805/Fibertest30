@@ -2,6 +2,7 @@ import {
   Component,
   HostListener,
   inject,
+  Injector,
   Input,
   OnDestroy,
   OnInit,
@@ -96,8 +97,11 @@ export class LandmarksComponent implements OnInit, OnDestroy {
   constructor(
     private windowService: WindowService,
     private gisMapService: GisMapService,
-    private dialog: Dialog
-  ) {}
+    private dialog: Dialog,
+    private injector: Injector
+  ) {
+    TraceEquipmentUtil.initialize(injector);
+  }
 
   async ngOnInit(): Promise<void> {
     this.createdModels = [];
