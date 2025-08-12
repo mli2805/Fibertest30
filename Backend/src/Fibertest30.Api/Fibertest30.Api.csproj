@@ -37,6 +37,7 @@
 		<Protobuf Include="Protos\graph.proto" ProtoRoot="Protos" GrpcServices="Server" />
 		<Protobuf Include="Protos\gis.proto" ProtoRoot="Protos" GrpcServices="Server" />
 		<Protobuf Include="Protos\landmarks.proto" ProtoRoot="Protos" GrpcServices="Server" />
+		<Protobuf Include="Protos\reports.proto" ProtoRoot="Protos" GrpcServices="Server" />
 	</ItemGroup>
 
 	<ItemGroup>

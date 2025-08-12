@@ -98,7 +98,7 @@ export class LandmarksComponent implements OnInit, OnDestroy {
     private windowService: WindowService,
     private gisMapService: GisMapService,
     private dialog: Dialog,
-    private injector: Injector
+    injector: Injector
   ) {
     TraceEquipmentUtil.initialize(injector);
   }

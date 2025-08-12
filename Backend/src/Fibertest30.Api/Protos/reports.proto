@@ -1,0 +1,27 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Fibertest30.Api";
+package fibertest30.reports;
+
+service Reports {
+	rpc GetUserActionLines (GetUserActionLinesRequest) returns (GetUserActionLinesResponse);
+}
+
+message UserActionLine {
+	int32 ordinal = 1;
+	string username = 2;
+	string clientIp = 3;
+    google.protobuf.Timestamp registeredAt = 4;
+	int32 logOperationCode = 5;
+	string rtuTitle = 6;
+	string traceTitle = 7;
+	string operationParams = 8;
+}
+
+// GetUserActionLines
+message GetUserActionLinesRequest {}
+
+message GetUserActionLinesResponse {
+	repeated UserActionLine lines = 1;
+}
