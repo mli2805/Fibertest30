@@ -9,9 +9,12 @@ import { SystemEventsComponent } from './system-events/system-events.component';
 import { UserActionsReportComponent } from './user-actions-report/user-actions-report.component';
 import { MonitoringSystemReportComponent } from './monitoring-system-report/monitoring-system-report.component';
 import { OpticalEventsReportComponent } from './optical-events-report/optical-events-report.component';
+import { LogOperationFilterComponent } from './user-actions-report/log-operation-filter/log-operation-filter.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
+    FormsModule,
     ReportingRoutingModule,
     SharedModule,
     FiberizerCoreModule,
@@ -19,7 +22,14 @@ import { OpticalEventsReportComponent } from './optical-events-report/optical-ev
     TranslateModule.forChild()
   ],
   exports: [],
-  declarations: [ReportingComponent, SystemEventsComponent, UserActionsReportComponent, MonitoringSystemReportComponent, OpticalEventsReportComponent],
+  declarations: [
+    ReportingComponent,
+    SystemEventsComponent,
+    UserActionsReportComponent,
+    MonitoringSystemReportComponent,
+    OpticalEventsReportComponent,
+    LogOperationFilterComponent
+  ],
   providers: []
 })
 export class Reporting {}

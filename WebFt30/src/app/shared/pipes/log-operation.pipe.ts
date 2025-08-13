@@ -23,8 +23,8 @@ export class LogOperationCodePipe implements PipeTransform {
         return 'i18n.ft.rtu-initialized';
       case LogOperationCode.RtuRemoved:
         return 'i18n.ft.rtu-removed';
-      case LogOperationCode.RtuAddressCleared:
-        return 'i18n.ft.rtu-address-cleared';
+      // case LogOperationCode.RtuAddressCleared:
+      //   return 'i18n.ft.rtu-address-cleared';
 
       case LogOperationCode.TraceAdded:
         return 'i18n.ft.trace-added';

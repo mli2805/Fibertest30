@@ -825,10 +825,14 @@
   "i18n.ft.monitoring-started": "Monitoring started",
   "i18n.ft.monitoring-stopped": "Monitoring stopped",
 
-  "i18n.ft.measurement-updated": "Measurement updated",
+  "i18n.ft.measurement-updated": "Event status changed",
 
   "i18n.ft.events-and-sors-removed": "Events and SORs removed",
-  "i18n.ft.snapshot-made": "Snapshot made",
+  "i18n.ft.snapshot-made": "DB reorganization",
 
-  "i18n.ft.unknown-operation": "Unknown operation"
+  "i18n.ft.unknown-operation": "Unknown operation",
+  "i18n.ft.no-filter": "<no filter>",
+  "i18n.ft.all-operations": "All operations",
+  "i18n.ft.filter-applied": "<filter applied>",
+  "i18n.ft.operations-filter": "Operations filter"
 }

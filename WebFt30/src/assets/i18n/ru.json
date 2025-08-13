@@ -481,34 +481,38 @@
   "i18n.ft.client-started": "Клиент запущен",
   "i18n.ft.client-exited": "Клиент завершил работу",
   "i18n.ft.client-connection-lost": "Соединение с клиентом потеряно",
-  "i18n.ft.users-machine-key-assigned": "Назначен ключ машины пользователя",
+  "i18n.ft.users-machine-key-assigned": "Выполнена привязка пользователя к раб месту",
 
   "i18n.ft.rtu-added": "RTU добавлен",
-  "i18n.ft.rtu-updated": "RTU обновлён",
+  "i18n.ft.rtu-updated": "RTU изменен",
   "i18n.ft.rtu-initialized": "RTU инициализирован",
   "i18n.ft.rtu-removed": "RTU удалён",
   "i18n.ft.rtu-address-cleared": "Адрес RTU очищен",
 
   "i18n.ft.trace-added": "Трасса добавлена",
-  "i18n.ft.trace-updated": "Трасса обновлена",
-  "i18n.ft.trace-attached": "Трасса прикреплена",
-  "i18n.ft.trace-detached": "Трасса откреплена",
+  "i18n.ft.trace-updated": "Трасса изменена",
+  "i18n.ft.trace-attached": "Трасса присоединена",
+  "i18n.ft.trace-detached": "Трасса отсоединена",
   "i18n.ft.trace-cleaned": "Трасса очищена",
   "i18n.ft.trace-removed": "Трасса удалена",
 
   "i18n.ft.tce-added": "TCE добавлен",
-  "i18n.ft.tce-updated": "TCE обновлён",
+  "i18n.ft.tce-updated": "TCE изменен",
   "i18n.ft.tce-removed": "TCE удалён",
 
-  "i18n.ft.base-ref-assigned": "Назначена базовая референсная трасса",
+  "i18n.ft.base-ref-assigned": "Задана базовая",
   "i18n.ft.monitoring-settings-changed": "Настройки мониторинга изменены",
   "i18n.ft.monitoring-started": "Мониторинг запущен",
   "i18n.ft.monitoring-stopped": "Мониторинг остановлен",
 
-  "i18n.ft.measurement-updated": "Измерение обновлено",
+  "i18n.ft.measurement-updated": "Статус события изменен",
 
   "i18n.ft.events-and-sors-removed": "События и SOR-файлы удалены",
-  "i18n.ft.snapshot-made": "Снимок состояния создан",
+  "i18n.ft.snapshot-made": "Реструктуризация БД",
 
-  "i18n.ft.unknown-operation": "Неизвестная операция"
+  "i18n.ft.unknown-operation": "Неизвестная операция",
+  "i18n.ft.no-filter": "<нет фильтра>",
+  "i18n.ft.all-operations": "Все операции",
+  "i18n.ft.filter-applied": "<фильтр применен>",
+  "i18n.ft.operations-filter": "Фильтр операций"
 }

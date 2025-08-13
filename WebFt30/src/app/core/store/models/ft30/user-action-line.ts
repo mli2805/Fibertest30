@@ -8,7 +8,7 @@ export enum LogOperationCode {
   RtuUpdated,
   RtuInitialized,
   RtuRemoved,
-  RtuAddressCleared,
+  // RtuAddressCleared,
 
   TraceAdded = 301,
   TraceUpdated,
@@ -31,6 +31,10 @@ export enum LogOperationCode {
   EventsAndSorsRemoved,
   SnapshotMade
 }
+
+export const ALL_LOG_OPERATION_CODES: LogOperationCode[] = Object.values(LogOperationCode).filter(
+  (v) => typeof v === 'number'
+) as LogOperationCode[];
 
 export class UserActionLine {
   ordinal!: number;

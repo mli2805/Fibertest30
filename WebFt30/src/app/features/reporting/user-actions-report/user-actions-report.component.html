@@ -6,6 +6,11 @@
 
 <div class="flex h-full w-full flex-col pl-5 pt-5">
   <ng-container *ngIf="lines$ | async as lines">
+    <div class="flex">
+      <button class="button-extra" (click)="onLogOperationFilterClick()">
+        {{ operationFilterFace | translate }}
+      </button>
+    </div>
     <table class="events-table text-center">
       <thead>
         <tr>
