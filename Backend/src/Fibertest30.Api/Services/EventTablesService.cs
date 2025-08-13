@@ -11,19 +11,16 @@ public class EventTablesService(ISender mediator) : EventTables.EventTablesBase
             new GetSystemEventsQuery(),
             context.CancellationToken);
 
-        var response = new GetSystemEventsResponse()
+        return new GetSystemEventsResponse()
         {
             SystemEvents = { systemEvents.Select(x => x.ToProto()) }
         };
-
-        return response;
     }
 
     public override async Task<GetOpticalEventResponse> GetOpticalEvent(GetOpticalEventRequest request, ServerCallContext context)
     {
         var opticalEvent = await mediator.Send(new GetOpticalEventQuery(request.EventId), context.CancellationToken);
-        var response = new GetOpticalEventResponse() { OpticalEvent = opticalEvent.ToProto() };
-        return response;
+        return new GetOpticalEventResponse() { OpticalEvent = opticalEvent.ToProto() };
     }
 
     public override async Task<GetOpticalEventsResponse> GetOpticalEvents(GetOpticalEventsRequest request,
@@ -33,9 +30,7 @@ public class EventTablesService(ISender mediator) : EventTables.EventTablesBase
             await mediator.Send(new GetOpticalEventsQuery(
                 request.CurrentEvents, request.DateTimeFilter.FromProto(), request.PortionSize), context.CancellationToken);
 
-        var response = new GetOpticalEventsResponse() { OpticalEvents = { opticalEvents.Select(x => x.ToProto()) } };
-
-        return response;
+        return new GetOpticalEventsResponse() { OpticalEvents = { opticalEvents.Select(x => x.ToProto()) } };
     }
 
     public override async Task<GetNetworkEventResponse> GetNetworkEvent(GetNetworkEventRequest request, ServerCallContext context)
@@ -52,8 +47,7 @@ public class EventTablesService(ISender mediator) : EventTables.EventTablesBase
                     request.CurrentEvents, request.DateTimeFilter.FromProto(), request.PortionSize),
                 context.CancellationToken);
 
-        var response = new GetNetworkEventsResponse() { NetworkEvents = { networkEvents.Select(x => x.ToProto()) } };
-        return response;
+        return new GetNetworkEventsResponse() { NetworkEvents = { networkEvents.Select(x => x.ToProto()) } };
     }
 
     public override async Task<GetBopEventResponse> GetBopEvent(GetBopEventRequest request, ServerCallContext context)
@@ -69,8 +63,7 @@ public class EventTablesService(ISender mediator) : EventTables.EventTablesBase
             await mediator.Send(new GetBopEventsQuery(
                 request.CurrentEvents, request.DateTimeFilter.FromProto(), request.PortionSize), context.CancellationToken);
 
-        var response = new GetBopEventsResponse() { BopEvents = { bopEvents.Select(x => x.ToProto()) } };
-        return response;
+        return new GetBopEventsResponse() { BopEvents = { bopEvents.Select(x => x.ToProto()) } };
     }
 
     public override async Task<GetRtuAccidentResponse> GetRtuAccident(GetRtuAccidentRequest request, ServerCallContext context)
@@ -87,15 +80,13 @@ public class EventTablesService(ISender mediator) : EventTables.EventTablesBase
                 request.CurrentAccidents, request.DateTimeFilter.FromProto(), request.PortionSize),
                 context.CancellationToken);
 
-        var response = new GetRtuAccidentsResponse() { RtuAccidents = { rtuAccidents.Select(x => x.ToProto()) } };
-        return response;
+        return new GetRtuAccidentsResponse() { RtuAccidents = { rtuAccidents.Select(x => x.ToProto()) } };
     }
 
     public override async Task<GetHasCurrentResponse> GetHasCurrent(GetHasCurrentRequest request,
         ServerCallContext context)
     {
         var hasCurrent = await mediator.Send(new GetHasCurrentQuery(), context.CancellationToken);
-        var response = new GetHasCurrentResponse() { HasCurrentEvents = hasCurrent.ToProto() };
-        return response;
+        return new GetHasCurrentResponse() { HasCurrentEvents = hasCurrent.ToProto() };
     }
 }

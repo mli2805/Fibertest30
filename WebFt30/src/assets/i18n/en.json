@@ -791,5 +791,44 @@
 
   "i18n.validation.incorrect-level-order": "incorrect level order",
   "i18n.validation.not-unique": "must be unique",
-  "i18n.validation.precision-limit": "precision limit"
+  "i18n.validation.precision-limit": "precision limit",
+
+  "i18n.ft.ordinal": "Ordinal",
+  "i18n.ft.client-ip": "Client IP",
+  "i18n.ft.operation": "Operation",
+  "i18n.ft.additional-info": "Additional info",
+
+  "i18n.ft.client-started": "Client started",
+  "i18n.ft.client-exited": "Client exited",
+  "i18n.ft.client-connection-lost": "Client connection lost",
+  "i18n.ft.users-machine-key-assigned": "User's machine key assigned",
+
+  "i18n.ft.rtu-added": "RTU added",
+  "i18n.ft.rtu-updated": "RTU updated",
+  "i18n.ft.rtu-initialized": "RTU initialized",
+  "i18n.ft.rtu-removed": "RTU removed",
+  "i18n.ft.rtu-address-cleared": "RTU address cleared",
+
+  "i18n.ft.trace-added": "Trace added",
+  "i18n.ft.trace-updated": "Trace updated",
+  "i18n.ft.trace-attached": "Trace attached",
+  "i18n.ft.trace-detached": "Trace detached",
+  "i18n.ft.trace-cleaned": "Trace cleaned",
+  "i18n.ft.trace-removed": "Trace removed",
+
+  "i18n.ft.tce-added": "TCE added",
+  "i18n.ft.tce-updated": "TCE updated",
+  "i18n.ft.tce-removed": "TCE removed",
+
+  "i18n.ft.base-ref-assigned": "Base reference assigned",
+  "i18n.ft.monitoring-settings-changed": "Monitoring settings changed",
+  "i18n.ft.monitoring-started": "Monitoring started",
+  "i18n.ft.monitoring-stopped": "Monitoring stopped",
+
+  "i18n.ft.measurement-updated": "Measurement updated",
+
+  "i18n.ft.events-and-sors-removed": "Events and SORs removed",
+  "i18n.ft.snapshot-made": "Snapshot made",
+
+  "i18n.ft.unknown-operation": "Unknown operation"
 }

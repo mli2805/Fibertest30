@@ -10,7 +10,7 @@ public static class ReportsMapping
         {
             Ordinal = logLine.Ordinal,
             Username = logLine.Username,
-            ClientIp = logLine.ClientIp,
+            ClientIp = logLine.ClientIp ?? "",
             RegisteredAt = logLine.Timestamp.ToUniversalTime().ToTimestamp(),
             LogOperationCode = (int)logLine.OperationCode,
             RtuTitle = logLine.RtuTitle ?? "",

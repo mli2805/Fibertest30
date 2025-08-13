@@ -98,6 +98,7 @@ import { GroupBoxComponent } from './components/group-box/group-box.component';
 import { FixButtonComponent } from './components/svg-buttons/fix-button.component';
 import { LoggingButtonComponent } from './components/svg-buttons/logging-button.component';
 import { StructureButtonComponent } from './components/svg-buttons/structure-button.component';
+import { LogOperationCodePipe } from './pipes/log-operation.pipe';
 
 @NgModule({
   imports: [
@@ -139,6 +140,7 @@ import { StructureButtonComponent } from './components/svg-buttons/structure-but
     EquipmentPipe,
     RtuPartStatePipe,
     GeoCoordinatesPipe,
+    LogOperationCodePipe,
     SimpleErrorComponent,
     DescriptionLabelComponent,
     LoadingSpinnerComponent,
@@ -234,6 +236,7 @@ import { StructureButtonComponent } from './components/svg-buttons/structure-but
     EquipmentPipe,
     RtuPartStatePipe,
     GeoCoordinatesPipe,
+    LogOperationCodePipe,
     SimpleErrorComponent,
     DescriptionLabelComponent,
     LoadingSpinnerComponent,

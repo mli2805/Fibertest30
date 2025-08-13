@@ -4,10 +4,42 @@
 ></rtu-single-error-popup>
 <rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
 
-<div>
+<div class="flex h-full w-full flex-col pl-5 pt-5">
   <ng-container *ngIf="lines$ | async as lines">
-    <ng-container *ngFor="let line of lines">
-      {{ line }}
-    </ng-container>
+    <table class="events-table text-center">
+      <thead>
+        <tr>
+          <th class="w-16 font-thin">
+            {{ 'i18n.ft.ordinal' | translate }}
+          </th>
+          <th class="font-thin">{{ 'i18n.ft.user' | translate }}</th>
+          <th class="font-thin">{{ 'i18n.ft.client-ip' | translate }}</th>
+
+          <th class="w-40 font-thin">
+            {{ 'i18n.ft.registered-at' | translate }}
+          </th>
+          <th class="font-thin">{{ 'i18n.ft.operation' | translate }}</th>
+          <th class="font-thin">{{ 'RTU' }}</th>
+          <th class="font-thin">{{ 'i18n.ft.trace' | translate }}</th>
+          <th class="w-36 font-thin">
+            {{ 'i18n.ft.additional-info' | translate }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let line of lines">
+          <td class="text-center">{{ line.ordinal }}</td>
+          <td class="text-center">{{ line.username }}</td>
+          <td class="min-w-16 text-center">{{ line.clientIp }}</td>
+          <td class="text-center">{{ line.registeredAt | rtuDateTime : 'medium' }}</td>
+          <td class="text-center">
+            {{ line.logOperationCode | logOperationCodePipe | translate }}
+          </td>
+          <td class="text-center">{{ line.rtuTitle }}</td>
+          <td class="text-center">{{ line.traceTitle }}</td>
+          <td class="text-center">{{ line.operationParams }}</td>
+        </tr>
+      </tbody>
+    </table>
   </ng-container>
 </div>
