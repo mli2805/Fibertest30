@@ -39,6 +39,7 @@ export class StartPageHeaderComponent {
     [/^\/rtus\/measurement-client\/.*$/, { titleId: 'i18n.ft.measurement-client' }],
     [/^\/rtus\/assign-base\/.*$/, { titleId: 'i18n.ft.assign-base-refs' }],
     [/^\/ft-settings$/, { titleId: 'i18n.ft.settings' }],
+    [/^\/reports$/, { titleId: 'i18n.ft.reports' }],
 
     [/^\/event-tables$/, { titleId: 'i18n.ft.events' }],
     [/^\/event-tables\/system-events$/, { titleId: 'i18n.ft.system-events' }],

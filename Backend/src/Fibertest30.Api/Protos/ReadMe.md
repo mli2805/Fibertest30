@@ -8,7 +8,7 @@ or
 if you import any data.*.proto files
 
 - Add new service to /Services
-- Add grpc mapping (app.MapGrpcService<DemoService>)
+- Add in Program.cs grpc mapping (app.MapGrpcService<DemoService>) 
 
 
 

@@ -785,6 +785,10 @@
   "i18n.ft.precise-measurement-in-progress": "Precise measurement in progress",
   "i18n.ft.optical-event-status": "Optical event status",
 
+  "i18n.ft.components-of-a-monitoring-system": "Components of a monitoring system",
+  "i18n.ft.optical-events-report": "Optical events report",
+  "i18n.ft.operations-log": "Operations log",
+
   "i18n.validation.incorrect-level-order": "incorrect level order",
   "i18n.validation.not-unique": "must be unique",
   "i18n.validation.precision-limit": "precision limit"

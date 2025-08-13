@@ -38,6 +38,8 @@ import { AudioEventsState } from './store/audio-events/audio-events.state';
 import { audioEventsReducer } from './store/audio-events/audio-events.reducer';
 import { LandmarksModelsState } from './store/landmarks/landmarks-models.state';
 import { landmarksModelsReducer } from './store/landmarks/landmarks-models.reducer';
+import { ReportingState } from './store/reporting/reporting.state';
+import { reportingReducer } from './store/reporting/reporting.reducer';
 
 export interface AppState {
   auth: AuthState;
@@ -59,6 +61,7 @@ export interface AppState {
   rtuTree: RtuTreeState;
   rtuMgmt: RtuMgmtState;
   landmarksModels: LandmarksModelsState;
+  reporting: ReportingState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -80,7 +83,8 @@ export const reducers: ActionReducerMap<AppState> = {
 
   rtuTree: rtuTreeReducer,
   rtuMgmt: rtuMgmtReducer,
-  landmarksModels: landmarksModelsReducer
+  landmarksModels: landmarksModelsReducer,
+  reporting: reportingReducer
 };
 
 // better to use Chrome's Redux DevTools plugin instead of 'debug' metaReducer
@@ -106,3 +110,4 @@ export const selectNotificationSettingsState = (state: AppState) => state.notifi
 export const selectRtuTreeState = (state: AppState) => state.rtuTree;
 export const selectRtuMgmtState = (state: AppState) => state.rtuMgmt;
 export const selectLandmarksModelsState = (state: AppState) => state.landmarksModels;
+export const selectReportingState = (state: AppState) => state.reporting;

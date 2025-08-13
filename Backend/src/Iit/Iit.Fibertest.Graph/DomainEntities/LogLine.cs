@@ -9,8 +9,8 @@
         public DateTime Timestamp { get; set; }
         public LogOperationCode OperationCode { get; set; }
         public string OperationName => OperationCode.GetLocalizedString();
-        public string RtuTitle { get; set; }
-        public string TraceTitle { get; set; }
-        public string OperationParams { get; set; }
+        public string? RtuTitle { get; set; }
+        public string? TraceTitle { get; set; }
+        public string? OperationParams { get; set; }
     }
 }

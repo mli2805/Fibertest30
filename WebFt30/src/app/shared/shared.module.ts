@@ -95,6 +95,9 @@ import { DragHeaderComponent } from './components/drag-header/drag-header.compon
 import { DraggableWindowComponent } from './components/draggable-window/draggable-window.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { GroupBoxComponent } from './components/group-box/group-box.component';
+import { FixButtonComponent } from './components/svg-buttons/fix-button.component';
+import { LoggingButtonComponent } from './components/svg-buttons/logging-button.component';
+import { StructureButtonComponent } from './components/svg-buttons/structure-button.component';
 
 @NgModule({
   imports: [
@@ -171,6 +174,9 @@ import { GroupBoxComponent } from './components/group-box/group-box.component';
     Delete2ButtonComponent,
     OpenFileButtonComponent,
     RftsEventsButtonComponent,
+    FixButtonComponent,
+    LoggingButtonComponent,
+    StructureButtonComponent,
 
     HelpTooltipComponent,
     EofThresholdHelpComponent,
@@ -260,6 +266,9 @@ import { GroupBoxComponent } from './components/group-box/group-box.component';
     Delete2ButtonComponent,
     OpenFileButtonComponent,
     RftsEventsButtonComponent,
+    FixButtonComponent,
+    LoggingButtonComponent,
+    StructureButtonComponent,
 
     HelpTooltipComponent,
     EofThresholdHelpComponent,

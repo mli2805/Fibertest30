@@ -209,23 +209,26 @@ void MapGrpcServices(WebApplication app, bool startGrpcReflectionService)
 
 
     app.MapGrpcService<RtuTreeService>()
-          .EnableGrpcWeb()
-          .RequireCors("AllowAll");
+        .EnableGrpcWeb()
+        .RequireCors("AllowAll");
     app.MapGrpcService<RtuMgmtService>()
-          .EnableGrpcWeb()
-          .RequireCors("AllowAll");
+        .EnableGrpcWeb()
+        .RequireCors("AllowAll");
     app.MapGrpcService<GraphService>()
-          .EnableGrpcWeb()
-          .RequireCors("AllowAll");
+        .EnableGrpcWeb()
+        .RequireCors("AllowAll");
     app.MapGrpcService<GisService>()
-          .EnableGrpcWeb()
-          .RequireCors("AllowAll");
+        .EnableGrpcWeb()
+        .RequireCors("AllowAll");
     app.MapGrpcService<RftsEventsService>()
-          .EnableGrpcWeb()
-          .RequireCors("AllowAll");
+        .EnableGrpcWeb()
+        .RequireCors("AllowAll");
     app.MapGrpcService<LandmarksService>()
-              .EnableGrpcWeb()
-              .RequireCors("AllowAll");
+        .EnableGrpcWeb()
+        .RequireCors("AllowAll");
+    app.MapGrpcService<ReportsService>()
+        .EnableGrpcWeb()
+        .RequireCors("AllowAll");
 
     if (startGrpcReflectionService)
     {

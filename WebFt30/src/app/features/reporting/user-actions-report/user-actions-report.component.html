@@ -1,0 +1,13 @@
+<rtu-single-error-popup
+  [errorMessageId$]="errorMessageId$"
+  [resetErrorAction]="reportingActions.resetError()"
+></rtu-single-error-popup>
+<rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
+
+<div>
+  <ng-container *ngIf="lines$ | async as lines">
+    <ng-container *ngFor="let line of lines">
+      {{ line }}
+    </ng-container>
+  </ng-container>
+</div>

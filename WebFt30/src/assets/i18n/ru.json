@@ -467,5 +467,9 @@
   "i18n.ft.bop-attachment": "Подключение БОП",
   "i18n.ft.attach-to": "Подключить к",
   "i18n.ft.attached-to": "Подключено к",
-  "i18n.ft.ports": "Портов"
+  "i18n.ft.ports": "Портов",
+
+  "i18n.ft.components-of-a-monitoring-system": "Состав системы мониторинга",
+  "i18n.ft.optical-events-report": "Отчет об оптических событиях",
+  "i18n.ft.operations-log": "Журнал операций"
 }

@@ -64,6 +64,10 @@ export * from './store/landmarks/landmarks-models.actions';
 export * from './store/landmarks/landmarks-models.selectors';
 export * from './store/landmarks/landmarks-models.state';
 
+export * from './store/reporting/reporting.actions';
+export * from './store/reporting/reporting.selectors';
+export * from './store/reporting/reporting.state';
+
 export * from './services';
 
 export { AppState, AuthState, SettingsState, LocalStorageService };

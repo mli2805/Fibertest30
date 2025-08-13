@@ -23,3 +23,5 @@ export * from './rfts_events';
 export * from './rfts_events.client';
 export * from './landmarks';
 export * from './landmarks.client';
+export * from './reports';
+export * from './reports.client';

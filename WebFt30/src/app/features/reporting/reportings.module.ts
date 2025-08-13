@@ -6,6 +6,9 @@ import { FiberizerCoreModule } from '../fiberizer-core/fiberizer-core.module';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { TranslateModule } from '@ngx-translate/core';
 import { SystemEventsComponent } from './system-events/system-events.component';
+import { UserActionsReportComponent } from './user-actions-report/user-actions-report.component';
+import { MonitoringSystemReportComponent } from './monitoring-system-report/monitoring-system-report.component';
+import { OpticalEventsReportComponent } from './optical-events-report/optical-events-report.component';
 
 @NgModule({
   imports: [
@@ -16,7 +19,7 @@ import { SystemEventsComponent } from './system-events/system-events.component';
     TranslateModule.forChild()
   ],
   exports: [],
-  declarations: [ReportingComponent, SystemEventsComponent],
+  declarations: [ReportingComponent, SystemEventsComponent, UserActionsReportComponent, MonitoringSystemReportComponent, OpticalEventsReportComponent],
   providers: []
 })
 export class Reporting {}

@@ -13,9 +13,9 @@ public static class ReportsMapping
             ClientIp = logLine.ClientIp,
             RegisteredAt = logLine.Timestamp.ToUniversalTime().ToTimestamp(),
             LogOperationCode = (int)logLine.OperationCode,
-            RtuTitle = logLine.RtuTitle,
-            TraceTitle = logLine.TraceTitle,
-            OperationParams = logLine.OperationParams
+            RtuTitle = logLine.RtuTitle ?? "",
+            TraceTitle = logLine.TraceTitle ?? "",
+            OperationParams = logLine.OperationParams ?? ""
         };
     }
 }
