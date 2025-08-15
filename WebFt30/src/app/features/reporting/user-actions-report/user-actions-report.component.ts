@@ -7,7 +7,7 @@ import {
   OnInit
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState, ReportingActions, ReportingSelectors } from 'src/app/core';
+import { AppState, ReportingActions, ReportingSelectors, User, UsersSelectors } from 'src/app/core';
 import { LogOperationFilterComponent } from './log-operation-filter/log-operation-filter.component';
 import { firstValueFrom } from 'rxjs';
 import {
@@ -15,10 +15,17 @@ import {
   LogOperationCode
 } from 'src/app/core/store/models/ft30/user-action-line';
 import { PickDateRange } from 'src/app/shared/components/date-pick/pick-date-range';
-import moment from 'moment';
 import { TimezoneUtils } from 'src/app/core/timezone.utils';
 import { DateRangeUtils } from 'src/app/shared/components/date-pick/daterange-utils';
+import { CoreUtils } from 'src/app/core/core.utils';
+import { GisMapUtils } from '../../gis/components/shared/gis-map.utils';
+import { DateTimeRange } from 'src/grpc-generated';
+import { Timestamp } from 'src/grpc-generated/google/protobuf/timestamp';
 
+interface UserFilterOption {
+  title: string;
+  id: string;
+}
 @Component({
   selector: 'rtu-user-actions-report',
   templateUrl: './user-actions-report.component.html',
@@ -32,6 +39,9 @@ export class UserActionsReportComponent implements OnInit {
   errorMessageId$ = this.store.select(ReportingSelectors.selectErrorMessageId);
   lines$ = this.store.select(ReportingSelectors.selectUserActionLines);
 
+  userFilterItems!: UserFilterOption[];
+  selectedUser!: UserFilterOption;
+
   dateRange?: PickDateRange;
   selectedOperations!: LogOperationCode[];
   operationFilterFace!: string;
@@ -39,6 +49,13 @@ export class UserActionsReportComponent implements OnInit {
   constructor(private dialog: Dialog, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
+    const users = CoreUtils.getCurrentState(this.store, UsersSelectors.selectUsersUsers);
+    this.userFilterItems = [
+      { title: 'i18n.ft.no-filter', id: GisMapUtils.emptyGuid },
+      ...users.map((u) => ({ title: u.fullName, id: u.id }))
+    ];
+    this.selectedUser = this.userFilterItems[0];
+
     this.dateRange = DateRangeUtils.convertToDateRange(
       'i18n.date-piker.search-last-30-days',
       TimezoneUtils.getAppTimezoneFromBrowser()
@@ -50,7 +67,20 @@ export class UserActionsReportComponent implements OnInit {
   }
 
   refresh() {
-    this.store.dispatch(ReportingActions.getUserActionLines());
+    const dateTimeRange = DateTimeRange.create();
+    dateTimeRange.start = Timestamp.fromDate(this.dateRange!.fromDate);
+    dateTimeRange.end = Timestamp.fromDate(this.dateRange!.toDate);
+    this.store.dispatch(
+      ReportingActions.getUserActionLines({
+        userId: this.selectedUser.id,
+        searchWindow: dateTimeRange,
+        operationCodes: this.selectedOperations
+      })
+    );
+  }
+
+  onUserFilterChanged(userFilter: UserFilterOption) {
+    this.selectedUser = userFilter;
   }
 
   dateChange(dateRange: PickDateRange) {
@@ -76,5 +106,6 @@ export class UserActionsReportComponent implements OnInit {
         ? 'i18n.ft.no-filter'
         : 'i18n.ft.filter-applied';
     this.cdr.markForCheck();
+    this.refresh();
   }
 }

@@ -1,7 +1,11 @@
 import { createAction, props } from '@ngrx/store';
-import { UserActionLine } from '../models/ft30/user-action-line';
+import { LogOperationCode, UserActionLine } from '../models/ft30/user-action-line';
+import { DateTimeRange } from 'src/grpc-generated/events.data';
 
-const getUserActionLines = createAction('[Reporting] Get User Action Lines');
+const getUserActionLines = createAction(
+  '[Reporting] Get User Action Lines',
+  props<{ userId: string; searchWindow: DateTimeRange; operationCodes: LogOperationCode[] }>()
+);
 const getUserActionLinesSuccess = createAction(
   '[Reporting] Get User Action Lines Success',
   props<{ lines: UserActionLine[] }>()

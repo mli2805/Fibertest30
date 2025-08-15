@@ -3,6 +3,7 @@
 // tslint:disable
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
+import { DateTimeFilter } from "./events.data";
 import { Timestamp } from "./google/protobuf/timestamp";
 /**
  * @generated from protobuf message fibertest30.reports.UserActionLine
@@ -47,6 +48,18 @@ export interface UserActionLine {
  * @generated from protobuf message fibertest30.reports.GetUserActionLinesRequest
  */
 export interface GetUserActionLinesRequest {
+    /**
+     * @generated from protobuf field: string userId = 1;
+     */
+    userId: string;
+    /**
+     * @generated from protobuf field: fibertest30.events.data.DateTimeFilter dateTimeFilter = 2;
+     */
+    dateTimeFilter?: DateTimeFilter;
+    /**
+     * @generated from protobuf field: repeated int32 operationCodes = 3;
+     */
+    operationCodes: number[];
 }
 /**
  * @generated from protobuf message fibertest30.reports.GetUserActionLinesResponse
@@ -79,7 +92,11 @@ export const UserActionLine = new UserActionLine$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GetUserActionLinesRequest$Type extends MessageType<GetUserActionLinesRequest> {
     constructor() {
-        super("fibertest30.reports.GetUserActionLinesRequest", []);
+        super("fibertest30.reports.GetUserActionLinesRequest", [
+            { no: 1, name: "userId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "dateTimeFilter", kind: "message", T: () => DateTimeFilter },
+            { no: 3, name: "operationCodes", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/ }
+        ]);
     }
 }
 /**

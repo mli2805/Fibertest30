@@ -6,26 +6,49 @@
 
 <div class="flex h-full w-full flex-col pl-5 pt-5">
   <ng-container *ngIf="lines$ | async as lines">
-    <div class="flex">
-      <rtu-date-pick [dateValue]="dateRange" (filterChanged)="dateChange($event)"></rtu-date-pick>
-
-      <button class="button-extra" (click)="onLogOperationFilterClick()">
-        {{ operationFilterFace | translate }}
-      </button>
-    </div>
+    <div class="flex"></div>
     <table class="events-table text-center">
       <thead>
         <tr>
           <th class="w-16 font-thin">
             {{ 'i18n.ft.ordinal' | translate }}
           </th>
-          <th class="font-thin">{{ 'i18n.ft.user' | translate }}</th>
+          <th class="font-thin">
+            <div class="flex flex-col">
+              {{ 'i18n.ft.user' | translate }}
+              <rtu-select
+                [items]="userFilterItems"
+                [selectedItem]="selectedUser"
+                (selectedItemChange)="onUserFilterChanged($event)"
+              >
+                <ng-template rtuSelectLabel let-selectedItem>
+                  <div class="pl-1">{{ selectedItem.title | translate }}</div>
+                </ng-template>
+                <ng-template rtuSelectItem let-item>
+                  {{ item.title | translate }}
+                </ng-template>
+              </rtu-select>
+            </div>
+          </th>
           <th class="font-thin">{{ 'i18n.ft.client-ip' | translate }}</th>
 
           <th class="w-40 font-thin">
-            {{ 'i18n.ft.registered-at' | translate }}
+            <div class="flex flex-col">
+              {{ 'i18n.ft.registered-at' | translate }}
+              <rtu-date-pick
+                [dateValue]="dateRange"
+                (filterChanged)="dateChange($event)"
+              ></rtu-date-pick>
+            </div>
           </th>
-          <th class="font-thin">{{ 'i18n.ft.operation' | translate }}</th>
+          <th class="font-thin">
+            <div class="flex flex-col">
+              {{ 'i18n.ft.operation' | translate }}
+              <button class="button-extra" (click)="onLogOperationFilterClick()">
+                {{ operationFilterFace | translate }}
+              </button>
+            </div>
+          </th>
           <th class="font-thin">{{ 'RTU' }}</th>
           <th class="font-thin">{{ 'i18n.ft.trace' | translate }}</th>
           <th class="w-36 font-thin">

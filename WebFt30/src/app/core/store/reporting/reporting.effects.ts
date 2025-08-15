@@ -10,8 +10,8 @@ export class ReportingEffects {
   getUserActionLines = createEffect(() =>
     this.actions$.pipe(
       ofType(ReportingActions.getUserActionLines),
-      switchMap(() =>
-        this.reportsService.getUserActionLines().pipe(
+      switchMap(({ userId, searchWindow, operationCodes }) =>
+        this.reportsService.getUserActionLines(userId, searchWindow, operationCodes).pipe(
           map((response) => {
             return ReportingActions.getUserActionLinesSuccess({
               lines: response.lines.map((l) => ReportingMapping.fromGrpsUserActionLine(l))

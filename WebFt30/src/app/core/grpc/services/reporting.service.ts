@@ -4,6 +4,7 @@ import { AuthInterceptor } from '../auth.interceptor';
 import { GrpcUtils } from '../grpc.utils';
 import { GrpcWebFetchTransport } from '@protobuf-ts/grpcweb-transport';
 import { Observable } from 'rxjs';
+import { DateTimeRange } from 'src/grpc-generated';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,16 @@ export class ReportsService {
     this.client = new gprc.ReportsClient(transport);
   }
 
-  getUserActionLines(): Observable<gprc.GetUserActionLinesResponse> {
-    const request: gprc.GetUserActionLinesRequest = {};
+  getUserActionLines(
+    userId: string,
+    searchWindow: DateTimeRange,
+    operationCodes: number[]
+  ): Observable<gprc.GetUserActionLinesResponse> {
+    const request: gprc.GetUserActionLinesRequest = {
+      userId,
+      dateTimeFilter: { searchWindow: searchWindow, orderDescending: true },
+      operationCodes
+    };
     return GrpcUtils.unaryToObservable(
       this.client.getUserActionLines.bind(this.client),
       request,
