@@ -1,0 +1,23 @@
+<div>
+  <div class="p-2">
+    <div class="mb-0  flex relative">
+      <div class=" h-9 flex items-center pl-2 pr-1 absolute top-0 left-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="16" height="16"
+             class="text-gray-300 inline-block fill-current flex-shrink-0 leading-0 align-middle">
+          <path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"></path></svg>
+      </div>
+      <input class="background-base border-visible-base text-xs p-0 h-9 w-full pl-7 pr-2 rounded-sm"
+             type="text"
+             (input)="onInputChange($event)"
+             [(ngModel)]="inputText"
+             placeholder="{{ 'i18n.date-piker.search-quick-range.input-placeholder' | translate }}">
+    </div>
+  </div>
+
+  <ul class="h-80 overflow-y-auto">
+    <li class="h-9 px-2 leading-9 hover:bg-blue-500 hover:text-white cursor-pointer"
+      (click)="onSelectDate(item)"
+      [ngClass]="item.selected?'bg-zinc-200 dark:bg-zinc-500 dark:text-white':''"
+      *ngFor="let item of filterLabels">{{ item.label | translate}}</li>
+  </ul>
+</div>

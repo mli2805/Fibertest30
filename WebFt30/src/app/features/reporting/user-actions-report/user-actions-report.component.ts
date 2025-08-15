@@ -14,6 +14,10 @@ import {
   ALL_LOG_OPERATION_CODES,
   LogOperationCode
 } from 'src/app/core/store/models/ft30/user-action-line';
+import { PickDateRange } from 'src/app/shared/components/date-pick/pick-date-range';
+import moment from 'moment';
+import { TimezoneUtils } from 'src/app/core/timezone.utils';
+import { DateRangeUtils } from 'src/app/shared/components/date-pick/daterange-utils';
 
 @Component({
   selector: 'rtu-user-actions-report',
@@ -28,12 +32,18 @@ export class UserActionsReportComponent implements OnInit {
   errorMessageId$ = this.store.select(ReportingSelectors.selectErrorMessageId);
   lines$ = this.store.select(ReportingSelectors.selectUserActionLines);
 
+  dateRange?: PickDateRange;
   selectedOperations!: LogOperationCode[];
   operationFilterFace!: string;
 
   constructor(private dialog: Dialog, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
+    this.dateRange = DateRangeUtils.convertToDateRange(
+      'i18n.date-piker.search-last-30-days',
+      TimezoneUtils.getAppTimezoneFromBrowser()
+    );
+
     this.selectedOperations = ALL_LOG_OPERATION_CODES;
     this.operationFilterFace = 'i18n.ft.no-filter';
     this.refresh();
@@ -41,6 +51,11 @@ export class UserActionsReportComponent implements OnInit {
 
   refresh() {
     this.store.dispatch(ReportingActions.getUserActionLines());
+  }
+
+  dateChange(dateRange: PickDateRange) {
+    this.dateRange = dateRange;
+    this.refresh();
   }
 
   async onLogOperationFilterClick() {

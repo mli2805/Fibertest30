@@ -7,6 +7,8 @@
 <div class="flex h-full w-full flex-col pl-5 pt-5">
   <ng-container *ngIf="lines$ | async as lines">
     <div class="flex">
+      <rtu-date-pick [dateValue]="dateRange" (filterChanged)="dateChange($event)"></rtu-date-pick>
+
       <button class="button-extra" (click)="onLogOperationFilterClick()">
         {{ operationFilterFace | translate }}
       </button>

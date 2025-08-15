@@ -1,3 +1,6 @@
+import moment from 'moment';
+import { AppTimezone } from './store/models';
+
 export class TimezoneUtils {
   // NOTE: The Intl.supportedValuesOf('timeZone') does not return a full list of timezone values
   // that could be used by the Intl.DateTimeFormat
@@ -23,4 +26,27 @@ export class TimezoneUtils {
   //   const environementTimeZones = (<any>Intl).supportedValuesOf('timeZone');
   //   return environementTimeZones;
   // }
+
+  static getAppTimezoneFromBrowser() {
+    const ianaId = moment.tz.guess();
+
+    const offset = new Date().getTimezoneOffset();
+    const hours = Math.abs(offset) / 60;
+    const minutes = offset % 60;
+    const sign = offset > 0 ? '-' : '+';
+    const displayBaseUtcOffset = `UTC${sign}${this.padNumber(hours, 2)}:${this.padNumber(
+      minutes,
+      2
+    )}`;
+
+    const result = new AppTimezone();
+    result.displayName = ianaId;
+    result.ianaId = ianaId;
+    result.displayBaseUtcOffset = displayBaseUtcOffset;
+    return result;
+  }
+
+  static padNumber(num: number, length: number): string {
+    return num.toString().padStart(length, '0');
+  }
 }

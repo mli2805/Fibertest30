@@ -9,10 +9,11 @@ import { DemoLoginComponent } from './core/auth/components/demo-login/demo-login
 import { SharedModule } from './shared/shared.module';
 import { TestStandComponent } from './app/test-stand/test-stand.component';
 import { AppRouteReuseStrategy } from './app-route-reuse-strategy';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent, DemoLoginComponent, TestStandComponent],
-  imports: [BrowserModule, CoreModule, AppRoutingModule, SharedModule],
+  imports: [BrowserModule, CoreModule, AppRoutingModule, SharedModule, BrowserAnimationsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy }],
   bootstrap: [AppComponent]
 })

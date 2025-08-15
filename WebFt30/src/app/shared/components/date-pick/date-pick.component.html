@@ -1,0 +1,26 @@
+<div class="flex">
+  <rtu-date-pick-result-range [dateValue]="dateValue" [parentOpenState]="ifOpenState" cdkOverlayOrigin
+                              #resultTrigger="cdkOverlayOrigin" (ifOpen)="onIfOpen()" />
+</div>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayFlexibleDimensions]="false"
+  [cdkConnectedOverlayOrigin]="resultTrigger"
+  [cdkConnectedOverlayOpen]="ifOpenState"
+>
+  <!-- Overlay -->
+  <div
+    (click)="searchTriggerClicked($event)"
+    class="flex flex-col grid-container background-base border-t border-gray-300 dark:border-none shadow-md dark:border-[#575859] max-w- mb-2 min-h-[20vh] max-h-[60vh]
+     gap-1 overflow-x-auto overflow-y-hidden text-sm">
+    <div class="flex border-b border-gray-300 dark:border-[#575859]">
+      <rtu-date-pick-search-absolute-range [dateValue]="dateValue" (dateChanged)="dateSelected($event)"
+                                           (ifDatePickOpenState)="onDatePickOpenState($event)" />
+      <rtu-date-pick-search-quick-range [dateValue]="dateValue" (dateChanged)="dateSelected($event)" />
+    </div>
+    <div>
+      <rtu-date-pick-search-setting [dateValue]="dateValue" />
+    </div>
+  </div>
+</ng-template>

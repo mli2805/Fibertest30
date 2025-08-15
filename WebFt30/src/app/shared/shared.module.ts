@@ -99,6 +99,18 @@ import { FixButtonComponent } from './components/svg-buttons/fix-button.componen
 import { LoggingButtonComponent } from './components/svg-buttons/logging-button.component';
 import { StructureButtonComponent } from './components/svg-buttons/structure-button.component';
 import { LogOperationCodePipe } from './pipes/log-operation.pipe';
+import { DatePickComponent } from './components/date-pick/date-pick.component';
+import { DatePickRangeComponent } from './components/date-pick/date-pick-range/date-pick-range.component';
+import { DatePickResultRangeComponent } from './components/date-pick/date-pick-result-range/date-pick-result-range.component';
+import { DatePickSearchAbsoluteRangeComponent } from './components/date-pick/date-pick-search-absolute-range/date-pick-search-absolute-range.component';
+import { DatePickSearchQuickRangeComponent } from './components/date-pick/date-pick-search-quick-range/date-pick-search-quick-range.component';
+import { DatePickSearchSettingComponent } from './components/date-pick/date-pick-search-setting/date-pick-search-setting.component';
+import { DatePickTimeFormatPipe } from './components/date-pick/date-pick-timeformat.pipe';
+import { DatePickTipComponent } from './components/date-pick/date-pick-tip/date-pick-tip.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   imports: [
@@ -108,7 +120,11 @@ import { LogOperationCodePipe } from './pipes/log-operation.pipe';
     ReactiveFormsModule,
     TranslateModule,
     OverlayModule,
-    DragDropModule
+    DragDropModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatIconModule
   ],
   declarations: [
     RtuThemeSwitcherComponent,
@@ -200,7 +216,15 @@ import { LogOperationCodePipe } from './pipes/log-operation.pipe';
     TabHeaderComponent,
     DragHeaderComponent,
     DraggableWindowComponent,
-    GroupBoxComponent
+    GroupBoxComponent,
+    DatePickComponent,
+    DatePickResultRangeComponent,
+    DatePickSearchSettingComponent,
+    DatePickSearchAbsoluteRangeComponent,
+    DatePickSearchQuickRangeComponent,
+    DatePickRangeComponent,
+    DatePickTipComponent,
+    DatePickTimeFormatPipe
   ],
   exports: [
     CommonModule,
@@ -292,7 +316,15 @@ import { LogOperationCodePipe } from './pipes/log-operation.pipe';
     TabHeaderComponent,
     DragHeaderComponent,
     DraggableWindowComponent,
-    GroupBoxComponent
+    GroupBoxComponent,
+    DatePickComponent,
+    DatePickResultRangeComponent,
+    DatePickSearchSettingComponent,
+    DatePickSearchAbsoluteRangeComponent,
+    DatePickSearchQuickRangeComponent,
+    DatePickRangeComponent,
+    DatePickTipComponent,
+    DatePickTimeFormatPipe
   ],
   providers: [
     RtuDateToDayOfWeekPipe,

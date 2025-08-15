@@ -1,0 +1,84 @@
+<div class="h-full w-80 border-r border-gray-300 dark:border-[#575859]">
+  <div class="pl-3 pt-2">
+    <div class="mb-3">
+      {{ 'i18n.date-piker.absolute-time-range' | translate }}
+    </div>
+    <div class="mb-3">
+      <div class="mb-1">
+        {{ 'i18n.date-piker.absolute-time-range.from' | translate }}
+      </div>
+      <div class="rtu-date-picker-container mb-0 flex w-full items-center">
+        <div
+          class="background-base w-52 border dark:border-[#575859] dark:bg-rtu-dark-primary-bg"
+          cdkOverlayOrigin
+          #resultTrigger="cdkOverlayOrigin"
+        >
+          <input
+            class="background-base border-visible-base h-8 w-full p-0 px-2 text-sm focus:border-red-400 dark:focus:border-red-400"
+            type="text"
+            [(ngModel)]="fromDateStr"
+            (ngModelChange)="tryParseDate()"
+            [ngClass]="{
+              'border-red-400 dark:border-red-400': fromCheckResult,
+              'border-0': !fromCheckResult
+            }"
+          />
+        </div>
+        <rtu-date-pick-range
+          [date]="fromDate"
+          (dateChanged)="onStartDateChanged($event)"
+          (ifOpenState)="onDatePickOpenState($event)"
+        ></rtu-date-pick-range>
+      </div>
+      <div
+        *ngIf="fromCheckResult"
+        class="z-10 mt-1 w-52 rounded-sm bg-rtu-second-bg text-sm text-red-400 dark:bg-rtu-dark-second-bg dark:text-red-400"
+      >
+        <p class="p-2 text-sm">
+          {{ fromCheckResult | translate }}
+        </p>
+      </div>
+      <div class="mb-3">
+        <div class="mb-1">
+          {{ 'i18n.date-piker.absolute-time-range.to' | translate }}
+        </div>
+        <div class="rtu-date-picker-container mb-0 flex w-full items-center">
+          <div
+            class="background-base w-52 border dark:border-[#575859] dark:bg-rtu-dark-primary-bg"
+          >
+            <input
+              class="background-base border-visible-base h-8 w-full p-0 px-2 text-sm focus:border-red-400 dark:focus:border-red-400"
+              type="text"
+              [(ngModel)]="toDateStr"
+              [ngClass]="{
+                'border-red-400 dark:border-red-400': toCheckResult,
+                'border-0': !toCheckResult
+              }"
+              (ngModelChange)="tryParseDate()"
+            />
+          </div>
+          <!-- <rtu-date-pick-range [date]="toDate" (dateChanged)="onEndDateChanged($event)" (ifOpenState)="onDatePickOpenState($event)"></rtu-date-pick-range> -->
+        </div>
+        <div
+          *ngIf="toCheckResult"
+          class="z-10 mt-1 w-52 rounded-sm bg-rtu-second-bg text-sm text-red-400 dark:bg-rtu-dark-second-bg"
+        >
+          <p class="p-2 text-sm">
+            {{ toCheckResult | translate }}
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <button
+          [ngClass]="{ 'cursor-not-allowed bg-gray-500': disableApplyBtn }"
+          (click)="applyDateRange()"
+          [disabled]="disableApplyBtn"
+          class="flex h-8 items-center rounded-sm bg-blue-500 p-4 text-white"
+        >
+          {{ 'i18n.date-piker.absolute-time-range.apply-time-range' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

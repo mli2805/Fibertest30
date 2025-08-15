@@ -1,0 +1,37 @@
+<div class="flex">
+  <button class="bg-transparent dark:border-[#575859] border-gray-300 button-extra border
+  flex items-center justify-between gap-1 min-w-32 hover:bg-transparent rounded-bl-none rounded-br-none"
+          (click)="onTriggerClick()" cdkOverlayOrigin #resultTrigger="cdkOverlayOrigin"
+          (mouseover)="toggleDropdown()" (mouseout)="toggleDropClose()" >
+    <div class="flex items-center">
+      <!-- prettier-ignore -->
+      <svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 24 24" aria-hidden="true" width="16" height="16"
+           class="text-gray-800 dark:text-gray-300 inline-block fill-current flex-shrink-0 leading-0 align-middle" ><path d="M12,19a1,1,0,1,0-1-1A1,1,0,0,0,12,19Zm5,0a1,1,0,1,0-1-1A1,1,0,0,0,17,19Zm0-4a1,1,0,1,0-1-1A1,1,0,0,0,17,15Zm-5,0a1,1,0,1,0-1-1A1,1,0,0,0,12,15ZM19,3H18V2a1,1,0,0,0-2,0V3H8V2A1,1,0,0,0,6,2V3H5A3,3,0,0,0,2,6V20a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V6A3,3,0,0,0,19,3Zm1,17a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V11H20ZM20,9H4V6A1,1,0,0,1,5,5H6V6A1,1,0,0,0,8,6V5h8V6a1,1,0,0,0,2,0V5h1a1,1,0,0,1,1,1ZM7,15a1,1,0,1,0-1-1A1,1,0,0,0,7,15Zm0,4a1,1,0,1,0-1-1A1,1,0,0,0,7,19Z"></path></svg>
+    </div>
+    <div class="flex items-center h-7">
+      <ng-container *ngIf="dateValue !==undefined && dateValue.label==='custom'">
+        {{dateValue.fromDate | rtuDateTime : 'medium' : 'full'}} to {{dateValue.toDate | rtuDateTime : 'medium' : 'full'}}
+      </ng-container>
+      <ng-container *ngIf="dateValue !==undefined && dateValue.label!=='custom'">
+        {{dateValue.label | translate}}
+      </ng-container>
+    </div>
+    <div class="flex items-center">
+      <!-- prettier-ignore -->
+      <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-5">
+        <path  fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+              clip-rule="evenodd"></path></svg>
+    </div>
+  </button>
+
+  <ng-template
+    *ngIf="dateValue"
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="resultTrigger"
+    [cdkConnectedOverlayPositions]="overlayPositions"
+    [cdkConnectedOverlayOpen]="ifOpenState">
+    <!-- Overlay -->
+
+    <rtu-date-pick-tip *ngIf="dateValue" [dateValue]="dateValue"></rtu-date-pick-tip>
+  </ng-template>
+</div>
