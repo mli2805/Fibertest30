@@ -1,6 +1,5 @@
 ﻿using Iit.Fibertest.Graph;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,24 +20,12 @@ public static class ConfigureServices
         services.AddSingleton<IDelayService, DelayService>();
         services.AddDbContext<ServerDbContext>(c =>
         {
-            var connectionString = configuration.GetConnectionString("Default")!;
-            if (connectionString.Contains(":memory:"))
-            {
-                // The in memory database is used by functional tests. 
-                // But it also can be used by the application if you don't care about data persistence.
-                c.UseSqlite(SqliteSharedConnection.Get(connectionString));
-            }
-            else
-            {
-                // c.UseSqlite(connectionString);
-
-                string serverDbScheme = "ft30server";
-                var mySqlAddress = configuration["MySqlServerAddress"] ?? "localhost";
-                var mySqlPort = configuration["MySqlServerPort"] ?? "3306";
-                var conStrTemplate = "server={0};port={1};user id=root;password=root;database={2}";
-                var conString = string.Format(conStrTemplate, mySqlAddress, mySqlPort, serverDbScheme);
-                c.UseMySql(conString, ServerVersion.AutoDetect(conString));
-            }
+            string serverDbScheme = "ft30server";
+            var mySqlAddress = configuration["MySqlServerAddress"] ?? "localhost";
+            var mySqlPort = configuration["MySqlServerPort"] ?? "3306";
+            var conStrTemplate = "server={0};port={1};user id=root;password=root;database={2}";
+            var conString = string.Format(conStrTemplate, mySqlAddress, mySqlPort, serverDbScheme);
+            c.UseMySql(conString, ServerVersion.AutoDetect(conString));
         });
 
         services.AddIdentityCore<ApplicationUser>(_ => { /*options.SignIn.RequireConfirmedAccount = true;*/ })
@@ -75,7 +62,7 @@ public static class ConfigureServices
 
         services.AddScoped<CommandAggregator>();
         services.AddScoped<EventsQueue>(); // Singleton?
-        
+
         services.AddScoped<IShellCommandRt, ShellCommandRt>();
         services.AddScoped<IUpgradeService, UpgradeService>();
 
@@ -97,6 +84,7 @@ public static class ConfigureServices
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<ISnmpService, SnmpService>();
         services.AddScoped<ILogProvider, LogProvider>();
+        services.AddScoped<IPdfBuilder, PdfBuilder>();
 
         services.AddScoped<IRtuTransmitter, MakLinuxHttpTransmitter>();
         services.AddScoped<IRtuManager, RtuManager>();
@@ -114,18 +102,3 @@ public static class ConfigureServices
     }
 }
 
-public static class SqliteSharedConnection
-{
-    private static SqliteConnection? _connection;
-
-    public static SqliteConnection Get(string connectionString)
-    {
-        if (_connection == null)
-        {
-            _connection = new SqliteConnection(connectionString);
-            _connection.Open();
-        }
-
-        return _connection;
-    }
-}

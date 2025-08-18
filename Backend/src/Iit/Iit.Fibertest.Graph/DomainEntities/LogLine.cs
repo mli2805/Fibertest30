@@ -5,7 +5,7 @@
     {
         public int Ordinal { get; set; }
         public string Username { get; set; } = null!;
-        public string ClientIp { get; set; } = null!;
+        public string? ClientIp { get; set; }
         public DateTime Timestamp { get; set; }
         public LogOperationCode OperationCode { get; set; }
         public string OperationName => OperationCode.GetLocalizedString();
