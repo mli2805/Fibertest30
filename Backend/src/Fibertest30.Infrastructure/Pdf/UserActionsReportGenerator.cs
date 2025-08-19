@@ -12,7 +12,7 @@ namespace Fibertest30.Infrastructure
 
     public class UserActionsReportGenerator
     {
-        public void GenerateReport(List<LogLine> logLines, string outputPath, string userCulture)
+        public PdfDocument GenerateReport(List<LogLine> logLines, string userCulture)
         {
             var culture = new CultureInfo(userCulture); 
             // Установка культуры для текущего потока
@@ -93,8 +93,9 @@ namespace Fibertest30.Infrastructure
             footerParagraph.Format.Alignment = ParagraphAlignment.Justify;
             footerParagraph.Format.SpaceBefore = "0.5cm";
 
+            var generationTimestamp = DateTime.Now;
             // Левая часть
-            footerParagraph.AddText($"Fibertest 3.0 \u00A9 {reportTitle} {DateTime.Now:dd.MM.yyyy HH:mm}");
+            footerParagraph.AddText($"Fibertest 3.0 \u00A9 {reportTitle} {generationTimestamp:dd.MM.yyyy HH:mm}");
 
             // Пробелы для выравнивания
             footerParagraph.AddTab(); // добавим табуляцию
@@ -114,7 +115,8 @@ namespace Fibertest30.Infrastructure
             var renderer = new PdfDocumentRenderer() { Document = document };
             GlobalFontSettings.FontResolver = new EmbeddedFontResolver();
             renderer.RenderDocument();
-            renderer.PdfDocument.Save(outputPath);
+
+            return renderer.PdfDocument;
         }
     }
 }

@@ -36,4 +36,17 @@ export class ReportsService {
       {}
     );
   }
+
+  getUserActionsPdf(
+    userId: string,
+    searchWindow: DateTimeRange,
+    operationCodes: number[]
+  ): Observable<gprc.GetUserActonsPdfResponse> {
+    const request: gprc.GetUserActionLinesRequest = {
+      userId,
+      dateTimeFilter: { searchWindow: searchWindow, orderDescending: true },
+      operationCodes
+    };
+    return GrpcUtils.unaryToObservable(this.client.getUserActonsPdf.bind(this.client), request, {});
+  }
 }

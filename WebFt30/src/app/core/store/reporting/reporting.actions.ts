@@ -17,10 +17,22 @@ const getUserActionLinesFailure = createAction(
 
 const resetError = createAction('[Reporting] Reset Error');
 
+const getUserActionsPdf = createAction(
+  '[Reporting] Get User Actions Pdf',
+  props<{ userId: string; searchWindow: DateTimeRange; operationCodes: LogOperationCode[] }>()
+);
+const getUserActionsPdfSuccess = createAction(
+  '[Reporting] Get User Actions Pdf Success',
+  props<{ pdf: Uint8Array }>()
+);
+
 export const ReportingActions = {
   getUserActionLines,
   getUserActionLinesSuccess,
   getUserActionLinesFailure,
+
+  getUserActionsPdf,
+  getUserActionsPdfSuccess,
 
   resetError
 };

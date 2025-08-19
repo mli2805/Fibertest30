@@ -543,5 +543,7 @@
   "i18n.ft.no-filter": "<нет фильтра>",
   "i18n.ft.all-operations": "Все операции",
   "i18n.ft.filter-applied": "<фильтр применен>",
-  "i18n.ft.operations-filter": "Фильтр операций"
+  "i18n.ft.operations-filter": "Фильтр операций",
+
+  "i18n.ft.download-pdf": "Загрузить PDF"
 }

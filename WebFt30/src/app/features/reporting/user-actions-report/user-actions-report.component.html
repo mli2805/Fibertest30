@@ -6,7 +6,14 @@
 
 <div class="flex h-full w-full flex-col pl-5 pt-5">
   <ng-container *ngIf="lines$ | async as lines">
-    <div class="flex"></div>
+    <div class="flex justify-end" (click)="downloadPdf()">
+      <div class="mr-2 flex flex-col items-center">
+        <rtu-save-button class="h-8 w-8" />
+        <div class="mt-1 text-center text-xs">
+          {{ 'i18n.ft.download-pdf' | translate }}
+        </div>
+      </div>
+    </div>
     <table class="events-table text-center">
       <thead>
         <tr>

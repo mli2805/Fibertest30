@@ -4,6 +4,10 @@ import { ReportsService } from '../../grpc/services/reporting.service';
 import { ReportingActions } from './reporting.actions';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { ReportingMapping } from '../mapping/reporting-mapping';
+import { CoreUtils } from '../../core.utils';
+import { GrpcUtils } from '../../grpc/grpc.utils';
+import { GlobalUiActions } from '../global-ui/global-ui.actions';
+import { FileSaverService } from '../../services';
 
 @Injectable()
 export class ReportingEffects {
@@ -22,5 +26,45 @@ export class ReportingEffects {
       )
     )
   );
-  constructor(private actions$: Actions, private reportsService: ReportsService) {}
+
+  getUserActionsPdf = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ReportingActions.getUserActionsPdf),
+      switchMap(({ userId, searchWindow, operationCodes }) =>
+        this.reportsService.getUserActionsPdf(userId, searchWindow, operationCodes).pipe(
+          map(({ pdf }) => ReportingActions.getUserActionsPdfSuccess({ pdf })),
+          catchError((error) => {
+            console.log(error);
+            const errorId = CoreUtils.commonErrorToMessageId(
+              GrpcUtils.toServerError(error),
+              'i18n.logs.cant-get-user-actions-pdf'
+            );
+            return of(
+              GlobalUiActions.showPopupError({
+                popupErrorMessageId: errorId!
+              })
+            );
+          })
+        )
+      )
+    )
+  );
+
+  getLogBundleSuccess = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ReportingActions.getUserActionsPdfSuccess),
+        map(({ pdf }) => {
+          const name = 'user-actions.pdf';
+          this.fileSaver.saveAs(pdf, name);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  constructor(
+    private actions$: Actions,
+    private reportsService: ReportsService,
+    private fileSaver: FileSaverService
+  ) {}
 }

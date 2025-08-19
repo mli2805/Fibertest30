@@ -863,5 +863,7 @@
   "i18n.ft.no-filter": "<no filter>",
   "i18n.ft.all-operations": "All operations",
   "i18n.ft.filter-applied": "<filter applied>",
-  "i18n.ft.operations-filter": "Operations filter"
+  "i18n.ft.operations-filter": "Operations filter",
+
+  "i18n.ft.download-pdf": "Download PDF"
 }

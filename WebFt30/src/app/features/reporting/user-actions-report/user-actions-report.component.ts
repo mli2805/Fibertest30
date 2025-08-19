@@ -108,4 +108,17 @@ export class UserActionsReportComponent implements OnInit {
     this.cdr.markForCheck();
     this.refresh();
   }
+
+  downloadPdf() {
+    const dateTimeRange = DateTimeRange.create();
+    dateTimeRange.start = Timestamp.fromDate(this.dateRange!.fromDate);
+    dateTimeRange.end = Timestamp.fromDate(this.dateRange!.toDate);
+    this.store.dispatch(
+      ReportingActions.getUserActionsPdf({
+        userId: this.selectedUser.id,
+        searchWindow: dateTimeRange,
+        operationCodes: this.selectedOperations
+      })
+    );
+  }
 }

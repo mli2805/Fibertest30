@@ -70,6 +70,34 @@ export interface GetUserActionLinesResponse {
      */
     lines: UserActionLine[];
 }
+/**
+ * GetUserActonsPdf
+ *
+ * @generated from protobuf message fibertest30.reports.GetUserActonsPdfRequest
+ */
+export interface GetUserActonsPdfRequest {
+    /**
+     * @generated from protobuf field: string userId = 1;
+     */
+    userId: string;
+    /**
+     * @generated from protobuf field: fibertest30.events.data.DateTimeFilter dateTimeFilter = 2;
+     */
+    dateTimeFilter?: DateTimeFilter;
+    /**
+     * @generated from protobuf field: repeated int32 operationCodes = 3;
+     */
+    operationCodes: number[];
+}
+/**
+ * @generated from protobuf message fibertest30.reports.GetUserActonsPdfResponse
+ */
+export interface GetUserActonsPdfResponse {
+    /**
+     * @generated from protobuf field: bytes pdf = 1;
+     */
+    pdf: Uint8Array;
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class UserActionLine$Type extends MessageType<UserActionLine> {
     constructor() {
@@ -115,9 +143,36 @@ class GetUserActionLinesResponse$Type extends MessageType<GetUserActionLinesResp
  * @generated MessageType for protobuf message fibertest30.reports.GetUserActionLinesResponse
  */
 export const GetUserActionLinesResponse = new GetUserActionLinesResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetUserActonsPdfRequest$Type extends MessageType<GetUserActonsPdfRequest> {
+    constructor() {
+        super("fibertest30.reports.GetUserActonsPdfRequest", [
+            { no: 1, name: "userId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "dateTimeFilter", kind: "message", T: () => DateTimeFilter },
+            { no: 3, name: "operationCodes", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.reports.GetUserActonsPdfRequest
+ */
+export const GetUserActonsPdfRequest = new GetUserActonsPdfRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetUserActonsPdfResponse$Type extends MessageType<GetUserActonsPdfResponse> {
+    constructor() {
+        super("fibertest30.reports.GetUserActonsPdfResponse", [
+            { no: 1, name: "pdf", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.reports.GetUserActonsPdfResponse
+ */
+export const GetUserActonsPdfResponse = new GetUserActonsPdfResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.reports.Reports
  */
 export const Reports = new ServiceType("fibertest30.reports.Reports", [
-    { name: "GetUserActionLines", options: {}, I: GetUserActionLinesRequest, O: GetUserActionLinesResponse }
+    { name: "GetUserActionLines", options: {}, I: GetUserActionLinesRequest, O: GetUserActionLinesResponse },
+    { name: "GetUserActonsPdf", options: {}, I: GetUserActonsPdfRequest, O: GetUserActonsPdfResponse }
 ]);

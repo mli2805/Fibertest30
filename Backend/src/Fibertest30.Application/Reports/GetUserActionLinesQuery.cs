@@ -11,7 +11,6 @@ public class GetUserActionLinesQueryHandler(Model writeModel, IPdfBuilder pdfBui
     {
         var lines = writeModel.GetFilteredUserActions(request.UserId, request.DateTimeFilter, request.OperationCodes);
 
-        pdfBuilder.CreateUserActionsReport(request.UserId, request.DateTimeFilter, request.OperationCodes);
         return Task.FromResult(lines);
     }
 }

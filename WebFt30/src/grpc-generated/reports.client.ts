@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { Reports } from "./reports";
+import type { GetUserActonsPdfResponse } from "./reports";
+import type { GetUserActonsPdfRequest } from "./reports";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
 import type { GetUserActionLinesResponse } from "./reports";
 import type { GetUserActionLinesRequest } from "./reports";
@@ -17,6 +19,10 @@ export interface IReportsClient {
      * @generated from protobuf rpc: GetUserActionLines(fibertest30.reports.GetUserActionLinesRequest) returns (fibertest30.reports.GetUserActionLinesResponse);
      */
     getUserActionLines(input: GetUserActionLinesRequest, options?: RpcOptions): UnaryCall<GetUserActionLinesRequest, GetUserActionLinesResponse>;
+    /**
+     * @generated from protobuf rpc: GetUserActonsPdf(fibertest30.reports.GetUserActonsPdfRequest) returns (fibertest30.reports.GetUserActonsPdfResponse);
+     */
+    getUserActonsPdf(input: GetUserActonsPdfRequest, options?: RpcOptions): UnaryCall<GetUserActonsPdfRequest, GetUserActonsPdfResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.reports.Reports
@@ -33,5 +39,12 @@ export class ReportsClient implements IReportsClient, ServiceInfo {
     getUserActionLines(input: GetUserActionLinesRequest, options?: RpcOptions): UnaryCall<GetUserActionLinesRequest, GetUserActionLinesResponse> {
         const method = this.methods[0], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetUserActionLinesRequest, GetUserActionLinesResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetUserActonsPdf(fibertest30.reports.GetUserActonsPdfRequest) returns (fibertest30.reports.GetUserActonsPdfResponse);
+     */
+    getUserActonsPdf(input: GetUserActonsPdfRequest, options?: RpcOptions): UnaryCall<GetUserActonsPdfRequest, GetUserActonsPdfResponse> {
+        const method = this.methods[1], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetUserActonsPdfRequest, GetUserActonsPdfResponse>("unary", this._transport, method, opt, input);
     }
 }

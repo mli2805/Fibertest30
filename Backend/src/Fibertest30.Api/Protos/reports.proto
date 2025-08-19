@@ -7,6 +7,7 @@ package fibertest30.reports;
 
 service Reports {
 	rpc GetUserActionLines (GetUserActionLinesRequest) returns (GetUserActionLinesResponse);
+	rpc GetUserActonsPdf (GetUserActonsPdfRequest) returns (GetUserActonsPdfResponse);
 }
 
 message UserActionLine {
@@ -29,4 +30,15 @@ message GetUserActionLinesRequest {
 
 message GetUserActionLinesResponse {
 	repeated UserActionLine lines = 1;
+}
+
+// GetUserActonsPdf
+message GetUserActonsPdfRequest {
+	string userId = 1;
+    events.data.DateTimeFilter dateTimeFilter = 2;
+	repeated int32 operationCodes = 3;
+}
+
+message GetUserActonsPdfResponse {
+	bytes pdf = 1;
 }
