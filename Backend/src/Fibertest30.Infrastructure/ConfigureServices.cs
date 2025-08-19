@@ -58,7 +58,7 @@ public static class ConfigureServices
         services.AddScoped<IRtuStationsRepository, RtuStationsRepository>();
         services.AddScoped<SnapshotRepository>();
         services.AddScoped<SorFileRepository>();
-        services.AddScoped<EventLogComposer>();
+        services.AddSingleton<EventLogComposer>();
 
         services.AddScoped<CommandAggregator>();
         services.AddScoped<EventsQueue>(); // Singleton?
