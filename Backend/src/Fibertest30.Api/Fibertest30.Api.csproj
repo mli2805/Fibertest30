@@ -45,6 +45,10 @@
 		<PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
 		<PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.52.0" />
 		<PackageReference Include="Grpc.AspNetCore.Web" Version="2.52.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.72.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Lib.AspNetCore.ServerSentEvents" Version="8.3.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.19">
