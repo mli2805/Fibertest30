@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Iit.Fibertest.Graph;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -21,11 +22,11 @@ public class ServerDbContextInitializer(ILogger<ServerDbContextInitializer> logg
         }
     }
 
-    public async Task SeedAsync(bool seedDemoUsers)
+    public async Task SeedAsync()
     {
         try
         {
-            await TrySeedAsync(seedDemoUsers);
+            await TrySeedAsync();
         }
         catch (Exception ex)
         {
@@ -34,7 +35,7 @@ public class ServerDbContextInitializer(ILogger<ServerDbContextInitializer> logg
         }
     }
 
-    private async Task TrySeedAsync(bool seedDemoUsers)
+    private async Task TrySeedAsync()
     {
         // NOTE: It is called at each start
         // Don't forget to check if seed is needed
@@ -42,13 +43,8 @@ public class ServerDbContextInitializer(ILogger<ServerDbContextInitializer> logg
         await SeedDefaultRolesAndPermissions();
         await SeedEmptyNotificationSettings();
 
-       
-
-        if (seedDemoUsers)
-        {
-            await SeedDemoUsers();
-        }
-        else
+        var userCount = await userManager.Users.CountAsync();
+        if (userCount == 0)
         {
             await SeedAdministratorUser();
         }
@@ -86,7 +82,8 @@ public class ServerDbContextInitializer(ILogger<ServerDbContextInitializer> logg
             var rolePermissionClaims = roleCurrentClaims.Where(x => x.Type == ApplicationClaims.Permissions);
             foreach (var rolePermissionClaim in rolePermissionClaims)
             {
-                var notExistAnymore = !applicationPermissions.Any(x => x.ToString() == rolePermissionClaim.Value);
+                var notExistAnymore = applicationPermissions
+                    .All(x => x.ToString() != rolePermissionClaim.Value);
                 if (notExistAnymore)
                 {
                     var result = await roleManager.RemoveClaimAsync(customRole, rolePermissionClaim);
@@ -96,42 +93,61 @@ public class ServerDbContextInitializer(ILogger<ServerDbContextInitializer> logg
         }
     }
 
- 
-    private async Task SeedDemoUsers()
+    private async Task CloneFibertest20Users(List<User> oldUsers)
     {
-        var userCount = await userManager.Users.CountAsync();
-        if (userCount > 0) { return;} 
-        
-        // Seed users for test needs.
-        foreach (var testUser in TestUsersProvider.TestUsers)
+        foreach (var oldUser in oldUsers)
         {
-            var currentUser = await userManager.FindByNameAsync(testUser.UserName);
-            if (currentUser == null)
+            var user = new ApplicationUser
             {
-                var user = new ApplicationUser
-                {
-                    UserName = testUser.UserName,
-                    FirstName = testUser.FirstName,
-                    LastName = testUser.LastName,
-                    JobTitle = testUser.JobTitle,
-                    Email = testUser.Email,
-                    PhoneNumber = testUser.PhoneNumber
-                };
-                var result = await CreateUserWithLoosePassword(user, TestUsersProvider.DefaultRootPassword);
-                ThrowIfNotSucceed(result, $"Can't create {user.UserName} user");
+                UserName = oldUser.Title,
+                FirstName = "",
+                LastName = "",
+                JobTitle = "",
+                Email = oldUser.Email.Address,
+                PhoneNumber = oldUser.Sms.PhoneNumber
+            };
 
+            var result = await CreateUserWithLoosePassword(user, oldUser.Title); // ??
+            ThrowIfNotSucceed(result, $"Can't create {user.UserName} user");
 
-                result = await userManager.AddToRoleAsync(user, testUser.Role.ToString());
-                ThrowIfNotSucceed(result, $"Can't add {user.UserName} user to {testUser.Role.ToString()} role");
-            }
+            result = await userManager.AddToRoleAsync(user, oldUser.Role.ToString());
+            ThrowIfNotSucceed(result, $"Can't add {user.UserName} user to {oldUser.Role.ToString()} role");
         }
     }
 
+
+    //private async Task SeedDemoUsers()
+    //{
+    //    var userCount = await userManager.Users.CountAsync();
+    //    if (userCount > 0) { return;} 
+
+    //    // Seed users for test needs.
+    //    foreach (var testUser in TestUsersProvider.TestUsers)
+    //    {
+    //        var currentUser = await userManager.FindByNameAsync(testUser.UserName);
+    //        if (currentUser == null)
+    //        {
+    //            var user = new ApplicationUser
+    //            {
+    //                UserName = testUser.UserName,
+    //                FirstName = testUser.FirstName,
+    //                LastName = testUser.LastName,
+    //                JobTitle = testUser.JobTitle,
+    //                Email = testUser.Email,
+    //                PhoneNumber = testUser.PhoneNumber
+    //            };
+    //            var result = await CreateUserWithLoosePassword(user, TestUsersProvider.DefaultRootPassword);
+    //            ThrowIfNotSucceed(result, $"Can't create {user.UserName} user");
+
+
+    //            result = await userManager.AddToRoleAsync(user, testUser.Role.ToString());
+    //            ThrowIfNotSucceed(result, $"Can't add {user.UserName} user to {testUser.Role.ToString()} role");
+    //        }
+    //    }
+    //}
+
     private async Task SeedAdministratorUser()
     {
-        var userCount = await userManager.Users.CountAsync();
-        if (userCount > 0) { return;} 
-
         var adminRole = ApplicationDefaultRole.Root;
 
         var user = new ApplicationUser
@@ -211,7 +227,7 @@ public class ServerDbContextInitializer(ILogger<ServerDbContextInitializer> logg
         context.NotificationSettings.Add(settings.ToEf());
     }
 
-     
+
 
     private void ThrowIfNotSucceed(IdentityResult result, string message)
     {

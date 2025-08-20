@@ -1,6 +1,7 @@
 using Destructurama;
 using Fibertest30.Api;
 using Fibertest30.HtmlTemplates;
+using Iit.Fibertest.Graph;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 using System.Diagnostics;
@@ -69,26 +70,22 @@ try
         Log.Information("InAddChannel: Stopped");
     });
 
-    Log.Information("Initialize and seed database..");
     using (var scope = app.Services.CreateScope())
     {
+        Log.Information("Initialize and seed MySql FtDb ..");
+        var ftDbInitializer = scope.ServiceProvider.GetRequiredService<FtDbContextInitializer>();
+        await ftDbInitializer.InitializeAsync();
+
+        Log.Information("Initialize and seed NEventStore ..");
+        var eventStoreService = scope.ServiceProvider.GetRequiredService<IEventStoreService>();
+        await eventStoreService.InitializeBothDbAndService();
+
+        Log.Information("Initialize MySql ft30server scheme");
         var initializer = scope.ServiceProvider.GetRequiredService<ServerDbContextInitializer>();
         await initializer.InitializeAsync();
 
-        await initializer.SeedAsync(false);
-    }
-
-    Log.Information("Initialize and seed MySql FtDb ..");
-    using (var scope = app.Services.CreateScope())
-    {
-        var ftDbInitializer = scope.ServiceProvider.GetRequiredService<FtDbContextInitializer>();
-        await ftDbInitializer.InitializeAsync();
-    }
-    Log.Information("Initialize and seed NEventStore ..");
-    using (var scope = app.Services.CreateScope())
-    {
-        var eventStoreService = scope.ServiceProvider.GetRequiredService<IEventStoreService>();
-        await eventStoreService.InitializeBothDbAndService();
+        var writeModel = scope.ServiceProvider.GetRequiredService<Model>();
+        await initializer.SeedAsync();
     }
 
     app.UseRouting();
