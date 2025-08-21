@@ -4,79 +4,81 @@
 ></rtu-single-error-popup>
 <rtu-loading-centered-big-spinner *ngIf="loading$ | async"></rtu-loading-centered-big-spinner>
 
-<div class="flex h-full w-full flex-col pl-5 pt-5">
+<div class="flex h-full w-full flex-col">
   <ng-container *ngIf="lines$ | async as lines">
-    <div class="flex justify-end" (click)="downloadPdf()">
-      <div class="mr-2 flex flex-col items-center">
+    <div class="flex justify-end">
+      <div class="mr-2 flex cursor-pointer flex-col items-center" (click)="downloadPdf()">
         <rtu-save-button class="h-8 w-8" />
         <div class="mt-1 text-center text-xs">
           {{ 'i18n.ft.download-pdf' | translate }}
         </div>
       </div>
     </div>
-    <table class="events-table text-center">
-      <thead>
-        <tr>
-          <th class="w-16 font-thin">
-            {{ 'i18n.ft.ordinal' | translate }}
-          </th>
-          <th class="font-thin">
-            <div class="flex flex-col">
-              {{ 'i18n.ft.user' | translate }}
-              <rtu-select
-                [items]="userFilterItems"
-                [selectedItem]="selectedUser"
-                (selectedItemChange)="onUserFilterChanged($event)"
-              >
-                <ng-template rtuSelectLabel let-selectedItem>
-                  <div class="pl-1">{{ selectedItem.title | translate }}</div>
-                </ng-template>
-                <ng-template rtuSelectItem let-item>
-                  {{ item.title | translate }}
-                </ng-template>
-              </rtu-select>
-            </div>
-          </th>
-          <th class="font-thin">{{ 'i18n.ft.client-ip' | translate }}</th>
+    <div class="flex-1 overflow-y-auto">
+      <table class="events-table text-center">
+        <thead>
+          <tr>
+            <th class="w-16 font-thin">
+              {{ 'i18n.ft.ordinal' | translate }}
+            </th>
+            <th class="font-thin">
+              <div class="flex flex-col">
+                {{ 'i18n.ft.user' | translate }}
+                <rtu-select
+                  [items]="userFilterItems"
+                  [selectedItem]="selectedUser"
+                  (selectedItemChange)="onUserFilterChanged($event)"
+                >
+                  <ng-template rtuSelectLabel let-selectedItem>
+                    <div class="pl-1">{{ selectedItem.title | translate }}</div>
+                  </ng-template>
+                  <ng-template rtuSelectItem let-item>
+                    {{ item.title | translate }}
+                  </ng-template>
+                </rtu-select>
+              </div>
+            </th>
+            <th class="font-thin">{{ 'i18n.ft.client-ip' | translate }}</th>
 
-          <th class="w-40 font-thin">
-            <div class="flex flex-col">
-              {{ 'i18n.ft.registered-at' | translate }}
-              <rtu-date-pick
-                [dateValue]="dateRange"
-                (filterChanged)="dateChange($event)"
-              ></rtu-date-pick>
-            </div>
-          </th>
-          <th class="font-thin">
-            <div class="flex flex-col">
-              {{ 'i18n.ft.operation' | translate }}
-              <button class="button-extra" (click)="onLogOperationFilterClick()">
-                {{ operationFilterFace | translate }}
-              </button>
-            </div>
-          </th>
-          <th class="font-thin">{{ 'RTU' }}</th>
-          <th class="font-thin">{{ 'i18n.ft.trace' | translate }}</th>
-          <th class="w-36 font-thin">
-            {{ 'i18n.ft.additional-info' | translate }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let line of lines">
-          <td class="text-center">{{ line.ordinal }}</td>
-          <td class="text-center">{{ line.username }}</td>
-          <td class="min-w-16 text-center">{{ line.clientIp }}</td>
-          <td class="text-center">{{ line.registeredAt | rtuDateTime : 'medium' }}</td>
-          <td class="text-center">
-            {{ line.logOperationCode | logOperationCodePipe | translate }}
-          </td>
-          <td class="text-center">{{ line.rtuTitle }}</td>
-          <td class="text-center">{{ line.traceTitle }}</td>
-          <td class="text-center">{{ line.operationParams }}</td>
-        </tr>
-      </tbody>
-    </table>
+            <th class="w-40 font-thin">
+              <div class="flex flex-col">
+                {{ 'i18n.ft.registered-at' | translate }}
+                <rtu-date-pick
+                  [dateValue]="dateRange"
+                  (filterChanged)="dateChange($event)"
+                ></rtu-date-pick>
+              </div>
+            </th>
+            <th class="font-thin">
+              <div class="flex flex-col">
+                {{ 'i18n.ft.operation' | translate }}
+                <button class="button-extra" (click)="onLogOperationFilterClick()">
+                  {{ operationFilterFace | translate }}
+                </button>
+              </div>
+            </th>
+            <th class="font-thin">{{ 'RTU' }}</th>
+            <th class="font-thin">{{ 'i18n.ft.trace' | translate }}</th>
+            <th class="w-36 font-thin">
+              {{ 'i18n.ft.additional-info' | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let line of lines">
+            <td class="text-center">{{ line.ordinal }}</td>
+            <td class="text-center">{{ line.username }}</td>
+            <td class="min-w-16 text-center">{{ line.clientIp }}</td>
+            <td class="text-center">{{ line.registeredAt | rtuDateTime : 'medium' }}</td>
+            <td class="text-center">
+              {{ line.logOperationCode | logOperationCodePipe | translate }}
+            </td>
+            <td class="text-center">{{ line.rtuTitle }}</td>
+            <td class="text-center">{{ line.traceTitle }}</td>
+            <td class="text-center">{{ line.operationParams }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </ng-container>
 </div>
