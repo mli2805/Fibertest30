@@ -490,3 +490,100 @@ $ft-theme: mat.define-light-theme(
   height: 0px;
   overflow: hidden;
 }
+
+/* стили для компонента выбора даты */
+
+.rtu-date-picker-container {
+  .mat-mdc-form-field-infix {
+    @apply hidden;
+  }
+  .mat-mdc-text-field-wrapper {
+    @apply h-8
+    border-r-0
+    pl-0;
+  }
+  .mdc-line-ripple {
+    @apply hidden;
+  }
+  .mat-mdc-form-field-subscript-wrapper {
+    @apply hidden;
+  }
+  .mat-mdc-icon-button,
+  .mat-mdc-button-base {
+    padding: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 32px;
+    width: 32px;
+  }
+  .mdc-icon-button {
+    border-radius: 0;
+  }
+  .mdc-icon-button:hover {
+    @apply rounded-none
+    bg-gray-100
+    dark:bg-gray-500;
+  }
+  .mat-mdc-button-touch-target {
+    height: 32px !important;
+    width: 32px !important;
+  }
+  .mat-mdc-button-ripple {
+    height: 32px !important;
+    width: 32px !important;
+  }
+  .mat-mdc-form-field-icon-suffix {
+    padding: 0;
+  }
+  .mat-mdc-form-field {
+    border: 1px solid rgb(229, 231, 235);
+    border-left: 0;
+    @apply dark:border-[#575859];
+  }
+  .mat-mdc-icon-button,
+  .mat-mdc-button-persistent-ripple :hover {
+    border-radius: 0;
+  }
+  .mat-mdc-icon-button,
+  .mat-mdc-button-persistent-ripple {
+    border-radius: 0 !important;
+  }
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    @apply dark:bg-gray-500;
+  }
+  .mat-datepicker-toggle-default-icon {
+    @apply dark:text-gray-200;
+  }
+  .mdc-text-field {
+    @apply rounded-none;
+  }
+  .mdc-icon-button {
+    @apply background-base;
+  }
+}
+
+.mat-datepicker-content {
+  @apply dark:bg-rtu-dark-second-bg;
+}
+.mat-calendar-table-header {
+  @apply dark:text-white;
+}
+.mdc-button__label {
+  @apply dark:text-white;
+}
+.mat-calendar-arrow {
+  @apply dark:fill-white;
+}
+.mat-calendar-previous-button::after {
+  @apply dark:text-white;
+}
+.mat-calendar-next-button::after {
+  @apply dark:text-white;
+}
+.mat-calendar-body-cell-content {
+  @apply dark:text-white;
+}
+.mat-calendar-body-label {
+  @apply dark:text-white;
+}
