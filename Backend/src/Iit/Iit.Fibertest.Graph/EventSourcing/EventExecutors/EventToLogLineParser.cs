@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.StringResources;
+﻿using Iit.Fibertest.Dto;
+using Iit.Fibertest.StringResources;
 using Microsoft.Extensions.Logging;
 
 namespace Iit.Fibertest.Graph
@@ -163,7 +164,7 @@ namespace Iit.Fibertest.Graph
                 OperationCode = LogOperationCode.TraceAttached,
                 RtuTitle = rtuTitle ?? "",
                 TraceTitle = traceTuple?.Item1 ?? "",
-                OperationParams = $@"port {e.OtauPortDto.OpticalPort}",
+                OperationParams = e.OtauPortDto.ToStringB(),
             };
         }
 
@@ -205,12 +206,6 @@ namespace Iit.Fibertest.Graph
 
         private LogLine Parse(BaseRefAssigned e)
         {
-            var additionalInfo = "";
-            foreach (var baseRef in e.BaseRefs)
-            {
-                additionalInfo = additionalInfo + baseRef.BaseRefType.GetLocalizedFemaleString() + @"; ";
-            }
-
             // все эти TryGetValue появились из-за подкладывания базы 2.0 в 3.0
             _traces.TryGetValue(e.TraceId, out Tuple<string, Guid>? traceTuple);
             string? rtuTitle = "";
@@ -222,7 +217,7 @@ namespace Iit.Fibertest.Graph
                 OperationCode = LogOperationCode.BaseRefAssigned,
                 RtuTitle = rtuTitle ?? "",
                 TraceTitle = traceTuple?.Item1 ?? "",
-                OperationParams = additionalInfo,
+                OperationParams = string.Join(';', e.BaseRefs.Select(b => b.BaseRefType))
             };
         }
 
@@ -235,13 +230,13 @@ namespace Iit.Fibertest.Graph
                 _tceTitles.Add(e.Id, e.Title);
             }
 
-            var additionalInfo = isCreation
-                ? $@"TCE {e.Title}, {e.AllRelationsOfTce.Count} " + Resources.SID_links_added
-                : $@"TCE {e.Title}, {e.ExcludedTraceIds.Count} " + Resources.SID_links_removed + $@", {e.AllRelationsOfTce.Count} " + Resources.SID_links_exist;
+            // var additionalInfo = isCreation
+            //     ? $@"TCE {e.Title}, {e.AllRelationsOfTce.Count} " + Resources.SID_links_added
+            //     : $@"TCE {e.Title}, {e.ExcludedTraceIds.Count} " + Resources.SID_links_removed + $@", {e.AllRelationsOfTce.Count} " + Resources.SID_links_exist;
             return new LogLine()
             {
                 OperationCode = isCreation ? LogOperationCode.TceAdded : LogOperationCode.TceUpdated,
-                OperationParams = additionalInfo,
+                OperationParams = $"{_tceTitles[e.Id]}",
             };
         }
 
@@ -250,7 +245,7 @@ namespace Iit.Fibertest.Graph
             return new LogLine()
             {
                 OperationCode = LogOperationCode.TceRemoved,
-                OperationParams = $@"TCE {_tceTitles[e.Id]}",
+                OperationParams = $"{_tceTitles[e.Id]}",
             };
         }
 
@@ -261,7 +256,7 @@ namespace Iit.Fibertest.Graph
             {
                 OperationCode = LogOperationCode.MonitoringSettingsChanged,
                 RtuTitle = _rtuTitles[e.RtuId],
-                OperationParams = $@"Mode - {mode}",
+                OperationParams = e.IsMonitoringOn.ToString(),
             };
         }
 
@@ -280,7 +275,7 @@ namespace Iit.Fibertest.Graph
             return new LogLine()
             {
                 OperationCode = LogOperationCode.ClientStarted,
-                OperationParams = e.RegistrationResult.GetLocalizedString(),
+                OperationParams = $"{e.RegistrationResult}",
             };
         }
 
@@ -289,7 +284,7 @@ namespace Iit.Fibertest.Graph
             return new LogLine()
             {
                 OperationCode = LogOperationCode.UsersMachineKeyAssigned,
-                OperationParams = _readModel.Users.FirstOrDefault(u => u.UserId == e.UserId)?.Title ?? ""
+                OperationParams = _readModel.Users.FirstOrDefault(u => u.UserId == e.UserId)?.Title ?? e.UserId.ToString()
             };
         }
 
@@ -307,33 +302,36 @@ namespace Iit.Fibertest.Graph
             // появились после добавления эмулятором файковых измерений
             if (!_measurements.TryGetValue(e.SorFileId, out MeasurementAdded? meas))
                 return null;
+
+            //  у не Accident нельзя поменять статус, значит поменяли комент, значит не надо логировать
+            if (meas.EventStatus <= EventStatus.EventButNotAnAccident)
+                return null;
+
             return new LogLine()
             {
                 OperationCode = LogOperationCode.MeasurementUpdated,
                 RtuTitle = _rtuTitles[meas.RtuId],
                 TraceTitle = _traces[meas.TraceId].Item1,
-                OperationParams = $@"{e.EventStatus.GetLocalizedString()}",
+                OperationParams = $"{e.EventStatus}",
             };
         }
 
 
         private LogLine Parse(EventsAndSorsRemoved e)
         {
-            var str = Resources.SID_Up_to;
             return new LogLine()
             {
                 OperationCode = LogOperationCode.EventsAndSorsRemoved,
-                OperationParams = $@"{str} {e.UpTo.Date:d}  {(e.IsMeasurementsNotEvents ? 1 : 0)}/{(e.IsOpticalEvents ? 1 : 0)}/{(e.IsNetworkEvents ? 1 : 0)}",
+                OperationParams = $@"{e.UpTo.Date:d}  {(e.IsMeasurementsNotEvents ? 1 : 0)}/{(e.IsOpticalEvents ? 1 : 0)}/{(e.IsNetworkEvents ? 1 : 0)}",
             };
         }
 
         private LogLine Parse(SnapshotMade e)
         {
-            var str = Resources.SID_Up_to;
             return new LogLine()
             {
                 OperationCode = LogOperationCode.SnapshotMade,
-                OperationParams = $@"{str} {e.UpTo.Date:d}",
+                OperationParams = $@"{e.UpTo.Date:d}",
             };
         }
     }

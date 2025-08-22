@@ -7,6 +7,7 @@ namespace Fibertest30.Infrastructure
         public byte[]?  GenerateUserActionsReport(Guid userId, DateTimeFilter dateTimeFilter, List<int> operationCodes)
         {
             var logLines = writeModel.GetFilteredUserActions(userId, dateTimeFilter, operationCodes);
+            //var userCulture = "en-US"; // TODO получать по userId из настроек
             var userCulture = "ru-RU"; // TODO получать по userId из настроек
 
             var generator = new UserActionsReportGenerator();

@@ -111,6 +111,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { ReturnCodePipe } from './pipes/return-code.pipe';
 
 @NgModule({
   imports: [
@@ -151,6 +152,7 @@ import { MatIconModule } from '@angular/material/icon';
     TraceStatePipe,
     FrequencyPipe,
     EventStatusPipe,
+    ReturnCodePipe,
     ChannelEventPipe,
     BaseRefTypePipe,
     EquipmentPipe,
@@ -255,6 +257,7 @@ import { MatIconModule } from '@angular/material/icon';
     TraceStatePipe,
     FrequencyPipe,
     EventStatusPipe,
+    ReturnCodePipe,
     ChannelEventPipe,
     BaseRefTypePipe,
     EquipmentPipe,

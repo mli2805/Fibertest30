@@ -12,7 +12,8 @@ import { LogOperationFilterComponent } from './log-operation-filter/log-operatio
 import { firstValueFrom } from 'rxjs';
 import {
   ALL_LOG_OPERATION_CODES,
-  LogOperationCode
+  LogOperationCode,
+  UserActionLine
 } from 'src/app/core/store/models/ft30/user-action-line';
 import { PickDateRange } from 'src/app/shared/components/date-pick/pick-date-range';
 import { TimezoneUtils } from 'src/app/core/timezone.utils';
@@ -21,6 +22,12 @@ import { CoreUtils } from 'src/app/core/core.utils';
 import { GisMapUtils } from '../../gis/components/shared/gis-map.utils';
 import { DateTimeRange } from 'src/grpc-generated';
 import { Timestamp } from 'src/grpc-generated/google/protobuf/timestamp';
+import { BaseRefType, EventStatus } from 'src/app/core/store/models/ft30/ft-enums';
+import { TranslateService } from '@ngx-translate/core';
+import { EventStatusPipe } from 'src/app/shared/pipes/event-status.pipe';
+import { BaseRefTypePipe } from 'src/app/shared/pipes/base-ref-type.pipe';
+import { ReturnCode } from 'src/app/core/store/models/ft30/return-code';
+import { ReturnCodePipe } from 'src/app/shared/pipes/return-code.pipe';
 
 interface UserFilterOption {
   title: string;
@@ -47,7 +54,11 @@ export class UserActionsReportComponent implements OnInit {
   selectedOperations!: LogOperationCode[];
   operationFilterFace!: string;
 
-  constructor(private dialog: Dialog, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private dialog: Dialog,
+    private ts: TranslateService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     const users = CoreUtils.getCurrentState(this.store, UsersSelectors.selectUsersUsers);
@@ -65,6 +76,43 @@ export class UserActionsReportComponent implements OnInit {
     this.selectedOperations = ALL_LOG_OPERATION_CODES;
     this.operationFilterFace = 'i18n.ft.no-filter';
     this.refresh();
+  }
+
+  getLocalizedAdditinalInfo(line: UserActionLine): string {
+    try {
+      switch (line.logOperationCode) {
+        case LogOperationCode.MeasurementUpdated: {
+          const statusEnum = EventStatus[line.operationParams as keyof typeof EventStatus];
+          return new EventStatusPipe().transform(statusEnum);
+        }
+        case LogOperationCode.TraceAttached: {
+          return this.ts.instant('i18n.ft.port') + ' ' + line.operationParams;
+        }
+        case LogOperationCode.MonitoringSettingsChanged: {
+          return line.operationParams === 'False'
+            ? 'i18n.ft.manual-mode'
+            : 'i18n.ft.automatic-mode';
+        }
+        case LogOperationCode.BaseRefAssigned: {
+          const bb = line.operationParams.split(';');
+          const tt = bb.map((b) => BaseRefType[b as keyof typeof BaseRefType]);
+          const pipe = new BaseRefTypePipe();
+          const ss = tt.map((t) => this.ts.instant(pipe.transform(t)));
+          return ss.join(';');
+        }
+        case LogOperationCode.ClientStarted: {
+          const registrationResult = ReturnCode[line.operationParams as keyof typeof ReturnCode];
+          return new ReturnCodePipe().transform(registrationResult);
+        }
+        case LogOperationCode.EventsAndSorsRemoved:
+        case LogOperationCode.SnapshotMade: {
+          return this.ts.instant('i18n.ft.up-to') + ' ' + line.operationParams;
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return line.operationParams;
   }
 
   refresh() {

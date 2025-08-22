@@ -545,5 +545,6 @@
   "i18n.ft.filter-applied": "<фильтр применен>",
   "i18n.ft.operations-filter": "Фильтр операций",
 
-  "i18n.ft.download-pdf": "Загрузить PDF"
+  "i18n.ft.download-pdf": "Загрузить PDF",
+  "i18n.ft.up-to": "По дату"
 }

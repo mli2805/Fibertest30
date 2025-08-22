@@ -6,8 +6,8 @@
 
 <div class="flex h-full w-full flex-col">
   <ng-container *ngIf="lines$ | async as lines">
-    <div class="flex justify-end">
-      <div class="mr-2 flex cursor-pointer flex-col items-center" (click)="downloadPdf()">
+    <div class="mr-8 flex justify-end">
+      <div class="flex cursor-pointer flex-col items-center" (click)="downloadPdf()">
         <rtu-save-button class="h-8 w-8" />
         <div class="mt-1 text-center text-xs">
           {{ 'i18n.ft.download-pdf' | translate }}
@@ -75,7 +75,7 @@
             </td>
             <td class="text-center">{{ line.rtuTitle }}</td>
             <td class="text-center">{{ line.traceTitle }}</td>
-            <td class="text-center">{{ line.operationParams }}</td>
+            <td class="text-center">{{ getLocalizedAdditinalInfo(line) | translate }}</td>
           </tr>
         </tbody>
       </table>

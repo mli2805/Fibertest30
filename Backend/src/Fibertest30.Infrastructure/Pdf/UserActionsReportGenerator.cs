@@ -84,7 +84,7 @@ namespace Fibertest30.Infrastructure
                 row.Cells[4].AddParagraph(log.OperationName);
                 row.Cells[5].AddParagraph(log.RtuTitle ?? "");
                 row.Cells[6].AddParagraph(log.TraceTitle ?? "");
-                row.Cells[7].AddParagraph(log.OperationParams ?? "");
+                row.Cells[7].AddParagraph(log.GetLocalizedAdditionalInfo());
             }
 
             // Нижний колонтитул

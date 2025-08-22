@@ -57,7 +57,11 @@
               (ngModelChange)="tryParseDate()"
             />
           </div>
-          <!-- <rtu-date-pick-range [date]="toDate" (dateChanged)="onEndDateChanged($event)" (ifOpenState)="onDatePickOpenState($event)"></rtu-date-pick-range> -->
+          <rtu-date-pick-range
+            [date]="toDate"
+            (dateChanged)="onEndDateChanged($event)"
+            (ifOpenState)="onDatePickOpenState($event)"
+          ></rtu-date-pick-range>
         </div>
         <div
           *ngIf="toCheckResult"

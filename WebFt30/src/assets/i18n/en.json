@@ -865,5 +865,6 @@
   "i18n.ft.filter-applied": "<filter applied>",
   "i18n.ft.operations-filter": "Operations filter",
 
-  "i18n.ft.download-pdf": "Download PDF"
+  "i18n.ft.download-pdf": "Download PDF",
+  "i18n.ft.up-to": "Up to"
 }
