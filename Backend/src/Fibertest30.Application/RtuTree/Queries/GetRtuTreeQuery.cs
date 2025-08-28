@@ -20,7 +20,10 @@ public class GetRtuTreeQueryHandler : IRequestHandler<GetRtuTreeQuery, List<RtuD
     public Task<List<RtuDto>> Handle(GetRtuTreeQuery request, CancellationToken cancellationToken)
     {
         var userId = _currentUserService.UserId!;
-        User user = _writeModel.Users.FirstOrDefault(u => u.Title == userId) ?? _writeModel.Users.First(u => u.Title == "root");
-        return Task.FromResult(_writeModel.GetTree(user).ToList());
+
+        // временно
+        var zoneId = Guid.Empty;
+
+        return Task.FromResult(_writeModel.GetTree(zoneId).ToList());
     }
 }

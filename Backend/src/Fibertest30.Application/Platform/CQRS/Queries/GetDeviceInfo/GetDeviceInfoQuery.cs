@@ -30,8 +30,9 @@ public class GetDeviceInfoQueryHandler : IRequestHandler<GetDeviceInfoQuery, Dev
         var notificationSettings = await _notificationSettingsRepository.GetSettingsWithoutPasswords(ct);
 
         var userId = _currentUserService.UserId!;
-        User user = _model.Users.FirstOrDefault(u => u.Title == userId) ?? _model.Users.First(u => u.Title == "root");
-        var rtuTree = _model.GetTree(user).ToList();
+        // временно
+        var zoneId = Guid.Empty;
+        var rtuTree = _model.GetTree(zoneId).ToList();
 
         var deviceInfo = new DeviceInfo
         {
@@ -39,7 +40,7 @@ public class GetDeviceInfoQueryHandler : IRequestHandler<GetDeviceInfoQuery, Dev
             NotificationSettings = notificationSettings,
 
             RtuTree = rtuTree,
-            HasCurrentEvents = _tableProvider.GetHasCurrentEvents(user.UserId)
+            HasCurrentEvents = _tableProvider.GetHasCurrentEvents(userId)
         };
 
         return deviceInfo;

@@ -23,9 +23,9 @@ public class UserSettingsConfiguration : IEntityTypeConfiguration<UserSettings>
         builder.Property(b => b.LatLngFormat)
                    .HasMaxLength(100);
 
-        builder
-            .HasOne(us => us.User)
-            .WithOne(u => u.UserSettings)
-            .HasForeignKey<UserSettings>(us => us.UserId);
+        //builder
+        //    .HasOne(us => us.User)
+        //    .WithOne(u => u.UserSettings)
+        //    .HasForeignKey<UserSettings>(us => us.UserId);
     }
 }

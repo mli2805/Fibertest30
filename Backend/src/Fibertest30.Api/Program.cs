@@ -85,7 +85,7 @@ try
         await initializer.InitializeAsync();
 
         var writeModel = scope.ServiceProvider.GetRequiredService<Model>();
-        await initializer.SeedAsync();
+        await initializer.SeedAsync(writeModel.Users);
     }
 
     app.UseRouting();

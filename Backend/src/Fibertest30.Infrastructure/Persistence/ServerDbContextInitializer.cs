@@ -1,10 +1,15 @@
-﻿using Iit.Fibertest.Graph;
+﻿using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Net.NetworkInformation;
 
 namespace Fibertest30.Infrastructure;
-public class ServerDbContextInitializer(ILogger<ServerDbContextInitializer> logger, ServerDbContext context,
+public class ServerDbContextInitializer(IHostEnvironment environment, 
+    ILogger<ServerDbContextInitializer> logger, ServerDbContext context,
     IDefaultPermissionProvider permissionProvider, UserManager<ApplicationUser> userManager,
     RoleManager<IdentityRole> roleManager)
 {
@@ -12,8 +17,8 @@ public class ServerDbContextInitializer(ILogger<ServerDbContextInitializer> logg
     {
         try
         {
-            // await context.Database.EnsureCreatedAsync();
-            await context.Database.MigrateAsync();
+            await context.Database.EnsureCreatedAsync();
+            //await context.Database.MigrateAsync();
         }
         catch (Exception ex)
         {
@@ -22,11 +27,11 @@ public class ServerDbContextInitializer(ILogger<ServerDbContextInitializer> logg
         }
     }
 
-    public async Task SeedAsync()
+    public async Task SeedAsync(List<User> ft20Users)
     {
         try
         {
-            await TrySeedAsync();
+            await TrySeedAsync(ft20Users);
         }
         catch (Exception ex)
         {
@@ -35,7 +40,7 @@ public class ServerDbContextInitializer(ILogger<ServerDbContextInitializer> logg
         }
     }
 
-    private async Task TrySeedAsync()
+    private async Task TrySeedAsync(List<User> ft20Users)
     {
         // NOTE: It is called at each start
         // Don't forget to check if seed is needed
@@ -46,10 +51,79 @@ public class ServerDbContextInitializer(ILogger<ServerDbContextInitializer> logg
         var userCount = await userManager.Users.CountAsync();
         if (userCount == 0)
         {
-            await SeedAdministratorUser();
+            if (ft20Users.Count > 0)
+            {
+                // установка 3.0 на подложенную базу 2.0
+                await SeedUsersFromFibertest20(ft20Users);
+            }
+            else
+            {
+                // чистая установка 3.0 
+                await SeedAdministratorUser("root", "root");
+                await SeedAdministratorUser("developer", "cde3$RFV");
+            }
+        }
+
+        if (environment.IsDevelopment())
+        {
+            await SeedDemoUsers();
         }
 
         await context.SaveChangesAsync();
+    }
+
+    private async Task SeedDemoUsers()
+    {
+        var users = await userManager.Users.ToListAsync();
+
+        // Seed users for development needs.
+        foreach (var testUser in TestUsersProvider.TestUsers)
+        {
+            if (users.FirstOrDefault(u=>u.UserName == testUser.UserName) != null) continue;
+
+            var currentUser = await userManager.FindByNameAsync(testUser.UserName);
+            if (currentUser == null)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = testUser.UserName,
+                    FirstName = testUser.FirstName,
+                    LastName = testUser.LastName,
+                    JobTitle = testUser.JobTitle,
+                    Email = testUser.Email,
+                    PhoneNumber = testUser.PhoneNumber
+                };
+                var result = await CreateUserWithLoosePassword(user, testUser.Password);
+                ThrowIfNotSucceed(result, $"Can't create {user.UserName} user");
+
+
+                result = await userManager.AddToRoleAsync(user, testUser.Role.ToString());
+                ThrowIfNotSucceed(result, $"Can't add {user.UserName} user to {testUser.Role.ToString()} role");
+            }
+        }
+    }
+
+    private async Task SeedUsersFromFibertest20(List<User> ft20Users)
+    {
+        foreach (User ft20User in ft20Users)
+        {
+            var user = new ApplicationUser()
+            {
+                UserName = ft20User.Title,
+                Email = ft20User.Email.Address,
+                PhoneNumber = ft20User.Sms.PhoneNumber,
+                ZoneId = ft20User.ZoneId
+                
+            };
+
+            // пароль хранился зашифрованный, поэтому создаем пользователя с паролем совпадающим с именем
+            var result = await CreateUserWithLoosePassword(user, ft20User.Title);
+            ThrowIfNotSucceed(result, $"Can't create {user.UserName} user");
+
+
+            result = await userManager.AddToRoleAsync(user, GetNewRole(ft20User.Role).ToString());
+            ThrowIfNotSucceed(result, $"Can't add {user.UserName} user to {ft20User.Role} role");
+        }
     }
 
     private async Task SeedDefaultRolesAndPermissions()
@@ -93,69 +167,30 @@ public class ServerDbContextInitializer(ILogger<ServerDbContextInitializer> logg
         }
     }
 
-    private async Task CloneFibertest20Users(List<User> oldUsers)
+    private ApplicationDefaultRole GetNewRole(Role role)
     {
-        foreach (var oldUser in oldUsers)
+        switch (role)
         {
-            var user = new ApplicationUser
-            {
-                UserName = oldUser.Title,
-                FirstName = "",
-                LastName = "",
-                JobTitle = "",
-                Email = oldUser.Email.Address,
-                PhoneNumber = oldUser.Sms.PhoneNumber
-            };
-
-            var result = await CreateUserWithLoosePassword(user, oldUser.Title); // ??
-            ThrowIfNotSucceed(result, $"Can't create {user.UserName} user");
-
-            result = await userManager.AddToRoleAsync(user, oldUser.Role.ToString());
-            ThrowIfNotSucceed(result, $"Can't add {user.UserName} user to {oldUser.Role.ToString()} role");
+            case Role.Developer:
+            case Role.Root: return ApplicationDefaultRole.Root;
+            case Role.Operator: return ApplicationDefaultRole.Operator;
+            case Role.Supervisor: return ApplicationDefaultRole.Supervisor;
+            case Role.NotificationReceiver: return ApplicationDefaultRole.NotificationReceiver;
         }
+
+        return ApplicationDefaultRole.NotificationReceiver;
     }
 
-
-    //private async Task SeedDemoUsers()
-    //{
-    //    var userCount = await userManager.Users.CountAsync();
-    //    if (userCount > 0) { return;} 
-
-    //    // Seed users for test needs.
-    //    foreach (var testUser in TestUsersProvider.TestUsers)
-    //    {
-    //        var currentUser = await userManager.FindByNameAsync(testUser.UserName);
-    //        if (currentUser == null)
-    //        {
-    //            var user = new ApplicationUser
-    //            {
-    //                UserName = testUser.UserName,
-    //                FirstName = testUser.FirstName,
-    //                LastName = testUser.LastName,
-    //                JobTitle = testUser.JobTitle,
-    //                Email = testUser.Email,
-    //                PhoneNumber = testUser.PhoneNumber
-    //            };
-    //            var result = await CreateUserWithLoosePassword(user, TestUsersProvider.DefaultRootPassword);
-    //            ThrowIfNotSucceed(result, $"Can't create {user.UserName} user");
-
-
-    //            result = await userManager.AddToRoleAsync(user, testUser.Role.ToString());
-    //            ThrowIfNotSucceed(result, $"Can't add {user.UserName} user to {testUser.Role.ToString()} role");
-    //        }
-    //    }
-    //}
-
-    private async Task SeedAdministratorUser()
+    private async Task SeedAdministratorUser(string login, string password)
     {
         var adminRole = ApplicationDefaultRole.Root;
 
         var user = new ApplicationUser
         {
-            UserName = "root",
+            UserName = login,
         };
 
-        var result = await CreateUserWithLoosePassword(user, TestUsersProvider.DefaultRootPassword);
+        var result = await CreateUserWithLoosePassword(user, password);
         ThrowIfNotSucceed(result, $"Can't create {user.UserName} user");
 
         result = await userManager.AddToRoleAsync(user, adminRole.ToString());

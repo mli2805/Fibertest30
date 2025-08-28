@@ -35,7 +35,7 @@ public partial class RtuManager
         }
 
         var cmd = new AttachTrace() { TraceId = dto.TraceId, OtauPortDto = dto.OtauPortDto };
-        var answer = await _eventStoreService.SendCommand(cmd, _currentUserService.UserName, "");
+        var answer = await _eventStoreService.SendCommand(cmd, _currentUserService.UserName, dto.ClientIp);
         return string.IsNullOrEmpty(answer) ? new RequestAnswer(ReturnCode.Ok) : new RequestAnswer(ReturnCode.Error);
 
     }
@@ -71,7 +71,7 @@ public partial class RtuManager
         return dto;
     }
 
-    public async Task<RequestAnswer> DetachTrace(Guid traceId)
+    public async Task<RequestAnswer> DetachTrace(Guid traceId, string clientIp)
     {
         var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
         if (trace == null)
@@ -83,7 +83,7 @@ public partial class RtuManager
         // когда потом пользователь нажмет Автоматический режим - за кадром собираем настройки мониторинга из модели и отправляем
 
         var сmd = new DetachTrace() { TraceId = traceId };
-        var answer = await _eventStoreService.SendCommand(сmd, _currentUserService.UserName, "");
+        var answer = await _eventStoreService.SendCommand(сmd, _currentUserService.UserName, clientIp);
 
         return string.IsNullOrEmpty(answer) ? new RequestAnswer(ReturnCode.Ok) : new RequestAnswer(ReturnCode.Error);
     }

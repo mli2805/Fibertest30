@@ -21,9 +21,8 @@ public class GetHasCurrentQueryHandler : IRequestHandler<GetHasCurrentQuery, Has
     public Task<HasCurrentEvents> Handle(GetHasCurrentQuery request, CancellationToken cancellationToken)
     {
         var userId = _currentUserService.UserId!;
-        User user = _model.Users.FirstOrDefault(u => u.Title == userId) ?? _model.Users.First(u => u.Title == "root");
 
-        var hasCurrentEvents = _tableProvider.GetHasCurrentEvents(user.UserId);
+        var hasCurrentEvents = _tableProvider.GetHasCurrentEvents(userId);
         return Task.FromResult(hasCurrentEvents);
     }
 }

@@ -1,49 +1,40 @@
 ﻿
+using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
 namespace Fibertest30.Application;
 
 [AllowAnonymous]
-public record LoginQuery(string UserName, string Password) : IRequest<AuthenticationResult>;
+public record LoginQuery(string UserName, string Password, string ClientIp) : IRequest<AuthenticationResult>;
 
-public class LoginHandler : IRequestHandler<LoginQuery, AuthenticationResult>
+public class LoginHandler(
+    IJwtTokenGenerator tokenGenerator,
+    IUserRolePermissionProvider permissionProvider,
+    SignInManager<ApplicationUser> signInManager,
+    UserManager<ApplicationUser> userManager,
+    IUserSettingsRepository userSettingsRepository,
+    IEventStoreService eventStoreService)
+    : IRequestHandler<LoginQuery, AuthenticationResult>
 {
-    private readonly IJwtTokenGenerator _tokenGenerator;
-    private readonly IUserRolePermissionProvider _permissionProvider;
-    private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IUserSettingsRepository _userSettingsRepository;
-
-    public LoginHandler(
-            IJwtTokenGenerator tokenGenerator,
-            IUserRolePermissionProvider permissionProvider,
-            SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager,
-            IUserSettingsRepository userSettingsRepository)
-    {
-        _tokenGenerator = tokenGenerator;
-        _permissionProvider = permissionProvider;
-        _signInManager = signInManager;
-        _userManager = userManager;
-        _userSettingsRepository = userSettingsRepository;
-    }
-
     public async Task<AuthenticationResult> Handle(LoginQuery request, CancellationToken cancellationToken)
     {
         var userName = request.UserName;
-        var user = await _userManager.FindByNameAsync(userName);
+        var user = await userManager.FindByNameAsync(userName);
         if (user == null) { return ForbidLogin(); }
 
-        var signInResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: false);
+        var signInResult = await signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: false);
         if (!signInResult.Succeeded) { return ForbidLogin(); }
 
-        var token = await _tokenGenerator.GenerateToken(user);
-        var role = await _permissionProvider.GetUserSingleRole(user);
-        // var permissions = (await _permissionProvider.GetUserPermissions(user))
-        //     .Select(x => x.ToString()).ToList();
+        var token = await tokenGenerator.GenerateToken(user);
+        var role = await permissionProvider.GetUserSingleRole(user);
         
-        var userSettings = await _userSettingsRepository.GetUserSettings(user.Id);
+        var userSettings = await userSettingsRepository.GetUserSettings(user.Id);
+
+        var command = new RegisterClientStation() { RegistrationResult = ReturnCode.ClientRegisteredSuccessfully };
+        await eventStoreService.SendCommand(command, userName, request.ClientIp);
+
         return new AuthenticationResult(true, token, new AuthenticatedUser(role, user), userSettings);
     }
 

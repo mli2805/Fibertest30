@@ -21,10 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{DE35343C-A
 	ProjectSection(SolutionItems) = preProject
 		docs\Authentication.md = docs\Authentication.md
 		docs\CodeStyleRecommendations.md = docs\CodeStyleRecommendations.md
-		docs\DebuggingOnDevice.md = docs\DebuggingOnDevice.md
 		docs\Grpc & Grpc-Web.md = docs\Grpc & Grpc-Web.md
-		docs\MonitoringAlarms.md = docs\MonitoringAlarms.md
-		docs\RunningOnDevice.md = docs\RunningOnDevice.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{036BB90E-C954-4342-BBFF-3C0BB5461D64}"

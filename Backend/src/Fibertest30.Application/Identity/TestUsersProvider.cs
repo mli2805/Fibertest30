@@ -8,12 +8,13 @@ public static class TestUsersProvider
             new TestUser
             {
                 Role = ApplicationDefaultRole.Root,
-                UserName = "root",
+                UserName = "akhazanov",
                 FirstName = "Alex",
                 LastName = "Khazanov",
                 JobTitle = "Product Manager",
                 Email = "a.khazanov@yandex.by",
-                PhoneNumber = "+1234567890"
+                PhoneNumber = "+1234567890",
+                Password = "1"
             },
             new TestUser
             {
@@ -23,7 +24,8 @@ public static class TestUsersProvider
                 LastName = "Петров",
                 JobTitle = "Оператор 1 смены",
                 Email = "s.petrov@yandex.by",
-                PhoneNumber = "+1234567891"
+                PhoneNumber = "+1234567891",
+                Password = "1"
             },
             new TestUser
             {
@@ -33,7 +35,8 @@ public static class TestUsersProvider
                 LastName = "Кузнецов",
                 JobTitle = "Надсмотрщик",
                 Email = "v.kuznetzov@yandex.by",
-                PhoneNumber = string.Empty
+                PhoneNumber = string.Empty,
+                Password = "1"
             },
             new TestUser
             {
@@ -43,7 +46,8 @@ public static class TestUsersProvider
                 LastName = "Havlicek",
                 JobTitle = string.Empty,
                 Email = "m.havlicek@yandex.com",
-                PhoneNumber = string.Empty
+                PhoneNumber = string.Empty,
+                Password = "1"
             }
         };
 
@@ -57,13 +61,6 @@ public static class TestUsersProvider
         public string JobTitle { get;  set; } = null!;
         public string Email { get;  set; } = null!;
         public string PhoneNumber { get;  set; } = null!;
-    }
-
-    // public static readonly string DefaultAdminPassword = "admin";
-    public static readonly string DefaultRootPassword = "root";
-
-    public static TestUser GetFirstUserByRole(ApplicationDefaultRole role)
-    {
-        return TestUsers.First(x => x.Role == role);
+        public string Password { get;  set; } = null!;
     }
 }

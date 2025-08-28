@@ -33,27 +33,44 @@ public class RtuTreeService : RtuTree.RtuTreeBase
         if (ports.Count > 1)
             dto.MainOtauPortDto = ports[1];
 
+        var httpContext = context.GetHttpContext();
+        var ip = httpContext.Connection.RemoteIpAddress?.ToString() ?? "";
+        dto.ClientIp = ip;
+
         await _mediator.Send(new AttachTraceCommand(dto), context.CancellationToken);
         return new AttachTraceResponse();
     }
 
     public override async Task<DetachTraceResponse> DetachTrace(DetachTraceRequest request, ServerCallContext context)
     {
+        var httpContext = context.GetHttpContext();
+        var ip = httpContext.Connection.RemoteIpAddress?.ToString() ?? "";
+
         var guid = Guid.Parse(request.TraceId);
-        await _mediator.Send(new DetachTraceCommand(guid), context.CancellationToken);
+        await _mediator.Send(new DetachTraceCommand(guid, ip), context.CancellationToken);
         return new DetachTraceResponse();
     }
 
     public override async Task<AttachOtauResponse> AttachOtau(AttachOtauRequest request, ServerCallContext context)
     {
+        var httpContext = context.GetHttpContext();
+        var ip = httpContext.Connection.RemoteIpAddress?.ToString() ?? "";
+
         var dto = request.FromProto();
+        dto.ClientIp = ip;
+
         await _mediator.Send(new AttachOtauCommand(dto), context.CancellationToken);
         return new AttachOtauResponse();
     }
 
     public override async Task<DetachOtauResponse> DetachOtau(DetachOtauRequest request, ServerCallContext context)
     {
+        var httpContext = context.GetHttpContext();
+        var ip = httpContext.Connection.RemoteIpAddress?.ToString() ?? "";
+
         var dto = request.FromProto();
+        dto.ClientIp = ip;
+
         await _mediator.Send(new DetachOtauCommand(dto), context.CancellationToken);
         return new DetachOtauResponse();
     }

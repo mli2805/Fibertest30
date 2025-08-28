@@ -13,8 +13,10 @@ public class TableProvider
         _writeModel = writeModel;
     }
 
-    public HasCurrentEvents GetHasCurrentEvents(Guid userId)
+    public HasCurrentEvents GetHasCurrentEvents(string userId)
     {
+        //TODO отфильтровать события не входящие в зону ответственности данного пользователя
+
         var hasCurrentEvents = new HasCurrentEvents();
 
         if (_writeModel.ActiveMeasurements.Any())
@@ -41,16 +43,11 @@ public class TableProvider
         return measurement.CreateOpticalEventDto(_writeModel);
     }
 
-    public List<OpticalEventDto> GetOpticalEvents(Guid userId, bool current, DateTimeFilter dateTimeFilter, int portionSize)
+    public List<OpticalEventDto> GetOpticalEvents(Guid zoneId, bool current, DateTimeFilter dateTimeFilter, int portionSize)
     {
-        // var user = _writeModel.Users.First(u => u.UserId == userId);
-        // в модели другие юзеры , не те что в sqlite базе бэкенда
-        //TODO переделать
-        var user = _writeModel.Users.First(u => u.Role == Role.Root);
-
         var collection = current ? _writeModel.ActiveMeasurements : _writeModel.Measurements;
         var filtered = collection
-            .Where(o => o.Filter("", "", _writeModel, user));
+            .Where(o => o.Filter("", "", _writeModel, zoneId));
 
 
         var since = dateTimeFilter.LoadSince != null

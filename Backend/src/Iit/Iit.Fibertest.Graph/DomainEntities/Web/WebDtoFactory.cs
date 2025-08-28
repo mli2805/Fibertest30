@@ -6,26 +6,26 @@ namespace Iit.Fibertest.Graph
 {
     public static class WebDtoFactory
     {
-        public static RtuDto GetRtu(this Model writeModel, string rtuGuid, User user)
+        public static RtuDto GetRtu(this Model writeModel, string rtuGuid, Guid zoneId)
         {
             var rtuId = Guid.Parse(rtuGuid);
             var rtu = writeModel.Rtus.First(r => r.Id == rtuId);
-            return writeModel.GetRtuWithChildren(rtu, user);
+            return writeModel.GetRtuWithChildren(rtu, zoneId);
         }
 
-        public static IEnumerable<RtuDto> GetTree(this Model writeModel, User user)
+        public static IEnumerable<RtuDto> GetTree(this Model writeModel, Guid zoneId)
         {
             return from rtu in writeModel.Rtus
-                   where rtu.ZoneIds.Contains(user.ZoneId)
-                   select writeModel.GetRtuWithChildren(rtu, user);
+                   where rtu.ZoneIds.Contains(zoneId)
+                   select writeModel.GetRtuWithChildren(rtu, zoneId);
         }
 
-        private static RtuDto GetRtuWithChildren(this Model writeModel, Rtu rtu, User user)
+        private static RtuDto GetRtuWithChildren(this Model writeModel, Rtu rtu, Guid zoneId)
         {
             var rtuDto = rtu.CreateRtuDto();
             for (int i = 1; i <= rtuDto.OwnPortCount; i++)
             {
-                ChildDto? childForPort = rtu.GetChildForPort(i, writeModel, user);
+                ChildDto? childForPort = rtu.GetChildForPort(i, writeModel, zoneId);
                 if (childForPort != null)
                 {
                     rtuDto.Children.Add(childForPort);
@@ -100,7 +100,7 @@ namespace Iit.Fibertest.Graph
             };
         }
 
-        private static ChildDto? GetChildForPort(this Rtu rtu, int port, Model writeModel, User user)
+        private static ChildDto? GetChildForPort(this Rtu rtu, int port, Model writeModel, Guid zoneId)
         {
             if (rtu.Children.TryGetValue(port, out var child))
             {
@@ -119,7 +119,7 @@ namespace Iit.Fibertest.Graph
                                                     && t.OtauPort != null
                                                     && t.OtauPort.Serial == otau.Serial
                                                     && t.OtauPort.OpticalPort == j
-                                                    && t.ZoneIds.Contains(user.ZoneId));
+                                                    && t.ZoneIds.Contains(zoneId));
                     otauWebDto.Children.Add(traceOnOtau != null
                         ? writeModel.CreateTraceDto(traceOnOtau, rtu, otauWebDto)
                         : new ChildDto(ChildType.FreePort) { Port = j });
@@ -131,7 +131,7 @@ namespace Iit.Fibertest.Graph
                                                               && t.OtauPort != null
                                                               && t.OtauPort.IsPortOnMainCharon
                                                               && t.Port == port
-                                                              && t.ZoneIds.Contains(user.ZoneId));
+                                                              && t.ZoneIds.Contains(zoneId));
             return trace != null
                 ? writeModel.CreateTraceDto(trace, rtu, null)
                 : new ChildDto(ChildType.FreePort) { Port = port };

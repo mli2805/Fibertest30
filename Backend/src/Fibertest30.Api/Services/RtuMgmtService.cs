@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using Iit.Fibertest.Dto;
 using MediatR;
 
 namespace Fibertest30.Api;
@@ -27,14 +28,26 @@ public class RtuMgmtService : RtuMgmt.RtuMgmtBase
     public override async Task<InitializeRtuResponse> InitializeRtu(InitializeRtuRequest request,
         ServerCallContext context)
     {
-        var dto = await _mediator.Send(new InitializeRtuCommand(request.Dto.FromProto()), context.CancellationToken);
+        var httpContext = context.GetHttpContext();
+        var ip = httpContext.Connection.RemoteIpAddress?.ToString() ?? "";
+
+        var initializeRtuDto = request.Dto.FromProto();
+        initializeRtuDto.ClientIp = ip;
+
+        var dto = await _mediator.Send(new InitializeRtuCommand(initializeRtuDto), context.CancellationToken);
         return new InitializeRtuResponse() { Dto = dto.ToProto() };
     }
 
     public override async Task<EmptyResponse> DoMeasurementClient(DoMeasurementClientRequest request,
         ServerCallContext context)
     {
-        await _mediator.Send(new DoMeasurementClientCommand(request.Dto.FromProto()),
+        var httpContext = context.GetHttpContext();
+        var ip = httpContext.Connection.RemoteIpAddress?.ToString() ?? "";
+
+        var doClientMeasurementDto = request.Dto.FromProto();
+        doClientMeasurementDto.ClientIp = ip;
+
+        await _mediator.Send(new DoMeasurementClientCommand(doClientMeasurementDto),
            context.CancellationToken);
 
         return new EmptyResponse();
@@ -69,8 +82,11 @@ public class RtuMgmtService : RtuMgmt.RtuMgmtBase
     public override async Task<EmptyResponse> StopMonitoring(StopMonitoringRequest request,
         ServerCallContext context)
     {
+        var httpContext = context.GetHttpContext();
+        var ip = httpContext.Connection.RemoteIpAddress?.ToString() ?? "";
+
         var guid = Guid.Parse(request.RtuId);
-        await _mediator.Send(new StopMonitoringCommand(guid), context.CancellationToken);
+        await _mediator.Send(new StopMonitoringCommand(guid, ip), context.CancellationToken);
 
         // успешный результат придет в системном событии, чтобы все клиенты обработали его одинаково
         // проблемы во время исполнения должны дать кастомный exception, который пославший клиент покажет как сообщение об ошибке
@@ -90,15 +106,25 @@ public class RtuMgmtService : RtuMgmt.RtuMgmtBase
     public override async Task<ApplyMonitoringSettingsResponse> ApplyMonitoringSettings(ApplyMonitoringSettingsRequest request,
         ServerCallContext context)
     {
-        var command = request.Dto.FromProto();
-        var answer = await _mediator.Send(new ApplyMonitoringSettingsCommand(command), context.CancellationToken);
+        var httpContext = context.GetHttpContext();
+        var ip = httpContext.Connection.RemoteIpAddress?.ToString() ?? "";
+
+        var dto = request.Dto.FromProto();
+        dto.ClientIp = ip;
+
+        var answer = await _mediator.Send(new ApplyMonitoringSettingsCommand(dto), context.CancellationToken);
 
         return new ApplyMonitoringSettingsResponse() { Dto = answer.ToProto() };
     }
 
     public override async Task<AssignBaseRefsResponse> AssignBaseRefs(AssignBaseRefsRequest request, ServerCallContext context)
     {
+        var httpContext = context.GetHttpContext();
+        var ip = httpContext.Connection.RemoteIpAddress?.ToString() ?? "";
+
         var dto = request.Dto.FromProto();
+        dto.ClientIp = ip;
+
         var answer = await _mediator.Send(new AssignBaseRefsCommand(dto), context.CancellationToken);
 
         return new AssignBaseRefsResponse() { Dto = answer.ToProto() };

@@ -5,7 +5,7 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Fibertest30.Application;
 
-public record GraphCommand(string Command, string CommandType) : IRequest<string?>;
+public record GraphCommand(string Command, string CommandType, string ClientIp) : IRequest<string?>;
 
 public class GraphCommandHandler(ILogger<GraphCommand> logger, ICurrentUserService currentUserService, 
     IRtuStationsRepository rtuStationsRepository, IBaseRefRepairman baseRefRepairman,
@@ -20,7 +20,7 @@ public class GraphCommandHandler(ILogger<GraphCommand> logger, ICurrentUserServi
             throw new ArgumentException("Failed deserialize command");
         }
 
-        var result = await eventStoreService.SendCommand(cmd, currentUserService.UserName, "");
+        var result = await eventStoreService.SendCommand(cmd, currentUserService.UserName, request.ClientIp);
         if (!string.IsNullOrEmpty(result))
         {
             logger.LogError(result);

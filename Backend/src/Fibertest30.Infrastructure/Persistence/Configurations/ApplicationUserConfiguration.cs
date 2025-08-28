@@ -18,5 +18,9 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
         builder.Property(b => b.JobTitle)
             .IsRequired()
             .HasMaxLength(100);
+
+        builder.Property(b => b.ZoneId)
+            .IsRequired()
+            .HasMaxLength(36);
     }
 }

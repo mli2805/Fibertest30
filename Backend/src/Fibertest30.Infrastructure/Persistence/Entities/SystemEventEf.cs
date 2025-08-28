@@ -14,7 +14,7 @@ public class SystemEventEf
     public string JsonData { get; set; } = null!;
     public DateTime At { get; set; }
     
-    [MaxLength(100)]
+    [MaxLength(255)]
     public string? UserId { get; init; }
     
     [MaxLength(100)]

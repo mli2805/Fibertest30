@@ -73,7 +73,6 @@ public static class ConfigureServices
 
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IUsersRepository, UsersRepository>();
-        services.AddScoped<INotificationRepository, NotificationRepository>();
         services.AddScoped<IUserSettingsRepository, UserSettingsRepository>();
         services.AddScoped<INotificationSettingsRepository, NotificationSettingsRepository>();
         services.AddScoped<ISystemEventRepository, SystemEventRepository>();

@@ -43,7 +43,7 @@ export class ReturnCodePipe implements PipeTransform {
         return 'i18n.ft.measurement-timeout';
 
       case ReturnCode.ClientRegisteredSuccessfully:
-        return 'i18n.ft.client-registered';
+        return 'OK';
       case ReturnCode.NoSuchUserOrWrongPassword:
         return 'i18n.ft.auth-failed';
       case ReturnCode.NoLicenseHasBeenAppliedYet:

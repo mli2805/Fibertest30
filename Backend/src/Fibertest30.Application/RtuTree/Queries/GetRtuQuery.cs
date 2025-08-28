@@ -11,8 +11,9 @@ public class GetRtuQueryHandler(Model writeModel, ICurrentUserService currentUse
     public Task<RtuDto> Handle(GetRtuQuery request, CancellationToken cancellationToken)
     {
         var userId = currentUserService.UserId!;
-        User user = writeModel.Users.FirstOrDefault(u => u.Title == userId) ?? writeModel.Users.First(u => u.Title == "root");
-        return Task.FromResult(writeModel.GetRtu(request.RtuId, user));
+        // временно
+        var zoneId = Guid.Empty;
+        return Task.FromResult(writeModel.GetRtu(request.RtuId, zoneId));
 
     }
 }

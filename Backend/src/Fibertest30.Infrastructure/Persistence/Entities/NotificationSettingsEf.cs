@@ -5,9 +5,10 @@ public class NotificationSettingsEf
 {
     public int Id { get; init; }
     
-    [MaxLength(255)]
+    // это json'ы со всеми настройками
+    [MaxLength(2000)]
     public string EmailServer { get; set; } = null!;
     
-    [MaxLength(255)]
+    [MaxLength(2000)]
     public string TrapReceiver { get; set; } = null!;
 }

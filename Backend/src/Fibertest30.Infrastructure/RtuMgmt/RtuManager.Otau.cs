@@ -39,7 +39,7 @@ public partial class RtuManager
             MasterPort = dto.OpticalPort,
             IsOk = result.IsAttached,
         };
-        var answer = await _eventStoreService.SendCommand(cmd, _currentUserService.UserName, "");
+        var answer = await _eventStoreService.SendCommand(cmd, _currentUserService.UserName, dto.ClientIp);
         return string.IsNullOrEmpty(answer) ? result : new OtauAttachedDto(ReturnCode.Error);
     }
 
@@ -81,7 +81,7 @@ public partial class RtuManager
                 .Select(t => t.TraceId)
                 .ToList(),
         };
-        var answer = await _eventStoreService.SendCommand(cmd, _currentUserService.UserName, "");
+        var answer = await _eventStoreService.SendCommand(cmd, _currentUserService.UserName, dto.ClientIp);
         return string.IsNullOrEmpty(answer) ? result : new OtauDetachedDto(ReturnCode.Error);
     }
 }

@@ -108,7 +108,7 @@ public class EventStoreService : IEventStoreService
 
             foreach (var cmd in DbSeeds.Collection)
                 await SendCommand(cmd, "developer", "OnServer");
-            _logger.LogInformation("Empty graph is seeded with default zone and users.");
+            _logger.LogInformation("Empty graph is seeded with default zone. NO users.");
         }
 
         var eventMessages = _eventStoreInitializer.EventStream.CommittedEvents.ToList();

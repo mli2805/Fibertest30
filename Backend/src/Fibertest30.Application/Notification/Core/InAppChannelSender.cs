@@ -37,7 +37,6 @@ public class InAppChannelSender : IInAppChannelSender
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var usersRepository = scope.ServiceProvider.GetRequiredService<IUsersRepository>();
-        var notificationRepository = scope.ServiceProvider.GetRequiredService<INotificationRepository>();
         
         
         var rules = SystemEventSupportedNotificationRules.Map[systemEvent.Type];
@@ -56,8 +55,7 @@ public class InAppChannelSender : IInAppChannelSender
             var sendInAppInternalToOthers = inAppInternal && rules[NotificationChannel.InAppInternal]
                                             .HasFlag(NotificationTarget.Others);
             
-            var isSystemEventEnabledInApp = inApp && notificationRepository
-                .IsEnabled(NotificationChannel.InApp, systemEvent.Type, user.User.Id);
+            var isSystemEventEnabledInApp = inApp ;
             
             var sendInAppToMe = isSystemEventEnabledInApp && rules[NotificationChannel.InApp]
                                         .HasFlag(NotificationTarget.Me);
@@ -68,11 +66,7 @@ public class InAppChannelSender : IInAppChannelSender
             
             var me = systemEvent.Source.UserId == user.User.Id;
             
-            // At first, save InApp notification to the database
-            if ((me && sendInAppToMe) || (!me && sendInAppToOthers))
-            {
-                await notificationRepository.AddInAppSystemNotification(systemEvent.Id, user.User.Id);
-            }
+           
 
             // Second, notify those who are online
             var sendInAppInternal = (me && sendInAppInternalToMe) || (!me && sendInAppInternalToOthers);

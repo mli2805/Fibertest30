@@ -80,42 +80,12 @@ public class CoreService : Core.CoreBase
         var systemEvents = await _mediator.Send(
             new GetUserSystemNotificationsQuery(),
             context.CancellationToken);
-
+  
         var response = new GetUserSystemNotificationsResponse()
         {
             SystemEvents = { systemEvents.Select(x => x.ToProto()) }
         };
         
-        return response;
-    }
-
-    public override async Task<DismissUserSystemNotificationResponse> DismissUserSystemNotification(DismissUserSystemNotificationRequest request, ServerCallContext context)
-    {
-        await _mediator.Send(
-            new DismissUserSystemNotificationCommand(request.SystemEventId),
-            context.CancellationToken);
-
-        var response = new DismissUserSystemNotificationResponse();
-        return response;
-    }
-
-    public override async Task<DismissUserSystemNotificationsByLevelResponse> DismissUserSystemNotificationsByLevel(DismissUserSystemNotificationsByLevelRequest request, ServerCallContext context)
-    {
-        await _mediator.Send(
-            new DismissUserSystemNotificationsByLevelCommand(request.SystemEventLevel.FromProto()),
-            context.CancellationToken);
-
-        var response = new DismissUserSystemNotificationsByLevelResponse();
-        return response;
-    }
-
-    public override async Task<DismissAllUserSystemNotificationsResponse> DismissAllUserSystemNotifications(DismissAllUserSystemNotificationsRequest request, ServerCallContext context)
-    {
-        await _mediator.Send(
-            new DismissAllUserSystemNotificationsCommand(),
-            context.CancellationToken);
-
-        var response = new DismissAllUserSystemNotificationsResponse();
         return response;
     }
 

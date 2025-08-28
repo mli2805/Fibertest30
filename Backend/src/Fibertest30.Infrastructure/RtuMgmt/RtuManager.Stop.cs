@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 namespace Fibertest30.Infrastructure;
 public partial class RtuManager
 {
-    public async Task<RequestAnswer> StopMonitoring(Guid rtuId)
+    public async Task<RequestAnswer> StopMonitoring(Guid rtuId, string clientIp)
     {
         // проверить не занят ли
         if (!_rtuOccupationService.TrySetOccupation(rtuId, RtuOccupation.MonitoringSettings,
@@ -25,7 +25,7 @@ public partial class RtuManager
         if (requestAnswer.ReturnCode == ReturnCode.Ok)
         {
             var cmd = new StopMonitoring() { RtuId = rtuId };
-            var result = await _eventStoreService.SendCommand(cmd, _currentUserService.UserName, "");
+            var result = await _eventStoreService.SendCommand(cmd, _currentUserService.UserName, clientIp);
             if (result != null)
             {
                 _logger.LogError(result);
