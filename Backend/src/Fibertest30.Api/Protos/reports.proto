@@ -19,6 +19,7 @@ message UserActionLine {
 	string rtuTitle = 6;
 	string traceTitle = 7;
 	string operationParams = 8;
+	string userFullName = 9;
 }
 
 // GetUserActionLines

@@ -20,6 +20,14 @@ public class UserSettings
     public bool SwitchOffSuspicionSignalling { get; set; } = false;
     public bool SwitchOffRtuStatusEventsSignalling { get; set; } = false;
 
-  
+    public string GetCulture()
+    {
+        switch (Language)
+        {
+            case "ru": return "ru-RU";
+            case "en": return "en-US";
+        }
 
+        return "en-US";
+    }
 }

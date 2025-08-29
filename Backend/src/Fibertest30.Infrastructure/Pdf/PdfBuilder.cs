@@ -1,19 +1,13 @@
-﻿using Iit.Fibertest.Graph;
-
-namespace Fibertest30.Infrastructure
+﻿namespace Fibertest30.Infrastructure
 {
-    public class PdfBuilder(Model writeModel) : IPdfBuilder
+    public class PdfBuilder() : IPdfBuilder
     {
-        public byte[]?  GenerateUserActionsReport(Guid userId, DateTimeFilter dateTimeFilter, List<int> operationCodes)
+        public byte[]?  GenerateUserActionsReport(List<UserActionLine> logLines, string culture)
         {
-            var logLines = writeModel.GetFilteredUserActions(userId, dateTimeFilter, operationCodes);
-            //var userCulture = "en-US"; // TODO получать по userId из настроек
-            var userCulture = "ru-RU"; // TODO получать по userId из настроек
-
             var generator = new UserActionsReportGenerator();
             try
             {
-                var pdfDocument = generator.GenerateReport(logLines, userCulture);
+                var pdfDocument = generator.GenerateReport(logLines, culture);
                 // Сохраняем PDF в память
                 using var stream = new MemoryStream();
                 pdfDocument.Save(stream, false); // false = leave stream open

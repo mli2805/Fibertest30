@@ -13,6 +13,7 @@ export class ReportingMapping {
     line.rtuTitle = grpcLine.rtuTitle;
     line.traceTitle = grpcLine.traceTitle;
     line.operationParams = grpcLine.operationParams;
+    line.userFullName = grpcLine.userFullName;
     return line;
   }
 }

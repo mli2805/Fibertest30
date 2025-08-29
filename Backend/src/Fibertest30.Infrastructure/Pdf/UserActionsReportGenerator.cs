@@ -2,7 +2,6 @@
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using PdfSharp.Fonts;
 using System.Globalization;
@@ -12,7 +11,7 @@ namespace Fibertest30.Infrastructure
 
     public class UserActionsReportGenerator
     {
-        public PdfDocument GenerateReport(List<LogLine> logLines, string userCulture)
+        public PdfDocument GenerateReport(List<UserActionLine> logLines, string userCulture)
         {
             var culture = new CultureInfo(userCulture); 
             // Установка культуры для текущего потока
@@ -80,7 +79,8 @@ namespace Fibertest30.Infrastructure
                 row.Cells[0].AddParagraph(log.Ordinal.ToString());
                 row.Cells[1].AddParagraph(log.Username);
                 row.Cells[2].AddParagraph(log.ClientIp ?? "");
-                row.Cells[3].AddParagraph(log.Timestamp.ToString("dd.MM.yyyy HH:mm:ss"));
+                //row.Cells[3].AddParagraph(log.Timestamp.ToString("dd.MM.yyyy HH:mm:ss"));
+                row.Cells[3].AddParagraph(log.Timestamp.ToString(CultureInfo.CurrentUICulture));
                 row.Cells[4].AddParagraph(log.OperationName);
                 row.Cells[5].AddParagraph(log.RtuTitle ?? "");
                 row.Cells[6].AddParagraph(log.TraceTitle ?? "");

@@ -45,4 +45,5 @@ export class UserActionLine {
   rtuTitle!: string;
   traceTitle!: string;
   operationParams!: string;
+  userFullName!: string;
 }

@@ -41,6 +41,10 @@ export interface UserActionLine {
      * @generated from protobuf field: string operationParams = 8;
      */
     operationParams: string;
+    /**
+     * @generated from protobuf field: string userFullName = 9;
+     */
+    userFullName: string;
 }
 /**
  * GetUserActionLines
@@ -109,7 +113,8 @@ class UserActionLine$Type extends MessageType<UserActionLine> {
             { no: 5, name: "logOperationCode", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 6, name: "rtuTitle", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 7, name: "traceTitle", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 8, name: "operationParams", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 8, name: "operationParams", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 9, name: "userFullName", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

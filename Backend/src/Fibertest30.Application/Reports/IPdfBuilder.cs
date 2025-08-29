@@ -2,6 +2,6 @@
 
 public interface IPdfBuilder
 {
-    byte[]? GenerateUserActionsReport(Guid userId, DateTimeFilter dateTimeFilter, List<int> operationCodes);
+    byte[]? GenerateUserActionsReport(List<UserActionLine> lines, string culture);
 
 }

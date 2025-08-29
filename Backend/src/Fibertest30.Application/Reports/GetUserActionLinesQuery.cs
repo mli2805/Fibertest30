@@ -3,32 +3,20 @@ using MediatR;
 
 namespace Fibertest30.Application;
 
-public record GetUserActionLinesQuery(Guid UserId, DateTimeFilter DateTimeFilter, List<int> OperationCodes) : IRequest<List<LogLine>>;
+public record GetUserActionLinesQuery(Guid UserId, DateTimeFilter DateTimeFilter, List<int> OperationCodes) : 
+    IRequest<List<UserActionLine>>;
 
-public class GetUserActionLinesQueryHandler(Model writeModel, IPdfBuilder pdfBuilder) : IRequestHandler<GetUserActionLinesQuery, List<LogLine>>
+public class GetUserActionLinesQueryHandler(Model writeModel, IUsersRepository usersRepository)
+    : IRequestHandler<GetUserActionLinesQuery, List<UserActionLine>>
 {
-    public Task<List<LogLine>> Handle(GetUserActionLinesQuery request, CancellationToken cancellationToken)
+    public async Task<List<UserActionLine>> Handle(GetUserActionLinesQuery request, CancellationToken cancellationToken)
     {
-        var lines = writeModel.GetFilteredUserActions(request.UserId, request.DateTimeFilter, request.OperationCodes);
+        var users = await usersRepository.GetAllUsers();
 
-        return Task.FromResult(lines);
+        var lines = writeModel
+            .GetFilteredUserActions(users, request.UserId, request.DateTimeFilter, request.OperationCodes);
+
+        return lines;
     }
 }
 
-public static class UserActionsExt
-{
-    public static List<LogLine> GetFilteredUserActions(this Model writeModel, 
-        Guid userId, DateTimeFilter dateTimeFilter, List<int> operationCodes)
-    {
-        // фильтрацию по пользователям позже
-
-        // date: по  SearchWindow
-        var period = dateTimeFilter.SearchWindow!;
-        var logOfPeriod = writeModel.UserActionsLog
-            .Where(l => l.Timestamp >= period.Start && l.Timestamp <= period.End);
-
-        var lines = logOfPeriod.Where(l => operationCodes.Contains((int)l.OperationCode));
-        return lines.ToList();
-
-    }
-}

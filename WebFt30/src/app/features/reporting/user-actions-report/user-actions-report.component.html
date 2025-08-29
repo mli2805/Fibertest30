@@ -67,7 +67,7 @@
         <tbody>
           <tr *ngFor="let line of lines">
             <td class="text-center">{{ line.ordinal }}</td>
-            <td class="text-center">{{ line.username }}</td>
+            <td class="text-center">{{ line.userFullName }}</td>
             <td class="min-w-16 text-center">{{ line.clientIp }}</td>
             <td class="text-center">{{ line.registeredAt | rtuDateTime : 'medium' }}</td>
             <td class="text-center">

@@ -130,6 +130,7 @@ export class UserActionsReportComponent implements OnInit {
 
   onUserFilterChanged(userFilter: UserFilterOption) {
     this.selectedUser = userFilter;
+    this.refresh();
   }
 
   dateChange(dateRange: PickDateRange) {

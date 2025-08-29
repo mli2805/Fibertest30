@@ -109,7 +109,7 @@ public class RtuLinuxPollster(IConfiguration configuration, ILogger<RtuLinuxPoll
         {
             using var scope = serviceScopeFactory.CreateScope();
             var userRepository = scope.ServiceProvider.GetRequiredService<IUsersRepository>();
-            var user = await userRepository.GetUser(dto.ConnectionId);
+            var user = await userRepository.GetUserById(dto.ConnectionId);
 
             logger.LogInformation($"Process measurement(Client) {dto.ClientMeasurementId.First6()} for user {user.User.UserName}");
 

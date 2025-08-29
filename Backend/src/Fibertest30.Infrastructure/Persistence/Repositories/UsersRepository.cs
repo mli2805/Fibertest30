@@ -40,13 +40,19 @@ public class UsersRepository : IUsersRepository
         return users;
     }
 
-    public async Task<AuthenticatedUser> GetUser(string userId)
+    public async Task<AuthenticatedUser> GetUserById(string userId)
     {
         // GetAllUsers is used instead of going to the database as users are cached here
         var allUsers = await GetAllUsers();
         return allUsers.Single(x => x.User.Id == userId);
     }
-    
+
+    public async Task<AuthenticatedUser?> GetUserByLogin(string login)
+    {
+        var allUsers = await GetAllUsers();
+        return allUsers.FirstOrDefault(x => x.User.UserName == login);
+    }
+
     public async Task<bool> IsUserExist(string userId)
     {
         var allUsers = await GetAllUsers();
@@ -245,19 +251,4 @@ public class UsersRepository : IUsersRepository
         };
     }
 
-    // private ApplicationUser AddUser(ApplicationUserPatch patch)
-    // {
-    //     var newUser = new ApplicationUser()
-    //     {
-    //         Id = Guid.NewGuid().ToString(),
-    //         UserName = patch.UserName!,
-    //         FirstName = patch.FirstName!,
-    //         LastName = patch.LastName!,
-    //         Email = patch.Email!,
-    //         PhoneNumber = patch.PhoneNumber ?? "",
-    //         JobTitle = patch.JobTitle ?? "",
-    //     };
-    //     _serverDbContext.Users.Add(newUser);
-    //     return newUser;
-    // }
 }
