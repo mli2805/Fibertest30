@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ErrorHandler, NgModule, Optional, SkipSelf } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
@@ -38,89 +38,78 @@ import { RtuAccidentsEffects } from './store/rtu-accidents/rtu-accidents.effects
 import { LandmarksModelsEffects } from './store/landmarks/landmarks-models.effects';
 import { ReportingEffects } from './store/reporting/reporting.effects';
 
-@NgModule({
-  imports: [
-    // angular
-    CommonModule,
-    HttpClientModule,
-    FormsModule,
-
-    // angular cdk
-    DialogModule,
-
-    // 3rd party
-    TranslateModule.forRoot({
-      defaultLanguage: 'en',
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (http: HttpClient) => new RtuTranslateLoader(http),
-        deps: [HttpClient]
-      }
-    }),
-
-    // ngrx
-    StoreModule.forRoot(reducers, {
-      metaReducers,
-      runtimeChecks: {
-        strictStateImmutability: !environment.production,
-        strictActionImmutability: false,
-        strictStateSerializability: false,
-        strictActionSerializability: false,
-        strictActionWithinNgZone: !environment.production,
-        strictActionTypeUniqueness: !environment.production
-      }
-    }),
-    EffectsModule.forRoot([
-      AuthEffects,
-      SettingsEffects,
-      DeviceEffects,
-      SystemNotificationEffects,
-      UsersEffects,
-      RolesEffects,
-      GlobalUiEffects,
-      SystemEventsEffects,
-      OpticalEventsEffects,
-      NetworkEventsEffects,
-      BopEventsEffects,
-      RtuAccidentsEffects,
-      NotificationSettingsEffects,
-
-      RtuTreeEffects,
-      RtuMgmtEffects,
-      LandmarksModelsEffects,
-      ReportingEffects
-    ]),
-    StoreRouterConnectingModule.forRoot(), //setup dev tools
-    environment.production
-      ? []
-      : StoreDevtoolsModule.instrument({
-          name: 'Rfts400',
-          actionsBlocklist: ['[Test Queue] Set Current', '[Test Queue] Set Last']
+@NgModule({ declarations: [
+        ErrorPageComponent,
+        LoginPageComponent,
+        UserSettingsDialogComponent,
+        DatetimeFormatSwitcherComponent
+    ],
+    exports: [
+        // angular
+        FormsModule,
+        TranslateModule,
+        UserSettingsDialogComponent,
+        DatetimeFormatSwitcherComponent
+    ], imports: [
+        // angular
+        CommonModule,
+        FormsModule,
+        // angular cdk
+        DialogModule,
+        // 3rd party
+        TranslateModule.forRoot({
+            defaultLanguage: 'en',
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (http: HttpClient) => new RtuTranslateLoader(http),
+                deps: [HttpClient]
+            }
         }),
-
-    // app
-    SharedModule,
-    StartPageModule
-  ],
-  declarations: [
-    ErrorPageComponent,
-    LoginPageComponent,
-    UserSettingsDialogComponent,
-    DatetimeFormatSwitcherComponent
-  ],
-  providers: [
-    { provide: RouterStateSerializer, useClass: CustomSerializer },
-    { provide: ErrorHandler, useClass: AppErrorHandler }
-  ],
-  exports: [
-    // angular
-    FormsModule,
-
-    TranslateModule,
-    UserSettingsDialogComponent,
-    DatetimeFormatSwitcherComponent
-  ]
-})
+        // ngrx
+        StoreModule.forRoot(reducers, {
+            metaReducers,
+            runtimeChecks: {
+                strictStateImmutability: !environment.production,
+                strictActionImmutability: false,
+                strictStateSerializability: false,
+                strictActionSerializability: false,
+                strictActionWithinNgZone: !environment.production,
+                strictActionTypeUniqueness: !environment.production
+            }
+        }),
+        EffectsModule.forRoot([
+            AuthEffects,
+            SettingsEffects,
+            DeviceEffects,
+            SystemNotificationEffects,
+            UsersEffects,
+            RolesEffects,
+            GlobalUiEffects,
+            SystemEventsEffects,
+            OpticalEventsEffects,
+            NetworkEventsEffects,
+            BopEventsEffects,
+            RtuAccidentsEffects,
+            NotificationSettingsEffects,
+            RtuTreeEffects,
+            RtuMgmtEffects,
+            LandmarksModelsEffects,
+            ReportingEffects
+        ]),
+        StoreRouterConnectingModule.forRoot(), //setup dev tools
+        environment.production
+            ? []
+            : StoreDevtoolsModule.instrument({
+                name: 'Rfts400',
+                actionsBlocklist: ['[Test Queue] Set Current', '[Test Queue] Set Last']
+            }),
+        // app
+        SharedModule,
+        StartPageModule], providers: [
+        { provide: RouterStateSerializer, useClass: CustomSerializer },
+        { provide: ErrorHandler, useClass: AppErrorHandler },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class CoreModule {
   constructor(
     @Optional()

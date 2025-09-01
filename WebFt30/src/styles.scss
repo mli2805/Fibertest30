@@ -422,7 +422,7 @@ $ft-theme: mat.define-light-theme(
 }
 
 /* cdk dialog */
-@import '~@angular/cdk/overlay-prebuilt.css';
+@import '@angular/cdk/overlay-prebuilt.css';
 
 .cdk-dialog-container {
   outline: none;
