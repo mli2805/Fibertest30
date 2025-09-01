@@ -1,5 +1,5 @@
 import * as grpc from 'src/grpc-generated';
-import * as L from 'leaflet';
+import L from 'leaflet';
 import {
   AllGeoData,
   FiberInfo,

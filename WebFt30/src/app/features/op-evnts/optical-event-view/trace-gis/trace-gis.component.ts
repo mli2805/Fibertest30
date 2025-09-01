@@ -1,4 +1,4 @@
-import * as L from 'leaflet';
+import L from 'leaflet';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { OpticalEvent } from 'src/app/core/store/models/ft30/optical-event';
 import { CoreUtils } from 'src/app/core/core.utils';

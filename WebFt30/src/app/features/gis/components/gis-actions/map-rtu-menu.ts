@@ -1,4 +1,4 @@
-import * as L from 'leaflet';
+import L from 'leaflet';
 import 'leaflet-contextmenu';
 import { Dialog } from '@angular/cdk/dialog';
 import { Injector } from '@angular/core';

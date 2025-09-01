@@ -1,4 +1,4 @@
-import * as L from 'leaflet';
+import L from 'leaflet';
 import { MapActions } from './map-actions';
 import { EquipmentType } from 'src/grpc-generated';
 import { TranslateService } from '@ngx-translate/core';

@@ -1,4 +1,4 @@
-import * as L from 'leaflet';
+import L from 'leaflet';
 import { TranslateService } from '@ngx-translate/core';
 import { Injector } from '@angular/core';
 import { GisMapService } from '../../gis-map.service';

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { GisMapLayer } from './components/shared/gis-map-layer';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AllGeoData, GeoFiber, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
-import * as L from 'leaflet';
+import L from 'leaflet';
 import { GisMapUtils } from './components/shared/gis-map.utils';
 import { StepModel } from './forms/trace-define/step-model';
 

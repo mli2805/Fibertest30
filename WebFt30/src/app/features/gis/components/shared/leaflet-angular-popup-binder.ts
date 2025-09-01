@@ -5,7 +5,7 @@ import {
   EnvironmentInjector,
   Type
 } from '@angular/core';
-import * as L from 'leaflet';
+import L from 'leaflet';
 
 interface LastPopup {
   componentRef: ComponentRef<any>;

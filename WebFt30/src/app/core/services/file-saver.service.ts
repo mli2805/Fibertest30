@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import * as saveAs from 'file-saver';
+import { saveAs } from 'file-saver';
 import { AppState } from '../core.state';
 import { Store } from '@ngrx/store';
-import { CoreUtils } from '../core.utils';
 
 @Injectable({ providedIn: 'root' })
 export class FileSaverService {

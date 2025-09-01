@@ -3,7 +3,7 @@ import { GisMapService } from '../../gis-map.service';
 import { firstValueFrom } from 'rxjs';
 import { GisService } from 'src/app/core/grpc/services/gis.service';
 import { GisMapping } from 'src/app/core/store/mapping/gis-mappings';
-import * as L from 'leaflet';
+import L from 'leaflet';
 import { MapLayersActions } from './map-layers-actions';
 import { Utils } from 'src/app/shared/utils/utils';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';

@@ -12,7 +12,7 @@ import { OpticalEvent } from 'src/app/core/store/models/ft30/optical-event';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
 import { SorResultBaselineComponent } from '../../fiberizer-core/components/viewer-providers';
 import { EventTablesMapping } from 'src/app/core/store/mapping/event-tables-mapping';
-import { FileSaverService } from 'src/app/core/grpc/services/file-saver.service';
+import { FileSaverService } from 'src/app/core/services/file-saver.service';
 import { RtuDateTimePipe } from 'src/app/shared/pipes/datetime.pipe';
 import { RftsEventsService } from 'src/app/core/grpc/services/rfts-events.service';
 import { RftsEventsMapping } from 'src/app/core/store/mapping/rfts-events-mapping';

@@ -1,4 +1,4 @@
-import * as L from 'leaflet';
+import L from 'leaflet';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { EquipmentType } from 'src/grpc-generated';
 import { GisMapLayer } from './gis-map-layer';

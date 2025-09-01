@@ -1,4 +1,4 @@
-import * as L from 'leaflet';
+import L from 'leaflet';
 import { Injector } from '@angular/core';
 import { GisMapService } from '../../gis-map.service';
 import { GisIconWithZIndex, GisMapIcons } from '../shared/gis-map-icons';

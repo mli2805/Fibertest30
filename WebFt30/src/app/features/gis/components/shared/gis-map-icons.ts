@@ -1,4 +1,4 @@
-import * as L from 'leaflet';
+import L from 'leaflet';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { ColorUtils } from 'src/app/shared/utils/color-utils';
 import { TraceNode } from 'src/app/core/store/models/ft30/geo-data';

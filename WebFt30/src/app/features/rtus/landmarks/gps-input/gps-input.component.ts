@@ -1,4 +1,4 @@
-import * as L from 'leaflet';
+import L from 'leaflet';
 import { Component, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState, SettingsSelectors } from 'src/app/core';

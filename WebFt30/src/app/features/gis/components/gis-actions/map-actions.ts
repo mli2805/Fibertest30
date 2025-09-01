@@ -1,4 +1,4 @@
-import * as L from 'leaflet';
+import L from 'leaflet';
 import { GraphService } from 'src/app/core/grpc';
 import { GeoEquipment, TraceNode } from 'src/app/core/store/models/ft30/geo-data';
 import { EquipmentType } from 'src/grpc-generated';

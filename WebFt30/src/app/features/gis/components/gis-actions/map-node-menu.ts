@@ -1,5 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
-import * as L from 'leaflet';
+import L from 'leaflet';
 import 'leaflet-contextmenu';
 import { GisMapService } from '../../gis-map.service';
 import { Injector } from '@angular/core';

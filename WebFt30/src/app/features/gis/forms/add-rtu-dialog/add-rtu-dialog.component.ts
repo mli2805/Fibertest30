@@ -54,9 +54,11 @@ export class AddRtuDialogComponent implements OnInit {
       return;
     }
 
-    this.payload.mode === RtuInfoMode.AddRtu
-      ? await this.onCloseAddRtu(node)
-      : await this.onCloseUpdateRtu(node);
+    if (this.payload.mode === RtuInfoMode.AddRtu) {
+      await this.onCloseAddRtu(node);
+    } else {
+      await this.onCloseUpdateRtu(node);
+    }
 
     this.close();
   }
