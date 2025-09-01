@@ -4,23 +4,16 @@ using MediatR;
 namespace Fibertest30.Application;
 public record GetRtuAccidentsQuery(bool Current, DateTimeFilter DateTimeFilter, int PortionSize) : IRequest<List<RtuAccidentDto>>;
 
-public class GetRtuAccidentsQueryHandler : IRequestHandler<GetRtuAccidentsQuery, List<RtuAccidentDto>>
+public class GetRtuAccidentsQueryHandler(ICurrentUserService currentUserService,
+    IUsersRepository usersRepository, TableProvider tableProvider)
+    : IRequestHandler<GetRtuAccidentsQuery, List<RtuAccidentDto>>
 {
-    private readonly ICurrentUserService _currentUserService;
-    private readonly TableProvider _tableProvider;
-
-    public GetRtuAccidentsQueryHandler(ICurrentUserService currentUserService, TableProvider tableProvider)
+    public async Task<List<RtuAccidentDto>> Handle(GetRtuAccidentsQuery request, CancellationToken cancellationToken)
     {
-        _currentUserService = currentUserService;
-        _tableProvider = tableProvider;
-    }
-
-    public Task<List<RtuAccidentDto>> Handle(GetRtuAccidentsQuery request, CancellationToken cancellationToken)
-    {
-        var userId = _currentUserService.UserId;
-        var portion = _tableProvider
-            .GetRtuAccidents(Guid.Parse(userId!), request.Current, request.DateTimeFilter, request.PortionSize);
-        return Task.FromResult(portion);
+        var user = await usersRepository.GetUserById(currentUserService.UserId!);
+        var portion = tableProvider
+            .GetRtuAccidents(user.User.ZoneId, request.Current, request.DateTimeFilter, request.PortionSize);
+        return portion;
     }
 }
 

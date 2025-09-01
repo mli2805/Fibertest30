@@ -4,23 +4,16 @@ using MediatR;
 namespace Fibertest30.Application;
 public record GetBopEventsQuery(bool Current, DateTimeFilter DateTimeFilter, int PortionSize) : IRequest<List<BopEventDto>>;
 
-public class GetBopEventsQueryHandler : IRequestHandler<GetBopEventsQuery, List<BopEventDto>>
+public class GetBopEventsQueryHandler(ICurrentUserService currentUserService, 
+    IUsersRepository usersRepository, TableProvider tableProvider)
+    : IRequestHandler<GetBopEventsQuery, List<BopEventDto>>
 {
-    private readonly ICurrentUserService _currentUserService;
-    private readonly TableProvider _tableProvider;
-
-    public GetBopEventsQueryHandler(ICurrentUserService currentUserService, TableProvider tableProvider)
+    public async Task<List<BopEventDto>> Handle(GetBopEventsQuery request, CancellationToken cancellationToken)
     {
-        _currentUserService = currentUserService;
-        _tableProvider = tableProvider;
-    }
-
-    public Task<List<BopEventDto>> Handle(GetBopEventsQuery request, CancellationToken cancellationToken)
-    {
-        var userId = _currentUserService.UserId;
-        var portion = _tableProvider
-            .GetBopEvents(Guid.Parse(userId!), request.Current, request.DateTimeFilter, request.PortionSize);
-        return Task.FromResult(portion);
+        var user = await usersRepository.GetUserById(currentUserService.UserId!);
+        var portion = tableProvider
+            .GetBopEvents(user.User.ZoneId, request.Current, request.DateTimeFilter, request.PortionSize);
+        return portion;
     }
 }
 

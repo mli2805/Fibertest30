@@ -5,23 +5,16 @@ namespace Fibertest30.Application;
 
 public record GetNetworkEventsQuery(bool Current, DateTimeFilter DateTimeFilter, int PortionSize) : IRequest<List<NetworkEventDto>>;
 
-public class GetNetworkEventsQueryHandler : IRequestHandler<GetNetworkEventsQuery, List<NetworkEventDto>>
+public class GetNetworkEventsQueryHandler(ICurrentUserService currentUserService, 
+    IUsersRepository usersRepository, TableProvider tableProvider)
+    : IRequestHandler<GetNetworkEventsQuery, List<NetworkEventDto>>
 {
-    private readonly ICurrentUserService _currentUserService;
-    private readonly TableProvider _tableProvider;
-
-    public GetNetworkEventsQueryHandler(ICurrentUserService currentUserService, TableProvider tableProvider)
+    public async Task<List<NetworkEventDto>> Handle(GetNetworkEventsQuery request, CancellationToken cancellationToken)
     {
-        _currentUserService = currentUserService;
-        _tableProvider = tableProvider;
-    }
-
-    public Task<List<NetworkEventDto>> Handle(GetNetworkEventsQuery request, CancellationToken cancellationToken)
-    {
-        var userId = _currentUserService.UserId;
-        var portion = _tableProvider
-            .GetNetworkEvents(Guid.Parse(userId!), request.Current, request.DateTimeFilter, request.PortionSize);
-        return Task.FromResult(portion);
+        var user = await usersRepository.GetUserById(currentUserService.UserId!);
+        var portion = tableProvider
+            .GetNetworkEvents(user.User.ZoneId, request.Current, request.DateTimeFilter, request.PortionSize);
+        return portion;
     }
 }
 
