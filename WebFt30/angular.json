@@ -99,16 +99,16 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "rfts400:build:production"
+              "buildTarget": "rfts400:build:production"
             },
             "development": {
-              "browserTarget": "rfts400:build:development"
+              "buildTarget": "rfts400:build:development"
             },
             "server": {
-              "browserTarget": "rfts400:build:server"
+              "buildTarget": "rfts400:build:server"
             },
             "device": {
-              "browserTarget": "rfts400:build:device"
+              "buildTarget": "rfts400:build:device"
             }
           },
           "defaultConfiguration": "development"
@@ -116,7 +116,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "rfts400:build"
+            "buildTarget": "rfts400:build"
           }
         },
         "test": {
