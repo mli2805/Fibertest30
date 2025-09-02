@@ -38,78 +38,83 @@ import { RtuAccidentsEffects } from './store/rtu-accidents/rtu-accidents.effects
 import { LandmarksModelsEffects } from './store/landmarks/landmarks-models.effects';
 import { ReportingEffects } from './store/reporting/reporting.effects';
 
-@NgModule({ declarations: [
-        ErrorPageComponent,
-        LoginPageComponent,
-        UserSettingsDialogComponent,
-        DatetimeFormatSwitcherComponent
-    ],
-    exports: [
-        // angular
-        FormsModule,
-        TranslateModule,
-        UserSettingsDialogComponent,
-        DatetimeFormatSwitcherComponent
-    ], imports: [
-        // angular
-        CommonModule,
-        FormsModule,
-        // angular cdk
-        DialogModule,
-        // 3rd party
-        TranslateModule.forRoot({
-            defaultLanguage: 'en',
-            loader: {
-                provide: TranslateLoader,
-                useFactory: (http: HttpClient) => new RtuTranslateLoader(http),
-                deps: [HttpClient]
-            }
+@NgModule({
+  declarations: [
+    ErrorPageComponent,
+    LoginPageComponent,
+    UserSettingsDialogComponent,
+    DatetimeFormatSwitcherComponent
+  ],
+  exports: [
+    // angular
+    FormsModule,
+    TranslateModule,
+    UserSettingsDialogComponent,
+    DatetimeFormatSwitcherComponent
+  ],
+  imports: [
+    // angular
+    CommonModule,
+    FormsModule,
+    // angular cdk
+    DialogModule,
+    // 3rd party
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (http: HttpClient) => new RtuTranslateLoader(http),
+        deps: [HttpClient]
+      }
+    }),
+    // ngrx
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: !environment.production,
+        strictActionImmutability: false,
+        strictStateSerializability: false,
+        strictActionSerializability: false,
+        strictActionWithinNgZone: !environment.production,
+        strictActionTypeUniqueness: !environment.production
+      }
+    }),
+    EffectsModule.forRoot([
+      AuthEffects,
+      SettingsEffects,
+      DeviceEffects,
+      SystemNotificationEffects,
+      UsersEffects,
+      RolesEffects,
+      GlobalUiEffects,
+      SystemEventsEffects,
+      OpticalEventsEffects,
+      NetworkEventsEffects,
+      BopEventsEffects,
+      RtuAccidentsEffects,
+      NotificationSettingsEffects,
+      RtuTreeEffects,
+      RtuMgmtEffects,
+      LandmarksModelsEffects,
+      ReportingEffects
+    ]),
+    StoreRouterConnectingModule.forRoot(), //setup dev tools
+    environment.production
+      ? []
+      : StoreDevtoolsModule.instrument({
+          name: 'Fibertest30',
+          actionsBlocklist: ['[Test Queue] Set Current', '[Test Queue] Set Last']
         }),
-        // ngrx
-        StoreModule.forRoot(reducers, {
-            metaReducers,
-            runtimeChecks: {
-                strictStateImmutability: !environment.production,
-                strictActionImmutability: false,
-                strictStateSerializability: false,
-                strictActionSerializability: false,
-                strictActionWithinNgZone: !environment.production,
-                strictActionTypeUniqueness: !environment.production
-            }
-        }),
-        EffectsModule.forRoot([
-            AuthEffects,
-            SettingsEffects,
-            DeviceEffects,
-            SystemNotificationEffects,
-            UsersEffects,
-            RolesEffects,
-            GlobalUiEffects,
-            SystemEventsEffects,
-            OpticalEventsEffects,
-            NetworkEventsEffects,
-            BopEventsEffects,
-            RtuAccidentsEffects,
-            NotificationSettingsEffects,
-            RtuTreeEffects,
-            RtuMgmtEffects,
-            LandmarksModelsEffects,
-            ReportingEffects
-        ]),
-        StoreRouterConnectingModule.forRoot(), //setup dev tools
-        environment.production
-            ? []
-            : StoreDevtoolsModule.instrument({
-                name: 'Rfts400',
-                actionsBlocklist: ['[Test Queue] Set Current', '[Test Queue] Set Last']
-            }),
-        // app
-        SharedModule,
-        StartPageModule], providers: [
-        { provide: RouterStateSerializer, useClass: CustomSerializer },
-        { provide: ErrorHandler, useClass: AppErrorHandler },
-        provideHttpClient(withInterceptorsFromDi())
-    ] })
+    // app
+    SharedModule,
+    StartPageModule
+  ],
+  providers: [
+    { provide: RouterStateSerializer, useClass: CustomSerializer },
+    { provide: ErrorHandler, useClass: AppErrorHandler },
+    provideHttpClient(withInterceptorsFromDi())
+  ]
+})
 export class CoreModule {
   constructor(
     @Optional()

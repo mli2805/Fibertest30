@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "rfts400": {
+    "fibertest30": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -97,16 +97,16 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "rfts400:build:production"
+              "buildTarget": "fibertest30:build:production"
             },
             "development": {
-              "buildTarget": "rfts400:build:development"
+              "buildTarget": "fibertest30:build:development"
             },
             "server": {
-              "buildTarget": "rfts400:build:server"
+              "buildTarget": "fibertest30:build:server"
             },
             "device": {
-              "buildTarget": "rfts400:build:device"
+              "buildTarget": "fibertest30:build:device"
             }
           },
           "defaultConfiguration": "development"
@@ -114,7 +114,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "rfts400:build"
+            "buildTarget": "fibertest30:build"
           }
         },
         "test": {
