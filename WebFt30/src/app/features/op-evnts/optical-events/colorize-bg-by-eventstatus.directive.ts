@@ -2,7 +2,8 @@ import { ElementRef, Input, Renderer2, Directive } from '@angular/core';
 import { EventStatus } from 'src/app/core/store/models/ft30/ft-enums';
 
 @Directive({
-  selector: '[rtuColorizeBgByEventStatus]'
+    selector: '[rtuColorizeBgByEventStatus]',
+    standalone: false
 })
 export class EventStatusBgDirective {
   @Input() set rtuColorizeBgByEventStatus(status: EventStatus) {

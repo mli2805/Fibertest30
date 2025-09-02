@@ -30,10 +30,11 @@ import { MapRtuMenu } from '../gis-actions/map-rtu-menu';
 GisMapUtils.fixLeafletMarkers();
 
 @Component({
-  selector: 'rtu-gis-map',
-  templateUrl: './gis-map.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: [':host { overflow-y: auto; width: 100%; height: 100%; }']
+    selector: 'rtu-gis-map',
+    templateUrl: './gis-map.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: [':host { overflow-y: auto; width: 100%; height: 100%; }'],
+    standalone: false
 })
 export class GisMapComponent extends OnDestroyBase implements OnInit, OnDestroy {
   private store: Store<AppState> = inject(Store<AppState>);

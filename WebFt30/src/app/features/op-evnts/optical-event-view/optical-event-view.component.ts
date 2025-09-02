@@ -19,10 +19,11 @@ import { RftsEventsMapping } from 'src/app/core/store/mapping/rfts-events-mappin
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 
 @Component({
-  selector: 'rtu-optical-event-view',
-  templateUrl: './optical-event-view.component.html',
-  styles: [':host { width: 100%; height: 100%; }'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-optical-event-view',
+    templateUrl: './optical-event-view.component.html',
+    styles: [':host { width: 100%; height: 100%; }'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class OpticalEventViewComponent extends OnDestroyBase implements OnInit {
   @ViewChild(SorResultBaselineComponent) resultBaselineComponent!: SorResultBaselineComponent;

@@ -34,9 +34,10 @@ import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-b
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
 
 @Component({
-  selector: 'rtu-trace-assign-base',
-  templateUrl: './trace-assign-base.component.html',
-  styleUrls: ['./trace-assign-base.component.css']
+    selector: 'rtu-trace-assign-base',
+    templateUrl: './trace-assign-base.component.html',
+    styleUrls: ['./trace-assign-base.component.css'],
+    standalone: false
 })
 export class TraceAssignBaseComponent extends OnDestroyBase implements OnInit, AfterViewInit {
   rtuMgmtActions = RtuMgmtActions;

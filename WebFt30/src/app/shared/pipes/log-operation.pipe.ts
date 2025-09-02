@@ -2,7 +2,10 @@ import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import { LogOperationCode } from 'src/app/core/store/models/ft30/user-action-line';
 
 @Injectable({ providedIn: 'root' })
-@Pipe({ name: 'logOperationCodePipe' })
+@Pipe({
+    name: 'logOperationCodePipe',
+    standalone: false
+})
 export class LogOperationCodePipe implements PipeTransform {
   transform(value: LogOperationCode): string {
     switch (value) {

@@ -3,8 +3,9 @@ import { MonitoringState } from 'src/app/core/store/models/ft30/ft-enums';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
 
 @Component({
-  selector: 'rtu-trace-monitoring-mode-pictogram',
-  templateUrl: './trace-monitoring-mode-pictogram.component.html'
+    selector: 'rtu-trace-monitoring-mode-pictogram',
+    templateUrl: './trace-monitoring-mode-pictogram.component.html',
+    standalone: false
 })
 export class TraceMonitoringModePictogramComponent {
   monitoringState = MonitoringState;

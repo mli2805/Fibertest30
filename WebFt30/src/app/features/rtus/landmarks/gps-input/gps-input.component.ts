@@ -5,8 +5,9 @@ import { AppState, SettingsSelectors } from 'src/app/core';
 import { OneCoorInputComponent } from '../one-coor-input/one-coor-input.component';
 
 @Component({
-  selector: 'rtu-gps-input',
-  templateUrl: './gps-input.component.html'
+    selector: 'rtu-gps-input',
+    templateUrl: './gps-input.component.html',
+    standalone: false
 })
 export class GpsInputComponent {
   private store: Store<AppState> = inject(Store<AppState>);

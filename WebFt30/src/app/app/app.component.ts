@@ -17,9 +17,10 @@ import { environment } from 'src/environments/environment';
 const HIDE_DEBUG_TOOLBAR_KEY = 'DEBUG-HideDebugToolbar';
 
 @Component({
-  selector: 'rtu-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'rtu-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: false
 })
 export class AppComponent implements OnInit {
   debugToolbarEnabled = !environment.production;

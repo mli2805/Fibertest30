@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'rtu-open-file-button',
-  template: `
+    selector: 'rtu-open-file-button',
+    template: `
     <div class="cursor-pointer">
       <!-- prettier-ignore -->
       <svg width="24" height="24" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
@@ -13,13 +13,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       </svg>
     </div>
   `,
-  styles: [
-    `
+    styles: [
+        `
       :host {
         display: inline-block;
       }
     `
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class OpenFileButtonComponent {}

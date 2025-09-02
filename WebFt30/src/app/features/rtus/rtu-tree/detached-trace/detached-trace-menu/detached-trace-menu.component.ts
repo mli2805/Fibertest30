@@ -15,15 +15,16 @@ import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-b
 import { Utils } from 'src/app/shared/utils/utils';
 
 @Component({
-  selector: 'rtu-detached-trace-menu',
-  templateUrl: './detached-trace-menu.component.html',
-  styles: [
-    `
+    selector: 'rtu-detached-trace-menu',
+    templateUrl: './detached-trace-menu.component.html',
+    styles: [
+        `
       :host {
         position: relative;
       }
     `
-  ]
+    ],
+    standalone: false
 })
 export class DetachedTraceMenuComponent {
   store: Store<AppState> = inject(Store<AppState>);

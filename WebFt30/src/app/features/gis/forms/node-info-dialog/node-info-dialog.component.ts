@@ -26,9 +26,10 @@ interface TraceElement {
 }
 
 @Component({
-  selector: 'rtu-node-info-dialog',
-  templateUrl: './node-info-dialog.component.html',
-  styleUrls: ['./node-info-dialog.component.css']
+    selector: 'rtu-node-info-dialog',
+    templateUrl: './node-info-dialog.component.html',
+    styleUrls: ['./node-info-dialog.component.css'],
+    standalone: false
 })
 export class NodeInfoDialogComponent implements OnInit {
   isDevMode = !environment.production;

@@ -1,7 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { EquipmentType } from 'src/grpc-generated';
 
-@Pipe({ name: 'equipmentPipe' })
+@Pipe({
+    name: 'equipmentPipe',
+    standalone: false
+})
 export class EquipmentPipe implements PipeTransform {
   transform(equipmentType: EquipmentType) {
     switch (equipmentType) {

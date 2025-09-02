@@ -2,7 +2,8 @@ import { Directive, ElementRef, Renderer2, Input } from '@angular/core';
 import { SystemEventLevel } from 'src/app/core/store/models';
 
 @Directive({
-  selector: '[rtuColorizeBySystemEventLevel], [rtuColorizeBySystemEventLevelWithHover]'
+    selector: '[rtuColorizeBySystemEventLevel], [rtuColorizeBySystemEventLevelWithHover]',
+    standalone: false
 })
 export class SystemEventLevelDirective {
   @Input() set rtuColorizeBySystemEventLevel(level: SystemEventLevel) {

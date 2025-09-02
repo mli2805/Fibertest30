@@ -3,9 +3,10 @@ import { Store } from '@ngrx/store';
 import { AppState, DeviceActions, DeviceSelectors } from 'src/app/core';
 
 @Component({
-  selector: 'rtu-ft-settings',
-  templateUrl: 'ft-settings.component.html',
-  styles: [':host { overflow-y: auto; width: 100%; height: 100%; }']
+    selector: 'rtu-ft-settings',
+    templateUrl: 'ft-settings.component.html',
+    styles: [':host { overflow-y: auto; width: 100%; height: 100%; }'],
+    standalone: false
 })
 export class FtSettingsComponent {
   private store: Store<AppState> = inject(Store<AppState>);

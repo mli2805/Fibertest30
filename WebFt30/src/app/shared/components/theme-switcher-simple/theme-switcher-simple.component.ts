@@ -5,8 +5,9 @@ import { Observable } from 'rxjs';
 import { AppState, AppTheme, SettingsSelectors, SettingsActions } from 'src/app/core';
 
 @Component({
-  selector: 'rtu-theme-switcher-simple',
-  templateUrl: './theme-switcher-simple.component.html'
+    selector: 'rtu-theme-switcher-simple',
+    templateUrl: './theme-switcher-simple.component.html',
+    standalone: false
 })
 export class RtuThemeSwitcherSimpleComponent implements OnInit {
   theme$: Observable<AppTheme> | undefined;

@@ -7,7 +7,7 @@ import { UserChangedData } from '../../system-event-data';
 
 //
 @Component({
-  template: `<div>
+    template: `<div>
     {{ 'i18n.system-events-viewer.user-changed' | translate }}:
     <span class="text-data-highlight" *ngIf="user">{{ user.fullName }}</span>
     <div>
@@ -20,7 +20,8 @@ import { UserChangedData } from '../../system-event-data';
       </span>
     </div>
   </div> `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class UserChangedSystemEventViewerComponent {
   public data!: UserChangedData;

@@ -7,10 +7,11 @@ import { NetworkEvent } from 'src/app/core/store/models/ft30/network-event';
 import { NetworkEventsActions } from 'src/app/core/store/network-events/network-events.actions';
 
 @Component({
-  selector: 'rtu-newtork-events',
-  templateUrl: './newtork-events.component.html',
-  styles: [':host { overflow-y: auto; width: 100%; height: 100%; }'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-newtork-events',
+    templateUrl: './newtork-events.component.html',
+    styles: [':host { overflow-y: auto; width: 100%; height: 100%; }'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class NewtorkEventsComponent implements OnInit {
   networkEventsActions = NetworkEventsActions;

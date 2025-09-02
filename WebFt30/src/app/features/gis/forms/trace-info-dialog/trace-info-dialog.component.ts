@@ -17,8 +17,9 @@ import { GraphService } from 'src/app/core/grpc';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 
 @Component({
-  selector: 'rtu-trace-info-dialog',
-  templateUrl: './trace-info-dialog.component.html'
+    selector: 'rtu-trace-info-dialog',
+    templateUrl: './trace-info-dialog.component.html',
+    standalone: false
 })
 export class TraceInfoDialogComponent {
   rtuId!: string;

@@ -19,10 +19,11 @@ import { NotificationSettingsSelectors } from 'src/app/core/store/notification-s
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'rtu-email-notification-settings',
-  templateUrl: './email-notification-settings.component.html',
-  styleUrls: ['./email-notification-settings.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-email-notification-settings',
+    templateUrl: './email-notification-settings.component.html',
+    styleUrls: ['./email-notification-settings.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class EmailNotificationSettingsComponent implements OnInit {
   @Input() emailServer!: EmailServer;

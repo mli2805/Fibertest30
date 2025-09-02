@@ -10,9 +10,10 @@ import { CoreUtils } from 'src/app/core/core.utils';
 import { SystemNotification, SystemEventLevel, SystemEventSource } from 'src/app/core/store/models';
 
 @Component({
-  selector: 'rtu-system-notifications',
-  templateUrl: 'system-notifications.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-system-notifications',
+    templateUrl: 'system-notifications.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SystemNotificationsComponent {
   levels = SystemEventLevel;

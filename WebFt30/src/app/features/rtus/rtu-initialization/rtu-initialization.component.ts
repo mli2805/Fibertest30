@@ -12,8 +12,9 @@ import { Observable, Subscription } from 'rxjs';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 
 @Component({
-  selector: 'rtu-rtu-initialization',
-  templateUrl: './rtu-initialization.component.html'
+    selector: 'rtu-rtu-initialization',
+    templateUrl: './rtu-initialization.component.html',
+    standalone: false
 })
 export class RtuInitializationComponent implements OnInit, OnDestroy {
   @Input() rtuId!: string;

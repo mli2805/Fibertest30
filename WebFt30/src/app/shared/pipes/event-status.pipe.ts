@@ -1,7 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { EventStatus } from 'src/app/core/store/models/ft30/ft-enums';
 
-@Pipe({ name: 'eventStatusPipe' })
+@Pipe({
+    name: 'eventStatusPipe',
+    standalone: false
+})
 export class EventStatusPipe implements PipeTransform {
   transform(value: EventStatus) {
     switch (value) {

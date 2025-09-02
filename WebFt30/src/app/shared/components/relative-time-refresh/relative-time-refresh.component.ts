@@ -4,9 +4,10 @@ import { OnDestroyBase } from '../on-destroy-base/on-destroy-base';
 import { TimeAgoService } from 'src/app/core';
 
 @Component({
-  selector: 'rtu-relative-time-refresh',
-  templateUrl: 'relative-time-refresh.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-relative-time-refresh',
+    templateUrl: 'relative-time-refresh.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class RelativeTimeRefreshComponent extends OnDestroyBase {
   private loadedTimeChanged = new BehaviorSubject<Date | null>(null);

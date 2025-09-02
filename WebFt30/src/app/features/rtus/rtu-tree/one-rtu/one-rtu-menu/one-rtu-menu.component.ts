@@ -24,15 +24,16 @@ import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-b
 import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
-  selector: 'rtu-one-rtu-menu',
-  templateUrl: './one-rtu-menu.component.html',
-  styles: [
-    `
+    selector: 'rtu-one-rtu-menu',
+    templateUrl: './one-rtu-menu.component.html',
+    styles: [
+        `
       :host {
         position: relative;
       }
     `
-  ]
+    ],
+    standalone: false
 })
 export class OneRtuMenuComponent {
   store: Store<AppState> = inject(Store<AppState>);

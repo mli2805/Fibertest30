@@ -11,10 +11,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { GraphService } from 'src/app/core/grpc';
 
 @Component({
-  selector: 'rtu-trace-state',
-  templateUrl: './trace-state.component.html',
-  styleUrls: ['./trace-state.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-trace-state',
+    templateUrl: './trace-state.component.html',
+    styleUrls: ['./trace-state.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class TraceStateComponent {
   accidentPlace = AccidentPlace;

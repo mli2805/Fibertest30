@@ -6,8 +6,9 @@ import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
 
 @Component({
-  selector: 'rtu-attached-trace',
-  templateUrl: './attached-trace.component.html'
+    selector: 'rtu-attached-trace',
+    templateUrl: './attached-trace.component.html',
+    standalone: false
 })
 export class AttachedTraceComponent {
   public rtu$: Observable<Rtu | null> = EMPTY;

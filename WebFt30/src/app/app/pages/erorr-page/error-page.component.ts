@@ -5,16 +5,17 @@ import { Observable } from 'rxjs';
 import { AppState, GlobalUiSelectors, WindowRefService } from 'src/app/core';
 
 @Component({
-  selector: 'rtu-error-page',
-  templateUrl: 'error-page.component.html',
-  styles: [
-    `
+    selector: 'rtu-error-page',
+    templateUrl: 'error-page.component.html',
+    styles: [
+        `
       :host {
         width: 100%;
         height: 100%;
       }
     `
-  ]
+    ],
+    standalone: false
 })
 export class ErrorPageComponent {
   error$: Observable<string | null>;

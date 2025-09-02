@@ -2,8 +2,9 @@ import { Component, Input } from '@angular/core';
 import { MonitoringThreshold } from 'src/app/core/store/models/ft30/rfts-events-dto';
 
 @Component({
-  selector: 'rtu-threshold',
-  templateUrl: './threshold.component.html'
+    selector: 'rtu-threshold',
+    templateUrl: './threshold.component.html',
+    standalone: false
 })
 export class ThresholdComponent {
   valueStr!: string;

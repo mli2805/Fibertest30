@@ -17,8 +17,9 @@ export class LandmarksUpdateLine {
 }
 
 @Component({
-  selector: 'rtu-landmarks-progress',
-  templateUrl: './landmarks-progress.component.html'
+    selector: 'rtu-landmarks-progress',
+    templateUrl: './landmarks-progress.component.html',
+    standalone: false
 })
 export class LandmarksProgressComponent {
   public dialogRef: DialogRef<ReturnCode> = inject(DialogRef<ReturnCode>);

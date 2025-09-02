@@ -16,9 +16,10 @@ import { BaseRefTypePipe } from 'src/app/shared/pipes/base-ref-type.pipe';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'rtu-trace-statistics',
-  templateUrl: './trace-statistics.component.html',
-  styleUrls: ['./trace-statistics.component.scss']
+    selector: 'rtu-trace-statistics',
+    templateUrl: './trace-statistics.component.html',
+    styleUrls: ['./trace-statistics.component.scss'],
+    standalone: false
 })
 export class TraceStatisticsComponent implements OnInit {
   traceId!: string;

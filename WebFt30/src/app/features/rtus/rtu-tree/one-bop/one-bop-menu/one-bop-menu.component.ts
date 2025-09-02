@@ -9,15 +9,16 @@ import { DetachOtauDto } from 'src/app/core/store/models/ft30/detach-otau-dto';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 
 @Component({
-  selector: 'rtu-one-bop-menu',
-  templateUrl: './one-bop-menu.component.html',
-  styles: [
-    `
+    selector: 'rtu-one-bop-menu',
+    templateUrl: './one-bop-menu.component.html',
+    styles: [
+        `
       :host {
         position: relative;
       }
     `
-  ]
+    ],
+    standalone: false
 })
 export class OneBopMenuComponent {
   store: Store<AppState> = inject(Store<AppState>);

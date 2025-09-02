@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'rtu-double-range-slider',
-  templateUrl: 'double-range-slider.component.html',
-  styleUrls: ['double-range-slider.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-double-range-slider',
+    templateUrl: 'double-range-slider.component.html',
+    styleUrls: ['double-range-slider.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class DoubleRangeSliderComponent {
   @Input() min!: number;

@@ -2,8 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
 
 @Component({
-  selector: 'rtu-otau-monitoring-settings',
-  templateUrl: './otau-monitoring-settings.component.html'
+    selector: 'rtu-otau-monitoring-settings',
+    templateUrl: './otau-monitoring-settings.component.html',
+    standalone: false
 })
 export class OtauMonitoringSettingsComponent {
   _traces!: (Trace | null)[];

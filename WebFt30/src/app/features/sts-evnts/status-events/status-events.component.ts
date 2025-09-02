@@ -9,8 +9,9 @@ import { ReturnCode } from 'src/app/core/store/models/ft30/return-code';
 import { RtuAccident } from 'src/app/core/store/models/ft30/rtu-accident';
 
 @Component({
-  selector: 'rtu-status-events',
-  templateUrl: './status-events.component.html'
+    selector: 'rtu-status-events',
+    templateUrl: './status-events.component.html',
+    standalone: false
 })
 export class StatusEventsComponent implements OnInit {
   rtuAccidentsActions = RtuAccidentsActions;

@@ -3,8 +3,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { EquipmentType } from 'src/grpc-generated';
 
 @Component({
-  selector: 'rtu-equipment-type-selector',
-  templateUrl: './equipment-type-selector.component.html'
+    selector: 'rtu-equipment-type-selector',
+    templateUrl: './equipment-type-selector.component.html',
+    standalone: false
 })
 export class EquipmentTypeSelectorComponent {
   buttons = [

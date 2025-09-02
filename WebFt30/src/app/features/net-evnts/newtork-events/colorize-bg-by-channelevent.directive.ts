@@ -2,7 +2,8 @@ import { ElementRef, Input, Renderer2, Directive } from '@angular/core';
 import { ChannelEvent } from 'src/app/core/store/models/ft30/ft-enums';
 
 @Directive({
-  selector: '[rtuColorizeBgByChannelEvent]'
+    selector: '[rtuColorizeBgByChannelEvent]',
+    standalone: false
 })
 export class ChannelEventBgDirective {
   @Input() set rtuColorizeBgByChannelEvent(status: ChannelEvent) {

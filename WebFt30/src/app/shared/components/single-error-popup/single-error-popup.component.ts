@@ -11,9 +11,10 @@ import { Action, Store } from '@ngrx/store';
 import { AppState } from 'src/app/core';
 
 @Component({
-  selector: 'rtu-single-error-popup',
-  templateUrl: 'single-error-popup.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-single-error-popup',
+    templateUrl: 'single-error-popup.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SingeErrorPopupComponent extends OnDestroyBase implements OnInit {
   @Input(/*{ required: true }*/) errorMessageId$!: Observable<string | null>;

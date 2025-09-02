@@ -1,7 +1,8 @@
 import { ElementRef, Input, Renderer2, Directive } from '@angular/core';
 
 @Directive({
-  selector: '[rtuColorizeBgByIsAvailable]'
+    selector: '[rtuColorizeBgByIsAvailable]',
+    standalone: false
 })
 export class IsAvailableBgDirective {
   @Input() set rtuColorizeBgByIsAvailable(isRtuAvailable: boolean) {

@@ -10,8 +10,9 @@ import { RolesResolver } from 'src/app/app/pages/start-page/components/guards';
 import { CoreUtils } from 'src/app/core/core.utils';
 
 @Component({
-  selector: 'rtu-account-menu',
-  templateUrl: 'account-menu.component.html'
+    selector: 'rtu-account-menu',
+    templateUrl: 'account-menu.component.html',
+    standalone: false
 })
 export class AccountMenuComponent extends OverlayBase {
   currentUser$ = this.store.select(AuthSelectors.selectUser);

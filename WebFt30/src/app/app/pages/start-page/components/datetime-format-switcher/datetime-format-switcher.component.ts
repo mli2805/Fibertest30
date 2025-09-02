@@ -12,8 +12,9 @@ import {
 } from 'src/app/core';
 
 @Component({
-  selector: 'rtu-datetime-format-switcher',
-  templateUrl: 'datetime-format-switcher.component.html'
+    selector: 'rtu-datetime-format-switcher',
+    templateUrl: 'datetime-format-switcher.component.html',
+    standalone: false
 })
 export class DatetimeFormatSwitcherComponent {
   public store: Store<AppState> = inject(Store);

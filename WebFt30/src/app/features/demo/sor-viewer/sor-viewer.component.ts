@@ -4,17 +4,18 @@ import { SorReader, SorTrace } from '@veex/sor';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'rtu-demo-sor-viewer',
-  templateUrl: 'sor-viewer.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: [
-    `
+    selector: 'rtu-demo-sor-viewer',
+    templateUrl: 'sor-viewer.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: [
+        `
       :host {
         width: 100%;
         height: 100%;
       }
     `
-  ]
+    ],
+    standalone: false
 })
 export class DemoSorViewerComponent implements OnInit {
   sorTraces: SorTrace[] | null = null;

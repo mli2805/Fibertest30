@@ -1,8 +1,9 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'rtu-input-password-with-eye',
-  templateUrl: './input-password-with-eye.component.html'
+    selector: 'rtu-input-password-with-eye',
+    templateUrl: './input-password-with-eye.component.html',
+    standalone: false
 })
 export class InputPasswordWithEyeComponent {
   @Input() showPlaceholder!: boolean;

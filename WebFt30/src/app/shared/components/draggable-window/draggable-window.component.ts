@@ -32,9 +32,10 @@ export type ManagedWindow =
   | 'OutOfTurnMeasurement';
 
 @Component({
-  selector: 'rtu-draggable-window',
-  templateUrl: './draggable-window.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-draggable-window',
+    templateUrl: './draggable-window.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class DraggableWindowComponent implements AfterViewInit {
   @ViewChild(CdkDrag) dragRef!: CdkDrag;

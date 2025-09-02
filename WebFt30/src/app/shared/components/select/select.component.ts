@@ -14,36 +14,39 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Directive({
-  selector: '[rtuSelectLabel]'
+    selector: '[rtuSelectLabel]',
+    standalone: false
 })
 export class SelectLabelDirective {
   constructor(public templateRef: TemplateRef<unknown>) {}
 }
 
 @Directive({
-  selector: '[rtuSelectItem]'
+    selector: '[rtuSelectItem]',
+    standalone: false
 })
 export class SelectItemDirective {
   constructor(public templateRef: TemplateRef<unknown>) {}
 }
 
 @Component({
-  selector: 'rtu-select',
-  templateUrl: 'select.component.html',
-  styles: [
-    `
+    selector: 'rtu-select',
+    templateUrl: 'select.component.html',
+    styles: [
+        `
       :host {
         position: relative;
       }
     `
-  ],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: SelectComponent,
-      multi: true
-    }
-  ]
+    ],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: SelectComponent,
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class SelectComponent implements ControlValueAccessor {
   @ContentChild(SelectLabelDirective) labelTemplate!: SelectLabelDirective;

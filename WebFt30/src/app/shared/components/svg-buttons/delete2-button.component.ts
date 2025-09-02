@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 // корзина мусорная, толстые линии
 @Component({
-  selector: 'rtu-delete2-button',
-  template: `
+    selector: 'rtu-delete2-button',
+    template: `
     <div class="cursor-pointer">
       <!-- prettier-ignore -->
       <svg t="1719644744507" class="icon h-5" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="20535">
@@ -13,13 +13,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       </svg>
     </div>
   `,
-  styles: [
-    `
+    styles: [
+        `
       :host {
         display: inline-block;
       }
     `
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class Delete2ButtonComponent {}

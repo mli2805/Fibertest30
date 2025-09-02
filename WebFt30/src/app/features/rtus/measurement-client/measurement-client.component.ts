@@ -31,9 +31,10 @@ import { DefaultParameters } from 'src/app/shared/utils/default-parameters';
 import { ValidationUtils } from 'src/app/shared/utils/validation-utils';
 
 @Component({
-  selector: 'rtu-measurement-client',
-  templateUrl: './measurement-client.component.html',
-  styleUrls: ['./measurement-client.component.css']
+    selector: 'rtu-measurement-client',
+    templateUrl: './measurement-client.component.html',
+    styleUrls: ['./measurement-client.component.css'],
+    standalone: false
 })
 export class MeasurementClientComponent extends OnDestroyBase implements OnInit, OnDestroy {
   rtu!: Rtu;

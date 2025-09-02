@@ -6,10 +6,11 @@ import { SystemEventLevel, SystemEventSource } from 'src/app/core/store/models';
 import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-destroy-base';
 
 @Component({
-  selector: 'rtu-system-events',
-  templateUrl: 'system-events.component.html',
-  styles: [':host { overflow-y: auto; width: 100%; height: 100%; }'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-system-events',
+    templateUrl: 'system-events.component.html',
+    styles: [':host { overflow-y: auto; width: 100%; height: 100%; }'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SystemEventsComponent extends OnDestroyBase {
   systemEventsActions = SystemEventsActions;

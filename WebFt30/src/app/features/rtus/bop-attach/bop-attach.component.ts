@@ -16,8 +16,9 @@ import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
 import { Rtu } from 'src/grpc-generated/rtu_tree';
 
 @Component({
-  selector: 'rtu-bop-attach',
-  templateUrl: './bop-attach.component.html'
+    selector: 'rtu-bop-attach',
+    templateUrl: './bop-attach.component.html',
+    standalone: false
 })
 export class BopAttachComponent implements OnInit {
   @Input() windowId!: string;

@@ -4,8 +4,9 @@ import { GisMapService } from '../../gis-map.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 
 @Component({
-  selector: 'rtu-next-step-selector',
-  templateUrl: './next-step-selector.component.html'
+    selector: 'rtu-next-step-selector',
+    templateUrl: './next-step-selector.component.html',
+    standalone: false
 })
 export class NextStepSelectorComponent {
   buttons!: RadioButton[];

@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'rtu-accident-scheme',
-  templateUrl: './accident-scheme.component.html'
+    selector: 'rtu-accident-scheme',
+    templateUrl: './accident-scheme.component.html',
+    standalone: false
 })
 export class AccidentSchemeComponent {
   @Input() scheme!: string;

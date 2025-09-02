@@ -4,8 +4,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { MessageLine } from './message-line';
 
 @Component({
-  selector: 'rtu-message-box',
-  templateUrl: './message-box.component.html'
+    selector: 'rtu-message-box',
+    templateUrl: './message-box.component.html',
+    standalone: false
 })
 export class MessageBoxComponent {
   public dialogRef: DialogRef<boolean> = inject(DialogRef<boolean>);

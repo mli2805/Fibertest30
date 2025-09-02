@@ -13,8 +13,9 @@ import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors';
 
 @Component({
-  selector: 'rtu-reserve-channel-test',
-  templateUrl: './reserve-channel-test.component.html'
+    selector: 'rtu-reserve-channel-test',
+    templateUrl: './reserve-channel-test.component.html',
+    standalone: false
 })
 export class ReserveChannelTestComponent implements OnInit {
   @Input() networkAddress!: NetAddress;

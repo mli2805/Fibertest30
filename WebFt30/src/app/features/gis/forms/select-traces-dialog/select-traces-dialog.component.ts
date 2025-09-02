@@ -3,8 +3,9 @@ import { Component, Inject, inject, Input } from '@angular/core';
 import { MultiSelectionButton } from 'src/app/shared/components/svg-buttons/multi-selection-button/multi-selection-button';
 
 @Component({
-  selector: 'rtu-select-traces-dialog',
-  templateUrl: './select-traces-dialog.component.html'
+    selector: 'rtu-select-traces-dialog',
+    templateUrl: './select-traces-dialog.component.html',
+    standalone: false
 })
 export class SelectTracesDialogComponent {
   public dialogRef: DialogRef<string[] | null> = inject(DialogRef<string[] | null>);

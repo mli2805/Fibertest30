@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'rtu-one-landmark-menu',
-  templateUrl: './one-landmark-menu.component.html'
+    selector: 'rtu-one-landmark-menu',
+    templateUrl: './one-landmark-menu.component.html',
+    standalone: false
 })
 export class OneLandmarkMenuComponent {
   @Input() isOpen = false;

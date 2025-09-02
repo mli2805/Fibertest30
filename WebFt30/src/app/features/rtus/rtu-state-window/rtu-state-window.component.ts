@@ -35,8 +35,9 @@ export interface PortInTable {
 }
 
 @Component({
-  selector: 'rtu-rtu-state-window',
-  templateUrl: './rtu-state-window.component.html'
+    selector: 'rtu-rtu-state-window',
+    templateUrl: './rtu-state-window.component.html',
+    standalone: false
 })
 export class RtuStateWindowComponent implements OnInit, OnDestroy {
   rtuPartState = RtuPartState;

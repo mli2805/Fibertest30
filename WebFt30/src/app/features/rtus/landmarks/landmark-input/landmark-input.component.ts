@@ -21,9 +21,10 @@ import { Dialog } from '@angular/cdk/dialog';
 import { ColoredLandmark } from 'src/app/core/store/models/ft30/colored-landmark';
 
 @Component({
-  selector: 'rtu-landmark-input',
-  templateUrl: './landmark-input.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-landmark-input',
+    templateUrl: './landmark-input.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class LandmarkInputComponent {
   originalLandmark!: ColoredLandmark;

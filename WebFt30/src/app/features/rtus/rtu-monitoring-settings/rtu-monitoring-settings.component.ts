@@ -19,9 +19,10 @@ interface IOtau {
 }
 
 @Component({
-  selector: 'rtu-rtu-monitoring-settings',
-  templateUrl: './rtu-monitoring-settings.component.html',
-  styles: [':host { overflow-y: auto; width: 100%; height: 100%; }']
+    selector: 'rtu-rtu-monitoring-settings',
+    templateUrl: './rtu-monitoring-settings.component.html',
+    styles: [':host { overflow-y: auto; width: 100%; height: 100%; }'],
+    standalone: false
 })
 export class RtuMonitoringSettingsComponent extends OnDestroyBase implements OnInit {
   rtuMgmtActions = RtuMgmtActions;

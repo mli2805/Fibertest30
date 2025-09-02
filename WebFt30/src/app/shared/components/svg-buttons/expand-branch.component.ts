@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'rtu-expand-branch',
-  template: `
+    selector: 'rtu-expand-branch',
+    template: `
     <div class="text-white-500 cursor-pointer">
       <!-- prettier-ignore -->
       <svg fill="currentcolor" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve">
@@ -15,13 +15,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       </svg>
     </div>
   `,
-  styles: [
-    `
+    styles: [
+        `
       :host {
         display: inline-block;
       }
     `
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ExpandBranchComponent {}

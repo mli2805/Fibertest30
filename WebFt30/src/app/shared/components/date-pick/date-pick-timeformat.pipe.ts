@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import momentZone from 'moment-timezone';
 
 @Pipe({
-  name: 'datePickTimeFormat'
+    name: 'datePickTimeFormat',
+    standalone: false
 })
 export class DatePickTimeFormatPipe implements PipeTransform {
   transform(date: Date, timezone: string, format = 'DD/MM/YYYY HH:mm:ss'): string {

@@ -1,7 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { BaseRefType } from 'src/app/core/store/models/ft30/ft-enums';
 
-@Pipe({ name: 'baseRefTypePipe' })
+@Pipe({
+    name: 'baseRefTypePipe',
+    standalone: false
+})
 export class BaseRefTypePipe implements PipeTransform {
   transform(value: BaseRefType) {
     switch (value) {

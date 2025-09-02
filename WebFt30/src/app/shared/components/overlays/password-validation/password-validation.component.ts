@@ -3,9 +3,10 @@ import { ValidationErrors } from '@angular/forms';
 import { OverlayBase } from '../overlay-base';
 
 @Component({
-  selector: 'rtu-password-validation',
-  templateUrl: './password-validation.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-password-validation',
+    templateUrl: './password-validation.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class PasswordValidationComponent extends OverlayBase {
   @Input() errors: ValidationErrors | null = null;

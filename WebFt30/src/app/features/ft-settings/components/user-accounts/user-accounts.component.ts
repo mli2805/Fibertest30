@@ -10,9 +10,10 @@ import { firstValueFrom } from 'rxjs';
 import { RolesResolver } from 'src/app/app/pages/start-page/components/guards';
 
 @Component({
-  selector: 'rtu-user-accounts',
-  templateUrl: './user-accounts.component.html',
-  styles: [':host { width: 100%; height: 100%; }']
+    selector: 'rtu-user-accounts',
+    templateUrl: './user-accounts.component.html',
+    styles: [':host { width: 100%; height: 100%; }'],
+    standalone: false
 })
 export class UserAccountsComponent {
   usersActions = UsersActions;

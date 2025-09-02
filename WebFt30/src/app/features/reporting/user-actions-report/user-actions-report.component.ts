@@ -34,10 +34,11 @@ interface UserFilterOption {
   id: string;
 }
 @Component({
-  selector: 'rtu-user-actions-report',
-  templateUrl: './user-actions-report.component.html',
-  styles: [':host { overflow-y: auto; width: 100%; height: 100%; }'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-user-actions-report',
+    templateUrl: './user-actions-report.component.html',
+    styles: [':host { overflow-y: auto; width: 100%; height: 100%; }'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class UserActionsReportComponent implements OnInit {
   reportingActions = ReportingActions;

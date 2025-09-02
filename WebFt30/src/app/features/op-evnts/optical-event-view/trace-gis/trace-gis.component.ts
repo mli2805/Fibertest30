@@ -19,8 +19,9 @@ import { environment } from 'src/environments/environment';
 import { FiberState, OpticalAccidentType } from 'src/app/core/store/models/ft30/ft-enums';
 
 @Component({
-  selector: 'rtu-trace-gis',
-  templateUrl: './trace-gis.component.html'
+    selector: 'rtu-trace-gis',
+    templateUrl: './trace-gis.component.html',
+    standalone: false
 })
 export class TraceGisComponent implements OnInit {
   private _optivalEvent!: OpticalEvent;

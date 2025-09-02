@@ -5,8 +5,9 @@ import { AppState, TreeNavigationService, RtuTreeSelectors } from 'src/app/core'
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 
 @Component({
-  selector: 'rtu-one-rtu',
-  templateUrl: './one-rtu.component.html'
+    selector: 'rtu-one-rtu',
+    templateUrl: './one-rtu.component.html',
+    standalone: false
 })
 export class OneRtuComponent {
   public rtu$: Observable<Rtu | null> = EMPTY;

@@ -8,8 +8,9 @@ import { OnDestroyBase } from 'src/app/shared/components/on-destroy-base/on-dest
 import { Utils } from 'src/app/shared/utils/utils';
 
 @Component({
-  selector: 'rtu-one-coor-input',
-  templateUrl: './one-coor-input.component.html'
+    selector: 'rtu-one-coor-input',
+    templateUrl: './one-coor-input.component.html',
+    standalone: false
 })
 export class OneCoorInputComponent extends OnDestroyBase implements OnInit {
   private store: Store<AppState> = inject(Store<AppState>);

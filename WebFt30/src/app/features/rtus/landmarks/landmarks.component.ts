@@ -40,8 +40,9 @@ export class CreatedModel {
 }
 
 @Component({
-  selector: 'rtu-landmarks',
-  templateUrl: './landmarks.component.html'
+    selector: 'rtu-landmarks',
+    templateUrl: './landmarks.component.html',
+    standalone: false
 })
 export class LandmarksComponent implements OnInit, OnDestroy {
   @Input() windowId!: string; // трасса может поменяться, от рту может быть более одного окна с ориентирами

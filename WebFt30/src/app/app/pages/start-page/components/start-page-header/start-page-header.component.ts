@@ -20,9 +20,10 @@ import { RolesResolver } from '../guards';
 import { UserEditDialogComponent } from 'src/app/features/ft-settings/components/user-accounts/components/user-edit-dialog/user-edit-dialog.component';
 
 @Component({
-  selector: 'rtu-start-page-header',
-  templateUrl: 'start-page-header.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-start-page-header',
+    templateUrl: 'start-page-header.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class StartPageHeaderComponent {
   private readonly titleMap = new Map<RegExp, StartPageHeaderTitle>([

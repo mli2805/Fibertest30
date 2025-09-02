@@ -2,8 +2,9 @@ import { Component, Input } from '@angular/core';
 import { TceLinkState } from 'src/app/core/store/models/ft30/ft-enums';
 
 @Component({
-  selector: 'rtu-tce-link-pictogram',
-  templateUrl: './tce-link-pictogram.component.html'
+    selector: 'rtu-tce-link-pictogram',
+    templateUrl: './tce-link-pictogram.component.html',
+    standalone: false
 })
 export class TceLinkPictogramComponent {
   tceLinkState = TceLinkState;

@@ -7,8 +7,9 @@ import { ValidationUtils } from 'src/app/shared/utils/validation-utils';
 import { EquipmentType } from 'src/grpc-generated';
 
 @Component({
-  selector: 'rtu-edit-equipment-dialog',
-  templateUrl: './edit-equipment-dialog.component.html'
+    selector: 'rtu-edit-equipment-dialog',
+    templateUrl: './edit-equipment-dialog.component.html',
+    standalone: false
 })
 export class EditEquipmentDialogComponent {
   equipmentType = EquipmentType;

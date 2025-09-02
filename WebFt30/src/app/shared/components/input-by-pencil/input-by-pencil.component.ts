@@ -9,8 +9,9 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'rtu-input-by-pencil',
-  templateUrl: './input-by-pencil.component.html'
+    selector: 'rtu-input-by-pencil',
+    templateUrl: './input-by-pencil.component.html',
+    standalone: false
 })
 export class InputByPencilComponent {
   @ViewChild('inputElement') inputElement: ElementRef<any> | undefined;

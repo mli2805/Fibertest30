@@ -12,9 +12,10 @@ import { SystemEventViewerFactory } from '../system-event-viewer-factory';
 import { SystemEvent } from 'src/app/core/store/models';
 
 @Component({
-  selector: 'rtu-system-event-viewer',
-  template: `<ng-container #systemEventContainer></ng-container>`,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-system-event-viewer',
+    template: `<ng-container #systemEventContainer></ng-container>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SystemEventViewerComponent implements AfterViewInit {
   @ViewChild('systemEventContainer', { read: ViewContainerRef })

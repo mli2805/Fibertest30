@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'rtu-save-button',
-  template: `
+    selector: 'rtu-save-button',
+    template: `
     <div class="cursor-pointer ">
       <!-- prettier-ignore -->
       <svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 40 40" 
@@ -13,13 +13,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         </svg>
     </div>
   `,
-  styles: [
-    `
+    styles: [
+        `
       :host {
         display: inline-block;
       }
     `
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SaveButtonComponent {}

@@ -3,7 +3,10 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState, LatLngFormat, SettingsSelectors } from 'src/app/core';
 
-@Pipe({ name: 'geoCoordinates', pure: false })
+@Pipe({
+    name: 'geoCoordinates', pure: false,
+    standalone: false
+})
 export class GeoCoordinatesPipe implements PipeTransform, OnDestroy {
   private latLngFormatSubscription: Subscription;
 

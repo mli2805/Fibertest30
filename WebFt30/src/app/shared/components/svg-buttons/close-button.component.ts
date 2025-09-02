@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'rtu-close-button',
-  template: `
+    selector: 'rtu-close-button',
+    template: `
     <div class="cursor-pointer text-zinc-500 hover:bg-red-500 hover:text-white dark:text-zinc-400">
       <!-- prettier-ignore -->
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -10,6 +10,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       </svg>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CloseButtonComponent {}

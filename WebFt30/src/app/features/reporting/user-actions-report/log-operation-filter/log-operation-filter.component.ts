@@ -4,8 +4,9 @@ import { LogOperationCode } from 'src/app/core/store/models/ft30/user-action-lin
 import { logOperationGroups } from './log-operation-groups';
 
 @Component({
-  selector: 'rtu-log-operation-filter',
-  templateUrl: './log-operation-filter.component.html'
+    selector: 'rtu-log-operation-filter',
+    templateUrl: './log-operation-filter.component.html',
+    standalone: false
 })
 export class LogOperationFilterComponent {
   public dialogRef: DialogRef<LogOperationCode[] | null> = inject(

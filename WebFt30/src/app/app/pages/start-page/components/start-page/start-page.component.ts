@@ -74,16 +74,17 @@ import {
 import { MeasurementUpdatedData } from 'src/app/shared/system-events/system-event-data/graph/measurement-updated-data';
 
 @Component({
-  selector: 'rtu-start-page',
-  templateUrl: 'start-page.component.html',
-  styles: [
-    `
+    selector: 'rtu-start-page',
+    templateUrl: 'start-page.component.html',
+    styles: [
+        `
       :host {
         width: 100%;
         height: 100%;
       }
     `
-  ]
+    ],
+    standalone: false
 })
 export class StartPageComponent extends OnDestroyBase implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('header', { read: ElementRef }) headerElementRef!: ElementRef;

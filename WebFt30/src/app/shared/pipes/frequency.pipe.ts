@@ -1,7 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Frequency } from 'src/app/core/store/models/ft30/ft-enums';
 
-@Pipe({ name: 'frequencyPipe' })
+@Pipe({
+    name: 'frequencyPipe',
+    standalone: false
+})
 export class FrequencyPipe implements PipeTransform {
   transform(value: Frequency) {
     switch (value) {

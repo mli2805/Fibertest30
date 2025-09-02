@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'rtu-structure-button',
-  template: `
+    selector: 'rtu-structure-button',
+    template: `
     <div class="cursor-pointer">
       <svg
         fill="currentColor"
@@ -33,13 +33,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       </svg>
     </div>
   `,
-  styles: [
-    `
+    styles: [
+        `
       :host {
         display: inline-block;
       }
     `
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class StructureButtonComponent {}

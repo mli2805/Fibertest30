@@ -4,8 +4,9 @@ import { Bop } from 'src/app/core/store/models/ft30/bop';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 
 @Component({
-  selector: 'rtu-bop-info',
-  templateUrl: './bop-info.component.html'
+    selector: 'rtu-bop-info',
+    templateUrl: './bop-info.component.html',
+    standalone: false
 })
 export class BopInfoComponent implements OnInit {
   @Input() windowId!: string;

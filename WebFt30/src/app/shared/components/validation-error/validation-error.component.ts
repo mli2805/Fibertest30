@@ -2,9 +2,10 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
 
 @Component({
-  selector: 'rtu-validation-error',
-  templateUrl: 'validation-error.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-validation-error',
+    templateUrl: 'validation-error.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ValidationErrorComponent {
   @Input() errors: ValidationErrors | null = null;

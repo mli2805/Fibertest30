@@ -21,17 +21,18 @@ import { VX_DIALOG_SERVICE } from '@veex/common';
 import { DialogService } from 'src/app/core/services/dialog.service';
 
 @Component({
-  selector: 'rtu-sor-area-provider',
-  template: `<vx-sor-area *ngIf="service.isLoaded()"></vx-sor-area>`,
-  providers: [
-    SorViewerService,
-    SorAreaViewerService,
-    EventTableService,
-    ChartDataService,
-    ChartMatrixesService,
-    { provide: VX_DIALOG_SERVICE, useExisting: DialogService }
-    // { provide: VX_DIALOG_SERVICE, useExisting: MessageBoxService }
-  ]
+    selector: 'rtu-sor-area-provider',
+    template: `<vx-sor-area *ngIf="service.isLoaded()"></vx-sor-area>`,
+    providers: [
+        SorViewerService,
+        SorAreaViewerService,
+        EventTableService,
+        ChartDataService,
+        ChartMatrixesService,
+        { provide: VX_DIALOG_SERVICE, useExisting: DialogService }
+        // { provide: VX_DIALOG_SERVICE, useExisting: MessageBoxService }
+    ],
+    standalone: false
 })
 export class SorAreaProviderComponent extends OnDestroyBase {
   @Input() set sors(value: SorTrace[]) {
@@ -73,15 +74,16 @@ export class SorAreaProviderComponent extends OnDestroyBase {
 }
 
 @Component({
-  selector: 'rtu-sor-viewer-realtime-provider',
-  template: `<vx-sor-area *ngIf="service.isLoaded()"></vx-sor-area>`,
-  providers: [
-    SorViewerService,
-    SorAreaViewerService,
-    EventTableService,
-    ChartDataService,
-    ChartMatrixesService
-  ]
+    selector: 'rtu-sor-viewer-realtime-provider',
+    template: `<vx-sor-area *ngIf="service.isLoaded()"></vx-sor-area>`,
+    providers: [
+        SorViewerService,
+        SorAreaViewerService,
+        EventTableService,
+        ChartDataService,
+        ChartMatrixesService
+    ],
+    standalone: false
 })
 export class SorViewerRealtimeProviderComponent extends OnDestroyBase {
   @Input() set sor(value: SorTrace) {
@@ -149,10 +151,11 @@ export class SorViewerRealtimeProviderComponent extends OnDestroyBase {
 }
 
 @Component({
-  selector: 'rtu-sor-result-baseline-provider',
-  templateUrl: `sor-result-baseline-provider.component.html`,
-  styles: [':host { width: 100%; height: 100%; }'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-sor-result-baseline-provider',
+    templateUrl: `sor-result-baseline-provider.component.html`,
+    styles: [':host { width: 100%; height: 100%; }'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SorResultBaselineComponent extends OnDestroyBase {
   @ViewChild(SorAreaProviderComponent) sorArea!: SorAreaProviderComponent;
@@ -191,10 +194,11 @@ export class SorResultBaselineComponent extends OnDestroyBase {
 }
 
 @Component({
-  selector: 'rtu-link-map-area-provider',
-  template: `<vx-link-map-area *ngIf="service.isLoaded()"></vx-link-map-area>`,
-  styles: [':host { width: 100%; height: 100%; }'],
-  providers: [LinkMapViewerService]
+    selector: 'rtu-link-map-area-provider',
+    template: `<vx-link-map-area *ngIf="service.isLoaded()"></vx-link-map-area>`,
+    styles: [':host { width: 100%; height: 100%; }'],
+    providers: [LinkMapViewerService],
+    standalone: false
 })
 export class LinkMapAreaProviderComponent {
   @Input() set vscout(value: LinkMapBase) {

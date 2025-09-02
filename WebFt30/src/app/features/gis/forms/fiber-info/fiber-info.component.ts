@@ -27,8 +27,9 @@ interface FiberInfoModel {
 }
 
 @Component({
-  selector: 'rtu-fiber-info',
-  templateUrl: './fiber-info.component.html'
+    selector: 'rtu-fiber-info',
+    templateUrl: './fiber-info.component.html',
+    standalone: false
 })
 export class FiberInfoComponent implements OnInit {
   spinning = new BehaviorSubject<boolean>(false);

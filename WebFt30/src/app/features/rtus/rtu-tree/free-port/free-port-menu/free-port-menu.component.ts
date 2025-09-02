@@ -11,15 +11,16 @@ import { WindowService } from 'src/app/app/pages/start-page/components/window.se
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 
 @Component({
-  selector: 'rtu-free-port-menu',
-  templateUrl: './free-port-menu.component.html',
-  styles: [
-    `
+    selector: 'rtu-free-port-menu',
+    templateUrl: './free-port-menu.component.html',
+    styles: [
+        `
       :host {
         position: relative;
       }
     `
-  ]
+    ],
+    standalone: false
 })
 export class FreePortMenuComponent {
   store: Store<AppState> = inject(Store<AppState>);

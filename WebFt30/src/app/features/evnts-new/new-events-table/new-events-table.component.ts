@@ -9,8 +9,9 @@ import { AudioEvent } from 'src/app/core/store/models/ft30/audio-event';
 import { BaseRefType } from 'src/app/core/store/models/ft30/ft-enums';
 
 @Component({
-  selector: 'rtu-new-events-table',
-  templateUrl: './new-events-table.component.html'
+    selector: 'rtu-new-events-table',
+    templateUrl: './new-events-table.component.html',
+    standalone: false
 })
 export class NewEventsTableComponent {
   baseRefType = BaseRefType;

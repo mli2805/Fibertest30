@@ -10,8 +10,9 @@ export class WithNodesResult {
 }
 
 @Component({
-  selector: 'rtu-section-with-nodes',
-  templateUrl: './section-with-nodes.component.html'
+    selector: 'rtu-section-with-nodes',
+    templateUrl: './section-with-nodes.component.html',
+    standalone: false
 })
 export class SectionWithNodesComponent {
   public dialogRef: DialogRef<WithNodesResult | null> = inject(DialogRef<WithNodesResult | null>);

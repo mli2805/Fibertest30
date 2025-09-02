@@ -14,9 +14,10 @@ interface MapSource {
 }
 
 @Component({
-  selector: 'rtu-gis',
-  templateUrl: 'gis.component.html',
-  styles: [':host { display: flex; flex-grow: 1; }']
+    selector: 'rtu-gis',
+    templateUrl: 'gis.component.html',
+    styles: [':host { display: flex; flex-grow: 1; }'],
+    standalone: false
 })
 export class GisComponent extends OnDestroyBase implements OnInit, AfterViewInit {
   @ViewChild('myDiv') myDiv!: ElementRef;

@@ -8,10 +8,11 @@ import { EventStatus, FiberState } from 'src/app/core/store/models/ft30/ft-enums
 import { OpticalEvent } from 'src/app/core/store/models/ft30/optical-event';
 
 @Component({
-  selector: 'rtu-optical-events',
-  templateUrl: './optical-events.component.html',
-  styles: [':host { overflow-y: auto; width: 100%; height: 100%; }'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-optical-events',
+    templateUrl: './optical-events.component.html',
+    styles: [':host { overflow-y: auto; width: 100%; height: 100%; }'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class OpticalEventsComponent implements OnInit {
   opticalEventsActions = OpticalEventsActions;

@@ -1,7 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { RtuPartState } from 'src/app/core/store/models/ft30/ft-enums';
 
-@Pipe({ name: 'rtuPartStatePipe' })
+@Pipe({
+    name: 'rtuPartStatePipe',
+    standalone: false
+})
 export class RtuPartStatePipe implements PipeTransform {
   transform(value: RtuPartState, ...args: any[]) {
     switch (value) {

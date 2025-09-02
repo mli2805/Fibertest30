@@ -19,9 +19,10 @@ import { RtuDateToDayOfWeekPipe } from 'src/app/shared/pipes/day-of-week-pipe';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'rtu-user-edit-dialog',
-  templateUrl: './user-edit-dialog.component.html',
-  styleUrls: ['./user-edit-dialog.component.css']
+    selector: 'rtu-user-edit-dialog',
+    templateUrl: './user-edit-dialog.component.html',
+    styleUrls: ['./user-edit-dialog.component.css'],
+    standalone: false
 })
 export class UserEditDialogComponent {
   public dialogRef: DialogRef<boolean> = inject(DialogRef<boolean>);

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'rtu-order-button',
-  template: `
+    selector: 'rtu-order-button',
+    template: `
     <div class="h-5 w-5 cursor-pointer">
       <!-- prettier-ignore -->
       <svg *ngIf="orderDescending" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" >
@@ -15,14 +15,15 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
                   </svg>
     </div>
   `,
-  styles: [
-    `
+    styles: [
+        `
       :host {
         display: inline-block;
       }
     `
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class OrderButtonComponent {
   @Input() orderDescending!: boolean;

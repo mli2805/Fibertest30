@@ -2,7 +2,8 @@ import { Input, ElementRef, Renderer2, Directive } from '@angular/core';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 
 @Directive({
-  selector: '[rtuColorizeBgByFiberState]'
+    selector: '[rtuColorizeBgByFiberState]',
+    standalone: false
 })
 export class FiberStateBgDirective {
   @Input() set rtuColorizeBgByFiberState(state: FiberState) {

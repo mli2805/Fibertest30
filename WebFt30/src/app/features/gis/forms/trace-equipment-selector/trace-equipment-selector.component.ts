@@ -13,8 +13,9 @@ import { DragWatcher } from 'src/app/shared/utils/drag-watcher';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 
 @Component({
-  selector: 'rtu-trace-equipment-selector',
-  templateUrl: './trace-equipment-selector.component.html'
+    selector: 'rtu-trace-equipment-selector',
+    templateUrl: './trace-equipment-selector.component.html',
+    standalone: false
 })
 export class TraceEquipmentSelectorComponent implements AfterViewInit {
   public dialogRef: DialogRef<number | null> = inject(DialogRef<number | null>);

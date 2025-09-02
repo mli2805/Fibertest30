@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'rtu-sor-icon',
-  styles: [':host { display: inline-block; }'],
-  template: ` <!-- prettier-ignore -->
+    selector: 'rtu-sor-icon',
+    styles: [':host { display: inline-block; }'],
+    template: ` <!-- prettier-ignore -->
     <svg x="0px" y="0px" viewBox="0 0 40 40" enable-background="new 0 0 40 40">
               <path fill="currentColor" d="M40,32.292l-5.256-4.645c-0.266-0.232-0.617-0.34-0.969-0.287c-0.35,0.051-0.658,0.254-0.846,0.555
                     l-2.889,4.656L27.84,3.584c-0.045-0.601-0.529-1.075-1.131-1.107c-0.6-0.02-1.133,0.385-1.244,0.978l-3.764,20.103L0,22.432v2.402
@@ -31,6 +31,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
                 <rect x="34.5" y="26.5" fill="currentColor" width="1" height="7"/>
               </g>
             </svg>`,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SorIconComponent {}

@@ -23,8 +23,9 @@ import { DateRangeUtils } from './daterange-utils';
  *  and our system does not match, it is cumbersome to adjust, so do not introduce
  * */
 @Component({
-  selector: 'rtu-date-pick',
-  templateUrl: './date-pick.component.html'
+    selector: 'rtu-date-pick',
+    templateUrl: './date-pick.component.html',
+    standalone: false
 })
 export class DatePickComponent implements OnInit, OnDestroy, OnChanges {
   @Output() public filterChanged = new EventEmitter<PickDateRange>();

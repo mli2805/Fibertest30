@@ -11,8 +11,9 @@ import {
 import { AppTimezone } from 'src/app/core/store/models';
 
 @Pipe({
-  name: 'rtuDateTime',
-  pure: false
+    name: 'rtuDateTime',
+    pure: false,
+    standalone: false
 })
 export class RtuDateTimePipe implements PipeTransform, OnDestroy {
   private formatAndZoneSubscription: Subscription;

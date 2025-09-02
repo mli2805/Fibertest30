@@ -19,9 +19,10 @@ import { NotificationSettingsSelectors } from 'src/app/core/store/notification-s
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'rtu-snmp-notification-settings',
-  templateUrl: './snmp-notification-settings.component.html',
-  styleUrls: ['./snmp-notification-settings.component.css']
+    selector: 'rtu-snmp-notification-settings',
+    templateUrl: './snmp-notification-settings.component.html',
+    styleUrls: ['./snmp-notification-settings.component.css'],
+    standalone: false
 })
 export class SnmpNotificationSettingsComponent implements OnInit {
   @Input() trapReceiver!: TrapReceiver;

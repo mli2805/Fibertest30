@@ -18,9 +18,10 @@ interface EquipmentTypeItem {
 }
 
 @Component({
-  selector: 'rtu-trace-info',
-  templateUrl: './trace-info.component.html',
-  styleUrls: ['./trace-info.component.css']
+    selector: 'rtu-trace-info',
+    templateUrl: './trace-info.component.html',
+    styleUrls: ['./trace-info.component.css'],
+    standalone: false
 })
 export class TraceInfoComponent implements OnInit {
   types: EquipmentTypeItem[] = [];

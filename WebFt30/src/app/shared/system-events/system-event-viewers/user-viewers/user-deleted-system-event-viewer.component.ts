@@ -5,8 +5,9 @@ import { SystemEvent } from 'src/app/core/store/models';
 import { UserDeletedData } from '../../system-event-data';
 
 @Component({
-  template: `<div>{{ 'i18n.system-events-viewer.user-deleted' | translate }}</div> `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    template: `<div>{{ 'i18n.system-events-viewer.user-deleted' | translate }}</div> `,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class UserDeletedSystemEventViewerComponent {
   public data!: UserDeletedData;

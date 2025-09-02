@@ -12,9 +12,10 @@ import {
 import { AppSettingsService } from 'src/app/core/services';
 
 @Component({
-  selector: 'rtu-language-switcher',
-  templateUrl: 'language-switcher.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-language-switcher',
+    templateUrl: 'language-switcher.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class RtuLanguageSwitcherComponent {
   languages$: Observable<AppLanguage[]>;

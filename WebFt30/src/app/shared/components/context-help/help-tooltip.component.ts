@@ -9,9 +9,10 @@ import { TestPortHelpComponent } from '../context-help/components/test-port-help
 import { EofThresholdHelpComponent } from '../context-help/components/eof-threshold-help/eof-threshold-help.component';
 
 @Component({
-  selector: 'rtu-help-tooltip',
-  templateUrl: './help-tooltip.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-help-tooltip',
+    templateUrl: './help-tooltip.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class HelpTooltipComponent implements OnInit {
   @Input() section!: string;

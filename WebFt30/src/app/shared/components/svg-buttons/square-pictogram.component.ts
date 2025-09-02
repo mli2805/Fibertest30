@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'rtu-square-pictogram',
-  template: `
+    selector: 'rtu-square-pictogram',
+    template: `
     <div style="width:12px; height:12px">
       <div *ngIf="fillColor === 'none'">
         <svg viewBox="0 0 40 40">
@@ -22,14 +22,15 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
       </div>
     </div>
   `,
-  styles: [
-    `
+    styles: [
+        `
       :host {
         display: inline-block;
       }
     `
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SquarePictogramComponent {
   @Input() fillColor!: string;

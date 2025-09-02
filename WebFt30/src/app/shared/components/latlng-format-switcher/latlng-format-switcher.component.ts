@@ -10,8 +10,9 @@ import {
 } from 'src/app/core';
 
 @Component({
-  selector: 'rtu-latlng-format-switcher',
-  templateUrl: './latlng-format-switcher.component.html'
+    selector: 'rtu-latlng-format-switcher',
+    templateUrl: './latlng-format-switcher.component.html',
+    standalone: false
 })
 export class LatlngFormatSwitcherComponent {
   public store: Store<AppState> = inject(Store);

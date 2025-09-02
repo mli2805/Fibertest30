@@ -8,8 +8,9 @@ import { AudioService } from 'src/app/core/services/audio.service';
 import { Utils } from 'src/app/shared/utils/utils';
 
 @Component({
-  selector: 'rtu-start-page-sidebar',
-  templateUrl: 'start-page-sidebar.component.html'
+    selector: 'rtu-start-page-sidebar',
+    templateUrl: 'start-page-sidebar.component.html',
+    standalone: false
 })
 export class StartPageSidebarComponent {
   theme$ = this.store.select(SettingsSelectors.selectTheme);

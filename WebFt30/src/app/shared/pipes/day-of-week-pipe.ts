@@ -5,8 +5,9 @@ import { Subscription } from 'rxjs';
 import { AppLanguage, AppState, SettingsSelectors } from 'src/app/core';
 
 @Pipe({
-  name: 'rtuDateName',
-  pure: false
+    name: 'rtuDateName',
+    pure: false,
+    standalone: false
 })
 export class RtuDateToDayOfWeekPipe implements PipeTransform, OnDestroy {
   private dateFormatSubscription: Subscription;

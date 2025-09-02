@@ -2,7 +2,8 @@ import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
 import { BaseRefType, FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 
 @Directive({
-  selector: '[rtuColorizeBgByTraceState]'
+    selector: '[rtuColorizeBgByTraceState]',
+    standalone: false
 })
 export class TraceStateBgDirective {
   @Input() set rtuColorizeBgByTraceState(data: any) {

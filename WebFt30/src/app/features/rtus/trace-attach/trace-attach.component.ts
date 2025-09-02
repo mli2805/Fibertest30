@@ -9,8 +9,9 @@ import { Trace } from 'src/app/core/store/models/ft30/trace';
 import { Rtu } from 'src/grpc-generated/rtu_tree';
 
 @Component({
-  selector: 'rtu-trace-attach',
-  templateUrl: './trace-attach.component.html'
+    selector: 'rtu-trace-attach',
+    templateUrl: './trace-attach.component.html',
+    standalone: false
 })
 export class TraceAttachComponent implements OnInit {
   @Input() windowId!: string;

@@ -2,7 +2,10 @@ import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 
 @Injectable({ providedIn: 'root' })
-@Pipe({ name: 'fiberStatePipe' })
+@Pipe({
+    name: 'fiberStatePipe',
+    standalone: false
+})
 export class FiberStatePipe implements PipeTransform {
   transform(value: FiberState) {
     switch (value) {

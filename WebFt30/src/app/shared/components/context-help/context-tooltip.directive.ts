@@ -18,7 +18,8 @@ import {
 import { BluePointComponent } from './components/blue-point/blue-point.component';
 
 @Directive({
-  selector: '[rtuContextTooltip]'
+    selector: '[rtuContextTooltip]',
+    standalone: false
 })
 export class ContextTooltipDirective implements OnDestroy {
   private _rtuContextTooltip!: string | HeaderMessageTooltip;

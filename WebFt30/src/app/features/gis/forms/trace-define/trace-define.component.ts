@@ -17,8 +17,9 @@ import { AcceptTraceDialogComponent } from '../trace-info-dialog/accept-trace-di
 import { GeoTrace } from 'src/app/core/store/models/ft30/geo-data';
 
 @Component({
-  selector: 'rtu-trace-define',
-  templateUrl: './trace-define.component.html'
+    selector: 'rtu-trace-define',
+    templateUrl: './trace-define.component.html',
+    standalone: false
 })
 export class TraceDefineComponent implements OnInit {
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;

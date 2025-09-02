@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'rtu-loading-centered-big-spinner',
-  templateUrl: 'loading-centered-big-spinner.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-loading-centered-big-spinner',
+    templateUrl: 'loading-centered-big-spinner.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class LoadingCenteredBigSpinnerComponent {}

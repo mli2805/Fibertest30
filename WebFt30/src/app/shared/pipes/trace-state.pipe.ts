@@ -1,7 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { BaseRefType, FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 
-@Pipe({ name: 'traceStatePipe' })
+@Pipe({
+    name: 'traceStatePipe',
+    standalone: false
+})
 export class TraceStatePipe implements PipeTransform {
   transform(traceState: FiberState, baseRefType: BaseRefType) {
     if (baseRefType === BaseRefType.Fast) return 'i18n.ft.suspicion';

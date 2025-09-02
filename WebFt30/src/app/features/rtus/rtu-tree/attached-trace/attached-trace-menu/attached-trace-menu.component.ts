@@ -16,15 +16,16 @@ import { GisMapService } from 'src/app/features/gis/gis-map.service';
 import { Utils } from 'src/app/shared/utils/utils';
 
 @Component({
-  selector: 'rtu-attached-trace-menu',
-  templateUrl: './attached-trace-menu.component.html',
-  styles: [
-    `
+    selector: 'rtu-attached-trace-menu',
+    templateUrl: './attached-trace-menu.component.html',
+    styles: [
+        `
       :host {
         position: relative;
       }
     `
-  ]
+    ],
+    standalone: false
 })
 export class AttachedTraceMenuComponent {
   store: Store<AppState> = inject(Store<AppState>);

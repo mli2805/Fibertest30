@@ -16,16 +16,17 @@ class DemoUser {
 }
 
 @Component({
-  selector: 'rtu-login-page',
-  templateUrl: 'login-page.component.html',
-  styles: [
-    `
+    selector: 'rtu-login-page',
+    templateUrl: 'login-page.component.html',
+    styles: [
+        `
       :host {
         width: 100%;
         height: 100%;
       }
     `
-  ]
+    ],
+    standalone: false
 })
 export class LoginPageComponent {
   private store: Store<AppState> = inject(Store<AppState>);

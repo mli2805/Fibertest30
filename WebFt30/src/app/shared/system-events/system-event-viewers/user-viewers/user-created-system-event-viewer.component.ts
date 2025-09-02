@@ -6,11 +6,12 @@ import { SystemEvent, User } from 'src/app/core/store/models';
 import { UserCreatedData } from '../../system-event-data';
 
 @Component({
-  template: `<div>
+    template: `<div>
     {{ 'i18n.system-events-viewer.user-created' | translate }}:
     <span class="text-data-highlight" *ngIf="user">{{ user.fullName }}</span>
   </div> `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class UserCreatedSystemEventViewerComponent {
   public data!: UserCreatedData;

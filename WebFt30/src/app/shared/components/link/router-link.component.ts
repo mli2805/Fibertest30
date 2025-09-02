@@ -1,8 +1,8 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'rtu-router-link',
-  template: `
+    selector: 'rtu-router-link',
+    template: `
     <a
       [routerLink]="routerLink"
       routerLinkActive="text-blue-700 dark:text-blue-500"
@@ -10,7 +10,8 @@ import { Component, ElementRef, Input, OnInit } from '@angular/core';
     >
       <ng-content></ng-content>
     </a>
-  `
+  `,
+    standalone: false
 })
 export class RtuRouterLinkComponent implements OnInit {
   @Input() routerLink: any[] | string = [];

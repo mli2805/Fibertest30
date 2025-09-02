@@ -17,9 +17,10 @@ export enum RtuInfoMode {
 }
 
 @Component({
-  selector: 'rtu-rtu-info',
-  templateUrl: './rtu-info.component.html',
-  styleUrls: ['./rtu-info.component.scss']
+    selector: 'rtu-rtu-info',
+    templateUrl: './rtu-info.component.html',
+    styleUrls: ['./rtu-info.component.scss'],
+    standalone: false
 })
 export class RtuInfoComponent {
   hasPermission!: boolean;

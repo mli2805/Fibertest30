@@ -1,7 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ChannelEvent } from 'src/app/core/store/models/ft30/ft-enums';
 
-@Pipe({ name: 'channelEventPipe' })
+@Pipe({
+    name: 'channelEventPipe',
+    standalone: false
+})
 export class ChannelEventPipe implements PipeTransform {
   transform(value: ChannelEvent) {
     switch (value) {

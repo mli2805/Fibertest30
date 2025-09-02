@@ -8,8 +8,9 @@ import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors
 import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 
 @Component({
-  selector: 'rtu-out-of-turn-measurement',
-  templateUrl: './out-of-turn-measurement.component.html'
+    selector: 'rtu-out-of-turn-measurement',
+    templateUrl: './out-of-turn-measurement.component.html',
+    standalone: false
 })
 export class OutOfTurnMeasurementComponent implements OnInit {
   @Input() traceId!: string;

@@ -15,8 +15,9 @@ import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'rtu-main-channel-test',
-  templateUrl: './main-channel-test.component.html'
+    selector: 'rtu-main-channel-test',
+    templateUrl: './main-channel-test.component.html',
+    standalone: false
 })
 export class MainChannelTestComponent implements OnInit {
   @Input() networkAddress!: NetAddress;

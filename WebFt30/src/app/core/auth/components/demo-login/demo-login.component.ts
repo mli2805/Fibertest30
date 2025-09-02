@@ -5,9 +5,10 @@ import { Observable } from 'rxjs';
 import { AppState, AuthState, AuthActions, AuthSelectors, LocalStorageService } from 'src/app/core';
 
 @Component({
-  selector: 'rtu-demo-login',
-  templateUrl: 'demo-login.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-demo-login',
+    templateUrl: 'demo-login.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class DemoLoginComponent implements OnInit {
   private store: Store<AppState> = inject(Store<AppState>);

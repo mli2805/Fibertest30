@@ -4,8 +4,9 @@ import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { RftsEvents } from 'src/app/core/store/models/ft30/rfts-events-dto';
 
 @Component({
-  selector: 'rtu-rfts-events-window',
-  templateUrl: './rfts-events-window.component.html'
+    selector: 'rtu-rfts-events-window',
+    templateUrl: './rfts-events-window.component.html',
+    standalone: false
 })
 export class RftsEventsWindowComponent {
   fiberState = FiberState;

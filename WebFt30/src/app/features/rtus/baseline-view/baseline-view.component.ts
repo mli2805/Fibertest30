@@ -8,10 +8,11 @@ import { RtuMgmtService } from 'src/app/core/grpc';
 import { ConvertUtils } from 'src/app/core/convert.utils';
 
 @Component({
-  selector: 'rtu-baseline-view',
-  templateUrl: './baseline-view.component.html',
-  styles: [':host { width: 100%; height: 100%; }'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rtu-baseline-view',
+    templateUrl: './baseline-view.component.html',
+    styles: [':host { width: 100%; height: 100%; }'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class BaselineViewComponent implements OnInit {
   @ViewChild(SorResultBaselineComponent) resultBaselineComponent!: SorResultBaselineComponent;

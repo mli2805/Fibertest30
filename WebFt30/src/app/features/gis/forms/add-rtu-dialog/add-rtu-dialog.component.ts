@@ -9,8 +9,9 @@ import { GisMapLayer } from '../../components/shared/gis-map-layer';
 import { RtuInfoMode } from './rtu-info/rtu-info.component';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 @Component({
-  selector: 'rtu-add-rtu-dialog',
-  templateUrl: './add-rtu-dialog.component.html'
+    selector: 'rtu-add-rtu-dialog',
+    templateUrl: './add-rtu-dialog.component.html',
+    standalone: false
 })
 export class AddRtuDialogComponent implements OnInit {
   @Input() nodeId!: string;

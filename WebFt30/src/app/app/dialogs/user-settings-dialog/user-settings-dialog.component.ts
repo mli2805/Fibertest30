@@ -7,16 +7,17 @@ import { CoreUtils } from 'src/app/core/core.utils';
 import { AudioService } from 'src/app/core/services/audio.service';
 
 @Component({
-  selector: 'rtu-user-settings-dialog',
-  templateUrl: 'user-settings-dialog.component.html',
-  styles: [
-    `
+    selector: 'rtu-user-settings-dialog',
+    templateUrl: 'user-settings-dialog.component.html',
+    styles: [
+        `
       :host {
         width: 100%;
         height: 100%;
       }
     `
-  ]
+    ],
+    standalone: false
 })
 export class UserSettingsDialogComponent implements OnInit {
   public dialogRef: DialogRef<boolean> = inject(DialogRef<boolean>);

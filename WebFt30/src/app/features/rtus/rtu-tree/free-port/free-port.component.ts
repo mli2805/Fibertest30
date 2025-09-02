@@ -4,8 +4,9 @@ import { Rtu } from 'src/app/core/store/models/ft30/rtu';
 import { Trace } from 'src/app/core/store/models/ft30/trace';
 
 @Component({
-  selector: 'rtu-free-port',
-  templateUrl: './free-port.component.html'
+    selector: 'rtu-free-port',
+    templateUrl: './free-port.component.html',
+    standalone: false
 })
 export class FreePortComponent {
   @Input() portOfOtau!: PortOfOtau;

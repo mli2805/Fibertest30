@@ -11,8 +11,9 @@ import { GisMapUtils } from '../../../components/shared/gis-map.utils';
 import { TraceDefineUtils } from '../../trace-define/trace-define-utils';
 
 @Component({
-  selector: 'rtu-accept-trace-dialog',
-  templateUrl: './accept-trace-dialog.component.html'
+    selector: 'rtu-accept-trace-dialog',
+    templateUrl: './accept-trace-dialog.component.html',
+    standalone: false
 })
 export class AcceptTraceDialogComponent {
   public dialogRef: DialogRef<GeoTrace | null> = inject(DialogRef<GeoTrace | null>);

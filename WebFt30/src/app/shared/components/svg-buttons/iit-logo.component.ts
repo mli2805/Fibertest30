@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'rtu-iit-logo',
-  template: `
+    selector: 'rtu-iit-logo',
+    template: `
     <div class="cursor-pointer ">
       <!-- prettier-ignore -->
       <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="20mm" height="12mm" version="1.1" style="shape-rendering:geometricPrecision; 
@@ -35,14 +35,15 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 </svg>
     </div>
   `,
-  styles: [
-    `
+    styles: [
+        `
       :host {
         display: inline-block;
       }
     `
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class IitLogoComponent {
   @Input() fillColor!: string;

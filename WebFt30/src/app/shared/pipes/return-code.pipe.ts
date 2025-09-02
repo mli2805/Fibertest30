@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ReturnCode } from 'src/app/core/store/models/ft30/return-code';
 
 @Pipe({
-  name: 'returnCodePipe'
+    name: 'returnCodePipe',
+    standalone: false
 })
 export class ReturnCodePipe implements PipeTransform {
   transform(code: ReturnCode): string {

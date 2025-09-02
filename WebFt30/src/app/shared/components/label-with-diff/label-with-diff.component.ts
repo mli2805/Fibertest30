@@ -7,8 +7,8 @@ export class LabelWithDiff {
 }
 
 @Component({
-  selector: 'rtu-label-with-diff',
-  template: `
+    selector: 'rtu-label-with-diff',
+    template: `
     <div class="grid grid-cols-[auto_minmax(0,_1fr)]">
       <ng-container *ngFor="let diff of diffs">
         <span class="text-data-highlight mr-2 flex items-center">
@@ -35,7 +35,8 @@ export class LabelWithDiff {
       </ng-container>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class LabelWithDiffComponent {
   @Input() diffs!: LabelWithDiff[];
