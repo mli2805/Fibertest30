@@ -25,8 +25,8 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon-32x32.png",
-              "src/favicon-192x192.png",
+              "src/iit-32x32.png",
+              "src/iit-192x192.png",
               "src/assets",
               {
                 "glob": "**/*",
@@ -123,7 +123,7 @@
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon-32x32.png", "src/favicon-192x192.png", "src/assets"],
+            "assets": ["src/iit-32x32.png", "src/iit-192x192.png", "src/assets"],
             "styles": ["src/styles.scss"],
             "scripts": [],
             "karmaConfig": "karma.conf.js"
