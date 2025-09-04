@@ -22,7 +22,7 @@ public class AttachTraceCommandHandler(
             var trace = writeModel.Traces.First(t => t.TraceId == request.Dto.TraceId);
             var rtu = writeModel.Rtus.First(r => r.Id == trace.RtuId);
 
-            var systemEvent = SystemEventFactory.TraceAttached(currentUserService.UserId!, trace.TraceId, trace.Title,
+            var systemEvent = SystemEventFactory.TraceAttached(currentUserService.UserId!, trace.TraceId, trace.Title, trace.State,
                 request.Dto.OtauPortDto.ToStringB(), rtu.Id, rtu.Title);
             await systemEventSender.Send(systemEvent);
         }

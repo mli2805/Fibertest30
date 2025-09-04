@@ -75,11 +75,11 @@ public static class SystemEventFactory
             SystemEventSource.FromUser(userId));
     }
 
-    public static SystemEvent TraceAttached(string userId, Guid traceId, string traceTitle, string portPath,
-        Guid rtuId, string rtuTitle)
+    public static SystemEvent TraceAttached(string userId, Guid traceId, string traceTitle, FiberState traceState,
+        string portPath, Guid rtuId, string rtuTitle)
     {
         return new SystemEvent(SystemEventType.TraceAttached, SystemEventLevel.Internal,
-            new TraceAttachedData(traceId.ToString(), traceTitle, portPath, rtuId.ToString(), rtuTitle),
+            new TraceAttachedData(traceId.ToString(), traceTitle, traceState, portPath, rtuId.ToString(), rtuTitle),
             SystemEventSource.FromUser(userId));
     }
 

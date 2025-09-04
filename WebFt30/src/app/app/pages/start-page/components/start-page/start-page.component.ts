@@ -296,10 +296,10 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       case 'TraceAttached': {
         const data = <TraceAttachedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
-
         this.gisMapService.externalCommand.next({
           name: 'TraceAttached',
-          traceId: data.TraceId
+          traceId: data.TraceId,
+          traceState: data.TraceState
         });
         return;
       }

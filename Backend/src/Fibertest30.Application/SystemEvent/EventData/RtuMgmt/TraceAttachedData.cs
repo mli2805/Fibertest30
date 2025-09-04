@@ -1,24 +1,11 @@
-﻿using System.Text.Json;
+﻿using Iit.Fibertest.Dto;
+using System.Text.Json;
 
 namespace Fibertest30.Application;
 
-public class TraceAttachedData : ISystemEventData
+public record TraceAttachedData(string TraceId, string TraceTitle, FiberState TraceState,
+    string PortPath, string RtuId, string RtuTitle) : ISystemEventData
 {
-    public string TraceId { get; set; }
-    public string TraceTitle { get; init; }
-    public string PortPath { get; init; }
-    public string RtuId { get; set; }
-    public string RtuTitle { get; init; }
-
-    public TraceAttachedData(string traceId, string traceTitle, string portPath, string rtuId, string rtuTitle)
-    {
-        TraceId = traceId;
-        TraceTitle = traceTitle;
-        PortPath = portPath;
-        RtuId = rtuId;
-        RtuTitle = rtuTitle;
-    }
-
     public string ToJsonData()
     {
         return JsonSerializer.Serialize(this);

@@ -39,13 +39,12 @@ export class MapExternalCommands {
         this.setTraceHasBaseRefs(cmd.traceId, cmd.hasBaseRef);
         break;
       case 'TraceAttached':
-        MapLayersActions.drawTraceWith(cmd.traceId, FiberState.Ok);
+        MapLayersActions.drawTraceWith(cmd.traceId, cmd.traceState);
         break;
       case 'TraceDetached':
         MapLayersActions.drawTraceWith(cmd.traceId, FiberState.NotJoined);
         break;
       case 'AllTracesDetached':
-        console.log(cmd.traceIds);
         cmd.traceIds.forEach((traceId: string) => {
           MapLayersActions.drawTraceWith(traceId, FiberState.NotJoined);
         });
