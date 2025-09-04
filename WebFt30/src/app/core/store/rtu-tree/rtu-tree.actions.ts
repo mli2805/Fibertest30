@@ -35,6 +35,13 @@ const detachTraceFailure = createAction(
   props<{ errorMessageId: string }>()
 );
 
+const detachAllTraces = createAction('[RtuTree] Detach All Traces', props<{ rtuId: string }>());
+const detachAllTracesSuccess = createAction('[RtuTree] Detach All Traces Success');
+const detachAllTracesFailure = createAction(
+  '[RtuTree] Detach All Traces Failure',
+  props<{ errorMessageId: string }>()
+);
+
 const attachOtau = createAction('[RtuTree] Attach Otau', props<{ dto: AttachOtauDto }>());
 const attachOtauSuccess = createAction('[RtuTree] Attach Otau Success');
 const attachOtauFailure = createAction(
@@ -68,6 +75,10 @@ export const RtuTreeActions = {
   detachTrace,
   detachTraceSuccess,
   detachTraceFailure,
+
+  detachAllTraces,
+  detachAllTracesSuccess,
+  detachAllTracesFailure,
 
   attachOtau,
   attachOtauSuccess,

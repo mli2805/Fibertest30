@@ -25,6 +25,7 @@ public enum SystemEventType
     BaseRefsAssigned,
     TraceAttached,
     TraceDetached,
+    AllTracesDetached,
     OtauAttached,
     OtauDetached,
 

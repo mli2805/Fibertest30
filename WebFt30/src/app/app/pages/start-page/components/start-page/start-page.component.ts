@@ -69,22 +69,23 @@ import {
   TraceDetachedData,
   TraceAddedData,
   TraceCleanedData,
-  TraceRemovedData
+  TraceRemovedData,
+  AllTracesDetachedData
 } from 'src/app/shared/system-events/system-event-data/graph/trace-data';
 import { MeasurementUpdatedData } from 'src/app/shared/system-events/system-event-data/graph/measurement-updated-data';
 
 @Component({
-    selector: 'rtu-start-page',
-    templateUrl: 'start-page.component.html',
-    styles: [
-        `
+  selector: 'rtu-start-page',
+  templateUrl: 'start-page.component.html',
+  styles: [
+    `
       :host {
         width: 100%;
         height: 100%;
       }
     `
-    ],
-    standalone: false
+  ],
+  standalone: false
 })
 export class StartPageComponent extends OnDestroyBase implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('header', { read: ElementRef }) headerElementRef!: ElementRef;
@@ -295,13 +296,39 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       case 'TraceAttached': {
         const data = <TraceAttachedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
-        this.gisMapService.externalCommand.next({ name: 'TraceAttached', traceId: data.TraceId });
+
+        this.gisMapService.externalCommand.next({
+          name: 'TraceAttached',
+          traceId: data.TraceId
+        });
         return;
       }
       case 'TraceDetached': {
         const data = <TraceDetachedData>JSON.parse(systemEvent.jsonData);
         this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
         this.gisMapService.externalCommand.next({ name: 'TraceDetached', traceId: data.TraceId });
+        return;
+      }
+      case 'AllTracesDetached': {
+        const data = <AllTracesDetachedData>JSON.parse(systemEvent.jsonData);
+        this.store.dispatch(RtuTreeActions.getOneRtu({ rtuId: data.RtuId }));
+        const rtu = CoreUtils.getCurrentState(this.store, RtuTreeSelectors.selectRtu(data.RtuId));
+        if (!rtu) return;
+        const traces = rtu.children
+          .filter((c) => c.type === 'attached-trace')
+          .map((a) => a.payload);
+
+        rtu.bops.forEach((b) =>
+          b.children
+            .filter((c) => c.type === 'attached-trace')
+            .map((a) => a.payload)
+            .forEach((t) => traces.push(t))
+        );
+
+        this.gisMapService.externalCommand.next({
+          name: 'AllTracesDetached',
+          traceIds: traces.map((t) => t.traceId)
+        });
         return;
       }
       case 'OtauAttached': {

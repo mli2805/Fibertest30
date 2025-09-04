@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState, AuthSelectors, User } from 'src/app/core';
+import { AppState, AuthSelectors, RtuTreeActions, User } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
 import { ApplicationPermission } from 'src/app/core/models/app-permissions';
 import { Rtu } from 'src/app/core/store/models/ft30/rtu';
@@ -24,16 +24,16 @@ import { MessageBoxUtils } from 'src/app/shared/components/message-box/message-b
 import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
-    selector: 'rtu-one-rtu-menu',
-    templateUrl: './one-rtu-menu.component.html',
-    styles: [
-        `
+  selector: 'rtu-one-rtu-menu',
+  templateUrl: './one-rtu-menu.component.html',
+  styles: [
+    `
       :host {
         position: relative;
       }
     `
-    ],
-    standalone: false
+  ],
+  standalone: false
 })
 export class OneRtuMenuComponent {
   store: Store<AppState> = inject(Store<AppState>);
@@ -190,7 +190,7 @@ export class OneRtuMenuComponent {
   }
 
   onDetachAllTracesClicked() {
-    //
+    this.store.dispatch(RtuTreeActions.detachAllTraces({ rtuId: this.rtu.rtuId }));
   }
 
   canRemove() {

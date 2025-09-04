@@ -15,7 +15,8 @@ service RtuTree {
     rpc GetTraceBaselineStat (GetTraceBaselineStatRequest) returns (GetTraceBaselineStatResponse);
     rpc GetTraceStatistics (GetTraceStatisticsRequest) returns (GetTraceStatisticsResponse);
     rpc GetTraceLastMeasurement (GetTraceLastMeasurementRequest) returns (GetTraceLastMeasurementResponse);
-    rpc GetRtuCurrentStep (GetRtuCurrentStepRequest) returns (GetRtuCurrentStepResponse); 
+    rpc GetRtuCurrentStep (GetRtuCurrentStepRequest) returns (GetRtuCurrentStepResponse);
+    rpc DetachAllTraces (DetachAllTracesRequest) returns (DetachAllTracesResponse);
 }
 
 
@@ -182,6 +183,7 @@ message AttachTraceResponse {}
 message DetachTraceRequest {
     string traceId = 1;
 }
+
 message DetachTraceResponse {}
 
 message AttachOtauRequest {
@@ -189,8 +191,8 @@ message AttachOtauRequest {
     NetAddress netAddress = 2;
     int32 opticalPort = 3;
 }
-message AttachOtauResponse {
-}
+
+message AttachOtauResponse {}
 
 message DetachOtauRequest {
     string rtuId = 1;
@@ -199,8 +201,7 @@ message DetachOtauRequest {
     int32 opticalPort = 4;
 }
 
-message DetachOtauResponse {
-}
+message DetachOtauResponse {}
 
 message GetTraceBaselineStatRequest {
     string traceId = 1;
@@ -235,3 +236,10 @@ message GetRtuCurrentStepResponse {
     string traceTitle = 2;
     string port = 3;
 }
+
+//DetachAllTraces
+message DetachAllTracesRequest {
+    string rtuId = 1;
+}
+
+message DetachAllTracesResponse {}

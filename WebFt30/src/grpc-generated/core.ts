@@ -153,7 +153,7 @@ class DeviceInfoResponse$Type extends MessageType<DeviceInfoResponse> {
         super("fibertest30.core.DeviceInfoResponse", [
             { no: 7, name: "notificationSettings", kind: "message", T: () => NotificationSettings },
             { no: 11, name: "apiVersion", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 15, name: "rtus", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Rtu },
+            { no: 15, name: "rtus", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Rtu },
             { no: 16, name: "hasCurrentEvents", kind: "message", T: () => HasCurrentEvents }
         ]);
     }
@@ -190,7 +190,7 @@ export const GetUserSystemNotificationsRequest = new GetUserSystemNotificationsR
 class GetUserSystemNotificationsResponse$Type extends MessageType<GetUserSystemNotificationsResponse> {
     constructor() {
         super("fibertest30.core.GetUserSystemNotificationsResponse", [
-            { no: 1, name: "systemEvents", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => SystemEvent }
+            { no: 1, name: "systemEvents", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => SystemEvent }
         ]);
     }
 }

@@ -140,7 +140,7 @@ export const GetUserActionLinesRequest = new GetUserActionLinesRequest$Type();
 class GetUserActionLinesResponse$Type extends MessageType<GetUserActionLinesResponse> {
     constructor() {
         super("fibertest30.reports.GetUserActionLinesResponse", [
-            { no: 1, name: "lines", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => UserActionLine }
+            { no: 1, name: "lines", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => UserActionLine }
         ]);
     }
 }

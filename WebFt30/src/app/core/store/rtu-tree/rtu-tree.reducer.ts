@@ -96,6 +96,20 @@ const reducer = createReducer(
     errorMessageId
   })),
 
+  on(RtuTreeActions.detachAllTraces, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(RtuTreeActions.detachAllTracesSuccess, (state) => ({
+    ...state,
+    loading: false
+  })),
+  on(RtuTreeActions.detachAllTracesFailure, (state, { errorMessageId }) => ({
+    ...state,
+    loading: false,
+    errorMessageId
+  })),
+
   on(RtuTreeActions.attachOtau, (state) => ({
     ...state,
     loading: true

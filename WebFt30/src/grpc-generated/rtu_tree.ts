@@ -634,6 +634,22 @@ export interface GetRtuCurrentStepResponse {
      */
     port: string;
 }
+/**
+ * DetachAllTraces
+ *
+ * @generated from protobuf message fibertest30.rtu_tree.DetachAllTracesRequest
+ */
+export interface DetachAllTracesRequest {
+    /**
+     * @generated from protobuf field: string rtuId = 1;
+     */
+    rtuId: string;
+}
+/**
+ * @generated from protobuf message fibertest30.rtu_tree.DetachAllTracesResponse
+ */
+export interface DetachAllTracesResponse {
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class NetAddress$Type extends MessageType<NetAddress> {
     constructor() {
@@ -680,7 +696,7 @@ export const DistanceMeasParam = new DistanceMeasParam$Type();
 class BranchOfAcceptableMeasParams$Type extends MessageType<BranchOfAcceptableMeasParams> {
     constructor() {
         super("fibertest30.rtu_tree.BranchOfAcceptableMeasParams", [
-            { no: 1, name: "distances", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => DistanceMeasParam },
+            { no: 1, name: "distances", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => DistanceMeasParam },
             { no: 2, name: "backscatterCoeff", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
             { no: 3, name: "refractiveIndex", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ }
         ]);
@@ -707,7 +723,7 @@ export const UnitMeasParam = new UnitMeasParam$Type();
 class TreeOfAcceptableMeasParams$Type extends MessageType<TreeOfAcceptableMeasParams> {
     constructor() {
         super("fibertest30.rtu_tree.TreeOfAcceptableMeasParams", [
-            { no: 1, name: "units", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => UnitMeasParam }
+            { no: 1, name: "units", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => UnitMeasParam }
         ]);
     }
 }
@@ -791,7 +807,7 @@ class Bop$Type extends MessageType<Bop> {
             { no: 5, name: "isOk", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 6, name: "serial", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 7, name: "portCount", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 8, name: "traces", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Trace }
+            { no: 8, name: "traces", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Trace }
         ]);
     }
 }
@@ -825,8 +841,8 @@ class Rtu$Type extends MessageType<Rtu> {
             { no: 20, name: "fastSave", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 21, name: "version", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 22, name: "version2", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
-            { no: 23, name: "bops", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Bop },
-            { no: 24, name: "traces", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Trace },
+            { no: 23, name: "bops", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Bop },
+            { no: 24, name: "traces", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Trace },
             { no: 25, name: "treeOfAcceptableMeasParams", kind: "message", T: () => TreeOfAcceptableMeasParams },
             { no: 26, name: "comment", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ },
             { no: 27, name: "nodeId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
@@ -882,7 +898,7 @@ export const GetRtuTreeRequest = new GetRtuTreeRequest$Type();
 class GetRtuTreeResponse$Type extends MessageType<GetRtuTreeResponse> {
     constructor() {
         super("fibertest30.rtu_tree.GetRtuTreeResponse", [
-            { no: 1, name: "rtus", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Rtu }
+            { no: 1, name: "rtus", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Rtu }
         ]);
     }
 }
@@ -919,7 +935,7 @@ class AttachTraceRequest$Type extends MessageType<AttachTraceRequest> {
     constructor() {
         super("fibertest30.rtu_tree.AttachTraceRequest", [
             { no: 1, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "portOfOtau", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => PortOfOtau }
+            { no: 2, name: "portOfOtau", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => PortOfOtau }
         ]);
     }
 }
@@ -1024,7 +1040,7 @@ export const GetTraceBaselineStatRequest = new GetTraceBaselineStatRequest$Type(
 class GetTraceBaselineStatResponse$Type extends MessageType<GetTraceBaselineStatResponse> {
     constructor() {
         super("fibertest30.rtu_tree.GetTraceBaselineStatResponse", [
-            { no: 1, name: "baselines", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => TraceStatBaseline }
+            { no: 1, name: "baselines", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => TraceStatBaseline }
         ]);
     }
 }
@@ -1048,7 +1064,7 @@ export const GetTraceStatisticsRequest = new GetTraceStatisticsRequest$Type();
 class GetTraceStatisticsResponse$Type extends MessageType<GetTraceStatisticsResponse> {
     constructor() {
         super("fibertest30.rtu_tree.GetTraceStatisticsResponse", [
-            { no: 1, name: "measurements", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => TraceStatMeasurement }
+            { no: 1, name: "measurements", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => TraceStatMeasurement }
         ]);
     }
 }
@@ -1106,6 +1122,28 @@ class GetRtuCurrentStepResponse$Type extends MessageType<GetRtuCurrentStepRespon
  * @generated MessageType for protobuf message fibertest30.rtu_tree.GetRtuCurrentStepResponse
  */
 export const GetRtuCurrentStepResponse = new GetRtuCurrentStepResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class DetachAllTracesRequest$Type extends MessageType<DetachAllTracesRequest> {
+    constructor() {
+        super("fibertest30.rtu_tree.DetachAllTracesRequest", [
+            { no: 1, name: "rtuId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.DetachAllTracesRequest
+ */
+export const DetachAllTracesRequest = new DetachAllTracesRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class DetachAllTracesResponse$Type extends MessageType<DetachAllTracesResponse> {
+    constructor() {
+        super("fibertest30.rtu_tree.DetachAllTracesResponse", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.rtu_tree.DetachAllTracesResponse
+ */
+export const DetachAllTracesResponse = new DetachAllTracesResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.rtu_tree.RtuTree
  */
@@ -1119,5 +1157,6 @@ export const RtuTree = new ServiceType("fibertest30.rtu_tree.RtuTree", [
     { name: "GetTraceBaselineStat", options: {}, I: GetTraceBaselineStatRequest, O: GetTraceBaselineStatResponse },
     { name: "GetTraceStatistics", options: {}, I: GetTraceStatisticsRequest, O: GetTraceStatisticsResponse },
     { name: "GetTraceLastMeasurement", options: {}, I: GetTraceLastMeasurementRequest, O: GetTraceLastMeasurementResponse },
-    { name: "GetRtuCurrentStep", options: {}, I: GetRtuCurrentStepRequest, O: GetRtuCurrentStepResponse }
+    { name: "GetRtuCurrentStep", options: {}, I: GetRtuCurrentStepRequest, O: GetRtuCurrentStepResponse },
+    { name: "DetachAllTraces", options: {}, I: DetachAllTracesRequest, O: DetachAllTracesResponse }
 ]);

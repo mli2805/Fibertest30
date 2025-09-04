@@ -24,3 +24,7 @@ export interface TraceDetachedData {
   Title: string;
   RtuId: string;
 }
+
+export interface AllTracesDetachedData {
+  RtuId: string;
+}

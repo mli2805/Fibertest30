@@ -447,8 +447,8 @@ class DoMeasurementClientDto$Type extends MessageType<DoMeasurementClientDto> {
     constructor() {
         super("fibertest30.rtu_mgmt.DoMeasurementClientDto", [
             { no: 1, name: "rtuId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "portOfOtau", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => PortOfOtau },
-            { no: 3, name: "measParamsByPosition", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => MeasParamByPosition }
+            { no: 2, name: "portOfOtau", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => PortOfOtau },
+            { no: 3, name: "measParamsByPosition", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => MeasParamByPosition }
         ]);
     }
 }
@@ -494,7 +494,7 @@ class ApplyMonitoringSettingsDto$Type extends MessageType<ApplyMonitoringSetting
             { no: 4, name: "preciseMeas", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 5, name: "preciseSave", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 6, name: "fastSave", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 7, name: "ports", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => PortWithTraceDto }
+            { no: 7, name: "ports", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => PortWithTraceDto }
         ]);
     }
 }
@@ -524,7 +524,7 @@ class AssignBaseRefsDto$Type extends MessageType<AssignBaseRefsDto> {
             { no: 2, name: "rtuMaker", kind: "enum", T: () => ["fibertest30.ft.enums.RtuMaker", RtuMaker] },
             { no: 3, name: "traceId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "portOfOtau", kind: "message", T: () => PortOfOtau },
-            { no: 5, name: "baseRefFiles", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => BaseRefFile },
+            { no: 5, name: "baseRefFiles", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => BaseRefFile },
             { no: 6, name: "deleteSors", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/ }
         ]);
     }

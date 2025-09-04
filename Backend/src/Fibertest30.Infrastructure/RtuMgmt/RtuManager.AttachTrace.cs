@@ -85,6 +85,22 @@ public partial class RtuManager
         var сmd = new DetachTrace() { TraceId = traceId };
         var answer = await _eventStoreService.SendCommand(сmd, _currentUserService.UserName, clientIp);
 
-        return string.IsNullOrEmpty(answer) ? new RequestAnswer(ReturnCode.Ok) : new RequestAnswer(ReturnCode.Error);
+        return string.IsNullOrEmpty(answer)
+            ? new RequestAnswer(ReturnCode.Ok)
+            : new RequestAnswer(ReturnCode.Error) { ErrorMessage = answer };
+    }
+
+    public async Task<RequestAnswer> DetachAllTraces(Guid rtuId, string clientIp)
+    {
+        var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == rtuId);
+        if (rtu == null)
+            throw new NoSuchRtuException(rtuId.ToString());
+
+        var сmd = new DetachAllTraces() { RtuId = rtuId };
+        var answer = await _eventStoreService.SendCommand(сmd, _currentUserService.UserName, clientIp);
+
+        return string.IsNullOrEmpty(answer)
+            ? new RequestAnswer(ReturnCode.Ok)
+            : new RequestAnswer(ReturnCode.Error) { ErrorMessage = answer };
     }
 }

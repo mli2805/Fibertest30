@@ -90,6 +90,12 @@ public static class SystemEventFactory
             SystemEventSource.FromUser(userId));
     }
 
+    public static SystemEvent AllTracesDetached(string userId, Guid rtuId)
+    {
+        return new SystemEvent(SystemEventType.AllTracesDetached, SystemEventLevel.Internal,
+            new AllTracesDetachedData(rtuId.ToString()), SystemEventSource.FromUser(userId));
+    }
+
     public static SystemEvent OtauAttached(string userId, string otauAddress, string serial, int mainCharonPort,
         Guid rtuId, string rtuTitle)
     {

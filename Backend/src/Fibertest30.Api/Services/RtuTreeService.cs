@@ -4,24 +4,17 @@ using MediatR;
 
 namespace Fibertest30.Api;
 
-public class RtuTreeService : RtuTree.RtuTreeBase
+public class RtuTreeService(ISender mediator) : RtuTree.RtuTreeBase
 {
-    private readonly ISender _mediator;
-
-    public RtuTreeService(ISender mediator)
-    {
-        _mediator = mediator;
-    }
-
     public override async Task<GetRtuTreeResponse> GetRtuTree(GetRtuTreeRequest request, ServerCallContext context)
     {
-        var tree = await _mediator.Send(new GetRtuTreeQuery(), context.CancellationToken);
+        var tree = await mediator.Send(new GetRtuTreeQuery(), context.CancellationToken);
         return new GetRtuTreeResponse() { Rtus = { tree.Select(r => r.ToProto()) } };
     }
 
     public override async Task<GetRtuResponse> GetRtu(GetRtuRequest request, ServerCallContext context)
     {
-        var rtuDto = await _mediator.Send(new GetRtuQuery(request.RtuId), context.CancellationToken);
+        var rtuDto = await mediator.Send(new GetRtuQuery(request.RtuId), context.CancellationToken);
         return new GetRtuResponse() { Rtu = rtuDto.ToProto() };
     }
 
@@ -37,7 +30,7 @@ public class RtuTreeService : RtuTree.RtuTreeBase
         var ip = httpContext.Connection.RemoteIpAddress?.ToString() ?? "";
         dto.ClientIp = ip;
 
-        await _mediator.Send(new AttachTraceCommand(dto), context.CancellationToken);
+        await mediator.Send(new AttachTraceCommand(dto), context.CancellationToken);
         return new AttachTraceResponse();
     }
 
@@ -47,7 +40,7 @@ public class RtuTreeService : RtuTree.RtuTreeBase
         var ip = httpContext.Connection.RemoteIpAddress?.ToString() ?? "";
 
         var guid = Guid.Parse(request.TraceId);
-        await _mediator.Send(new DetachTraceCommand(guid, ip), context.CancellationToken);
+        await mediator.Send(new DetachTraceCommand(guid, ip), context.CancellationToken);
         return new DetachTraceResponse();
     }
 
@@ -59,7 +52,7 @@ public class RtuTreeService : RtuTree.RtuTreeBase
         var dto = request.FromProto();
         dto.ClientIp = ip;
 
-        await _mediator.Send(new AttachOtauCommand(dto), context.CancellationToken);
+        await mediator.Send(new AttachOtauCommand(dto), context.CancellationToken);
         return new AttachOtauResponse();
     }
 
@@ -71,42 +64,52 @@ public class RtuTreeService : RtuTree.RtuTreeBase
         var dto = request.FromProto();
         dto.ClientIp = ip;
 
-        await _mediator.Send(new DetachOtauCommand(dto), context.CancellationToken);
+        await mediator.Send(new DetachOtauCommand(dto), context.CancellationToken);
         return new DetachOtauResponse();
     }
 
     public override async Task<GetTraceBaselineStatResponse> GetTraceBaselineStat(GetTraceBaselineStatRequest request,
         ServerCallContext context)
     {
-        var baselines = await _mediator.Send(new GetTraceBaselineStatQuery(Guid.Parse(request.TraceId)),
-            context.CancellationToken);
+        var baselines = await mediator
+            .Send(new GetTraceBaselineStatQuery(Guid.Parse(request.TraceId)), context.CancellationToken);
         return new GetTraceBaselineStatResponse() { Baselines = { baselines.Select(b => b.ToProto()) } };
     }
 
     public override async Task<GetTraceStatisticsResponse> GetTraceStatistics(GetTraceStatisticsRequest request,
         ServerCallContext context)
     {
-        var measurements = await _mediator.Send(new GetTraceMeasurementStatQuery(Guid.Parse(request.TraceId)),
-            context.CancellationToken);
+        var measurements = await mediator
+            .Send(new GetTraceMeasurementStatQuery(Guid.Parse(request.TraceId)), context.CancellationToken);
         return new GetTraceStatisticsResponse() { Measurements = { measurements.Select(m => m.ToProto()) } };
     }
 
     public override async Task<GetTraceLastMeasurementResponse> GetTraceLastMeasurement(
         GetTraceLastMeasurementRequest request, ServerCallContext context)
     {
-        var sorFileId = await _mediator.Send(new GetTraceLastMeasurementQuery(Guid.Parse(request.TraceId)),
-            context.CancellationToken);
+        var sorFileId = await mediator
+            .Send(new GetTraceLastMeasurementQuery(Guid.Parse(request.TraceId)), context.CancellationToken);
 
         return new GetTraceLastMeasurementResponse() { SorFileId = sorFileId };
     }
 
-    public override async Task<GetRtuCurrentStepResponse> GetRtuCurrentStep(GetRtuCurrentStepRequest request, ServerCallContext context)
+    public override async Task<GetRtuCurrentStepResponse> GetRtuCurrentStep(GetRtuCurrentStepRequest request, 
+        ServerCallContext context)
     {
-        var result = await _mediator.Send(new GetRtuCurrentStepQuery(Guid.Parse(request.RtuId)),
+        var result = await mediator.Send(new GetRtuCurrentStepQuery(Guid.Parse(request.RtuId)),
             context.CancellationToken);
         return new GetRtuCurrentStepResponse()
         {
             Step = result.Step.ToProto(), Port = result.Port, TraceTitle = result.TraceTitle
         };
+    }
+
+    public override async Task<DetachAllTracesResponse> DetachAllTraces(DetachAllTracesRequest request, ServerCallContext context)
+    {
+        var httpContext = context.GetHttpContext();
+        var ip = httpContext.Connection.RemoteIpAddress?.ToString() ?? "";
+
+        await mediator.Send(new DetachAllTracesCommand(Guid.Parse(request.RtuId), ip), context.CancellationToken);
+        return new DetachAllTracesResponse();
     }
 }

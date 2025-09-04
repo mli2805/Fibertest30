@@ -81,6 +81,22 @@ export class RtuTreeEffects {
     )
   );
 
+  detachAllTraces = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RtuTreeActions.detachAllTraces),
+      switchMap(({ rtuId }) => {
+        return this.rtuTreeService.detachAllTraces(rtuId).pipe(
+          map((response) => {
+            return RtuTreeActions.detachAllTracesSuccess();
+          }),
+          catchError((error) => {
+            return of(RtuTreeActions.detachAllTracesFailure({ errorMessageId: error }));
+          })
+        );
+      })
+    )
+  );
+
   attachOtau = createEffect(() =>
     this.actions$.pipe(
       ofType(RtuTreeActions.attachOtau),

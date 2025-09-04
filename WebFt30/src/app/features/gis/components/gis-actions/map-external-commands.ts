@@ -36,7 +36,6 @@ export class MapExternalCommands {
         this.reloadAllGeoData();
         break;
       case 'BaseRefsAssigned':
-        console.log(cmd);
         this.setTraceHasBaseRefs(cmd.traceId, cmd.hasBaseRef);
         break;
       case 'TraceAttached':
@@ -44,6 +43,12 @@ export class MapExternalCommands {
         break;
       case 'TraceDetached':
         MapLayersActions.drawTraceWith(cmd.traceId, FiberState.NotJoined);
+        break;
+      case 'AllTracesDetached':
+        console.log(cmd.traceIds);
+        cmd.traceIds.forEach((traceId: string) => {
+          MapLayersActions.drawTraceWith(traceId, FiberState.NotJoined);
+        });
         break;
       case 'TraceStateChanged':
         MapLayersActions.drawTraceWith(cmd.traceId, cmd.traceState);

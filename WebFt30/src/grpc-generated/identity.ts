@@ -556,7 +556,7 @@ export const GetAllUsersRequest = new GetAllUsersRequest$Type();
 class GetAllUsersResponse$Type extends MessageType<GetAllUsersResponse> {
     constructor() {
         super("fibertest30.Identity.GetAllUsersResponse", [
-            { no: 1, name: "users", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => User }
+            { no: 1, name: "users", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => User }
         ]);
     }
 }
@@ -669,7 +669,7 @@ export const GetAllRolesRequest = new GetAllRolesRequest$Type();
 class GetAllRolesResponse$Type extends MessageType<GetAllRolesResponse> {
     constructor() {
         super("fibertest30.Identity.GetAllRolesResponse", [
-            { no: 1, name: "roles", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Role }
+            { no: 1, name: "roles", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Role }
         ]);
     }
 }

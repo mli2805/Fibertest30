@@ -46,6 +46,11 @@ export class RtuTreeService {
     return GrpcUtils.unaryToObservable(this.client.detachTrace.bind(this.client), request, {});
   }
 
+  detachAllTraces(rtuId: string): Observable<grpc.DetachAllTracesResponse> {
+    const request: grpc.DetachAllTracesRequest = { rtuId };
+    return GrpcUtils.unaryToObservable(this.client.detachAllTraces.bind(this.client), request, {});
+  }
+
   attachOtau(dto: AttachOtauDto): Observable<grpc.AttachOtauResponse> {
     const request: grpc.AttachOtauRequest = {
       rtuId: dto.rtuId,

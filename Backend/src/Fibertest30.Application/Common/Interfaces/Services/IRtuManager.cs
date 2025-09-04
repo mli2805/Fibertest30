@@ -17,6 +17,7 @@ public interface IRtuManager
 
     Task<RequestAnswer> AttachTrace(AttachTraceDto dto);
     Task<RequestAnswer> DetachTrace(Guid traceId, string clientIp);
+    Task<RequestAnswer> DetachAllTraces(Guid rtuId, string clientIp);
     Task<OtauAttachedDto> AttachOtau(AttachOtauDto dto);
     Task<OtauDetachedDto> DetachOtau(DetachOtauDto dto);
 

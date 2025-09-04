@@ -277,7 +277,7 @@ class RftsEventsData$Type extends MessageType<RftsEventsData> {
         super("fibertest30.rfts_events.RftsEventsData", [
             { no: 1, name: "ErrorMessage", kind: "scalar", jsonName: "ErrorMessage", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "IsNoFiber", kind: "scalar", jsonName: "IsNoFiber", T: 8 /*ScalarType.BOOL*/ },
-            { no: 3, name: "LevelArray", kind: "message", jsonName: "LevelArray", repeat: 1 /*RepeatType.PACKED*/, T: () => RftsLevel },
+            { no: 3, name: "LevelArray", kind: "message", jsonName: "LevelArray", repeat: 2 /*RepeatType.UNPACKED*/, T: () => RftsLevel },
             { no: 4, name: "Summary", kind: "message", jsonName: "Summary", T: () => RftsEventsSummary }
         ]);
     }
@@ -293,7 +293,7 @@ class RftsLevel$Type extends MessageType<RftsLevel> {
             { no: 1, name: "Level", kind: "enum", jsonName: "Level", T: () => ["fibertest30.ft.enums.FiberState", FiberState] },
             { no: 2, name: "IsFailed", kind: "scalar", jsonName: "IsFailed", T: 8 /*ScalarType.BOOL*/ },
             { no: 3, name: "FirstProblemLocation", kind: "scalar", jsonName: "FirstProblemLocation", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "EventArray", kind: "message", jsonName: "EventArray", repeat: 1 /*RepeatType.PACKED*/, T: () => RftsEvent },
+            { no: 4, name: "EventArray", kind: "message", jsonName: "EventArray", repeat: 2 /*RepeatType.UNPACKED*/, T: () => RftsEvent },
             { no: 5, name: "TotalFiberLoss", kind: "message", jsonName: "TotalFiberLoss", T: () => TotalFiberLoss }
         ]);
     }
@@ -367,7 +367,7 @@ class RftsEventsSummary$Type extends MessageType<RftsEventsSummary> {
             { no: 1, name: "TraceState", kind: "enum", jsonName: "TraceState", T: () => ["fibertest30.ft.enums.FiberState", FiberState] },
             { no: 2, name: "BreakLocation", kind: "scalar", jsonName: "BreakLocation", T: 1 /*ScalarType.DOUBLE*/ },
             { no: 3, name: "Orl", kind: "scalar", jsonName: "Orl", T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 4, name: "LevelStates", kind: "message", jsonName: "LevelStates", repeat: 1 /*RepeatType.PACKED*/, T: () => LevelState }
+            { no: 4, name: "LevelStates", kind: "message", jsonName: "LevelStates", repeat: 2 /*RepeatType.UNPACKED*/, T: () => LevelState }
         ]);
     }
 }

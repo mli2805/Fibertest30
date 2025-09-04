@@ -412,7 +412,7 @@ class OpticalEvent$Type extends MessageType<OpticalEvent> {
             { no: 11, name: "statusChangedAt", kind: "message", T: () => Timestamp },
             { no: 12, name: "statusChangedByUser", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 13, name: "comment", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 14, name: "accidents", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => AccidentOnTraceV2 }
+            { no: 14, name: "accidents", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => AccidentOnTraceV2 }
         ]);
     }
 }

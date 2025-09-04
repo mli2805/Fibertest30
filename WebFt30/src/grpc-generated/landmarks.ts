@@ -306,7 +306,7 @@ class LandmarksModel$Type extends MessageType<LandmarksModel> {
     constructor() {
         super("fibertest30.landmarks.LandmarksModel", [
             { no: 1, name: "landmarksModelId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "landmarks", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => ColoredLandmark }
+            { no: 2, name: "landmarks", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => ColoredLandmark }
         ]);
     }
 }

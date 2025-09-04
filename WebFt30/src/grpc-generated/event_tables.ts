@@ -244,7 +244,7 @@ export const GetSystemEventsRequest = new GetSystemEventsRequest$Type();
 class GetSystemEventsResponse$Type extends MessageType<GetSystemEventsResponse> {
     constructor() {
         super("fibertest30.event_tables.GetSystemEventsResponse", [
-            { no: 1, name: "systemEvents", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => SystemEvent }
+            { no: 1, name: "systemEvents", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => SystemEvent }
         ]);
     }
 }
@@ -294,7 +294,7 @@ export const GetOpticalEventsRequest = new GetOpticalEventsRequest$Type();
 class GetOpticalEventsResponse$Type extends MessageType<GetOpticalEventsResponse> {
     constructor() {
         super("fibertest30.event_tables.GetOpticalEventsResponse", [
-            { no: 1, name: "opticalEvents", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => OpticalEvent }
+            { no: 1, name: "opticalEvents", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => OpticalEvent }
         ]);
     }
 }
@@ -344,7 +344,7 @@ export const GetNetworkEventsRequest = new GetNetworkEventsRequest$Type();
 class GetNetworkEventsResponse$Type extends MessageType<GetNetworkEventsResponse> {
     constructor() {
         super("fibertest30.event_tables.GetNetworkEventsResponse", [
-            { no: 1, name: "networkEvents", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => NetworkEvent }
+            { no: 1, name: "networkEvents", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => NetworkEvent }
         ]);
     }
 }
@@ -394,7 +394,7 @@ export const GetBopEventsRequest = new GetBopEventsRequest$Type();
 class GetBopEventsResponse$Type extends MessageType<GetBopEventsResponse> {
     constructor() {
         super("fibertest30.event_tables.GetBopEventsResponse", [
-            { no: 1, name: "bopEvents", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => BopEvent }
+            { no: 1, name: "bopEvents", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => BopEvent }
         ]);
     }
 }
@@ -444,7 +444,7 @@ export const GetRtuAccidentsRequest = new GetRtuAccidentsRequest$Type();
 class GetRtuAccidentsResponse$Type extends MessageType<GetRtuAccidentsResponse> {
     constructor() {
         super("fibertest30.event_tables.GetRtuAccidentsResponse", [
-            { no: 1, name: "rtuAccidents", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => RtuAccident }
+            { no: 1, name: "rtuAccidents", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => RtuAccident }
         ]);
     }
 }

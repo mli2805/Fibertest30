@@ -17,7 +17,7 @@ public class DetachTraceCommandHandler(
     {
         var result = await rtuManager.DetachTrace(request.TraceId, request.ClientIp);
         if (result.ReturnCode != ReturnCode.Ok)
-            throw new InvalidOperationException();
+            throw new InvalidOperationException(result.ErrorMessage);
 
         var trace = writeModel.Traces.Single(t => t.TraceId == request.TraceId);
 

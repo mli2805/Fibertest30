@@ -347,8 +347,8 @@ class GeoFiber$Type extends MessageType<GeoFiber> {
             { no: 3, name: "coors1", kind: "message", T: () => GeoCoordinate },
             { no: 4, name: "node2id", kind: "scalar", jsonName: "node2id", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "coors2", kind: "message", T: () => GeoCoordinate },
-            { no: 7, name: "states", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => FiberStateDictionaryItem },
-            { no: 8, name: "tracesWithExceededLossCoeff", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => FiberStateDictionaryItem }
+            { no: 7, name: "states", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => FiberStateDictionaryItem },
+            { no: 8, name: "tracesWithExceededLossCoeff", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => FiberStateDictionaryItem }
         ]);
     }
 }
@@ -378,7 +378,7 @@ class FiberInfo$Type extends MessageType<FiberInfo> {
             { no: 3, name: "rightNodeTitle", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "gpsLength", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
             { no: 5, name: "userInputedLength", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 6, name: "tracesThrough", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => OpticalLength },
+            { no: 6, name: "tracesThrough", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => OpticalLength },
             { no: 7, name: "hasTraceUnderMonitoring", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
@@ -411,10 +411,10 @@ export const GeoTrace = new GeoTrace$Type();
 class AllGeoData$Type extends MessageType<AllGeoData> {
     constructor() {
         super("fibertest30.gis.AllGeoData", [
-            { no: 1, name: "fibers", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => GeoFiber },
-            { no: 2, name: "nodes", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => TraceNode },
-            { no: 3, name: "traces", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => GeoTrace },
-            { no: 4, name: "equipments", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => GeoEquipment }
+            { no: 1, name: "fibers", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => GeoFiber },
+            { no: 2, name: "nodes", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => TraceNode },
+            { no: 3, name: "traces", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => GeoTrace },
+            { no: 4, name: "equipments", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => GeoEquipment }
         ]);
     }
 }
