@@ -278,7 +278,6 @@
   "i18n.ft.use-auto-mode": "Use auto mode",
 
   "i18n.available-lasers": "Available lasers",
-  "i18n.create-report": "Create report",
   "i18n.minutes-seconds": "minutes:seconds",
   "i18n.start-test": "Start test",
   "i18n.switch-to-link-map": "Switch to Linkmap",
@@ -470,7 +469,7 @@
   "i18n.ft.minor": "Minor",
   "i18n.ft.major": "Major",
   "i18n.ft.critical": "Critical",
-  "i18n.ft.user": "User",
+  "i18n.ft.user-threshold": "User's threshold",
   "i18n.ft.fiber-break": "Fiber break",
   "i18n.ft.no-fiber": "No fiber",
   "i18n.ft.high-lighted": "Highlighted",
@@ -866,5 +865,11 @@
   "i18n.ft.operations-filter": "Operations filter",
 
   "i18n.ft.download-pdf": "Download PDF",
-  "i18n.ft.up-to": "Up to"
+  "i18n.ft.up-to": "Up to",
+
+  "i18n.ft.current-optical-events": "Current optical events",
+  "i18n.ft.optical-events-for-the-period": "Optical events for the period",
+  "i18n.ft.detailed-report": "Detailed report",
+  "i18n.ft.show-accident-location": "Show accident location",
+  "i18n.ft.create-report": "Create report"
 }

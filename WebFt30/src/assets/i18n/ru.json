@@ -202,7 +202,7 @@
   "i18n.ft.minor": "Предупреждение",
   "i18n.ft.major": "Повреждение",
   "i18n.ft.critical": "Авария",
-  "i18n.ft.user": "Пользователь",
+  "i18n.ft.user-threshold": "Пользовательский порог",
   "i18n.ft.fiber-break": "Обрыв волокна",
   "i18n.ft.no-fiber": "Нет волокна",
   "i18n.ft.high-lighted": "Подсвечено",
@@ -546,5 +546,11 @@
   "i18n.ft.operations-filter": "Фильтр операций",
 
   "i18n.ft.download-pdf": "Загрузить PDF",
-  "i18n.ft.up-to": "По дату"
+  "i18n.ft.up-to": "По дату",
+
+  "i18n.ft.current-optical-events": "Текущие оптические события",
+  "i18n.ft.optical-events-for-the-period": "Оптические события за период",
+  "i18n.ft.detailed-report": "Детализированный отчет",
+  "i18n.ft.show-accident-location": "Выводить место повреждения",
+  "i18n.ft.create-report": "Создать отчет"
 }

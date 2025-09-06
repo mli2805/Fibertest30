@@ -3,8 +3,8 @@ import { FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 
 @Injectable({ providedIn: 'root' })
 @Pipe({
-    name: 'fiberStatePipe',
-    standalone: false
+  name: 'fiberStatePipe',
+  standalone: false
 })
 export class FiberStatePipe implements PipeTransform {
   transform(value: FiberState) {
@@ -28,7 +28,7 @@ export class FiberStatePipe implements PipeTransform {
       case FiberState.Critical:
         return 'i18n.ft.critical';
       case FiberState.User:
-        return 'i18n.ft.user';
+        return 'i18n.ft.user-threshold';
       case FiberState.FiberBreak:
         return 'i18n.ft.fiber-break';
       case FiberState.NoFiber:

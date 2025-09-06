@@ -1,1 +1,75 @@
-<p>optical-events-report works!</p>
+<div class="ml-1 mt-1 w-144 text-sm">
+  <div class="grouped-border mb-2 flex justify-around">
+    <ng-container *ngFor="let button of buttons; let i = index">
+      <rtu-radio-button [button]="button" class="mr-4" (click)="onRadioButtonClick(i)" />
+    </ng-container>
+  </div>
+
+  <fieldset [disabled]="isCurrentEvents">
+    <div class="grouped-border flex flex-col">
+      <rtu-date-pick
+        class="mb-1 ml-2"
+        [dateValue]="dateRange"
+        (filterChanged)="dateChange($event)"
+      ></rtu-date-pick>
+      <div class="flex gap-x-2">
+        <!-- статусы -->
+        <div class="grouped-border my-2 flex-1">
+          <ng-container *ngFor="let status of statuses">
+            <div class="flex items-center">
+              <label class="toggle my-2 mr-3">
+                <input type="checkbox" [checked]="status.isChecked" />
+                <div class="slider"></div>
+              </label>
+              <label class="ml-1" [ngClass]="{ 'disabled-label': isCurrentEvents }">{{
+                status.title | translate
+              }}</label>
+            </div>
+          </ng-container>
+        </div>
+        <!-- состояния -->
+        <div class="grouped-border my-2 flex-1">
+          <ng-container *ngFor="let state of states">
+            <div class="flex items-center">
+              <label class="toggle my-2 mr-3">
+                <input type="checkbox" [checked]="state.isChecked" />
+                <div class="slider"></div>
+              </label>
+              <label class="ml-1" [ngClass]="{ 'disabled-label': isCurrentEvents }">{{
+                state.title | translate
+              }}</label>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="ml-2 flex items-center">
+        <label class="toggle my-2 mr-3 place-self-end">
+          <input type="checkbox" [checked]="isDetailed" (change)="toggleDetailed()" />
+          <div class="slider"></div>
+        </label>
+        <label class="ml-1" [ngClass]="{ 'disabled-label': isCurrentEvents }">{{
+          'i18n.ft.detailed-report' | translate
+        }}</label>
+      </div>
+      <div class="ml-2 flex items-center">
+        <label class="toggle my-2 mr-3 place-self-end">
+          <input
+            type="checkbox"
+            [checked]="isShowPlace"
+            [disabled]="!isDetailed"
+            (change)="toggleShowPlace()"
+          />
+          <div class="slider"></div>
+        </label>
+        <label class="ml-1" [ngClass]="{ 'disabled-label': isCurrentEvents || !isDetailed }">{{
+          'i18n.ft.show-accident-location' | translate
+        }}</label>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="flex justify-end">
+    <button class="button-ok mr-3 mt-3 w-48">{{ 'i18n.ft.create-report' | translate }}</button>
+  </div>
+</div>

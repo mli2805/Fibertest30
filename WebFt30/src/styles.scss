@@ -347,6 +347,11 @@ $ft-theme: mat.m2-define-light-theme(
     @apply bg-[#6079F9];
   }
 
+  /* Когда input задисейблен — меняем цвет/прозрачность слайдера */
+  .toggle > input:disabled + .slider {
+    @apply cursor-default opacity-50;
+  }
+
   .toggle > input:checked + .slider::after {
     @apply translate-x-full;
   }
