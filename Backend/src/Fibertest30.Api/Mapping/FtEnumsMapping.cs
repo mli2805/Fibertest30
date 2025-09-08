@@ -152,6 +152,12 @@ public static class FtEnumsMapping
         };
     }
 
+    public static Iit.Fibertest.Dto.EventStatus FromProto(this EventStatus status)
+    {
+        int code = (int)status;
+        return (Iit.Fibertest.Dto.EventStatus)code;
+    }
+
     public static MonitoringCurrentStep ToProto(this Iit.Fibertest.Dto.MonitoringCurrentStep step)
     {
         return step switch

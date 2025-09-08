@@ -8,16 +8,13 @@ namespace Iit.Fibertest.Graph
         private const string LeftArrow = "\U0001f860";
         private bool _isGisOn;
         private GpsInputMode _gpsInputMode;
-        // private bool _isDesktop;
-        private string _owner;
 
         public AccidentLineModel Create(AccidentOnTraceV2 accident, int number,
-            bool isGisOn, GpsInputMode gpsInputMode = GpsInputMode.DegreesMinutesAndSeconds, string owner = "desktop")
+            bool isGisOn, GpsInputMode gpsInputMode = GpsInputMode.DegreesMinutesAndSeconds)
         {
             _isGisOn = isGisOn;
             _gpsInputMode = gpsInputMode;
             // _isDesktop = isDesktop;
-            _owner = owner;
             if (accident.OpticalTypeOfAccident == OpticalAccidentType.TotalLoss)
                 return CreateBadLine(accident, number);
             if (accident.IsAccidentInOldEvent)
@@ -136,27 +133,7 @@ namespace Iit.Fibertest.Graph
 
         private string BuildPath(string pngFile)
         {
-            try
-            {
-                switch (_owner)
-                {
-                    case "desktop" : return $@"pack://application:,,,/Resources/AccidentSchemes/{pngFile}";
-                    case "web" : return $@"./assets/AccidentSchemes/{pngFile}";
-                    case "datacenter" : return $@"Resources\AccidentSchemes\{pngFile}";
-                }
-
-                return @"unknown owner, can't return path";
-
-                // return _isDesktop
-                //     // ? $@"pack://application:,,,/Resources/AccidentSchemes/{pngFile}"
-                //     ? $@"Resources\AccidentSchemes\{pngFile}"
-                //     : $@"./assets/AccidentSchemes/{pngFile}";
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return null;
-            }
+            return $@"assets\AccidentSchemes\{pngFile}";
         }
     }
 }

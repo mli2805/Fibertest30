@@ -1,5 +1,6 @@
 syntax = "proto3";
 import "google/protobuf/timestamp.proto";
+import "ft.enums.proto";
 import "events.data.proto";
 
 option csharp_namespace = "Fibertest30.Api";
@@ -8,6 +9,7 @@ package fibertest30.reports;
 service Reports {
 	rpc GetUserActionLines (GetUserActionLinesRequest) returns (GetUserActionLinesResponse);
 	rpc GetUserActonsPdf (GetUserActonsPdfRequest) returns (GetUserActonsPdfResponse);
+	rpc GetOpticalEventsReportPdf (GetOpticalEventsReportPdfRequest) returns (GetOpticalEventsReportPdfResponse);
 }
 
 message UserActionLine {
@@ -41,5 +43,19 @@ message GetUserActonsPdfRequest {
 }
 
 message GetUserActonsPdfResponse {
+	bytes pdf = 1;
+}
+
+// GetOpticalEventsReportPdf
+message GetOpticalEventsReportPdfRequest {
+	bool isCurrentEvents = 1;
+    events.data.DateTimeFilter dateTimeFilter = 2;
+	repeated ft.enums.EventStatus eventStatuses = 3;
+	repeated ft.enums.FiberState traceStates = 4;
+	bool isDetailed = 5;
+	bool isShowPlace = 6;
+}
+
+message GetOpticalEventsReportPdfResponse {
 	bytes pdf = 1;
 }

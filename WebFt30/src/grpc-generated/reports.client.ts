@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { Reports } from "./reports";
+import type { GetOpticalEventsReportPdfResponse } from "./reports";
+import type { GetOpticalEventsReportPdfRequest } from "./reports";
 import type { GetUserActonsPdfResponse } from "./reports";
 import type { GetUserActonsPdfRequest } from "./reports";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
@@ -23,6 +25,10 @@ export interface IReportsClient {
      * @generated from protobuf rpc: GetUserActonsPdf(fibertest30.reports.GetUserActonsPdfRequest) returns (fibertest30.reports.GetUserActonsPdfResponse);
      */
     getUserActonsPdf(input: GetUserActonsPdfRequest, options?: RpcOptions): UnaryCall<GetUserActonsPdfRequest, GetUserActonsPdfResponse>;
+    /**
+     * @generated from protobuf rpc: GetOpticalEventsReportPdf(fibertest30.reports.GetOpticalEventsReportPdfRequest) returns (fibertest30.reports.GetOpticalEventsReportPdfResponse);
+     */
+    getOpticalEventsReportPdf(input: GetOpticalEventsReportPdfRequest, options?: RpcOptions): UnaryCall<GetOpticalEventsReportPdfRequest, GetOpticalEventsReportPdfResponse>;
 }
 /**
  * @generated from protobuf service fibertest30.reports.Reports
@@ -46,5 +52,12 @@ export class ReportsClient implements IReportsClient, ServiceInfo {
     getUserActonsPdf(input: GetUserActonsPdfRequest, options?: RpcOptions): UnaryCall<GetUserActonsPdfRequest, GetUserActonsPdfResponse> {
         const method = this.methods[1], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetUserActonsPdfRequest, GetUserActonsPdfResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetOpticalEventsReportPdf(fibertest30.reports.GetOpticalEventsReportPdfRequest) returns (fibertest30.reports.GetOpticalEventsReportPdfResponse);
+     */
+    getOpticalEventsReportPdf(input: GetOpticalEventsReportPdfRequest, options?: RpcOptions): UnaryCall<GetOpticalEventsReportPdfRequest, GetOpticalEventsReportPdfResponse> {
+        const method = this.methods[2], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetOpticalEventsReportPdfRequest, GetOpticalEventsReportPdfResponse>("unary", this._transport, method, opt, input);
     }
 }

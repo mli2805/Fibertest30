@@ -5,11 +5,11 @@ namespace Iit.Fibertest.Graph
 {
     public class AccidentLineModel
     {
-        public string Caption { get; set; }
+        public string Caption { get; set; } = "";
 
         public int Number { get; set; }
         public FiberState AccidentSeriousness { get; set; }
-        public string AccidentTypeLetter { get; set; }
+        public string AccidentTypeLetter { get; set; } = "";
         public AccidentPlace AccidentPlace { get; set; }
 
         public string? TopLeft { get; set; }
@@ -21,8 +21,7 @@ namespace Iit.Fibertest.Graph
         public string? Bottom3 { get; set; }
         public string? Bottom4 { get; set; }
                      
-        public string? PngPath { get; set; }
-        public Uri Scheme => new Uri(PngPath);
+        public string PngPath { get; set; } = "";
 
         public PointLatLng? Position { get; set; }
     }

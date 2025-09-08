@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState, ReportingActions } from 'src/app/core';
 import { EventStatus, FiberState } from 'src/app/core/store/models/ft30/ft-enums';
 import { TimezoneUtils } from 'src/app/core/timezone.utils';
 import { DateRangeUtils } from 'src/app/shared/components/date-pick/daterange-utils';
 import { PickDateRange } from 'src/app/shared/components/date-pick/pick-date-range';
 import { EventStatusPipe } from 'src/app/shared/pipes/event-status.pipe';
 import { FiberStatePipe } from 'src/app/shared/pipes/fiberstate.pipe';
+import { DateTimeRange } from 'src/grpc-generated';
+import { Timestamp } from 'src/grpc-generated/google/protobuf/timestamp';
 
 interface Ies {
   eventStatus: EventStatus;
@@ -23,6 +27,8 @@ interface Ifs {
   standalone: false
 })
 export class OpticalEventsReportComponent implements OnInit {
+  private store: Store<AppState> = inject(Store<AppState>);
+
   buttons = [
     { id: 0, isSelected: false, title: 'i18n.ft.current-optical-events' },
     { id: 1, isSelected: true, title: 'i18n.ft.optical-events-for-the-period' }
@@ -40,7 +46,7 @@ export class OpticalEventsReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.dateRange = DateRangeUtils.convertToDateRange(
-      'i18n.date-piker.search-last-30-days',
+      'i18n.date-piker.search-this-year',
       TimezoneUtils.getAppTimezoneFromBrowser()
     );
 
@@ -89,5 +95,21 @@ export class OpticalEventsReportComponent implements OnInit {
 
   toggleShowPlace() {
     this.isShowPlace = !this.isShowPlace;
+  }
+
+  onCreateReport() {
+    const dateTimeRange = DateTimeRange.create();
+    dateTimeRange.start = Timestamp.fromDate(this.dateRange!.fromDate);
+    dateTimeRange.end = Timestamp.fromDate(this.dateRange!.toDate);
+    this.store.dispatch(
+      ReportingActions.getOpticalEventsReportPdf({
+        isCurrentEvents: this.isCurrentEvents,
+        searchWindow: dateTimeRange,
+        eventStatuses: this.statuses.filter((s) => s.isChecked).map((e) => e.eventStatus),
+        traceStates: this.states.filter((s) => s.isChecked).map((t) => t.state),
+        isDetailed: this.isDetailed,
+        isShowPlace: this.isShowPlace
+      })
+    );
   }
 }

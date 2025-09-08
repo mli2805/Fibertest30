@@ -22,4 +22,16 @@ public class ReportsService(ISender mediator) : Reports.ReportsBase
         var bytes = await mediator.Send(query, context.CancellationToken);
         return new GetUserActonsPdfResponse() { Pdf = ByteString.CopyFrom(bytes) };
     }
+
+    public override async Task<GetOpticalEventsReportPdfResponse> GetOpticalEventsReportPdf(
+        GetOpticalEventsReportPdfRequest request, ServerCallContext context)
+    {
+        var query = new GetOpticalEventsReportPdfQuery(
+            request.IsCurrentEvents, request.DateTimeFilter.FromProto(), 
+            request.EventStatuses.Select(e=>e.FromProto()).ToList(), 
+            request.TraceStates.Select(s=>s.FromProto()).ToList(), request.IsDetailed, request.IsShowPlace);
+
+        var bytes = await mediator.Send(query, context.CancellationToken);
+        return new GetOpticalEventsReportPdfResponse() { Pdf = ByteString.CopyFrom(bytes) };
+    }
 }

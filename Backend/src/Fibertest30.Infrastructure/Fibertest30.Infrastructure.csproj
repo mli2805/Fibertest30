@@ -52,4 +52,31 @@
 		<EmbeddedResource Include="assets\Fonts\ArialBoldItalic.ttf" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Update="assets\AccidentSchemes\AccidentBetweenNodes.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="assets\AccidentSchemes\AccidentInLastNode.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="assets\AccidentSchemes\AccidentInNode.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="assets\AccidentSchemes\BadSegment.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="assets\AccidentSchemes\FiberBrokenBetweenNodes.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="assets\AccidentSchemes\FiberBrokenInNode.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="assets\Headers\header-landscape.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="assets\Headers\header.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
 </Project>

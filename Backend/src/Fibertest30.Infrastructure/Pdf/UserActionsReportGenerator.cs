@@ -87,29 +87,7 @@ namespace Fibertest30.Infrastructure
                 row.Cells[7].AddParagraph(log.GetLocalizedAdditionalInfo());
             }
 
-            // Нижний колонтитул
-            var footerParagraph = section.Footers.Primary.AddParagraph();
-            footerParagraph.Format.Font.Size = 9;
-            footerParagraph.Format.Alignment = ParagraphAlignment.Justify;
-            footerParagraph.Format.SpaceBefore = "0.5cm";
-
-            var generationTimestamp = DateTime.Now;
-            // Левая часть
-            footerParagraph.AddText($"Fibertest 3.0 \u00A9 {reportTitle} {generationTimestamp:dd.MM.yyyy HH:mm}");
-
-            // Пробелы для выравнивания
-            footerParagraph.AddTab(); // добавим табуляцию
-            footerParagraph.AddTab(); // можно добавить несколько, если нужно
-
-            // Правая часть
-            footerParagraph.AddText("Страница ");
-            footerParagraph.AddPageField();
-            footerParagraph.AddText(" / ");
-            footerParagraph.AddNumPagesField();
-
-            // Настройка табуляции
-            footerParagraph.Format.TabStops.ClearAll();
-            footerParagraph.Format.TabStops.AddTabStop(Unit.FromCentimeter(23), TabAlignment.Right);
+            PdfExt.SetLandscapeFooter(section, reportTitle);
 
             // Рендеринг
             var renderer = new PdfDocumentRenderer() { Document = document };

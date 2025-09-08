@@ -3,6 +3,8 @@
 // tslint:disable
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
+import { FiberState } from "./ft.enums";
+import { EventStatus } from "./ft.enums";
 import { DateTimeFilter } from "./events.data";
 import { Timestamp } from "./google/protobuf/timestamp";
 /**
@@ -102,6 +104,46 @@ export interface GetUserActonsPdfResponse {
      */
     pdf: Uint8Array;
 }
+/**
+ * GetOpticalEventsReportPdf
+ *
+ * @generated from protobuf message fibertest30.reports.GetOpticalEventsReportPdfRequest
+ */
+export interface GetOpticalEventsReportPdfRequest {
+    /**
+     * @generated from protobuf field: bool isCurrentEvents = 1;
+     */
+    isCurrentEvents: boolean;
+    /**
+     * @generated from protobuf field: fibertest30.events.data.DateTimeFilter dateTimeFilter = 2;
+     */
+    dateTimeFilter?: DateTimeFilter;
+    /**
+     * @generated from protobuf field: repeated fibertest30.ft.enums.EventStatus eventStatuses = 3;
+     */
+    eventStatuses: EventStatus[];
+    /**
+     * @generated from protobuf field: repeated fibertest30.ft.enums.FiberState traceStates = 4;
+     */
+    traceStates: FiberState[];
+    /**
+     * @generated from protobuf field: bool isDetailed = 5;
+     */
+    isDetailed: boolean;
+    /**
+     * @generated from protobuf field: bool isShowPlace = 6;
+     */
+    isShowPlace: boolean;
+}
+/**
+ * @generated from protobuf message fibertest30.reports.GetOpticalEventsReportPdfResponse
+ */
+export interface GetOpticalEventsReportPdfResponse {
+    /**
+     * @generated from protobuf field: bytes pdf = 1;
+     */
+    pdf: Uint8Array;
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class UserActionLine$Type extends MessageType<UserActionLine> {
     constructor() {
@@ -174,10 +216,40 @@ class GetUserActonsPdfResponse$Type extends MessageType<GetUserActonsPdfResponse
  * @generated MessageType for protobuf message fibertest30.reports.GetUserActonsPdfResponse
  */
 export const GetUserActonsPdfResponse = new GetUserActonsPdfResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetOpticalEventsReportPdfRequest$Type extends MessageType<GetOpticalEventsReportPdfRequest> {
+    constructor() {
+        super("fibertest30.reports.GetOpticalEventsReportPdfRequest", [
+            { no: 1, name: "isCurrentEvents", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 2, name: "dateTimeFilter", kind: "message", T: () => DateTimeFilter },
+            { no: 3, name: "eventStatuses", kind: "enum", repeat: 1 /*RepeatType.PACKED*/, T: () => ["fibertest30.ft.enums.EventStatus", EventStatus] },
+            { no: 4, name: "traceStates", kind: "enum", repeat: 1 /*RepeatType.PACKED*/, T: () => ["fibertest30.ft.enums.FiberState", FiberState] },
+            { no: 5, name: "isDetailed", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 6, name: "isShowPlace", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.reports.GetOpticalEventsReportPdfRequest
+ */
+export const GetOpticalEventsReportPdfRequest = new GetOpticalEventsReportPdfRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetOpticalEventsReportPdfResponse$Type extends MessageType<GetOpticalEventsReportPdfResponse> {
+    constructor() {
+        super("fibertest30.reports.GetOpticalEventsReportPdfResponse", [
+            { no: 1, name: "pdf", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.reports.GetOpticalEventsReportPdfResponse
+ */
+export const GetOpticalEventsReportPdfResponse = new GetOpticalEventsReportPdfResponse$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.reports.Reports
  */
 export const Reports = new ServiceType("fibertest30.reports.Reports", [
     { name: "GetUserActionLines", options: {}, I: GetUserActionLinesRequest, O: GetUserActionLinesResponse },
-    { name: "GetUserActonsPdf", options: {}, I: GetUserActonsPdfRequest, O: GetUserActonsPdfResponse }
+    { name: "GetUserActonsPdf", options: {}, I: GetUserActonsPdfRequest, O: GetUserActonsPdfResponse },
+    { name: "GetOpticalEventsReportPdf", options: {}, I: GetOpticalEventsReportPdfRequest, O: GetOpticalEventsReportPdfResponse }
 ]);

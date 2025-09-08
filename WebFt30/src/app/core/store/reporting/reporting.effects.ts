@@ -50,12 +50,57 @@ export class ReportingEffects {
     )
   );
 
-  getLogBundleSuccess = createEffect(
+  getUserActionsPdfSuccess = createEffect(
     () =>
       this.actions$.pipe(
         ofType(ReportingActions.getUserActionsPdfSuccess),
         map(({ pdf }) => {
           const name = 'user-actions.pdf';
+          this.fileSaver.saveAs(pdf, name);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  getOpticalEventsReportPdf = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ReportingActions.getOpticalEventsReportPdf),
+      switchMap(
+        ({ isCurrentEvents, searchWindow, eventStatuses, traceStates, isDetailed, isShowPlace }) =>
+          this.reportsService
+            .getOpticalEventsReportPdf(
+              isCurrentEvents,
+              searchWindow,
+              eventStatuses,
+              traceStates,
+              isDetailed,
+              isShowPlace
+            )
+            .pipe(
+              map(({ pdf }) => ReportingActions.getOpticalEventsReportPdfSuccess({ pdf })),
+              catchError((error) => {
+                console.log(error);
+                const errorId = CoreUtils.commonErrorToMessageId(
+                  GrpcUtils.toServerError(error),
+                  'i18n.logs.cant-get-optical-events-report-pdf'
+                );
+                return of(
+                  GlobalUiActions.showPopupError({
+                    popupErrorMessageId: errorId!
+                  })
+                );
+              })
+            )
+      )
+    )
+  );
+
+  getOpticalEventsReportPdfSuccess = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ReportingActions.getOpticalEventsReportPdfSuccess),
+        map(({ pdf }) => {
+          const name = 'optical-events.pdf';
           this.fileSaver.saveAs(pdf, name);
         })
       ),
