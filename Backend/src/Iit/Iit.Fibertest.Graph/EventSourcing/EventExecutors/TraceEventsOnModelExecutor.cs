@@ -158,7 +158,6 @@ namespace Iit.Fibertest.Graph
             if (lastAccidentOnTrace != null && lastAccidentOnTrace.TraceState != FiberState.Ok)
             {
                 model.ActiveMeasurements.Add(lastAccidentOnTrace);
-
             }
             model.ShowMonitoringResult(new MeasurementAdded()
             {
@@ -182,18 +181,18 @@ namespace Iit.Fibertest.Graph
                 return $@"TraceDetached: Trace {e.TraceId} not found";
             }
 
-            var thisTraceActiveMeas = model.ActiveMeasurements.FirstOrDefault(m => m.TraceId == e.TraceId);
-            if (thisTraceActiveMeas != null)
-                model.ActiveMeasurements.Remove(thisTraceActiveMeas);
-
-            model.VeexTests.RemoveAll(t => t.TraceId == e.TraceId);
-
             model.DetachTrace(trace);
             return null;
         }
 
         public static void DetachTrace(this Model model, Trace trace)
         {
+            var thisTraceActiveMeas = model.ActiveMeasurements.FirstOrDefault(m => m.TraceId == trace.TraceId);
+            if (thisTraceActiveMeas != null)
+                model.ActiveMeasurements.Remove(thisTraceActiveMeas);
+
+            model.VeexTests.RemoveAll(t => t.TraceId == trace.TraceId);
+
             trace.Port = -1;
             trace.OtauPort = null;
             trace.IsIncludedInMonitoringCycle = false;

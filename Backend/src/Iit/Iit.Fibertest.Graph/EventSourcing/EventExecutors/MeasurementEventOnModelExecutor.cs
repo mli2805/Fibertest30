@@ -22,7 +22,9 @@ namespace Iit.Fibertest.Graph
                 }
 
                 if (meas.TraceState != FiberState.Ok)
+                {
                     model.ActiveMeasurements.Add(meas);
+                }
             }
 
             model.ShowMonitoringResult(e);
@@ -39,10 +41,12 @@ namespace Iit.Fibertest.Graph
 
             var measInActiveList = model.ActiveMeasurements.FirstOrDefault(f => f.SorFileId == e.SorFileId);
             if (measInActiveList != null)
+            {
                 if (measInActiveList.EventStatus == e.EventStatus)
                     measInActiveList.Comment = e.Comment;
                 else
                     Mapper.Map(e, measInActiveList);
+            }
 
             return null;
         }
