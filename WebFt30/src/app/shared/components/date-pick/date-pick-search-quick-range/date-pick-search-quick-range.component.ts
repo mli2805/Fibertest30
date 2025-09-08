@@ -38,6 +38,8 @@ export class DatePickSearchQuickRangeComponent implements OnInit {
     { label: 'i18n.date-piker.search-previous-week', selected: false },
     { label: 'i18n.date-piker.search-this-month', selected: false },
     { label: 'i18n.date-piker.search-previous-month', selected: false },
+    { label: 'i18n.date-piker.search-this-year', selected: false },
+    { label: 'i18n.date-piker.search-previous-year', selected: false },
     { label: 'i18n.date-piker.search-last-7-days', selected: false },
     { label: 'i18n.date-piker.search-last-30-days', selected: false }
   ];

@@ -164,9 +164,19 @@ export class DateRangeUtils {
         endOfTime = currentDate.clone().endOf('month').toDate();
         result = { label, fromDate: startOfTime, toDate: endOfTime, isQuick: true, appTimezone };
         break;
+      case 'i18n.date-piker.search-this-year':
+        startOfTime = currentDate.clone().startOf('year').toDate();
+        endOfTime = currentDate.clone().endOf('year').toDate();
+        result = { label, fromDate: startOfTime, toDate: endOfTime, isQuick: true, appTimezone };
+        break;
       case 'i18n.date-piker.search-previous-month':
         startOfTime = currentDate.clone().subtract(1, 'months').startOf('month').toDate();
         endOfTime = currentDate.clone().subtract(1, 'months').endOf('month').toDate();
+        result = { label, fromDate: startOfTime, toDate: endOfTime, isQuick: true, appTimezone };
+        break;
+      case 'i18n.date-piker.search-previous-year':
+        startOfTime = currentDate.clone().subtract(1, 'year').startOf('year').toDate();
+        endOfTime = currentDate.clone().subtract(1, 'year').endOf('year').toDate();
         result = { label, fromDate: startOfTime, toDate: endOfTime, isQuick: true, appTimezone };
         break;
       case 'i18n.date-piker.search-last-7-days':
