@@ -101,16 +101,6 @@ public class EventStoreService : IEventStoreService
 
         // var eventStream = _eventStoreInitializer.StoreEvents.OpenStream(_eventStoreInitializer.StreamIdOriginal);
 
-        if (LastEventNumberInSnapshot == 0 && _eventStoreInitializer.EventStream.CommittedEvents.FirstOrDefault() == null)
-        {
-            // если бд пустая задаем ID
-            _eventStoreInitializer.StreamIdOriginal = Guid.NewGuid();
-
-            foreach (var cmd in DbSeeds.Collection)
-                await SendCommand(cmd, "developer", "OnServer");
-            _logger.LogInformation("Empty graph is seeded with default zone. NO users.");
-        }
-
         var eventMessages = _eventStoreInitializer.EventStream.CommittedEvents.ToList();
         _logger.LogInformation($"{eventMessages.Count} events should be applied...");
         foreach (var eventMessage in eventMessages)
@@ -120,6 +110,18 @@ public class EventStoreService : IEventStoreService
         }
         _logger.LogInformation("Events applied successfully.");
         _logger.LogInformation($"Last event number is {LastEventNumberInSnapshot + eventMessages.Count}");
+
+        // перенес посев дефолтных пользователей и зоны после применения событий из базы, 
+        // потому что посев заносится в базу и потом применялся 2й раз (задваивались пользователи)
+        if (LastEventNumberInSnapshot == 0 && _eventStoreInitializer.EventStream.CommittedEvents.FirstOrDefault() == null)
+        {
+            // если бд пустая задаем ID
+            _eventStoreInitializer.StreamIdOriginal = Guid.NewGuid();
+
+            foreach (var cmd in DbSeeds.Collection)
+                await SendCommand(cmd, "developer", "OnServer");
+            _logger.LogInformation("Empty graph is seeded with default zone. NO users.");
+        }
 
         var msg = _eventStoreInitializer.EventStream.CommittedEvents.LastOrDefault();
         if (msg != null)
@@ -182,7 +184,6 @@ public class EventStoreService : IEventStoreService
         if (line == null) return;
 
         _eventLogComposer.AddEventToLog(username, clientIp, timestamp, line);
-
     }
 
     private EventMessage WrapEvent(object e, string? username, string clientIp)

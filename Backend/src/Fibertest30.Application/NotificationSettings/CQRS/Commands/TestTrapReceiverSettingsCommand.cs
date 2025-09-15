@@ -35,7 +35,8 @@ public class TestTrapReceiverSettingsCommandHandler : IRequestHandler<TestTrapRe
             }
         }
 
-        var message = "This is a test SNMP trap to ensure trap settings are correctly configured";
+        var message = "This is a test SNMP trap to ensure trap settings are correctly configured. Русский язык.";
+        // var message = "Это тест снмп трапа. Русский язык.";
         _snmpService.SendSnmpTrap(
             newTrapReceiver, 
             (int)SnmpSpecificTrapType.TestTrap,
