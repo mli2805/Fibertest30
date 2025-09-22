@@ -42,7 +42,7 @@ public class EventStoreService : IEventStoreService
         await InitializeEventStoreService();
     }
 
-    private async Task<int> InitializeEventStoreService()
+    private async Task InitializeEventStoreService()
     {
         _eventStoreInitializer.Init(); // если не существует - будет создана
         
@@ -57,7 +57,7 @@ public class EventStoreService : IEventStoreService
             LastEventNumberInSnapshot = snapshot.Item1;
             LastEventDateInSnapshot = snapshot.Item3;
             if (!await _writeModel.Deserialize(_logger, snapshot.Item2))
-                return -1;
+                return;
             _eventLogComposer.Initialize();
         }
 
@@ -129,7 +129,7 @@ public class EventStoreService : IEventStoreService
 
         _logger.LogInformation($"{_writeModel.Rtus.Count} RTU found");
 
-        return eventMessages.Count;
+        //return eventMessages.Count;
     }
 
     public Task<bool> SendCommands(List<object> cmds, string? username, string clientIp)
@@ -183,7 +183,7 @@ public class EventStoreService : IEventStoreService
         var line = _eventToLogLineParser.ParseEventBody(msg.Body);
         if (line == null) return;
 
-        _eventLogComposer.AddEventToLog(username, clientIp, timestamp, line);
+        _ = _eventLogComposer.AddEventToLog(username, clientIp, timestamp, line);
     }
 
     private EventMessage WrapEvent(object e, string? username, string clientIp)

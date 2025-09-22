@@ -51,7 +51,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public static string AddRtuAccident(this Model model, RtuAccidentAdded e)
+        public static string? AddRtuAccident(this Model model, RtuAccidentAdded e)
         {
             // RTU must not send the same problem more than once
             var entity = Mapper.Map<RtuAccident>(e);

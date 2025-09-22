@@ -62,11 +62,14 @@ try
     });
 
     // graceful shutdown
-    app.Lifetime.ApplicationStopping.Register(async () =>
+    app.Lifetime.ApplicationStopping.Register( () =>
     {
         var inAppChannelSender = app.Services.GetRequiredService<IInAppChannelSender>();
         Log.Information("InAddChannel: Stopping..");
-        await inAppChannelSender.DisposeAllObservers(); // Note Register do not wait!
+        // блокирующее ожидание
+        inAppChannelSender.DisposeAllObservers()
+            .GetAwaiter()
+            .GetResult();
         Log.Information("InAddChannel: Stopped");
     });
 

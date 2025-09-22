@@ -103,10 +103,10 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        private string Complete(AttachTrace cmd)
+        private string? Complete(AttachTrace cmd)
         {
             var evnt = Mapper.Map<TraceAttached>(cmd);
-            Measurement measurement = _writeModel.Measurements.LastOrDefault(m => m.TraceId == cmd.TraceId);
+            Measurement? measurement = _writeModel.Measurements.LastOrDefault(m => m.TraceId == cmd.TraceId);
             if (measurement != null)
             {
                 evnt.PreviousTraceState = measurement.TraceState;
@@ -121,7 +121,7 @@ namespace Iit.Fibertest.Graph
             return _eventsQueue.Add(evnt);
         }
 
-        private string Validate(ApplyLicense cmd)
+        private string? Validate(ApplyLicense cmd)
         {
             if (cmd.IsIncremental)
             {
@@ -136,7 +136,7 @@ namespace Iit.Fibertest.Graph
             return _eventsQueue.Add(Mapper.Map<LicenseApplied>(cmd));
         }
 
-        private string Validate(RemoveNode cmd)
+        private string? Validate(RemoveNode cmd)
         {
             if (_writeModel.Traces.Any(t => t.NodeIds.Last() == cmd.NodeId))
                 return Resources.SID_It_s_prohibited_to_remove_last_node_from_trace;
@@ -148,7 +148,7 @@ namespace Iit.Fibertest.Graph
         }
 
         #region Fiber
-        private string Validate(AddFiber cmd)
+        private string? Validate(AddFiber cmd)
         {
             // for Kadastr Loader
             if (_writeModel.Nodes.FirstOrDefault(n => n.NodeId == cmd.NodeId1) == null
@@ -161,7 +161,7 @@ namespace Iit.Fibertest.Graph
             return _eventsQueue.Add(Mapper.Map<FiberAdded>(cmd));
         }
 
-        private string Validate(AddFiberWithNodes cmd)
+        private string? Validate(AddFiberWithNodes cmd)
         {
             Guid a = cmd.Node1;
             Guid b = cmd.Node2;
@@ -188,7 +188,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        private string Validate(RemoveFiber cmd)
+        private string? Validate(RemoveFiber cmd)
         {
             if (IsFiberContainedInAnyTraceWithBase(cmd.FiberId))
                 return Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram;
@@ -203,7 +203,7 @@ namespace Iit.Fibertest.Graph
         }
         #endregion
 
-        private string Validate(AddEquipmentIntoNode cmd)
+        private string? Validate(AddEquipmentIntoNode cmd)
         {
             foreach (var traceId in cmd.TracesForInsertion)
             {
@@ -236,7 +236,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        private string Validate(RemoveRtu cmd)
+        private string? Validate(RemoveRtu cmd)
         {
             var evnt = Mapper.Map<RtuRemoved>(cmd);
             evnt.FibersFromCleanedTraces = new List<KeyValuePair<Guid, Guid>>();
@@ -251,7 +251,7 @@ namespace Iit.Fibertest.Graph
         }
 
         #region Trace
-        private string Validate(AddTrace cmd)
+        private string? Validate(AddTrace cmd)
         {
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == cmd.RtuId);
             if (rtu == null)
@@ -266,7 +266,7 @@ namespace Iit.Fibertest.Graph
             return _eventsQueue.Add(Mapper.Map<TraceAdded>(cmd));
         }
 
-        private string Validate(CleanTrace cmd)
+        private string? Validate(CleanTrace cmd)
         {
             var traceCleaned = Mapper.Map<TraceCleaned>(cmd);
             var trace = _writeModel.Traces.First(t => t.TraceId == cmd.TraceId);
@@ -275,7 +275,7 @@ namespace Iit.Fibertest.Graph
             return _eventsQueue.Add(traceCleaned);
         }
 
-        private string Validate(RemoveTrace cmd)
+        private string? Validate(RemoveTrace cmd)
         {
             var traceRemoved = Mapper.Map<TraceRemoved>(cmd);
             var trace = _writeModel.Traces.First(t => t.TraceId == cmd.TraceId);
@@ -285,14 +285,14 @@ namespace Iit.Fibertest.Graph
         }
         #endregion
 
-        private string Validate(AddMeasurement cmd)
+        private string? Validate(AddMeasurement cmd)
         {
             if (_writeModel.Traces.All(t => t.TraceId != cmd.TraceId))
                 return $@"Unknown trace {cmd.TraceId.First6()}";
             return _eventsQueue.Add(Mapper.Map<MeasurementAdded>(cmd));
         }
 
-        private string Validate(AddRtuAccident cmd)
+        private string? Validate(AddRtuAccident cmd)
         {
             var rtuProblemEventAdded = Mapper.Map<RtuAccidentAdded>(cmd);
             var lastEventId = _writeModel.RtuAccidents.Any() ? _writeModel.RtuAccidents.Max(p => p.Id) : 0;
@@ -300,7 +300,7 @@ namespace Iit.Fibertest.Graph
             return _eventsQueue.Add(rtuProblemEventAdded);
         }
 
-        private string Validate(AddNetworkEvent cmd)
+        private string? Validate(AddNetworkEvent cmd)
         {
             var networkEventAdded = Mapper.Map<NetworkEventAdded>(cmd);
             var lastEventOrdial = _writeModel.NetworkEvents.Any() ? _writeModel.NetworkEvents.Max(n => n.Ordinal) : 0;
@@ -309,7 +309,7 @@ namespace Iit.Fibertest.Graph
             return _eventsQueue.Add(networkEventAdded);
         }
 
-        private string Validate(AddBopNetworkEvent cmd)
+        private string? Validate(AddBopNetworkEvent cmd)
         {
             var otau = _writeModel.Otaus.FirstOrDefault(o => o.NetAddress.Ip4Address == cmd.OtauIp && o.NetAddress.Port == cmd.TcpPort);
             if (otau == null) return $@"OTAU with address {cmd.OtauIp} not found";

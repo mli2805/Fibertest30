@@ -50,7 +50,7 @@ namespace Iit.Fibertest.Graph
                 var previousNodeId = nodeId;
                 var currentFiber = fiber;
                 Guid neighbourId;
-                Node neighbour;
+                Node? neighbour;
                 while (true)
                 {
                     fiberIdsOfOneDestination.Add(currentFiber.FiberId);

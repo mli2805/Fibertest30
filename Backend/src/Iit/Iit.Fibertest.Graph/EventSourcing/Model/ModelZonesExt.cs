@@ -2,7 +2,7 @@
 {
     public static class ModelZonesExt
     {
-        public static string ChangeResponsibilities(this Model model, ResponsibilitiesChanged e)
+        public static string? ChangeResponsibilities(this Model model, ResponsibilitiesChanged e)
         {
             foreach (var pair in e.ResponsibilitiesDictionary)
             {
