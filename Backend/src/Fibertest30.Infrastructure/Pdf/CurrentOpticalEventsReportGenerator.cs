@@ -47,9 +47,7 @@ namespace Fibertest30.Infrastructure
 
         private void LetsGetStarted(Section section, string reportTitle, ServerInfo serverInfo)
         {
-            //var headerFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"assets\headers\Header-landscape.png");
-            //var image = section.AddImage(headerFileName);
-            var image = section.AddImage(@"assets\headers\Header-landscape.png");
+            var image = section.AddImage(@"assets/headers/header-landscape.png");
             image.LockAspectRatio = true;
 
             var paragraph = section.AddParagraph();

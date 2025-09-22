@@ -47,7 +47,7 @@ public class MonitoringSystemReportGenerator(Model writeModel, string userCultur
 
     private void LetsGetStarted(Section section, string reportTitle, ServerInfo serverInfo)
     {
-        var image = section.AddImage(@"assets\headers\Header.png");
+        var image = section.AddImage(@"assets/headers/header.png");
         image.LockAspectRatio = true;
 
         var paragraph = section.AddParagraph();
@@ -166,7 +166,7 @@ public class MonitoringSystemReportGenerator(Model writeModel, string userCultur
         var paragraph = section.AddParagraph();
         if (trace.IsIncludedInMonitoringCycle)
         {
-            var imageFilename = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\Reports\CheckMark.png");
+            var imageFilename = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"assets/pdf/check-mark.png");
             paragraph.AddImage(imageFilename);
         }
 
