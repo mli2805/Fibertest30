@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Net.NetworkInformation;
 
 namespace Fibertest30.Infrastructure;
 public class ServerDbContextInitializer(IHostEnvironment environment, 

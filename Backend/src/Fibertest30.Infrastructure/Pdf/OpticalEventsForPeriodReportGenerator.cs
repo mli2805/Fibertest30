@@ -6,7 +6,6 @@ using MigraDoc.Rendering;
 using PdfSharp.Fonts;
 using PdfSharp.Pdf;
 using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace Fibertest30.Infrastructure
 {

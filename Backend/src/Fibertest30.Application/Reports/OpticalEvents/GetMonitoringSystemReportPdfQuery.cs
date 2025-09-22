@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Fibertest30.Application;
 
-public record GetMonitoringSystemReportPdfQuery() : IRequest<byte[]>;
+public record GetMonitoringSystemReportPdfQuery : IRequest<byte[]>;
 
 public class GetMonitoringSystemReportPdfQueryHandler(
     Model writeModel, ICurrentUserService currentUserService, IUserSettingsRepository userSettingsRepository, IPdfBuilder pdfBuilder)

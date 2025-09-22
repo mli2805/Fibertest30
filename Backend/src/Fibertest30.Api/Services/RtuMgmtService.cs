@@ -1,5 +1,4 @@
 ﻿using Grpc.Core;
-using Iit.Fibertest.Dto;
 using MediatR;
 
 namespace Fibertest30.Api;

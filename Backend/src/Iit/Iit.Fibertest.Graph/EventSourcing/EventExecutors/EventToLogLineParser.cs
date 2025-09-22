@@ -1,5 +1,4 @@
 ﻿using Iit.Fibertest.Dto;
-using Iit.Fibertest.StringResources;
 using Microsoft.Extensions.Logging;
 
 namespace Iit.Fibertest.Graph

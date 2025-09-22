@@ -12,7 +12,7 @@ public class DoPreciseMeasurementOutOfTurnCommandHandler(ICurrentUserService cur
         var dto = request.Dto;
         dto.ConnectionId = currentUserService.UserId!;
 
-        var result = await rtuManager.StartPreciseMeasurementOutOfTurn(dto);
+        await rtuManager.StartPreciseMeasurementOutOfTurn(dto);
         return Unit.Value;
     }
 }

@@ -1,6 +1,4 @@
-﻿using Iit.Fibertest.Graph;
-
-namespace Fibertest30.Api;
+﻿namespace Fibertest30.Api;
 
 public static class ReportsMapping
 {
