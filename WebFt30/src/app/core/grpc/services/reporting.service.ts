@@ -74,4 +74,13 @@ export class ReportsService {
       {}
     );
   }
+
+  getMonitoringSystemReportPdf(): Observable<gprc.GetMonitoringSystemReportPdfResposne> {
+    const request: gprc.GetMonitoringSystemReportPdfRequest = {};
+    return GrpcUtils.unaryToObservable(
+      this.client.getMonitoringSystemReportPdf.bind(this.client),
+      request,
+      {}
+    );
+  }
 }

@@ -6,6 +6,7 @@ using MigraDoc.Rendering;
 using PdfSharp.Fonts;
 using PdfSharp.Pdf;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Fibertest30.Infrastructure
 {
@@ -26,7 +27,6 @@ namespace Fibertest30.Infrastructure
 
             var reportTitle = string
                 .Format(Resources.SID_Optical_events_report_for__0_d_____1_d_, dateTimeRange.Start, upTo);
-
 
             var document = new Document { Info = { Title = reportTitle } };
 
@@ -55,8 +55,6 @@ namespace Fibertest30.Infrastructure
 
         private void LetsGetStarted(Section section, string reportTitle, ServerInfo serverInfo)
         {
-            //var headerFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"assets\headers\Header-landscape.png");
-            //var image = section.AddImage(headerFileName);
             var image = section.AddImage(@"assets\headers\Header-landscape.png");
             image.LockAspectRatio = true;
 

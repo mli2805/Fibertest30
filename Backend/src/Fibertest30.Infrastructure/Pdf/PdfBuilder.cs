@@ -1,8 +1,10 @@
-﻿using PdfSharp.Pdf;
+﻿using Iit.Fibertest.Graph;
+using Microsoft.Extensions.Logging;
+using PdfSharp.Pdf;
 
 namespace Fibertest30.Infrastructure
 {
-    public class PdfBuilder() : IPdfBuilder
+    public class PdfBuilder(ILogger<PdfBuilder> logger) : IPdfBuilder
     {
         public byte[]?  GenerateUserActionsReport(List<UserActionLine> logLines, string culture)
         {
@@ -14,6 +16,7 @@ namespace Fibertest30.Infrastructure
             }
             catch (Exception e)
             {
+                logger.LogError(e, "Fialed to GenerateUserActionsReport");
                 return null;
             }
         }
@@ -28,6 +31,7 @@ namespace Fibertest30.Infrastructure
             }
             catch (Exception e)
             {
+                logger.LogError(e, "Fialed to GenerateCurrentOpticalEventsReport");
                 return null;
             }
         }
@@ -44,6 +48,22 @@ namespace Fibertest30.Infrastructure
             }
             catch (Exception e)
             {
+                logger.LogError(e, "Fialed to GenerateOpticalEventsForPeriodReport");
+                return null;
+            }
+        }
+
+        public byte[]? GenerateMonitoringSystemReport(Model writeModel, ServerInfo serverInfo, string culture)
+        {
+            var generator = new MonitoringSystemReportGenerator(writeModel, culture);
+            try
+            {
+                var pdfDocument = generator.GenerateReport(serverInfo);
+                return PdfReportToBytes(pdfDocument);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "Fialed to GenerateMonitoringSystemReport");
                 return null;
             }
         }
@@ -54,12 +74,13 @@ namespace Fibertest30.Infrastructure
             {
                 // Сохраняем PDF в память
                 using var stream = new MemoryStream();
-                pdfDocument.Save(stream, false); // false = leave stream open
+                pdfDocument.Save(stream); 
                 byte[] pdfBytes = stream.ToArray();
                 return pdfBytes;
             }
             catch (Exception e)
             {
+                logger.LogError(e, "Fialed to PdfReportToBytes");
                 return null;
             }
         }

@@ -34,4 +34,12 @@ public class ReportsService(ISender mediator) : Reports.ReportsBase
         var bytes = await mediator.Send(query, context.CancellationToken);
         return new GetOpticalEventsReportPdfResponse() { Pdf = ByteString.CopyFrom(bytes) };
     }
+
+    public override async Task<GetMonitoringSystemReportPdfResposne> GetMonitoringSystemReportPdf(
+        GetMonitoringSystemReportPdfRequest request, ServerCallContext context)
+    {
+        var query = new GetMonitoringSystemReportPdfQuery();
+        var bytes = await mediator.Send(query, context.CancellationToken);
+        return new GetMonitoringSystemReportPdfResposne() { Pdf = ByteString.CopyFrom(bytes) };
+    }
 }

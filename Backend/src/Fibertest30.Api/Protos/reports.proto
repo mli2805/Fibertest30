@@ -10,6 +10,7 @@ service Reports {
 	rpc GetUserActionLines (GetUserActionLinesRequest) returns (GetUserActionLinesResponse);
 	rpc GetUserActonsPdf (GetUserActonsPdfRequest) returns (GetUserActonsPdfResponse);
 	rpc GetOpticalEventsReportPdf (GetOpticalEventsReportPdfRequest) returns (GetOpticalEventsReportPdfResponse);
+	rpc GetMonitoringSystemReportPdf (GetMonitoringSystemReportPdfRequest) returns (GetMonitoringSystemReportPdfResposne);
 }
 
 message UserActionLine {
@@ -57,5 +58,12 @@ message GetOpticalEventsReportPdfRequest {
 }
 
 message GetOpticalEventsReportPdfResponse {
+	bytes pdf = 1;
+}
+
+// GetMonitoringSystemReportPdf
+message GetMonitoringSystemReportPdfRequest {}
+
+message GetMonitoringSystemReportPdfResposne {
 	bytes pdf = 1;
 }

@@ -107,6 +107,41 @@ export class ReportingEffects {
     { dispatch: false }
   );
 
+  getMonitoringSystemReportPdf = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ReportingActions.getMonitoringSystemReportPdf),
+      switchMap(() =>
+        this.reportsService.getMonitoringSystemReportPdf().pipe(
+          map(({ pdf }) => ReportingActions.getMonitoringSystemReportPdfSuccess({ pdf })),
+          catchError((error) => {
+            console.log(error);
+            const errorId = CoreUtils.commonErrorToMessageId(
+              GrpcUtils.toServerError(error),
+              'i18n.logs.cant-get-monitoring-system-report-pdf'
+            );
+            return of(
+              GlobalUiActions.showPopupError({
+                popupErrorMessageId: errorId!
+              })
+            );
+          })
+        )
+      )
+    )
+  );
+
+  getMonitoringSystemReportPdfSuccess = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ReportingActions.getMonitoringSystemReportPdfSuccess),
+        map(({ pdf }) => {
+          const name = 'monitoring-system.pdf';
+          this.fileSaver.saveAs(pdf, name);
+        })
+      ),
+    { dispatch: false }
+  );
+
   constructor(
     private actions$: Actions,
     private reportsService: ReportsService,

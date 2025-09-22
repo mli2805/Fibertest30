@@ -1,4 +1,6 @@
-﻿namespace Fibertest30.Application;
+﻿using Iit.Fibertest.Graph;
+
+namespace Fibertest30.Application;
 
 public interface IPdfBuilder
 {
@@ -10,5 +12,7 @@ public interface IPdfBuilder
     public byte[]? GenerateOpticalEventsForPeriodReport(GetOpticalEventsReportPdfQuery query,
         List<MeasurementWrap> wrapped, List<List<string>> totals,
         ServerInfo serverInfo, UserSettings? userSettings);
+
+    public byte[]? GenerateMonitoringSystemReport(Model model, ServerInfo serverInfo, string culture);
 
 }

@@ -43,6 +43,12 @@ const getOpticalEventsReportPdfSuccess = createAction(
   props<{ pdf: Uint8Array }>()
 );
 
+const getMonitoringSystemReportPdf = createAction('[Reporting] Get MonitoringSystemReport Pdf');
+const getMonitoringSystemReportPdfSuccess = createAction(
+  '[Reporting] Get MonitoringSystemReport Pdf Success',
+  props<{ pdf: Uint8Array }>()
+);
+
 export const ReportingActions = {
   getUserActionLines,
   getUserActionLinesSuccess,
@@ -53,6 +59,9 @@ export const ReportingActions = {
 
   getOpticalEventsReportPdf,
   getOpticalEventsReportPdfSuccess,
+
+  getMonitoringSystemReportPdf,
+  getMonitoringSystemReportPdfSuccess,
 
   resetError
 };

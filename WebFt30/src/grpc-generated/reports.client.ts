@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { Reports } from "./reports";
+import type { GetMonitoringSystemReportPdfResposne } from "./reports";
+import type { GetMonitoringSystemReportPdfRequest } from "./reports";
 import type { GetOpticalEventsReportPdfResponse } from "./reports";
 import type { GetOpticalEventsReportPdfRequest } from "./reports";
 import type { GetUserActonsPdfResponse } from "./reports";
@@ -29,6 +31,10 @@ export interface IReportsClient {
      * @generated from protobuf rpc: GetOpticalEventsReportPdf(fibertest30.reports.GetOpticalEventsReportPdfRequest) returns (fibertest30.reports.GetOpticalEventsReportPdfResponse);
      */
     getOpticalEventsReportPdf(input: GetOpticalEventsReportPdfRequest, options?: RpcOptions): UnaryCall<GetOpticalEventsReportPdfRequest, GetOpticalEventsReportPdfResponse>;
+    /**
+     * @generated from protobuf rpc: GetMonitoringSystemReportPdf(fibertest30.reports.GetMonitoringSystemReportPdfRequest) returns (fibertest30.reports.GetMonitoringSystemReportPdfResposne);
+     */
+    getMonitoringSystemReportPdf(input: GetMonitoringSystemReportPdfRequest, options?: RpcOptions): UnaryCall<GetMonitoringSystemReportPdfRequest, GetMonitoringSystemReportPdfResposne>;
 }
 /**
  * @generated from protobuf service fibertest30.reports.Reports
@@ -59,5 +65,12 @@ export class ReportsClient implements IReportsClient, ServiceInfo {
     getOpticalEventsReportPdf(input: GetOpticalEventsReportPdfRequest, options?: RpcOptions): UnaryCall<GetOpticalEventsReportPdfRequest, GetOpticalEventsReportPdfResponse> {
         const method = this.methods[2], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetOpticalEventsReportPdfRequest, GetOpticalEventsReportPdfResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetMonitoringSystemReportPdf(fibertest30.reports.GetMonitoringSystemReportPdfRequest) returns (fibertest30.reports.GetMonitoringSystemReportPdfResposne);
+     */
+    getMonitoringSystemReportPdf(input: GetMonitoringSystemReportPdfRequest, options?: RpcOptions): UnaryCall<GetMonitoringSystemReportPdfRequest, GetMonitoringSystemReportPdfResposne> {
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetMonitoringSystemReportPdfRequest, GetMonitoringSystemReportPdfResposne>("unary", this._transport, method, opt, input);
     }
 }

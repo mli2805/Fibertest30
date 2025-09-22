@@ -144,6 +144,22 @@ export interface GetOpticalEventsReportPdfResponse {
      */
     pdf: Uint8Array;
 }
+/**
+ * GetMonitoringSystemReportPdf
+ *
+ * @generated from protobuf message fibertest30.reports.GetMonitoringSystemReportPdfRequest
+ */
+export interface GetMonitoringSystemReportPdfRequest {
+}
+/**
+ * @generated from protobuf message fibertest30.reports.GetMonitoringSystemReportPdfResposne
+ */
+export interface GetMonitoringSystemReportPdfResposne {
+    /**
+     * @generated from protobuf field: bytes pdf = 1;
+     */
+    pdf: Uint8Array;
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class UserActionLine$Type extends MessageType<UserActionLine> {
     constructor() {
@@ -245,11 +261,34 @@ class GetOpticalEventsReportPdfResponse$Type extends MessageType<GetOpticalEvent
  * @generated MessageType for protobuf message fibertest30.reports.GetOpticalEventsReportPdfResponse
  */
 export const GetOpticalEventsReportPdfResponse = new GetOpticalEventsReportPdfResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetMonitoringSystemReportPdfRequest$Type extends MessageType<GetMonitoringSystemReportPdfRequest> {
+    constructor() {
+        super("fibertest30.reports.GetMonitoringSystemReportPdfRequest", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.reports.GetMonitoringSystemReportPdfRequest
+ */
+export const GetMonitoringSystemReportPdfRequest = new GetMonitoringSystemReportPdfRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetMonitoringSystemReportPdfResposne$Type extends MessageType<GetMonitoringSystemReportPdfResposne> {
+    constructor() {
+        super("fibertest30.reports.GetMonitoringSystemReportPdfResposne", [
+            { no: 1, name: "pdf", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.reports.GetMonitoringSystemReportPdfResposne
+ */
+export const GetMonitoringSystemReportPdfResposne = new GetMonitoringSystemReportPdfResposne$Type();
 /**
  * @generated ServiceType for protobuf service fibertest30.reports.Reports
  */
 export const Reports = new ServiceType("fibertest30.reports.Reports", [
     { name: "GetUserActionLines", options: {}, I: GetUserActionLinesRequest, O: GetUserActionLinesResponse },
     { name: "GetUserActonsPdf", options: {}, I: GetUserActonsPdfRequest, O: GetUserActonsPdfResponse },
-    { name: "GetOpticalEventsReportPdf", options: {}, I: GetOpticalEventsReportPdfRequest, O: GetOpticalEventsReportPdfResponse }
+    { name: "GetOpticalEventsReportPdf", options: {}, I: GetOpticalEventsReportPdfRequest, O: GetOpticalEventsReportPdfResponse },
+    { name: "GetMonitoringSystemReportPdf", options: {}, I: GetMonitoringSystemReportPdfRequest, O: GetMonitoringSystemReportPdfResposne }
 ]);

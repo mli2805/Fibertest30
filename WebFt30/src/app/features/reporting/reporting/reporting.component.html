@@ -2,21 +2,6 @@
   <div class="mx-2 flex items-stretch">
     <div
       class="available-action mx-8"
-      [routerLink]="['./monitoring-system-report']"
-      routerLinkActive
-      #rlaMonitoringSystemReport="routerLinkActive"
-      [ngClass]="rlaMonitoringSystemReport.isActive ? 'action-active' : 'action-non-active'"
-    >
-      <!-- prettier-ignore -->
-      <rtu-structure-button></rtu-structure-button>
-
-      <div class="my-auto min-w-24 text-center text-xs">
-        {{ 'i18n.ft.components-of-a-monitoring-system' | translate }}
-      </div>
-    </div>
-
-    <div
-      class="available-action mr-8"
       [routerLink]="['./optical-events-report']"
       routerLinkActive
       #rlaOpticalEventsReport="routerLinkActive"
@@ -27,6 +12,21 @@
 
       <div class="my-auto text-center text-xs">
         {{ 'i18n.ft.optical-events-report' | translate }}
+      </div>
+    </div>
+
+    <div
+      class="available-action mr-8"
+      [routerLink]="['./monitoring-system-report']"
+      routerLinkActive
+      #rlaMonitoringSystemReport="routerLinkActive"
+      [ngClass]="rlaMonitoringSystemReport.isActive ? 'action-active' : 'action-non-active'"
+    >
+      <!-- prettier-ignore -->
+      <rtu-structure-button></rtu-structure-button>
+
+      <div class="my-auto min-w-24 text-center text-xs">
+        {{ 'i18n.ft.components-of-a-monitoring-system' | translate }}
       </div>
     </div>
 

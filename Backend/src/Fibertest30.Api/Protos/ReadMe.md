@@ -18,4 +18,6 @@ To generate gRpc clients for Web application:
 
 создал инструмент Tools > External Tools > Add для выполнения ps1 скриптов
 назначил шорткат Tools > Options > Keyboard   Ctrl+Shift+G
-: выбрать в дереве скрипт, нажать шорткат
+теперь для выполнения: выбрать в дереве скрипт, 
+	нажать шорткат
+	или Tools - Run PowerShell Script

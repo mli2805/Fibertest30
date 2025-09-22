@@ -8,6 +8,7 @@
 		<Title>Fibertest 3.0 Server</Title>
 		<Company>IIT</Company>
 		<Product>Fibertest 3.0</Product>
+		<Version>3.0.0.244</Version>
 		<Copyright>Copyright © IIT Minsk 2017-2025</Copyright>
 		<Authors>Leanid Marholin</Authors>
 	</PropertyGroup>

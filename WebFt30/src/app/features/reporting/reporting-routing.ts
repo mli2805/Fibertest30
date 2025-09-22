@@ -13,17 +13,17 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'monitoring-system-report'
-      },
-      {
-        path: 'monitoring-system-report',
-        pathMatch: 'full',
-        component: MonitoringSystemReportComponent
+        redirectTo: 'optical-events-report'
       },
       {
         path: 'optical-events-report',
         pathMatch: 'full',
         component: OpticalEventsReportComponent
+      },
+      {
+        path: 'monitoring-system-report',
+        pathMatch: 'full',
+        component: MonitoringSystemReportComponent
       },
 
       {
