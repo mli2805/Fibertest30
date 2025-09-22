@@ -16,7 +16,7 @@ public class GetOpticalEventsReportPdfQueryHandler(Model writeModel, ICurrentUse
         var userId = currentUserService.UserId!;
         var userSettings = await userSettingsRepository.GetUserSettings(userId);
 
-        var serverInfo = new ServerInfo("", "", "");
+        var serverInfo = ServerInfoProvider.Get();
 
         if (request.IsCurrentEvents)
         {
