@@ -1,5 +1,4 @@
-﻿using Iit.Fibertest.Graph;
-using MediatR;
+﻿using MediatR;
 
 namespace Fibertest30.Application;
 

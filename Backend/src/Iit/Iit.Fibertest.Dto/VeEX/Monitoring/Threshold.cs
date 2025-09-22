@@ -33,10 +33,10 @@ namespace Iit.Fibertest.Dto
     {
         public CombinedThreshold eventLeadingLossCoefficient { get; set; }
         public CombinedThreshold eventLoss { get; set; }
-        public CombinedThreshold eventMaxLevel { get; set; }  // PON
+        public CombinedThreshold? eventMaxLevel { get; set; }  // PON
         public CombinedThreshold eventReflectance { get; set; }
-        public CombinedThreshold nonReflectiveEventPosition { get; set; } // UI in Advanced
-        public CombinedThreshold reflectiveEventPosition { get; set; } // UI in Advanced
+        public CombinedThreshold? nonReflectiveEventPosition { get; set; } // UI in Advanced
+        public CombinedThreshold? reflectiveEventPosition { get; set; } // UI in Advanced
     }
 
     public class CombinedThreshold

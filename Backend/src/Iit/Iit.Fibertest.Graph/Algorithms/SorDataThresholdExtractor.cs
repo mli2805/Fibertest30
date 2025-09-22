@@ -7,22 +7,22 @@ namespace Iit.Fibertest.Graph
 {
     public static class ThresholdFromSorBytesExtractor
     {
-        public static ThresholdSet ExtractThresholds(this byte[] bytes)
+        public static ThresholdSet? ExtractThresholds(this byte[] bytes)
         {
-            if (SorData.TryGetFromBytes(bytes, out OtdrDataKnownBlocks sorData) != "")
+            if (SorData.TryGetFromBytes(bytes, out OtdrDataKnownBlocks? sorData) != "")
                 return null;
 
             var thresholdSet = new ThresholdSet() { levels = new List<Level>() };
             var levelNames = new List<string>() {@"Minor", @"Major", @"Critical"};
 
-            levelNames.Select(n=>sorData.ExtractRftsLevel(n))
+            levelNames.Select(n=>sorData!.ExtractRftsLevel(n))
                 .Where(l=>l != null).ToList()
-                .ForEach(r=>thresholdSet.levels.Add(r));
+                .ForEach(r=>thresholdSet.levels.Add(r!));
 
             return thresholdSet;
         }
 
-        private static Level ExtractRftsLevel(this OtdrDataKnownBlocks sorData, string levelName)
+        private static Level? ExtractRftsLevel(this OtdrDataKnownBlocks sorData, string levelName)
         {
             var rftsParametersLevel =
                 sorData.RftsParameters.Levels.FirstOrDefault(l => l.LevelName.ToString() == levelName);
@@ -70,7 +70,7 @@ namespace Iit.Fibertest.Graph
             return (double)parameter.Value / parameter.Scale;
         }
 
-        private static CombinedThreshold IitUniversalParam2CmbThreshold(OtdrDataKnownBlocks sorData, string paramName)
+        private static CombinedThreshold? IitUniversalParam2CmbThreshold(OtdrDataKnownBlocks sorData, string paramName)
         {
             var parameter = sorData.RftsParameters.UniversalParameters.FirstOrDefault(p => p.Name == paramName);
             if (parameter == null) return null;
