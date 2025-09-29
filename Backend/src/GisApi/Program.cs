@@ -11,7 +11,7 @@ namespace GisApi
             builder.WebHost.ConfigureKestrel(o =>
             {
                 o.ListenAnyIP(5289);
-                o.ListenAnyIP(7151, listenOptions => listenOptions.UseHttps());
+                // o.ListenAnyIP(7151, listenOptions => listenOptions.UseHttps());
             });
 
             // Add services to the container.
@@ -34,7 +34,7 @@ namespace GisApi
 
             // Configure the HTTP request pipeline.
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
