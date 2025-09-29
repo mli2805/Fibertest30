@@ -17,24 +17,7 @@ namespace Fibertest30.Infrastructure
             }
         }
 
-        public static void DrawAccidents(List<AccidentOnTraceV2> accidents,
-         Section section, AccidentLineModelFactory accidentLineModelFactory,
-         bool isGisOn, GpsInputMode gpsInputMode = GpsInputMode.DegreesMinutesAndSeconds)
-        {
-            var number = 0;
-            foreach (var accidentOnTraceV2 in accidents)
-            {
-                var gap = section.AddParagraph();
-                gap.Format.SpaceBefore = Unit.FromCentimeter(0.2);
-
-                var accidentLineModel = accidentLineModelFactory
-                    .Create(accidentOnTraceV2, ++number, isGisOn, gpsInputMode);
-                DrawAccidentPlace(section, accidentLineModel).Clone();
-            }
-        }
-
-        private const string LeftArrow = "\U0001f860";
-        public static Table DrawAccidentPlace(Section section, AccidentLineModel accidentLineModel)
+        private static Table DrawAccidentPlace(Section section, AccidentLineModel accidentLineModel)
         {
             var table = section.AddTable();
             table.KeepTogether = true;
@@ -59,14 +42,14 @@ namespace Fibertest30.Infrastructure
             rowTop.HeightRule = RowHeightRule.Exactly;
             rowTop.Height = Unit.FromCentimeter(0.6);
             rowTop.Cells[0].MergeRight = 1;
-            rowTop.Cells[0].AddParagraph((accidentLineModel.TopLeft ?? "").Replace(LeftArrow, @"<-"));
+            rowTop.Cells[0].AddParagraph(accidentLineModel.TopLeft ?? "");
             rowTop.Cells[0].Format.Alignment = ParagraphAlignment.Left;
 
-            rowTop.Cells[2].AddParagraph((accidentLineModel.TopCenter ?? "").Replace(LeftArrow, @"<-"));
+            rowTop.Cells[2].AddParagraph(accidentLineModel.TopCenter ?? "");
             rowTop.Cells[2].Format.Alignment = ParagraphAlignment.Center;
 
             rowTop.Cells[3].MergeRight = 1;
-            rowTop.Cells[3].AddParagraph((accidentLineModel.TopRight ?? "").Replace(LeftArrow, @"<-"));
+            rowTop.Cells[3].AddParagraph(accidentLineModel.TopRight ?? "");
             rowTop.Cells[3].Format.Alignment = ParagraphAlignment.Right;
 
             var rowImage = table.AddRow();
@@ -83,14 +66,14 @@ namespace Fibertest30.Infrastructure
             rowBottom.Height = Unit.FromCentimeter(0.6);
 
             rowBottom.Cells[0].MergeRight = 1;
-            rowBottom.Cells[0].AddParagraph((accidentLineModel.Bottom1 ?? "").Replace(LeftArrow, @"<-"));
+            rowBottom.Cells[0].AddParagraph(accidentLineModel.Bottom1 ?? "");
             rowBottom.Cells[0].Format.Alignment = ParagraphAlignment.Left;
 
-            rowBottom.Cells[2].AddParagraph((accidentLineModel.Bottom2 ?? "").Replace(LeftArrow, @"<-"));
+            rowBottom.Cells[2].AddParagraph(accidentLineModel.Bottom2 ?? "");
             rowBottom.Cells[2].Format.Alignment = ParagraphAlignment.Center;
 
             rowBottom.Cells[3].MergeRight = 1;
-            rowBottom.Cells[3].AddParagraph((accidentLineModel.Bottom3 ?? "").Replace(LeftArrow, @"<-"));
+            rowBottom.Cells[3].AddParagraph(accidentLineModel.Bottom3 ?? "");
             rowBottom.Cells[3].Format.Alignment = ParagraphAlignment.Right;
 
             return table;

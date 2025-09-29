@@ -5,7 +5,7 @@ namespace Iit.Fibertest.Graph
 {
     public class AccidentLineModelFactory
     {
-        private const string LeftArrow = "\U0001f860";
+        private const string _leftArrow = "\u2190";
         private bool _isGisOn;
         private GpsInputMode _gpsInputMode;
 
@@ -40,7 +40,7 @@ namespace Iit.Fibertest.Graph
                 AccidentPlace = AccidentPlace.InNode,
 
                 TopCenter = accidentInOldEvent.AccidentTitle,
-                TopLeft = $@"RTU {LeftArrow} {accidentInOldEvent.AccidentToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
+                TopLeft = $@"RTU {_leftArrow} {accidentInOldEvent.AccidentToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
                 Bottom2 = _isGisOn
                     ? accidentInOldEvent.AccidentCoors.ToDetailedString(_gpsInputMode)
                     : "",
@@ -68,7 +68,7 @@ namespace Iit.Fibertest.Graph
                 AccidentPlace = AccidentPlace.BetweenNodes,
 
                 TopLeft = accidentAsNewEvent.Left!.Title,
-                TopCenter = $@"RTU {LeftArrow} {accidentAsNewEvent.AccidentToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
+                TopCenter = $@"RTU {_leftArrow} {accidentAsNewEvent.AccidentToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
                 TopRight = accidentAsNewEvent.Right!.Title,
                 Bottom1 = $@"{accidentAsNewEvent.AccidentToLeftOpticalDistanceKm:0.000} {Resources.SID_km}",
                 Bottom2 = _isGisOn
@@ -98,8 +98,8 @@ namespace Iit.Fibertest.Graph
 
                 TopLeft = accidentInOldEvent.Left!.Title,
                 TopRight = accidentInOldEvent.Right!.Title,
-                Bottom1 = $@"RTU {LeftArrow} {accidentInOldEvent.Left.ToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
-                Bottom3 = $@"RTU {LeftArrow} {accidentInOldEvent.Right.ToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
+                Bottom1 = $@"RTU {_leftArrow} {accidentInOldEvent.Left.ToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
+                Bottom3 = $@"RTU {_leftArrow} {accidentInOldEvent.Right.ToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
                 PngPath = BuildPath(@"BadSegment.png"),
                 Position = accidentInOldEvent.Left.Coors,
             };
@@ -129,11 +129,12 @@ namespace Iit.Fibertest.Graph
             return model;
         }
 
-
-
         private string BuildPath(string pngFile)
         {
-            return $@"assets\AccidentSchemes\{pngFile}";
+            var basePath = AppContext.BaseDirectory;
+            var imagePath = Path.Combine(basePath, "assets", "AccidentSchemes", pngFile);
+            return imagePath;
+            // return $@"assets/AccidentSchemes/{pngFile}";
         }
     }
 }
