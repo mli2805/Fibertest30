@@ -94,12 +94,10 @@ export class TraceGisComponent implements OnInit {
         const prod = env.production;
         let gisApiAddress;
         if (prod) {
-          console.log(`production`);
           const api = <any>environment.api;
           const host = api.host || window.location.hostname;
           gisApiAddress = `https://${host}/gis/{x}/{y}/{z}`;
         } else {
-          console.log(`dev machine`);
           gisApiAddress = `http://localhost:5289/gis/{x}/{y}/{z}`;
         }
 

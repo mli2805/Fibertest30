@@ -146,8 +146,6 @@ export class MapLayersActions {
           gisApiPort !== undefined
             ? `localhost:${gisApiPort}`
             : api.host || window.location.hostname;
-        console.log(host);
-        console.log(window.location.hostname);
 
         // выражение api.host || window.location.hostname;
         // возвращает адрес удаленного сервера, к которому обращается браузер
@@ -166,7 +164,6 @@ export class MapLayersActions {
 
         const prefix = window.location.hostname === 'localhost' ? 'http' : 'https';
         const gisApiAddress = `${prefix}://${host}/gis/{x}/{y}/{z}`;
-        console.log(gisApiAddress);
 
         this.tileLayer = L.tileLayer(gisApiAddress, {
           minZoom: 1,
