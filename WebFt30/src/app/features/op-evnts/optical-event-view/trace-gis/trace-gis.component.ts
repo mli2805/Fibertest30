@@ -19,9 +19,9 @@ import { environment } from 'src/environments/environment';
 import { FiberState, OpticalAccidentType } from 'src/app/core/store/models/ft30/ft-enums';
 
 @Component({
-    selector: 'rtu-trace-gis',
-    templateUrl: './trace-gis.component.html',
-    standalone: false
+  selector: 'rtu-trace-gis',
+  templateUrl: './trace-gis.component.html',
+  standalone: false
 })
 export class TraceGisComponent implements OnInit {
   private _optivalEvent!: OpticalEvent;
@@ -83,13 +83,26 @@ export class TraceGisComponent implements OnInit {
         break;
       }
       case 3: {
-        const api = <any>environment.api;
-        const gisApiPort = api.gisApiPort;
-        const host =
-          gisApiPort !== undefined
-            ? `localhost:${gisApiPort}`
-            : api.host || window.location.hostname;
-        const gisApiAddress = `https://${host}/gis/{x}/{y}/{z}`;
+        // если на моей машине, то обращаемся по http к порту 5289
+        // в остальных случаях (production или vscode обращ к бэку на 117м)
+        // https и без порта (nginx увидит что запрос начинается с /gis
+        // и перенаправит на http 5289 внутри машины сервера)
+
+        const env = <any>environment;
+        // можно проверять env.production
+        // или window.location.hostname === "localhost"
+        const prod = env.production;
+        let gisApiAddress;
+        if (prod) {
+          console.log(`production`);
+          const api = <any>environment.api;
+          const host = api.host || window.location.hostname;
+          gisApiAddress = `https://${host}/gis/{x}/{y}/{z}`;
+        } else {
+          console.log(`dev machine`);
+          gisApiAddress = `http://localhost:5289/gis/{x}/{y}/{z}`;
+        }
+
         L.tileLayer(gisApiAddress, {
           minZoom: 1,
           maxZoom: 21
