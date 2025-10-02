@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.Graph;
+﻿using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Microsoft.Extensions.Logging;
 using PdfSharp.Pdf;
 
@@ -37,7 +38,7 @@ namespace Fibertest30.Infrastructure
         }
 
         public byte[]? GenerateOpticalEventsForPeriodReport(GetOpticalEventsReportPdfQuery query, 
-            List<MeasurementWrap> wrapped, List<List<string>> totals, 
+            List<MeasurementWrap> wrapped, Dictionary<EventStatus, Dictionary<FiberState, int>> totals, 
             ServerInfo serverInfo, UserSettings? userSettings)
         {
             var generator = new OpticalEventsForPeriodReportGenerator(query, userSettings);

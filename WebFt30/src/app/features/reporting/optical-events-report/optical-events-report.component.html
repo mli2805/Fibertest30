@@ -18,7 +18,11 @@
           <ng-container *ngFor="let status of statuses">
             <div class="flex items-center">
               <label class="toggle my-2 mr-3">
-                <input type="checkbox" [checked]="status.isChecked" />
+                <input
+                  type="checkbox"
+                  [checked]="status.isChecked"
+                  (change)="onItemChanged(status)"
+                />
                 <div class="slider"></div>
               </label>
               <label class="ml-1" [ngClass]="{ 'disabled-label': isCurrentEvents }">{{
@@ -32,7 +36,11 @@
           <ng-container *ngFor="let state of states">
             <div class="flex items-center">
               <label class="toggle my-2 mr-3">
-                <input type="checkbox" [checked]="state.isChecked" />
+                <input
+                  type="checkbox"
+                  [checked]="state.isChecked"
+                  (change)="onItemChanged(state)"
+                />
                 <div class="slider"></div>
               </label>
               <label class="ml-1" [ngClass]="{ 'disabled-label': isCurrentEvents }">{{

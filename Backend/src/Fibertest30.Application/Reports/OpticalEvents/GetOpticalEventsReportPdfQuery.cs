@@ -33,7 +33,8 @@ public class GetOpticalEventsReportPdfQueryHandler(Model writeModel, ICurrentUse
         }
         else
         {
-            var filtered = writeModel.Measurements.Where(m => m.IsEventForReport(request)).ToList();
+            var filtered = writeModel.Measurements.Where(m => m.IsEventForReport(request))
+                .OrderByDescending(x=>x.SorFileId).ToList();
 
             var totals = filtered.GetTotals(request);
             var wrapped = filtered.Select(m => writeModel.WrapMeasurement(m, true)).ToList();

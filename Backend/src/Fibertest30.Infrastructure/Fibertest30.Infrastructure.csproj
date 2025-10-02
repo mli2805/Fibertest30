@@ -71,13 +71,10 @@
 	  <None Update="assets\AccidentSchemes\FiberBrokenInNode.png">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="assets\Headers\header-landscape.png">
+	  <None Update="assets\headers\header-landscape.png">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="assets\Headers\header.png">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="assets\pdf\check-mark.png">
+	  <None Update="assets\headers\header.png">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.Graph;
+﻿using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
@@ -11,8 +12,8 @@ namespace Fibertest30.Infrastructure
 {
     public class OpticalEventsForPeriodReportGenerator(GetOpticalEventsReportPdfQuery query, UserSettings? userSettings)
     {
-        public PdfDocument GenerateReport(List<MeasurementWrap> wrapped, List<List<string>> totals,
-            ServerInfo serverInfo)
+        public PdfDocument GenerateReport(List<MeasurementWrap> wrapped, 
+            Dictionary<EventStatus, Dictionary<FiberState, int>> totals, ServerInfo serverInfo)
         {
             var culture = new CultureInfo(userSettings?.GetCulture() ?? "ru-RU");
             // Установка культуры для текущего потока
@@ -70,7 +71,8 @@ namespace Fibertest30.Infrastructure
             paragraph2.Format.SpaceBefore = Unit.FromCentimeter(0.4);
         }
 
-        private void DrawBody(Section section, List<List<string>> totals, List<MeasurementWrap> wrapped)
+        private void DrawBody(Section section, Dictionary<EventStatus, Dictionary<FiberState, int>> totals, 
+            List<MeasurementWrap> wrapped)
         {
             var gap = section.AddParagraph();
             gap.Format.SpaceBefore = Unit.FromCentimeter(0.4);
@@ -80,7 +82,7 @@ namespace Fibertest30.Infrastructure
                 DrawOpticalEvents(section, wrapped);
         }
 
-        private void DrawConsolidatedTable(Section section, List<List<string>> data)
+        private void DrawConsolidatedTable(Section section, Dictionary<EventStatus, Dictionary<FiberState, int>> statuses)
         {
             var selectedStates = query.TraceStates;
             var table = section.AddTable();
@@ -98,14 +100,27 @@ namespace Fibertest30.Infrastructure
             for (int i = 0; i < selectedStates.Count; i++)
                 rowHeader.Cells[i + 1].AddParagraph(selectedStates[i].ToLocalizedString());
 
-            foreach (var list in data)
+            foreach (var eventStatus in EventStatusExt.EventStatusesInRightOrder)
             {
-                var row = table.AddRow();
-                row.HeightRule = RowHeightRule.Exactly;
-                row.Height = Unit.FromCentimeter(0.6);
-                row.VerticalAlignment = VerticalAlignment.Center;
-                for (int i = 0; i < list.Count; i++)
-                    row.Cells[i].AddParagraph(list[i]);
+                if (statuses.TryGetValue(eventStatus, out var states))
+                {
+                    var row = table.AddRow();
+                    row.HeightRule = RowHeightRule.Exactly;
+                    row.Height = Unit.FromCentimeter(0.6);
+                    row.VerticalAlignment = VerticalAlignment.Center;
+
+                    row.Cells[0].AddParagraph(eventStatus.GetLocalizedString());
+
+                    var column = 1;
+                    foreach (var traceState in query.TraceStates)
+                    {
+                        row.Cells[column].AddParagraph(states.TryGetValue(traceState, out var quantity)
+                            ? quantity.ToString()
+                            : "0");
+
+                        column++;
+                    }
+                }
             }
         }
 
@@ -116,11 +131,15 @@ namespace Fibertest30.Infrastructure
             foreach (var eventStatus in EventStatusExt
                          .EventStatusesInRightOrder.Where(eventStatus => checkedStatuses.Contains(eventStatus)))
             {
-                var withStatus = wrapped
-                    .Where(w => w.Measurement.EventStatus == eventStatus).ToList();
-                if (withStatus.Any())
+                foreach (var traceState in query.TraceStates)
                 {
-                    DrawOpticalEventsWithStatusAndState(section, withStatus);
+                    var withStatusAndState = wrapped
+                        .Where(w => w.Measurement.EventStatus == eventStatus 
+                                    && w.Measurement.TraceState == traceState).ToList();
+                    if (withStatusAndState.Any())
+                    {
+                        DrawOpticalEventsWithStatusAndState(section, withStatusAndState);
+                    }
                 }
             }
         }
@@ -167,6 +186,7 @@ namespace Fibertest30.Infrastructure
                 DrawOpticalEventRow(table, wrap);
 
                 var alms = wrap.Measurement.Accidents
+                    .OrderByDescending(a=>a.AccidentSeriousness)
                     .Select((t, i) => accidentLineModelFactory
                         .Create(t, i + 1, true, gpsFormat)).ToList();
                 AccidentPlaceReportProvider.DrawAccidents(alms, section);

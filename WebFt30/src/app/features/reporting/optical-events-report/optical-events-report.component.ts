@@ -86,6 +86,10 @@ export class OpticalEventsReportComponent implements OnInit {
     this.dateRange = dateRange;
   }
 
+  onItemChanged(item: Ies | Ifs) {
+    item.isChecked = !item.isChecked;
+  }
+
   toggleDetailed() {
     this.isDetailed = !this.isDetailed;
     if (!this.isDetailed) {
