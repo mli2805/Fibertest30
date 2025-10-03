@@ -46,7 +46,8 @@ export class StartPageHeaderComponent {
     [/^\/event-tables\/system-events$/, { titleId: 'i18n.ft.system-events' }],
     [/^\/evnts-new$/, { titleId: 'i18n.ft.new-events' }],
     [/^\/op-evnts\/optical-events$/, { titleId: 'i18n.ft.optical-events' }],
-    [/^\/op-evnts\/optical-events\/\d+$/, { titleId: 'i18n.ft.measurement' }],
+    [/^\/op-evnts\/optical-events\/\d+$/, { titleId: 'i18n.ft.trace-state' }],
+    // если было запущено точное вне очереди и пришло событие MeasurementAdded, то открываем это измерение и во вьюхе открыта сорка а не карта
     [/^\/op-evnts\/optical-events\/\d+\?open=(sor|map)$/, { titleId: 'i18n.ft.measurement' }],
     [/^\/net-evnts\/network-events$/, { titleId: 'i18n.ft.network-events' }],
     [/^\/bop-net-evnts\/network-events-bop$/, { titleId: 'i18n.ft.bop-network-events' }],
@@ -102,6 +103,8 @@ export class StartPageHeaderComponent {
 либо переходит по ссылке на N шагов выше
 */
   go(stateUrl: RouterStateUrl) {
+    console.log(stateUrl);
+
     if (stateUrl.data.navigateBack) {
       history.back();
     }
