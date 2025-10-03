@@ -68,14 +68,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="assets\samples\" />
 		<Folder Include="Identity\" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Update="assets\samples\dr_sample_1310.sor">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 	</ItemGroup>
 
 	<ItemGroup>
