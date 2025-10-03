@@ -20,10 +20,10 @@ import { RolesResolver } from '../guards';
 import { UserEditDialogComponent } from 'src/app/features/ft-settings/components/user-accounts/components/user-edit-dialog/user-edit-dialog.component';
 
 @Component({
-    selector: 'rtu-start-page-header',
-    templateUrl: 'start-page-header.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'rtu-start-page-header',
+  templateUrl: 'start-page-header.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class StartPageHeaderComponent {
   private readonly titleMap = new Map<RegExp, StartPageHeaderTitle>([
@@ -90,8 +90,25 @@ export class StartPageHeaderComponent {
     return null;
   }
 
-  goBack() {
-    history.back();
+  /* 
+В файлах xxx-routing.ts
+для пути/компонента могут задаваться доп параметры
+в частности
+	data: { navigateBack: true }
+или
+	data: { navigateToParent: 2 }
+На основании этого start-page-header, который получает эту инфу из текущего stateUrl: RouterStateUrl
+либо просто делает goBack (вызывая браузерный history.back())
+либо переходит по ссылке на N шагов выше
+*/
+  go(stateUrl: RouterStateUrl) {
+    if (stateUrl.data.navigateBack) {
+      history.back();
+    }
+
+    if (stateUrl.data.navigateToParent) {
+      this.goUp(stateUrl, stateUrl.data.navigateToParent);
+    }
   }
 
   goUp(stateUrl: RouterStateUrl, navigateToParent: number) {

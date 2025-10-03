@@ -41,7 +41,7 @@ export const routes: Routes = [
         path: 'baseline/:id',
         pathMatch: 'full',
         component: BaselineViewComponent,
-        data: { navigateToParent: 2 }
+        data: { navigateBack: true }
       },
       {
         path: 'monitoring-settings/:id',
