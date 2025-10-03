@@ -17,7 +17,7 @@ namespace Fibertest30.Infrastructure
         {
             var culture = new CultureInfo(userSettings?.GetCulture() ?? "ru-RU");
             // Установка культуры для текущего потока
-            // Thread.CurrentThread.CurrentCulture = culture; // не влияет
+            Thread.CurrentThread.CurrentCulture = culture; // не влияет ?
             Thread.CurrentThread.CurrentUICulture = culture;
 
             var dateTimeRange = query.DateTimeFilter.SearchWindow!;
@@ -207,7 +207,7 @@ namespace Fibertest30.Infrastructure
             table.AddColumn(@"4.5cm").Format.Alignment = ParagraphAlignment.Left;
 
             table.AddColumn(@"3.5cm").Format.Alignment = ParagraphAlignment.Center;
-            table.AddColumn(@"4cm").Format.Alignment = ParagraphAlignment.Left;
+            table.AddColumn(@"4cm").Format.Alignment = ParagraphAlignment.Center;
 
             var headerRow1 = table.AddRow();
             headerRow1.HeadingFormat = true;
@@ -261,8 +261,18 @@ namespace Fibertest30.Infrastructure
             }
 
             row.Cells[4].AddParagraph($@"{wrap.TraceTitle}");
-            row.Cells[5].AddParagraph($@"{wrap.Measurement.StatusChangedTimestamp}");
-            row.Cells[6].AddParagraph($@"{wrap.Measurement.StatusChangedByUser}");
+
+            if (wrap.Measurement.StatusChangedByUser == "system")
+            {
+                row.Cells[5].AddParagraph(@"-");
+                row.Cells[6].AddParagraph(@"-");
+            }
+            else
+            {
+                row.Cells[5].AddParagraph($@"{wrap.Measurement.StatusChangedTimestamp}");
+                row.Cells[6].AddParagraph($@"{wrap.Measurement.StatusChangedByUser}");
+            }
+           
 
             if (!string.IsNullOrEmpty(wrap.Measurement.Comment))
             {
