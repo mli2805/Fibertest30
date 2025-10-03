@@ -401,12 +401,8 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         }
 
         // если пользователь проводит сейчас точное изм вне очереди по этой трассе
-        const traceId = CoreUtils.getCurrentState(
-          this.store,
-          RtuMgmtSelectors.selectOutOfTurnTraceId
-        );
-        if (traceId === data.TraceId) {
-          // то не надо включать сигнализацию
+        // то не надо включать сигнализацию
+        if (this.closeOutOfTurnIfOpen(data.TraceId, data.EventId)) {
           return;
         }
 
@@ -416,6 +412,13 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         this.store.dispatch(DeviceActions.getHasCurrentEvents());
         this.audioService.play(audioEvent);
 
+        return;
+      }
+      case 'MeasurementAdded': {
+        console.log(`MeasurementAdded`);
+        const data = <MeasurementAddedData>JSON.parse(systemEvent.jsonData);
+
+        this.closeOutOfTurnIfOpen(data.TraceId, data.SorFileId);
         return;
       }
       case 'NetworkEventAdded': {
@@ -465,26 +468,7 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
         this.store.dispatch(LandmarksModelsActions.updateLandmarksProgress({ line: data }));
         return;
       }
-      case 'MeasurementAdded': {
-        const data = <MeasurementAddedData>JSON.parse(systemEvent.jsonData);
 
-        // если пользователь не проводит сейчас точное изм вне очереди
-        // traceId будет null и переход на страницу измерения не происходит
-        const traceId = CoreUtils.getCurrentState(
-          this.store,
-          RtuMgmtSelectors.selectOutOfTurnTraceId
-        );
-        if (traceId === data.TraceId) {
-          this.store.dispatch(
-            RtuMgmtActions.preciseMeasurementOutOfTurnDone({ outOfTurnSorFileId: data.SorFileId })
-          );
-          this.windowService.unregisterWindow(traceId, 'OutOfTurnMeasurement');
-
-          const measUrl = `/op-evnts/optical-events/${data.SorFileId.toString()}`;
-          this.router.navigate([measUrl], { queryParams: { open: 'sor' } });
-        }
-        return;
-      }
       case 'MeasurementUpdated': {
         const data = <MeasurementUpdatedData>JSON.parse(systemEvent.jsonData);
         // если это не измерение по расписанию
@@ -512,5 +496,24 @@ export class StartPageComponent extends OnDestroyBase implements OnInit, AfterVi
       this.store.dispatch(AudioEventsActions.removeEvent({ removeEvent: oldEvent }));
     }
     this.store.dispatch(AudioEventsActions.addEvent({ newEvent: newEvent }));
+  }
+
+  private closeOutOfTurnIfOpen(eventTraceId: string, eventId: number): boolean {
+    // если пользователь не проводит сейчас точное изм вне очереди
+    // traceId будет null и переход на страницу измерения не происходит
+    const traceId = CoreUtils.getCurrentState(this.store, RtuMgmtSelectors.selectOutOfTurnTraceId);
+
+    if (traceId === eventTraceId) {
+      this.store.dispatch(
+        RtuMgmtActions.preciseMeasurementOutOfTurnDone({ outOfTurnSorFileId: eventId })
+      );
+      this.windowService.unregisterWindow(traceId, 'OutOfTurnMeasurement');
+
+      const measUrl = `/op-evnts/optical-events/${eventId.toString()}`;
+      this.router.navigate([measUrl], { queryParams: { open: 'sor' } });
+
+      return true;
+    }
+    return false;
   }
 }

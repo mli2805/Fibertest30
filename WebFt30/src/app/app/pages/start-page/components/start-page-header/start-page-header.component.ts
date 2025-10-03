@@ -103,8 +103,6 @@ export class StartPageHeaderComponent {
 либо переходит по ссылке на N шагов выше
 */
   go(stateUrl: RouterStateUrl) {
-    console.log(stateUrl);
-
     if (stateUrl.data.navigateBack) {
       history.back();
     }
