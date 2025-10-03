@@ -38,6 +38,7 @@ public static class ApplicationDefaultPermissions
         AddPermission(P.RemoveRtu);
         AddPermission(P.CleanTrace);
         AddPermission(P.RemoveTrace);
+        AddPermission(P.ChangeMeasurementStatus, R.Operator);
     }
 
     private static void AddPermission(ApplicationPermission permission, params ApplicationDefaultRole[] roles)

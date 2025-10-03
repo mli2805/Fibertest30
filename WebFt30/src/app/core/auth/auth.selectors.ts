@@ -43,6 +43,10 @@ const selectHasChangeNotificationSettingsPermission = createSelector(
     user ? user.permissions.includes(ApplicationPermission.ChangeNotificationSettings) : false
 );
 
+const selectHasChangeMeasurementStatusPermission = createSelector(selectUser, (user: User | null) =>
+  user ? user.permissions.includes(ApplicationPermission.ChangeMeasurementStatus) : false
+);
+
 const selectErrorMessageId = createSelector(selectAuthState, (state: AuthState) => {
   if (state.error === null) {
     return null;
@@ -61,5 +65,6 @@ export const AuthSelectors = {
   selectHasTestRtuPermission,
   selectHasChangeRtuAddressPermission,
   selectHasChangeNotificationSettingsPermission,
+  selectHasChangeMeasurementStatusPermission,
   selectErrorMessageId
 };

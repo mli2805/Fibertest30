@@ -27,4 +27,6 @@ public enum ApplicationPermission
     RemoveRtu,
     CleanTrace,
     RemoveTrace,
+
+    ChangeMeasurementStatus
 }

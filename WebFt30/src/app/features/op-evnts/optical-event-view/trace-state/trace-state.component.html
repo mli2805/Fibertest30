@@ -87,27 +87,29 @@
   </div>
 </ng-container>
 <!-- статус и комментарий -->
-<div [formGroup]="form" class="grouped-border mt-1 flex flex-col">
-  <ng-container *ngIf="isAccident">
-    <div class="mb-1 ml-1 text-sm">{{ 'i18n.ft.optical-event-status' | translate }}:</div>
-    <rtu-select formControlName="eventStatus" [items]="eventStatuses">
-      <ng-template rtuSelectLabel let-selectedItem>
-        <div class="pl-1">{{ selectedItem | eventStatusPipe | translate }}</div>
-      </ng-template>
-      <ng-template rtuSelectItem let-item>
-        {{ item | eventStatusPipe | translate }}
-      </ng-template>
-    </rtu-select>
-  </ng-container>
+<fieldset [disabled]="(hasChangeMeasurementStatusPermission$ | async) === false">
+  <div [formGroup]="form" class="grouped-border mt-1 flex flex-col">
+    <ng-container *ngIf="isAccident">
+      <div class="mb-1 ml-1 text-sm">{{ 'i18n.ft.optical-event-status' | translate }}:</div>
+      <rtu-select formControlName="eventStatus" [items]="eventStatuses">
+        <ng-template rtuSelectLabel let-selectedItem>
+          <div class="pl-1">{{ selectedItem | eventStatusPipe | translate }}</div>
+        </ng-template>
+        <ng-template rtuSelectItem let-item>
+          {{ item | eventStatusPipe | translate }}
+        </ng-template>
+      </rtu-select>
+    </ng-container>
 
-  <div class="my-1 ml-1 text-sm">{{ 'i18n.ft.comment' | translate }}:</div>
-  <input formControlName="comment" type="text" class="input-simple w-full" />
+    <div class="my-1 ml-1 text-sm">{{ 'i18n.ft.comment' | translate }}:</div>
+    <input formControlName="comment" type="text" class="input-simple w-full" />
 
-  <button
-    class="button-extra mt-2 w-48 self-end"
-    [disabled]="isApplyDisabled()"
-    (click)="onApplyClicked()"
-  >
-    {{ 'i18n.ft.apply' | translate }}
-  </button>
-</div>
+    <button
+      class="button-extra mt-2 w-48 self-end"
+      [disabled]="isApplyDisabled()"
+      (click)="onApplyClicked()"
+    >
+      {{ 'i18n.ft.apply' | translate }}
+    </button>
+  </div>
+</fieldset>

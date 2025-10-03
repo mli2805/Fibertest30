@@ -25,5 +25,7 @@ export enum ApplicationPermission {
   DoMeasurementClient = 'DoMeasurementClient',
   RemoveRtu = 'RemoveRtu',
   CleanTrace = 'CleanTrace',
-  RemoveTrace = 'RemoveTrace'
+  RemoveTrace = 'RemoveTrace',
+  // includes changing measurement comment
+  ChangeMeasurementStatus = 'ChangeMeasurementStatus'
 }

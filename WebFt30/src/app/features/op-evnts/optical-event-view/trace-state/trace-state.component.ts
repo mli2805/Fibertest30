@@ -11,15 +11,19 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { GraphService } from 'src/app/core/grpc';
 
 @Component({
-    selector: 'rtu-trace-state',
-    templateUrl: './trace-state.component.html',
-    styleUrls: ['./trace-state.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'rtu-trace-state',
+  templateUrl: './trace-state.component.html',
+  styleUrls: ['./trace-state.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class TraceStateComponent {
   accidentPlace = AccidentPlace;
   _opticalEvent!: OpticalEvent;
+
+  hasChangeMeasurementStatusPermission$ = this.store.select(
+    AuthSelectors.selectHasChangeMeasurementStatusPermission
+  );
 
   @Input() set opticalEvent(value: OpticalEvent) {
     this._opticalEvent = value;
