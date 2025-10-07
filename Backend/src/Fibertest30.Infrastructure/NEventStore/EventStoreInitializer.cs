@@ -111,29 +111,16 @@ public class EventStoreInitializer
         _logger.LogInformation($" {res1}");
 
 
-        // эксперимент с "апгрейдом сервиса"
-        // т.е. вывод скрипта идет в отдельный файл, 
-        //  прога читает по мере появления нового в файле
-        // в какой-то момент скрип погасит прогу
-        // try
-        // {
-        //     var upgradeService = _serviceProvider.GetRequiredService<IUpgradeService>();
-        //     upgradeService.Start();
-        // }
-        // catch (Exception e)
-        // {
-        //     _logger.LogError(e.Message);
-        // }
-
-
-
         string scriptFilename = "getStreamId.sh";
 
         //  на виртуалке deb12office работает и без пути, потому что mysql установил стандартно
         // и mysqld лег в стандартный каталог /usr/sbin  данные бд - /var/lib/mysql
         // после установки/копирования на виртуалке deb12office удалить в appsettings.json эту переменную
         // var command = $"{LinuxMysqlPath}mysql -uroot -proot ft20graph -e \"select StreamIdOriginal from Commits limit 1\"";
-        var command = "mysql -uroot -proot ft20graph -e \"select StreamIdOriginal from Commits limit 1\"";
+        // var command = "mysql -uroot -proot ft20graph -e \"select StreamIdOriginal from Commits limit 1\"";
+        var command = "/usr/local/mysql/bin/mysql -uroot -proot ft20graph -e \"select StreamIdOriginal from Commits limit 1\"";
+        _logger.LogInformation($"executing: {command}");
+
         await File.WriteAllTextAsync(scriptFilename, command);
         await Task.Delay(300);
 
@@ -142,14 +129,13 @@ public class EventStoreInitializer
         await Task.Delay(300);
 
         var output = ShellCommand.GetScriptOutput(scriptFilename);
-        _logger.LogInformation(output);
+        _logger.LogInformation($"output is: {output}");
+
         var lines = output.Split('\n');
         _logger.LogInformation($"got {lines.Length} lines ");
         var streamIdOriginal = Guid.Parse(lines[1]);
         _logger.LogInformation($"StreamIdOriginal is {streamIdOriginal}");
 
-        // var remove = $"rm {scriptFilename}";
-        // ShellCommand.GetCommandLineOutput(remove);
         return streamIdOriginal;
     }
 
