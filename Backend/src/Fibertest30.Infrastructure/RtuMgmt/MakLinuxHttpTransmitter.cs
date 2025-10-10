@@ -36,12 +36,14 @@ public class MakLinuxHttpTransmitter : IRtuTransmitter
             NetAddress = netAddress.Clone(),
         };
 
-        var uri = $"http://{netAddress.ToStringA()}/rtu/current-state";
+        var uri = $"http://{netAddress.ToStringA()}/misc/CheckApi";
         var request = new HttpRequestMessage(new HttpMethod("GET"), uri);
         try
         {
-            var _ = await _httpClient.SendAsync(request, cancellationToken);
-            // just a fact of successful sending
+            // возвращает 200 и строку приветствия, если есть связь с компом и служба запущена
+            // если остановить службу - падает по таймауту
+            var httpResponseMessage = await _httpClient.SendAsync(request, cancellationToken);
+            httpResponseMessage.EnsureSuccessStatusCode();
             result.IsConnectionSuccessfull = true;
         }
         catch (Exception e)
