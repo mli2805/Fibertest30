@@ -1,4 +1,5 @@
 ﻿using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 
 namespace Fibertest30.Infrastructure;
 public partial class RtuManager
@@ -22,12 +23,17 @@ public partial class RtuManager
         }
 
         // получили результат инициализации или вышли по таймауту
+        rtuInitializedDto.RtuAddresses = dto.RtuAddresses;
+        if (rtuInitializedDto.IsInitialized && dto.IsSynchronizationRequired)
+        {
+            await SynchronizeBaseRefs(rtuInitializedDto);
+
+        }
 
         // освободить рту
         _rtuOccupationService.TrySetOccupation(dto.RtuId, RtuOccupation.None, _currentUserService.UserName,
             out RtuOccupationState? _);
 
-        rtuInitializedDto.RtuAddresses = dto.RtuAddresses;
         if (rtuInitializedDto.IsInitialized)
         {
             // пометить в БД время последнего конекта с рту
@@ -39,6 +45,16 @@ public partial class RtuManager
         }
 
         return rtuInitializedDto;
+    }
+
+    private async Task SynchronizeBaseRefs(RtuInitializedDto rtuInitializedDto)
+    {
+        var list = _writeModel.CreateReSendDtos(rtuInitializedDto);
+        foreach (var assignBaseRefsDto in list)
+        {
+            var _ = await _rtuTransmitter
+                .SendCommand<AssignBaseRefsDto, BaseRefAssignedDto>(assignBaseRefsDto, rtuInitializedDto.RtuAddresses);
+        }
     }
 
     private InitializeRtuDto CompleteDto(InitializeRtuDto dto)

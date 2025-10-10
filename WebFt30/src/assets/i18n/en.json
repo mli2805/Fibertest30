@@ -408,6 +408,7 @@
   "i18n.ft.testing": "testing...",
   "i18n.ft.initializing": "initializing...",
   "i18n.ft.initialize": "Initialize",
+  "i18n.ft.initialize-rtu-and-synchronize-base-refs": "Initialize RTU and synchronize base refs",
   "i18n.ft.cant-load-rtu-tree": "Can't load RTU tree",
   "i18n.ft.cant-load-rtu": "Can't load RTU",
   "i18n.ft.success": "Success!",

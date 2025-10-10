@@ -17,6 +17,7 @@ To generate gRpc clients for Web application:
 - npx ts-node .\scripts\generate-grpc.ts 
 
 создал инструмент Tools > External Tools > Add для выполнения ps1 скриптов
+	появилась команда в меню Tools (Run PowerShell Script)
 назначил шорткат Tools > Options > Keyboard   Ctrl+Shift+G
 теперь для выполнения: выбрать в дереве скрипт, 
 	нажать шорткат

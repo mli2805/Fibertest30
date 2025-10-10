@@ -50,6 +50,10 @@ export interface InitializeRtuDto {
      * @generated from protobuf field: fibertest30.rtu_mgmt.DoubleAddress rtuAddresses = 2;
      */
     rtuAddresses?: DoubleAddress;
+    /**
+     * @generated from protobuf field: bool isSynchronizationRequired = 3;
+     */
+    isSynchronizationRequired: boolean;
 }
 /**
  * @generated from protobuf message fibertest30.rtu_mgmt.RtuInitializedDto
@@ -422,7 +426,8 @@ class InitializeRtuDto$Type extends MessageType<InitializeRtuDto> {
     constructor() {
         super("fibertest30.rtu_mgmt.InitializeRtuDto", [
             { no: 1, name: "rtuId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "rtuAddresses", kind: "message", T: () => DoubleAddress }
+            { no: 2, name: "rtuAddresses", kind: "message", T: () => DoubleAddress },
+            { no: 3, name: "isSynchronizationRequired", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
 }

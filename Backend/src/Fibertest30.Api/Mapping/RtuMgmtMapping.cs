@@ -17,7 +17,8 @@ public static class RtuMgmtMapping
         return new Iit.Fibertest.Dto.InitializeRtuDto()
         {
             RtuId = Guid.Parse(dto.RtuId), 
-            RtuAddresses = dto.RtuAddresses.FromProto()
+            RtuAddresses = dto.RtuAddresses.FromProto(),
+            IsSynchronizationRequired = dto.IsSynchronizationRequired
         };
     }
 

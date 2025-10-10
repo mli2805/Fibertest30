@@ -12,9 +12,9 @@ import { Observable, Subscription } from 'rxjs';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
 
 @Component({
-    selector: 'rtu-rtu-initialization',
-    templateUrl: './rtu-initialization.component.html',
-    standalone: false
+  selector: 'rtu-rtu-initialization',
+  templateUrl: './rtu-initialization.component.html',
+  standalone: false
 })
 export class RtuInitializationComponent implements OnInit, OnDestroy {
   @Input() rtuId!: string;
@@ -68,9 +68,10 @@ export class RtuInitializationComponent implements OnInit, OnDestroy {
     if (idx2 !== -1) this.otherThanReserveAddress.splice(idx2, 1);
   }
 
-  onInitializeClicked() {
+  onInitializeClicked(isSynchronizationRequired: boolean) {
     const dto = new InitializeRtuDto();
     dto.rtuId = this.rtuId;
+    dto.isSynchronizationRequired = isSynchronizationRequired;
     const da = new DoubleAddress();
     da.main = this.mainChannel.composeInputs();
     da.hasReserveAddress = false;

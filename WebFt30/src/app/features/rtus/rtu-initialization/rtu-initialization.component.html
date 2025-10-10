@@ -10,87 +10,98 @@
   (closeEvent)="close()"
 >
   <ng-container *ngIf="rtu$ | async as rtu">
-    <div class="flex flex-col">
-      <div class="grouped-border ml-2 w-96">
-        <div>{{ rtu.title }}</div>
-        <div class="mt-0.5 text-xs text-gray-600 dark:text-zinc-400">{{ rtu.rtuId }}</div>
+    <fieldset [disabled]="initializing$ | async">
+      <div class="flex flex-col">
+        <div class="grouped-border ml-2 w-96">
+          <div>{{ rtu.title }}</div>
+          <div class="mt-0.5 text-xs text-gray-600 dark:text-zinc-400">{{ rtu.rtuId }}</div>
+        </div>
+
+        <rtu-main-channel-test
+          #mainChannel
+          [networkAddress]="rtu.mainChannel"
+          [otherAddresses]="otherThanMainAddress"
+          [hasChangeRtuAddressPermission]="hasChangeRtuAddressPermission"
+          [hasTestPermission]="hasTestPermission"
+          [rtuId]="rtu.rtuId"
+        ></rtu-main-channel-test>
+
+        <div class="grouped-border ml-2 flex w-96 flex-col">
+          <div class="mb-2">{{ 'i18n.ft.otdr-network-address' | translate }}</div>
+          <div class="text-sm">
+            <div class="flex">
+              <span class="w-20">{{ 'i18n.ft.ip' | translate }}</span>
+              <div>{{ rtu.otdrNetAddress.ip4Address }}</div>
+            </div>
+            <div class="flex">
+              <span class="w-20">{{ 'i18n.ft.port' | translate }}</span>
+              <div>{{ rtu.otdrNetAddress.port }}</div>
+            </div>
+          </div>
+        </div>
+
+        <rtu-reserve-channel-test
+          #reserveChannel
+          [networkAddress]="rtu.reserveChannel"
+          [otherAddresses]="otherThanReserveAddress"
+          [isOn]="rtu.isReserveChannelSet"
+          [hasChangeRtuAddressPermission]="hasChangeRtuAddressPermission"
+          [hasTestPermission]="hasTestPermission"
+        ></rtu-reserve-channel-test>
+
+        <div class="grouped-border mb-1 ml-2 flex w-96 flex-col">
+          <div class="mb-2">
+            {{ 'i18n.ft.information' | translate }}
+          </div>
+
+          <div class="text-sm">
+            <div>
+              <span class="mr-8">{{ rtu.mfid }}</span>
+              <span class="mr-2">{{ 'i18n.ft.serial' | translate }}</span>
+              {{ rtu.serial }}
+            </div>
+            <div>
+              <span class="mr-2">{{ 'i18n.ft.rtu-manager-version' | translate }}</span>
+              {{ rtu.version }}
+            </div>
+
+            <div>
+              <span class="mr-2">{{ 'i18n.ft.ports-available' | translate }}</span>
+              {{ rtu.fullPortCount - rtu.bops.length }}
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <div class="mb-2 ml-4 mt-2 flex items-center">
+            <button
+              class="button-neutral min-w-48 self-start"
+              (click)="onInitializeClicked(false)"
+              [disabled]="!hasInitializePermission"
+            >
+              {{ 'i18n.ft.initialize' | translate }}
+            </button>
+
+            <div *ngIf="initializing$ | async" class="flex items-center">
+              <rtu-loading-spinner class="ml-2 h-4 w-4"></rtu-loading-spinner>
+              <span class="text-data-highlight ml-3">{{ 'i18n.ft.initializing' | translate }}</span>
+            </div>
+            <div *ngIf="(rtuInitializationResult$ | async) === true">
+              <span class="ml-3 text-green-600">{{ 'i18n.ft.success' | translate }}</span>
+            </div>
+            <div *ngIf="(rtuInitializationResult$ | async) === false">
+              <span class="ml-3 text-red-600">{{ 'i18n.ft.failed' | translate }}</span>
+            </div>
+          </div>
+
+          <button
+            class="button-neutral mx-4 mb-2 self-stretch"
+            (click)="onInitializeClicked(true)"
+            [disabled]="!hasInitializePermission"
+          >
+            {{ 'i18n.ft.initialize-rtu-and-synchronize-base-refs' | translate }}
+          </button>
+        </div>
       </div>
-
-      <rtu-main-channel-test
-        #mainChannel
-        [networkAddress]="rtu.mainChannel"
-        [otherAddresses]="otherThanMainAddress"
-        [hasChangeRtuAddressPermission]="hasChangeRtuAddressPermission"
-        [hasTestPermission]="hasTestPermission"
-        [rtuId]="rtu.rtuId"
-      ></rtu-main-channel-test>
-
-      <div class="grouped-border ml-2 flex w-96 flex-col">
-        <div class="mb-2">{{ 'i18n.ft.otdr-network-address' | translate }}</div>
-        <div class="text-sm">
-          <div class="flex">
-            <span class="w-20">{{ 'i18n.ft.ip' | translate }}</span>
-            <div>{{ rtu.otdrNetAddress.ip4Address }}</div>
-          </div>
-          <div class="flex">
-            <span class="w-20">{{ 'i18n.ft.port' | translate }}</span>
-            <div>{{ rtu.otdrNetAddress.port }}</div>
-          </div>
-        </div>
-      </div>
-
-      <rtu-reserve-channel-test
-        #reserveChannel
-        [networkAddress]="rtu.reserveChannel"
-        [otherAddresses]="otherThanReserveAddress"
-        [isOn]="rtu.isReserveChannelSet"
-        [hasChangeRtuAddressPermission]="hasChangeRtuAddressPermission"
-        [hasTestPermission]="hasTestPermission"
-      ></rtu-reserve-channel-test>
-
-      <div class="grouped-border mb-1 ml-2 flex w-96 flex-col">
-        <div class="mb-2">
-          {{ 'i18n.ft.information' | translate }}
-        </div>
-
-        <div class="text-sm">
-          <div>
-            <span class="mr-8">{{ rtu.mfid }}</span>
-            <span class="mr-2">{{ 'i18n.ft.serial' | translate }}</span>
-            {{ rtu.serial }}
-          </div>
-          <div>
-            <span class="mr-2">{{ 'i18n.ft.rtu-manager-version' | translate }}</span>
-            {{ rtu.version }}
-          </div>
-
-          <div>
-            <span class="mr-2">{{ 'i18n.ft.ports-available' | translate }}</span>
-            {{ rtu.fullPortCount - rtu.bops.length }}
-          </div>
-        </div>
-      </div>
-
-      <div class="mb-2 ml-4 mt-2 flex items-center">
-        <button
-          class="button-neutral min-w-48 self-start"
-          (click)="onInitializeClicked()"
-          [disabled]="!hasInitializePermission"
-        >
-          {{ 'i18n.ft.initialize' | translate }}
-        </button>
-
-        <div *ngIf="initializing$ | async" class="flex items-center">
-          <rtu-loading-spinner class="ml-2 h-4 w-4"></rtu-loading-spinner>
-          <span class="text-data-highlight ml-3">{{ 'i18n.ft.initializing' | translate }}</span>
-        </div>
-        <div *ngIf="(rtuInitializationResult$ | async) === true">
-          <span class="ml-3 text-green-600">{{ 'i18n.ft.success' | translate }}</span>
-        </div>
-        <div *ngIf="(rtuInitializationResult$ | async) === false">
-          <span class="ml-3 text-red-600">{{ 'i18n.ft.failed' | translate }}</span>
-        </div>
-      </div>
-    </div>
+    </fieldset>
   </ng-container>
 </rtu-draggable-window>

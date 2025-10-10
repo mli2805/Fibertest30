@@ -114,6 +114,7 @@
   "i18n.ft.information": "Информация",
   "i18n.ft.show": "Показать",
   "i18n.ft.initialize": "Инициализировать",
+  "i18n.ft.initialize-rtu-and-synchronize-base-refs": "Инициализировать RTU и синхронизировать базовые",
   "i18n.ft.initializing": "идёт инициализация...",
   "i18n.ft.ip": "IP",
   "i18n.ft.landmarks": "Ориентиры",

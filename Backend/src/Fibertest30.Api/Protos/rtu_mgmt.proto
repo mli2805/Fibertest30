@@ -33,6 +33,7 @@ message MeasParamByPosition {
 message InitializeRtuDto {
 	string rtuId = 1;
 	DoubleAddress rtuAddresses = 2;
+	bool isSynchronizationRequired = 3;
 }
 
 message RtuInitializedDto {
