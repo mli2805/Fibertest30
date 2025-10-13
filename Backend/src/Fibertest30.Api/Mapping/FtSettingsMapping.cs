@@ -1,6 +1,6 @@
 namespace Fibertest30.Api;
 
-public static class NotificationSettingsMappingExtensions
+public static class FtSettingsMapping
 {
     public static Application.EmailServer FromProto(this EmailServer proto)
     {

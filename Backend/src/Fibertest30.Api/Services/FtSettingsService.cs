@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Fibertest30.Api;
 
-public class MeasurementService(ISender mediator) : Measurement.MeasurementBase
+public class FtSettingsService(ISender mediator) : FtSettings.FtSettingsBase
 {
     public override async Task<GetLogBundleResponse> GetLogBundle(GetLogBundleRequest request, ServerCallContext context)
     {

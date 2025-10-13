@@ -199,7 +199,7 @@ void MapGrpcServices(WebApplication app, bool startGrpcReflectionService)
         .EnableGrpcWeb()
         .RequireCors("AllowAll");
 
-    app.MapGrpcService<MeasurementService>()
+    app.MapGrpcService<FtSettingsService>()
         .EnableGrpcWeb()
         .RequireCors("AllowAll");
 

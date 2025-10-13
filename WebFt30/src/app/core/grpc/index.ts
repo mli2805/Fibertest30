@@ -1,5 +1,5 @@
 export * from './services/identity.service';
-export * from './services/measurement.service';
+export * from './services/ft-settings.service';
 export * from './services/event-tables.service';
 export * from './services/rtu-tree.service';
 export * from './services/rtu-mgmt.service';

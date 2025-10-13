@@ -28,7 +28,7 @@
 		<Protobuf Include="Protos\data.core.proto" ProtoRoot="Protos" GrpcServices="Server" />
 		<Protobuf Include="Protos\core.proto" ProtoRoot="Protos" GrpcServices="Server" />
 		<Protobuf Include="Protos\identity.proto" ProtoRoot="Protos" GrpcServices="Server" />
-		<Protobuf Include="Protos\measurement.proto" ProtoRoot="Protos" GrpcServices="Server" />
+		<Protobuf Include="Protos\ft_settings.proto" ProtoRoot="Protos" GrpcServices="Server" />
 		<Protobuf Include="Protos\events.data.proto" ProtoRoot="Protos" GrpcServices="Server" />
 		<Protobuf Include="Protos\event_tables.proto" ProtoRoot="Protos" GrpcServices="Server" />
 		<Protobuf Include="Protos\rfts_events.proto" ProtoRoot="Protos" GrpcServices="Server" />

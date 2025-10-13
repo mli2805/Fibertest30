@@ -2,9 +2,9 @@ syntax = "proto3";
 import "data.core.proto";
 
 option csharp_namespace = "Fibertest30.Api";
-package fibertest30.measurement;
+package fibertest30.ft_settings;
 
-service Measurement {
+service FtSettings {
   rpc UpdateNotificationSettings(UpdateNotificationSettingsRequest) returns (UpdateNotificationSettingsResponse);
   rpc GetNotificationSettings(GetNotificationSettingsRequest) returns(GetNotificationSettingsResponse);
   rpc TestEmailServerSettings(TestEmailServerSettingsRequest) returns(TestEmailServerSettingsResponse);

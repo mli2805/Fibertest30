@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { NotificationSettingsActions } from './notification-settings.action';
 import { catchError, map, mergeMap, of, switchMap } from 'rxjs';
 import { MapUtils } from '../../map.utils';
-import { MeasurementService } from '../../grpc/services/measurement.service';
+import { FtSettingsService } from '../../grpc/services/ft-settings.service';
 import { GlobalUiActions } from '../global-ui/global-ui.actions';
 import { CoreUtils } from '../../core.utils';
 import { GrpcUtils } from '../../grpc/grpc.utils';
@@ -15,7 +15,7 @@ export class NotificationSettingsEffects {
       ofType(NotificationSettingsActions.testEmailServerSettings),
       switchMap(({ emailServer }) => {
         const grpcEmailserver = MapUtils.toGrpcEmailServer(emailServer);
-        return this.measurementService.testEmailServerSettings(grpcEmailserver).pipe(
+        return this.ftSettingsService.testEmailServerSettings(grpcEmailserver).pipe(
           map((response) => {
             return NotificationSettingsActions.testEmailServerSettingsSuccess();
           }),
@@ -41,7 +41,7 @@ export class NotificationSettingsEffects {
       ofType(NotificationSettingsActions.testTrapReceiverSettings),
       switchMap(({ trapReceiver }) => {
         const grpcTrapReceiver = MapUtils.toGrpcTrapReceiver(trapReceiver);
-        return this.measurementService.testTrapReceiverSettins(grpcTrapReceiver).pipe(
+        return this.ftSettingsService.testTrapReceiverSettins(grpcTrapReceiver).pipe(
           map((response) => {
             return NotificationSettingsActions.testTrapReceiverSettingsSuccess();
           }),
@@ -67,7 +67,7 @@ export class NotificationSettingsEffects {
       ofType(NotificationSettingsActions.updateNotificationSettings),
       switchMap(({ settings }) => {
         const grpcSettings = MapUtils.toGrpcNotificationSettings(settings);
-        return this.measurementService.updateNotificationSettings(grpcSettings).pipe(
+        return this.ftSettingsService.updateNotificationSettings(grpcSettings).pipe(
           map((response) => {
             return GlobalUiActions.dummyAction();
           }),
@@ -97,7 +97,7 @@ export class NotificationSettingsEffects {
     this.actions$.pipe(
       ofType(NotificationSettingsActions.refreshNotificationSettings),
       switchMap(() => {
-        return this.measurementService.refreshNotificationSettings().pipe(
+        return this.ftSettingsService.refreshNotificationSettings().pipe(
           map((response) => {
             const settings = MapUtils.toNotificationSettings(response.notificationSettings!);
             return NotificationSettingsActions.refreshNotificationSettingsSuccess({ settings });
@@ -114,5 +114,5 @@ export class NotificationSettingsEffects {
     )
   );
 
-  constructor(private actions$: Actions, private measurementService: MeasurementService) {}
+  constructor(private actions$: Actions, private ftSettingsService: FtSettingsService) {}
 }

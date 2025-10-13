@@ -12,7 +12,7 @@ import { AppState } from '../../core.state';
 import { CoreService } from '../../grpc/services/core.service';
 import { EventTablesService } from '../../grpc/services/event-tables.service';
 import { EventTablesMapping } from '../mapping/event-tables-mapping';
-import { MeasurementService } from '../../grpc';
+import { FtSettingsService } from '../../grpc';
 import { FileSaverService } from '../../services/file-saver.service';
 
 @Injectable()
@@ -68,7 +68,7 @@ export class DeviceEffects {
     this.actions$.pipe(
       ofType(DeviceActions.getLogBundle),
       exhaustMap(() =>
-        this.measurementServcie.getLogBundle().pipe(
+        this.ftSettingsServcie.getLogBundle().pipe(
           map(({ archive }) => DeviceActions.getLogBundleSuccess({ archive })),
           catchError((error) =>
             of(
@@ -99,7 +99,7 @@ export class DeviceEffects {
     private store: Store<AppState>,
     private coreService: CoreService,
     private eventTablesService: EventTablesService,
-    private measurementServcie: MeasurementService,
+    private ftSettingsServcie: FtSettingsService,
     private fileSaver: FileSaverService
   ) {}
 }

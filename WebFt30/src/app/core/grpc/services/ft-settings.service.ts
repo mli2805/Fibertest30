@@ -9,15 +9,15 @@ import * as grpc from 'src/grpc-generated';
 @Injectable({
   providedIn: 'root'
 })
-export class MeasurementService {
+export class FtSettingsService {
   private authInterceptor = inject(AuthInterceptor);
-  private client: grpc.MeasurementClient;
+  private client: grpc.FtSettingsClient;
 
   constructor() {
     const interceptors = [this.authInterceptor.toRpcInterceptor()];
     const options = GrpcUtils.getGrpcOptions(GrpcUtils.getApiUrl(), interceptors);
     const transport = new GrpcWebFetchTransport(options);
-    this.client = new grpc.MeasurementClient(transport);
+    this.client = new grpc.FtSettingsClient(transport);
   }
 
   updateNotificationSettings(
