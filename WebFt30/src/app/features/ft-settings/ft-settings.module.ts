@@ -13,6 +13,7 @@ import { NotificationSettingsComponent } from './components/notification-setting
 import { EmailNotificationSettingsComponent } from './components/notification-settings/components/email-notification-settings/email-notification-settings.component';
 import { InputPasswordWithEyeComponent } from 'src/app/shared/components/input-password-with-eye/input-password-with-eye.component';
 import { SnmpNotificationSettingsComponent } from './components/notification-settings/components/snmp-notification-settings/snmp-notification-settings.component';
+import { LicensesComponent } from './components/licenses/licenses.component';
 
 @NgModule({
   imports: [RftsSetupRoutingModule, SharedModule, DialogModule, TranslateModule.forChild()],
@@ -23,6 +24,7 @@ import { SnmpNotificationSettingsComponent } from './components/notification-set
     UserEditDialogComponent,
     InputByPencilComponent,
     InputPasswordWithEyeComponent,
+    LicensesComponent,
     NotificationSettingsComponent,
     EmailNotificationSettingsComponent,
     SnmpNotificationSettingsComponent

@@ -6,6 +6,7 @@ import { DummyComponent } from 'src/app/shared/components/dummy/dummy.component'
 import { UserAccountsComponent } from './components/user-accounts/user-accounts.component';
 import { RolesResolver } from 'src/app/app/pages/start-page/components/guards';
 import { NotificationSettingsComponent } from './components/notification-settings/notification-settings.component';
+import { LicensesComponent } from './components/licenses/licenses.component';
 
 export const routes: Routes = [
   {
@@ -21,6 +22,14 @@ export const routes: Routes = [
       {
         path: 'user-accounts',
         component: UserAccountsComponent,
+        pathMatch: 'full',
+        data: {
+          navigateToParent: 2
+        }
+      },
+      {
+        path: 'licenses',
+        component: LicensesComponent,
         pathMatch: 'full',
         data: {
           navigateToParent: 2
