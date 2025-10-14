@@ -16,6 +16,19 @@ public class FtSettingsService(ISender mediator) : FtSettings.FtSettingsBase
         return response;
     }
 
+    public override async Task<GetLicensesResponse> GetLicenses(GetLicensesRequest request, ServerCallContext context)
+    {
+        var licenses = await mediator.Send(new GetLicensesQuery(), context.CancellationToken);
+        return new GetLicensesResponse() { Licenses = { licenses.Select(l=>l.ToProto()) }};
+    }
+
+    public override async Task<ApplyLicensesResponse> ApplyLicenses(ApplyLicensesRequest request, ServerCallContext context)
+    {
+        var license = request.License.FromProto();
+        await mediator.Send(new ApplyLicenseCommand(license), context.CancellationToken);
+        return new ApplyLicensesResponse();
+    }
+
 
     public override async Task<UpdateNotificationSettingsResponse> UpdateNotificationSettings(
         UpdateNotificationSettingsRequest request, ServerCallContext context)

@@ -1,0 +1,66 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Fibertest30.Api";
+package fibertest30.ft_settings.data;
+
+message LicenseParameter {
+	int32 value = 1;
+	google.protobuf.Timestamp validUntil = 2;
+}
+
+message License {
+	string licenseId = 1;
+	bool isIncremental = 2;
+	string owner = 3;
+
+	LicenseParameter rtuCount = 4;
+	LicenseParameter webClientCount = 6;
+
+	bool isMachineKeyRequired = 8;
+	string securityAdminPassword = 9;
+
+	google.protobuf.Timestamp creationDate  = 10;
+	google.protobuf.Timestamp loadingDate = 11;
+
+	string version = 12;
+}
+
+
+message EmailServer {
+	bool enabled = 1;
+	string serverAddress = 2;
+	int32 serverPort = 3;
+	string outgoingAddress = 4;
+	string serverUserName = 5;
+	string serverPassword = 6;
+	bool verifyCertificate = 7;
+	bool floodingPolicy = 8;
+	bool smsOverSmtp = 9;
+	bool isPasswordSet = 10;
+	bool isAuthenticationOn = 11;
+}
+
+message TrapReceiver {
+	bool enabled = 1;
+	string snmpVersion = 2;
+	bool useVeexOid = 3;
+	string customOid = 4;
+	string community = 5;
+	string AuthoritativeEngineId = 6;
+	string UserName = 7;
+	string AuthenticationPassword = 8;
+	string AuthenticationProtocol = 9;
+	string PrivacyPassword = 10;
+	string PrivacyProtocol = 11;
+	string TrapReceiverAddress = 12;
+	int32 TrapReceiverPort = 13;
+	bool isAuthPwdSet = 14;
+	bool isPrivPwdSet = 15;
+}
+
+message NotificationSettings {
+	int32 id = 1;
+	EmailServer emailServer = 2;
+	TrapReceiver trapReceiver = 3;
+}

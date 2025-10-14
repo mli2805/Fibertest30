@@ -2,6 +2,7 @@ export * from './ft.code';
 export * from './ft.enums';
 export * from './data.core';
 export * from './events.data';
+export * from './ft_settings.data';
 
 export * from './core';
 export * from './core.client';

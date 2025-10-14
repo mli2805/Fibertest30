@@ -2,6 +2,51 @@ namespace Fibertest30.Api;
 
 public static class FtSettingsMapping
 {
+    private static LicenseParameter ToProto(this Iit.Fibertest.Graph.LicenseParameter parameter)
+    {
+        return new LicenseParameter() { Value = parameter.Value, ValidUntil = parameter.ValidUntil.ToUniversalTime().ToTimestamp() };
+    }
+
+    public static License ToProto(this Iit.Fibertest.Graph.License license)
+    {
+        return new License()
+        {
+            LicenseId = license.LicenseId.ToString(),
+            IsIncremental = license.IsIncremental,
+            Owner = license.Owner,
+            RtuCount = license.RtuCount.ToProto(),
+            WebClientCount = license.WebClientCount.ToProto(),
+            IsMachineKeyRequired = license.IsMachineKeyRequired,
+            SecurityAdminPassword = license.SecurityAdminPassword,
+            CreationDate = license.CreationDate.ToUniversalTime().ToTimestamp(),
+            LoadingDate = license.LoadingDate.ToUniversalTime().ToTimestamp(),
+            Version = license.Version
+        };
+    }
+
+    private static Iit.Fibertest.Graph.LicenseParameter FromProto(this LicenseParameter proto)
+    {
+        return new Iit.Fibertest.Graph.LicenseParameter() { Value = proto.Value, ValidUntil = proto.ValidUntil.ToDateTime() };
+    }
+
+    public static Iit.Fibertest.Graph.License FromProto(this License proto)
+    {
+        return new Iit.Fibertest.Graph.License()
+        {
+            LicenseId = Guid.Parse(proto.LicenseId),
+            IsIncremental = proto.IsIncremental,
+            Owner = proto.Owner,
+            RtuCount = proto.RtuCount.FromProto(),
+            WebClientCount = proto.WebClientCount.FromProto(),
+            IsMachineKeyRequired = proto.IsMachineKeyRequired,
+            SecurityAdminPassword = proto.SecurityAdminPassword,
+            CreationDate = proto.CreationDate.ToDateTime(),
+            LoadingDate = proto.LoadingDate.ToDateTime(),
+            Version = proto.Version
+        };
+    }
+
+
     public static Application.EmailServer FromProto(this EmailServer proto)
     {
         return new Application.EmailServer()

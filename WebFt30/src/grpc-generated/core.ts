@@ -7,7 +7,7 @@ import { SystemEventLevel } from "./data.core";
 import { SystemEvent } from "./data.core";
 import { HasCurrentEvents } from "./data.core";
 import { Rtu } from "./rtu_tree";
-import { NotificationSettings } from "./data.core";
+import { NotificationSettings } from "./ft_settings.data";
 // GetDeviceInfo
 
 /**
@@ -20,7 +20,7 @@ export interface DeviceInfoRequest {
  */
 export interface DeviceInfoResponse {
     /**
-     * @generated from protobuf field: fibertest30.data.core.NotificationSettings notificationSettings = 7;
+     * @generated from protobuf field: fibertest30.ft_settings.data.NotificationSettings notificationSettings = 7;
      */
     notificationSettings?: NotificationSettings;
     /**

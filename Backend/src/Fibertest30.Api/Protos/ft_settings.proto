@@ -1,10 +1,13 @@
 syntax = "proto3";
-import "data.core.proto";
+import "ft_settings.data.proto";
 
 option csharp_namespace = "Fibertest30.Api";
 package fibertest30.ft_settings;
 
 service FtSettings {
+	rpc GetLicenses(GetLicensesRequest) returns (GetLicensesResponse);
+	rpc ApplyLicenses(ApplyLicensesRequest) returns(ApplyLicensesResponse);
+
   rpc UpdateNotificationSettings(UpdateNotificationSettingsRequest) returns (UpdateNotificationSettingsResponse);
   rpc GetNotificationSettings(GetNotificationSettingsRequest) returns(GetNotificationSettingsResponse);
   rpc TestEmailServerSettings(TestEmailServerSettingsRequest) returns(TestEmailServerSettingsResponse);
@@ -19,10 +22,23 @@ message GetLogBundleResponse {
 	bytes archive = 1;
 }
 
+// GetLicenses
+message GetLicensesRequest {}
+
+message GetLicensesResponse {
+	repeated ft_settings.data.License licenses = 1;
+}
+
+// ApplyLicenses
+message ApplyLicensesRequest{
+	ft_settings.data.License license = 1;
+}
+
+message ApplyLicensesResponse{}
 
 // UpdateNotificationSettings
 message UpdateNotificationSettingsRequest {
-	data.core.NotificationSettings notificationSettings = 1;
+	ft_settings.data.NotificationSettings notificationSettings = 1;
 }
 
 message UpdateNotificationSettingsResponse {}
@@ -31,19 +47,19 @@ message UpdateNotificationSettingsResponse {}
 message GetNotificationSettingsRequest {}
 
 message GetNotificationSettingsResponse {
-	data.core.NotificationSettings notificationSettings = 1;
+	ft_settings.data.NotificationSettings notificationSettings = 1;
 }
 
 // TestEmailServerSettings
 message TestEmailServerSettingsRequest {
-	data.core.EmailServer emailServer = 1;
+	ft_settings.data.EmailServer emailServer = 1;
 }
 
 message TestEmailServerSettingsResponse {}
 
 // TestTrapReceiverSettings
 message TestTrapReceiverSettingsRequest {
-	data.core.TrapReceiver trapReceiver = 1;
+	ft_settings.data.TrapReceiver trapReceiver = 1;
 }
 
 message TestTrapReceiverSettingsResponse {}

@@ -12,15 +12,27 @@ import type { TestEmailServerSettingsResponse } from "./ft_settings";
 import type { TestEmailServerSettingsRequest } from "./ft_settings";
 import type { GetNotificationSettingsResponse } from "./ft_settings";
 import type { GetNotificationSettingsRequest } from "./ft_settings";
-import { stackIntercept } from "@protobuf-ts/runtime-rpc";
 import type { UpdateNotificationSettingsResponse } from "./ft_settings";
 import type { UpdateNotificationSettingsRequest } from "./ft_settings";
+import type { ApplyLicensesResponse } from "./ft_settings";
+import type { ApplyLicensesRequest } from "./ft_settings";
+import { stackIntercept } from "@protobuf-ts/runtime-rpc";
+import type { GetLicensesResponse } from "./ft_settings";
+import type { GetLicensesRequest } from "./ft_settings";
 import type { UnaryCall } from "@protobuf-ts/runtime-rpc";
 import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
 /**
  * @generated from protobuf service fibertest30.ft_settings.FtSettings
  */
 export interface IFtSettingsClient {
+    /**
+     * @generated from protobuf rpc: GetLicenses(fibertest30.ft_settings.GetLicensesRequest) returns (fibertest30.ft_settings.GetLicensesResponse);
+     */
+    getLicenses(input: GetLicensesRequest, options?: RpcOptions): UnaryCall<GetLicensesRequest, GetLicensesResponse>;
+    /**
+     * @generated from protobuf rpc: ApplyLicenses(fibertest30.ft_settings.ApplyLicensesRequest) returns (fibertest30.ft_settings.ApplyLicensesResponse);
+     */
+    applyLicenses(input: ApplyLicensesRequest, options?: RpcOptions): UnaryCall<ApplyLicensesRequest, ApplyLicensesResponse>;
     /**
      * @generated from protobuf rpc: UpdateNotificationSettings(fibertest30.ft_settings.UpdateNotificationSettingsRequest) returns (fibertest30.ft_settings.UpdateNotificationSettingsResponse);
      */
@@ -52,38 +64,52 @@ export class FtSettingsClient implements IFtSettingsClient, ServiceInfo {
     constructor(private readonly _transport: RpcTransport) {
     }
     /**
+     * @generated from protobuf rpc: GetLicenses(fibertest30.ft_settings.GetLicensesRequest) returns (fibertest30.ft_settings.GetLicensesResponse);
+     */
+    getLicenses(input: GetLicensesRequest, options?: RpcOptions): UnaryCall<GetLicensesRequest, GetLicensesResponse> {
+        const method = this.methods[0], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetLicensesRequest, GetLicensesResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: ApplyLicenses(fibertest30.ft_settings.ApplyLicensesRequest) returns (fibertest30.ft_settings.ApplyLicensesResponse);
+     */
+    applyLicenses(input: ApplyLicensesRequest, options?: RpcOptions): UnaryCall<ApplyLicensesRequest, ApplyLicensesResponse> {
+        const method = this.methods[1], opt = this._transport.mergeOptions(options);
+        return stackIntercept<ApplyLicensesRequest, ApplyLicensesResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
      * @generated from protobuf rpc: UpdateNotificationSettings(fibertest30.ft_settings.UpdateNotificationSettingsRequest) returns (fibertest30.ft_settings.UpdateNotificationSettingsResponse);
      */
     updateNotificationSettings(input: UpdateNotificationSettingsRequest, options?: RpcOptions): UnaryCall<UpdateNotificationSettingsRequest, UpdateNotificationSettingsResponse> {
-        const method = this.methods[0], opt = this._transport.mergeOptions(options);
+        const method = this.methods[2], opt = this._transport.mergeOptions(options);
         return stackIntercept<UpdateNotificationSettingsRequest, UpdateNotificationSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetNotificationSettings(fibertest30.ft_settings.GetNotificationSettingsRequest) returns (fibertest30.ft_settings.GetNotificationSettingsResponse);
      */
     getNotificationSettings(input: GetNotificationSettingsRequest, options?: RpcOptions): UnaryCall<GetNotificationSettingsRequest, GetNotificationSettingsResponse> {
-        const method = this.methods[1], opt = this._transport.mergeOptions(options);
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetNotificationSettingsRequest, GetNotificationSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: TestEmailServerSettings(fibertest30.ft_settings.TestEmailServerSettingsRequest) returns (fibertest30.ft_settings.TestEmailServerSettingsResponse);
      */
     testEmailServerSettings(input: TestEmailServerSettingsRequest, options?: RpcOptions): UnaryCall<TestEmailServerSettingsRequest, TestEmailServerSettingsResponse> {
-        const method = this.methods[2], opt = this._transport.mergeOptions(options);
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
         return stackIntercept<TestEmailServerSettingsRequest, TestEmailServerSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: TestTrapReceiverSettings(fibertest30.ft_settings.TestTrapReceiverSettingsRequest) returns (fibertest30.ft_settings.TestTrapReceiverSettingsResponse);
      */
     testTrapReceiverSettings(input: TestTrapReceiverSettingsRequest, options?: RpcOptions): UnaryCall<TestTrapReceiverSettingsRequest, TestTrapReceiverSettingsResponse> {
-        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        const method = this.methods[5], opt = this._transport.mergeOptions(options);
         return stackIntercept<TestTrapReceiverSettingsRequest, TestTrapReceiverSettingsResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetLogBundle(fibertest30.ft_settings.GetLogBundleRequest) returns (fibertest30.ft_settings.GetLogBundleResponse);
      */
     getLogBundle(input: GetLogBundleRequest, options?: RpcOptions): UnaryCall<GetLogBundleRequest, GetLogBundleResponse> {
-        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        const method = this.methods[6], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetLogBundleRequest, GetLogBundleResponse>("unary", this._transport, method, opt, input);
     }
 }

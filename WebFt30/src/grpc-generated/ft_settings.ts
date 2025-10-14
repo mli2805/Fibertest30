@@ -3,9 +3,10 @@
 // tslint:disable
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
-import { TrapReceiver } from "./data.core";
-import { EmailServer } from "./data.core";
-import { NotificationSettings } from "./data.core";
+import { TrapReceiver } from "./ft_settings.data";
+import { EmailServer } from "./ft_settings.data";
+import { NotificationSettings } from "./ft_settings.data";
+import { License } from "./ft_settings.data";
 /**
  * @generated from protobuf message fibertest30.ft_settings.GetLogBundleRequest
  */
@@ -21,13 +22,45 @@ export interface GetLogBundleResponse {
     archive: Uint8Array;
 }
 /**
+ * GetLicenses
+ *
+ * @generated from protobuf message fibertest30.ft_settings.GetLicensesRequest
+ */
+export interface GetLicensesRequest {
+}
+/**
+ * @generated from protobuf message fibertest30.ft_settings.GetLicensesResponse
+ */
+export interface GetLicensesResponse {
+    /**
+     * @generated from protobuf field: repeated fibertest30.ft_settings.data.License licenses = 1;
+     */
+    licenses: License[];
+}
+/**
+ * ApplyLicenses
+ *
+ * @generated from protobuf message fibertest30.ft_settings.ApplyLicensesRequest
+ */
+export interface ApplyLicensesRequest {
+    /**
+     * @generated from protobuf field: fibertest30.ft_settings.data.License license = 1;
+     */
+    license?: License;
+}
+/**
+ * @generated from protobuf message fibertest30.ft_settings.ApplyLicensesResponse
+ */
+export interface ApplyLicensesResponse {
+}
+/**
  * UpdateNotificationSettings
  *
  * @generated from protobuf message fibertest30.ft_settings.UpdateNotificationSettingsRequest
  */
 export interface UpdateNotificationSettingsRequest {
     /**
-     * @generated from protobuf field: fibertest30.data.core.NotificationSettings notificationSettings = 1;
+     * @generated from protobuf field: fibertest30.ft_settings.data.NotificationSettings notificationSettings = 1;
      */
     notificationSettings?: NotificationSettings;
 }
@@ -48,7 +81,7 @@ export interface GetNotificationSettingsRequest {
  */
 export interface GetNotificationSettingsResponse {
     /**
-     * @generated from protobuf field: fibertest30.data.core.NotificationSettings notificationSettings = 1;
+     * @generated from protobuf field: fibertest30.ft_settings.data.NotificationSettings notificationSettings = 1;
      */
     notificationSettings?: NotificationSettings;
 }
@@ -59,7 +92,7 @@ export interface GetNotificationSettingsResponse {
  */
 export interface TestEmailServerSettingsRequest {
     /**
-     * @generated from protobuf field: fibertest30.data.core.EmailServer emailServer = 1;
+     * @generated from protobuf field: fibertest30.ft_settings.data.EmailServer emailServer = 1;
      */
     emailServer?: EmailServer;
 }
@@ -75,7 +108,7 @@ export interface TestEmailServerSettingsResponse {
  */
 export interface TestTrapReceiverSettingsRequest {
     /**
-     * @generated from protobuf field: fibertest30.data.core.TrapReceiver trapReceiver = 1;
+     * @generated from protobuf field: fibertest30.ft_settings.data.TrapReceiver trapReceiver = 1;
      */
     trapReceiver?: TrapReceiver;
 }
@@ -106,6 +139,50 @@ class GetLogBundleResponse$Type extends MessageType<GetLogBundleResponse> {
  * @generated MessageType for protobuf message fibertest30.ft_settings.GetLogBundleResponse
  */
 export const GetLogBundleResponse = new GetLogBundleResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetLicensesRequest$Type extends MessageType<GetLicensesRequest> {
+    constructor() {
+        super("fibertest30.ft_settings.GetLicensesRequest", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.ft_settings.GetLicensesRequest
+ */
+export const GetLicensesRequest = new GetLicensesRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetLicensesResponse$Type extends MessageType<GetLicensesResponse> {
+    constructor() {
+        super("fibertest30.ft_settings.GetLicensesResponse", [
+            { no: 1, name: "licenses", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => License }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.ft_settings.GetLicensesResponse
+ */
+export const GetLicensesResponse = new GetLicensesResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ApplyLicensesRequest$Type extends MessageType<ApplyLicensesRequest> {
+    constructor() {
+        super("fibertest30.ft_settings.ApplyLicensesRequest", [
+            { no: 1, name: "license", kind: "message", T: () => License }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.ft_settings.ApplyLicensesRequest
+ */
+export const ApplyLicensesRequest = new ApplyLicensesRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ApplyLicensesResponse$Type extends MessageType<ApplyLicensesResponse> {
+    constructor() {
+        super("fibertest30.ft_settings.ApplyLicensesResponse", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message fibertest30.ft_settings.ApplyLicensesResponse
+ */
+export const ApplyLicensesResponse = new ApplyLicensesResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateNotificationSettingsRequest$Type extends MessageType<UpdateNotificationSettingsRequest> {
     constructor() {
@@ -198,6 +275,8 @@ export const TestTrapReceiverSettingsResponse = new TestTrapReceiverSettingsResp
  * @generated ServiceType for protobuf service fibertest30.ft_settings.FtSettings
  */
 export const FtSettings = new ServiceType("fibertest30.ft_settings.FtSettings", [
+    { name: "GetLicenses", options: {}, I: GetLicensesRequest, O: GetLicensesResponse },
+    { name: "ApplyLicenses", options: {}, I: ApplyLicensesRequest, O: ApplyLicensesResponse },
     { name: "UpdateNotificationSettings", options: {}, I: UpdateNotificationSettingsRequest, O: UpdateNotificationSettingsResponse },
     { name: "GetNotificationSettings", options: {}, I: GetNotificationSettingsRequest, O: GetNotificationSettingsResponse },
     { name: "TestEmailServerSettings", options: {}, I: TestEmailServerSettingsRequest, O: TestEmailServerSettingsResponse },

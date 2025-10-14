@@ -1,5 +1,6 @@
 syntax = "proto3";
 import "data.core.proto";
+import "ft_settings.data.proto";
 import "rtu_tree.proto";
 
 option csharp_namespace = "Fibertest30.Api";
@@ -22,7 +23,7 @@ message DeviceInfoRequest {
 }
 
 message DeviceInfoResponse {
-  data.core.NotificationSettings notificationSettings = 7;
+  ft_settings.data.NotificationSettings notificationSettings = 7;
   string apiVersion = 11;
   repeated rtu_tree.Rtu rtus = 15;
   data.core.HasCurrentEvents hasCurrentEvents = 16;
