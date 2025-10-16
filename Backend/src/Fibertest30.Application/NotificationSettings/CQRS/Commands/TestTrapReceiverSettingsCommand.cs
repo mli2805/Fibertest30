@@ -6,18 +6,11 @@ namespace Fibertest30.Application;
 [HasPermission(ApplicationPermission.ChangeNotificationSettings)]
 public record TestTrapReceiverSettingsCommand(TrapReceiver TrapReceiver) : IRequest<Unit>;
 
-public class TestTrapReceiverSettingsCommandHandler : IRequestHandler<TestTrapReceiverSettingsCommand, Unit>
+public class TestTrapReceiverSettingsCommandHandler(
+    ISnmpService snmpService,
+    INotificationSettingsRepository notificationSettingsRepository)
+    : IRequestHandler<TestTrapReceiverSettingsCommand, Unit>
 {
-    private readonly ISnmpService _snmpService;
-    private readonly INotificationSettingsRepository _notificationSettingsRepository;
-
-    public TestTrapReceiverSettingsCommandHandler(ISnmpService snmpService,
-        INotificationSettingsRepository notificationSettingsRepository)
-    {
-        _snmpService = snmpService;
-        _notificationSettingsRepository = notificationSettingsRepository;
-    }
-
     public async Task<Unit> Handle(TestTrapReceiverSettingsCommand request, CancellationToken cancellationToken)
     {
         var newTrapReceiver = request.TrapReceiver;
@@ -26,7 +19,7 @@ public class TestTrapReceiverSettingsCommandHandler : IRequestHandler<TestTrapRe
             if (string.IsNullOrEmpty(newTrapReceiver.AuthenticationPassword)
                 || string.IsNullOrEmpty(newTrapReceiver.PrivacyPassword))
             {
-                var passwords = await _notificationSettingsRepository
+                var passwords = await notificationSettingsRepository
                     .GetTrapReceiverPasswords(cancellationToken);
 
                 if (string.IsNullOrEmpty(newTrapReceiver.AuthenticationPassword))
@@ -36,17 +29,19 @@ public class TestTrapReceiverSettingsCommandHandler : IRequestHandler<TestTrapRe
             }
         }
 
+        var culture = CultureInfo.GetCultureInfo($"{request.TrapReceiver.SnmpLanguage}");
+
         var message = request.TrapReceiver.SnmpLanguage == "en-US"
             ? "This is a test SNMP trap to ensure trap settings are correctly configured."
             : "Это тестовый SNMP трап чтобы убедиться что настройки заданы правильно.";
-        _snmpService.SendSnmpTrap(
+        snmpService.SendSnmpTrap(
             newTrapReceiver,
             FtTrapType.TestTrap,
             new Dictionary<FtTrapProperty, string>()
             {
                 { FtTrapProperty.TestString, message },
-                { FtTrapProperty.TestDateTime, DateTime.Now.ToString(CultureInfo.InvariantCulture)},
-                { FtTrapProperty.TestDouble, 3.1415926.ToString(CultureInfo.InvariantCulture) },
+                { FtTrapProperty.TestDateTime, DateTime.Now.ToString(culture)},
+                { FtTrapProperty.TestDouble, 3.1415926.ToString(culture) },
                 { FtTrapProperty.TestInt, 5000.ToString()}
             }
             );

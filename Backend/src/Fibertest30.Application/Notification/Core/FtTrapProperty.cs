@@ -32,7 +32,7 @@ public enum FtTrapProperty
     RtuStatusEventName = 62,
 
     TestString = 700,
-    TestDateTime,
     TestInt,
     TestDouble,
+    TestDateTime,
 }

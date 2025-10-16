@@ -52,7 +52,7 @@ public class SnmpService : ISnmpService
             // но не получилось настроить прием v3 трапов
 
             ISnmpData data = new OctetString(pair.Value, Encoding.UTF8);
-            var oid = enterpriseOid + $".{pair.Key}";
+            var oid = enterpriseOid + $".{(int)pair.Key}";
             yield return new Variable(new ObjectIdentifier(oid), data);
         }
     }
