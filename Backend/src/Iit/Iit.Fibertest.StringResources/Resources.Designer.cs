@@ -9604,6 +9604,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This is a test SNMP trap to ensure trap settings are correctly configured..
+        /// </summary>
+        public static string SID_This_is_a_test_SNMP_trap_to_ensure_trap_settings_are_correctly_configured_ {
+            get {
+                return ResourceManager.GetString("SID_This_is_a_test_SNMP_trap_to_ensure_trap_settings_are_correctly_configured_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This user has no right to start Fibertest Client.
         /// </summary>
         public static string SID_This_user_has_no_right_to_start_client {

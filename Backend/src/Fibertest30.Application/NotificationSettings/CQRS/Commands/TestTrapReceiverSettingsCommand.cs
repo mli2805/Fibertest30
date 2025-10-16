@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Iit.Fibertest.StringResources;
+using MediatR;
 using System.Globalization;
 
 namespace Fibertest30.Application;
@@ -29,11 +30,12 @@ public class TestTrapReceiverSettingsCommandHandler(
             }
         }
 
+        var previous = CultureInfo.CurrentUICulture;
         var culture = CultureInfo.GetCultureInfo($"{request.TrapReceiver.SnmpLanguage}");
+        CultureInfo.CurrentUICulture = culture;
+        CultureInfo.CurrentCulture = culture;
 
-        var message = request.TrapReceiver.SnmpLanguage == "en-US"
-            ? "This is a test SNMP trap to ensure trap settings are correctly configured."
-            : "Это тестовый SNMP трап чтобы убедиться что настройки заданы правильно.";
+        var message = Resources.SID_This_is_a_test_SNMP_trap_to_ensure_trap_settings_are_correctly_configured_;
         snmpService.SendSnmpTrap(
             newTrapReceiver,
             FtTrapType.TestTrap,
@@ -45,6 +47,9 @@ public class TestTrapReceiverSettingsCommandHandler(
                 { FtTrapProperty.TestInt, 5000.ToString()}
             }
             );
+
+        CultureInfo.CurrentUICulture = previous;
+        CultureInfo.CurrentCulture = previous;
 
         return Unit.Value;
     }
