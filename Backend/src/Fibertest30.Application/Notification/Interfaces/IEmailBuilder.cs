@@ -1,10 +1,13 @@
-﻿namespace Fibertest30.Application;
+﻿using Iit.Fibertest.Graph;
+
+namespace Fibertest30.Application;
 
 public interface IEmailBuilder
 {
     string GetTestHtmlBody();
 
-    string BuildAlarmSubject(string portPath, MonitoringAlarmEvent alarmEvent);
-    public string BuildAlarmHtmlBody(string portPath, MonitoringAlarm alarm);
-    List<Tuple<string, byte[]>> BuildAlarmAttachments(string portPath, MonitoringAlarmEvent alarmEvent, byte[] measurement, byte[] baseline);
+    string BuildOpticalEventSubject(AddMeasurement measurement, Model model);
+    public string BuildOpticalEventHtmlBody(AddMeasurement measurement, Model model);
+    List<Tuple<string, byte[]>> BuildOpticalAttachments(
+        AddMeasurement measurement, byte[] measBytes, byte[] baseline);
 }

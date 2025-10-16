@@ -3,7 +3,7 @@
     <div [formGroup]="form">
       <div class="grid-head mx-2 mb-4 gap-x-6 gap-y-2">
         <label style="grid-area: enabledLabel" class="my-auto text-base">{{
-          'i18n.notification-settings.snmp-notifications' | translate
+          'i18n.ft.snmp-notifications' | translate
         }}</label>
 
         <div style="grid-area: enabledValue" class="flex items-center justify-end">
@@ -11,7 +11,7 @@
             <div class="mr-10 mt-1 flex">
               <rtu-save-button class="h-5 w-5" />
               <div class="my-auto ml-2 text-center text-xs">
-                {{ 'i18n.notification-settings.save-mib' | translate }}
+                {{ 'i18n.ft.save-mib' | translate }}
               </div>
             </div>
           </div>
@@ -32,7 +32,7 @@
             style="grid-area: versionLabel"
             class="my-auto"
             [ngClass]="{ 'disabled-label': isSettingsOff() }"
-            >{{ 'i18n.notification-settings.snmp-version' | translate }}</label
+            >{{ 'i18n.ft.snmp-version' | translate }}</label
           >
           <rtu-select
             style="grid-area: versionValue"
@@ -52,7 +52,7 @@
             style="grid-area: useVeexOidLabel"
             class="my-auto"
             [ngClass]="{ 'disabled-label': isSettingsOff() }"
-            >{{ 'i18n.notification-settings.use-veex-oid' | translate }}</label
+            >{{ 'i18n.ft.use-veex-oid' | translate }}</label
           >
           <label style="grid-area: useVeexOidValue" class="toggle my-2 flex w-max justify-start">
             <input type="checkbox" formControlName="useVeexOid" (change)="onUseVeexOidChanged()" />
@@ -63,7 +63,7 @@
             style="grid-area: customOidLabel"
             class="my-auto"
             [ngClass]="{ 'disabled-label': isSettingsOff() }"
-            >{{ 'i18n.notification-settings.custom-oid' | translate }}</label
+            >{{ 'i18n.ft.custom-oid' | translate }}</label
           >
           <div style="grid-area: customOidValue">
             <ng-container *ngIf="customOidInputEnabled">
@@ -86,7 +86,7 @@
               style="grid-area: communityLabel"
               class="my-auto"
               [ngClass]="{ 'disabled-label': isSettingsOff() }"
-              >{{ 'i18n.notification-settings.snmp-community' | translate }}</label
+              >{{ 'i18n.ft.snmp-community' | translate }}</label
             >
             <div style="grid-area: communityValue">
               <input
@@ -103,7 +103,7 @@
               style="grid-area: authoritativeEngineIdLabel"
               class="my-auto"
               [ngClass]="{ 'disabled-label': isSettingsOff() }"
-              >{{ 'i18n.notification-settings.authoritative-engine-id' | translate }}</label
+              >{{ 'i18n.ft.authoritative-engine-id' | translate }}</label
             >
             <div style="grid-area: authoritativeEngineIdValue">
               <input
@@ -118,7 +118,7 @@
               style="grid-area: usernameLabel"
               class="my-auto"
               [ngClass]="{ 'disabled-label': isSettingsOff() }"
-              >{{ 'i18n.common.username' | translate }}</label
+              >{{ 'i18n.ft.user' | translate }}</label
             >
             <div style="grid-area: usernameValue">
               <input formControlName="userName" type="text" class="input-simple w-full" />
@@ -128,7 +128,7 @@
               style="grid-area: authenticationPasswordLabel"
               class="my-auto"
               [ngClass]="{ 'disabled-label': isSettingsOff() }"
-              >{{ 'i18n.notification-settings.authentication-password' | translate }}</label
+              >{{ 'i18n.ft.authentication-password' | translate }}</label
             >
             <div style="grid-area: authenticationPasswordValue">
               <rtu-input-password-with-eye
@@ -143,7 +143,7 @@
               style="grid-area: authenticationProtocolLabel"
               class="my-auto"
               [ngClass]="{ 'disabled-label': isSettingsOff() }"
-              >{{ 'i18n.notification-settings.authentication-protocol' | translate }}</label
+              >{{ 'i18n.ft.authentication-protocol' | translate }}</label
             >
             <rtu-select
               style="grid-area: authenticationProtocolValue"
@@ -162,7 +162,7 @@
               style="grid-area: privacyPasswordLabel"
               class="my-auto"
               [ngClass]="{ 'disabled-label': isSettingsOff() }"
-              >{{ 'i18n.notification-settings.privacy-password' | translate }}</label
+              >{{ 'i18n.ft.privacy-password' | translate }}</label
             >
             <div style="grid-area: privacyPasswordValue">
               <rtu-input-password-with-eye
@@ -177,7 +177,7 @@
               style="grid-area: privacyProtocolLabel"
               class="my-auto"
               [ngClass]="{ 'disabled-label': isSettingsOff() }"
-              >{{ 'i18n.notification-settings.privacy-protocol' | translate }}</label
+              >{{ 'i18n.ft.privacy-protocol' | translate }}</label
             >
             <rtu-select
               style="grid-area: privacyProtocolValue"
@@ -192,12 +192,12 @@
               </ng-template>
             </rtu-select>
           </ng-container>
-
+          <!-- common properties again -->
           <label
             style="grid-area: snmpTrapReceiverAddressLabel"
             class="my-auto"
             [ngClass]="{ 'disabled-label': isSettingsOff() }"
-            >{{ 'i18n.notification-settings.snmp-trap-receiver-address' | translate }}</label
+            >{{ 'i18n.ft.snmp-trap-receiver-address' | translate }}</label
           >
           <div style="grid-area: snmpTrapReceiverAddressValue">
             <input
@@ -212,7 +212,7 @@
             style="grid-area: snmpTrapReceiverPortLabel"
             class="my-auto"
             [ngClass]="{ 'disabled-label': isSettingsOff() }"
-            >{{ 'i18n.notification-settings.snmp-trap-receiver-port' | translate }}</label
+            >{{ 'i18n.ft.snmp-trap-receiver-port' | translate }}</label
           >
           <div style="grid-area: snmpTrapReceiverPortValue">
             <input
@@ -222,6 +222,24 @@
               [ngClass]="{ 'invalid-border': !isTrapReceiverPortValid() }"
             />
           </div>
+          <label
+            style="grid-area: snmpLanguageLabel"
+            class="my-auto"
+            [ngClass]="{ 'disabled-label': isSettingsOff() }"
+            >{{ 'i18n.ft.snmp-language' | translate }}</label
+          >
+          <rtu-select
+            style="grid-area: snmpLanguageValue"
+            formControlName="snmpLanguage"
+            [items]="languages"
+          >
+            <ng-template rtuSelectLabel let-selectedItem>
+              <div class="pl-1">{{ selectedItem }}</div>
+            </ng-template>
+            <ng-template rtuSelectItem let-item>
+              {{ item }}
+            </ng-template>
+          </rtu-select>
         </div>
       </fieldset>
 
@@ -231,7 +249,7 @@
           <span class="text-data-highlight ml-3">{{ 'i18n.common.sending' | translate }}</span>
         </div>
         <div *ngIf="testSuccess$ | async" class="ml-3 text-green-600">
-          {{ 'i18n.notification-settings.snmp-test-trap-sent-successfully' | translate }}
+          {{ 'i18n.ft.snmp-test-trap-sent-successfully' | translate }}
         </div>
         <div *ngIf="testFailureId$ | async as message" class="ml-3 text-red-600">
           {{ message | translate }}
@@ -243,14 +261,14 @@
             (click)="onTestSnmpClicked()"
             [disabled]="!isTestEnabled()"
           >
-            {{ 'i18n.notification-settings.test-snmp-configuration' | translate }}
+            {{ 'i18n.ft.test-snmp-configuration' | translate }}
           </button>
           <button
             class="button-ok mx-1 mt-4 w-full"
             (click)="onApplyClicked()"
             [disabled]="!isApplyEnabled()"
           >
-            {{ 'i18n.common.apply' | translate }}
+            {{ 'i18n.ft.apply' | translate }}
           </button>
         </div>
       </div>

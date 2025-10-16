@@ -1,3 +1,4 @@
+using Iit.Fibertest.Graph;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Concurrent;
 using System.Diagnostics;
@@ -17,7 +18,7 @@ public class InAppChannelSender : IInAppChannelSender
         _serviceScopeFactory = serviceScopeFactory;
     }
 
-    public async Task Send(MonitoringAlarmEvent alarmEvent, CancellationToken ct)
+    public async Task SendNoti<T>(T o, CancellationToken ct) where T: INotificationEvent
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var usersRepository = scope.ServiceProvider.GetRequiredService<IUsersRepository>();
@@ -29,10 +30,25 @@ public class InAppChannelSender : IInAppChannelSender
         var users = await usersRepository.GetAllUsers();
         foreach (var user in users)
         {
-            SendNotification(user.User.Id, alarmEvent);
+            SendNotification(user.User.Id, (INotificationEvent)o);
         }
     }
-    
+
+    public Task Send(NetworkEvent networkEvent, CancellationToken ct)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task Send(BopNetworkEvent bopNetworkEvent, CancellationToken ct)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task Send(RtuAccident rtuStatusEvent, CancellationToken ct)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task Send(SystemEvent systemEvent, CancellationToken ct)
     {
         using var scope = _serviceScopeFactory.CreateScope();

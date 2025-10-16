@@ -1,3 +1,5 @@
+using Iit.Fibertest.Graph;
+
 namespace Fibertest30.Application;
 
 public class SystemEvent : INotificationEvent

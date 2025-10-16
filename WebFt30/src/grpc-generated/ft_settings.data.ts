@@ -174,6 +174,10 @@ export interface TrapReceiver {
      * @generated from protobuf field: bool isPrivPwdSet = 15;
      */
     isPrivPwdSet: boolean;
+    /**
+     * @generated from protobuf field: string snmpLanguage = 16;
+     */
+    snmpLanguage: string;
 }
 /**
  * @generated from protobuf message fibertest30.ft_settings.data.NotificationSettings
@@ -266,7 +270,8 @@ class TrapReceiver$Type extends MessageType<TrapReceiver> {
             { no: 12, name: "TrapReceiverAddress", kind: "scalar", jsonName: "TrapReceiverAddress", T: 9 /*ScalarType.STRING*/ },
             { no: 13, name: "TrapReceiverPort", kind: "scalar", jsonName: "TrapReceiverPort", T: 5 /*ScalarType.INT32*/ },
             { no: 14, name: "isAuthPwdSet", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 15, name: "isPrivPwdSet", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+            { no: 15, name: "isPrivPwdSet", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 16, name: "snmpLanguage", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

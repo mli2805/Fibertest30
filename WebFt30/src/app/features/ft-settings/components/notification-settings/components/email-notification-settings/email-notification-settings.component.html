@@ -3,7 +3,7 @@
     <div [formGroup]="form">
       <div class="mx-2 flex justify-between">
         <label style="grid-area: enabledLabel" class="my-auto text-base">{{
-          'i18n.notification-settings.email-notifications' | translate
+          'i18n.ft.email-notifications' | translate
         }}</label>
         <label
           style="grid-area: enabledValue"
@@ -21,7 +21,7 @@
             style="grid-area: serverAddressLabel"
             class="my-auto"
             [ngClass]="{ 'disabled-label': isSettingsOff() }"
-            >{{ 'i18n.notification-settings.smtp-server-address' | translate }}</label
+            >{{ 'i18n.ft.smtp-server-address' | translate }}</label
           >
           <div style="grid-area: serverAddressValue">
             <input
@@ -36,7 +36,7 @@
             style="grid-area: serverPortLabel"
             class="my-auto"
             [ngClass]="{ 'disabled-label': isSettingsOff() }"
-            >{{ 'i18n.notification-settings.smtp-server-port' | translate }}</label
+            >{{ 'i18n.ft.smtp-server-port' | translate }}</label
           >
           <rtu-select
             style="grid-area: serverPortValue"
@@ -55,7 +55,7 @@
             style="grid-area: outgoingAddressLabel"
             class="my-auto"
             [ngClass]="{ 'disabled-label': isSettingsOff() }"
-            >{{ 'i18n.notification-settings.outgoing-email-address' | translate }}</label
+            >{{ 'i18n.ft.outgoing-email-address' | translate }}</label
           >
           <div style="grid-area: outgoingAddressValue">
             <input
@@ -70,7 +70,7 @@
             style="grid-area: isAuthenticationOnLabel"
             class="my-auto"
             [ngClass]="{ 'disabled-label': isSettingsOff() }"
-            >{{ 'i18n.notification-settings.authentication' | translate }}</label
+            >{{ 'i18n.ft.authentication' | translate }}</label
           >
           <label
             style="grid-area: isAuthenticationOnValue"
@@ -90,7 +90,7 @@
               style="grid-area: usernameLabel"
               class="my-auto"
               [ngClass]="{ 'disabled-label': isSettingsOff() }"
-              >{{ 'i18n.notification-settings.smtp-server-username' | translate }}</label
+              >{{ 'i18n.ft.smtp-server-username' | translate }}</label
             >
             <div style="grid-area: usernameValue">
               <input
@@ -105,7 +105,7 @@
               style="grid-area: passwordLabel"
               class="my-auto"
               [ngClass]="{ 'disabled-label': isSettingsOff() }"
-              >{{ 'i18n.notification-settings.smtp-server-password' | translate }}</label
+              >{{ 'i18n.ft.smtp-server-password' | translate }}</label
             >
             <div style="grid-area: passwordValue" class="relative">
               <rtu-input-password-with-eye
@@ -121,7 +121,7 @@
             style="grid-area: verifyCertificateLabel"
             class="my-auto"
             [ngClass]="{ 'disabled-label': isSettingsOff() }"
-            >{{ 'i18n.notification-settings.verify-smtp-server-certificate' | translate }}</label
+            >{{ 'i18n.ft.verify-smtp-server-certificate' | translate }}</label
           >
           <label
             style="grid-area: verifyCertificateValue"
@@ -137,7 +137,7 @@
             style="grid-area: floodingPolicyLabel"
             class="my-auto"
             [ngClass]="{ 'disabled-label': isSettingsOff() }"
-            >{{ 'i18n.notification-settings.enable-email-flooding-policy' | translate }}</label
+            >{{ 'i18n.ft.enable-email-flooding-policy' | translate }}</label
           >
           <label
             *ngIf="false"
@@ -154,7 +154,7 @@
             style="grid-area: smsOverSmtpLabel"
             class="my-auto"
             [ngClass]="{ 'disabled-label': isSettingsOff() }"
-            >{{ 'i18n.notification-settings.send-sms-over-smtp' | translate }}</label
+            >{{ 'i18n.ft.send-sms-over-smtp' | translate }}</label
           >
           <label
             *ngIf="false"
@@ -186,7 +186,7 @@
             (click)="onTestSmtpClicked()"
             [disabled]="!formValidAndEmailsEnabled() || (testingEmailServer$ | async)"
           >
-            {{ 'i18n.notification-settings.test-smtp-configuration' | translate }}
+            {{ 'i18n.ft.test-smtp-configuration' | translate }}
           </button>
 
           <button
@@ -194,7 +194,7 @@
             (click)="onApplyClicked()"
             [disabled]="!isApplyEnabled()"
           >
-            {{ 'i18n.common.apply' | translate }}
+            {{ 'i18n.ft.apply' | translate }}
           </button>
         </div>
       </div>

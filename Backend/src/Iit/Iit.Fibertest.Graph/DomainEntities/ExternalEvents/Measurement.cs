@@ -3,7 +3,7 @@
 namespace Iit.Fibertest.Graph
 {
     [Serializable]
-    public class Measurement
+    public class Measurement : INotificationEvent
     {
         public ReturnCode ReturnCode { get; set; }
         public DateTime MeasurementTimestamp { get; set; }

@@ -3,7 +3,7 @@
 namespace Iit.Fibertest.Graph
 {
     [Serializable]
-    public class RtuAccident
+    public class RtuAccident : INotificationEvent
     {
         public int Id { get; set; }
         public bool IsMeasurementProblem { get; set; } // Measurement vs Rtu

@@ -2,6 +2,7 @@
 using Lextm.SharpSnmpLib.Messaging;
 using Lextm.SharpSnmpLib.Security;
 using System.Net;
+using System.Text;
 
 #pragma warning disable CS0618
 
@@ -9,10 +10,11 @@ namespace Fibertest30.Infrastructure;
 
 public class SnmpService : ISnmpService
 {
-    public void SendSnmpTrap(TrapReceiver trapReceiver, int specificTrapValue, Dictionary<int, string> payload)
+    public void SendSnmpTrap(TrapReceiver trapReceiver, FtTrapType specificTrapValue, Dictionary<FtTrapProperty, string> payload)
     {
         var ipAddress = IPAddress.Parse(trapReceiver.TrapReceiverAddress);
-        var enterpriseOid = trapReceiver.UseVeexOid ? "1.3.6.1.4.1.36290" : trapReceiver.CustomOid;
+        // OID для ИИТ Fibertest 3.0
+        var enterpriseOid = trapReceiver.UseVeexOid ? "1.3.6.1.4.1.36220.30" : trapReceiver.CustomOid;
         var variables = GetVariables(payload, enterpriseOid).ToList();
 
         if (trapReceiver.SnmpVersion == "v1")
@@ -22,10 +24,10 @@ public class SnmpService : ISnmpService
         }
         else // v3
         {
-            variables.Add(
-                new Variable(
-                    new ObjectIdentifier(enterpriseOid + ".10"),
-                    new Integer32(specificTrapValue)));
+            // variables.Add(
+            //     new Variable(
+            //         new ObjectIdentifier(enterpriseOid + ".10"),
+            //         new Integer32(specificTrapValue)));
 
             var privacyProvider = GetPrivacyProvider(
                 trapReceiver.AuthenticationProtocol,
@@ -37,11 +39,19 @@ public class SnmpService : ISnmpService
         }
     }
 
-    private IEnumerable<Variable> GetVariables(Dictionary<int, string> payload, string enterpriseOid)
+    private IEnumerable<Variable> GetVariables(Dictionary<FtTrapProperty, string> payload, string enterpriseOid)
     {
-        foreach (KeyValuePair<int, string> pair in payload)
+        foreach (KeyValuePair<FtTrapProperty, string> pair in payload)
         {
-            ISnmpData data = new OctetString(pair.Value);
+            // если отправить данные в этой кодировке, то PowerSNMP Free Manager правильно отображает русские и английские строки
+            //var encoding1251 = Encoding.GetEncoding(1251);
+            //ISnmpData data = new OctetString(pair.Value, encoding1251);
+
+            // iReasoning MIB Browser можно настроить кодировку, в которой он понимает трапы,
+            // но там получилось принять трапы v1 с русскими буквами в UTF8
+            // но не получилось настроить прием v3 трапов
+
+            ISnmpData data = new OctetString(pair.Value, Encoding.UTF8);
             var oid = enterpriseOid + $".{pair.Key}";
             yield return new Variable(new ObjectIdentifier(oid), data);
         }
@@ -112,7 +122,7 @@ public class SnmpService : ISnmpService
     }
 
     private void SendSnmpV1TrapV1(IPAddress address, int port, string community, string enterpriseOid, 
-        int specificTrapValue, List<Variable> payload)
+        FtTrapType specificTrapValue, List<Variable> payload)
     {
         Messenger.SendTrapV1(
             new IPEndPoint(address, port),
@@ -120,7 +130,7 @@ public class SnmpService : ISnmpService
             new OctetString(community),
             new ObjectIdentifier(enterpriseOid),
             GenericCode.EnterpriseSpecific,
-            specificTrapValue,
+            (int)specificTrapValue,
             0,
             payload
             );

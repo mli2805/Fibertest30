@@ -21,5 +21,6 @@
     'privacyPasswordLabel privacyPasswordValue'
     'privacyProtocolLabel privacyProtocolValue'
     'snmpTrapReceiverAddressLabel snmpTrapReceiverAddressValue'
-    'snmpTrapReceiverPortLabel snmpTrapReceiverPortValue';
+    'snmpTrapReceiverPortLabel snmpTrapReceiverPortValue'
+    'snmpLanguageLabel snmpLanguageValue';
 }

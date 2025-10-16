@@ -1,20 +1,26 @@
 using Fiberizer.Common;
+using Iit.Fibertest.Graph;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Fibertest30.Application;
 
-public class EmailChannelSender : IEmailChannelSender
+public class EmailChannelSender(IServiceScopeFactory serviceScopeFactory) : IEmailChannelSender
 {
-    private readonly IServiceScopeFactory _serviceScopeFactory;
-
-    public EmailChannelSender( IServiceScopeFactory serviceScopeFactory)
+    public async Task SendNoti<T>(T o, CancellationToken ct) where T: INotificationEvent
     {
-        _serviceScopeFactory = serviceScopeFactory;
+        switch (o)
+        {
+            case AddMeasurement measurement: await Send(measurement, ct); break;
+            case NetworkEvent networkEvent: await Send(networkEvent, ct); break;
+            case BopNetworkEvent bopNetworkEvent: await Send(bopNetworkEvent, ct); break;
+            case RtuAccident rtuAccident: await Send(rtuAccident, ct); break;
+        }
     }
 
-    public async Task Send(MonitoringAlarmEvent alarmEvent, CancellationToken ct)
+    public async Task Send(AddMeasurement measurement, CancellationToken ct)
     {
-        using var scope = _serviceScopeFactory.CreateScope();
+        using var scope = serviceScopeFactory.CreateScope();
+        var model = scope.ServiceProvider.GetRequiredService<Model>();
 
         var notificationSettingsRepository = scope.ServiceProvider.GetRequiredService<INotificationSettingsRepository>();
         var emailServer = await notificationSettingsRepository.GetEmailServer(ct);
@@ -24,12 +30,11 @@ public class EmailChannelSender : IEmailChannelSender
         var users = await userRepository.GetUsersToNotifyAboutAlarm();
         if (users.Count == 0) { return; }
 
-        var portPath = "42-231";
 
         var emailBuilder = scope.ServiceProvider.GetRequiredService<IEmailBuilder>();
         // TODO вычищал то что относится к rfts400, надо будет сделать для fibertest
         var sors = new List<byte[]>();
-        var emailAttachments = emailBuilder.BuildAlarmAttachments(portPath, alarmEvent, sors[0], sors[1]);
+        var emailAttachments = emailBuilder.BuildOpticalAttachments(measurement, sors[0], sors[1]);
 
         var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
 
@@ -39,28 +44,33 @@ public class EmailChannelSender : IEmailChannelSender
             {
                 return;
             }
-            
-            // We have some alarm event, but we get the whole alarm with the history to send the email
-            // We assume there is no changes in the alarm before we send the email
-            // If email send is delayed and alarm is changed to different status, it won't work fine
-            // Probably we need to find smarter way to create proper alarm from the last alarmEvent
 
-            // TODO
-            var alarm = new MonitoringAlarm();
-            
-            // var userSettings = await FetchUserSettings(user.User);
-            // var localTime = ConvertToLocalTimeForUser(monitoringAlarmEvent.At, userSettings);
+
 
             var emailsTo = new List<Tuple<string, string>>() { new(user.User.GetFullName(), user.User.Email!) };
-            var subject = emailBuilder.BuildAlarmSubject(portPath, alarmEvent);
-            var email = emailBuilder.BuildAlarmHtmlBody(portPath, alarm);
+            var subject = emailBuilder.BuildOpticalEventSubject(measurement, model);
+            var email = emailBuilder.BuildOpticalEventHtmlBody(measurement, model);
             await emailService.SendEmailAsync(emailServer, emailsTo, subject, email, emailAttachments, ct);
         }
     }
 
-  
- 
-   
+    public Task Send(NetworkEvent networkEvent, CancellationToken ct)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task Send(BopNetworkEvent bopNetworkEvent, CancellationToken ct)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task Send(RtuAccident rtuStatusEvent, CancellationToken ct)
+    {
+        throw new NotImplementedException();
+    }
+
+
+
 
     public Task Send(SystemEvent systemEvent, CancellationToken ct)
     {

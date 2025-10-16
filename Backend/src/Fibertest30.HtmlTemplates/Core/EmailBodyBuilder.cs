@@ -1,21 +1,16 @@
 ﻿using Fibertest30.Application;
+using Iit.Fibertest.Graph;
 using Scriban;
 
 namespace Fibertest30.HtmlTemplates;
 public class EmailBodyBuilder :  IEmailBodyBuilder
 {
     private readonly ViewModelFactory _vmFactory = new();
-
-  
     
-    public string BuildEmailBody(string portPath, MonitoringAlarm alarm)
+    public string BuildEmailBody(AddMeasurement measurement)
     {
-        var model = new
-        {
-            Alarm = _vmFactory.CreateAlarmViewModel(alarm),
-            Port = portPath
-        };
-        var body = Render(GetMaizzleGenerateTemplatePath("monitoring-alarm.scriban"), model);
+       
+        var body = Render(GetMaizzleGenerateTemplatePath("monitoring-alarm.scriban"), measurement);
         return body;
     }
     

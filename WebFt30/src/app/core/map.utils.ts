@@ -70,7 +70,8 @@ export class MapUtils {
       privacyPassword: receiver.privacyPassword,
       privacyProtocol: receiver.privacyProtocol,
       trapReceiverAddress: receiver.trapReceiverAddress,
-      trapReceiverPort: receiver.trapReceiverPort
+      trapReceiverPort: receiver.trapReceiverPort,
+      snmpLanguage: receiver.snmpLanguage
     };
   }
 
@@ -117,6 +118,7 @@ export class MapUtils {
     trapReceiver.privacyProtocol = grpcTrapReceiver.privacyProtocol;
     trapReceiver.trapReceiverAddress = grpcTrapReceiver.trapReceiverAddress;
     trapReceiver.trapReceiverPort = grpcTrapReceiver.trapReceiverPort;
+    trapReceiver.snmpLanguage = grpcTrapReceiver.snmpLanguage;
 
     return trapReceiver;
   }

@@ -2,7 +2,7 @@
 
 namespace Iit.Fibertest.Graph
 {
-    public class AddMeasurement
+    public class AddMeasurement : INotificationEvent
     {
         public ReturnCode ReturnCode { get; set; }
         public int SorFileId { get; set; }

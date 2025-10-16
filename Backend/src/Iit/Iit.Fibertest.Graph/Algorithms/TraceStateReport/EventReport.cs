@@ -7,7 +7,7 @@ namespace Iit.Fibertest.Graph
 {
     public static class EventReport
     {
-        private static string ForReport(this DateTime timestamp)
+        public static string ForReport(this DateTime timestamp)
         {
             return timestamp.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortTimePattern) +
                             @" " + timestamp.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern);

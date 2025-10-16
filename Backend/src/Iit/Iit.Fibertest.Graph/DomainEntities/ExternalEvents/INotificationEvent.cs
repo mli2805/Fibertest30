@@ -1,3 +1,3 @@
-namespace Fibertest30.Application;
+namespace Iit.Fibertest.Graph;
 
 public interface INotificationEvent;

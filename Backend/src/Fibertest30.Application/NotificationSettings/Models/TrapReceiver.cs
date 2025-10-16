@@ -20,6 +20,9 @@ public class TrapReceiver
     public string TrapReceiverAddress { get; set; } = null!;
     public int TrapReceiverPort { get; set; }
 
+    // влияет только на константы Состояние/Статус внутри трапов типа Fiber break / Обрыв волокна
+    public string SnmpLanguage { get; set; } = "en-US";
+
     public string ToJsonData()
     {
         return JsonSerializer.Serialize(this);

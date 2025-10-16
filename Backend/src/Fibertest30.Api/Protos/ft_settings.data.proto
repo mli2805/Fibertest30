@@ -57,6 +57,7 @@ message TrapReceiver {
 	int32 TrapReceiverPort = 13;
 	bool isAuthPwdSet = 14;
 	bool isPrivPwdSet = 15;
+	string snmpLanguage = 16;
 }
 
 message NotificationSettings {

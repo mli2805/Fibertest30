@@ -4,7 +4,7 @@
 namespace Iit.Fibertest.Graph
 {
     [Serializable]
-    public class NetworkEvent
+    public class NetworkEvent : INotificationEvent
     {
         public int Ordinal { get; set; }
 

@@ -1,48 +1,95 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System.Globalization;
 
 namespace Fibertest30.Application;
 
-public class EmailBuilder : IEmailBuilder
+public class EmailBuilder(IServiceScopeFactory serviceScopeFactory, ILogger<EmailBuilder> logger) : IEmailBuilder
 {
-    private readonly IServiceScopeFactory _serviceScopeFactory;
-
-    public EmailBuilder( IServiceScopeFactory serviceScopeFactory)
+    public string BuildOpticalEventSubject(AddMeasurement measurement, Model model)
     {
-        _serviceScopeFactory = serviceScopeFactory;
+        var trace = model.Traces.FirstOrDefault(t => t.TraceId == measurement.TraceId);
+        if (trace == null) return null;
+
+        return string.Format(Resources.SID_Trace___0___state_is_changed_to___1___at__2_, trace.Title,
+            measurement.TraceState.ToLocalizedString(), measurement.EventRegistrationTimestamp.ForReport());
     }
 
-    public string BuildAlarmSubject(string portPath, MonitoringAlarmEvent alarmEvent)
+    public string BuildOpticalEventHtmlBody(AddMeasurement measurement, Model model)
     {
-        string status;
-        if (alarmEvent.OldLevel != null && alarmEvent.Status != MonitoringAlarmStatus.Active)
+            var reportModel = PrepareReportModel(measurement, model);
+            return "";
+    }
+
+
+    private TraceReportModel? PrepareReportModel(AddMeasurement addMeasurement, Model model)
+    {
+        try
         {
-            status = $"{alarmEvent.OldLevel.Value.AlarmLevelToString()} -> {alarmEvent.Level.AlarmLevelToString()}";
+            var ci = new CultureInfo("ru-RU");
+            string format = ci.DateTimeFormat.FullDateTimePattern;
+
+            var trace = model.Traces.First(t => t.TraceId == addMeasurement.TraceId);
+            var rtu = model.Rtus.First(r => r.Id == addMeasurement.RtuId);
+            var reportModel = new TraceReportModel()
+            {
+                TraceTitle = trace.Title,
+                TraceState = trace.State.ToLocalizedString(),
+                RtuTitle = rtu.Title,
+                RtuSoftwareVersion = rtu.Version,
+                PortTitle = trace.OtauPort!.IsPortOnMainCharon
+                    ? trace.OtauPort.OpticalPort.ToString()
+                    : $@"{trace.OtauPort.Serial}-{trace.OtauPort.OpticalPort}",
+                MeasurementTimestamp = $@"{addMeasurement.MeasurementTimestamp.ToString(format)}",
+                RegistrationTimestamp = $@"{addMeasurement.EventRegistrationTimestamp.ToString(format)}",
+
+                Accidents = ConvertAccidents(addMeasurement.Accidents).ToList(),
+            };
+            return reportModel;
         }
-        else 
+        catch (Exception e)
         {
-            status = alarmEvent.Status.AlarmStatusToString();
+            logger.LogError(@"PrepareReportModel: ", e.Message);
+            return null;
         }
-
-        return $"Alarm ID {alarmEvent.MonitoringAlarmId} | {status} | Port {portPath}";
     }
 
-    public string BuildAlarmHtmlBody(string portPath, MonitoringAlarm alarm)
+    private IEnumerable<AccidentLineModel> ConvertAccidents(List<AccidentOnTraceV2> list)
     {
-        using var scope = _serviceScopeFactory.CreateScope();
-        var bodyBuilder = scope.ServiceProvider.GetRequiredService<IEmailBodyBuilder>();
-        var body = bodyBuilder.BuildEmailBody(portPath, alarm);
-        return body;
+        var accidentLineModelFactory = new AccidentLineModelFactory();
+        var number = 0;
+        foreach (var accidentOnTraceV2 in list)
+        {
+            yield return accidentLineModelFactory
+                .Create(accidentOnTraceV2, ++number, true, GpsInputMode.DegreesMinutesAndSeconds);
+        }
     }
 
-    public List<Tuple<string, byte[]>> BuildAlarmAttachments(
-        string portPath,
-        MonitoringAlarmEvent monitoringAlarmEvent,byte[] measurement, byte[] baseline)
+
+    private string? PreparePdfAttachment(TraceReportModel reportModel)
     {
-        var port = $"Port {portPath}";
-        var measurementFilename = $"Alarm ID {monitoringAlarmEvent.MonitoringAlarmId} - {port}.sor";
-        var baselineFilename = $"Baseline - {port}.sor";
-        return new List<Tuple<string, byte[]>> { new(measurementFilename, measurement), new(baselineFilename, baseline)};
+        try
+        {
+            // var _traceStateReportProvider = new TraceStateReportProvider()
+            // var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
+            // if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+            // var filename = Path.Combine(folder, $@"TraceStateReport{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.pdf");
+            // var pdfDocument = _traceStateReportProvider.Create(reportModel, _currentDatacenterParameters);
+            // pdfDocument.Save(filename);
+            // return filename;
+
+            return "";
+        }
+        catch (Exception e)
+        {
+            logger.LogError(@"PreparePdfAttachment: create report file: ", e.Message);
+            return null;
+        }
     }
+
+
 
     public string GetTestHtmlBody()
     {
@@ -60,5 +107,12 @@ public class EmailBuilder : IEmailBuilder
     </div>
 </body>
 </html>";
+    }
+
+   
+  
+    public List<Tuple<string, byte[]>> BuildOpticalAttachments(AddMeasurement measurement, byte[] measBytes, byte[] baseline)
+    {
+        throw new NotImplementedException();
     }
 }

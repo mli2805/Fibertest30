@@ -19,10 +19,10 @@ import { NotificationSettingsSelectors } from 'src/app/core/store/notification-s
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-    selector: 'rtu-snmp-notification-settings',
-    templateUrl: './snmp-notification-settings.component.html',
-    styleUrls: ['./snmp-notification-settings.component.css'],
-    standalone: false
+  selector: 'rtu-snmp-notification-settings',
+  templateUrl: './snmp-notification-settings.component.html',
+  styleUrls: ['./snmp-notification-settings.component.css'],
+  standalone: false
 })
 export class SnmpNotificationSettingsComponent implements OnInit {
   @Input() trapReceiver!: TrapReceiver;
@@ -42,10 +42,16 @@ export class SnmpNotificationSettingsComponent implements OnInit {
   snmpVersions: string[] = ['v1', 'v3'];
   authenticationProtocols: string[] = ['None', 'MD5', 'SHA', 'SHA256', 'SHA384', 'SHA512'];
   privacyProtocols: string[] = ['None', 'Des', 'TripleDes', 'Aes128', 'Aes192', 'Aes256'];
-  isVersion1!: boolean;
-  passwordPlaceholder = this.ts.instant('i18n.common.blank-to-leave-unchanged');
+  languages: string[] = ['en-US', 'ru-RU'];
 
-  constructor(private ts: TranslateService, private fs: FileSaverService, private hc: HttpClient) {}
+  isVersion1!: boolean;
+  passwordPlaceholder = this.ts.instant('i18n.ft.blank-to-leave-unchanged');
+
+  constructor(
+    private ts: TranslateService,
+    private fs: FileSaverService,
+    private httpClient: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -65,7 +71,8 @@ export class SnmpNotificationSettingsComponent implements OnInit {
       ]),
       trapReceiverPort: new FormControl(this.trapReceiver.trapReceiverPort, [
         this.trapReceiverPortValidator()
-      ])
+      ]),
+      snmpLanguage: new FormControl(this.trapReceiver.snmpLanguage)
     });
 
     this.isVersion1 = this.trapReceiver.snmpVersion === 'v1';
@@ -187,6 +194,7 @@ export class SnmpNotificationSettingsComponent implements OnInit {
     }
     receiver.trapReceiverAddress = this.form.controls['trapReceiverAddress'].value;
     receiver.trapReceiverPort = +this.form.controls['trapReceiverPort'].value;
+    receiver.snmpLanguage = this.form.controls['snmpLanguage'].value;
 
     return receiver;
   }
@@ -261,8 +269,10 @@ export class SnmpNotificationSettingsComponent implements OnInit {
   }
 
   saveMib() {
-    this.hc.get('assets/snmp/Fibertest30.mib', { responseType: 'text' }).subscribe((data) => {
-      this.fs.saveAs(new TextEncoder().encode(data), 'Fibertest30.mib');
-    });
+    this.httpClient
+      .get('assets/snmp/Fibertest30.mib', { responseType: 'text' })
+      .subscribe((data) => {
+        this.fs.saveAs(new TextEncoder().encode(data), 'Fibertest30.mib');
+      });
   }
 }

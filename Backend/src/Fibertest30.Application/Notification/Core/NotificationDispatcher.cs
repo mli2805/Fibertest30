@@ -1,26 +1,19 @@
+using Iit.Fibertest.Graph;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Threading.Channels;
 
 namespace Fibertest30.Application;
 
-public class NotificationDispatcher : INotificationDispatcher, INotificationSender
+public class NotificationDispatcher(
+    ILogger<NotificationDispatcher> logger,
+    IInAppChannelSender inAppChannelSender,
+    IEmailChannelSender emailChannelSender,
+    ISnmpChannelSender snmpChannelSender)
+    : INotificationDispatcher, INotificationSender
 {
-    private readonly ILogger _logger;
-    private readonly IInAppChannelSender _inAppChannelSender;
-    private readonly IEmailChannelSender _emailChannelSender;
-    private readonly ISnmpChannelSender _snmpChannelSender;
+    private readonly ILogger _logger = logger;
     private readonly Channel<INotificationEvent> _channel = Channel.CreateUnbounded<INotificationEvent>();
-
-    public NotificationDispatcher(ILogger<NotificationDispatcher> logger,
-         IInAppChannelSender inAppChannelSender, 
-        IEmailChannelSender emailChannelSender, ISnmpChannelSender snmpChannelSender)
-    {
-        _logger = logger;
-        _inAppChannelSender = inAppChannelSender;
-        _emailChannelSender = emailChannelSender;
-        _snmpChannelSender = snmpChannelSender;
-    }
 
     public async Task Send(INotificationEvent notificationEvent, CancellationToken ct)
     {
@@ -38,9 +31,9 @@ public class NotificationDispatcher : INotificationDispatcher, INotificationSend
                 {
                     await ProcessSystemEventNotifications(systemEvent, ct);
                 }
-                else if (notificationEvent is MonitoringAlarmEvent monitoringAlarmEvent)
+                else if (notificationEvent is AddMeasurement measurement)
                 {
-                    await ProcessMonitoringAlarmNotifications(monitoringAlarmEvent, ct);
+                    await ProcessMonitoringAlarmNotifications(measurement, ct);
                 }
             }
             catch (Exception e)
@@ -64,25 +57,15 @@ public class NotificationDispatcher : INotificationDispatcher, INotificationSend
         if (rules.ContainsKey(NotificationChannel.InAppInternal)
             || rules.ContainsKey(NotificationChannel.InApp))
         {
-            await _inAppChannelSender.Send(systemEvent, ct);
+            await inAppChannelSender.Send(systemEvent, ct);
         }
     }
 
-    private async Task ProcessMonitoringAlarmNotifications(MonitoringAlarmEvent monitoringAlarmEvent, CancellationToken ct)
+    private async Task ProcessMonitoringAlarmNotifications(AddMeasurement measurement, CancellationToken ct)
     {
         try
         {
-            await _inAppChannelSender.Send(monitoringAlarmEvent, ct);
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "Failed to send with _inAppChannelSender");
-        }
-
-
-        try
-        {
-            await _emailChannelSender.Send(monitoringAlarmEvent, ct);
+            await emailChannelSender.SendNoti(measurement, ct);
         }
         catch (Exception e)
         {
@@ -91,7 +74,7 @@ public class NotificationDispatcher : INotificationDispatcher, INotificationSend
 
         try
         {
-            await _snmpChannelSender.Send(monitoringAlarmEvent, ct);
+            await snmpChannelSender.SendNoti(measurement, ct);
         }
         catch (Exception e)
         {

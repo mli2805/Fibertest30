@@ -1,6 +1,8 @@
-﻿namespace Fibertest30.Application;
+﻿using Iit.Fibertest.Graph;
+
+namespace Fibertest30.Application;
 
 public interface IEmailBodyBuilder
 {
-    string BuildEmailBody(string portPath, MonitoringAlarm monitoringAlarm);
+    string BuildEmailBody(AddMeasurement measurement);
 }

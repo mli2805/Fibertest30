@@ -4,7 +4,7 @@
 <div *ngIf="ntfState$ | async as set">
   <div class="flex flex-col">
     <div class="m-2 mb-4">
-      {{ 'i18n.notification-settings.notification-configuration' | translate }}
+      {{ 'i18n.ft.notification-settings' | translate }}
     </div>
     <fieldset [disabled]="(hasChangeNotificationSettingsPermission$ | async) === false">
       <div style="height: 700px" class="flex flex-col flex-wrap gap-2">

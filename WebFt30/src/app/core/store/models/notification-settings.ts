@@ -37,6 +37,7 @@ export class TrapReceiver {
   privacyProtocol = 'Aes256';
   trapReceiverAddress = '';
   trapReceiverPort = 162;
+  snmpLanguage = 'en-US';
 }
 
 export class SyslogHost {

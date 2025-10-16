@@ -101,7 +101,8 @@ public static class FtSettingsMapping
             AuthenticationProtocol = proto.AuthenticationProtocol,
             IsPrivPswSet = proto.IsPrivPwdSet,
             PrivacyPassword = proto.PrivacyPassword,
-            PrivacyProtocol = proto.PrivacyProtocol
+            PrivacyProtocol = proto.PrivacyProtocol,
+            SnmpLanguage = proto.SnmpLanguage
         };
     }
 
@@ -123,7 +124,8 @@ public static class FtSettingsMapping
             AuthenticationProtocol = trapReceiver.AuthenticationProtocol,
             IsPrivPwdSet = trapReceiver.IsPrivPswSet,
             PrivacyPassword = trapReceiver.PrivacyPassword,
-            PrivacyProtocol = trapReceiver.PrivacyProtocol
+            PrivacyProtocol = trapReceiver.PrivacyProtocol,
+            SnmpLanguage = trapReceiver.SnmpLanguage
         };
     }
 

@@ -19,11 +19,11 @@ import { NotificationSettingsSelectors } from 'src/app/core/store/notification-s
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-    selector: 'rtu-email-notification-settings',
-    templateUrl: './email-notification-settings.component.html',
-    styleUrls: ['./email-notification-settings.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'rtu-email-notification-settings',
+  templateUrl: './email-notification-settings.component.html',
+  styleUrls: ['./email-notification-settings.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class EmailNotificationSettingsComponent implements OnInit {
   @Input() emailServer!: EmailServer;
@@ -42,7 +42,7 @@ export class EmailNotificationSettingsComponent implements OnInit {
   ports: string[] = ['587 STARTTLS', '465 TLS', '25 STARTTLS'];
   selectedPort!: string;
   form!: FormGroup;
-  passwordPlaceholder = this.ts.instant('i18n.common.blank-to-leave-unchanged');
+  passwordPlaceholder = this.ts.instant('i18n.ft.blank-to-leave-unchanged');
   isAuthenticationOn!: boolean;
 
   constructor(private ts: TranslateService) {}

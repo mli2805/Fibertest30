@@ -75,7 +75,7 @@ export class NotificationSettingsEffects {
             console.log(error);
             return of(
               NotificationSettingsActions.updateNotificationSettingsFailure({
-                errorMessageId: 'i18n.notification-settings.cant-update-notification-settings'
+                errorMessageId: 'i18n.ft.cant-update-notification-settings'
               })
             );
           })
@@ -105,7 +105,7 @@ export class NotificationSettingsEffects {
           catchError((error) => {
             return of(
               NotificationSettingsActions.refreshNotificationSettingsFailure({
-                errorMessageId: 'i18n.notification-settings.cant-refresh-notification-settings'
+                errorMessageId: 'i18n.ft.cant-refresh-notification-settings'
               })
             );
           })
