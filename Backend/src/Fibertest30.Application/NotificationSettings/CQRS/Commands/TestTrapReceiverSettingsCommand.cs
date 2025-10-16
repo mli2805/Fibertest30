@@ -31,7 +31,7 @@ public class TestTrapReceiverSettingsCommandHandler(
         }
 
         var previous = CultureInfo.CurrentUICulture;
-        var culture = CultureInfo.GetCultureInfo($"{request.TrapReceiver.SnmpLanguage}");
+        var culture = new CultureInfo(request.TrapReceiver.SnmpLanguage) { NumberFormat = { NumberDecimalSeparator = @"." } };
         CultureInfo.CurrentUICulture = culture;
         CultureInfo.CurrentCulture = culture;
 
