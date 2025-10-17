@@ -221,46 +221,10 @@ public class ServerDbContextInitializer(IHostEnvironment environment,
     {
         if (await context.NotificationSettings.AnyAsync()) return;
 
-        var emailServer = new EmailServer
-        {
-            Enabled = false,
-            ServerAddress = "",
-            ServerPort = 587,
-            OutgoingAddress = "",
-            IsAuthenticationOn = true,
-            ServerUserName = "",
-            IsPasswordSet = false,
-            ServerPassword = "",
-            VerifyCertificate = false,
-            FloodingPolicy = false,
-            SmsOverSmtp = false,
-        };
-
-        var trapReceiver = new TrapReceiver
-        {
-            Enabled = false,
-            SnmpVersion = "v1",
-            UseIitOid = false,
-            CustomOid = "",
-            Community = "",
-            AuthoritativeEngineId = "",
-            UserName = "",
-            IsAuthPswSet = false,
-            AuthenticationPassword = "",
-            AuthenticationProtocol = "SHA",
-            IsPrivPswSet = false,
-            PrivacyPassword = "",
-            PrivacyProtocol = "Aes256",
-            TrapReceiverAddress = "",
-            TrapReceiverPort = 162
-        };
-
-        var settings = new NotificationSettings { EmailServer = emailServer, TrapReceiver = trapReceiver, };
+        var settings = new NotificationSettings { EmailServer = new EmailServer(), TrapReceiver = new TrapReceiver(), };
 
         context.NotificationSettings.Add(settings.ToEf());
     }
-
-
 
     private void ThrowIfNotSucceed(IdentityResult result, string message)
     {

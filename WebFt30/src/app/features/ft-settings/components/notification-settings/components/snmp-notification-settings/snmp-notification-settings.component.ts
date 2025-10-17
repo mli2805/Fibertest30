@@ -265,6 +265,8 @@ export class SnmpNotificationSettingsComponent implements OnInit {
       })
     );
     this.form.markAsPristine();
+    this.authenticationPasswordChanged = false;
+    this.privacyPasswordChanged = false;
   }
 
   saveMib() {
