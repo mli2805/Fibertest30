@@ -6,7 +6,8 @@ using Microsoft.Extensions.Logging;
 namespace Fibertest30.Infrastructure;
 public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger,
     IServiceScopeFactory serviceScopeFactory, ProcessedResultsDtoFactory processedResultsDtoFactory,
-    ISystemEventSender systemEventSender, IRtuCurrentStateDictionary rtuCurrentStateDictionary)
+    ISystemEventSender systemEventSender, INotificationSender notificationSender,
+    IRtuCurrentStateDictionary rtuCurrentStateDictionary)
 {
     public async Task ProcessBopStateChanges(BopStateChangedDto dto)
     {
@@ -43,6 +44,8 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
                         .Send(SystemEventFactory.TraceStateChanged(
                             addMeasurement.SorFileId, addMeasurement.EventRegistrationTimestamp, trace!.TraceId.ToString(),
                             trace.Title, trace.RtuId.ToString(), addMeasurement.BaseRefType, addMeasurement.TraceState));
+
+                    await notificationSender.Send(addMeasurement, ct);
                 }
                 else
                 {

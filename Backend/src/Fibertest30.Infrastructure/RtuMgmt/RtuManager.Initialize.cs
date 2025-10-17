@@ -52,6 +52,11 @@ public partial class RtuManager
         var list = _writeModel.CreateReSendDtos(rtuInitializedDto);
         foreach (var assignBaseRefsDto in list)
         {
+            foreach (var baseRefDto in assignBaseRefsDto.BaseRefs)
+            {
+                baseRefDto.SorBytes = await _sorFileRepository.GetSorBytesAsync(baseRefDto.SorFileId);
+            }
+
             var _ = await _rtuTransmitter
                 .SendCommand<AssignBaseRefsDto, BaseRefAssignedDto>(assignBaseRefsDto, rtuInitializedDto.RtuAddresses);
         }

@@ -16,7 +16,7 @@ public class SnmpChannelSender(IServiceScopeFactory serviceScopeFactory, ILogger
         if (!trapReceiver.Enabled) { return; }
 
         var model = scope.ServiceProvider.GetRequiredService<Model>();
-        var snmpContentBuilder = scope.ServiceProvider.GetRequiredService<SnmpContentBuilder>();
+        var snmpContentBuilder = scope.ServiceProvider.GetRequiredService<ISnmpContentBuilder>();
         var pair = Create(o, snmpContentBuilder, model, trapReceiver.SnmpLanguage);
 
         if (pair.Item1 == null) return;
@@ -27,7 +27,7 @@ public class SnmpChannelSender(IServiceScopeFactory serviceScopeFactory, ILogger
     }
 
     private (FtTrapType?, Dictionary<FtTrapProperty, string>?) Create(
-        object e, SnmpContentBuilder snmpContentBuilder, Model model, string language)
+        object e, ISnmpContentBuilder snmpContentBuilder, Model model, string language)
     {
         var prevCulture = Thread.CurrentThread.CurrentUICulture;
 
