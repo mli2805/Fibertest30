@@ -42,7 +42,6 @@ export class EmailNotificationSettingsComponent implements OnInit {
   ports: string[] = ['587 STARTTLS', '465 TLS', '25 STARTTLS'];
   selectedPort!: string;
   form!: FormGroup;
-  passwordPlaceholder = this.ts.instant('i18n.ft.blank-to-leave-unchanged');
   isAuthenticationOn!: boolean;
 
   constructor(private ts: TranslateService) {}

@@ -89,7 +89,7 @@ public static class FtSettingsMapping
         {
             Enabled = proto.Enabled,
             SnmpVersion = proto.SnmpVersion,
-            UseVeexOid = proto.UseVeexOid,
+            UseIitOid = proto.UseIitOid,
             TrapReceiverAddress = proto.TrapReceiverAddress,
             TrapReceiverPort = proto.TrapReceiverPort,
             CustomOid = proto.CustomOid,
@@ -112,7 +112,7 @@ public static class FtSettingsMapping
         {
             Enabled = trapReceiver.Enabled,
             SnmpVersion = trapReceiver.SnmpVersion,
-            UseVeexOid = trapReceiver.UseVeexOid,
+            UseIitOid = trapReceiver.UseIitOid,
             TrapReceiverAddress = trapReceiver.TrapReceiverAddress,
             TrapReceiverPort = trapReceiver.TrapReceiverPort,
             CustomOid = trapReceiver.CustomOid,

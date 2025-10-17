@@ -872,7 +872,7 @@
   "i18n.ft.syslog-transport-protocol": "Syslog transport protocol",
   "i18n.ft.test-smtp-configuration": "Test SMTP configuration",
   "i18n.ft.test-snmp-configuration": "Test SNMP configuration",
-  "i18n.ft.use-veex-oid": "Use VeEX OID",
+  "i18n.ft.use-iit-oid": "Use IIT OID",
   "i18n.ft.verify-smtp-server-certificate": "Verify SMTP server certificate",
   "i18n.ft.blank-to-leave-unchanged": "blank to leave unchanged",
 

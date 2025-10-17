@@ -45,7 +45,6 @@ export class SnmpNotificationSettingsComponent implements OnInit {
   languages: string[] = ['en-US', 'ru-RU'];
 
   isVersion1!: boolean;
-  passwordPlaceholder = this.ts.instant('i18n.ft.blank-to-leave-unchanged');
 
   constructor(
     private ts: TranslateService,
@@ -57,7 +56,7 @@ export class SnmpNotificationSettingsComponent implements OnInit {
     this.form = new FormGroup({
       enabled: new FormControl(this.trapReceiver.enabled),
       snmpVersion: new FormControl(this.trapReceiver.snmpVersion),
-      useVeexOid: new FormControl(this.trapReceiver.useVeexOid),
+      useIitOid: new FormControl(this.trapReceiver.useIitOid),
       customOid: new FormControl(this.trapReceiver.customOid, [this.oidValidator()]),
       community: new FormControl(this.trapReceiver.community),
       authoritativeEngineId: new FormControl(this.trapReceiver.authoritativeEngineId, [
@@ -76,7 +75,7 @@ export class SnmpNotificationSettingsComponent implements OnInit {
     });
 
     this.isVersion1 = this.trapReceiver.snmpVersion === 'v1';
-    this.customOidInputEnabled = !this.trapReceiver.useVeexOid;
+    this.customOidInputEnabled = !this.trapReceiver.useIitOid;
   }
 
   oidValidator(): ValidatorFn {
@@ -121,7 +120,7 @@ export class SnmpNotificationSettingsComponent implements OnInit {
 
   isCustomOidValid() {
     if (this.form.controls['customOid'].pristine) return true;
-    if (this.form.controls['useVeexOid'].value === true) return true;
+    if (this.form.controls['useIitOid'].value === true) return true;
     return this.form.controls['customOid'].valid;
   }
 
@@ -157,7 +156,7 @@ export class SnmpNotificationSettingsComponent implements OnInit {
   }
 
   customOidInputEnabled!: boolean;
-  onUseVeexOidChanged() {
+  onUseIitOidChanged() {
     this.customOidInputEnabled = !this.customOidInputEnabled;
   }
 
@@ -179,7 +178,7 @@ export class SnmpNotificationSettingsComponent implements OnInit {
     const receiver = new TrapReceiver();
     receiver.enabled = this.form.controls['enabled'].value;
     receiver.snmpVersion = this.form.controls['snmpVersion'].value;
-    receiver.useVeexOid = this.form.controls['useVeexOid'].value;
+    receiver.useIitOid = this.form.controls['useIitOid'].value;
     receiver.customOid = this.form.controls['customOid'].value;
 
     if (this.form.controls['snmpVersion'].value === 'v1') {
@@ -208,7 +207,7 @@ export class SnmpNotificationSettingsComponent implements OnInit {
 
   isCommonFieldsValid(): boolean {
     if (
-      this.form.controls['useVeexOid'].value === false &&
+      this.form.controls['useIitOid'].value === false &&
       this.isNullOrEmpty(this.form.controls['customOid'].value)
     )
       return false;

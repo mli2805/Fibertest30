@@ -58,9 +58,6 @@ public class SnmpChannelSender(IServiceScopeFactory serviceScopeFactory, ILogger
         return result;
     }
 
-  
-
-
     public Task Send(SystemEvent systemEvent, CancellationToken ct)
     {
         throw new NotImplementedException();

@@ -14,7 +14,7 @@ public class SnmpService : ISnmpService
     {
         var ipAddress = IPAddress.Parse(trapReceiver.TrapReceiverAddress);
         // OID для ИИТ Fibertest 3.0
-        var enterpriseOid = trapReceiver.UseVeexOid ? "1.3.6.1.4.1.36220.30" : trapReceiver.CustomOid;
+        var enterpriseOid = trapReceiver.UseIitOid ? "1.3.6.1.4.1.36220.30" : trapReceiver.CustomOid;
         var variables = GetVariables(payload, enterpriseOid).ToList();
 
         if (trapReceiver.SnmpVersion == "v1")

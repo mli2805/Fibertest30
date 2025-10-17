@@ -58,7 +58,7 @@ export class MapUtils {
     return {
       enabled: receiver.enabled,
       snmpVersion: receiver.snmpVersion,
-      useVeexOid: receiver.useVeexOid,
+      useIitOid: receiver.useIitOid,
       customOid: receiver.customOid,
       community: receiver.community,
       authoritativeEngineId: receiver.authoritativeEngineId,
@@ -105,7 +105,7 @@ export class MapUtils {
     const trapReceiver = new TrapReceiver();
     trapReceiver.enabled = grpcTrapReceiver.enabled;
     trapReceiver.snmpVersion = grpcTrapReceiver.snmpVersion;
-    trapReceiver.useVeexOid = grpcTrapReceiver.useVeexOid;
+    trapReceiver.useIitOid = grpcTrapReceiver.useIitOid;
     trapReceiver.customOid = grpcTrapReceiver.customOid;
     trapReceiver.community = grpcTrapReceiver.community;
     trapReceiver.authoritativeEngineId = grpcTrapReceiver.authoritativeEngineId;

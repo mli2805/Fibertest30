@@ -6,7 +6,7 @@ public class TrapReceiver
 {
     public bool Enabled { get; set; }
     public string SnmpVersion { get; set; } = "v1";
-    public bool UseVeexOid { get; set; } = true;
+    public bool UseIitOid { get; set; } = true;
     public string CustomOid { get; set; } = null!;
     public string Community { get; set; } = null!;
     public string AuthoritativeEngineId { get; set; } = null!;

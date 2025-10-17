@@ -24,7 +24,7 @@ export class EmailServer {
 export class TrapReceiver {
   enabled!: boolean;
   snmpVersion = 'v1';
-  useVeexOid = true;
+  useIitOid = true;
   customOid = '';
   community = '';
   authoritativeEngineId = '';

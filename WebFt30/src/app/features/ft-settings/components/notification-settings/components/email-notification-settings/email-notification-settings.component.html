@@ -111,7 +111,7 @@
               <rtu-input-password-with-eye
                 #psw
                 [showPlaceholder]="emailServer.isPasswordSet"
-                [placeholder]="passwordPlaceholder"
+                [placeholder]="'i18n.ft.blank-to-leave-unchanged' | translate"
                 (changedValueEvent)="onPasswordChanged($event)"
               ></rtu-input-password-with-eye>
             </div>

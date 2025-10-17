@@ -240,7 +240,7 @@ public class ServerDbContextInitializer(IHostEnvironment environment,
         {
             Enabled = false,
             SnmpVersion = "v1",
-            UseVeexOid = false,
+            UseIitOid = false,
             CustomOid = "",
             Community = "",
             AuthoritativeEngineId = "",

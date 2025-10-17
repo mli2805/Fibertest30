@@ -49,13 +49,13 @@
           </rtu-select>
 
           <label
-            style="grid-area: useVeexOidLabel"
+            style="grid-area: useIitOidLabel"
             class="my-auto"
             [ngClass]="{ 'disabled-label': isSettingsOff() }"
-            >{{ 'i18n.ft.use-veex-oid' | translate }}</label
+            >{{ 'i18n.ft.use-iit-oid' | translate }}</label
           >
-          <label style="grid-area: useVeexOidValue" class="toggle my-2 flex w-max justify-start">
-            <input type="checkbox" formControlName="useVeexOid" (change)="onUseVeexOidChanged()" />
+          <label style="grid-area: useIitOidValue" class="toggle my-2 flex w-max justify-start">
+            <input type="checkbox" formControlName="useIitOid" (change)="onUseIitOidChanged()" />
             <div class="slider"></div>
           </label>
 
@@ -134,7 +134,7 @@
               <rtu-input-password-with-eye
                 #pswAuthentication
                 [showPlaceholder]="trapReceiver.isAuthPswSet"
-                [placeholder]="passwordPlaceholder"
+                [placeholder]="'i18n.ft.blank-to-leave-unchanged' | translate"
                 (changedValueEvent)="onAuthenticationPasswordChanged($event)"
               ></rtu-input-password-with-eye>
             </div>
@@ -168,7 +168,7 @@
               <rtu-input-password-with-eye
                 #pswPrivacy
                 [showPlaceholder]="trapReceiver.isPrivPswSet"
-                [placeholder]="passwordPlaceholder"
+                [placeholder]="'i18n.ft.blank-to-leave-unchanged' | translate"
                 (changedValueEvent)="onPrivacyPasswordChanged($event)"
               ></rtu-input-password-with-eye>
             </div>

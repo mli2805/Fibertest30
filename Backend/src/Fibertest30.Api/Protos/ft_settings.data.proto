@@ -44,7 +44,7 @@ message EmailServer {
 message TrapReceiver {
 	bool enabled = 1;
 	string snmpVersion = 2;
-	bool useVeexOid = 3;
+	bool useIitOid = 3;
 	string customOid = 4;
 	string community = 5;
 	string AuthoritativeEngineId = 6;

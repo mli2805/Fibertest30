@@ -123,9 +123,9 @@ export interface TrapReceiver {
      */
     snmpVersion: string;
     /**
-     * @generated from protobuf field: bool useVeexOid = 3;
+     * @generated from protobuf field: bool useIitOid = 3;
      */
-    useVeexOid: boolean;
+    useIitOid: boolean;
     /**
      * @generated from protobuf field: string customOid = 4;
      */
@@ -258,7 +258,7 @@ class TrapReceiver$Type extends MessageType<TrapReceiver> {
         super("fibertest30.ft_settings.data.TrapReceiver", [
             { no: 1, name: "enabled", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "snmpVersion", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "useVeexOid", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 3, name: "useIitOid", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 4, name: "customOid", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "community", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "AuthoritativeEngineId", kind: "scalar", jsonName: "AuthoritativeEngineId", T: 9 /*ScalarType.STRING*/ },

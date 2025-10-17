@@ -596,9 +596,9 @@
   "i18n.ft.syslog-transport-protocol": "Syslog transport protocol",
   "i18n.ft.test-smtp-configuration": "Тестировать настройки почты",
   "i18n.ft.test-snmp-configuration": "Тестировать настройки SNMP",
-  "i18n.ft.use-veex-oid": "Использовать OID ИИТ",
+  "i18n.ft.use-iit-oid": "Использовать OID ИИТ",
   "i18n.ft.verify-smtp-server-certificate": "Верифицировать сертификат почтового сервера",
-  "i18n.ft.blank-to-leave-unchanged": "пустой чтобы не менять",
+  "i18n.ft.blank-to-leave-unchanged": "задан",
 
   "i18n.ft.available-lasers": "Достуные лазеры",
   "i18n.ft.minutes-seconds": "минуты:секунды"
