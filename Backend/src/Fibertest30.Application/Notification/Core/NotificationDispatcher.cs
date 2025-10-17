@@ -31,9 +31,9 @@ public class NotificationDispatcher(
                 {
                     await ProcessSystemEventNotifications(systemEvent, ct);
                 }
-                else if (notificationEvent is AddMeasurement measurement)
+                else // все остальные: AddMeasurement, NetworkEvent RTU/BOP, RtuAccident
                 {
-                    await ProcessMonitoringAlarmNotifications(measurement, ct);
+                    await ProcessNotificationEvent(notificationEvent, ct);
                 }
             }
             catch (Exception e)
@@ -75,6 +75,28 @@ public class NotificationDispatcher(
         try
         {
             await snmpChannelSender.SendNoti(measurement, ct);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Failed to send with _snmpChannelSender");
+        }
+
+    }   
+    
+    private async Task ProcessNotificationEvent(INotificationEvent notificationEvent, CancellationToken ct)
+    {
+        try
+        {
+            await emailChannelSender.SendNoti(notificationEvent, ct);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Failed to send with _emailChannelSender");
+        }
+
+        try
+        {
+            await snmpChannelSender.SendNoti(notificationEvent, ct);
         }
         catch (Exception e)
         {

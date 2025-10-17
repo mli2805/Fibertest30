@@ -9,12 +9,12 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
     ISystemEventSender systemEventSender, INotificationSender notificationSender,
     IRtuCurrentStateDictionary rtuCurrentStateDictionary)
 {
-    public async Task ProcessBopStateChanges(BopStateChangedDto dto)
+    public async Task ProcessBopStateChanges(BopStateChangedDto dto, CancellationToken ct)
     {
         using var scope = serviceScopeFactory.CreateScope();
         var rtuStationsRepository = scope.ServiceProvider.GetRequiredService<IRtuStationsRepository>();
         if (await rtuStationsRepository.IsRtuExist(dto.RtuId))
-            await CheckAndSendBopNetworkEventIfNeeded(dto);
+            await CheckAndSendBopNetworkEventIfNeeded(dto, ct);
     }
 
     public async Task ProcessMonitoringResult(MonitoringResultDto dto, CancellationToken ct)
@@ -54,7 +54,7 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
                 }
             }
 
-            await CheckAndSendBopNetworkIfNeeded(dto);
+            await CheckAndSendBopNetworkIfNeeded(dto, ct);
         }
 
         // it is a RtuAccident
@@ -72,6 +72,7 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
                     rtuAccident.Id, rtuAccident.EventRegistrationTimestamp, objTitle, objId.ToString(),
                     rtuId.ToString(), rtuAccident.IsGoodAccident));
 
+                await notificationSender.Send(rtuAccident, ct);
             }
         }
     }
@@ -115,7 +116,7 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
     }
 
     // BOP - т.к. сообщение что не смог переключиться в порт бопа
-    private async Task CheckAndSendBopNetworkEventIfNeeded(BopStateChangedDto dto)
+    private async Task CheckAndSendBopNetworkEventIfNeeded(BopStateChangedDto dto, CancellationToken ct)
     {
         var otau = writeModel.Otaus.FirstOrDefault(o =>
             o.NetAddress.Ip4Address == dto.OtauIp && o.NetAddress.Port == dto.TcpPort
@@ -133,18 +134,24 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
             IsOk = dto.IsOk,
         };
 
-        await PersistBopEventAndSendToClients(cmd);
+       var bopNetworkEvent = await PersistBopEventAndSendToClients(cmd);
+       if (bopNetworkEvent != null)
+       {
+           await notificationSender.Send(bopNetworkEvent, ct);
+
+       }
     }
 
     // BOP - т.к. результат измерения по порту на бопе
-    private async Task CheckAndSendBopNetworkIfNeeded(MonitoringResultDto dto)
+    private async Task CheckAndSendBopNetworkIfNeeded(MonitoringResultDto dto, CancellationToken ct)
     {
         var otau = writeModel.Otaus.FirstOrDefault(o =>
             o.Serial == dto.PortWithTrace.OtauPort.Serial
         );
         if (otau == null || otau.IsOk) return;
 
-        logger.LogInformation($@"RTU {dto.RtuId.First6()} BOP {dto.PortWithTrace.OtauPort.Serial} state changed to OK (because MSMQ message with monitoring result came)");
+        logger.LogInformation(
+            $@"RTU {dto.RtuId.First6()} BOP {dto.PortWithTrace.OtauPort.Serial} state changed to OK (because MSMQ message with monitoring result came)");
         var cmd = new AddBopNetworkEvent()
         {
             EventTimestamp = DateTime.Now,
@@ -155,15 +162,20 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
             IsOk = true,
         };
 
-        await PersistBopEventAndSendToClients(cmd);
+        var bopNetworkEvent = await PersistBopEventAndSendToClients(cmd);
+        if (bopNetworkEvent != null)
+        {
+            await notificationSender.Send(bopNetworkEvent, ct);
+
+        }
     }
 
-    private async Task PersistBopEventAndSendToClients(AddBopNetworkEvent cmd)
+    private async Task<BopNetworkEvent?> PersistBopEventAndSendToClients(AddBopNetworkEvent cmd)
     {
         using var scope = serviceScopeFactory.CreateScope();
         var eventStoreService = scope.ServiceProvider.GetRequiredService<IEventStoreService>();
         var result = await eventStoreService.SendCommand(cmd, "system", "OnServer");
-        if (!string.IsNullOrEmpty(result)) return;
+        if (!string.IsNullOrEmpty(result)) return null;
 
         var bopNetworkEvent = writeModel.BopNetworkEvents.LastOrDefault();
         if (bopNetworkEvent != null)
@@ -172,10 +184,14 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
             await systemEventSender.Send(SystemEventFactory.BopNetworkEventAdded(
                 bopNetworkEvent.Ordinal, bopNetworkEvent.EventTimestamp, bopNetworkEvent.OtauIp,
                 bop.Id.ToString(), bop.RtuId.ToString(), bopNetworkEvent.IsOk));
+
+            return bopNetworkEvent;
         }
+
+        return null;
     }
 
-    public async Task ProcessRtuNetworkEvent(RtuNetworkEvent dto)
+    public async Task ProcessRtuNetworkEvent(RtuNetworkEvent dto, CancellationToken ct)
     {
         var cmd = new AddNetworkEvent()
         {
@@ -196,6 +212,9 @@ public class RtuDataProcessor(Model writeModel, ILogger<RtuDataProcessor> logger
         await systemEventSender.Send(SystemEventFactory.NetworkEventAdded(
             evnt.Ordinal, evnt.EventTimestamp, rtu.Title, rtu.Id.ToString(),
             dto.OnMainChannel == ChannelEvent.Repaired));
+
+        await notificationSender.Send(evnt, ct);
+
     }
 
     public void ProcessCurrentRtuState(CurrentMonitoringStepDto dto)

@@ -38,7 +38,7 @@ public class RtuDataDispatcher : IRtuDataDispatcher
                 }
                 else if (rtuData is BopStateChangedDto bopStateChangedDto)
                 {
-                    await _rtuDataProcessor.ProcessBopStateChanges(bopStateChangedDto);
+                    await _rtuDataProcessor.ProcessBopStateChanges(bopStateChangedDto, ct);
                 }
               
                 else if (rtuData is ClientMeasurementResultDto )
@@ -59,7 +59,7 @@ public class RtuDataDispatcher : IRtuDataDispatcher
                 }
                 else if (rtuData is RtuNetworkEvent dto)
                 {
-                    await _rtuDataProcessor.ProcessRtuNetworkEvent(dto);
+                    await _rtuDataProcessor.ProcessRtuNetworkEvent(dto, ct);
                 }
             }
             catch (Exception e)
