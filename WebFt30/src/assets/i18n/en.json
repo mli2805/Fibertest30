@@ -877,5 +877,7 @@
   "i18n.ft.blank-to-leave-unchanged": "blank to leave unchanged",
 
   "i18n.ft.available-lasers": "Available lasers",
-  "i18n.ft.minutes-seconds": "minutes:seconds"
+  "i18n.ft.minutes-seconds": "minutes:seconds",
+
+  "i18n.ft.bop-connected": "BOP connected"
 }

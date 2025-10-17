@@ -601,5 +601,7 @@
   "i18n.ft.blank-to-leave-unchanged": "задан",
 
   "i18n.ft.available-lasers": "Достуные лазеры",
-  "i18n.ft.minutes-seconds": "минуты:секунды"
+  "i18n.ft.minutes-seconds": "минуты:секунды",
+
+  "i18n.ft.bop-connected": "Подключено БОП"
 }
