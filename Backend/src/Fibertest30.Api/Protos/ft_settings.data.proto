@@ -39,6 +39,7 @@ message EmailServer {
 	bool smsOverSmtp = 9;
 	bool isPasswordSet = 10;
 	bool isAuthenticationOn = 11;
+	bool isSslOn = 12;
 }
 
 message TrapReceiver {

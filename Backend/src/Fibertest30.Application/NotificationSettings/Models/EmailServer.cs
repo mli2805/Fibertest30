@@ -6,6 +6,7 @@ public class EmailServer
     public bool Enabled { get; set; }
     public string ServerAddress { get; set; } = "";
     public int ServerPort { get; set; }
+    public bool IsSslOn { get; set; }
     public string OutgoingAddress { get; set; } = "";
     public bool IsAuthenticationOn { get; set; } = true;
     public string ServerUserName { get; set; } = "";

@@ -11,6 +11,7 @@ export class EmailServer {
   enabled!: boolean;
   smtpServerAddress!: string;
   smtpServerPort!: number;
+  isSslOn!: boolean;
   outgoingAddress!: string;
   isAuthenticationOn!: boolean;
   serverUserName!: string;

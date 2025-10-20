@@ -54,6 +54,7 @@ public static class FtSettingsMapping
             Enabled = proto.Enabled,
             ServerAddress = proto.ServerAddress,
             ServerPort = proto.ServerPort,
+            IsSslOn = proto.IsSslOn,
             OutgoingAddress = proto.OutgoingAddress,
             IsAuthenticationOn = proto.IsAuthenticationOn,
             ServerUserName = proto.ServerUserName,
@@ -62,6 +63,7 @@ public static class FtSettingsMapping
             VerifyCertificate = proto.VerifyCertificate,
             FloodingPolicy = proto.FloodingPolicy,
             SmsOverSmtp = proto.SmsOverSmtp,
+
         };
     }
 
@@ -72,6 +74,7 @@ public static class FtSettingsMapping
             Enabled = emailServer.Enabled,
             ServerAddress = emailServer.ServerAddress,
             ServerPort = emailServer.ServerPort,
+            IsSslOn = emailServer.IsSslOn,
             OutgoingAddress = emailServer.OutgoingAddress,
             IsAuthenticationOn = emailServer.IsAuthenticationOn,
             ServerUserName = emailServer.ServerUserName,

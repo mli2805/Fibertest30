@@ -43,6 +43,7 @@ export class MapUtils {
       enabled: server.enabled,
       serverAddress: server.smtpServerAddress,
       serverPort: server.smtpServerPort,
+      isSslOn: server.isSslOn,
       outgoingAddress: server.outgoingAddress,
       isAuthenticationOn: server.isAuthenticationOn,
       serverUserName: server.serverUserName,
@@ -90,6 +91,7 @@ export class MapUtils {
     emailServer.enabled = grpcEmailServer.enabled;
     emailServer.smtpServerAddress = grpcEmailServer.serverAddress;
     emailServer.smtpServerPort = grpcEmailServer.serverPort;
+    emailServer.isSslOn = grpcEmailServer.isSslOn;
     emailServer.outgoingAddress = grpcEmailServer.outgoingAddress;
     emailServer.isAuthenticationOn = grpcEmailServer.isAuthenticationOn;
     emailServer.serverUserName = grpcEmailServer.serverUserName;

@@ -109,6 +109,10 @@ export interface EmailServer {
      * @generated from protobuf field: bool isAuthenticationOn = 11;
      */
     isAuthenticationOn: boolean;
+    /**
+     * @generated from protobuf field: bool isSslOn = 12;
+     */
+    isSslOn: boolean;
 }
 /**
  * @generated from protobuf message fibertest30.ft_settings.data.TrapReceiver
@@ -244,7 +248,8 @@ class EmailServer$Type extends MessageType<EmailServer> {
             { no: 8, name: "floodingPolicy", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 9, name: "smsOverSmtp", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 10, name: "isPasswordSet", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 11, name: "isAuthenticationOn", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+            { no: 11, name: "isAuthenticationOn", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 12, name: "isSslOn", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
 }

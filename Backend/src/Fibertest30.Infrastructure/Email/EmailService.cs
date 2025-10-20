@@ -21,10 +21,13 @@ public class EmailService : IEmailService
 
         try
         {
+            // на RFTS400 такое правило
             // for port 465 ssl must be turned on
             // for ports 25 & 587 ssl must be turned off  -    otherwise it failed to connect
-            var sslEnabled = emailServer.ServerPort == 465;
-            await client.ConnectAsync(emailServer.ServerAddress, emailServer.ServerPort, sslEnabled, ct);
+            // но на mail.ru работает 25 порт + ssl
+            // поэтому даем пользователю полную свободу настроек
+
+            await client.ConnectAsync(emailServer.ServerAddress, emailServer.ServerPort, emailServer.IsSslOn, ct);
         }
         catch (FailedToVerifySmtpServerCertificateException)
         {

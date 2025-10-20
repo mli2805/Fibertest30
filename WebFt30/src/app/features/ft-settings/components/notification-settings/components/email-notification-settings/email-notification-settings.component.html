@@ -52,6 +52,21 @@
           </rtu-select>
 
           <label
+            style="grid-area: isSslOnLabel"
+            class="my-auto"
+            [ngClass]="{ 'disabled-label': isSettingsOff() }"
+            >{{ 'SSL' }}</label
+          >
+          <label
+            style="grid-area: isSslOnValue"
+            class="toggle my-2 place-self-end"
+            [ngClass]="{ 'disabled-slider': isSlidersDisabled() }"
+          >
+            <input formControlName="isSslOn" type="checkbox" />
+            <div class="slider"></div>
+          </label>
+
+          <label
             style="grid-area: outgoingAddressLabel"
             class="my-auto"
             [ngClass]="{ 'disabled-label': isSettingsOff() }"

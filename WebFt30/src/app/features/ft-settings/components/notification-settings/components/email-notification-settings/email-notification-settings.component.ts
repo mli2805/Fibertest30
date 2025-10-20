@@ -38,21 +38,21 @@ export class EmailNotificationSettingsComponent implements OnInit {
     NotificationSettingsSelectors.selectTestingEmailServerFailureId
   );
 
-  portsMap = new Map(Object.entries({ '587 STARTTLS': 587, '465 TLS': 465, '25 STARTTLS': 25 }));
-  ports: string[] = ['587 STARTTLS', '465 TLS', '25 STARTTLS'];
-  selectedPort!: string;
+  ports: number[] = [587, 465, 25];
+  selectedPort!: number;
   form!: FormGroup;
   isAuthenticationOn!: boolean;
 
   constructor(private ts: TranslateService) {}
 
   ngOnInit(): void {
-    this.selectedPort = this.getByNumber(this.emailServer.smtpServerPort);
+    this.selectedPort = this.emailServer.smtpServerPort;
 
     this.form = new FormGroup({
       enabled: new FormControl(this.emailServer.enabled),
       smtpServerAddress: new FormControl(this.emailServer.smtpServerAddress, [Validators.required]),
       smtpServerPort: new FormControl(this.selectedPort),
+      isSslOn: new FormControl(this.emailServer.isSslOn),
       outgoingAddress: new FormControl(this.emailServer.outgoingAddress, [
         Validators.required,
         Validators.email
@@ -67,10 +67,10 @@ export class EmailNotificationSettingsComponent implements OnInit {
     this.isAuthenticationOn = this.emailServer.isAuthenticationOn;
   }
 
-  getByNumber(n: number): string {
-    const dd = [...this.portsMap.entries()].filter(({ 1: v }) => v === n).map(([k]) => k);
-    return dd[0];
-  }
+  // getByNumber(n: number): string {
+  //   const dd = [...this.portsMap.entries()].filter(({ 1: v }) => v === n).map(([k]) => k);
+  //   return dd[0];
+  // }
 
   onIsAuthenticationOnChanged() {
     this.isAuthenticationOn = !this.isAuthenticationOn;
@@ -107,7 +107,8 @@ export class EmailNotificationSettingsComponent implements OnInit {
     const emailServer = new EmailServer();
     emailServer.enabled = this.form.controls['enabled'].value;
     emailServer.smtpServerAddress = this.form.controls['smtpServerAddress'].value;
-    emailServer.smtpServerPort = this.portsMap.get(this.form.controls['smtpServerPort'].value)!;
+    emailServer.smtpServerPort = this.form.controls['smtpServerPort'].value;
+    emailServer.isSslOn = this.form.controls['isSslOn'].value;
     emailServer.outgoingAddress = this.form.controls['outgoingAddress'].value;
 
     const isAuthenticationOn = this.form.controls['isAuthenticationOn'].value;
