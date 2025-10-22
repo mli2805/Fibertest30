@@ -46,7 +46,11 @@
       <button class="button-cancel min-w-36" (click)="onCancelClicked()">
         {{ 'i18n.ft.cancel' | translate }}
       </button>
-      <button class="button-ok mx-2 min-w-36" (click)="onAttachClicked()">
+      <button
+        class="button-ok mx-2 min-w-36"
+        (click)="onAttachClicked()"
+        [disabled]="isAttachDisabled()"
+      >
         {{ 'i18n.ft.attach' | translate }}
       </button>
     </div>

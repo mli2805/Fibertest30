@@ -16,9 +16,9 @@ import { PortOfOtau } from 'src/app/core/store/models/ft30/port-of-otau';
 import { Rtu } from 'src/grpc-generated/rtu_tree';
 
 @Component({
-    selector: 'rtu-bop-attach',
-    templateUrl: './bop-attach.component.html',
-    standalone: false
+  selector: 'rtu-bop-attach',
+  templateUrl: './bop-attach.component.html',
+  standalone: false
 })
 export class BopAttachComponent implements OnInit {
   @Input() windowId!: string;
@@ -53,7 +53,6 @@ export class BopAttachComponent implements OnInit {
 
   ipv4AddressValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      if (control.pristine) return null;
       if (!/^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$/.test(control.value))
         return { invalidIp: { value: '' } };
       return null;
@@ -63,6 +62,10 @@ export class BopAttachComponent implements OnInit {
   isBopAddressValid() {
     if (this.existingAddresses.includes(this.form.controls['ipAddress'].value)) return false;
     return this.form.controls['ipAddress'].valid;
+  }
+
+  isAttachDisabled() {
+    return !this.isBopAddressValid();
   }
 
   onAttachClicked() {
