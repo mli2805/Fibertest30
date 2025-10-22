@@ -1,4 +1,13 @@
-import { Component, inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+  ChangeDetectorRef
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState, AuthSelectors, RtuTreeSelectors } from 'src/app/core';
 import { CoreUtils } from 'src/app/core/core.utils';
@@ -10,19 +19,21 @@ import { DoubleAddress } from 'src/app/core/store/models/ft30/double-address';
 import { MainChannelTestComponent } from './main-channel-test/main-channel-test.component';
 import { Observable, Subscription } from 'rxjs';
 import { WindowService } from 'src/app/app/pages/start-page/components/window.service';
+import { ReserveChannelTestComponent } from './reserve-channel-test/reserve-channel-test.component';
 
 @Component({
   selector: 'rtu-rtu-initialization',
   templateUrl: './rtu-initialization.component.html',
   standalone: false
 })
-export class RtuInitializationComponent implements OnInit, OnDestroy {
+export class RtuInitializationComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() rtuId!: string;
   @Input() zIndex!: number;
   rtu$!: Observable<Rtu | null>;
   subscription!: Subscription;
 
   @ViewChild('mainChannel') mainChannel!: MainChannelTestComponent;
+  @ViewChild('reserveChannel') reserveChannel!: ReserveChannelTestComponent;
 
   public store: Store<AppState> = inject(Store);
   initializing$ = this.store.select(RtuMgmtSelectors.selectInitializing);
@@ -34,6 +45,12 @@ export class RtuInitializationComponent implements OnInit, OnDestroy {
   otherThanReserveAddress!: string[];
 
   constructor(private windowService: WindowService) {}
+
+  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+
+  ngAfterViewInit(): void {
+    this.cdr.detectChanges();
+  }
 
   ngOnInit(): void {
     this.rtu$ = this.store.select(RtuTreeSelectors.selectRtu(this.rtuId));
@@ -66,6 +83,12 @@ export class RtuInitializationComponent implements OnInit, OnDestroy {
       (a) => a === rtu?.reserveChannel.ip4Address
     );
     if (idx2 !== -1) this.otherThanReserveAddress.splice(idx2, 1);
+  }
+
+  isInitializeDisabled() {
+    if (this.mainChannel === undefined || this.reserveChannel === undefined) return true;
+    if (!this.hasInitializePermission) return true;
+    return !(this.mainChannel.isServerAddressValid() && this.reserveChannel.isServerAddressValid());
   }
 
   onInitializeClicked(isSynchronizationRequired: boolean) {

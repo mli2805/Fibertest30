@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -13,9 +13,9 @@ import { RtuMgmtActions } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.actions';
 import { RtuMgmtSelectors } from 'src/app/core/store/rtu-mgmt/rtu-mgmt.selectors';
 
 @Component({
-    selector: 'rtu-reserve-channel-test',
-    templateUrl: './reserve-channel-test.component.html',
-    standalone: false
+  selector: 'rtu-reserve-channel-test',
+  templateUrl: './reserve-channel-test.component.html',
+  standalone: false
 })
 export class ReserveChannelTestComponent implements OnInit {
   @Input() networkAddress!: NetAddress;
@@ -39,7 +39,7 @@ export class ReserveChannelTestComponent implements OnInit {
 
   ipv4AddressValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      if (control.pristine) return null; // чтобы рамка не была красная у пустого адреса
+      if (!this.isOn && control.value === '') return null;
       if (!/^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$/.test(control.value))
         return { invalidIp: { value: '' } };
       if (this.otherAddresses.findIndex((a) => a === control.value) !== -1)
@@ -54,6 +54,8 @@ export class ReserveChannelTestComponent implements OnInit {
 
   onSliderToggle() {
     this.isOn = !this.isOn;
+    // when toggle changes, re-run validators so ipv4AddressValidator sees new isOn value
+    this.form?.controls['ipAddress']?.updateValueAndValidity();
   }
 
   isSettingsOff() {
